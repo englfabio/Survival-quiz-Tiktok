@@ -1,0 +1,20 @@
+# Geheimnisse – NIEMALS hochladen
+.env
+.env.*
+!.env.example
+
+# Installierte Pakete (werden mit "npm install" neu geholt)
+node_modules/
+
+# Render-Ausgaben (Videos, Testbilder)
+out/
+renders/
+build/
+
+# Ausnahme: Standbilder zur Freigabe werden bewusst gesichert (siehe CLAUDE.md)
+!review/
+
+# Sonstiges
+.DS_Store
+*.log
+.remotion/
