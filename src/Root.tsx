@@ -1,4 +1,4 @@
-import {Composition, getRemotionEnvironment, type CalculateMetadataFunction} from 'remotion';
+import {Composition, getRemotionEnvironment, staticFile, type CalculateMetadataFunction} from 'remotion';
 import {scenarios} from './data/scenarios';
 import {buildTimeline, FPS, HEIGHT, MIN_SECONDS, WIDTH, type ClipId} from './data/timeline';
 import {validateScenario} from './data/validate';
@@ -13,13 +13,28 @@ type InputProps = {
   audioSeconds?: Partial<Record<ClipId, number>>;
 };
 
-const calculateMetadata: CalculateMetadataFunction<InputProps & Partial<QuizProps>> = ({props}) => {
+/** Lädt Sprachlängen + Zeitstempel aus public/voice/<id>/, falls vorhanden */
+const loadVoice = async (id: string) => {
+  try {
+    const [d, a] = await Promise.all([
+      fetch(staticFile(`voice/${id}/durations.json`)),
+      fetch(staticFile(`voice/${id}/alignment.json`)),
+    ]);
+    if (!d.ok || !a.ok) return null;
+    return {durations: await d.json(), alignment: await a.json()};
+  } catch {
+    return null;
+  }
+};
+
+const calculateMetadata: CalculateMetadataFunction<InputProps & Partial<QuizProps>> = async ({props}) => {
   const entry = scenarios.find((e) => e.scenario.id === props.scenarioId);
   if (!entry) throw new Error(`Szenario "${props.scenarioId}" nicht gefunden.`);
   const errors = validateScenario(entry.scenario, entry.file);
   if (errors.length) throw new Error('Fehler in der Szenario-Datei:\n' + errors.join('\n'));
 
-  const timeline = buildTimeline(entry.scenario, props.audioSeconds);
+  const voice = props.audioSeconds ? null : await loadVoice(entry.scenario.id);
+  const timeline = buildTimeline(entry.scenario, props.audioSeconds ?? voice?.durations);
   if (timeline.totalSeconds < MIN_SECONDS && getRemotionEnvironment().isRendering) {
     throw new Error(
       `STOPP: "${entry.scenario.id}" wäre nur ${timeline.totalSeconds.toFixed(1)} s lang ` +
@@ -28,7 +43,7 @@ const calculateMetadata: CalculateMetadataFunction<InputProps & Partial<QuizProp
   }
   return {
     durationInFrames: timeline.totalFrames,
-    props: {...props, scenario: entry.scenario, timeline},
+    props: {...props, scenario: entry.scenario, timeline, alignment: voice?.alignment},
     defaultOutName: entry.scenario.id,
   };
 };

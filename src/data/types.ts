@@ -35,9 +35,20 @@ export type CameraKey = {
   fov?: number;
 };
 
+/** Soundeffekt zu einem Zeitpunkt t (0…1) des Abschnitts. id = Name aus sfx.config.json */
+export type SfxCue = {t: number; id: string; volume?: number};
+
 export type Shot = {
   camera: CameraKey[];
   actors: Record<string, ActorKey[]>;
+  sfx?: SfxCue[];
+};
+
+/** Wort-Zeitstempel einer Sprachaufnahme (von ElevenLabs) */
+export type Alignment = {
+  characters: string[];
+  character_start_times_seconds: number[];
+  character_end_times_seconds: number[];
 };
 
 export type Option = {

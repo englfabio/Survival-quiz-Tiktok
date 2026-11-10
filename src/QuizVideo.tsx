@@ -1,6 +1,8 @@
 import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AudioLayer} from './AudioLayer';
 import {Flash} from './effects/Flash';
-import type {Scenario, Shot} from './data/types';
+import {speechTimer} from './data/speech';
+import type {Alignment, Scenario, Shot} from './data/types';
 import {sectionAt, type Section, type Timeline} from './data/timeline';
 import {Scene3D} from './Scene3D';
 import {STAGES} from './stage';
@@ -26,6 +28,8 @@ export type QuizProps = {
   scenario: Scenario;
   timeline: Timeline;
   showSafeZones: boolean;
+  /** Wort-Zeitstempel je Sprach-Clip (fehlt, solange es keine Stimme gibt) */
+  alignment?: Record<string, Alignment>;
 };
 
 const shotFor = (s: Scenario, sec: Section): Shot => {
@@ -58,7 +62,7 @@ const Cards = ({s, sec, local}: {s: Scenario; sec: Section; local: number}) => {
   );
 };
 
-export const QuizVideo = ({scenario: s, timeline, showSafeZones}: QuizProps) => {
+export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: QuizProps) => {
   useFonts();
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -67,6 +71,11 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones}: QuizProps) => 
   const t = Math.min(1, local / sec.duration);
   const stage = STAGES[s.stage];
   const isCorrect = sec.kind === 'explain' && sec.option === s.correctOption;
+
+  // Zeitstempel der Stimme für den aktuellen Abschnitt
+  const voice0 = sec.voice[0];
+  const timer = (text: string) =>
+    speechTimer(text, voice0 && alignment?.[voice0.clip], voice0?.at ?? 0, sec.duration, fps);
 
   // kurzer Abblende-Übergang an jedem Schnitt
   const cutFade = interpolate(local, [0, 5], [0.55, 0], {extrapolateRight: 'clamp'});
@@ -91,7 +100,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones}: QuizProps) => 
       {sec.kind === 'situation' && (
         <>
           <CategoryBadge category={s.category} frame={local} />
-          <Subtitle text={s.situation.speech} t={t} />
+          <Subtitle text={s.situation.speech} t={t} starts={timer(s.situation.speech)?.sentenceStarts} />
         </>
       )}
 
@@ -128,7 +137,11 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones}: QuizProps) => 
         <>
           <Flash color={isCorrect ? 'green' : 'red'} frame={local} />
           <ExplainHeader number={sec.option} text={s.options[sec.option - 1].card} correct={isCorrect} frame={local} />
-          <Subtitle text={s.options[sec.option - 1].explanation} t={t} />
+          <Subtitle
+            text={s.options[sec.option - 1].explanation}
+            t={t}
+            starts={timer(s.options[sec.option - 1].explanation)?.sentenceStarts}
+          />
           {isCorrect && <SourceLine text={s.sourceLine} frame={local - 10} top={440} />}
           {s.options[sec.option - 1].steps?.length ? (
             <StepList
@@ -138,12 +151,22 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones}: QuizProps) => 
               fps={fps}
               sectionFrames={sec.duration}
               top={520}
+              cueT={timer(s.options[sec.option - 1].explanation)?.cueT}
             />
           ) : null}
         </>
       )}
 
       {sec.kind === 'outro' && <OutroPanel text={s.outro.screen} frame={local} />}
+
+      <AudioLayer
+        s={s}
+        timeline={timeline}
+        stage={stage}
+        hasVoice={!!alignment}
+        fps={fps}
+        shotFor={(x) => shotFor(s, x)}
+      />
 
       {showSafeZones && <SafeZones />}
     </AbsoluteFill>

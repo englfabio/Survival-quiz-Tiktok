@@ -349,4 +349,5 @@ export const forestStage: StageDef = {
   Component: ForestScene,
   climbTrees: CLIMB_TREES,
   groundHeight,
+  ambience: 'wald-atmo',
 };

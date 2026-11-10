@@ -12,6 +12,10 @@
       "dummyAction": "Dummy rennt weg, Bär setzt nach.",
       "explanation": "Wegrennen ist das Gefährlichste, was du tun kannst. Einem Bären kannst du nicht davonlaufen. Und wer flieht, kann bei ihm eine Jagdreaktion auslösen. Aus einer harmlosen Begegnung wird dann eine Verfolgung.",
       "choreography": {
+        "sfx": [
+          { "t": 0.08, "id": "schritte-rennen", "volume": 0.5 },
+          { "t": 0.15, "id": "baer-brummen", "volume": 0.6 }
+        ],
         "camera": [
           { "t": 0, "pos": [2.0, 2.4, 9], "look": [0, 1.0, -2] },
           { "t": 0.5, "pos": [1.6, 3.0, 19], "look": "dummy+bear" },
@@ -38,6 +42,7 @@
       "dummyAction": "Dummy klettert, Bär folgt den Stamm hoch.",
       "explanation": "Auch der Baum rettet dich nicht. Bären können klettern, und du kommst nicht schnell genug hoch. Statt Abstand zu gewinnen, nimmst du dir jeden Fluchtweg.",
       "choreography": {
+        "sfx": [{ "t": 0.45, "id": "baer-brummen", "volume": 0.55 }],
         "camera": [
           { "t": 0, "pos": [1.0, 2.2, 7.5], "look": [1.5, 1.2, -2] },
           { "t": 0.5, "pos": [2.2, 2.2, 8.8], "look": [3.3, 1.9, -2] },
@@ -120,6 +125,7 @@
   },
   "shots": {
     "situation": {
+      "sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.45 }],
       "camera": [
         { "t": 0, "pos": [0.6, 2.4, 8.0], "look": [0, 0.9, -6] },
         { "t": 1, "pos": [0.8, 2.2, 6.2], "look": [0, 0.9, -8] }

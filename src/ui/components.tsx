@@ -240,8 +240,22 @@ export const cueTime = (text: string, cue: string): number => {
  * Zeigt den passenden Satz zum Zeitpunkt t (0…1).
  * Solange es keine Audio-Zeitstempel gibt, wird nach Zeichenanzahl verteilt.
  */
-export const Subtitle = ({text, t, bottom = T.bottom}: {text: string; t: number; bottom?: number}) => {
-  const times = sentenceTimes(text);
+export const Subtitle = ({
+  text,
+  t,
+  bottom = T.bottom,
+  starts,
+}: {
+  text: string;
+  t: number;
+  bottom?: number;
+  /** echte Satz-Startzeiten (aus der Sprachaufnahme), sonst geschätzt */
+  starts?: number[];
+}) => {
+  const est = sentenceTimes(text);
+  const times = starts
+    ? est.map((x, i) => ({...x, start: i === 0 ? Math.min(0, starts[0]) : starts[i], end: starts[i + 1] ?? 1}))
+    : est;
   const parts = times.map((x) => x.text);
   let idx = parts.length - 1;
   let local = 1;
@@ -496,6 +510,7 @@ export const StepList = ({
   fps,
   sectionFrames,
   top,
+  cueT,
 }: {
   steps: {text: string; cue: string}[];
   explanation: string;
@@ -503,14 +518,16 @@ export const StepList = ({
   fps: number;
   sectionFrames: number;
   top: number;
+  /** echte Zeitpunkte aus der Sprachaufnahme, sonst geschätzt */
+  cueT?: (cue: string) => number;
 }) => (
   <div style={{position: 'absolute', left: T.left, top, display: 'flex', flexDirection: 'column', gap: 12}}>
     {steps.map((st, i) => {
-      const at = cueTime(explanation, st.cue);
+      const at = cueT ? cueT(st.cue) : cueTime(explanation, st.cue);
       const f = (t - at) * sectionFrames; // Bilder seit Erscheinen
       if (f < 0) return null;
       const s = spring({frame: f, fps, config: {damping: 14, stiffness: 150}});
-      const active = steps.every((o, j) => j <= i || cueTime(explanation, o.cue) > t);
+      const active = steps.every((o, j) => j <= i || (cueT ? cueT(o.cue) : cueTime(explanation, o.cue)) > t);
       return (
         <div
           key={i}

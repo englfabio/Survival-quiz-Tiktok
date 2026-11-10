@@ -7,4 +7,6 @@ export type StageDef = {
   /** Bäume, an denen Figuren mit der Bewegung "climb" hochklettern */
   climbTrees: {x: number; z: number; r: number}[];
   groundHeight: (x: number, z: number) => number;
+  /** Hintergrundgeräusch (id aus sfx.config.json), läuft das ganze Video in Schleife */
+  ambience?: string;
 };
