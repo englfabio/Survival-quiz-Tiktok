@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Single crisp clock tick, dry, close",
+  "duration": 0.5,
+  "loop": false,
+  "promptInfluence": 0.8,
+  "createdAt": "2026-11-10T23:06:04.483Z"
+}

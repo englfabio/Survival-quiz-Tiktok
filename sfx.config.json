@@ -1,0 +1,14 @@
+{
+  "modelId": "eleven_text_to_sound_v3",
+  "effects": [
+    { "id": "wald-atmo", "prompt": "Calm forest ambience, soft birdsong, gentle wind in leaves, no music", "duration": 22, "loop": true, "promptInfluence": 0.5 },
+    { "id": "whoosh", "prompt": "Short fast cinematic whoosh transition, clean", "duration": 1, "loop": false, "promptInfluence": 0.6 },
+    { "id": "karte-pop", "prompt": "Soft punchy UI pop, card appearing, game show interface", "duration": 0.5, "loop": false, "promptInfluence": 0.7 },
+    { "id": "tick", "prompt": "Single crisp clock tick, dry, close", "duration": 0.5, "loop": false, "promptInfluence": 0.8 },
+    { "id": "spannung", "prompt": "Low suspense drone with a subtle rising pulse, quiz countdown tension, no melody", "duration": 5, "loop": false, "promptInfluence": 0.5 },
+    { "id": "richtig", "prompt": "Bright positive success chime, correct answer, game show", "duration": 1.5, "loop": false, "promptInfluence": 0.7 },
+    { "id": "falsch", "prompt": "Short low dull buzzer, wrong answer, game show", "duration": 1, "loop": false, "promptInfluence": 0.7 },
+    { "id": "baer-brummen", "prompt": "Brown bear deep low growl, close, outdoors", "duration": 2.5, "loop": false, "promptInfluence": 0.6 },
+    { "id": "schritte-rennen", "prompt": "Person running fast on a forest dirt path, footsteps, breathing", "duration": 4, "loop": false, "promptInfluence": 0.5 }
+  ]
+}
