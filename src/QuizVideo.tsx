@@ -14,6 +14,7 @@ import {
   Headline,
   OutroPanel,
   SourceLine,
+  StepList,
   Subtitle,
   type CardState,
 } from './ui/components';
@@ -129,6 +130,16 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones}: QuizProps) => 
           <ExplainHeader number={sec.option} text={s.options[sec.option - 1].card} correct={isCorrect} frame={local} />
           <Subtitle text={s.options[sec.option - 1].explanation} t={t} />
           {isCorrect && <SourceLine text={s.sourceLine} frame={local - 10} top={440} />}
+          {s.options[sec.option - 1].steps?.length ? (
+            <StepList
+              steps={s.options[sec.option - 1].steps!}
+              explanation={s.options[sec.option - 1].explanation}
+              t={t}
+              fps={fps}
+              sectionFrames={sec.duration}
+              top={520}
+            />
+          ) : null}
         </>
       )}
 

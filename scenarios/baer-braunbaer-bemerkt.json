@@ -40,8 +40,8 @@
       "choreography": {
         "camera": [
           { "t": 0, "pos": [1.0, 2.2, 7.5], "look": [1.5, 1.2, -2] },
-          { "t": 0.5, "pos": [2.6, 2.4, 7.0], "look": [3.3, 2.0, -2] },
-          { "t": 1, "pos": [3.2, 3.0, 6.2], "look": [3.3, 2.6, -2] }
+          { "t": 0.5, "pos": [2.2, 2.2, 8.8], "look": [3.3, 1.9, -2] },
+          { "t": 1, "pos": [2.8, 2.5, 9.5], "look": [3.3, 2.5, -2] }
         ],
         "actors": {
           "dummy": [
@@ -64,6 +64,13 @@
       "speech": "Drei: Stehen bleiben, ruhig sprechen und dich langsam zurückziehen.",
       "dummyAction": "Dummy bleibt stehen, geht langsam seitlich zurück, Bär verliert das Interesse und trottet weg.",
       "explanation": "Bleib stehen und zeig dem Bären, dass du ein Mensch bist: Sprich ruhig mit ihm. Dreh ihm nicht den Rücken zu. Geh dann langsam seitlich zurück und behalte ihn dabei im Blick. Die meisten Bären wollen keinen Kampf. Sie wollen nur, dass du Abstand hältst.",
+      "steps": [
+        { "text": "Stehen bleiben", "cue": "Bleib stehen" },
+        { "text": "Ruhig sprechen", "cue": "Sprich ruhig" },
+        { "text": "Nicht den Rücken zudrehen", "cue": "Dreh ihm nicht" },
+        { "text": "Langsam seitlich zurück", "cue": "langsam seitlich zurück" },
+        { "text": "Bär im Blick behalten", "cue": "behalte ihn dabei im Blick" }
+      ],
       "choreography": {
         "camera": [
           { "t": 0, "pos": [0.9, 2.3, 6.5], "look": [0, 1.0, -8] },
@@ -108,9 +115,8 @@
     }
   ],
   "publishing": {
-    "draft": true,
-    "description": "ENTWURF – bitte Text liefern oder freigeben",
-    "pinnedComment": "ENTWURF – bitte Text liefern oder freigeben"
+    "description": "Ein Braunbär hat dich gesehen – was tust du? 🐻 Schreib 1, 2 oder 3 in die Kommentare!\n\nQuellen:\nUS National Park Service: https://nps.gov/articles/bearattacks.htm\nBayerisches Landesamt für Umwelt, FAQ Bär: https://www.lfu.bayern.de/natur/wildtiermanagement_grosse_beutegreifer/baer/faq_baer/index.htm\n\nKein Ersatz für eine professionelle Ausbildung. Im Notfall: 112.\n\n#waswürdestdutun #survival #bär #wandern #wildtiere #notfall #quiz #lernenmittiktok",
+    "pinnedComment": "Ehrlich: Was hattest du getippt? 👇 Und welche Situation sollen wir als Nächstes testen?"
   },
   "shots": {
     "situation": {

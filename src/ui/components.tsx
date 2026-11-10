@@ -208,25 +208,49 @@ export const splitSentences = (text: string): string[] =>
   text.match(/[^.!?:]+[.!?:]+["“”]?\s*|[^.!?:]+$/g)?.map((s) => s.trim()).filter(Boolean) ?? [text];
 
 /**
- * Zeigt den passenden Satz zum Zeitpunkt t (0…1).
- * Solange es keine Audio-Zeitstempel gibt, wird nach Zeichenanzahl verteilt.
+ * Zeitplan der Sätze (0…1), solange es noch keine Audio-Zeitstempel gibt: nach Zeichenanzahl.
+ * Später (mit Stimme) wird das durch echte Wort-Zeitstempel ersetzt.
  */
-export const Subtitle = ({text, t, bottom = T.bottom}: {text: string; t: number; bottom?: number}) => {
+export const sentenceTimes = (text: string) => {
   const parts = splitSentences(text);
   const lens = parts.map((p) => p.length + 8);
   const sum = lens.reduce((a, b) => a + b, 0);
   let acc = 0;
+  let searchFrom = 0;
+  return parts.map((p, i) => {
+    const start = acc / sum;
+    acc += lens[i];
+    const charStart = text.indexOf(p, searchFrom);
+    searchFrom = charStart + p.length;
+    return {text: p, start, end: acc / sum, charStart};
+  });
+};
+
+/** Zeitpunkt (0…1), an dem eine Textstelle gesprochen wird */
+export const cueTime = (text: string, cue: string): number => {
+  const idx = text.indexOf(cue);
+  if (idx < 0) return 0;
+  const times = sentenceTimes(text);
+  const s = [...times].reverse().find((x) => x.charStart <= idx) ?? times[0];
+  const within = (idx - s.charStart) / Math.max(1, s.text.length);
+  return s.start + within * (s.end - s.start);
+};
+
+/**
+ * Zeigt den passenden Satz zum Zeitpunkt t (0…1).
+ * Solange es keine Audio-Zeitstempel gibt, wird nach Zeichenanzahl verteilt.
+ */
+export const Subtitle = ({text, t, bottom = T.bottom}: {text: string; t: number; bottom?: number}) => {
+  const times = sentenceTimes(text);
+  const parts = times.map((x) => x.text);
   let idx = parts.length - 1;
-  let local = 0;
-  for (let i = 0; i < parts.length; i++) {
-    const a = acc / sum;
-    const b = (acc + lens[i]) / sum;
-    if (t < b) {
+  let local = 1;
+  for (let i = 0; i < times.length; i++) {
+    if (t < times[i].end) {
       idx = i;
-      local = (t - a) / (b - a);
+      local = (t - times[i].start) / (times[i].end - times[i].start);
       break;
     }
-    acc += lens[i];
   }
   const fadeIn = clamp(local * 12);
   return (
@@ -463,3 +487,67 @@ export const OutroPanel = ({text, frame}: {text: string; frame: number}) => {
     </div>
   );
 };
+
+// ---------- Schritt-Liste (z. B. bei der richtigen Option) ----------
+export const StepList = ({
+  steps,
+  explanation,
+  t,
+  fps,
+  sectionFrames,
+  top,
+}: {
+  steps: {text: string; cue: string}[];
+  explanation: string;
+  t: number;
+  fps: number;
+  sectionFrames: number;
+  top: number;
+}) => (
+  <div style={{position: 'absolute', left: T.left, top, display: 'flex', flexDirection: 'column', gap: 12}}>
+    {steps.map((st, i) => {
+      const at = cueTime(explanation, st.cue);
+      const f = (t - at) * sectionFrames; // Bilder seit Erscheinen
+      if (f < 0) return null;
+      const s = spring({frame: f, fps, config: {damping: 14, stiffness: 150}});
+      const active = steps.every((o, j) => j <= i || cueTime(explanation, o.cue) > t);
+      return (
+        <div
+          key={i}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+            alignSelf: 'flex-start',
+            background: active ? T.green : 'rgba(20,23,26,0.88)',
+            border: `4px solid ${T.green}`,
+            borderRadius: 14,
+            padding: '8px 22px 8px 10px',
+            transform: `translateX(${(1 - s) * -80}px)`,
+            opacity: clamp(s * 1.4),
+            boxShadow: '0 8px 20px rgba(0,0,0,0.35)',
+          }}
+        >
+          <div
+            style={{
+              width: 50,
+              height: 50,
+              borderRadius: '50%',
+              background: active ? T.white : T.green,
+              color: active ? T.green : T.white,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: T.font,
+              fontWeight: 800,
+              fontSize: 38,
+            }}
+          >
+            ✓
+          </div>
+          <span style={{fontFamily: T.font, fontWeight: 700, fontSize: 50, color: T.white, lineHeight: 1}}>{st.text}</span>
+        </div>
+      );
+    })}
+  </div>
+);

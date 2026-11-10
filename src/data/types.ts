@@ -45,6 +45,8 @@ export type Option = {
   speech: string;
   dummyAction: string;
   explanation: string;
+  /** Optionale Kurzschritte zum Einblenden. cue = Stelle im Erklärtext, an der der Schritt erscheint */
+  steps?: {text: string; cue: string}[];
   choreography: Shot;
 };
 
@@ -60,7 +62,7 @@ export type Scenario = {
   outro: {speech: string; screen: string};
   sourceLine: string;
   sources: {name: string; url: string}[];
-  publishing: {draft?: boolean; description: string; pinnedComment: string};
+  publishing: {description: string; pinnedComment: string};
   shots: {
     situation: Shot;
     options: Shot;

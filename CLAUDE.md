@@ -100,11 +100,12 @@ Beschreibung und angepinnter Kommentar.
 | `stage` | Bühne, z. B. `wald` (`src/stage/`) |
 | `situation.speech` | Sprechtext Einstieg (auch Untertitel) |
 | `options[]` | genau 3: `card` (Kartentext), `speech` (Sprechtext), `dummyAction` (Beschreibung), `explanation` (Erklärtext), `choreography` (Bewegungen + Kamera der Erklärszene) |
+| `options[].steps` | optional: Kurzschritte zum Einblenden, `{text, cue}` – `cue` ist die Stelle im Erklärtext, bei der der Schritt erscheint (synchron zur Sprache) |
 | `correctOption` | 1, 2 oder 3 |
 | `countdown` / `reveal` / `outro` | `speech` (gesprochen) + `screen` (eingeblendet) |
 | `sourceLine` | Quellenzeile im Video |
 | `sources[]` | Name + Link für die Beschreibung |
-| `publishing` | `description`, `pinnedComment` (`draft: true` = noch nicht freigegeben) |
+| `publishing` | `description` (komplette Beschreibung inkl. Quellen + Hashtags), `pinnedComment` – vom Inhaber geliefert, wortgenau |
 | `shots` | Kamera + Figuren für situation, options, countdown, reveal, outro |
 
 **Choreografie** („Shot“): `camera` und `actors` sind Listen von Zeitpunkten `t` (0 = Anfang,
@@ -117,7 +118,7 @@ Beschreibung und angepinnter Kommentar.
 - Wald-Koordinaten: Weg entlang der z-Achse bei x = 0 (−20 … +24 gerade), Kletterbaum bei
   (3.3, −2.0). Bäume stehen ab ca. 2,2 m neben dem Weg → Kamera auf dem Weg halten (|x| < 1,5),
   sonst steht ein Baum im Bild.
-- Hinweis Pilot: Der Bär steht bei z = −14 (Bildwirkung); im Text heißt es 30 Meter.
+- Pilot: Der Bär steht bei z = −14 (Bildwirkung); im Text heißt es 30 Meter. Vom Inhaber so freigegeben.
 
 ## Dateien
 
@@ -133,7 +134,7 @@ src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
 scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
-review/               Gesicherte Standbilder zur Freigabe
+review/               Gesicherte Standbilder zur Freigabe (phase3/: normal, sichere-bereiche, vergleich)
 ```
 
 ## Befehle
