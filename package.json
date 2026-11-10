@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "studio": "remotion studio",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check": "node --experimental-strip-types --no-warnings scripts/check.ts"
   },
   "dependencies": {
     "@fontsource/barlow-condensed": "5.3.0",

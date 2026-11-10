@@ -1,0 +1,177 @@
+{
+  "id": "baer-braunbaer-bemerkt",
+  "category": "wildtiere",
+  "stage": "wald",
+  "situation": {
+    "speech": "Du wanderst allein durch den Wald. Dreißig Meter vor dir steht ein Braunbär. Er hat dich gesehen. Was tust du?"
+  },
+  "options": [
+    {
+      "card": "Wegrennen",
+      "speech": "Eins: Wegrennen.",
+      "dummyAction": "Dummy rennt weg, Bär setzt nach.",
+      "explanation": "Wegrennen ist das Gefährlichste, was du tun kannst. Einem Bären kannst du nicht davonlaufen. Und wer flieht, kann bei ihm eine Jagdreaktion auslösen. Aus einer harmlosen Begegnung wird dann eine Verfolgung.",
+      "choreography": {
+        "camera": [
+          { "t": 0, "pos": [2.0, 2.4, 9], "look": [0, 1.0, -2] },
+          { "t": 0.5, "pos": [1.6, 3.0, 19], "look": "dummy+bear" },
+          { "t": 1, "pos": [1.4, 3.2, 24.5], "look": "dummy+bear" }
+        ],
+        "actors": {
+          "dummy": [
+            { "t": 0, "x": 0, "z": 0, "face": 0, "motion": "stand" },
+            { "t": 0.08, "x": 0, "z": 0, "face": 180, "motion": "run" },
+            { "t": 0.85, "x": 0.4, "z": 16, "motion": "stumble" },
+            { "t": 1, "x": 0.5, "z": 17.2, "motion": "stumble" }
+          ],
+          "bear": [
+            { "t": 0, "x": 0, "z": -14, "face": 180, "motion": "stand" },
+            { "t": 0.15, "x": 0, "z": -14, "motion": "run" },
+            { "t": 1, "x": 0.3, "z": 13.5, "motion": "run" }
+          ]
+        }
+      }
+    },
+    {
+      "card": "Auf einen Baum klettern",
+      "speech": "Zwei: Auf den nächsten Baum klettern.",
+      "dummyAction": "Dummy klettert, Bär folgt den Stamm hoch.",
+      "explanation": "Auch der Baum rettet dich nicht. Bären können klettern, und du kommst nicht schnell genug hoch. Statt Abstand zu gewinnen, nimmst du dir jeden Fluchtweg.",
+      "choreography": {
+        "camera": [
+          { "t": 0, "pos": [1.0, 2.2, 7.5], "look": [1.5, 1.2, -2] },
+          { "t": 0.5, "pos": [2.6, 2.4, 7.0], "look": [3.3, 2.0, -2] },
+          { "t": 1, "pos": [3.2, 3.0, 6.2], "look": [3.3, 2.6, -2] }
+        ],
+        "actors": {
+          "dummy": [
+            { "t": 0, "x": 0, "z": 0, "face": 0, "motion": "stand" },
+            { "t": 0.06, "x": 0, "z": 0, "face": 60, "motion": "run" },
+            { "t": 0.22, "x": 2.85, "z": -1.55, "motion": "climb" },
+            { "t": 1, "x": 2.85, "z": -1.55, "y": 3.2, "motion": "climb" }
+          ],
+          "bear": [
+            { "t": 0, "x": 0, "z": -14, "face": 180, "motion": "stand" },
+            { "t": 0.12, "x": 0, "z": -14, "face": 163, "motion": "run" },
+            { "t": 0.55, "x": 3.85, "z": -1.6, "motion": "climb" },
+            { "t": 1, "x": 3.85, "z": -1.6, "y": 1.6, "motion": "climb" }
+          ]
+        }
+      }
+    },
+    {
+      "card": "Stehen bleiben, ruhig sprechen, langsam zurückziehen",
+      "speech": "Drei: Stehen bleiben, ruhig sprechen und dich langsam zurückziehen.",
+      "dummyAction": "Dummy bleibt stehen, geht langsam seitlich zurück, Bär verliert das Interesse und trottet weg.",
+      "explanation": "Bleib stehen und zeig dem Bären, dass du ein Mensch bist: Sprich ruhig mit ihm. Dreh ihm nicht den Rücken zu. Geh dann langsam seitlich zurück und behalte ihn dabei im Blick. Die meisten Bären wollen keinen Kampf. Sie wollen nur, dass du Abstand hältst.",
+      "choreography": {
+        "camera": [
+          { "t": 0, "pos": [0.9, 2.3, 6.5], "look": [0, 1.0, -8] },
+          { "t": 0.45, "pos": [2.6, 2.6, 8.5], "look": [0, 1.0, -8] },
+          { "t": 1, "pos": [3.8, 3.2, 11.5], "look": [0.5, 0.8, -10] }
+        ],
+        "actors": {
+          "dummy": [
+            { "t": 0, "x": 0, "z": 0, "face": 0, "motion": "calm" },
+            { "t": 0.35, "x": 0, "z": 0, "face": 0, "motion": "sidestep" },
+            { "t": 1, "x": 2.6, "z": 3.2, "face": 0, "motion": "sidestep" }
+          ],
+          "bear": [
+            { "t": 0, "x": 0, "z": -14, "face": 180, "motion": "sniff" },
+            { "t": 0.5, "x": 0, "z": -14, "face": 180, "motion": "stand" },
+            { "t": 0.6, "x": 0, "z": -14, "face": -5, "motion": "walk" },
+            { "t": 1, "x": -1.2, "z": -27, "face": -5, "motion": "walk" }
+          ]
+        }
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "Richtig ist Nummer 3"
+  },
+  "outro": {
+    "speech": "Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: US National Park Service · Bayerisches Landesamt für Umwelt",
+  "sources": [
+    { "name": "US National Park Service", "url": "https://nps.gov/articles/bearattacks.htm" },
+    {
+      "name": "Bayerisches Landesamt für Umwelt, FAQ Bär",
+      "url": "https://www.lfu.bayern.de/natur/wildtiermanagement_grosse_beutegreifer/baer/faq_baer/index.htm"
+    }
+  ],
+  "publishing": {
+    "draft": true,
+    "description": "ENTWURF – bitte Text liefern oder freigeben",
+    "pinnedComment": "ENTWURF – bitte Text liefern oder freigeben"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        { "t": 0, "pos": [0.6, 2.4, 8.0], "look": [0, 0.9, -6] },
+        { "t": 1, "pos": [0.8, 2.2, 6.2], "look": [0, 0.9, -8] }
+      ],
+      "actors": {
+        "dummy": [
+          { "t": 0, "x": 0, "z": 1.5, "face": 0, "motion": "walk" },
+          { "t": 0.45, "x": 0, "z": 0, "face": 0, "motion": "stand" }
+        ],
+        "bear": [
+          { "t": 0, "x": -1.5, "z": -15, "face": 90, "motion": "sniff" },
+          { "t": 0.35, "x": -1.0, "z": -14.6, "face": 120, "motion": "walk" },
+          { "t": 0.6, "x": 0, "z": -14, "face": 180, "motion": "alert" }
+        ]
+      }
+    },
+    "options": {
+      "camera": [
+        { "t": 0, "pos": [-2.5, 2.4, 6], "look": [0, 1.0, -7] },
+        { "t": 1, "pos": [2.5, 2.6, 6.5], "look": [0, 1.0, -7] }
+      ],
+      "actors": {
+        "dummy": [{ "t": 0, "x": 0, "z": 0, "face": 0, "motion": "stand" }],
+        "bear": [{ "t": 0, "x": 0, "z": -14, "face": 180, "motion": "alert" }]
+      }
+    },
+    "countdown": {
+      "camera": [
+        { "t": 0, "pos": [0.9, 2.6, 7.5], "look": [0, 0.9, -14] },
+        { "t": 1, "pos": [0.7, 2.3, 6.0], "look": [0, 0.9, -14] }
+      ],
+      "actors": {
+        "dummy": [{ "t": 0, "x": 0, "z": 0, "face": 0, "motion": "stand" }],
+        "bear": [
+          { "t": 0, "x": 0, "z": -14, "face": 180, "motion": "alert" },
+          { "t": 0.6, "x": 0, "z": -14, "face": 180, "motion": "sniff" }
+        ]
+      }
+    },
+    "reveal": {
+      "camera": [
+        { "t": 0, "pos": [3, 2.2, 5], "look": [0, 1.0, -5] },
+        { "t": 1, "pos": [3.4, 2.4, 6], "look": [0, 1.0, -5] }
+      ],
+      "actors": {
+        "dummy": [{ "t": 0, "x": 0, "z": 0, "face": 0, "motion": "calm" }],
+        "bear": [{ "t": 0, "x": 0, "z": -14, "face": 180, "motion": "stand" }]
+      }
+    },
+    "outro": {
+      "camera": [
+        { "t": 0, "pos": [3, 2.5, 7], "look": [0, 1.0, 0] },
+        { "t": 1, "pos": [5, 6, 12], "look": [0, 0.5, -4] }
+      ],
+      "actors": {
+        "dummy": [{ "t": 0, "x": 2.6, "z": 3.2, "face": 160, "motion": "wave" }],
+        "bear": []
+      }
+    }
+  }
+}

@@ -73,12 +73,79 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Weitere Figuren:** Braunbär (gleicher Low-Poly-Look wie der Dummy)
 - **Effekte:** rotes/grünes Aufleuchten, Bewegungslinien
 
+## Stimme (ElevenLabs)
+
+- Gewählte Stimme: **„M. Danisch – Narrator“**, Voice-ID `1KGG4Q8LqRdNII9xBurw`
+  (deutsch, männlich, ruhig, für Erzählung/Doku). Vom Inhaber festgelegt.
+- Es ist eine Stimme aus der ElevenLabs Voice Library (nicht im Konto gespeichert).
+  Vor dem ersten Erzeugen prüfen, ob sie über die API nutzbar ist (ggf. muss der Inhaber sie
+  im ElevenLabs-Konto unter „My Voices“ hinzufügen; Library-Stimmen brauchen einen bezahlten Plan).
+- Ablage geplant: `public/voice/<szenario-id>/<clip>.mp3` + `durations.json`
+  (Clips: situation, option1–3, countdown, reveal, explain1–3, outro).
+  Hash-Cache in `audio-cache/` (siehe Regel 5).
+
 ## Datengesteuerte Vorlage
 
 Jedes Video = **eine Datei** in `/scenarios` (JSON). Neue Videos = nur neue Datei, kein neuer Code.
 Inhalt: ID, Kategorie, Bühne, Situationstext, drei Optionen (Kartentext + Sprechtext +
 Dummy-Aktion), Nummer der richtigen Option, Erklärtexte, Quellen (Name + Link),
 Beschreibung und angepinnter Kommentar.
+
+### Aufbau einer Szenario-Datei
+
+| Feld | Bedeutung |
+|------|-----------|
+| `id` | Name des Videos (nur a–z, 0–9, `-`) |
+| `category` | z. B. `wildtiere` (Symbol + Name in `src/ui/icons.tsx`) |
+| `stage` | Bühne, z. B. `wald` (`src/stage/`) |
+| `situation.speech` | Sprechtext Einstieg (auch Untertitel) |
+| `options[]` | genau 3: `card` (Kartentext), `speech` (Sprechtext), `dummyAction` (Beschreibung), `explanation` (Erklärtext), `choreography` (Bewegungen + Kamera der Erklärszene) |
+| `correctOption` | 1, 2 oder 3 |
+| `countdown` / `reveal` / `outro` | `speech` (gesprochen) + `screen` (eingeblendet) |
+| `sourceLine` | Quellenzeile im Video |
+| `sources[]` | Name + Link für die Beschreibung |
+| `publishing` | `description`, `pinnedComment` (`draft: true` = noch nicht freigegeben) |
+| `shots` | Kamera + Figuren für situation, options, countdown, reveal, outro |
+
+**Choreografie** („Shot“): `camera` und `actors` sind Listen von Zeitpunkten `t` (0 = Anfang,
+1 = Ende des Abschnitts – dehnt sich automatisch mit der Audiolänge).
+- Figur: `{ "t", "x", "z", "y"?, "face"?, "motion" }` – Meter; `face` in Grad
+  (0 = Richtung −z/zum Bären, 90 = rechts, 180 = zur Kamera). Bewegungen:
+  `stand, walk, run, climb, backstep, sidestep, stumble, calm, wave` (Dummy),
+  `stand, alert, sniff, walk, run, climb` (Bär). `climb` klebt automatisch am Kletterbaum.
+- Kamera: `{ "t", "pos": [x,y,z], "look": [x,y,z] | "dummy" | "bear" | "dummy+bear", "fov"? }`
+- Wald-Koordinaten: Weg entlang der z-Achse bei x = 0 (−20 … +24 gerade), Kletterbaum bei
+  (3.3, −2.0). Bäume stehen ab ca. 2,2 m neben dem Weg → Kamera auf dem Weg halten (|x| < 1,5),
+  sonst steht ein Baum im Bild.
+- Hinweis Pilot: Der Bär steht bei z = −14 (Bildwirkung); im Text heißt es 30 Meter.
+
+## Dateien
+
+```
+scenarios/            Ein Video = eine JSON-Datei (fachliche Texte – nicht ändern!)
+src/Root.tsx          Meldet jedes Szenario automatisch als Video an + Baukasten + Test3D
+src/QuizVideo.tsx     Der Ablauf (Abschnitte → Bildschirm-Elemente + 3D-Szene)
+src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
+src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
+src/stage/            Bühnen (Forest.tsx = Wald)
+src/actors/           Figuren (Dummy.tsx, Bear.tsx) + Bewegungen
+src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines)
+src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
+src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
+scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
+review/               Gesicherte Standbilder zur Freigabe
+```
+
+## Befehle
+
+- `npm run check` – prüft alle Szenarien (Aufbau, Länge ≥ 61 s)
+- `npm run studio` – Vorschau-Oberfläche
+- Standbild: `npx remotion still <id> out/bild.png --frame=150`
+- Mit sicheren Bereichen: `--props='{"scenarioId":"<id>","showSafeZones":true}'`
+- Mehrere Bilder: `npx remotion render <id> out/frames --frames=150,480 --image-format=png`
+- Baukasten-Ansicht: Komposition `Baukasten`
+- Die 61-s-Prüfung steckt auch in `calculateMetadata` (src/Root.tsx): beim Rendern bricht
+  Remotion mit „STOPP …“ ab, wenn das Video zu kurz wäre.
 
 ## Technik-Notizen
 
