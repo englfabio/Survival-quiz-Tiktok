@@ -7,7 +7,9 @@
   "scripts": {
     "studio": "remotion studio",
     "typecheck": "tsc --noEmit",
-    "check": "node --experimental-strip-types --no-warnings scripts/check.ts"
+    "check": "node --experimental-strip-types --no-warnings scripts/check.ts",
+    "voice": "node --use-env-proxy --experimental-strip-types --no-warnings scripts/voice.ts",
+    "sfx": "node --use-env-proxy --experimental-strip-types --no-warnings scripts/sfx.ts"
   },
   "dependencies": {
     "@fontsource/barlow-condensed": "5.3.0",

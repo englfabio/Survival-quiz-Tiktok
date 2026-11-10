@@ -1,0 +1,7 @@
+{
+  "voiceId": "1KGG4Q8LqRdNII9xBurw",
+  "voiceName": "M. Danisch - Narrator",
+  "modelId": "eleven_v4",
+  "settings": { "stability": 0.5, "similarity_boost": 0.75 },
+  "outputFormat": "mp3_44100_128"
+}

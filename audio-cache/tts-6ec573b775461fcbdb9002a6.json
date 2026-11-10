@@ -1,0 +1,69 @@
+{
+  "endpoint": "text-to-speech/with-timestamps",
+  "text": "Eins: Wegrennen.",
+  "voiceId": "1KGG4Q8LqRdNII9xBurw",
+  "modelId": "eleven_v4",
+  "settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75
+  },
+  "outputFormat": "mp3_44100_128",
+  "alignment": {
+    "characters": [
+      "E",
+      "i",
+      "n",
+      "s",
+      ":",
+      " ",
+      "W",
+      "e",
+      "g",
+      "r",
+      "e",
+      "n",
+      "n",
+      "e",
+      "n",
+      "."
+    ],
+    "character_start_times_seconds": [
+      0,
+      0.16,
+      0.267,
+      0.373,
+      0.48,
+      0.96,
+      1.04,
+      1.16,
+      1.22,
+      1.28,
+      1.333,
+      1.387,
+      1.44,
+      1.52,
+      1.6,
+      1.68
+    ],
+    "character_end_times_seconds": [
+      0.16,
+      0.267,
+      0.373,
+      0.48,
+      0.96,
+      1.04,
+      1.16,
+      1.22,
+      1.28,
+      1.333,
+      1.387,
+      1.44,
+      1.52,
+      1.6,
+      1.68,
+      2
+    ]
+  },
+  "characterCost": "6",
+  "createdAt": "2026-11-10T23:04:53.976Z"
+}
