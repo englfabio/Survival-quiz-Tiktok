@@ -77,12 +77,27 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 
 - Gewählte Stimme: **„M. Danisch – Narrator“**, Voice-ID `1KGG4Q8LqRdNII9xBurw`
   (deutsch, männlich, ruhig, für Erzählung/Doku). Vom Inhaber festgelegt.
-- Es ist eine Stimme aus der ElevenLabs Voice Library (nicht im Konto gespeichert).
-  Vor dem ersten Erzeugen prüfen, ob sie über die API nutzbar ist (ggf. muss der Inhaber sie
-  im ElevenLabs-Konto unter „My Voices“ hinzufügen; Library-Stimmen brauchen einen bezahlten Plan).
-- Ablage geplant: `public/voice/<szenario-id>/<clip>.mp3` + `durations.json`
-  (Clips: situation, option1–3, countdown, reveal, explain1–3, outro).
-  Hash-Cache in `audio-cache/` (siehe Regel 5).
+- Library-Stimme, funktioniert per API direkt mit der Voice-ID (getestet, muss NICHT unter
+  „My Voices“ hinzugefügt werden). Tarif des Inhabers: Starter (bezahlt, kommerziell erlaubt).
+- Einstellungen in `voice.config.json` (Modell `eleven_v4`, stability 0.5, similarity 0.75).
+  Jede Änderung dort erzeugt neue Hashes → kostet neu. Nur nach Rückfrage ändern.
+- `npm run voice -- <id> --dry` zeigt vorher, was neu erzeugt würde (Zeichen = Kosten).
+  `npm run voice -- <id>` erzeugt nur Fehlendes; Rest kommt aus `audio-cache/`.
+- Ergebnis: `public/voice/<id>/<clip>.mp3`, `durations.json` (Längen), `alignment.json`
+  (Wort-Zeitstempel für Untertitel + Schritt-Liste). Clips: situation, option1–3, countdown,
+  reveal, explain1–3, outro. Gesprochen wird exakt der Text aus der Szenario-Datei.
+- Pilot: 933 Zeichen ≈ 373 Credits. Kontrolle per Spracherkennung (scribe_v2): alles korrekt.
+- Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
+
+## Soundeffekte (ElevenLabs)
+
+- Liste in `sfx.config.json`, erzeugen mit `npm run sfx` (mit Cache, `--dry` möglich),
+  Ergebnis in `public/sfx/<id>.mp3`. Für alle Videos gemeinsam.
+- Automatisch im Video (src/AudioLayer.tsx, Lautstärken in `VOLUME`): Wald-Atmo (Bühne),
+  Whoosh bei jedem Schnitt, Pop pro Karte, Ticks + Spannung im Countdown, Richtig-Ton bei
+  Auflösung/richtiger Option, Falsch-Ton bei falschen Optionen.
+- Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
+  Shot bzw. einer Choreografie.
 
 ## Datengesteuerte Vorlage
 
@@ -126,6 +141,9 @@ Beschreibung und angepinnter Kommentar.
 scenarios/            Ein Video = eine JSON-Datei (fachliche Texte – nicht ändern!)
 src/Root.tsx          Meldet jedes Szenario automatisch als Video an + Baukasten + Test3D
 src/QuizVideo.tsx     Der Ablauf (Abschnitte → Bildschirm-Elemente + 3D-Szene)
+src/AudioLayer.tsx    Tonspur (Stimme, Atmo, Effekte, Lautstärken)
+scripts/voice.ts      Stimme erzeugen (Cache)   scripts/sfx.ts  Soundeffekte erzeugen (Cache)
+audio-cache/          Alle bezahlten ElevenLabs-Dateien (Hash-Namen) – nie löschen
 src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
 src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
 src/stage/            Bühnen (Forest.tsx = Wald)
@@ -139,7 +157,9 @@ review/               Gesicherte Standbilder zur Freigabe (phase3/: normal, sich
 
 ## Befehle
 
-- `npm run check` – prüft alle Szenarien (Aufbau, Länge ≥ 61 s)
+- `npm run check` – prüft alle Szenarien (Aufbau, Länge ≥ 61 s, nimmt echte Sprachlängen)
+- Vorschau-Video (halbe Größe): `npx remotion render <id> review/vorschau/<id>-vorschau.mp4 --scale=0.5 --crf=26`
+- Finales Video: `npx remotion render <id> out/<id>.mp4` (erst nach Freigabe der Vorschau!)
 - `npm run studio` – Vorschau-Oberfläche
 - Standbild: `npx remotion still <id> out/bild.png --frame=150`
 - Mit sicheren Bereichen: `--props='{"scenarioId":"<id>","showSafeZones":true}'`
