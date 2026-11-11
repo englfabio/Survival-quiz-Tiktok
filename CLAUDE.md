@@ -166,6 +166,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Wort-Zeitstempel = Text (geprüft). Standbilder in review/burggraben-kaelteschock/phase1/. Finales Video: review/final/burggraben-kaelteschock.mp4 (84,0 s), vom Inhaber freigegeben.
 - Zombie-Biss: 918 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 69,1 s, Video 78,0 s.
   Wort-Zeitstempel = Text (geprüft). Inhaber wollte direkt bis zum fertigen Video (ohne Zwischenfreigaben).
+  Finales Video: review/final/zombie-biss.mp4 (78,0 s), Vorschau in review/vorschau/.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
