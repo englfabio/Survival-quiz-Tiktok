@@ -1,0 +1,224 @@
+{
+  "id": "zombie-biss",
+  "category": "erste-hilfe",
+  "stage": "friedhof",
+  "situation": {
+    "speech": "Ein Zombie hat dich mal wieder in den Arm gebissen. Nur ein kleiner Biss, aber die Haut ist durch. Was machst du jetzt?"
+  },
+  "options": [
+    {
+      "card": "Pflaster drauf, fertig",
+      "speech": "Eins: Ein Pflaster drauf, ist ja nur klein.",
+      "dummyAction": "Dummy klebt ein Pflaster auf die Bissstelle und geht weiter. Unter dem Pflaster wird es langsam rot. Rotes Aufleuchten.",
+      "explanation": "Ein Biss ist keine normale Schramme. Mit dem Speichel gelangen Keime tief in die Wunde. Deshalb sollte auch eine kleine Bisswunde von einem Arzt angesehen werden.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              0,
+              2,
+              6
+            ],
+            "look": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "actors": {}
+      }
+    },
+    {
+      "card": "Abwarten, erst bei Rötung zum Arzt",
+      "speech": "Zwei: Erst mal abwarten und nur zum Arzt, wenn es sich entzündet.",
+      "dummyAction": "Dummy sitzt wartend auf dem Sofa, Kalenderblätter fliegen, die Stelle am Arm wird rot und größer. Rotes Aufleuchten.",
+      "explanation": "Abwarten ist riskant. Eine Bisswunde kann sich entzünden, und die Infektion kann sich ausbreiten, im schlimmsten Fall bis zur Blutvergiftung. Je früher die Wunde versorgt wird, desto besser.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              0,
+              2,
+              6
+            ],
+            "look": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "actors": {}
+      }
+    },
+    {
+      "card": "Reinigen, desinfizieren, zum Arzt",
+      "speech": "Drei: Die Wunde reinigen, desinfizieren und zeitnah zum Arzt.",
+      "dummyAction": "Dummy spült den Arm unter fließendem Wasser, desinfiziert, deckt mit einer Kompresse ab, sitzt danach beim Arzt und zeigt den Impfpass. Grünes Aufleuchten.",
+      "explanation": "Spül die Wunde unter fließendem Wasser aus, sobald sie nicht mehr stark blutet. Dann desinfizieren und abdecken. Danach zeitnah zum Arzt. Dort wird die Wunde professionell versorgt und dein Tetanusschutz geprüft. Gegen Zombies hilft das zwar nicht, aber gegen echte Bisse schon.",
+      "steps": [
+        {
+          "text": "Unter fließendem Wasser spülen",
+          "cue": "Spül die Wunde unter fließendem Wasser"
+        },
+        {
+          "text": "Desinfizieren",
+          "cue": "Dann desinfizieren"
+        },
+        {
+          "text": "Abdecken",
+          "cue": "und abdecken"
+        },
+        {
+          "text": "Zeitnah zum Arzt",
+          "cue": "Danach zeitnah zum Arzt"
+        },
+        {
+          "text": "Tetanusschutz prüfen lassen",
+          "cue": "dein Tetanusschutz geprüft"
+        }
+      ],
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              0,
+              2,
+              6
+            ],
+            "look": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "actors": {}
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "Richtig ist Nummer 3"
+  },
+  "outro": {
+    "speech": "Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: Österreichisches Gesundheitsportal · aponet (Apothekerverbände)",
+  "sources": [
+    {
+      "name": "Gesundheitsportal Österreich, Bissverletzungen",
+      "url": "https://www.gesundheit.gv.at/krankheiten/verletzungen/bissverletzungen"
+    },
+    {
+      "name": "aponet, Was Bisswunden so gefährlich macht",
+      "url": "https://www.aponet.de/artikel/was-bisswunden"
+    }
+  ],
+  "publishing": {
+    "description": "Ein Zombie hat dich mal wieder gebissen – was machst du jetzt? 🧟 Schreib 1, 2 oder 3 in die Kommentare! Gilt übrigens genauso für Bisse von Menschen, Hunden und Katzen.\n\nQuellen:\nGesundheitsportal Österreich, Bissverletzungen: https://www.gesundheit.gv.at/krankheiten/verletzungen/bissverletzungen\naponet, Was Bisswunden so gefährlich macht: https://www.aponet.de/artikel/was-bisswunden",
+    "pinnedComment": "VORSCHLAG (noch nicht vom Inhaber bestätigt): Ehrlich: Wer hätte einfach ein Pflaster draufgeklebt? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            2,
+            6
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            2,
+            6
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            2,
+            6
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            2,
+            6
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            2,
+            6
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    }
+  }
+}
