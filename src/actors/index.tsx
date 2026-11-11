@@ -6,8 +6,11 @@ import {SpeedLines} from '../effects/SpeedLines';
 import {Splash} from '../effects/Splash';
 import {Bear, bearPose} from './Bear';
 import {Car, carLocalMatrix, carPose} from './Car';
-import {Dummy, dummyPose} from './Dummy';
+import {Basin} from './Basin';
+import {Dummy, dummyPoseBlended} from './Dummy';
 import {Snake, snakePose} from './Snake';
+import {Thermometer} from './Thermometer';
+import {Weever, weeverPose} from './Weever';
 
 /**
  * Figuren-Baukasten. Neue Figur = neue Datei + hier eintragen.
@@ -20,7 +23,13 @@ export const ACTORS = {
   snake: {height: 0.1, climbOffset: 0.05, speedLineHeight: 0.1},
   car: {height: 0.9, climbOffset: 0.3, speedLineHeight: 0.7},
   splash: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  petermaennchen: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
+  schuessel: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
+  thermometer: {height: 0, climbOffset: 0, speedLineHeight: 0},
 } as const;
+
+/** Petermännchen größer als echt (ca. 0,48 m statt 0,3 m), damit es im Hochformat gut zu sehen ist */
+const WEEVER_SCALE = 1.6;
 
 /** Kreuzotter etwas größer als echt (ca. 0,85 m statt 0,7 m), damit sie im Hochformat gut zu sehen ist */
 const SNAKE_SCALE = 1.2;
@@ -44,6 +53,9 @@ const placeOnStage = (name: string, s: ActorState, stage: StageDef) => {
     s.z = tree.z + (dz / d) * off;
     // Blick zum Stamm: Richtung (sin f, -cos f) = -(dx,dz)/d
     s.face = (Math.atan2(-dx / d, dz / d) * 180) / Math.PI;
+  } else if (stage.waterLevel !== undefined && (s.motion === 'swim' || s.motion === 'struggle')) {
+    // im Wasser: y bezieht sich auf die Wasseroberfläche
+    s.y += stage.waterLevel;
   } else {
     s.y += stage.groundHeight(s.x, s.z);
   }
@@ -131,13 +143,28 @@ export const resolveActors = (
   return entries.map(([name]) => done.get(name)!);
 };
 
-export const Actor = ({actor}: {actor: ResolvedActor}) => {
+export const Actor = ({actor, barefoot = false}: {actor: ResolvedActor; barefoot?: boolean}) => {
   const {name, state, matrix} = actor;
   const lines = state.motion === 'run' && state.speed > 1.5;
   const v = state.values;
   return (
     <group matrix={matrix} matrixAutoUpdate={false}>
-      {name === 'dummy' && <Dummy pose={dummyPose(state.motion, state.motionTime, state.speed)} bite={state.bite} />}
+      {name === 'dummy' && (
+        <Dummy
+          pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)}
+          bite={state.bite}
+          sting={state.sting}
+          pain={v.pain}
+          barefoot={barefoot}
+        />
+      )}
+      {name === 'petermaennchen' && (
+        <group scale={WEEVER_SCALE}>
+          <Weever pose={weeverPose(state.motion, state.motionTime)} />
+        </group>
+      )}
+      {name === 'schuessel' && <Basin time={state.motionTime} steaming={state.motion === 'steam'} />}
+      {name === 'thermometer' && <Thermometer time={state.motionTime} visible={state.motion === 'show'} />}
       {name === 'snake' && (
         <group scale={SNAKE_SCALE}>
           <Snake pose={snakePose(state.motion, state.motionTime, state.speed / SNAKE_SCALE)} />

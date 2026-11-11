@@ -13,4 +13,8 @@ export type StageDef = {
   groundHeight: (x: number, z: number) => number;
   /** Hintergrundgeräusch (id aus sfx.config.json), läuft das ganze Video in Schleife */
   ambience?: string;
+  /** Wasseroberfläche (y). Bewegungen "swim"/"struggle" beziehen ihr y dann auf das Wasser statt auf den Grund */
+  waterLevel?: number;
+  /** Dummy barfuß zeigen (z. B. am Strand) */
+  barefoot?: boolean;
 };

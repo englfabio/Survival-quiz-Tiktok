@@ -73,16 +73,23 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 ## Baukasten (wiederverwendbar)
 
 - **Bühnen:** Wald mit Weg (`wald`), sonnige Waldlichtung am Waldrand (`waldlichtung`, Variante des Waldes),
-  Seeufer mit Uferweg, Böschung, bewegtem See + automatischer Unterwasser-Ansicht (`seeufer`)
+  Seeufer mit Uferweg, Böschung, bewegtem See + automatischer Unterwasser-Ansicht (`seeufer`),
+  Meeresstrand an Nord-/Ostsee mit flachem, klarem Wasser, Spülsaum-Schaum, Dünen mit Strandhafer, Dünenzaun,
+  Buhnen, Sonnenschirm (`meeresstrand`, Wellen wie beim Seeufer; Dummy dort automatisch barfuß)
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
   beschwichtigen, winken, gebissen zusammenzucken, besorgt zur Wade schauen, zur Wade beugen (Aussaugen),
   Band ums Bein wickeln, hinsetzen, ruhig sitzen, sitzen + telefonieren,
   angeschnallt im Auto sitzen, Gurt lösen, Knopf am Fensterheber drücken, durchs Fenster klettern,
-  an der Oberfläche schwimmen, gegen die Tür drücken, ruhig sitzen und warten
-- **Weitere Figuren:** Braunbär, Kreuzotter (gleicher Low-Poly-Look wie der Dummy)
+  an der Oberfläche schwimmen, gegen die Tür drücken, ruhig sitzen und warten,
+  barfuß waten, auf etwas treten + zusammenzucken, auf einem Bein hüpfen, sitzen + Fuß halten, Eis auf den Fuß halten,
+  Stachelreste mit Pinzette entfernen, Temperatur mit dem anderen Fuß testen, Fuß ins heiße Wasser stellen,
+  im tiefen Wasser kaum noch über Wasser kommen
+- **Weitere Figuren:** Braunbär, Kreuzotter, Petermännchen (gleicher Low-Poly-Look wie der Dummy)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
-- **Effekte:** rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
+- **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
+  (`thermometer`), Pinzette + Eisbeutel (hält der Dummy bei `tweeze` bzw. `ice` automatisch)
+- **Effekte:** Schmerz-Symbol am rechten Fuß (Wert `pain`), Stich-Punkt (`sting`), rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
   Abblenden der Szene (`fade`)
 
 ## Stimme (ElevenLabs)
@@ -152,6 +159,16 @@ Beschreibung und angepinnter Kommentar.
   Dummy: `"bite": true` zeigt ab diesem Zeitpunkt zwei kleine Bisspunkte an der rechten Wade (kein Blut).
   `suck`, `tourniquet`, `sit`, `phone` sind Sitz-Haltungen; `sitdown` geht von Stehen zu Sitzen (ca. 1,2 s).
   `strike`: Kopf schnellt ca. 0,35–0,55 s nach Beginn vor (Reichweite ca. 0,6 m in Blickrichtung).
+- Strand-Bewegungen Dummy: `wade, stepflinch, hop, holdfoot, ice, tweeze, testtemp, footbath, struggle`.
+  `stepflinch`: rechter Fuß setzt ca. 0,35 s nach Beginn ca. 0,3 m vor der Hüfte auf, dann Zusammenzucken.
+  Sitz-Bewegungen (`holdfoot, ice, tweeze, testtemp, footbath`): Schüssel steht 0,32 m vor der Hüfte
+  (bei face 0 also z − 0.32). Wechsel zwischen diesen Bewegungen werden automatisch weich überblendet (0,45 s).
+  `"sting": true` = kleiner roter Punkt am rechten Fuß (gilt weiter). `"pain"`: 0 = aus, 1 = Schmerz-Symbol am Fuß,
+  bis 2 = breitet sich übers Bein aus (weicher Übergang zwischen Zeitpunkten, gilt weiter).
+- Petermännchen (Figurname `petermaennchen`, ca. 0,48 m): `buried` (nur Augen schauen aus dem Sand),
+  `finup` (schwarze Rückenflosse mit Stacheln aufstellen), `swimaway` (aus dem Sand, davonschwimmen; Weg über Zeitpunkte).
+- Schüssel (`schuessel`): `steam` = dampft. Thermometer-Schild (`thermometer`): `show` = springt auf, sonst unsichtbar;
+  schaut immer zur Kamera, Breite 0,5 m, `y` = Höhe über dem Boden.
 - Auto (Figurname `car`): `park, drive, roll, float, sink`. Zusatzwerte je Zeitpunkt (gehen weich über und gelten
   weiter, bis sie sich ändern): `tilt` (Grad, + = Nase nach unten), `window` (0 zu … 1 offen), `door` (0 … 1),
   `water` (Wasserstand im Innenraum in m; ca. 1,25 = bis zum Dach), `pressure` (Druckpfeile 0 … 1).
@@ -176,6 +193,13 @@ Beschreibung und angepinnter Kommentar.
   Schilf nur bei x > 4.2 und x < −18 (Kamera-Bereich links frei). Auf dem See ist „Boden“ = Wasseroberfläche:
   Auto `y −0.6` = 60 cm eingesunken. Kamera unter y = 0 → Unterwasser-Ansicht (Licht, Teilchen, Strahlen).
   Auto im Video treibt bei `x 0, z −1, face 0`; Kamera auf der Fahrerseite (x negativ).
+- Meeresstrand-Koordinaten (`src/stage/Beach.tsx`): Wasser bei y = 0, Meer bei −z, Wasserlinie z ≈ 0. Sehr flach:
+  z −5 ≈ 25 cm tief, z −11 ≈ 55 cm, ab z ≈ −12 schnell tief (z −16 ≈ 1,5 m, ab −22 ca. 3 m). Figuren stehen auf dem Grund;
+  bei `swim`/`struggle` gilt y relativ zur Wasseroberfläche (swim −0.3, struggle ca. −1.6 … −1.75).
+  Dünenzaun z ≈ 10, Dünen ab z ≈ 11, Buhnen bei x ≈ −15 / +17, Sonnenschirm bei (4.5, 5).
+  Petermännchen-Video: Fisch bei (0, −4.9), Dummy sitzt bei (0, 1.2, face 0), Schüssel bei (0, 0.88).
+- Kamera planen: `scripts/kamera_proj.py` rechnet Weltpunkte in Bild-Pixel um (proj(kamera, blickpunkt, punkte)). Faustregel: für den ganzen stehenden Dummy ca. 5–6 m Abstand,
+  wenn zusätzlich Karten/Kopfzeilen im Bild sind; sitzender Dummy ca. 5–6 m (zwischen Überschrift und Karten).
 - Kamera-Faustregel Auto: Für das ganze Auto ca. 10–11 m Abstand (das Hochformat ist nur ca. 22° breit),
   für Fenster + Tür ca. 6 m.
 - Kamera-Faustregel: Das Bild ist schmal (Hochformat, fov 38). Für den ganzen stehenden Dummy ca. 4–5 m
@@ -192,8 +216,10 @@ scripts/voice.ts      Stimme erzeugen (Cache)   scripts/sfx.ts  Soundeffekte erz
 audio-cache/          Alle bezahlten ElevenLabs-Dateien (Hash-Namen) – nie löschen
 src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
 src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
-src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer)
-src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx) + Bewegungen; index.tsx = Anhängen ("attach")
+src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer,
+                      Beach.tsx = Meeresstrand)
+src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen) + Objekte
+                      (Basin.tsx = Schüssel, Thermometer.tsx = Schild) + Bewegungen; index.tsx = Anhängen ("attach")
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen

@@ -24,13 +24,20 @@ export const rng = (seed: number) => {
   };
 };
 
-const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim'];
+const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
  * solange die gleiche Bewegung folgt). Nur für die neuen Bewegungen – ältere Videos bleiben unverändert.
  */
-const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbuckle', 'button', 'climbout', 'swim', 'pushdoor', 'wait', 'splash'];
+const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbuckle', 'button', 'climbout', 'swim', 'pushdoor', 'wait', 'splash',
+  'wade', 'stepflinch', 'hop', 'holdfoot', 'ice', 'tweeze', 'testtemp', 'footbath', 'struggle',
+  'buried', 'finup', 'swimaway', 'steam', 'show'];
+
+/** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
+export const BLEND_MOTIONS: Motion[] = [
+  'wade', 'stepflinch', 'hop', 'holdfoot', 'ice', 'tweeze', 'testtemp', 'footbath', 'struggle',
+];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */
 const runStart = (keys: ActorKey[], i: number) => {
@@ -38,6 +45,16 @@ const runStart = (keys: ActorKey[], i: number) => {
   let j = i;
   while (j > 0 && keys[j - 1].motion === keys[i].motion) j--;
   return keys[j].t;
+};
+
+/** Vorige Bewegung vor dem Lauf, zu dem Zeitpunkt i gehört (nur für Überblenden der Strand-Bewegungen) */
+const prevOf = (keys: ActorKey[], i: number, sectionSeconds: number) => {
+  let j = i;
+  while (j > 0 && keys[j - 1].motion === keys[i].motion) j--;
+  if (j === 0) return undefined;
+  const pm = keys[j - 1].motion;
+  if (!BLEND_MOTIONS.includes(keys[i].motion) && !BLEND_MOTIONS.includes(pm)) return undefined;
+  return {motion: pm, time: (keys[j].t - runStart(keys, j - 1)) * sectionSeconds};
 };
 
 export type ActorValues = Record<ActorValue, number>;
@@ -54,6 +71,10 @@ export type ActorState = {
   speed: number;
   /** Bissspuren zeigen (Dummy) */
   bite: boolean;
+  /** Stich-Punkt am Fuß zeigen (Dummy) */
+  sting: boolean;
+  /** Vorige Bewegung (für weiches Überblenden): Name + ihre Zeit beim Wechsel */
+  prev?: {motion: Motion; time: number};
   /** Weiche Zahlenwerte (Auto: tilt, window, door, water, pressure) */
   values: ActorValues;
 };
@@ -62,12 +83,14 @@ export type ActorState = {
 export const inheritedKeys = (keys: ActorKey[]) => {
   let face = 0;
   let bite = false;
+  let sting = false;
   const vals = Object.fromEntries(ACTOR_VALUES.map((k) => [k, 0])) as ActorValues;
   return keys.map((k) => {
     if (k.face !== undefined) face = k.face;
     if (k.bite !== undefined) bite = k.bite;
+    if (k.sting !== undefined) sting = k.sting;
     for (const v of ACTOR_VALUES) if (k[v] !== undefined) vals[v] = k[v] as number;
-    return {face, bite, values: {...vals}};
+    return {face, bite, sting, values: {...vals}};
   });
 };
 
@@ -106,6 +129,7 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
       motionTime: t * sectionSeconds,
       speed: 0,
       bite: inh[0].bite,
+      sting: inh[0].sting,
       values: inh[0].values,
     };
   }
@@ -121,7 +145,9 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
       motionTime: (t - runStart(keys, i)) * sectionSeconds,
       speed: 0,
       bite: inh[i].bite,
+      sting: inh[i].sting,
       values: inh[i].values,
+      prev: prevOf(keys, i, sectionSeconds),
     };
   }
   const b = keys[i + 1];
@@ -142,7 +168,9 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
     motionTime: (t - runStart(keys, i)) * sectionSeconds,
     speed: dist / segSec,
     bite: inh[i].bite,
+    sting: inh[i].sting,
     values,
+    prev: prevOf(keys, i, sectionSeconds),
   };
 };
 

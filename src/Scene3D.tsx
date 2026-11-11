@@ -54,7 +54,7 @@ export const Scene3D = ({stage, shot, t, seconds}: {stage: StageDef; shot: Shot;
       <CameraRig pos={cam.pos} look={cam.look} fov={cam.fov} />
       <StageComp cam={cam} />
       {states.map((a) => (
-        <Actor key={a.name} actor={a} />
+        <Actor key={a.name} actor={a} barefoot={stage.barefoot} />
       ))}
     </ThreeCanvas>
   );

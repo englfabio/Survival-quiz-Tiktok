@@ -39,6 +39,23 @@ export type Motion =
   | 'swim' // Dummy: an der Oberfläche schwimmen
   | 'pushdoor' // Dummy: mit aller Kraft gegen die Tür drücken
   | 'wait' // Dummy: angeschnallt, ruhig sitzen und warten
+  // ---- Dummy am Strand (Petermännchen) ----
+  | 'wade' // Dummy: barfuß im flachen Wasser waten
+  | 'stepflinch' // Dummy: auf etwas treten und zusammenzucken (Fuß hochreißen)
+  | 'hop' // Dummy: auf einem Bein hüpfen (rechter Fuß angezogen)
+  | 'holdfoot' // Dummy: sitzt und hält den rechten Fuß
+  | 'ice' // Dummy: sitzt und hält Eis auf den Fuß
+  | 'tweeze' // Dummy: sitzt und zieht mit der Pinzette Stachelreste aus dem Fuß
+  | 'testtemp' // Dummy: sitzt, prüft mit dem linken Fuß die Wassertemperatur in der Schüssel
+  | 'footbath' // Dummy: sitzt, rechter Fuß steht im heißen Wasser der Schüssel
+  | 'struggle' // Dummy: aufrecht im tiefen Wasser, kommt kaum noch über Wasser
+  // ---- Petermännchen (Figur "petermaennchen") ----
+  | 'buried' // Fisch: im Sand eingegraben, nur die Augen schauen heraus
+  | 'finup' // Fisch: Rückenflosse mit Stacheln aufstellen
+  | 'swimaway' // Fisch: aus dem Sand heraus und davonschwimmen
+  // ---- Objekte ----
+  | 'steam' // Schüssel ("schuessel"): heißes Wasser dampft
+  | 'show' // Thermometer-Schild ("thermometer"): erscheint
   // ---- Effekt ----
   | 'splash'; // Effekt "splash": Wasser spritzt auf (Ring + Tropfen)
 
@@ -53,6 +70,8 @@ export type ActorKey = {
   motion: Motion;
   /** Dummy: zwei kleine Bisspunkte an der rechten Wade zeigen (gilt ab diesem Zeitpunkt weiter) */
   bite?: boolean;
+  /** Dummy: kleiner roter Punkt am rechten Fuß (Stich, kein Blut) – gilt ab diesem Zeitpunkt weiter */
+  sting?: boolean;
   /**
    * An eine andere Figur "anhängen" (z. B. "car"): x/y/z/face gelten dann im Auto
    * (Dummy sitzt im Auto und bewegt sich mit). Wechsel angehängt ↔ frei wird weich überblendet.
@@ -69,10 +88,12 @@ export type ActorKey = {
   water?: number;
   /** Auto: Wasserdruck-Pfeile auf die Fahrertür, 0 = aus … 1 = voll */
   pressure?: number;
+  /** Dummy: Schmerz-Symbol am rechten Fuß. 0 = aus, 1 = normal, bis 2 = breitet sich übers Bein aus */
+  pain?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

@@ -1,5 +1,6 @@
 import type {ThreeElements} from '@react-three/fiber';
 import {useMemo} from 'react';
+import {useCurrentFrame} from 'remotion';
 import * as THREE from 'three';
 import type {Motion} from '../data/types';
 import {clamp, easeInOut} from '../lib/anim';
@@ -35,6 +36,10 @@ export type DummyPose = {
   phone: boolean;
   /** Sicherheitsgurt: 0 = keiner, 1 = angelegt (dazwischen: rollt sich auf) */
   belt: number;
+  /** Pinzette in der rechten Hand */
+  tweezers: boolean;
+  /** Eisbeutel in der linken Hand */
+  ice: boolean;
 };
 
 const base = (): DummyPose => ({
@@ -53,9 +58,12 @@ const base = (): DummyPose => ({
   band: 0,
   phone: false,
   belt: 0,
+  tweezers: false,
+  ice: false,
 });
 
 /** Zwei Haltungen mischen (k = 0 → a, 1 → b) */
+export const mixPose = (a: DummyPose, b: DummyPose, k: number) => mix(a, b, k);
 const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
   const L = (x: number, y: number) => x + (y - x) * k;
   const limb = (x: Limb, y: Limb): Limb => ({sx: L(x.sx, y.sx), sz: L(x.sz, y.sz), bend: L(x.bend, y.bend)});
@@ -75,6 +83,8 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     band: L(a.band, b.band),
     phone: k < 0.5 ? a.phone : b.phone,
     belt: L(a.belt, b.belt),
+    tweezers: k < 0.5 ? a.tweezers : b.tweezers,
+    ice: k < 0.5 ? a.ice : b.ice,
   };
 };
 
@@ -138,6 +148,36 @@ const restSit = (time: number): DummyPose => {
   p.armL = {sx: -0.95, sz: 0.12, bend: -0.55};
   return p;
 };
+
+// ---------- Strand (Petermännchen) ----------
+/** Sitzt am Strand und hat den rechten Fuß zu sich herangezogen (Hände am Fuß) */
+const footHold = (time: number): DummyPose => {
+  const p = seated(time);
+  p.legR = {sx: -2.25, sz: -0.12, bend: 2.35};
+  p.legL = {sx: -1.62, sz: 0.32, bend: 0.35};
+  p.torsoX = 0.5;
+  p.torsoY = -0.12;
+  p.headX = 0.4;
+  p.headY = -0.15;
+  p.armR = {sx: -1.05, sz: 0.05, bend: -0.55};
+  p.armL = {sx: -1.15, sz: -0.3, bend: -0.45};
+  return p;
+};
+
+/** Sitzt mit Blick auf die Schüssel (Schüssel steht ca. 0,32 m vor der Hüfte) */
+const basinSit = (time: number): DummyPose => {
+  const p = seated(time);
+  p.torsoX = 0.08 + Math.sin(time * 2.2) * 0.012;
+  p.headX = 0.32;
+  p.armL = {sx: 0.6, sz: 0.3, bend: -0.1};
+  p.armR = {sx: 0.6, sz: -0.3, bend: -0.1};
+  return p;
+};
+
+/** Bein angewinkelt, Fuß in der Schüssel (Fuß steht ca. 0,28 m vor der Hüfte) */
+const IN_BASIN = (side: 1 | -1): Limb => ({sx: -2.3, sz: side * -0.08, bend: 2.4});
+/** Bein angewinkelt und nach außen gestellt (neben der Schüssel) */
+const BESIDE_BASIN = (side: 1 | -1): Limb => ({sx: -2.15, sz: side * 0.62, bend: 2.15});
 
 const TAU = Math.PI * 2;
 const lerpN = (a: number, b: number, k: number) => a + (b - a) * k;
@@ -442,6 +482,135 @@ export const dummyPose = (motion: Motion, time: number, speed: number): DummyPos
       q.legR = {sx: -0.35 * kick, sz: -0.08 - 0.35 * kick, bend: 1.5 * kick};
       return q;
     }
+    case 'wade': {
+      // barfuß durchs flache Wasser waten: langsame, hohe Schritte, Arme leicht zur Seite (Gleichgewicht)
+      const ph = time * TAU * Math.max(0.6, speed * 0.75);
+      const s = Math.sin(ph);
+      p.legL.sx = -0.38 * s - 0.08;
+      p.legR.sx = 0.38 * s - 0.08;
+      p.legL.bend = 0.85 * Math.max(0, Math.sin(ph + 1.3));
+      p.legR.bend = 0.85 * Math.max(0, Math.sin(ph + 1.3 + Math.PI));
+      p.armL = {sx: 0.25 * s, sz: 0.38, bend: -0.35};
+      p.armR = {sx: -0.25 * s, sz: -0.38, bend: -0.35};
+      p.hipY = 0.97 - 0.03 * Math.abs(Math.cos(ph));
+      p.torsoX = 0.1;
+      p.torsoY = 0.05 * s;
+      p.headX = 0.15;
+      break;
+    }
+    case 'stepflinch': {
+      // Schritt nach vorn (rechter Fuß setzt bei ca. 0,35 s auf), dann Zusammenzucken: Fuß hochreißen
+      const u = clamp(time / 0.35);
+      const step = {...p};
+      step.legR = {sx: -0.36 * easeInOut(u), sz: -0.03, bend: 0.55 * Math.sin(Math.PI * u)};
+      step.legL = {sx: 0.18 * easeInOut(u), sz: 0.03, bend: 0.1 * u};
+      step.armL = {sx: -0.15 * u, sz: 0.3, bend: -0.3};
+      step.armR = {sx: 0.15 * u, sz: -0.3, bend: -0.3};
+      step.torsoX = 0.1;
+      step.headX = 0.2;
+      if (time < 0.38) return step;
+      const tt = time - 0.38;
+      const jolt = tt < 0.1 ? easeInOut(tt / 0.1) : 1 - 0.35 * easeInOut(clamp((tt - 0.1) / 0.5));
+      const look = easeInOut(clamp((tt - 0.25) / 0.6));
+      const shake = Math.sin(tt * 40) * 0.05 * Math.max(0, 1 - tt / 0.7);
+      const q = base();
+      q.hipY = 0.98 + 0.04 * jolt;
+      q.legR = {sx: -0.55 * jolt + 0.35 * look, sz: -0.12, bend: 1.9 * jolt};
+      q.legL = {sx: 0.05, sz: 0.06, bend: 0.12};
+      q.torsoX = -0.2 * jolt * (1 - look) + 0.38 * look + shake;
+      q.torsoY = -0.3 * look;
+      q.headX = -0.3 * jolt * (1 - look) + 0.65 * look;
+      q.headY = -0.3 * look;
+      q.armL = {sx: -0.5 * jolt, sz: 0.25 + 1.0 * jolt - 0.3 * look, bend: -0.5};
+      q.armR = {sx: -0.5 * jolt + 0.2 * look, sz: -0.25 - 1.0 * jolt + 0.3 * look, bend: -0.5};
+      return mix(step, q, easeInOut(clamp(tt / 0.06)));
+    }
+    case 'hop': {
+      // auf dem linken Bein hüpfen, rechter Fuß angezogen, Arme balancieren
+      const ph = time * TAU * 1.9;
+      const up = Math.max(0, Math.sin(ph));
+      p.hipY = 0.93 + 0.12 * up;
+      p.legL = {sx: -0.15 + 0.1 * up, sz: 0.03, bend: 0.35 * (1 - up)};
+      p.legR = {sx: -0.35, sz: -0.1, bend: 1.75};
+      p.armL = {sx: -0.3 + 0.2 * Math.sin(ph), sz: 0.75, bend: -0.4};
+      p.armR = {sx: -0.3 - 0.2 * Math.sin(ph), sz: -0.75, bend: -0.4};
+      p.torsoX = 0.18;
+      p.torsoZ = 0.04 * Math.sin(ph * 0.5);
+      p.headX = 0.25;
+      break;
+    }
+    case 'holdfoot': {
+      // sitzt, hält den Fuß und schaukelt vor Schmerz leicht vor und zurück
+      const q = footHold(time);
+      const rock = Math.sin(time * 3.2) * 0.07;
+      q.torsoX += rock;
+      q.headX += rock * 0.6;
+      return q;
+    }
+    case 'ice': {
+      // sitzt, drückt einen Eisbeutel auf den Fuß
+      const q = footHold(time);
+      const k = easeInOut(clamp(time / 0.6));
+      q.armL = {sx: lerpN(-1.15, -1.0, k), sz: lerpN(-0.3, -0.42, k), bend: lerpN(-0.45, -0.75, k)};
+      q.armR = {sx: -1.0, sz: 0.0, bend: -0.6};
+      q.ice = true;
+      q.torsoX += Math.sin(time * 2.6) * 0.04;
+      return q;
+    }
+    case 'tweeze': {
+      // sitzt, beugt sich zum Fuß, zupft mit der Pinzette (rechte Hand) vorsichtig Stachelreste heraus
+      const q = footHold(time);
+      const pull = Math.max(0, Math.sin(time * TAU * 0.9));
+      q.torsoX = 0.62;
+      q.headX = 0.55;
+      q.armR = {sx: -1.0 + 0.18 * pull, sz: 0.12, bend: -0.75 + 0.35 * pull};
+      q.armL = {sx: -1.1, sz: -0.38, bend: -0.5};
+      q.tweezers = true;
+      return q;
+    }
+    case 'testtemp': {
+      // sitzt vor der Schüssel; rechter (gestochener) Fuß bleibt draußen,
+      // linker Fuß tippt vorsichtig ins Wasser, zuckt kurz zurück, dann hinein
+      const q = basinSit(time);
+      q.legR = BESIDE_BASIN(-1);
+      const hover: Limb = {sx: -2.05, sz: -0.14, bend: 1.75};
+      const dip: Limb = {sx: -2.3, sz: -0.1, bend: 2.35};
+      const mixL = (a: Limb, b: Limb, k: number): Limb => ({sx: lerpN(a.sx, b.sx, k), sz: lerpN(a.sz, b.sz, k), bend: lerpN(a.bend, b.bend, k)});
+      let leg: Limb;
+      if (time < 0.6) leg = mixL({sx: -1.5, sz: 0.1, bend: 0.05}, hover, easeInOut(time / 0.6));
+      else if (time < 1.0) leg = mixL(hover, dip, easeInOut((time - 0.6) / 0.4));
+      else if (time < 1.25) leg = mixL(dip, hover, easeInOut((time - 1.0) / 0.25));
+      else leg = mixL(hover, dip, easeInOut(clamp((time - 1.6) / 0.6)));
+      q.legL = leg;
+      q.torsoX = 0.3;
+      q.headX = 0.5;
+      return q;
+    }
+    case 'footbath': {
+      // sitzt, rechter Fuß im heißen Wasser; Schmerz lässt nach, Haltung entspannt sich
+      const q = basinSit(time);
+      const k = easeInOut(clamp(time / 0.8));
+      const hover: Limb = {sx: -2.05, sz: -0.04, bend: 1.75};
+      const inn = IN_BASIN(-1);
+      q.legR = {sx: lerpN(hover.sx, inn.sx, k), sz: lerpN(hover.sz, inn.sz, k), bend: lerpN(hover.bend, inn.bend, k)};
+      q.legL = BESIDE_BASIN(1);
+      q.torsoX = lerpN(0.25, 0.0, clamp((time - 1) / 2)) + Math.sin(time * 1.8) * 0.012;
+      q.headX = lerpN(0.45, 0.2, clamp((time - 1) / 2));
+      return q;
+    }
+    case 'struggle': {
+      // aufrecht im tiefen Wasser, paddelt mühsam, Kopf kaum über Wasser
+      const ph = time * TAU * 0.9;
+      const s = Math.sin(ph);
+      p.hipY = 0.98 + 0.05 * Math.sin(ph + 0.6);
+      p.armL = {sx: -1.2 + 0.35 * s, sz: 1.1 + 0.25 * Math.cos(ph), bend: -0.5 - 0.3 * Math.max(0, s)};
+      p.armR = {sx: -1.2 - 0.35 * s, sz: -1.1 - 0.25 * Math.cos(ph), bend: -0.5 - 0.3 * Math.max(0, -s)};
+      p.legL = {sx: -0.85 + 0.25 * s, sz: 0.15, bend: 1.5 + 0.3 * s};
+      p.legR = {sx: -0.85 - 0.25 * s, sz: -0.15, bend: 1.5 - 0.3 * s};
+      p.torsoX = 0.12;
+      p.headX = -0.42 + 0.06 * s;
+      break;
+    }
     case 'wave': {
       const k = easeInOut(clamp(time / 0.5));
       p.armR.sz = -0.1 - 2.5 * k;
@@ -455,6 +624,19 @@ export const dummyPose = (motion: Motion, time: number, speed: number): DummyPos
   return p;
 };
 
+/** Wie dummyPose, aber mit weichem Übergang von der vorigen Bewegung (nur Strand-Bewegungen, 0,45 s) */
+export const dummyPoseBlended = (
+  motion: Motion,
+  time: number,
+  speed: number,
+  prev?: {motion: Motion; time: number},
+): DummyPose => {
+  const cur = dummyPose(motion, time, speed);
+  const BLEND = 0.45;
+  if (!prev || time >= BLEND) return cur;
+  return mix(dummyPose(prev.motion, prev.time + time, 0), cur, easeInOut(time / BLEND));
+};
+
 // ---------- Bauteile ----------
 const useMats = () =>
   useMemo(
@@ -466,6 +648,13 @@ const useMats = () =>
       bite: new THREE.MeshBasicMaterial({color: '#5a1a14', side: THREE.DoubleSide}),
       band: new THREE.MeshStandardMaterial({color: '#e9eef2', roughness: 0.8, flatShading: true}),
       belt: new THREE.MeshStandardMaterial({color: '#30353b', roughness: 0.85, flatShading: true}),
+      sting: new THREE.MeshBasicMaterial({color: '#d0261c', side: THREE.DoubleSide}),
+      ice: new THREE.MeshStandardMaterial({color: '#bfe9ff', roughness: 0.15, metalness: 0.05, transparent: true, opacity: 0.85, flatShading: true}),
+      iceCube: new THREE.MeshStandardMaterial({color: '#f2fbff', roughness: 0.1, emissive: '#9fdcff', emissiveIntensity: 0.25, flatShading: true}),
+      steel: new THREE.MeshStandardMaterial({color: '#d9dde2', roughness: 0.25, metalness: 0.8, flatShading: true}),
+      painRed: new THREE.MeshBasicMaterial({color: '#ff2416', depthTest: false, transparent: true}),
+      painCore: new THREE.MeshBasicMaterial({color: '#ffd23a', depthTest: false, transparent: true}),
+      painGlow: new THREE.MeshBasicMaterial({color: '#ff2a1a', transparent: true, opacity: 0.4, depthWrite: false}),
     }),
     [],
   );
@@ -508,7 +697,23 @@ const Joint = ({m, r}: {m: Mats; r: number}) => (
   </mesh>
 );
 
-const Arm = ({m, limb, side, foreZ = 0, phone = false}: {m: Mats; limb: Limb; side: 1 | -1; foreZ?: number; phone?: boolean}) => (
+const Arm = ({
+  m,
+  limb,
+  side,
+  foreZ = 0,
+  phone = false,
+  tweezers = false,
+  ice = false,
+}: {
+  m: Mats;
+  limb: Limb;
+  side: 1 | -1;
+  foreZ?: number;
+  phone?: boolean;
+  tweezers?: boolean;
+  ice?: boolean;
+}) => (
   <group position={[0.27 * side, 0.44, 0]} rotation={[limb.sx, 0, limb.sz]}>
     <Joint m={m} r={0.09} />
     <Seg m={m} len={0.3} r={0.08} />
@@ -529,9 +734,78 @@ const Arm = ({m, limb, side, foreZ = 0, phone = false}: {m: Mats; limb: Limb; si
           </mesh>
         </group>
       )}
+      {tweezers && (
+        <group position={[0, -0.38, 0.03]} rotation={[0.5, 0, 0]}>
+          {[1, -1].map((k) => (
+            <mesh key={k} material={m.steel} position={[k * 0.008, -0.05, 0]} rotation={[0, 0, k * 0.09]}>
+              <boxGeometry args={[0.006, 0.12, 0.012]} />
+            </mesh>
+          ))}
+        </group>
+      )}
+      {ice && (
+        <group position={[0, -0.39, 0.02]}>
+          <mesh material={m.ice} castShadow>
+            <boxGeometry args={[0.15, 0.06, 0.11]} />
+          </mesh>
+          {[
+            [-0.035, 0.0, -0.02],
+            [0.03, 0.005, 0.025],
+            [0.0, 0.01, 0.0],
+          ].map((q, i) => (
+            <mesh key={i} material={m.iceCube} position={q as [number, number, number]} rotation={[i, i * 0.7, 0]}>
+              <boxGeometry args={[0.035, 0.035, 0.035]} />
+            </mesh>
+          ))}
+        </group>
+      )}
     </group>
   </group>
 );
+
+/** Schmerz-Symbol: roter, gezackter Stern am Fuß, pulsiert. Bei pain > 1 leuchtet auch das Bein rot (Schmerz breitet sich aus). */
+const PAIN_DIRS = (() => {
+  const g = new THREE.IcosahedronGeometry(1, 0);
+  const pos = g.attributes.position as THREE.BufferAttribute;
+  const seen: THREE.Vector3[] = [];
+  for (let i = 0; i < pos.count; i++) {
+    const v = new THREE.Vector3().fromBufferAttribute(pos, i).normalize();
+    if (!seen.some((o) => o.distanceTo(v) < 0.01)) seen.push(v);
+  }
+  return seen;
+})();
+const PainBurst = ({m, pain, time}: {m: Mats; pain: number; time: number}) => {
+  const vis = clamp(pain * 3);
+  const size = (0.07 + 0.05 * Math.min(pain, 2)) * vis * (1 + 0.14 * Math.sin(time * 9));
+  const spin = time * 0.6;
+  return (
+    <group scale={size} rotation={[spin * 0.5, spin, 0]} renderOrder={20}>
+      <mesh material={m.painCore} renderOrder={21}>
+        <icosahedronGeometry args={[0.55, 0]} />
+      </mesh>
+      {PAIN_DIRS.map((d, i) => {
+        const len = i % 2 ? 1.25 : 1.75;
+        const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), d);
+        return (
+          <mesh key={i} material={m.painRed} position={d.clone().multiplyScalar(0.35 + len / 2)} quaternion={q} renderOrder={20}>
+            <coneGeometry args={[0.28, len, 4]} />
+          </mesh>
+        );
+      })}
+    </group>
+  );
+};
+
+/** Rotes Leuchten am Bein, wenn sich der Schmerz ausbreitet (pain 1 → 2) */
+const PainGlow = ({m, amount, len, r, time, phase}: {m: Mats; amount: number; len: number; r: number; time: number; phase: number}) => {
+  if (amount <= 0.01) return null;
+  const pulse = 0.75 + 0.25 * Math.sin(time * 6 + phase);
+  return (
+    <mesh material={m.painGlow} position={[0, -len / 2, 0]} scale={[1, amount, 1]} renderOrder={19}>
+      <cylinderGeometry args={[r * 1.35 * pulse + r * 0.1, r * 1.35 * pulse, len, 8]} />
+    </mesh>
+  );
+};
 
 /** Zwei kleine Bisspunkte an der Wade (außen hinten) – kein Blut, keine Wunde */
 const BiteMarks = ({m, side}: {m: Mats; side: 1 | -1}) => {
@@ -583,25 +857,78 @@ const ShoulderBelt = ({m, amount}: {m: Mats; amount: number}) => {
   );
 };
 
-const Leg = ({m, limb, side, bite = false, band = 0}: {m: Mats; limb: Limb; side: 1 | -1; bite?: boolean; band?: number}) => (
+const Leg = ({
+  m,
+  limb,
+  side,
+  bite = false,
+  band = 0,
+  sting = false,
+  pain = 0,
+  barefoot = false,
+  time = 0,
+}: {
+  m: Mats;
+  limb: Limb;
+  side: 1 | -1;
+  bite?: boolean;
+  band?: number;
+  sting?: boolean;
+  pain?: number;
+  barefoot?: boolean;
+  time?: number;
+}) => (
   <group position={[0.105 * side, -0.06, 0]} rotation={[limb.sx, 0, limb.sz]}>
     <Joint m={m} r={0.1} />
     <Seg m={m} len={0.43} r={0.11} r2={0.088} />
+    <PainGlow m={m} amount={clamp((pain - 1.45) * 2)} len={0.43} r={0.11} time={time} phase={1.2} />
     <Marker m={m} r={0.055} position={[0.108 * side, -0.2, 0]} rotation={[0, (Math.PI / 2) * side, 0]} />
     {band > 0 && <Band m={m} amount={band} />}
     <group position={[0, -0.44, 0]} rotation={[limb.bend, 0, 0]}>
       <Joint m={m} r={0.08} />
       <Seg m={m} len={0.42} r={0.085} r2={0.065} />
       {bite && <BiteMarks m={m} side={side} />}
-      <mesh material={m.joint} position={[0, -0.46, 0.06]} castShadow>
-        <boxGeometry args={[0.13, 0.08, 0.27]} />
-      </mesh>
+      <PainGlow m={m} amount={clamp((pain - 1) * 2.2)} len={0.42} r={0.085} time={time} phase={0} />
+      {barefoot ? (
+        <group position={[0, -0.46, 0.06]}>
+          <mesh material={m.body} scale={[0.065, 0.042, 0.135]} castShadow>
+            <icosahedronGeometry args={[1, 1]} />
+          </mesh>
+          {sting && (
+            <mesh material={m.sting} position={[0.012 * side, 0.043, 0.02]} rotation={[-Math.PI / 2, 0, 0]}>
+              <circleGeometry args={[0.013, 10]} />
+            </mesh>
+          )}
+        </group>
+      ) : (
+        <mesh material={m.joint} position={[0, -0.46, 0.06]} castShadow>
+          <boxGeometry args={[0.13, 0.08, 0.27]} />
+        </mesh>
+      )}
+      {pain > 0.01 && (
+        <group position={[0, -0.47, 0.07]}>
+          <PainBurst m={m} pain={pain} time={time} />
+        </group>
+      )}
     </group>
   </group>
 );
 
-export const Dummy = ({pose, bite = false}: {pose: DummyPose; bite?: boolean}) => {
+export const Dummy = ({
+  pose,
+  bite = false,
+  sting = false,
+  pain = 0,
+  barefoot = false,
+}: {
+  pose: DummyPose;
+  bite?: boolean;
+  sting?: boolean;
+  pain?: number;
+  barefoot?: boolean;
+}) => {
   const m = useMats();
+  const time = useCurrentFrame() / 30;
   return (
     <group rotation={[pose.pitch, 0, 0]}>
       <group position={[0, pose.hipY, 0]}>
@@ -616,8 +943,8 @@ export const Dummy = ({pose, bite = false}: {pose: DummyPose; bite?: boolean}) =
             <boxGeometry args={[0.4, 0.075, 0.025]} />
           </mesh>
         )}
-        <Leg m={m} limb={pose.legL} side={1} />
-        <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} />
+        <Leg m={m} limb={pose.legL} side={1} barefoot={barefoot} />
+        <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} sting={sting} pain={pain} barefoot={barefoot} time={time} />
         {/* Oberkörper */}
         <group position={[0, 0.06, 0]} rotation={[pose.torsoX, pose.torsoY, pose.torsoZ]}>
           <mesh material={m.joint} position={[0, 0.08, 0]} castShadow>
@@ -628,8 +955,8 @@ export const Dummy = ({pose, bite = false}: {pose: DummyPose; bite?: boolean}) =
           </mesh>
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
-          <Arm m={m} limb={pose.armL} side={1} />
-          <Arm m={m} limb={pose.armR} side={-1} foreZ={pose.foreZ} phone={pose.phone} />
+          <Arm m={m} limb={pose.armL} side={1} ice={pose.ice} />
+          <Arm m={m} limb={pose.armR} side={-1} foreZ={pose.foreZ} phone={pose.phone} tweezers={pose.tweezers} />
           {/* Hals + Kopf (ohne Gesicht) */}
           <mesh material={m.joint} position={[0, 0.58, 0]} castShadow>
             <cylinderGeometry args={[0.045, 0.055, 0.1, 6]} />

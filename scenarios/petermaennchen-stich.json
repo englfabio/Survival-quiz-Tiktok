@@ -1,0 +1,724 @@
+{
+  "id": "petermaennchen-stich",
+  "category": "wildtiere",
+  "stage": "meeresstrand",
+  "situation": {
+    "speech": "Du bist mal wieder auf ein Petermännchen getreten. Ein kleiner Giftfisch, der sich im Sand der Nord- und Ostsee vergräbt. Dein Fuß brennt wie Feuer. Was machst du jetzt?"
+  },
+  "options": [
+    {
+      "card": "Sofort mit Eis kühlen",
+      "speech": "Eins: Den Fuß sofort mit Eis kühlen.",
+      "dummyAction": "Dummy sitzt am Strand und hält Eis auf den Fuß, das Schmerz-Symbol bleibt. Rotes Aufleuchten.",
+      "explanation": "Kühlen fühlt sich richtig an, ist hier aber die falsche erste Wahl. Das Gift des Petermännchens besteht aus Eiweißen, und die werden durch Hitze zerstört, nicht durch Kälte.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              2.8,
+              1.2,
+              -3.6
+            ],
+            "look": [
+              0.1,
+              0.2,
+              1.1
+            ]
+          },
+          {
+            "t": 1,
+            "pos": [
+              2.3,
+              1.1,
+              -3.3
+            ],
+            "look": [
+              0.1,
+              0.2,
+              1.1
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 1.2,
+              "face": 0,
+              "motion": "holdfoot",
+              "sting": true,
+              "pain": 1
+            },
+            {
+              "t": 0.1,
+              "x": 0,
+              "z": 1.2,
+              "face": 0,
+              "motion": "ice"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "card": "Weiterbaden, geht vorbei",
+      "speech": "Zwei: Einfach weiterbaden, der Schmerz geht schon vorbei.",
+      "dummyAction": "Dummy schwimmt weiter ins tiefere Wasser, das Schmerz-Symbol breitet sich übers Bein aus, er kommt kaum noch über Wasser. Szene blendet ab, bevor es kritisch wirkt. Rotes Aufleuchten.",
+      "explanation": "Weiterbaden ist gefährlich. Der Schmerz ist heftig und breitet sich aus. Im tieferen Wasser können sich Betroffene vor Schmerzen kaum noch über Wasser halten. Also sofort raus aus dem Wasser.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              -4.2,
+              2.6,
+              -4.0
+            ],
+            "look": "dummy"
+          },
+          {
+            "t": 0.35,
+            "pos": [
+              -4.6,
+              2.7,
+              -8.5
+            ],
+            "look": "dummy"
+          },
+          {
+            "t": 0.62,
+            "pos": [
+              -5.2,
+              3.0,
+              -11.6
+            ],
+            "look": [
+              0,
+              -1.1,
+              -17.8
+            ]
+          },
+          {
+            "t": 1,
+            "pos": [
+              -4.9,
+              2.9,
+              -12.2
+            ],
+            "look": [
+              0,
+              -1.2,
+              -18
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": -6,
+              "face": 0,
+              "motion": "wade",
+              "sting": true,
+              "pain": 1
+            },
+            {
+              "t": 0.28,
+              "x": 0,
+              "z": -11.5,
+              "face": 0,
+              "motion": "wade",
+              "pain": 1.15
+            },
+            {
+              "t": 0.32,
+              "x": 0,
+              "z": -12.5,
+              "y": -0.3,
+              "face": 0,
+              "motion": "swim",
+              "pain": 1.25
+            },
+            {
+              "t": 0.6,
+              "x": 0,
+              "z": -17.6,
+              "y": -0.3,
+              "face": 0,
+              "motion": "swim",
+              "pain": 1.7
+            },
+            {
+              "t": 0.66,
+              "x": 0,
+              "z": -18,
+              "y": -1.58,
+              "face": 240,
+              "motion": "struggle",
+              "pain": 2
+            },
+            {
+              "t": 0.82,
+              "x": 0,
+              "z": -18,
+              "y": -1.7,
+              "face": 240,
+              "motion": "struggle"
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "z": -18,
+              "y": -1.76,
+              "face": 240,
+              "motion": "struggle"
+            }
+          ]
+        },
+        "fade": [
+          0.84,
+          0.97,
+          0.9
+        ]
+      }
+    },
+    {
+      "card": "Stachel raus, Hitze, Arzt",
+      "speech": "Drei: Stachelreste entfernen, die Stelle mit Hitze behandeln und zum Arzt.",
+      "dummyAction": "Dummy hüpft aus dem Wasser, setzt sich, entfernt mit der Pinzette Stachelreste, testet mit dem anderen Fuß die Temperatur, stellt den Fuß in die dampfende Schüssel (ca. 45 °C), das Schmerz-Symbol wird kleiner. Grünes Aufleuchten.",
+      "explanation": "Geh raus und entferne vorsichtig die Stachelreste. Dann den Fuß in heißes Wasser, etwa 45 Grad, so heiß, wie du es gerade noch aushältst. Prüf die Temperatur vorher mit dem anderen Fuß, damit du dich nicht verbrühst. Danach zum Arzt, auch wegen Tetanus.",
+      "steps": [
+        {
+          "text": "Raus aus dem Wasser",
+          "cue": "Geh raus"
+        },
+        {
+          "text": "Stachelreste entfernen",
+          "cue": "entferne vorsichtig die Stachelreste"
+        },
+        {
+          "text": "Heißes Wasser, ca. 45 °C",
+          "cue": "heißes Wasser, etwa 45 Grad"
+        },
+        {
+          "text": "Temperatur mit dem anderen Fuß prüfen",
+          "cue": "Prüf die Temperatur vorher mit dem anderen Fuß"
+        },
+        {
+          "text": "Zum Arzt (Tetanus)",
+          "cue": "Danach zum Arzt, auch wegen Tetanus"
+        }
+      ],
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              -1.6,
+              2.0,
+              -6.4
+            ],
+            "look": [
+              -0.1,
+              0.55,
+              -0.6
+            ]
+          },
+          {
+            "t": 0.13,
+            "pos": [
+              0.2,
+              2.5,
+              -5.0
+            ],
+            "look": [
+              0.3,
+              0.6,
+              0.8
+            ]
+          },
+          {
+            "t": 0.3,
+            "pos": [
+              0.5,
+              2.7,
+              -4.4
+            ],
+            "look": [
+              0.4,
+              0.62,
+              0.9
+            ]
+          },
+          {
+            "t": 1,
+            "pos": [
+              0.45,
+              2.65,
+              -4.2
+            ],
+            "look": [
+              0.4,
+              0.62,
+              0.9
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.1,
+              "z": -1.8,
+              "face": 180,
+              "motion": "hop",
+              "sting": true,
+              "pain": 1
+            },
+            {
+              "t": 0.12,
+              "x": 0,
+              "z": 1.0,
+              "face": 180,
+              "motion": "hop"
+            },
+            {
+              "t": 0.13,
+              "x": 0,
+              "z": 1.2,
+              "face": 0,
+              "motion": "holdfoot"
+            },
+            {
+              "t": 0.17,
+              "x": 0,
+              "z": 1.2,
+              "face": 0,
+              "motion": "tweeze"
+            },
+            {
+              "t": 0.5,
+              "x": 0,
+              "z": 1.2,
+              "face": 0,
+              "motion": "holdfoot"
+            },
+            {
+              "t": 0.54,
+              "x": 0,
+              "z": 1.2,
+              "face": 0,
+              "motion": "testtemp"
+            },
+            {
+              "t": 0.7,
+              "x": 0,
+              "z": 1.2,
+              "face": 0,
+              "motion": "footbath",
+              "pain": 1
+            },
+            {
+              "t": 0.95,
+              "x": 0,
+              "z": 1.2,
+              "face": 0,
+              "motion": "footbath",
+              "pain": 0.3
+            }
+          ],
+          "schuessel": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0.88,
+              "face": 0,
+              "motion": "steam"
+            }
+          ],
+          "thermometer": [
+            {
+              "t": 0,
+              "x": -0.3,
+              "z": 0.85,
+              "y": 1.38,
+              "motion": "park"
+            },
+            {
+              "t": 0.3,
+              "x": -0.3,
+              "z": 0.85,
+              "y": 1.38,
+              "motion": "show"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "Richtig ist Nummer 3"
+  },
+  "outro": {
+    "speech": "Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quelle: Giftinformationszentrale Bonn · Universitätsklinikum Bonn",
+  "sources": [
+    {
+      "name": "Giftinformationszentrale Bonn",
+      "url": "https://gizbonn.de/giftzentrale-bonn/tiere/fische/petermaennchen"
+    },
+    {
+      "name": "ADAC",
+      "url": "https://www.adac.de/news/nordsee-ostsee-petermaennchen/"
+    }
+  ],
+  "publishing": {
+    "description": "Du bist mal wieder auf ein Petermännchen getreten – was machst du jetzt? 🐟🔥 Schreib 1, 2 oder 3 in die Kommentare!\n\nQuellen:\nGiftinformationszentrale Bonn: https://gizbonn.de/giftzentrale-bonn/tiere/fische/petermaennchen\nADAC: https://www.adac.de/news/nordsee-ostsee-petermaennchen/\n\nBadeschuhe schützen. Kein Ersatz für ärztliche Behandlung. Im Notfall: 112, Giftnotruf Bonn: 0228 19240.\n\n#waswürdestdutun #petermännchen #nordsee #ostsee #strand #erstehilfe #survival #quiz",
+    "pinnedComment": "Ehrlich: Wer kannte das Petermännchen vorher? 👇 Und was soll dem Dummy als Nächstes passieren?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            -3.8,
+            1.9,
+            -11.6
+          ],
+          "look": [
+            -1.6,
+            0.5,
+            -5
+          ]
+        },
+        {
+          "t": 0.3,
+          "pos": [
+            -2.6,
+            1.4,
+            -10.2
+          ],
+          "look": [
+            -0.4,
+            0.35,
+            -4.95
+          ]
+        },
+        {
+          "t": 0.4,
+          "pos": [
+            -1.0,
+            1.8,
+            -8.2
+          ],
+          "look": [
+            -0.05,
+            0.05,
+            -4.92
+          ]
+        },
+        {
+          "t": 0.52,
+          "pos": [
+            -0.95,
+            1.78,
+            -8.1
+          ],
+          "look": [
+            -0.02,
+            0.07,
+            -4.92
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            -1.4,
+            1.75,
+            -10.6
+          ],
+          "look": [
+            0.4,
+            0.45,
+            -4.4
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -3.1,
+            "z": -5,
+            "face": 90,
+            "motion": "wade"
+          },
+          {
+            "t": 0.36,
+            "x": -0.3,
+            "z": -5,
+            "face": 90,
+            "motion": "wade"
+          },
+          {
+            "t": 0.37,
+            "x": -0.3,
+            "z": -5,
+            "face": 90,
+            "motion": "stepflinch"
+          },
+          {
+            "t": 0.4,
+            "x": -0.3,
+            "z": -5,
+            "face": 90,
+            "motion": "stepflinch",
+            "sting": true,
+            "pain": 0
+          },
+          {
+            "t": 0.43,
+            "x": -0.3,
+            "z": -5,
+            "face": 90,
+            "motion": "stepflinch",
+            "pain": 1
+          },
+          {
+            "t": 0.66,
+            "x": -0.3,
+            "z": -5,
+            "face": 90,
+            "motion": "stepflinch"
+          },
+          {
+            "t": 0.7,
+            "x": -0.3,
+            "z": -5,
+            "face": 150,
+            "motion": "hop"
+          },
+          {
+            "t": 1,
+            "x": 0.6,
+            "z": -3.6,
+            "face": 150,
+            "motion": "hop"
+          }
+        ],
+        "petermaennchen": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -4.9,
+            "face": 55,
+            "motion": "buried"
+          },
+          {
+            "t": 0.37,
+            "x": 0.0,
+            "z": -4.9,
+            "face": 55,
+            "motion": "finup"
+          },
+          {
+            "t": 0.55,
+            "x": 0.0,
+            "z": -4.9,
+            "face": 55,
+            "motion": "swimaway"
+          },
+          {
+            "t": 0.85,
+            "x": 1.9,
+            "z": -6.2,
+            "face": 125,
+            "motion": "swimaway"
+          }
+        ]
+      }
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            -0.3,
+            2.25,
+            -5.5
+          ],
+          "look": [
+            0,
+            -0.2,
+            1.2
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            0.3,
+            2.2,
+            -5.2
+          ],
+          "look": [
+            0,
+            -0.2,
+            1.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 1.2,
+            "face": 0,
+            "motion": "holdfoot",
+            "sting": true,
+            "pain": 1
+          }
+        ]
+      }
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            2.5,
+            3.4,
+            -6.0
+          ],
+          "look": [
+            0,
+            -0.2,
+            1.2
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            2.2,
+            3.3,
+            -5.6
+          ],
+          "look": [
+            0,
+            -0.2,
+            1.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 1.2,
+            "face": 0,
+            "motion": "holdfoot",
+            "sting": true,
+            "pain": 1
+          }
+        ]
+      }
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            -1.7,
+            2.1,
+            -7.0
+          ],
+          "look": [
+            0,
+            -0.2,
+            1.2
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            -1.4,
+            2.0,
+            -6.6
+          ],
+          "look": [
+            0,
+            -0.2,
+            1.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 1.2,
+            "face": 0,
+            "motion": "holdfoot",
+            "sting": true,
+            "pain": 1
+          }
+        ]
+      }
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            1.6,
+            2.4,
+            -6.0
+          ],
+          "look": [
+            2.6,
+            1.75,
+            3.6
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            1.6,
+            2.5,
+            -6.8
+          ],
+          "look": [
+            2.6,
+            1.75,
+            3.6
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 2.6,
+            "z": 3.6,
+            "face": 0,
+            "motion": "wave"
+          }
+        ]
+      }
+    }
+  }
+}

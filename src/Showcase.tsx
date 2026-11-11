@@ -230,6 +230,188 @@ const LAKE_DEMOS: Demo[] = [
   },
 ];
 
+// ---------- Meeresstrand / Petermännchen ----------
+/** Dummy sitzt am Strand bei (0, 1.2) mit Blick zur Kamera/zum Meer (face 0 = Richtung −z) */
+const SIT = {x: 0, z: 1.2, face: 0};
+const sitCam = (dist = 3.6, h = 1.45): Shot['camera'] => [
+  {t: 0, pos: [-0.9, h, SIT.z - dist], look: [0, 0.35, SIT.z - 0.15]},
+  {t: 1, pos: [-1.3, h + 0.05, SIT.z - dist + 0.15], look: [0, 0.35, SIT.z - 0.15]},
+];
+const beachSit = (label: string, motion: Motion, seconds = 3, extra: Shot['actors'] = {}, pain = 1): Demo => ({
+  label: `Dummy: ${label}`,
+  stage: 'meeresstrand',
+  seconds,
+  shot: {
+    camera: sitCam(),
+    actors: {dummy: [{t: 0, ...SIT, motion, sting: true, pain}], ...extra},
+  },
+});
+/** Schüssel 0,32 m vor dem sitzenden Dummy (bei face 0 also Richtung −z) */
+const BASIN = {x: SIT.x, z: SIT.z - 0.32};
+const fishDemo = (label: string, motion: Motion, to: [number, number], seconds = 3): Demo => ({
+  label: `Petermännchen: ${label}`,
+  stage: 'meeresstrand',
+  seconds,
+  shot: {
+    camera: [
+      {t: 0, pos: [-0.55, 0.85, -5.95], look: 'petermaennchen'},
+      {t: 1, pos: [-0.35, 0.85, -6.0], look: 'petermaennchen'},
+    ],
+    actors: {
+      petermaennchen: [
+        {t: 0, x: 0, z: -5, face: 60, motion},
+        {t: 1, x: to[0], z: -5 + to[1], face: 60, motion},
+      ],
+    },
+  },
+});
+
+const BEACH_DEMOS: Demo[] = [
+  {
+    label: 'Bühne: Meeresstrand',
+    stage: 'meeresstrand',
+    seconds: 4,
+    shot: {
+      camera: [
+        {t: 0, pos: [-2.2, 2.2, -9.5], look: [0, 0.3, 1]},
+        {t: 1, pos: [-0.6, 2.1, -9.8], look: [0, 0.3, 1]},
+      ],
+      actors: {dummy: [{t: 0, x: 0, z: -3, face: 180, motion: 'stand'}]},
+    },
+  },
+  {
+    label: 'Bühne: Strand von oben',
+    stage: 'meeresstrand',
+    seconds: 3,
+    shot: {
+      camera: [
+        {t: 0, pos: [-10, 7, -14], look: [0, 0, 2]},
+        {t: 1, pos: [-8, 7, -15], look: [0, 0, 2]},
+      ],
+      actors: {},
+    },
+  },
+  fishDemo('im Sand eingegraben', 'buried', [0, 0]),
+  fishDemo('Rückenflosse aufstellen', 'finup', [0, 0]),
+  fishDemo('davonschwimmen', 'swimaway', [1.1, -0.65], 3),
+  {
+    label: 'Dummy: barfuß waten',
+    stage: 'meeresstrand',
+    seconds: 3.5,
+    shot: {
+      camera: [
+        {t: 0, pos: [-0.5, 1.2, -9.2], look: [-1.2, 0.5, -5]},
+        {t: 1, pos: [0.2, 1.2, -9.2], look: [0.2, 0.5, -5]},
+      ],
+      actors: {dummy: [{t: 0, x: -2.5, z: -5, face: 90, motion: 'wade'}, {t: 1, x: 0.3, z: -5, face: 90, motion: 'wade'}]},
+    },
+  },
+  {
+    label: 'Dummy: drauftreten + zusammenzucken',
+    stage: 'meeresstrand',
+    seconds: 3,
+    shot: {
+      camera: [
+        {t: 0, pos: [-1.0, 1.8, -8.2], look: [-0.05, 0.12, -4.92]},
+        {t: 1, pos: [-0.9, 1.8, -8.1], look: [-0.05, 0.12, -4.92]},
+      ],
+      actors: {
+        dummy: [
+          {t: 0, x: -0.3, z: -5, face: 90, motion: 'stepflinch', pain: 0},
+          {t: 0.18, x: -0.3, z: -5, face: 90, motion: 'stepflinch', pain: 0, sting: true},
+          {t: 0.3, x: -0.3, z: -5, face: 90, motion: 'stepflinch', pain: 1},
+        ],
+        petermaennchen: [{t: 0, x: 0.0, z: -4.9, face: 60, motion: 'buried'}, {t: 0.14, x: 0.0, z: -4.9, face: 60, motion: 'finup'}],
+      },
+    },
+  },
+  {
+    label: 'Dummy: auf einem Bein hüpfen',
+    stage: 'meeresstrand',
+    seconds: 3,
+    shot: {
+      camera: [
+        {t: 0, pos: [-4.2, 1.3, -1.0], look: [0, 0.7, -1.0]},
+        {t: 1, pos: [-4.2, 1.3, 0.6], look: [0, 0.7, 0.6]},
+      ],
+      actors: {dummy: [{t: 0, x: 0, z: -2.2, face: 180, motion: 'hop', sting: true, pain: 1}, {t: 1, x: 0, z: 1.2, face: 180, motion: 'hop'}]},
+    },
+  },
+  beachSit('hinsetzen, Fuß halten', 'holdfoot', 3),
+  beachSit('Eis auf den Fuß halten', 'ice', 3),
+  beachSit('Stachelreste mit Pinzette entfernen', 'tweeze', 3),
+  beachSit('Temperatur mit dem anderen Fuß testen', 'testtemp', 3.5, {
+    schuessel: [{t: 0, ...BASIN, face: 0, motion: 'steam'}],
+  }),
+  beachSit(
+    'Fuß ins heiße Wasser, Schmerz lässt nach',
+    'footbath',
+    4,
+    {
+      schuessel: [{t: 0, ...BASIN, face: 0, motion: 'steam'}],
+      thermometer: [{t: 0, x: BASIN.x - 0.5, z: BASIN.z - 0.1, y: 0.95, motion: 'park'}, {t: 0.15, x: BASIN.x - 0.5, z: BASIN.z - 0.1, y: 0.95, motion: 'show'}],
+    },
+    1,
+  ),
+  {
+    label: 'Schmerz-Symbol breitet sich aus',
+    stage: 'meeresstrand',
+    seconds: 3,
+    shot: {
+      camera: [
+        {t: 0, pos: [-2.6, 1.3, -3.6], look: [0, 0.8, -1.0]},
+        {t: 1, pos: [-2.8, 1.3, -3.4], look: [0, 0.8, -1.0]},
+      ],
+      actors: {dummy: [{t: 0, x: 0, z: -1, face: 300, motion: 'stand', sting: true, pain: 0.2}, {t: 1, x: 0, z: -1, face: 300, motion: 'stand', pain: 2}]},
+    },
+  },
+  {
+    label: 'Dummy: ins tiefere Wasser schwimmen',
+    stage: 'meeresstrand',
+    seconds: 3.5,
+    shot: {
+      camera: [
+        {t: 0, pos: [-4.5, 1.6, -11], look: [-0.5, -0.2, -15]},
+        {t: 1, pos: [-4.5, 1.5, -13], look: [-0.3, -0.2, -17.5]},
+      ],
+      actors: {dummy: [{t: 0, x: 0, z: -14, y: -0.3, face: 0, motion: 'swim', pain: 1.4}, {t: 1, x: 0, z: -17.5, y: -0.3, face: 0, motion: 'swim'}]},
+    },
+  },
+  {
+    label: 'Dummy: kommt kaum über Wasser',
+    stage: 'meeresstrand',
+    seconds: 3.5,
+    shot: {
+      camera: [
+        {t: 0, pos: [-3.2, 0.9, -15.5], look: [0, -0.1, -18]},
+        {t: 1, pos: [-3.0, 0.8, -15.8], look: [0, -0.15, -18]},
+      ],
+      actors: {
+        dummy: [
+          {t: 0, x: 0, z: -18, y: -1.6, face: 240, motion: 'struggle', pain: 2},
+          {t: 0.5, x: 0, z: -18, y: -1.72, face: 240, motion: 'struggle'},
+          {t: 1, x: 0, z: -18, y: -1.62, face: 240, motion: 'struggle'},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Objekte: Schüssel mit heißem Wasser, Thermometer-Schild',
+    stage: 'meeresstrand',
+    seconds: 3,
+    shot: {
+      camera: [
+        {t: 0, pos: [0.4, 1.3, -1.6], look: [0.05, 0.3, 0.75]},
+        {t: 1, pos: [0.6, 1.35, -1.7], look: [0.05, 0.3, 0.75]},
+      ],
+      actors: {
+        schuessel: [{t: 0, x: 0.1, z: 0.7, face: 0, motion: 'steam'}],
+        thermometer: [{t: 0, x: -0.3, z: 0.7, y: 0.62, motion: 'show'}],
+      },
+    },
+  },
+];
+
 const DEMOS: Demo[] = [
   dummyDemo('stehen', 'stand', [0, 0]),
   dummyDemo('gehen', 'walk', [0, -3.5]),
@@ -289,7 +471,12 @@ const DEMOS: Demo[] = [
   snakeDemo('wegschlängeln', 'slither', [0.1, -1.6], 0, 3.5),
   // ---------- Neu für "Auto im See" (Bühne Seeufer) ----------
   ...LAKE_DEMOS,
+  // ---------- Neu für "Petermännchen" (Bühne Meeresstrand) ----------
+  ...BEACH_DEMOS,
 ];
+
+/** Index der ersten Strand-Demo (für Übersichtsbilder) */
+export const BEACH_DEMO_FIRST = DEMOS.length - BEACH_DEMOS.length;
 
 export const SHOWCASE_SECONDS_EACH = 3;
 const secOf = (d: Demo) => d.seconds ?? SHOWCASE_SECONDS_EACH;

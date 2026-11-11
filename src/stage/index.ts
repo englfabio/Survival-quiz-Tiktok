@@ -1,3 +1,4 @@
+import {beachStage} from './Beach';
 import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
 import {lakeStage} from './Lake';
@@ -8,4 +9,5 @@ export const STAGES: Record<string, StageDef> = {
   wald: forestStage,
   waldlichtung: clearingStage,
   seeufer: lakeStage,
+  meeresstrand: beachStage,
 };
