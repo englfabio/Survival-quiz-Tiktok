@@ -1,9 +1,12 @@
 import * as THREE from 'three';
 import type {ActorKey} from '../data/types';
-import {deg, inheritedKeys, sampleActor, segmentAt, type ActorState} from '../lib/anim';
+import {breathPhaseAt, deg, inheritedKeys, sampleActor, segmentAt, type ActorState} from '../lib/anim';
 import type {StageDef} from '../stage/types';
 import {SpeedLines} from '../effects/SpeedLines';
 import {Splash} from '../effects/Splash';
+import {ColdBadge} from '../effects/Cold';
+import {Spray} from '../effects/Spray';
+import {bridgeLocalMatrix, Drawbridge} from './CastleProps';
 import {Bear, bearPose} from './Bear';
 import {Car, carLocalMatrix, carPose} from './Car';
 import {Basin} from './Basin';
@@ -34,7 +37,15 @@ export const ACTORS = {
   schubkarre: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
   warnstab: {height: 0.8, climbOffset: 0, speedLineHeight: 0},
   smartphone: {height: 0.12, climbOffset: 0, speedLineHeight: 0},
+  // ---- Burg ----
+  zugbruecke: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
 } as const;
+
+/** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
+const WATER_MOTIONS = ['swim', 'struggle', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave'];
+
+/** Kälte-Symbol: Höhe über dem Ursprung der Figur (aufrecht im Wasser vs. liegend) */
+const coldHeight = (motion: string) => (['backfloat', 'backswim', 'crawl', 'swim'].includes(motion) ? 0.8 : 2.3);
 
 /** Körperfarbe des Nachbarn (gleiche Figur wie der Dummy, aber blau) */
 const NEIGHBOR_COLOR = '#3f8fd6';
@@ -64,7 +75,7 @@ const placeOnStage = (name: string, s: ActorState, stage: StageDef) => {
     s.z = tree.z + (dz / d) * off;
     // Blick zum Stamm: Richtung (sin f, -cos f) = -(dx,dz)/d
     s.face = (Math.atan2(-dx / d, dz / d) * 180) / Math.PI;
-  } else if (stage.waterLevel !== undefined && (s.motion === 'swim' || s.motion === 'struggle')) {
+  } else if (stage.waterLevel !== undefined && WATER_MOTIONS.includes(s.motion)) {
     // im Wasser: y bezieht sich auf die Wasseroberfläche
     s.y += stage.waterLevel;
   } else {
@@ -94,7 +105,11 @@ const attachedMatrix = (parent: THREE.Matrix4, x: number, y: number, z: number, 
 
 /** Zusätzliche Eigenbewegung (Auto schaukelt / kippt) – gilt auch für angehängte Figuren */
 const ownMotionMatrix = (name: string, s: ActorState) =>
-  name === 'car' ? carLocalMatrix(carPose(s.motion, s.motionTime, s.speed), s.values.tilt) : new THREE.Matrix4();
+  name === 'car'
+    ? carLocalMatrix(carPose(s.motion, s.motionTime, s.speed), s.values.tilt)
+    : name === 'zugbruecke'
+      ? bridgeLocalMatrix(s.values.tilt)
+      : new THREE.Matrix4();
 
 /** Berechnet alle Figuren einer Einstellung. Figuren mit "attach" werden nach ihrer "Trägerfigur" berechnet. */
 export const resolveActors = (
@@ -112,6 +127,7 @@ export const resolveActors = (
 
   for (const [name, keys] of ordered) {
     const s = sampleActor(keys, t, sectionSeconds);
+    s.breathPhase = breathPhaseAt(keys, t, sectionSeconds);
     let base: THREE.Matrix4;
     if (!hasAttach(keys)) {
       placeOnStage(name, s, stage);
@@ -154,11 +170,34 @@ export const resolveActors = (
   return entries.map(([name]) => done.get(name)!);
 };
 
-export const Actor = ({actor, barefoot = false}: {actor: ResolvedActor; barefoot?: boolean}) => {
-  const {name, state, matrix} = actor;
+/** Drehung, damit ein flaches Symbol an Position p zur Kamera schaut */
+const billboard = (p: THREE.Vector3, cam: [number, number, number]) => {
+  const m = new THREE.Matrix4().lookAt(new THREE.Vector3(...cam), p, new THREE.Vector3(0, 1, 0));
+  return new THREE.Quaternion().setFromRotationMatrix(m);
+};
+
+export const Actor = ({
+  actor,
+  barefoot = false,
+  camPos = [0, 2, 8],
+  waterLevel = 0,
+}: {
+  actor: ResolvedActor;
+  barefoot?: boolean;
+  camPos?: [number, number, number];
+  waterLevel?: number;
+}) => {
+  const {name, state, matrix, pos} = actor;
   const lines = state.motion === 'run' && state.speed > 1.5;
   const v = state.values;
+  const coldPos = pos.clone().add(new THREE.Vector3(0, coldHeight(state.motion), 0));
   return (
+    <>
+    {name === 'dummy' && v.cold > 0.01 && (
+      <group position={coldPos} quaternion={billboard(coldPos, camPos)}>
+        <ColdBadge amount={v.cold} time={state.motionTime} />
+      </group>
+    )}
     <group matrix={matrix} matrixAutoUpdate={false}>
       {name === 'dummy' && (
         <Dummy
@@ -167,8 +206,18 @@ export const Actor = ({actor, barefoot = false}: {actor: ResolvedActor; barefoot
           sting={state.sting}
           pain={v.pain}
           barefoot={barefoot}
+          jacket={v.jacket}
+          pants={v.pants}
+          breath={v.breath}
+          breathPhase={state.breathPhase}
         />
       )}
+      {name === 'dummy' && v.spray > 0.01 && (
+        <group position={[0, waterLevel - pos.y, state.motion === 'crawl' ? 1.1 : 0]}>
+          <Spray time={state.motionTime} amount={v.spray} spread={state.motion === 'crawl' ? [0.55, 1.0] : [0.6, 0.6]} />
+        </group>
+      )}
+      {name === 'zugbruecke' && <Drawbridge tilt={v.tilt} />}
       {name === 'nachbar' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={NEIGHBOR_COLOR} />
       )}
@@ -202,5 +251,6 @@ export const Actor = ({actor, barefoot = false}: {actor: ResolvedActor; barefoot
       {name === 'splash' && state.motion === 'splash' && <Splash time={state.motionTime} />}
       {lines && <SpeedLines time={state.motionTime} height={ACTORS[name as ActorName]?.speedLineHeight ?? 1} />}
     </group>
+    </>
   );
 };

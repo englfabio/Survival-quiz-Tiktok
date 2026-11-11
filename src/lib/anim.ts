@@ -25,7 +25,7 @@ export const rng = (seed: number) => {
 };
 
 const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway',
-  'push', 'retreat'];
+  'push', 'retreat', 'cross', 'crawl', 'backswim'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
@@ -34,12 +34,14 @@ const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumb
 const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbuckle', 'button', 'climbout', 'swim', 'pushdoor', 'wait', 'splash',
   'wade', 'stepflinch', 'hop', 'holdfoot', 'ice', 'tweeze', 'testtemp', 'footbath', 'struggle',
   'buried', 'finup', 'swimaway', 'steam', 'show',
-  'dig', 'hithard', 'stiff', 'uncover', 'lift', 'carry', 'lower', 'push', 'retreat', 'mark', 'warn', 'call', 'plant'];
+  'dig', 'hithard', 'stiff', 'uncover', 'lift', 'carry', 'lower', 'push', 'retreat', 'mark', 'warn', 'call', 'plant',
+  'cross', 'slip', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
   'wade', 'stepflinch', 'hop', 'holdfoot', 'ice', 'tweeze', 'testtemp', 'footbath', 'struggle',
   'dig', 'hithard', 'stiff', 'uncover', 'lift', 'carry', 'lower', 'push', 'retreat', 'mark', 'warn', 'call',
+  'cross', 'slip', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */
@@ -80,6 +82,8 @@ export type ActorState = {
   prev?: {motion: Motion; time: number};
   /** Weiche Zahlenwerte (Auto: tilt, window, door, water, pressure) */
   values: ActorValues;
+  /** Atemwolken: aufsummierte Atemzüge seit Abschnittsbeginn (damit sich das Tempo weich ändert) */
+  breathPhase: number;
 };
 
 /** Pro Zeitpunkt die "geerbten" Werte (face, bite, tilt …) – gelten weiter, bis sie sich ändern */
@@ -134,6 +138,7 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
       bite: inh[0].bite,
       sting: inh[0].sting,
       values: inh[0].values,
+      breathPhase: 0,
     };
   }
   const {i, raw, p, last} = segmentAt(keys, t);
@@ -151,6 +156,7 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
       sting: inh[i].sting,
       values: inh[i].values,
       prev: prevOf(keys, i, sectionSeconds),
+      breathPhase: 0,
     };
   }
   const b = keys[i + 1];
@@ -174,7 +180,20 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
     sting: inh[i].sting,
     values,
     prev: prevOf(keys, i, sectionSeconds),
+    breathPhase: 0,
   };
+};
+
+/** Atemzüge seit Abschnittsbeginn (Summe über das Atemtempo "breath") – nur wenn ein Zeitpunkt "breath" hat */
+export const breathPhaseAt = (keys: ActorKey[], t: number, sectionSeconds: number) => {
+  if (!keys.some((k) => k.breath !== undefined)) return 0;
+  const N = 90;
+  let sum = 0;
+  for (let i = 0; i < N; i++) {
+    const tt = ((i + 0.5) / N) * t;
+    sum += sampleActor(keys, tt, sectionSeconds).values.breath * (t / N) * sectionSeconds;
+  }
+  return sum;
 };
 
 // ---------- Kamera ----------

@@ -41,10 +41,19 @@ const House = ({size, color}: {size: number; color: string}) => (
   </svg>
 );
 
+const Water = ({size, color}: {size: number; color: string}) => (
+  <svg width={size} height={size} viewBox="0 0 100 100">
+    <path d="M50 6 C62 26 74 38 74 54 A24 24 0 0 1 26 54 C26 38 38 26 50 6 Z" fill={color} />
+    <path d="M6 80 Q17 71 28 80 T50 80 T72 80 T94 80" fill="none" stroke={color} strokeWidth="7" strokeLinecap="round" />
+    <path d="M6 93 Q17 84 28 93 T50 93 T72 93 T94 93" fill="none" stroke={color} strokeWidth="7" strokeLinecap="round" />
+  </svg>
+);
+
 const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wildtiere: {label: 'Wildtiere', Icon: Paw},
   verkehr: {label: 'Verkehr', Icon: Car},
   alltag: {label: 'Alltag', Icon: House},
+  wasser: {label: 'Wasser', Icon: Water},
 };
 
 export const categoryInfo = (id: string) => CATEGORIES[id] ?? {label: id, Icon: Warning};

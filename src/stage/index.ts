@@ -1,4 +1,5 @@
 import {beachStage} from './Beach';
+import {castleStage} from './Castle';
 import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
 import {gardenStage} from './Garden';
@@ -12,4 +13,5 @@ export const STAGES: Record<string, StageDef> = {
   seeufer: lakeStage,
   meeresstrand: beachStage,
   garten: gardenStage,
+  burg: castleStage,
 };

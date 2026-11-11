@@ -17,6 +17,7 @@ import {
   OutroPanel,
   SourceLine,
   StepList,
+  Stopwatch,
   Subtitle,
   type CardState,
 } from './ui/components';
@@ -191,6 +192,11 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
             />
           ) : null}
         </>
+      )}
+
+      {/* Stoppuhr (optional, aus der Szenario-Datei: "timer") */}
+      {shot.timer && (
+        <Stopwatch t={t} timer={shot.timer} sectionFrames={sec.duration} fps={fps} top={sec.kind === 'explain' ? 525 : 300} left={T.rightTop - 215} />
       )}
 
       {sec.kind === 'outro' && <OutroPanel text={s.outro.screen} frame={local} />}

@@ -568,3 +568,89 @@ export const StepList = ({
     })}
   </div>
 );
+
+// ---------- Stoppuhr (z. B. "60 bis 90 Sekunden treiben") ----------
+/**
+ * Läuft zwischen tStart und tEnd (Anteil am Abschnitt) im Zeitraffer von 0:00 bis "seconds".
+ * Am Ende wird der Ring grün; ca. 1,5 s später blendet sie sich aus.
+ */
+export const Stopwatch = ({
+  t,
+  timer,
+  sectionFrames,
+  fps,
+  top,
+  left,
+  size = 210,
+}: {
+  t: number;
+  timer: [number, number, number];
+  sectionFrames: number;
+  fps: number;
+  top: number;
+  left: number;
+  size?: number;
+}) => {
+  const [a, b, total] = timer;
+  const sinceStart = (t - a) * sectionFrames;
+  const sinceEnd = (t - b) * sectionFrames;
+  if (sinceStart < 0) return null;
+  const appear = spring({frame: sinceStart, fps, config: {damping: 13, stiffness: 150}});
+  const fadeOut = interpolate(sinceEnd, [1.5 * fps, 1.5 * fps + 10], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  if (fadeOut <= 0) return null;
+  const k = clamp((t - a) / (b - a));
+  const secs = Math.floor(k * total + 1e-6);
+  const done = k >= 1;
+  const label = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+  const r = 44;
+  const circ = 2 * Math.PI * r;
+  const col = done ? T.green : T.yellow;
+  const pop = done ? 1 + 0.08 * Math.max(0, 1 - sinceEnd / 8) : 1;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left,
+        top,
+        width: size,
+        height: size * 1.12,
+        opacity: clamp(appear * 1.4) * fadeOut,
+        transform: `scale(${(0.7 + 0.3 * appear) * pop})`,
+        transformOrigin: 'center top',
+      }}
+    >
+      <svg width={size} height={size * 1.12} viewBox="0 0 100 112">
+        {/* Krone + Knopf */}
+        <rect x="42" y="0" width="16" height="9" rx="2" fill={T.white} />
+        <rect x="47" y="7" width="6" height="8" fill={T.white} />
+        <rect x="74" y="12" width="10" height="6" rx="2" fill={T.white} transform="rotate(40 79 15)" />
+        <circle cx="50" cy="62" r="49" fill={T.anthracite} stroke={T.white} strokeWidth="3.5" />
+        <circle cx="50" cy="62" r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="7" />
+        <circle
+          cx="50"
+          cy="62"
+          r={r}
+          fill="none"
+          stroke={col}
+          strokeWidth="7"
+          strokeLinecap="round"
+          strokeDasharray={`${circ * k} ${circ}`}
+          transform="rotate(-90 50 62)"
+        />
+        <line
+          x1="50"
+          y1="62"
+          x2={50 + Math.sin(k * total * ((2 * Math.PI) / 60)) * 30}
+          y2={62 - Math.cos(k * total * ((2 * Math.PI) / 60)) * 30}
+          stroke={col}
+          strokeWidth="3"
+          strokeLinecap="round"
+          opacity={0.55}
+        />
+        <text x="50" y="74" textAnchor="middle" fontFamily='"Barlow Condensed", sans-serif' fontWeight="800" fontSize="34" fill={T.white}>
+          {label}
+        </text>
+      </svg>
+    </div>
+  );
+};

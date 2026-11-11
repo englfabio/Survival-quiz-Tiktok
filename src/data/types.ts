@@ -66,6 +66,16 @@ export type Motion =
   | 'mark' // Dummy: Warnstab vor sich in die Erde drücken (0,3–0,9 s), passt zu Warnstab "plant"
   | 'warn' // Dummy: mit rechts groß winken, links zeigt nach vorn (andere warnen)
   | 'call' // Dummy: stehend telefonieren (Smartphone am Ohr)
+  // ---- Dummy am Burggraben (Kälteschock) ----
+  | 'cross' // Dummy: vorsichtig über eine Brücke gehen (Arme leicht zur Seite)
+  | 'slip' // Dummy: abrutschen und fallen (Arme rudern) – Weg/Fallhöhe über Zeitpunkte
+  | 'gasp' // Dummy: aufrecht im tiefen Wasser, schnappt nach Luft (Brustkorb hebt sich schnell)
+  | 'crawl' // Dummy: hektisch kraulen (Bauchlage, schnelle Armschläge, Kopf wirft hin und her)
+  | 'tug' // Dummy: im Wasser an der Jacke zerren (versucht sie auszuziehen)
+  | 'backfloat' // Dummy: auf dem Rücken treiben, Arme + Beine ausgestreckt, Kinn hoch (legt sich in ca. 1,2 s zurück)
+  | 'backswim' // Dummy: ruhig in Rückenlage schwimmen (langsame Armzüge, Kopf voraus)
+  | 'edgehold' // Dummy: aufrecht im Wasser, hält sich mit beiden Händen am Rand fest (stellt sich in ca. 1 s auf)
+  | 'edgewave' // Dummy: hält sich links am Rand fest und winkt rechts um Hilfe
   // ---- Objekte ----
   | 'plant' // Warnstab ("warnstab"): wird in die Erde gedrückt (gleichzeitig mit Dummy "mark")
   | 'buriedbomb' // Fliegerbombe: Erdkrümel liegen drauf (halb in der Erde)
@@ -105,10 +115,20 @@ export type ActorKey = {
   pressure?: number;
   /** Dummy: Schmerz-Symbol am rechten Fuß. 0 = aus, 1 = normal, bis 2 = breitet sich übers Bein aus */
   pain?: number;
+  /** Dummy: Winterjacke 1 = an, 0 = aus (dazwischen: Ärmel rutschen nach und nach herunter) */
+  jacket?: number;
+  /** Dummy: lange Hose 1 = an, 0 = aus */
+  pants?: number;
+  /** Dummy: Atemwolken, Atemzüge pro Sekunde (0 = keine). Ändert sich weich (z. B. 1.6 → 0.35 = Atmung beruhigt sich) */
+  breath?: number;
+  /** Dummy: Kälte-Symbol (Schneeflocke über dem Kopf). 0 = aus, 1 = normal, bis 2 = stark */
+  cold?: number;
+  /** Dummy: Wasser spritzt um ihn herum (z. B. hektisches Kraulen). 0 = aus … 1 = stark */
+  spray?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
@@ -133,6 +153,11 @@ export type Shot = {
    * Bei falschen Optionen kommt das rote Aufleuchten (+ Falsch-Ton) genau in diesem Moment statt am Anfang.
    */
   freeze?: number;
+  /**
+   * Stoppuhr einblenden: [t Beginn, t Ende, Sekunden]. Läuft zwischen Beginn und Ende von 0:00 bis zur
+   * angegebenen Zeit (Zeitraffer), wird dann grün und blendet sich kurz danach aus.
+   */
+  timer?: [number, number, number];
 };
 
 /** Wort-Zeitstempel einer Sprachaufnahme (von ElevenLabs) */
