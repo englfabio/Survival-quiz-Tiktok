@@ -462,5 +462,5 @@ export const lakeStage: StageDef = {
   Component: LakeScene,
   climbTrees: [],
   groundHeight,
-  // Hintergrundgeräusch "see-atmo" wird im Schritt "Stimme + Ton" erzeugt und dann hier eingetragen
+  ambience: 'see-atmo',
 };
