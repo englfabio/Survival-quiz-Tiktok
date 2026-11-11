@@ -169,6 +169,34 @@
       "duration": 4,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "graben",
+      "prompt": "Shovel digging into garden soil, spade cutting into dirt and tossing earth, two strokes, close, outdoors, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "spaten-klonk",
+      "prompt": "Metal spade hitting a hard buried rusty metal object in soil, single dull metallic clank, close, no music",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "erde-schieben",
+      "prompt": "Hands brushing and pushing loose dry soil aside, soft scraping of dirt, close, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schubkarre",
+      "prompt": "Metal wheelbarrow with heavy load being pushed over a garden, squeaky wheel rolling on soil, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

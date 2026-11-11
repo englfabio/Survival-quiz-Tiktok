@@ -119,7 +119,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Pilot: 933 Zeichen ≈ 373 Credits. Kontrolle per Spracherkennung (scribe_v2): alles korrekt.
 - Kreuzotter: 839 neue Zeichen = 336 Credits (countdown/reveal/outro wortgleich → aus Cache). Kontrolle: korrekt.
 - Auto im See: 958 neue Zeichen = 383 Credits (countdown/reveal/outro aus Cache). Kontrolle (scribe_v2): korrekt.
-- Fliegerbombe (Phase 1): Standbilder in review/fliegerbombe-garten/phase1/. Kategorie `alltag` (Haus-Symbol).
+- Fliegerbombe: 943 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 75,1 s, Video 84,0 s. Wort-Zeitstempel = Text
+  (geprüft). Standbilder in review/fliegerbombe-garten/phase1/, Tonspur in review/fliegerbombe-garten/stimme/.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -134,7 +135,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Weitere Effekte: `schlange-zischen`, `schlange-biss`, `handy-waehlen` (Kreuzotter-Video);
   `see-atmo` (Bühne Seeufer, Schleife), `auto-platschen`, `blubbern`, `unterwasser-atmo`, `fensterheber`,
   `gurt-klick`, `tuer-druecken`, `schwimmen` (Auto-im-See-Video);
-  `meer-atmo` (Bühne Meeresstrand, Schleife), `waten`, `stich`, `dampf` (Petermännchen-Video).
+  `meer-atmo` (Bühne Meeresstrand, Schleife), `waten`, `stich`, `dampf` (Petermännchen-Video);
+  `graben`, `spaten-klonk`, `erde-schieben`, `schubkarre` (Fliegerbombe-Video; Garten nutzt `wald-atmo`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem

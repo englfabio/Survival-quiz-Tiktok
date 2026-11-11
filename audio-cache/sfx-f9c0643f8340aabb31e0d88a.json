@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Metal spade hitting a hard buried rusty metal object in soil, single dull metallic clank, close, no music",
+  "duration": 1,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-11T12:23:17.119Z"
+}
