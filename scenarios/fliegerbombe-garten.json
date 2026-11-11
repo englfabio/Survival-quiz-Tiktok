@@ -1,0 +1,909 @@
+{
+  "id": "fliegerbombe-garten",
+  "category": "alltag",
+  "stage": "garten",
+  "situation": {
+    "speech": "Du hast mal wieder eine Fliegerbombe beim Umgraben im Garten gefunden. Rostig, halb in der Erde. Was machst du jetzt?"
+  },
+  "options": [
+    {
+      "card": "Freilegen und genauer ansehen",
+      "speech": "Eins: Die Bombe vorsichtig freilegen und genauer ansehen.",
+      "dummyAction": "Dummy kniet sich an die Grabstelle und schiebt mit den Händen Erde von der Bombe. Bild friert ein, rotes Aufleuchten. Keine Explosion.",
+      "explanation": "Genau das ist lebensgefährlich. Die Bombe ist zwar alt, aber solche Kampfmittel können über Jahrzehnte sprengfähig bleiben. Schon eine kleine Lageveränderung, ein Stoß oder Druck kann eine Explosion auslösen.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              3.4,
+              2.7,
+              -3.8
+            ],
+            "look": [
+              0.3,
+              0.2,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.36,
+            "pos": [
+              3.1,
+              2.55,
+              -3.5
+            ],
+            "look": [
+              0.3,
+              0.15,
+              -0.1
+            ]
+          },
+          {
+            "t": 1,
+            "pos": [
+              2.85,
+              2.4,
+              -3.2
+            ],
+            "look": [
+              0.3,
+              0.15,
+              -0.1
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": 0.3,
+              "face": 0,
+              "motion": "uncover"
+            }
+          ],
+          "spaten": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": 0.8,
+              "face": 200,
+              "motion": "park"
+            }
+          ],
+          "fliegerbombe": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": -0.5,
+              "y": -0.1,
+              "face": 90,
+              "tilt": 14,
+              "motion": "buriedbomb"
+            }
+          ]
+        },
+        "freeze": 0.36
+      }
+    },
+    {
+      "card": "In die Schubkarre, zur Polizei",
+      "speech": "Zwei: Sie in die Schubkarre legen und zur Polizei bringen.",
+      "dummyAction": "Dummy hebt die Bombe hoch, legt sie in die Schubkarre und schiebt los. Bild friert ein, rotes Aufleuchten. Keine Explosion.",
+      "explanation": "Gut gemeint, aber ein riesiger Fehler. Fundmunition darf man weder berühren noch bewegen, erst recht nicht transportieren. Und falls du so etwas schon aus Versehen hochgehoben hast: Leg es vorsichtig ab. Niemals werfen.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              1.6,
+              1.9,
+              -3.6
+            ],
+            "look": [
+              0.4,
+              0.6,
+              0.0
+            ]
+          },
+          {
+            "t": 0.2,
+            "pos": [
+              2.2,
+              2.0,
+              -3.8
+            ],
+            "look": [
+              0.6,
+              0.6,
+              0.0
+            ]
+          },
+          {
+            "t": 0.32,
+            "pos": [
+              6.6,
+              2.0,
+              -1.9
+            ],
+            "look": [
+              1.6,
+              0.6,
+              0.0
+            ]
+          },
+          {
+            "t": 0.5,
+            "pos": [
+              6.9,
+              1.9,
+              -1.7
+            ],
+            "look": [
+              2.2,
+              0.55,
+              0.0
+            ]
+          },
+          {
+            "t": 1,
+            "pos": [
+              6.5,
+              1.8,
+              -1.5
+            ],
+            "look": [
+              2.4,
+              0.55,
+              0.0
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": 0.0,
+              "face": 0,
+              "motion": "lift"
+            },
+            {
+              "t": 0.15,
+              "x": 0.3,
+              "z": 0.0,
+              "face": 0,
+              "motion": "carry"
+            },
+            {
+              "t": 0.205,
+              "x": 0.3,
+              "z": 0.0,
+              "face": 90,
+              "motion": "carry"
+            },
+            {
+              "t": 0.21,
+              "x": 0.3,
+              "z": 0.0,
+              "face": 90,
+              "motion": "lower"
+            },
+            {
+              "t": 0.32,
+              "x": 0.3,
+              "z": 0.0,
+              "face": 90,
+              "motion": "push"
+            },
+            {
+              "t": 0.35,
+              "x": 0.3,
+              "z": 0.0,
+              "face": 90,
+              "motion": "push"
+            },
+            {
+              "t": 0.6,
+              "x": 2.9,
+              "z": 0.0,
+              "face": 90,
+              "motion": "push"
+            }
+          ],
+          "schubkarre": [
+            {
+              "t": 0,
+              "x": 1.45,
+              "z": 0.0,
+              "face": 90,
+              "motion": "park"
+            },
+            {
+              "t": 0.35,
+              "x": 1.45,
+              "z": 0.0,
+              "face": 90,
+              "motion": "push"
+            },
+            {
+              "t": 0.6,
+              "x": 4.05,
+              "z": 0.0,
+              "face": 90,
+              "motion": "push"
+            }
+          ],
+          "spaten": [
+            {
+              "t": 0,
+              "x": -0.5,
+              "z": 0.6,
+              "face": 250,
+              "motion": "park"
+            }
+          ],
+          "fliegerbombe": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": -0.5,
+              "y": -0.1,
+              "face": 90,
+              "tilt": 14,
+              "motion": "buriedbomb"
+            },
+            {
+              "t": 0.07,
+              "x": 0.3,
+              "z": -0.5,
+              "y": -0.1,
+              "face": 90,
+              "tilt": 14,
+              "motion": "buriedbomb"
+            },
+            {
+              "t": 0.075,
+              "x": 0,
+              "y": -0.05,
+              "z": 0.5,
+              "face": -90,
+              "tilt": 14,
+              "attach": "dummy",
+              "motion": "park"
+            },
+            {
+              "t": 0.138,
+              "x": 0,
+              "y": 0.95,
+              "z": 0.4,
+              "face": -90,
+              "tilt": 0,
+              "attach": "dummy",
+              "motion": "park"
+            },
+            {
+              "t": 0.21,
+              "x": 0,
+              "y": 0.95,
+              "z": 0.4,
+              "face": -90,
+              "tilt": 0,
+              "attach": "dummy",
+              "motion": "park"
+            },
+            {
+              "t": 0.27,
+              "x": 0,
+              "y": 0.48,
+              "z": -0.15,
+              "face": 90,
+              "tilt": 0,
+              "attach": "schubkarre",
+              "motion": "park"
+            }
+          ]
+        },
+        "freeze": 0.5
+      }
+    },
+    {
+      "card": "Liegen lassen, Abstand, 110",
+      "speech": "Drei: Alles liegen lassen, Abstand halten und die 110 anrufen.",
+      "dummyAction": "Dummy lässt den Spaten liegen, geht langsam rückwärts weg, markiert die Stelle mit einem Warnstab, warnt den Nachbarn über den Zaun und telefoniert aus sicherer Entfernung. Grünes Aufleuchten.",
+      "explanation": "Lass alles liegen und geh auf Abstand. Markier die Stelle und warn andere. Dann ruf die 110 an und sag: Wer du bist, wo du die Bombe gefunden hast und was du siehst. Ab da übernehmen die Experten vom Kampfmittelräumdienst.",
+      "steps": [
+        {
+          "text": "Nicht anfassen",
+          "cue": "Lass alles liegen"
+        },
+        {
+          "text": "Abstand halten",
+          "cue": "geh auf Abstand"
+        },
+        {
+          "text": "Stelle markieren, andere warnen",
+          "cue": "Markier die Stelle und warn andere"
+        },
+        {
+          "text": "110 anrufen",
+          "cue": "ruf die 110 an"
+        },
+        {
+          "text": "Wer? Wo? Was?",
+          "cue": "Wer du bist"
+        }
+      ],
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              4.2,
+              1.9,
+              5.4
+            ],
+            "look": [
+              -0.2,
+              0.6,
+              0.6
+            ]
+          },
+          {
+            "t": 0.2,
+            "pos": [
+              4.4,
+              2.0,
+              6.4
+            ],
+            "look": [
+              -0.2,
+              0.7,
+              1.6
+            ]
+          },
+          {
+            "t": 0.3,
+            "pos": [
+              -0.6,
+              2.3,
+              8.8
+            ],
+            "look": [
+              0.9,
+              1.0,
+              -2.0
+            ]
+          },
+          {
+            "t": 0.47,
+            "pos": [
+              -2.0,
+              3.6,
+              12.5
+            ],
+            "look": [
+              1.0,
+              0.5,
+              2.0
+            ]
+          },
+          {
+            "t": 1,
+            "pos": [
+              -1.8,
+              3.5,
+              12.2
+            ],
+            "look": [
+              1.0,
+              0.5,
+              2.0
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": 0.3,
+              "face": 0,
+              "motion": "retreat"
+            },
+            {
+              "t": 0.16,
+              "x": 0.3,
+              "z": 2.9,
+              "face": 0,
+              "motion": "retreat"
+            },
+            {
+              "t": 0.165,
+              "x": 0.3,
+              "z": 2.9,
+              "face": 0,
+              "motion": "mark"
+            },
+            {
+              "t": 0.27,
+              "x": 0.3,
+              "z": 2.9,
+              "face": 8,
+              "motion": "warn"
+            },
+            {
+              "t": 0.36,
+              "x": 0.3,
+              "z": 2.9,
+              "face": 180,
+              "motion": "walk"
+            },
+            {
+              "t": 0.44,
+              "x": 0.9,
+              "z": 5.6,
+              "face": 180,
+              "motion": "walk"
+            },
+            {
+              "t": 0.45,
+              "x": 0.9,
+              "z": 5.6,
+              "face": 155,
+              "motion": "call"
+            }
+          ],
+          "warnstab": [
+            {
+              "t": 0,
+              "x": -0.3,
+              "y": 0.08,
+              "z": 0.22,
+              "face": 0,
+              "attach": "dummy",
+              "motion": "park"
+            },
+            {
+              "t": 0.15,
+              "x": -0.3,
+              "y": 0.08,
+              "z": 0.22,
+              "face": 0,
+              "attach": "dummy",
+              "motion": "park"
+            },
+            {
+              "t": 0.165,
+              "x": 0.3,
+              "z": 2.46,
+              "face": 0,
+              "motion": "plant"
+            }
+          ],
+          "nachbar": [
+            {
+              "t": 0,
+              "x": 1.6,
+              "z": -7.7,
+              "face": 180,
+              "motion": "stand"
+            },
+            {
+              "t": 0.29,
+              "x": 1.6,
+              "z": -7.7,
+              "face": 180,
+              "motion": "wave"
+            },
+            {
+              "t": 0.4,
+              "x": 1.6,
+              "z": -7.7,
+              "face": 180,
+              "motion": "calm"
+            }
+          ],
+          "spaten": [
+            {
+              "t": 0,
+              "x": 0.75,
+              "z": 0.55,
+              "face": 250,
+              "motion": "park"
+            }
+          ],
+          "fliegerbombe": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": -0.5,
+              "y": -0.1,
+              "face": 90,
+              "tilt": 14,
+              "motion": "buriedbomb"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "Richtig ist Nummer 3"
+  },
+  "outro": {
+    "speech": "Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: Polizei Brandenburg · Verwaltungsportal des Bundes",
+  "sources": [
+    {
+      "name": "Polizei Brandenburg, Faltblatt Fundmunition",
+      "url": "https://polizei.brandenburg.de/fm/32/Faltblatt_Vorsicht_Fundmunition.pdf"
+    },
+    {
+      "name": "Verwaltungsportal des Bundes",
+      "url": "https://verwaltung.bund.de/leistungsverzeichnis/de/leistung/99089012137000/herausgeber/BB-108326122/region/120000000000"
+    },
+    {
+      "name": "Service-BW",
+      "url": "https://www.heidelberg.de/-/Verfahrensbeschreibung/bombenfund-oder-andere-kampfmittel-melden/vbid1798"
+    }
+  ],
+  "publishing": {
+    "description": "Du hast mal wieder eine Fliegerbombe im Garten gefunden – was machst du jetzt? 💣 Schreib 1, 2 oder 3 in die Kommentare!\n\nQuellen:\nPolizei Brandenburg, Faltblatt Fundmunition: https://polizei.brandenburg.de/fm/32/Faltblatt_Vorsicht_Fundmunition.pdf\nVerwaltungsportal des Bundes: https://verwaltung.bund.de/leistungsverzeichnis/de/leistung/99089012137000/herausgeber/BB-108326122/region/120000000000\nService-BW: https://www.heidelberg.de/-/Verfahrensbeschreibung/bombenfund-oder-andere-kampfmittel-melden/vbid1798\n\nIm Notfall: 110.\n\n#waswürdestdutun #fliegerbombe #blindgänger #garten #notfall #survival #quiz #wusstestdu",
+    "pinnedComment": "Ehrlich: Wer hätte die Bombe zur Polizei gebracht? 👇 Und was soll der Dummy als Nächstes finden?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            3.8,
+            2.7,
+            -5.0
+          ],
+          "look": [
+            0.3,
+            0.5,
+            0.0
+          ]
+        },
+        {
+          "t": 0.4,
+          "pos": [
+            3.2,
+            2.4,
+            -4.4
+          ],
+          "look": [
+            0.3,
+            0.4,
+            -0.05
+          ]
+        },
+        {
+          "t": 0.5,
+          "pos": [
+            2.8,
+            2.2,
+            -3.9
+          ],
+          "look": [
+            0.3,
+            0.3,
+            -0.1
+          ]
+        },
+        {
+          "t": 0.66,
+          "pos": [
+            1.9,
+            1.6,
+            -2.7
+          ],
+          "look": [
+            0.3,
+            -0.05,
+            -0.45
+          ]
+        },
+        {
+          "t": 0.8,
+          "pos": [
+            1.85,
+            1.55,
+            -2.6
+          ],
+          "look": [
+            0.3,
+            -0.05,
+            -0.45
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            3.3,
+            2.4,
+            -4.4
+          ],
+          "look": [
+            0.3,
+            0.4,
+            0.0
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": 0.08,
+            "face": 0,
+            "motion": "dig"
+          },
+          {
+            "t": 0.4,
+            "x": 0.3,
+            "z": 0.08,
+            "face": 0,
+            "motion": "dig"
+          },
+          {
+            "t": 0.405,
+            "x": 0.3,
+            "z": 0.08,
+            "face": 0,
+            "motion": "hithard"
+          }
+        ],
+        "fliegerbombe": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": -0.5,
+            "y": -0.1,
+            "face": 90,
+            "tilt": 14,
+            "motion": "buriedbomb"
+          }
+        ]
+      }
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            2.6,
+            7.6,
+            -13.0
+          ],
+          "look": [
+            0.3,
+            -1.15,
+            0.0
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            2.1,
+            7.5,
+            -12.6
+          ],
+          "look": [
+            0.3,
+            -1.15,
+            0.0
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": 0.08,
+            "face": 0,
+            "motion": "stiff"
+          }
+        ],
+        "fliegerbombe": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": -0.5,
+            "y": -0.1,
+            "face": 90,
+            "tilt": 14,
+            "motion": "buriedbomb"
+          }
+        ]
+      }
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0.8,
+            7.8,
+            -12.9
+          ],
+          "look": [
+            0.3,
+            -1.15,
+            0.0
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            1.2,
+            7.6,
+            -12.4
+          ],
+          "look": [
+            0.3,
+            -1.15,
+            0.0
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": 0.08,
+            "face": 0,
+            "motion": "stiff"
+          }
+        ],
+        "fliegerbombe": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": -0.5,
+            "y": -0.1,
+            "face": 90,
+            "tilt": 14,
+            "motion": "buriedbomb"
+          }
+        ]
+      }
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            3.6,
+            7.4,
+            -12.6
+          ],
+          "look": [
+            0.3,
+            -1.15,
+            0.0
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            3.3,
+            7.3,
+            -12.2
+          ],
+          "look": [
+            0.3,
+            -1.15,
+            0.0
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": 0.08,
+            "face": 0,
+            "motion": "stiff"
+          }
+        ],
+        "fliegerbombe": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": -0.5,
+            "y": -0.1,
+            "face": 90,
+            "tilt": 14,
+            "motion": "buriedbomb"
+          }
+        ]
+      }
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            1.2,
+            1.6,
+            11.5
+          ],
+          "look": [
+            1.0,
+            1.75,
+            4.0
+          ]
+        },
+        {
+          "t": 1,
+          "pos": [
+            1.3,
+            1.65,
+            12.1
+          ],
+          "look": [
+            1.0,
+            1.75,
+            4.0
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.9,
+            "z": 5.6,
+            "face": 180,
+            "motion": "wave"
+          }
+        ],
+        "warnstab": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": 2.46,
+            "motion": "show"
+          }
+        ],
+        "spaten": [
+          {
+            "t": 0,
+            "x": 0.75,
+            "z": 0.55,
+            "face": 250,
+            "motion": "park"
+          }
+        ],
+        "fliegerbombe": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": -0.5,
+            "y": -0.1,
+            "face": 90,
+            "tilt": 14,
+            "motion": "buriedbomb"
+          }
+        ]
+      }
+    }
+  }
+}

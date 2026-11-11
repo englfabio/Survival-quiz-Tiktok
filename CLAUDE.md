@@ -75,7 +75,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Bühnen:** Wald mit Weg (`wald`), sonnige Waldlichtung am Waldrand (`waldlichtung`, Variante des Waldes),
   Seeufer mit Uferweg, Böschung, bewegtem See + automatischer Unterwasser-Ansicht (`seeufer`),
   Meeresstrand an Nord-/Ostsee mit flachem, klarem Wasser, Spülsaum-Schaum, Dünen mit Strandhafer, Dünenzaun,
-  Buhnen, Sonnenschirm (`meeresstrand`, Wellen wie beim Seeufer; Dummy dort automatisch barfuß)
+  Buhnen, Sonnenschirm (`meeresstrand`, Wellen wie beim Seeufer; Dummy dort automatisch barfuß),
+  Hausgarten mit Rasen, umgegrabenem Gemüsebeet (dunkle Erde, Grabstelle), Holzzaun, Gartenhaus, Nachbarhaus,
+  eigenem Wohnhaus, Apfelbaum (`garten`, freundliches Tageslicht, Atmo = Vogelgezwitscher vom Wald)
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
   beschwichtigen, winken, gebissen zusammenzucken, besorgt zur Wade schauen, zur Wade beugen (Aussaugen),
   Band ums Bein wickeln, hinsetzen, ruhig sitzen, sitzen + telefonieren,
@@ -83,12 +85,21 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   an der Oberfläche schwimmen, gegen die Tür drücken, ruhig sitzen und warten,
   barfuß waten, auf etwas treten + zusammenzucken, auf einem Bein hüpfen, sitzen + Fuß halten, Eis auf den Fuß halten,
   Stachelreste mit Pinzette entfernen, Temperatur mit dem anderen Fuß testen, Fuß ins heiße Wasser stellen,
-  im tiefen Wasser kaum noch über Wasser kommen
-- **Weitere Figuren:** Braunbär, Kreuzotter, Petermännchen (gleicher Low-Poly-Look wie der Dummy)
+  im tiefen Wasser kaum noch über Wasser kommen,
+  umgraben, auf etwas Hartes stoßen + erstarren, erstarrt stehen, hinknien + Erde wegschieben, Schweres anheben,
+  Schweres tragen, Schweres ablegen, Schubkarre schieben, ganz langsam rückwärts weggehen, Stelle mit Warnstab
+  markieren, andere warnen (winken + zeigen), stehend telefonieren
+- **Weitere Figuren:** Braunbär, Kreuzotter, Petermännchen (gleicher Low-Poly-Look wie der Dummy),
+  Nachbar (`nachbar`: gleiche Figur wie der Dummy, aber blau – kann alle Dummy-Bewegungen)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
 - **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
   (`thermometer`), Pinzette + Eisbeutel (hält der Dummy bei `tweeze` bzw. `ice` automatisch)
+- **Objekte (Garten, `src/actors/GardenProps.tsx`):** rostige Fliegerbombe mit Leitwerk (`fliegerbombe`),
+  Spaten (`spaten`; hält der Dummy bei dig/hithard/stiff automatisch), Schubkarre (`schubkarre`), rot-weißer
+  Warnstab mit Absperrband-Fähnchen (`warnstab`), Smartphone (`smartphone`; hält der Dummy bei `call` automatisch)
+- **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
+  Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Effekte:** Schmerz-Symbol am rechten Fuß (Wert `pain`), Stich-Punkt (`sting`), rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
   Abblenden der Szene (`fade`)
 
@@ -108,6 +119,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Pilot: 933 Zeichen ≈ 373 Credits. Kontrolle per Spracherkennung (scribe_v2): alles korrekt.
 - Kreuzotter: 839 neue Zeichen = 336 Credits (countdown/reveal/outro wortgleich → aus Cache). Kontrolle: korrekt.
 - Auto im See: 958 neue Zeichen = 383 Credits (countdown/reveal/outro aus Cache). Kontrolle (scribe_v2): korrekt.
+- Fliegerbombe (Phase 1): Standbilder in review/fliegerbombe-garten/phase1/. Kategorie `alltag` (Haus-Symbol).
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -183,6 +195,21 @@ Beschreibung und angepinnter Kommentar.
 - Neue Bewegungen laufen über mehrere Zeitpunkte durch (Zeit startet nicht neu, solange die gleiche Bewegung folgt).
 - Effekt `splash`: `[{t:0, motion:"park"}, {t:0.27, motion:"splash"}]` – spritzt ab t = 0.27 (ca. 1,6 s).
 - Abblenden: `"fade": [tStart, tEnde, Stärke]` in einem Shot (z. B. `[0.84, 0.97, 0.9]`), Texte bleiben sichtbar.
+- Garten-Bewegungen Dummy: `dig, hithard, stiff, uncover, lift, carry, lower, push, retreat, mark, warn, call`.
+  `hithard`: Spaten trifft bei ca. 0,4 s, Rückprall, ab ca. 1,6 s erstarrt (= `stiff`). `uncover`: hinknien (1 s),
+  dann Erde wegschieben. `lift`: Hocke bis 0,8 s, greift bis 1,2 s, hebt hoch bis 2,2 s (Bombe mit
+  `"attach": "dummy"` passend dazu: bei 1,2 s `x 0, y −0.05, z 0.5`, bei 2,2 s `x 0, y 0.95, z 0.4`, face −90).
+  `lower`: legt in ca. 0,9 s nach vorn ab (Bombe dann `"attach": "schubkarre"`, `x 0, y 0.48, z −0.15, face 90`).
+  `push`: Schubkarre steht 1,15 m vor dem Dummy in Blickrichtung; Karre bekommt ebenfalls `push` (rollt, Rad dreht).
+  `mark` + Warnstab `plant` am selben Zeitpunkt starten: Stab 0,44 m vor dem Dummy, wird 0,3–0,9 s in die Erde
+  gedrückt. Warnstab in der rechten Hand (z. B. bei `retreat`): `"attach": "dummy", x −0.3, y 0.08, z 0.22`.
+  Warnstab `show` = steckt in der Erde. Spaten `park` = liegt, `stand` = steckt in der Erde.
+  Fliegerbombe: `buriedbomb` = mit Erdkrümeln, `park` = sauber; `tilt` (Grad, + = Spitze nach unten). Länge 1,15 m.
+- Garten-Koordinaten (`src/stage/Garden.tsx`): Beet x −1.8 … 2.6, z −2.6 … 1.4 (links Gemüsereihen), Grabstelle
+  (0.3, −0.5); Bombe dort halb in der Erde: `x 0.3, z −0.5, y −0.1, face 90, tilt 14`. Zaun hinten z = −7
+  (Nachbar am Zaun: (1.6, −7.7), face 180), Nachbarhaus (3.5, −16), Gartenhaus (−6, −4.4), Apfelbaum (6.2, −3.5),
+  eigenes Haus ab z ≈ 16. Kamera für Optionen/Countdown: weit oben hinter dem Zaun, z. B. `[2.6, 7.6, −13]` mit
+  Blick `[0.3, −1.15, 0]` (Dummy + Bombe zwischen Überschrift und Karten).
 - Kamera: `{ "t", "pos": [x,y,z], "look": [x,y,z] | "dummy" | "bear" | "car" | "dummy+bear", "fov"? }`
 - Wald-Koordinaten: Weg entlang der z-Achse bei x = 0 (−20 … +24 gerade), Kletterbaum bei
   (3.3, −2.0). Bäume stehen ab ca. 2,2 m neben dem Weg → Kamera auf dem Weg halten (|x| < 1,5),
@@ -220,7 +247,7 @@ audio-cache/          Alle bezahlten ElevenLabs-Dateien (Hash-Namen) – nie lö
 src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
 src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
 src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer,
-                      Beach.tsx = Meeresstrand)
+                      Beach.tsx = Meeresstrand, Garden.tsx = Garten)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild) + Bewegungen; index.tsx = Anhängen ("attach")
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash)

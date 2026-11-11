@@ -1,6 +1,7 @@
 import {beachStage} from './Beach';
 import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
+import {gardenStage} from './Garden';
 import {lakeStage} from './Lake';
 import type {StageDef} from './types';
 
@@ -10,4 +11,5 @@ export const STAGES: Record<string, StageDef> = {
   waldlichtung: clearingStage,
   seeufer: lakeStage,
   meeresstrand: beachStage,
+  garten: gardenStage,
 };

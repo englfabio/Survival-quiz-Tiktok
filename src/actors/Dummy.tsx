@@ -4,6 +4,7 @@ import {useCurrentFrame} from 'remotion';
 import * as THREE from 'three';
 import type {Motion} from '../data/types';
 import {clamp, easeInOut} from '../lib/anim';
+import {Smartphone, Spade} from './GardenProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -40,6 +41,12 @@ export type DummyPose = {
   tweezers: boolean;
   /** Eisbeutel in der linken Hand */
   ice: boolean;
+  /** Spaten in der rechten Hand (Garten) */
+  spade: boolean;
+  /** Neigung des Spatens in der Welt (Bogenmaß): 0 = senkrecht, negativ = Blatt zeigt nach vorn */
+  spadeTilt: number;
+  /** Smartphone in der rechten Hand (Garten, "call") */
+  smartphone: boolean;
 };
 
 const base = (): DummyPose => ({
@@ -60,6 +67,9 @@ const base = (): DummyPose => ({
   belt: 0,
   tweezers: false,
   ice: false,
+  spade: false,
+  spadeTilt: -0.25,
+  smartphone: false,
 });
 
 /** Zwei Haltungen mischen (k = 0 → a, 1 → b) */
@@ -85,6 +95,9 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     belt: L(a.belt, b.belt),
     tweezers: k < 0.5 ? a.tweezers : b.tweezers,
     ice: k < 0.5 ? a.ice : b.ice,
+    spade: k < 0.5 ? a.spade : b.spade,
+    spadeTilt: L(a.spadeTilt, b.spadeTilt),
+    smartphone: k < 0.5 ? a.smartphone : b.smartphone,
   };
 };
 
@@ -182,8 +195,274 @@ const BESIDE_BASIN = (side: 1 | -1): Limb => ({sx: -2.15, sz: side * 0.62, bend:
 const TAU = Math.PI * 2;
 const lerpN = (a: number, b: number, k: number) => a + (b - a) * k;
 
+// ---------- Garten (Fliegerbombe) ----------
+const L3 = (sx: number, sz: number, bend: number): Limb => ({sx, sz, bend});
+
+/** Umgraben: Spaten anheben */
+const digRaise = (): DummyPose => {
+  const p = base();
+  p.armR = L3(-1.05, -0.05, -0.55);
+  p.armL = L3(-0.95, -0.12, -0.85);
+  p.torsoX = 0.1;
+  p.headX = 0.35;
+  p.spade = true;
+  p.spadeTilt = -0.3;
+  return p;
+};
+/** Umgraben: Spaten in die Erde stoßen */
+const digThrust = (): DummyPose => {
+  const p = base();
+  p.armR = L3(-0.5, -0.05, -0.15);
+  p.armL = L3(-0.55, -0.12, -0.5);
+  p.torsoX = 0.5;
+  p.hipY = 0.9;
+  p.legL = L3(-0.3, 0.05, 0.5);
+  p.legR = L3(0.05, -0.05, 0.3);
+  p.headX = 0.45;
+  p.spade = true;
+  p.spadeTilt = -0.3;
+  return p;
+};
+/** Umgraben: Erde aushebeln */
+const digLever = (): DummyPose => {
+  const p = base();
+  p.armR = L3(-0.85, -0.05, -0.95);
+  p.armL = L3(-0.75, -0.12, -1.0);
+  p.torsoX = 0.3;
+  p.hipY = 0.95;
+  p.legL = L3(-0.15, 0.05, 0.25);
+  p.headX = 0.4;
+  p.spade = true;
+  p.spadeTilt = -0.75;
+  return p;
+};
+/** Umgraben: Erde zur Seite werfen */
+const digToss = (): DummyPose => {
+  const p = digLever();
+  p.torsoY = -0.55;
+  p.armR = L3(-0.95, -0.3, -0.85);
+  p.headY = -0.3;
+  p.spadeTilt = -1.0;
+  return p;
+};
+/** Erstarrt: aufrecht, Spaten steckt vor ihm in der Erde, Blick nach unten */
+const stiffPose = (time: number): DummyPose => {
+  const p = base();
+  p.armR = L3(-0.7, -0.05, -0.35);
+  p.armL = L3(-0.65, -0.12, -0.6);
+  p.torsoX = -0.06 + Math.sin(time * 1.6) * 0.006;
+  p.headX = 0.55;
+  p.legL = L3(0, 0.07, 0);
+  p.legR = L3(0, -0.07, 0);
+  p.spade = true;
+  p.spadeTilt = -0.38;
+  return p;
+};
+/** Kniet auf beiden Knien, Oberkörper weit nach vorn */
+const kneelPose = (): DummyPose => {
+  const p = base();
+  p.hipY = 0.53;
+  p.legL = L3(-0.18, 0.1, 1.6);
+  p.legR = L3(-0.18, -0.1, 1.6);
+  p.torsoX = 0.85;
+  p.headX = 0.35;
+  p.armL = L3(-1.1, 0.15, -0.3);
+  p.armR = L3(-1.1, -0.15, -0.3);
+  return p;
+};
+/** Hocke, Hände unten am Gegenstand */
+const squatReach = (): DummyPose => {
+  const p = base();
+  p.hipY = 0.56;
+  p.legL = L3(-1.3, 0.2, 2.1);
+  p.legR = L3(-1.3, -0.2, 2.1);
+  p.torsoX = 0.8;
+  p.headX = 0.1;
+  p.armL = L3(-0.8, 0.12, -0.15);
+  p.armR = L3(-0.8, -0.12, -0.15);
+  return p;
+};
+/** Hält etwas Schweres vor dem Bauch (Arme angewinkelt, leicht nach hinten gelehnt) */
+const carryPose = (time: number): DummyPose => {
+  const p = base();
+  const strain = Math.sin(time * 21) * 0.015;
+  p.hipY = 0.95;
+  p.legL = L3(-0.12, 0.08, 0.22);
+  p.legR = L3(-0.05, -0.08, 0.18);
+  p.torsoX = -0.14 + strain;
+  p.headX = 0.15;
+  p.armL = L3(-0.5, 0.0, -1.05 + strain);
+  p.armR = L3(-0.5, 0.0, -1.05 - strain);
+  return p;
+};
+/** Nach vorn gebeugt, Arme ausgestreckt (Ablegen) */
+const lowerPose = (): DummyPose => {
+  const p = base();
+  p.hipY = 0.86;
+  p.legL = L3(-0.4, 0.08, 0.6);
+  p.legR = L3(-0.25, -0.08, 0.45);
+  p.torsoX = 0.62;
+  p.headX = 0.2;
+  p.armL = L3(-0.95, 0.0, -0.4);
+  p.armR = L3(-0.95, 0.0, -0.4);
+  return p;
+};
+/** Warnstab mit beiden Händen oben greifen */
+const markHigh = (): DummyPose => {
+  const p = base();
+  p.armL = L3(-1.0, -0.22, -0.95);
+  p.armR = L3(-1.0, 0.22, -0.95);
+  p.torsoX = 0.08;
+  p.headX = 0.3;
+  return p;
+};
+/** Warnstab in die Erde drücken */
+const markLow = (): DummyPose => {
+  const p = base();
+  p.armL = L3(-0.8, -0.2, -0.35);
+  p.armR = L3(-0.8, 0.2, -0.35);
+  p.torsoX = 0.5;
+  p.hipY = 0.88;
+  p.legL = L3(-0.3, 0.06, 0.45);
+  p.legR = L3(-0.05, -0.06, 0.3);
+  p.headX = 0.4;
+  return p;
+};
+
+const gardenPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'dig': {
+      const u = (time / 1.8) % 1;
+      if (u < 0.3) return mix(digRaise(), digThrust(), easeInOut(u / 0.3) ** 1.6);
+      if (u < 0.45) return digThrust();
+      if (u < 0.65) return mix(digThrust(), digLever(), easeInOut((u - 0.45) / 0.2));
+      if (u < 0.8) return mix(digLever(), digToss(), easeInOut((u - 0.65) / 0.15));
+      return mix(digToss(), digRaise(), easeInOut((u - 0.8) / 0.2));
+    }
+    case 'hithard': {
+      // Stoß nach unten (0–0,4 s), abrupt gestoppt + Vibration, dann erstarren (bis 1,6 s)
+      if (time < 0.4) return mix(digRaise(), digThrust(), easeInOut(time / 0.4) ** 1.6);
+      const tt = time - 0.4;
+      const hit = digThrust();
+      const kick = Math.exp(-tt * 7);
+      const shake = Math.sin(tt * 48) * 0.09 * Math.exp(-tt * 4.5);
+      hit.armR.bend += -0.25 * kick + shake;
+      hit.armL.bend += -0.25 * kick - shake;
+      hit.torsoX += -0.12 * kick + shake * 0.4;
+      hit.headX += shake * 0.5;
+      if (tt < 0.5) return hit;
+      return mix(hit, stiffPose(time), easeInOut((tt - 0.5) / 0.7));
+    }
+    case 'stiff':
+      return stiffPose(time);
+    case 'uncover': {
+      // hinknien (0–1 s), dann abwechselnd mit beiden Händen Erde zur Seite schieben
+      const kneel = kneelPose();
+      if (time < 1.0) {
+        const st = base();
+        if (time < 0.5) return mix(st, squatReach(), easeInOut(time / 0.5));
+        return mix(squatReach(), kneel, easeInOut((time - 0.5) / 0.5));
+      }
+      const ph = (time - 1.0) * TAU * 0.85;
+      const s = Math.sin(ph);
+      const c = Math.cos(ph);
+      kneel.armL = L3(-1.2 + 0.18 * c, 0.15 + 0.35 * Math.max(0, s), -0.25 - 0.2 * Math.max(0, -s));
+      kneel.armR = L3(-1.2 - 0.18 * c, -0.15 - 0.35 * Math.max(0, -s), -0.25 - 0.2 * Math.max(0, s));
+      kneel.torsoY = 0.12 * s;
+      kneel.torsoX = 0.85 + 0.05 * c;
+      kneel.headX = 0.35 + 0.05 * s;
+      return kneel;
+    }
+    case 'lift': {
+      const st = base();
+      if (time < 0.8) return mix(st, squatReach(), easeInOut(time / 0.8));
+      if (time < 1.2) return squatReach();
+      if (time < 2.2) {
+        const q = mix(squatReach(), carryPose(time), easeInOut((time - 1.2) / 1.0));
+        q.torsoX += Math.sin(time * 23) * 0.02;
+        return q;
+      }
+      return carryPose(time);
+    }
+    case 'carry':
+      return carryPose(time);
+    case 'lower': {
+      if (time < 0.9) return mix(carryPose(time), lowerPose(), easeInOut(time / 0.9));
+      if (time < 1.15) return lowerPose();
+      const rel = lowerPose();
+      rel.armL = L3(-0.75, 0.15, -0.25);
+      rel.armR = L3(-0.75, -0.15, -0.25);
+      return mix(lowerPose(), rel, easeInOut((time - 1.15) / 0.4));
+    }
+    case 'push': {
+      const p = base();
+      const ph = time * TAU * Math.max(0.7, speed * 0.62);
+      const s = speed > 0.05 ? Math.sin(ph) : 0;
+      p.legL = L3(-0.38 * s - 0.1, 0.05, 0.45 * Math.max(0, Math.sin(ph + 1.2)) * (speed > 0.05 ? 1 : 0));
+      p.legR = L3(0.38 * s - 0.1, -0.05, 0.45 * Math.max(0, Math.sin(ph + 1.2 + Math.PI)) * (speed > 0.05 ? 1 : 0));
+      p.hipY = 0.96 - 0.025 * Math.abs(Math.cos(ph));
+      p.torsoX = 0.3;
+      p.headX = -0.05;
+      p.armL = L3(-0.55, 0.06, -0.08);
+      p.armR = L3(-0.55, -0.06, -0.08);
+      return p;
+    }
+    case 'retreat': {
+      const p = base();
+      const ph = time * TAU * 0.42;
+      const s = Math.sin(ph);
+      p.legL = L3(0.22 * s, 0.05, 0.3 * Math.max(0, s));
+      p.legR = L3(-0.22 * s, -0.05, 0.3 * Math.max(0, -s));
+      p.hipY = 0.94 - 0.02 * Math.abs(s);
+      p.torsoX = 0.12;
+      p.headX = 0.35;
+      p.armL = L3(-0.45, 0.45, -0.5 + Math.sin(time * 1.3) * 0.05);
+      p.armR = L3(-0.3, -0.1, -0.55);
+      return p;
+    }
+    case 'mark': {
+      const from = gardenPose('retreat', 0, 0)!;
+      if (time < 0.3) return mix(from, markHigh(), easeInOut(time / 0.3));
+      if (time < 0.9) return mix(markHigh(), markLow(), easeInOut((time - 0.3) / 0.6));
+      if (time < 1.1) return markLow();
+      const end = base();
+      end.headX = 0.3;
+      end.torsoX = 0.05 + breathe;
+      return mix(markLow(), end, easeInOut((time - 1.1) / 0.5));
+    }
+    case 'warn': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      p.armR = L3(-0.25 * k, -0.1 - 2.55 * k + Math.sin(time * 7) * 0.32 * k, -0.15);
+      p.foreZ = Math.sin(time * 7 + 0.6) * 0.35 * k;
+      p.armL = L3(-1.25 * k, 0.1 + 0.35 * k, -0.05);
+      p.torsoX = -0.04;
+      p.torsoZ = 0.05 * k;
+      p.headX = -0.08;
+      return p;
+    }
+    case 'call': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      p.armR = L3(-2.0 * k, -0.1 + 0.4 * k, -0.15 - 2.15 * k);
+      p.armL = L3(-0.45 * k + Math.sin(time * 1.9) * 0.12 * k, 0.12, -0.15 - 1.0 * k);
+      p.headY = 0.12 * k;
+      p.headX = 0.1 * k + Math.sin(time * 1.7) * 0.03;
+      p.torsoZ = -0.03 * k;
+      p.torsoX = breathe;
+      p.hipY = 0.98 + Math.sin(time * 0.9) * 0.004;
+      p.smartphone = k > 0.15;
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Berechnet die Körperhaltung für eine Bewegung. time = Sekunden seit Bewegungsbeginn. */
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
+  const g = gardenPose(motion, time, speed);
+  if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
   switch (motion) {
@@ -638,10 +917,10 @@ export const dummyPoseBlended = (
 };
 
 // ---------- Bauteile ----------
-const useMats = () =>
+const useMats = (color = YELLOW) =>
   useMemo(
     () => ({
-      body: new THREE.MeshStandardMaterial({color: YELLOW, roughness: 0.45, metalness: 0.05, flatShading: true}),
+      body: new THREE.MeshStandardMaterial({color, roughness: 0.45, metalness: 0.05, flatShading: true}),
       joint: new THREE.MeshStandardMaterial({color: JOINT, roughness: 0.6, flatShading: true}),
       black: new THREE.MeshBasicMaterial({color: BLACK, side: THREE.DoubleSide}),
       yellow: new THREE.MeshBasicMaterial({color: '#ffd21a', side: THREE.DoubleSide}),
@@ -656,7 +935,7 @@ const useMats = () =>
       painCore: new THREE.MeshBasicMaterial({color: '#ffd23a', depthTest: false, transparent: true}),
       painGlow: new THREE.MeshBasicMaterial({color: '#ff2a1a', transparent: true, opacity: 0.4, depthWrite: false}),
     }),
-    [],
+    [color],
   );
 
 type Mats = ReturnType<typeof useMats>;
@@ -705,6 +984,8 @@ const Arm = ({
   phone = false,
   tweezers = false,
   ice = false,
+  spade = false,
+  smartphone = false,
 }: {
   m: Mats;
   limb: Limb;
@@ -713,6 +994,8 @@ const Arm = ({
   phone?: boolean;
   tweezers?: boolean;
   ice?: boolean;
+  spade?: boolean;
+  smartphone?: boolean;
 }) => (
   <group position={[0.27 * side, 0.44, 0]} rotation={[limb.sx, 0, limb.sz]}>
     <Joint m={m} r={0.09} />
@@ -732,6 +1015,11 @@ const Arm = ({
             <boxGeometry args={[0.002, 0.13, 0.065]} />
             <meshBasicMaterial color="#7fd0ff" />
           </mesh>
+        </group>
+      )}
+      {smartphone && (
+        <group position={[0.04 * side, -0.33, 0.035]} rotation={[0.2, (side * Math.PI) / 2, 0]}>
+          <Smartphone />
         </group>
       )}
       {tweezers && (
@@ -914,20 +1202,38 @@ const Leg = ({
   </group>
 );
 
+/** Spaten in der rechten Hand: Griff an der Hand (Vorwärtskinematik), Neigung unabhängig vom Unterarm */
+const HeldSpade = ({pose}: {pose: DummyPose}) => {
+  const L = pose.armR;
+  const hand = new THREE.Vector3(0, -0.32, 0)
+    .applyEuler(new THREE.Euler(L.bend, 0, pose.foreZ))
+    .add(new THREE.Vector3(0, -0.31, 0))
+    .applyEuler(new THREE.Euler(L.sx, 0, L.sz))
+    .add(new THREE.Vector3(-0.27, 0.44, 0));
+  return (
+    <group position={[hand.x + 0.02, hand.y + 0.02, hand.z]} rotation={[pose.spadeTilt - pose.torsoX, -pose.torsoY, -pose.torsoZ]}>
+      <Spade />
+    </group>
+  );
+};
+
 export const Dummy = ({
   pose,
   bite = false,
   sting = false,
   pain = 0,
   barefoot = false,
+  color,
 }: {
   pose: DummyPose;
   bite?: boolean;
   sting?: boolean;
   pain?: number;
   barefoot?: boolean;
+  /** andere Körperfarbe (z. B. Nachbar) – sonst Gelb */
+  color?: string;
 }) => {
-  const m = useMats();
+  const m = useMats(color);
   const time = useCurrentFrame() / 30;
   return (
     <group rotation={[pose.pitch, 0, 0]}>
@@ -956,7 +1262,8 @@ export const Dummy = ({
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
           <Arm m={m} limb={pose.armL} side={1} ice={pose.ice} />
-          <Arm m={m} limb={pose.armR} side={-1} foreZ={pose.foreZ} phone={pose.phone} tweezers={pose.tweezers} />
+          <Arm m={m} limb={pose.armR} side={-1} foreZ={pose.foreZ} phone={pose.phone} tweezers={pose.tweezers} smartphone={pose.smartphone} />
+          {pose.spade && <HeldSpade pose={pose} />}
           {/* Hals + Kopf (ohne Gesicht) */}
           <mesh material={m.joint} position={[0, 0.58, 0]} castShadow>
             <cylinderGeometry args={[0.045, 0.055, 0.1, 6]} />

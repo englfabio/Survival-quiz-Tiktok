@@ -35,9 +35,16 @@ const Car = ({size, color}: {size: number; color: string}) => (
   </svg>
 );
 
+const House = ({size, color}: {size: number; color: string}) => (
+  <svg width={size} height={size} viewBox="0 0 100 100">
+    <path d="M50 10 L92 48 H80 V88 H58 V64 H42 V88 H20 V48 H8 Z" fill={color} />
+  </svg>
+);
+
 const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wildtiere: {label: 'Wildtiere', Icon: Paw},
   verkehr: {label: 'Verkehr', Icon: Car},
+  alltag: {label: 'Alltag', Icon: House},
 };
 
 export const categoryInfo = (id: string) => CATEGORIES[id] ?? {label: id, Icon: Warning};

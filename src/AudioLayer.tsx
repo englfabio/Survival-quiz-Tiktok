@@ -65,7 +65,10 @@ export const AudioLayer = ({
     if (sec.kind === 'reveal') items.push(<Sfx key="rv" id="richtig" from={sec.from} volume={VOLUME.chime} />);
     if (sec.kind === 'explain') {
       const ok = sec.option === s.correctOption;
-      items.push(<Sfx key={`e-${i}`} id={ok ? 'richtig' : 'falsch'} from={sec.from} volume={ok ? VOLUME.chime : VOLUME.buzzer} />);
+      // Mit "freeze": Falsch-Ton genau beim Einfrieren
+      const fz = shotFor(sec).freeze;
+      const at = !ok && fz !== undefined ? sec.from + fz * sec.duration : sec.from;
+      items.push(<Sfx key={`e-${i}`} id={ok ? 'richtig' : 'falsch'} from={at} volume={ok ? VOLUME.chime : VOLUME.buzzer} />);
     }
     // Effekte aus der Szenario-Datei (z. B. Bär brummt, Schritte)
     (shotFor(sec).sfx ?? []).forEach((c: SfxCue, j) =>

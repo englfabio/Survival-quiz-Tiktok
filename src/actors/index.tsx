@@ -10,6 +10,7 @@ import {Basin} from './Basin';
 import {Dummy, dummyPoseBlended} from './Dummy';
 import {Snake, snakePose} from './Snake';
 import {Thermometer} from './Thermometer';
+import {AerialBomb, SmartphoneProp, SpadeProp, WarnStake, Wheelbarrow} from './GardenProps';
 import {Weever, weeverPose} from './Weever';
 
 /**
@@ -26,7 +27,17 @@ export const ACTORS = {
   petermaennchen: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
   schuessel: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
   thermometer: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Garten ----
+  nachbar: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  fliegerbombe: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  spaten: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  schubkarre: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  warnstab: {height: 0.8, climbOffset: 0, speedLineHeight: 0},
+  smartphone: {height: 0.12, climbOffset: 0, speedLineHeight: 0},
 } as const;
+
+/** Körperfarbe des Nachbarn (gleiche Figur wie der Dummy, aber blau) */
+const NEIGHBOR_COLOR = '#3f8fd6';
 
 /** Petermännchen größer als echt (ca. 0,48 m statt 0,3 m), damit es im Hochformat gut zu sehen ist */
 const WEEVER_SCALE = 1.6;
@@ -158,6 +169,14 @@ export const Actor = ({actor, barefoot = false}: {actor: ResolvedActor; barefoot
           barefoot={barefoot}
         />
       )}
+      {name === 'nachbar' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={NEIGHBOR_COLOR} />
+      )}
+      {name === 'fliegerbombe' && <AerialBomb tilt={v.tilt} dirt={state.motion === 'buriedbomb'} />}
+      {name === 'spaten' && <SpadeProp upright={state.motion === 'stand'} />}
+      {name === 'schubkarre' && <Wheelbarrow spin={state.motion === 'push' ? (state.motionTime * state.speed) / 0.2 : 0} />}
+      {name === 'warnstab' && <WarnStake time={state.motionTime} plant={state.motion === 'plant'} />}
+      {name === 'smartphone' && <SmartphoneProp time={state.motionTime} />}
       {name === 'petermaennchen' && (
         <group scale={WEEVER_SCALE}>
           <Weever pose={weeverPose(state.motion, state.motionTime)} />

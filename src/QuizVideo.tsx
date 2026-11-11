@@ -1,4 +1,4 @@
-import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Freeze, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
 import {AudioLayer} from './AudioLayer';
 import {Flash} from './effects/Flash';
 import {speechTimer} from './data/speech';
@@ -77,13 +77,36 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
   const timer = (text: string) =>
     speechTimer(text, voice0 && alignment?.[voice0.clip], voice0?.at ?? 0, sec.duration, fps);
 
+  // Einfrieren (falsche Option: Bild bleibt stehen, rotes Aufleuchten in diesem Moment)
+  const shot = shotFor(s, sec);
+  const freezeLocal = shot.freeze !== undefined ? Math.round(shot.freeze * sec.duration) : undefined;
+  const frozen = freezeLocal !== undefined && local >= freezeLocal;
+  const sinceFreeze = freezeLocal !== undefined ? local - freezeLocal : 0;
+  const flashFrame = freezeLocal !== undefined && !isCorrect ? sinceFreeze : local;
+
   // kurzer Abblende-Übergang an jedem Schnitt
   const cutFade = interpolate(local, [0, 5], [0.55, 0], {extrapolateRight: 'clamp'});
 
   return (
     <AbsoluteFill style={{backgroundColor: T.anthracite}}>
       {stage ? (
-        <Scene3D stage={stage} shot={shotFor(s, sec)} t={t} seconds={sec.duration / fps} />
+        <AbsoluteFill
+          style={{
+            filter: frozen
+              ? `saturate(${interpolate(sinceFreeze, [0, 6], [1, 0.6], {extrapolateRight: 'clamp'})}) contrast(1.05)`
+              : undefined,
+          }}
+        >
+          <Freeze frame={sec.from + (freezeLocal ?? 0)} active={frozen}>
+            <Scene3D
+              stage={stage}
+              shot={shot}
+              t={frozen ? shot.freeze! : t}
+              camT={t}
+              seconds={sec.duration / fps}
+            />
+          </Freeze>
+        </AbsoluteFill>
       ) : (
         <AbsoluteFill style={{color: 'white', fontSize: 50, padding: 100}}>Unbekannte Bühne: {s.stage}</AbsoluteFill>
       )}
@@ -148,7 +171,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
 
       {sec.kind === 'explain' && sec.option && (
         <>
-          <Flash color={isCorrect ? 'green' : 'red'} frame={local} />
+          {flashFrame >= 0 && <Flash color={isCorrect ? 'green' : 'red'} frame={flashFrame} />}
           <ExplainHeader number={sec.option} text={s.options[sec.option - 1].card} correct={isCorrect} frame={local} />
           <Subtitle
             text={s.options[sec.option - 1].explanation}

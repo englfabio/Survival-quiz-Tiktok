@@ -25,7 +25,20 @@ const CameraRig = ({pos, look, fov}: {pos: Vec3; look: Vec3; fov: number}) => {
  * Zeichnet eine Einstellung ("Shot"): Bühne + Figuren + Kamera.
  * t = Fortschritt im Abschnitt (0…1), seconds = Länge des Abschnitts.
  */
-export const Scene3D = ({stage, shot, t, seconds}: {stage: StageDef; shot: Shot; t: number; seconds: number}) => {
+export const Scene3D = ({
+  stage,
+  shot,
+  t,
+  seconds,
+  camT,
+}: {
+  stage: StageDef;
+  shot: Shot;
+  t: number;
+  seconds: number;
+  /** eigene Kamera-Zeit (z. B. beim Einfrieren fährt die Kamera weiter), sonst = t */
+  camT?: number;
+}) => {
   const {width, height} = useVideoConfig();
   const states = resolveActors(shot.actors, t, seconds, stage);
 
@@ -40,7 +53,7 @@ export const Scene3D = ({stage, shot, t, seconds}: {stage: StageDef; shot: Shot;
     const h = ACTORS[name as ActorName]?.height ?? 1;
     return [a.pos.x, a.pos.y + h, a.pos.z];
   };
-  const cam = sampleCamera(shot.camera, t, resolveLook);
+  const cam = sampleCamera(shot.camera, camT ?? t, resolveLook);
   const StageComp = stage.Component;
 
   return (

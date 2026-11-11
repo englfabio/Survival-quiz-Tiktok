@@ -53,7 +53,22 @@ export type Motion =
   | 'buried' // Fisch: im Sand eingegraben, nur die Augen schauen heraus
   | 'finup' // Fisch: Rückenflosse mit Stacheln aufstellen
   | 'swimaway' // Fisch: aus dem Sand heraus und davonschwimmen
+  // ---- Dummy im Garten (Fliegerbombe) ----
+  | 'dig' // Dummy: mit dem Spaten umgraben (läuft in Schleife)
+  | 'hithard' // Dummy: Spaten stößt auf etwas Hartes (ca. 0,4 s), Rückprall, dann erstarren
+  | 'stiff' // Dummy: erstarrt stehen, Spaten in der Hand, Blick nach unten
+  | 'uncover' // Dummy: hinknien (ca. 1 s) und mit den Händen Erde wegschieben
+  | 'lift' // Dummy: in die Hocke, greifen (0,8–1,2 s), Schweres hochheben (bis 2,2 s)
+  | 'carry' // Dummy: hält etwas Schweres vor dem Bauch
+  | 'lower' // Dummy: Schweres nach vorn ablegen (ca. 0,9 s), loslassen
+  | 'push' // Dummy: Schubkarre schieben (Weg über Zeitpunkte, Karre 1,15 m vor dem Dummy)
+  | 'retreat' // Dummy: ganz langsam und vorsichtig rückwärts weggehen (rechte Hand hält z. B. Warnstab)
+  | 'mark' // Dummy: Warnstab vor sich in die Erde drücken (0,3–0,9 s), passt zu Warnstab "plant"
+  | 'warn' // Dummy: mit rechts groß winken, links zeigt nach vorn (andere warnen)
+  | 'call' // Dummy: stehend telefonieren (Smartphone am Ohr)
   // ---- Objekte ----
+  | 'plant' // Warnstab ("warnstab"): wird in die Erde gedrückt (gleichzeitig mit Dummy "mark")
+  | 'buriedbomb' // Fliegerbombe: Erdkrümel liegen drauf (halb in der Erde)
   | 'steam' // Schüssel ("schuessel"): heißes Wasser dampft
   | 'show' // Thermometer-Schild ("thermometer"): erscheint
   // ---- Effekt ----
@@ -113,6 +128,11 @@ export type Shot = {
   sfx?: SfxCue[];
   /** Abblenden der 3D-Szene: [t Beginn, t Ende, Stärke 0…1] – Texte bleiben sichtbar */
   fade?: [number, number, number];
+  /**
+   * Bild einfrieren ab t (0…1): Figuren + Bühne bleiben stehen, nur die Kamera fährt langsam weiter.
+   * Bei falschen Optionen kommt das rote Aufleuchten (+ Falsch-Ton) genau in diesem Moment statt am Anfang.
+   */
+  freeze?: number;
 };
 
 /** Wort-Zeitstempel einer Sprachaufnahme (von ElevenLabs) */

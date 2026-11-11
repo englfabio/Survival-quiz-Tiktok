@@ -24,7 +24,8 @@ export const rng = (seed: number) => {
   };
 };
 
-const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway'];
+const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway',
+  'push', 'retreat'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
@@ -32,11 +33,13 @@ const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumb
  */
 const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbuckle', 'button', 'climbout', 'swim', 'pushdoor', 'wait', 'splash',
   'wade', 'stepflinch', 'hop', 'holdfoot', 'ice', 'tweeze', 'testtemp', 'footbath', 'struggle',
-  'buried', 'finup', 'swimaway', 'steam', 'show'];
+  'buried', 'finup', 'swimaway', 'steam', 'show',
+  'dig', 'hithard', 'stiff', 'uncover', 'lift', 'carry', 'lower', 'push', 'retreat', 'mark', 'warn', 'call', 'plant'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
   'wade', 'stepflinch', 'hop', 'holdfoot', 'ice', 'tweeze', 'testtemp', 'footbath', 'struggle',
+  'dig', 'hithard', 'stiff', 'uncover', 'lift', 'carry', 'lower', 'push', 'retreat', 'mark', 'warn', 'call',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */

@@ -412,6 +412,89 @@ const BEACH_DEMOS: Demo[] = [
   },
 ];
 
+
+// ---------- Garten / Fliegerbombe ----------
+/** Bombe halb in der Erde an der Grabstelle (0.3, −0.5), Längsachse quer (face 90), Spitze leicht nach unten */
+const BOMB = {t: 0, x: 0.3, z: -0.5, y: -0.1, face: 90, tilt: 14, motion: 'buriedbomb' as Motion};
+const gCam = (look: [number, number, number], from: [number, number, number], drift: [number, number, number] = [0.4, 0, 0]): Shot['camera'] => [
+  {t: 0, pos: from, look},
+  {t: 1, pos: [from[0] + drift[0], from[1] + drift[1], from[2] + drift[2]], look},
+];
+const gDemo = (label: string, seconds: number, camera: Shot['camera'], actors: Shot['actors']): Demo => ({
+  label,
+  stage: 'garten',
+  seconds,
+  shot: {camera, actors},
+});
+/** Warnstab in der rechten Hand (beim Rückwärtsgehen) */
+const STAKE_IN_HAND = {x: -0.3, y: 0.08, z: 0.22, face: 0, attach: 'dummy', motion: 'park' as Motion};
+
+const GARDEN_DEMOS: Demo[] = [
+  gDemo('Bühne: Garten', 4, gCam([0.3, 0.6, -2.5], [-3.5, 3.0, 9.5], [2.5, 0, -0.5]), {fliegerbombe: [BOMB]}),
+  gDemo('Bühne: Garten (Beet von oben)', 3, gCam([0.4, 0, -0.6], [0.4, 7.5, 5.0], [0.5, 0, -0.3]), {fliegerbombe: [BOMB]}),
+  gDemo('Objekt: Fliegerbombe halb in der Erde', 3, gCam([0.3, -0.05, -0.45], [1.85, 1.55, -2.6], [0.3, 0, 0.1]), {fliegerbombe: [BOMB]}),
+  gDemo('Objekt: Fliegerbombe (ganz)', 3, gCam([0, 0.3, 4], [-1.2, 1.0, 5.8], [1.2, 0, 0]), {
+    fliegerbombe: [{t: 0, x: 0, z: 4, y: 0.17, face: 60, motion: 'park'}],
+  }),
+  gDemo('Objekte: Spaten, Schubkarre, Warnstab, Handy', 4, gCam([0, 0.3, 4.6], [-0.4, 2.7, 10.4], [0.6, 0, 0]), {
+    spaten: [{t: 0, x: 0.5, z: 5.6, face: 260, motion: 'park'}],
+    schubkarre: [{t: 0, x: 0.3, z: 3.6, face: 120, motion: 'park'}],
+    warnstab: [{t: 0, x: -0.7, z: 3.4, motion: 'show'}],
+    smartphone: [{t: 0, x: -0.2, z: 6.6, face: 200, motion: 'show'}],
+  }),
+  gDemo('Dummy: umgraben', 3.6, gCam([0.3, 0.7, -0.1], [3.2, 1.6, 2.8], [0.3, 0, -0.3]), {
+    dummy: [{t: 0, x: 0.3, z: 0.45, face: 0, motion: 'dig'}],
+    fliegerbombe: [{...BOMB, y: -0.25}],
+  }),
+  gDemo('Dummy: auf Hartes stoßen + erstarren', 3, gCam([0.3, 0.6, -0.1], [3.2, 1.6, 2.8], [0.2, 0, -0.2]), {
+    dummy: [{t: 0, x: 0.3, z: 0.45, face: 0, motion: 'hithard'}],
+    fliegerbombe: [BOMB],
+  }),
+  gDemo('Dummy: hinknien + Erde wegschieben', 4, gCam([0.3, 0.4, -0.2], [3.0, 1.5, 2.4], [0.2, 0, -0.2]), {
+    dummy: [{t: 0, x: 0.3, z: 0.35, face: 0, motion: 'uncover'}],
+    fliegerbombe: [BOMB, {...BOMB, t: 1, y: 0.03}],
+  }),
+  gDemo('Dummy: Schweres anheben', 3.5, gCam([0.4, 0.6, -0.2], [3.4, 1.6, 2.4], [0.2, 0, -0.2]), {
+    dummy: [{t: 0, x: 0.3, z: 0.0, face: 0, motion: 'lift'}],
+    fliegerbombe: [
+      BOMB,
+      {...BOMB, t: 0.33},
+      {t: 0.343, x: 0, y: -0.05, z: 0.5, face: -90, tilt: 12, attach: 'dummy', motion: 'park'},
+      {t: 0.63, x: 0, y: 0.95, z: 0.4, face: -90, tilt: 0, attach: 'dummy', motion: 'park'},
+    ],
+  }),
+  gDemo('Dummy: Schweres in die Schubkarre legen', 3, gCam([1.0, 0.6, 0], [0.6, 1.8, 4.6], [0.3, 0, 0]), {
+    dummy: [{t: 0, x: 0.3, z: 0.0, face: 90, motion: 'lower'}],
+    schubkarre: [{t: 0, x: 1.45, z: 0.0, face: 90, motion: 'park'}],
+    fliegerbombe: [
+      {t: 0, x: 0, y: 0.95, z: 0.4, face: -90, tilt: 0, attach: 'dummy', motion: 'park'},
+      {t: 0.3, x: 0, y: 0.48, z: -0.15, face: 90, tilt: 0, attach: 'schubkarre', motion: 'park'},
+    ],
+  }),
+  gDemo('Dummy: Schubkarre schieben', 3.5, gCam([2.2, 0.6, 0], [1.4, 1.8, 5.6], [2.0, 0, 0]), {
+    dummy: [{t: 0, x: 0.0, z: 0.0, face: 90, motion: 'push'}, {t: 1, x: 3.4, z: 0.0, face: 90, motion: 'push'}],
+    schubkarre: [{t: 0, x: 1.15, z: 0.0, face: 90, motion: 'push'}, {t: 1, x: 4.55, z: 0.0, face: 90, motion: 'push'}],
+    fliegerbombe: [{t: 0, x: 0, y: 0.48, z: -0.15, face: 90, tilt: 0, attach: 'schubkarre', motion: 'park'}],
+  }),
+  gDemo('Dummy: langsam rückwärts weggehen', 4, gCam([0.3, 0.7, 1.2], [3.8, 1.7, 4.4], [0, 0, 0.4]), {
+    dummy: [{t: 0, x: 0.3, z: 0.3, face: 0, motion: 'retreat'}, {t: 1, x: 0.3, z: 2.4, face: 0, motion: 'retreat'}],
+    warnstab: [{t: 0, ...STAKE_IN_HAND}],
+    fliegerbombe: [BOMB],
+  }),
+  gDemo('Dummy: Stelle mit dem Warnstab markieren', 3, gCam([0.3, 0.7, 2.5], [3.4, 1.6, 4.8], [0, 0, 0.2]), {
+    dummy: [{t: 0, x: 0.3, z: 2.8, face: 0, motion: 'mark'}],
+    warnstab: [{t: 0, x: 0.3, z: 2.36, face: 0, motion: 'plant'}],
+    fliegerbombe: [BOMB],
+  }),
+  gDemo('Dummy: Nachbarn über den Zaun warnen', 3.5, gCam([0.7, 1.0, -2.2], [-2.4, 1.9, 4.8], [0.5, 0, 0]), {
+    dummy: [{t: 0, x: 0.3, z: -2.0 + 3, face: 10, motion: 'warn'}],
+    nachbar: [{t: 0, x: 1.6, z: -7.7, face: 180, motion: 'stand'}, {t: 0.35, x: 1.6, z: -7.7, face: 180, motion: 'wave'}],
+  }),
+  gDemo('Dummy: telefonieren (stehend)', 3.5, gCam([0.3, 1.0, 3.0], [-1.8, 1.6, 7.0], [0.5, 0, 0]), {
+    dummy: [{t: 0, x: 0.3, z: 3.0, face: 160, motion: 'call'}],
+  }),
+];
+
 const DEMOS: Demo[] = [
   dummyDemo('stehen', 'stand', [0, 0]),
   dummyDemo('gehen', 'walk', [0, -3.5]),
@@ -473,10 +556,15 @@ const DEMOS: Demo[] = [
   ...LAKE_DEMOS,
   // ---------- Neu für "Petermännchen" (Bühne Meeresstrand) ----------
   ...BEACH_DEMOS,
+  // ---------- Neu für "Fliegerbombe" (Bühne Garten) ----------
+  ...GARDEN_DEMOS,
 ];
 
+/** Index der ersten Garten-Demo (für Übersichtsbilder) */
+export const GARDEN_DEMO_FIRST = DEMOS.length - GARDEN_DEMOS.length;
+
 /** Index der ersten Strand-Demo (für Übersichtsbilder) */
-export const BEACH_DEMO_FIRST = DEMOS.length - BEACH_DEMOS.length;
+export const BEACH_DEMO_FIRST = DEMOS.length - BEACH_DEMOS.length - GARDEN_DEMOS.length;
 
 export const SHOWCASE_SECONDS_EACH = 3;
 const secOf = (d: Demo) => d.seconds ?? SHOWCASE_SECONDS_EACH;
