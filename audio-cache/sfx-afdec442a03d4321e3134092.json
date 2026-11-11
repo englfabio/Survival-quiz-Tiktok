@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Calm summer beach ambience at the Baltic Sea, gentle small waves lapping on sand, distant seagulls, light wind, no music, no voices",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-11T10:39:10.963Z"
+}

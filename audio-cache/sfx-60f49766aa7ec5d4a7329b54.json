@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Sudden sharp sting impact, short painful jolt hit with a small water splash, cartoon style, no voice",
+  "duration": 1,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T10:39:15.535Z"
+}

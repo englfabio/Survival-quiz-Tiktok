@@ -108,6 +108,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Pilot: 933 Zeichen ≈ 373 Credits. Kontrolle per Spracherkennung (scribe_v2): alles korrekt.
 - Kreuzotter: 839 neue Zeichen = 336 Credits (countdown/reveal/outro wortgleich → aus Cache). Kontrolle: korrekt.
 - Auto im See: 958 neue Zeichen = 383 Credits (countdown/reveal/outro aus Cache). Kontrolle (scribe_v2): korrekt.
+- Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
+  Hörprobe/Vorschau vom Inhaber nicht gewünscht.
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -119,7 +121,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Auflösung/richtiger Option, Falsch-Ton bei falschen Optionen.
 - Weitere Effekte: `schlange-zischen`, `schlange-biss`, `handy-waehlen` (Kreuzotter-Video);
   `see-atmo` (Bühne Seeufer, Schleife), `auto-platschen`, `blubbern`, `unterwasser-atmo`, `fensterheber`,
-  `gurt-klick`, `tuer-druecken`, `schwimmen` (Auto-im-See-Video).
+  `gurt-klick`, `tuer-druecken`, `schwimmen` (Auto-im-See-Video);
+  `meer-atmo` (Bühne Meeresstrand, Schleife), `waten`, `stich`, `dampf` (Petermännchen-Video).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem

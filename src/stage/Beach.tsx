@@ -356,6 +356,7 @@ export const beachStage: StageDef = {
   Component: BeachScene,
   climbTrees: [],
   groundHeight,
+  ambience: 'meer-atmo',
   waterLevel: 0,
   barefoot: true,
 };

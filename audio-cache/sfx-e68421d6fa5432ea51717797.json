@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Soft steam hissing from a bowl of hot water, gentle, calm",
+  "duration": 4,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T10:40:14.671Z"
+}

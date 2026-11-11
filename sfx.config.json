@@ -141,6 +141,34 @@
       "duration": 4,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "meer-atmo",
+      "prompt": "Calm summer beach ambience at the Baltic Sea, gentle small waves lapping on sand, distant seagulls, light wind, no music, no voices",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "waten",
+      "prompt": "Person wading slowly barefoot through shallow sea water, soft rhythmic splashes, no voice",
+      "duration": 4,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "stich",
+      "prompt": "Sudden sharp sting impact, short painful jolt hit with a small water splash, cartoon style, no voice",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "dampf",
+      "prompt": "Soft steam hissing from a bowl of hot water, gentle, calm",
+      "duration": 4,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }
