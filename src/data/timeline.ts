@@ -39,19 +39,25 @@ export type Timeline = {
   usesAudio: boolean;
 };
 
-/** Richtwerte (Sekunden), solange es noch keine Sprachaufnahmen gibt. */
-const PLACEHOLDER: Record<ClipId, number> = {
-  situation: 7,
-  option1: 3.3,
-  option2: 3.3,
-  option3: 3.4,
-  countdown: 5,
-  reveal: 2,
-  explain1: 11,
-  explain2: 11,
-  explain3: 12,
-  outro: 3.5,
-};
+/** Die Sprechtexte je Clip – 1:1 aus der Szenario-Datei */
+export const clipTexts = (s: Scenario): Record<ClipId, string> => ({
+  situation: s.situation.speech,
+  option1: s.options[0].speech,
+  option2: s.options[1].speech,
+  option3: s.options[2].speech,
+  countdown: s.countdown.speech,
+  reveal: s.reveal.speech,
+  explain1: s.options[0].explanation,
+  explain2: s.options[1].explanation,
+  explain3: s.options[2].explanation,
+  outro: s.outro.speech,
+});
+
+/**
+ * Geschätzte Sprechdauer (Sekunden), solange es noch keine Sprachaufnahme gibt.
+ * Gemessen an der Pilot-Stimme (M. Danisch – Narrator): ca. 0,84 s + 0,059 s pro Zeichen.
+ */
+export const estimateSpeechSeconds = (text: string) => 0.84 + 0.0594 * text.length;
 
 /** Kleine Pausen nach jedem Sprach-Clip (Sekunden) und Mindestlängen der Abschnitte. */
 const PAD_AFTER = 0.5;
@@ -93,9 +99,10 @@ export const buildTimeline = (
   audioSeconds?: Partial<Record<ClipId, number>>,
 ): Timeline => {
   const usesAudio = !!audioSeconds && Object.keys(audioSeconds).length > 0;
+  const texts = clipTexts(s);
   const len = (id: ClipId) => {
-    const a = audioSeconds?.[id];
-    const base = a !== undefined ? LEAD[id] + a + PAD_AFTER : PLACEHOLDER[id];
+    const a = audioSeconds?.[id] ?? estimateSpeechSeconds(texts[id]);
+    const base = LEAD[id] + a + PAD_AFTER;
     return Math.round(Math.max(base, MIN_LEN[id] ?? 0) * FPS);
   };
 

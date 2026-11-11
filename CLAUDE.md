@@ -42,7 +42,8 @@ genau eine richtig.
 
 - Gesamtlänge **mindestens 61 s**.
 - Abschnittslängen richten sich (sobald es Sprachaufnahmen gibt) automatisch nach der
-  Länge der Audios. Bis dahin gelten die Richtwerte als Platzhalter.
+  Länge der Audios. Bis dahin wird die Sprechdauer aus der Textlänge geschätzt
+  (gemessen an der Pilot-Stimme: ca. 0,84 s + 0,059 s pro Zeichen).
 
 ## Look
 
@@ -68,9 +69,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 
 ## Baukasten (wiederverwendbar)
 
-- **Bühnen:** Wald mit Weg (weitere folgen)
-- **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern
-- **Weitere Figuren:** Braunbär (gleicher Low-Poly-Look wie der Dummy)
+- **Bühnen:** Wald mit Weg (`wald`), sonnige Waldlichtung am Waldrand (`waldlichtung`, Variante des Waldes)
+- **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
+  beschwichtigen, winken, gebissen zusammenzucken, besorgt zur Wade schauen, zur Wade beugen (Aussaugen),
+  Band ums Bein wickeln, hinsetzen, ruhig sitzen, sitzen + telefonieren
+- **Weitere Figuren:** Braunbär, Kreuzotter (gleicher Low-Poly-Look wie der Dummy)
 - **Effekte:** rotes/grünes Aufleuchten, Bewegungslinien
 
 ## Stimme (ElevenLabs)
@@ -127,13 +130,22 @@ Beschreibung und angepinnter Kommentar.
 1 = Ende des Abschnitts – dehnt sich automatisch mit der Audiolänge).
 - Figur: `{ "t", "x", "z", "y"?, "face"?, "motion" }` – Meter; `face` in Grad
   (0 = Richtung −z/zum Bären, 90 = rechts, 180 = zur Kamera). Bewegungen:
-  `stand, walk, run, climb, backstep, sidestep, stumble, calm, wave` (Dummy),
-  `stand, alert, sniff, walk, run, climb` (Bär). `climb` klebt automatisch am Kletterbaum.
+  `stand, walk, run, climb, backstep, sidestep, stumble, calm, wave, flinch, hurt, suck, tourniquet,
+  sitdown, sit, phone` (Dummy), `stand, alert, sniff, walk, run, climb` (Bär),
+  `coil, slither, strike` (Kreuzotter, Figurname `snake`). `climb` klebt automatisch am Kletterbaum.
+  Dummy: `"bite": true` zeigt ab diesem Zeitpunkt zwei kleine Bisspunkte an der rechten Wade (kein Blut).
+  `suck`, `tourniquet`, `sit`, `phone` sind Sitz-Haltungen; `sitdown` geht von Stehen zu Sitzen (ca. 1,2 s).
+  `strike`: Kopf schnellt ca. 0,35–0,55 s nach Beginn vor (Reichweite ca. 0,6 m in Blickrichtung).
 - Kamera: `{ "t", "pos": [x,y,z], "look": [x,y,z] | "dummy" | "bear" | "dummy+bear", "fov"? }`
 - Wald-Koordinaten: Weg entlang der z-Achse bei x = 0 (−20 … +24 gerade), Kletterbaum bei
   (3.3, −2.0). Bäume stehen ab ca. 2,2 m neben dem Weg → Kamera auf dem Weg halten (|x| < 1,5),
   sonst steht ein Baum im Bild.
 - Pilot: Der Bär steht bei z = −14 (Bildwirkung); im Text heißt es 30 Meter. Vom Inhaber so freigegeben.
+- Waldlichtung-Koordinaten (`src/stage/Clearing.tsx`): schmaler Pfad bei x = 0, Bäume nur hinten (z < −8)
+  und links (x < −7), Heidekraut v. a. rechts. Warmer Stein bei (0.95, −0.3), Oberseite y ≈ 0,26
+  → Schlange darauf: `x 0.7, z −0.2, y 0.26`. Kein Kletterbaum.
+- Kamera-Faustregel: Das Bild ist schmal (Hochformat, fov 38). Für den ganzen stehenden Dummy ca. 4–5 m
+  Abstand, für den sitzenden ca. 4 m. Unten liegen Untertitel (ab ca. y 1250), oben Kopfzeilen.
 
 ## Dateien
 
@@ -146,13 +158,13 @@ scripts/voice.ts      Stimme erzeugen (Cache)   scripts/sfx.ts  Soundeffekte erz
 audio-cache/          Alle bezahlten ElevenLabs-Dateien (Hash-Namen) – nie löschen
 src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
 src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
-src/stage/            Bühnen (Forest.tsx = Wald)
-src/actors/           Figuren (Dummy.tsx, Bear.tsx) + Bewegungen
+src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung)
+src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx) + Bewegungen
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
 scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
-review/               Gesicherte Standbilder zur Freigabe (phase3/: normal, sichere-bereiche, vergleich)
+review/               Gesicherte Standbilder zur Freigabe (Pilot: phase3/; weitere Videos: review/<id>/)
 ```
 
 ## Befehle
@@ -164,6 +176,9 @@ review/               Gesicherte Standbilder zur Freigabe (phase3/: normal, sich
 - Standbild: `npx remotion still <id> out/bild.png --frame=150`
 - Mit sicheren Bereichen: `--props='{"scenarioId":"<id>","showSafeZones":true}'`
 - Mehrere Bilder: `npx remotion render <id> out/frames --frames=150,480 --image-format=png`
+- Viele Standbilder auf einmal (schneller): `node scripts/stills.mjs auftrag.json`
+  (Liste aus `{comp, frame, out, props?, scale?}`); Abschnitts-Startbilder:
+  `node --experimental-strip-types --no-warnings scripts/frames.ts <id>`
 - Baukasten-Ansicht: Komposition `Baukasten`
 - Die 61-s-Prüfung steckt auch in `calculateMetadata` (src/Root.tsx): beim Rendern bricht
   Remotion mit „STOPP …“ ab, wenn das Video zu kurz wäre.

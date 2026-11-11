@@ -24,7 +24,7 @@ export const rng = (seed: number) => {
   };
 };
 
-const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble'];
+const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither'];
 
 export type ActorState = {
   x: number;
@@ -36,6 +36,8 @@ export type ActorState = {
   motionTime: number;
   /** Bodengeschwindigkeit (m/s), für Schrittfrequenz */
   speed: number;
+  /** Bissspuren zeigen (Dummy) */
+  bite: boolean;
 };
 
 /**
@@ -45,14 +47,18 @@ export type ActorState = {
 export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number): ActorState => {
   // Blickrichtung "vererbt" sich von Key zu Key
   const faces: number[] = [];
+  const bites: boolean[] = [];
   let last = 0;
+  let bit = false;
   for (const k of keys) {
     if (k.face !== undefined) last = k.face;
+    if (k.bite !== undefined) bit = k.bite;
     faces.push(last);
+    bites.push(bit);
   }
   if (t <= keys[0].t || keys.length === 1) {
     const k = keys[0];
-    return {x: k.x, y: k.y ?? 0, z: k.z, face: faces[0], motion: k.motion, motionTime: t * sectionSeconds, speed: 0};
+    return {x: k.x, y: k.y ?? 0, z: k.z, face: faces[0], motion: k.motion, motionTime: t * sectionSeconds, speed: 0, bite: bites[0]};
   }
   let i = keys.length - 1;
   for (let j = 0; j < keys.length - 1; j++) {
@@ -72,6 +78,7 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
       motion: a.motion,
       motionTime: (t - a.t) * sectionSeconds,
       speed: 0,
+      bite: bites[i],
     };
   }
   const raw = clamp((t - a.t) / (b.t - a.t));
@@ -89,6 +96,7 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
     motion: a.motion,
     motionTime: (t - a.t) * sectionSeconds,
     speed: dist / segSec,
+    bite: bites[i],
   };
 };
 

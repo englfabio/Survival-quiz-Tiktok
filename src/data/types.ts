@@ -14,7 +14,17 @@ export type Motion =
   | 'calm' // Dummy: Hände beschwichtigend gehoben
   | 'wave' // Dummy: winken
   | 'alert' // Tier: aufmerksam, Kopf hoch
-  | 'sniff'; // Tier: schnüffeln
+  | 'sniff' // Tier: schnüffeln
+  | 'flinch' // Dummy: gebissen zusammenzucken, Blick zur Wade
+  | 'hurt' // Dummy: steht und schaut besorgt zur Wade (ohne Zucken)
+  | 'suck' // Dummy: sitzt, beugt sich zur Wade (versucht zu saugen)
+  | 'tourniquet' // Dummy: sitzt, wickelt ein Band um den Oberschenkel
+  | 'sitdown' // Dummy: hinsetzen (danach sitzt er)
+  | 'sit' // Dummy: ruhig sitzen, gebissenes Bein gestreckt und still
+  | 'phone' // Dummy: ruhig sitzen und telefonieren
+  | 'slither' // Schlange: schlängeln (auch wegschlängeln)
+  | 'coil' // Schlange: zusammengerollt liegen
+  | 'strike'; // Schlange: zubeißen (kurz vorschnellen, zurück)
 
 /** Ein Zeitpunkt einer Figur. t = 0 … 1 (Anteil am Abschnitt, dehnt sich mit der Audiolänge). */
 export type ActorKey = {
@@ -25,6 +35,8 @@ export type ActorKey = {
   /** Blickrichtung in Grad: 0 = Richtung Bär/Wegende (−z), 90 = rechts, 180 = zur Kamera (+z) */
   face?: number;
   motion: Motion;
+  /** Dummy: zwei kleine Bisspunkte an der rechten Wade zeigen (gilt ab diesem Zeitpunkt weiter) */
+  bite?: boolean;
 };
 
 export type CameraKey = {

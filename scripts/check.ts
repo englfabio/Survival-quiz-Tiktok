@@ -20,7 +20,7 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
   const ok = tl.totalSeconds >= MIN_SECONDS && errors.length === 0;
   console.log(
     `${ok ? '✅' : '❌'} ${s.id}: ${tl.totalSeconds.toFixed(1)} s ` +
-      `(${tl.usesAudio ? 'nach Sprachaufnahmen' : 'Richtwerte, noch keine Stimme'})`,
+      `(${tl.usesAudio ? 'nach Sprachaufnahmen' : 'geschätzt aus Textlänge, noch keine Stimme'})`,
   );
   for (const sec of tl.sections) {
     const name = sec.kind + (sec.option ? ` ${sec.option}` : '');

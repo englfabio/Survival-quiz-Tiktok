@@ -4,6 +4,7 @@ import type {StageDef} from '../stage/types';
 import {SpeedLines} from '../effects/SpeedLines';
 import {Bear, bearPose} from './Bear';
 import {Dummy, dummyPose} from './Dummy';
+import {Snake, snakePose} from './Snake';
 
 /**
  * Figuren-Baukasten. Neue Figur = neue Datei + hier eintragen.
@@ -13,7 +14,11 @@ import {Dummy, dummyPose} from './Dummy';
 export const ACTORS = {
   dummy: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   bear: {height: 0.9, climbOffset: 0.12, speedLineHeight: 0.9},
+  snake: {height: 0.1, climbOffset: 0.05, speedLineHeight: 0.1},
 } as const;
+
+/** Kreuzotter etwas größer als echt (ca. 0,85 m statt 0,7 m), damit sie im Hochformat gut zu sehen ist */
+const SNAKE_SCALE = 1.2;
 
 export type ActorName = keyof typeof ACTORS;
 
@@ -50,7 +55,12 @@ export const Actor = ({name, state}: {name: string; state: ActorState}) => {
   const lines = state.motion === 'run' && state.speed > 1.5;
   return (
     <group position={[state.x, state.y, state.z]} rotation={[0, rotY, 0]}>
-      {name === 'dummy' && <Dummy pose={dummyPose(state.motion, state.motionTime, state.speed)} />}
+      {name === 'dummy' && <Dummy pose={dummyPose(state.motion, state.motionTime, state.speed)} bite={state.bite} />}
+      {name === 'snake' && (
+        <group scale={SNAKE_SCALE}>
+          <Snake pose={snakePose(state.motion, state.motionTime, state.speed / SNAKE_SCALE)} />
+        </group>
+      )}
       {name === 'bear' && <Bear pose={bearPose(state.motion, state.motionTime, state.speed)} />}
       {lines && <SpeedLines time={state.motionTime} height={ACTORS[name as ActorName]?.speedLineHeight ?? 1} />}
     </group>

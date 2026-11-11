@@ -1,13 +1,40 @@
-import {useLayoutEffect, useMemo, useRef} from 'react';
+import {useLayoutEffect, useMemo, useRef, type ReactElement} from 'react';
 import * as THREE from 'three';
 import {rng} from '../lib/anim';
 import type {StageDef} from './types';
 
 /**
- * Bühne "wald": Waldweg (verläuft entlang der z-Achse), Nadel- und Laubbäume,
- * Felsen, Büsche, Gras. Low-Poly mit flacher Schattierung.
- * Koordinaten: 1 Einheit = 1 Meter. Dummy startet bei (0,0), Bär steht weiter hinten (−z).
+ * Wald-Baukasten. Daraus entstehen mehrere Bühnen (Varianten), siehe unten:
+ *  - "wald": Waldweg (verläuft entlang der z-Achse), Nadel- und Laubbäume,
+ *    Felsen, Büsche, Gras. Dummy startet bei (0,0), Bär steht weiter hinten (−z).
+ *  - "waldlichtung": sonnige Lichtung am Waldrand mit Heidekraut, niedrigem Gras,
+ *    schmalem Wanderpfad und einem warmen Stein in der Sonne (siehe Clearing.tsx).
+ * Low-Poly mit flacher Schattierung. Koordinaten: 1 Einheit = 1 Meter.
  */
+
+export type ForestColors = typeof C;
+
+/** Einstellungen einer Wald-Variante */
+export type ForestConfig = {
+  colors: ForestColors;
+  /** halbe Wegbreite in Metern */
+  pathHalf: number;
+  /** Bäume nur dort, wo diese Funktion true liefert (z. B. Lichtung freihalten) */
+  treeAllowed?: (x: number, z: number) => boolean;
+  trees: number;
+  rocks: number;
+  bushes: number;
+  grass: {count: number; minH: number; maxH: number; colors: string[]};
+  /** Heidekraut-Büschel (lila/rosa), 0 = keins */
+  heather?: {count: number; area: (r: () => number) => [number, number]};
+  light: {sun: [number, number, number]; intensity: number; color: string; hemiSky: string; hemiGround: string; hemi: number};
+  fogRange: [number, number];
+  showClimbTree: boolean;
+  /** Zusätzliche Objekte der Variante (z. B. warmer Stein) */
+  Extras?: () => ReactElement | null;
+  /** Bereiche ohne Gras/Büsche (z. B. unter dem Stein) */
+  keepClear?: {x: number; z: number; r: number}[];
+};
 
 const C = {
   skyTop: '#78aecb',
@@ -36,9 +63,10 @@ export const CLIMB_TREES = [{x: 3.3, z: -2.0, r: 0.32}];
 
 const PATH_HALF = 1.25;
 
-const isFree = (x: number, z: number, margin: number) => {
-  if (Math.abs(x - pathX(z)) < PATH_HALF + margin) return false;
+const makeIsFree = (cfg: ForestConfig) => (x: number, z: number, margin: number) => {
+  if (Math.abs(x - pathX(z)) < cfg.pathHalf + margin) return false;
   for (const t of CLIMB_TREES) if (Math.hypot(x - t.x, z - t.z) < 2.2) return false;
+  for (const k of cfg.keepClear ?? []) if (Math.hypot(x - k.x, z - k.z) < k.r + margin * 0.5) return false;
   return true;
 };
 
@@ -50,7 +78,7 @@ const groundHeight = (x: number, z: number) => {
 };
 
 // ---------- Himmel ----------
-const Sky = () => {
+const Sky = ({c}: {c: ForestColors}) => {
   const mat = useMemo(
     () =>
       new THREE.ShaderMaterial({
@@ -58,14 +86,14 @@ const Sky = () => {
         depthWrite: false,
         fog: false,
         uniforms: {
-          top: {value: new THREE.Color(C.skyTop)},
-          bottom: {value: new THREE.Color(C.skyHorizon)},
+          top: {value: new THREE.Color(c.skyTop)},
+          bottom: {value: new THREE.Color(c.skyHorizon)},
         },
         vertexShader: `varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
         fragmentShader: `uniform vec3 top; uniform vec3 bottom; varying vec3 vP;
           void main(){ float h = clamp(vP.y*1.6+0.08,0.0,1.0); gl_FragColor = vec4(mix(bottom, top, pow(h,0.8)),1.0); }`,
       }),
-    [],
+    [c],
   );
   return (
     <mesh material={mat} renderOrder={-1}>
@@ -75,15 +103,15 @@ const Sky = () => {
 };
 
 // ---------- Boden + Weg ----------
-const Ground = () => {
+const Ground = ({c}: {c: ForestColors}) => {
   const geo = useMemo(() => {
     const g = new THREE.PlaneGeometry(220, 220, 90, 90);
     g.rotateX(-Math.PI / 2);
     const pos = g.attributes.position as THREE.BufferAttribute;
     const colors: number[] = [];
     const r = rng(7);
-    const a = new THREE.Color(C.grass);
-    const b = new THREE.Color(C.grassDark);
+    const a = new THREE.Color(c.grass);
+    const b = new THREE.Color(c.grassDark);
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i);
       const z = pos.getZ(i);
@@ -95,7 +123,7 @@ const Ground = () => {
     const ng = g.toNonIndexed();
     ng.computeVertexNormals();
     return ng;
-  }, []);
+  }, [c]);
   return (
     <mesh geometry={geo} receiveShadow>
       <meshStandardMaterial vertexColors flatShading roughness={1} />
@@ -103,18 +131,18 @@ const Ground = () => {
   );
 };
 
-const Path = () => {
+const Path = ({c, half}: {c: ForestColors; half: number}) => {
   const geo = useMemo(() => {
     const r = rng(11);
     const verts: number[] = [];
     const colors: number[] = [];
-    const ca = new THREE.Color(C.path);
-    const cb = new THREE.Color(C.pathDark);
+    const ca = new THREE.Color(c.path);
+    const cb = new THREE.Color(c.pathDark);
     const zs: number[] = [];
     for (let z = -110; z <= 110; z += 1.2) zs.push(z);
     const rows = zs.map((z) => {
       const cx = pathX(z);
-      const w = PATH_HALF + (r() - 0.5) * 0.35;
+      const w = half + (r() - 0.5) * 0.35 * (half / PATH_HALF);
       return [
         [cx - w, z + (r() - 0.5) * 0.3],
         [cx + (r() - 0.5) * 0.3, z],
@@ -140,7 +168,7 @@ const Path = () => {
     g.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     g.computeVertexNormals();
     return g;
-  }, []);
+  }, [c, half]);
   return (
     <mesh geometry={geo} receiveShadow>
       <meshStandardMaterial vertexColors flatShading roughness={1} />
@@ -188,8 +216,10 @@ const Instances = ({
   );
 };
 
-const useForestLayout = () =>
+const useForestLayout = (cfg: ForestConfig) =>
   useMemo(() => {
+    const C = cfg.colors;
+    const isFree = makeIsFree(cfg);
     const r = rng(42);
     const pick = <T,>(arr: T[]) => arr[Math.floor(r() * arr.length)];
     const trunks: Inst[] = [];
@@ -198,6 +228,7 @@ const useForestLayout = () =>
     const rocks: Inst[] = [];
     const bushes: Inst[] = [];
     const grass: Inst[] = [];
+    const heather: Inst[] = [];
 
     const addPine = (x: number, z: number, s: number) => {
       const y = groundHeight(x, z);
@@ -228,42 +259,66 @@ const useForestLayout = () =>
 
     let placed = 0;
     let tries = 0;
-    while (placed < 260 && tries < 6000) {
+    while (placed < cfg.trees && tries < 6000) {
       tries++;
       const z = -95 + r() * 125;
       const side = r() < 0.5 ? -1 : 1;
       const x = pathX(z) + side * (2.2 + Math.pow(r(), 1.3) * 34);
       if (!isFree(x, z, 1.0)) continue;
+      if (cfg.treeAllowed && !cfg.treeAllowed(x, z)) continue;
       const s = 0.85 + r() * 0.75;
       if (r() < 0.55) addPine(x, z, s);
       else addLeafy(x, z, s);
       placed++;
     }
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < cfg.rocks; i++) {
       const z = -80 + r() * 105;
       const x = pathX(z) + (r() < 0.5 ? -1 : 1) * (1.7 + r() * 16);
       if (!isFree(x, z, 0.3)) continue;
       const s = 0.25 + r() * 0.6;
       rocks.push({pos: [x, groundHeight(x, z) + s * 0.2, z], scale: [s * 1.3, s * 0.8, s], rotY: r() * 6, color: C.rock});
     }
-    for (let i = 0; i < 140; i++) {
+    for (let i = 0; i < cfg.bushes; i++) {
       const z = -80 + r() * 105;
       const x = pathX(z) + (r() < 0.5 ? -1 : 1) * (1.8 + r() * 20);
       if (!isFree(x, z, 0.4)) continue;
       const s = 0.4 + r() * 0.6;
       bushes.push({pos: [x, groundHeight(x, z) + s * 0.35, z], scale: [s * 1.3, s, s * 1.2], rotY: r() * 6, color: pick([C.bush, C.leaf[2], C.grassDark])});
     }
-    for (let i = 0; i < 900; i++) {
+    const G = cfg.grass;
+    for (let i = 0; i < G.count; i++) {
       const z = -60 + r() * 85;
       const x = pathX(z) + (r() - 0.5) * 50;
-      if (Math.abs(x - pathX(z)) < PATH_HALF + 0.1) continue;
-      const s = 0.18 + r() * 0.25;
-      grass.push({pos: [x, groundHeight(x, z), z], scale: [s * 0.5, s, s * 0.5], rotY: r() * 6, color: pick(['#7a9a43', '#8aa84b', '#5f7f33'])});
+      if (Math.abs(x - pathX(z)) < cfg.pathHalf + 0.1) continue;
+      if ((cfg.keepClear ?? []).some((k) => Math.hypot(x - k.x, z - k.z) < k.r)) continue;
+      const s = G.minH + r() * (G.maxH - G.minH);
+      grass.push({pos: [x, groundHeight(x, z), z], scale: [s * 0.5, s, s * 0.5], rotY: r() * 6, color: pick(G.colors)});
     }
-    return {trunks, pineLayers, crowns, rocks, bushes, grass};
-  }, []);
+    // Heidekraut: kleine Büschel aus mehreren lila/rosa Kugeln auf dunkelgrünem Grund
+    if (cfg.heather) {
+      const H = cfg.heather;
+      for (let i = 0; i < H.count; i++) {
+        const [x, z] = H.area(r);
+        if (!isFree(x, z, 0.15)) continue;
+        const s = 0.1 + r() * 0.12;
+        const y = groundHeight(x, z);
+        heather.push({pos: [x, y + s * 0.3, z], scale: [s * 1.6, s * 0.7, s * 1.5], rotY: r() * 6, color: pick(['#3f5a2c', '#4a6631'])});
+        const n = 3 + Math.floor(r() * 4);
+        for (let k = 0; k < n; k++) {
+          const ss = s * (0.3 + r() * 0.25);
+          heather.push({
+            pos: [x + (r() - 0.5) * s * 1.6, y + s * (0.55 + r() * 0.4), z + (r() - 0.5) * s * 1.6],
+            scale: [ss * 0.8, ss * 1.25, ss * 0.8],
+            rotY: r() * 6,
+            color: pick(['#94588c', '#a8679c', '#7f4a78', '#b07aa6', '#6e4269']),
+          });
+        }
+      }
+    }
+    return {trunks, pineLayers, crowns, rocks, bushes, grass, heather};
+  }, [cfg]);
 
-const ClimbTree = ({x, z, r}: {x: number; z: number; r: number}) => (
+const ClimbTree = ({x, z, r, C}: {x: number; z: number; r: number; C: ForestColors}) => (
   <group position={[x, 0, z]}>
     <mesh castShadow receiveShadow position={[0, 3, 0]}>
       <cylinderGeometry args={[r * 0.75, r * 1.15, 6, 7]} />
@@ -292,8 +347,10 @@ const ClimbTree = ({x, z, r}: {x: number; z: number; r: number}) => (
   </group>
 );
 
-const ForestScene = () => {
-  const L = useForestLayout();
+const ForestScene = ({cfg}: {cfg: ForestConfig}) => {
+  const C = cfg.colors;
+  const L = useForestLayout(cfg);
+  const lt = cfg.light;
   const geos = useMemo(() => {
     const trunk = new THREE.CylinderGeometry(0.7, 1, 1, 6);
     trunk.translate(0, 0.5, 0);
@@ -309,14 +366,14 @@ const ForestScene = () => {
   return (
     <>
       <color attach="background" args={[C.fog]} />
-      <fog attach="fog" args={[C.fog, 22, 95]} />
-      <Sky />
-      <hemisphereLight args={['#dfe9ff', '#55603a', 0.9]} />
+      <fog attach="fog" args={[C.fog, cfg.fogRange[0], cfg.fogRange[1]]} />
+      <Sky c={C} />
+      <hemisphereLight args={[lt.hemiSky, lt.hemiGround, lt.hemi]} />
       <ambientLight intensity={0.15} />
       <directionalLight
-        position={[-14, 22, 10]}
-        intensity={2.6}
-        color="#ffe2b0"
+        position={lt.sun}
+        intensity={lt.intensity}
+        color={lt.color}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -329,25 +386,47 @@ const ForestScene = () => {
         shadow-bias={-0.0006}
         shadow-normalBias={0.03}
       />
-      <Ground />
-      <Path />
+      <Ground c={C} />
+      <Path c={C} half={cfg.pathHalf} />
       <Instances geometry={geos.trunk} items={L.trunks} />
       <Instances geometry={geos.cone} items={L.pineLayers} />
       <Instances geometry={geos.crown} items={L.crowns} />
       <Instances geometry={geos.rock} items={L.rocks} />
       <Instances geometry={geos.bush} items={L.bushes} />
       <Instances geometry={geos.blade} items={L.grass} castShadow={false} />
-      {CLIMB_TREES.map((t, i) => (
-        <ClimbTree key={i} {...t} />
-      ))}
+      {L.heather.length > 0 && <Instances geometry={geos.crown} items={L.heather} />}
+      {cfg.showClimbTree &&
+        CLIMB_TREES.map((t, i) => (
+          <ClimbTree key={i} {...t} C={C} />
+        ))}
+      {cfg.Extras && <cfg.Extras />}
     </>
   );
 };
 
-export const forestStage: StageDef = {
-  id: 'wald',
-  Component: ForestScene,
-  climbTrees: CLIMB_TREES,
-  groundHeight,
-  ambience: 'wald-atmo',
+/** Baut aus einer Wald-Einstellung eine Bühne */
+export const makeForestStage = (id: string, cfg: ForestConfig, ambience = 'wald-atmo'): StageDef => {
+  const Component = () => <ForestScene cfg={cfg} />;
+  return {
+    id,
+    Component,
+    climbTrees: cfg.showClimbTree ? CLIMB_TREES : [],
+    groundHeight,
+    ambience,
+  };
 };
+
+export {C as FOREST_COLORS, groundHeight as forestGroundHeight};
+
+/** Bühne "wald" (Pilot) – Werte unverändert */
+export const forestStage = makeForestStage('wald', {
+  colors: C,
+  pathHalf: PATH_HALF,
+  trees: 260,
+  rocks: 70,
+  bushes: 140,
+  grass: {count: 900, minH: 0.18, maxH: 0.43, colors: ['#7a9a43', '#8aa84b', '#5f7f33']},
+  light: {sun: [-14, 22, 10], intensity: 2.6, color: '#ffe2b0', hemiSky: '#dfe9ff', hemiGround: '#55603a', hemi: 0.9},
+  fogRange: [22, 95],
+  showClimbTree: true,
+});
