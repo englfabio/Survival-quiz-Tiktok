@@ -6,6 +6,7 @@ import type {Motion} from '../data/types';
 import {clamp, easeInOut} from '../lib/anim';
 import {CompressPad, PlasterStrip, SprayBottle, SprayMist, VaccinationPass} from './FirstAidProps';
 import {Smartphone, Spade} from './GardenProps';
+import {Bucket, Gift} from './ChristmasProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -55,6 +56,8 @@ export type DummyPose = {
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
   item: '' | 'plaster' | 'spray' | 'compress' | 'pass';
+  /** Gegenstand in beiden Händen (Feuer): Eimer mit Wasser, Geschenkpaket */
+  both: '' | 'bucket' | 'gift';
   /** Sprühnebel aus dem Desinfektionsspray: 0 = aus … 1 = voll */
   mist: number;
 };
@@ -82,6 +85,7 @@ const base = (): DummyPose => ({
   smartphone: false,
   chest: 0,
   item: '',
+  both: '',
   mist: 0,
 });
 
@@ -113,6 +117,7 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     smartphone: k < 0.5 ? a.smartphone : b.smartphone,
     chest: L(a.chest, b.chest),
     item: k < 0.5 ? a.item : b.item,
+    both: k < 0.5 ? a.both : b.both,
     mist: L(a.mist, b.mist),
   };
 };
@@ -835,8 +840,119 @@ const firstAidPose = (motion: Motion, time: number, _speed: number): DummyPose |
 };
 
 /** Berechnet die Körperhaltung für eine Bewegung. time = Sekunden seit Bewegungsbeginn. */
+// ---------- Feuer (Weihnachtsbaum-Brand) ----------
+/** Arme abwehrend/erschrocken vor Brust und Gesicht */
+const shieldArms = (p: DummyPose, k: number, jit = 0) => {
+  p.armL = L3(-1.35 * k + jit, 0.1 + 0.35 * k, -0.15 - 1.25 * k);
+  p.armR = L3(-1.35 * k - jit, -0.1 - 0.35 * k, -0.15 - 1.25 * k);
+};
+
+const firePose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'recoil': {
+      // Zusammenzucken (0–0,25 s), dann mit abwehrenden Armen rückwärts weichen (Weg über Zeitpunkte)
+      const p = base();
+      const jolt = time < 0.18 ? easeInOut(time / 0.18) : 1 - 0.5 * easeInOut(clamp((time - 0.18) / 0.5));
+      const k = easeInOut(clamp(time / 0.3));
+      const moving = speed > 0.05 ? 1 : 0;
+      const ph = time * TAU * 0.9;
+      const s = Math.sin(ph) * moving;
+      p.legL = L3(0.3 * s, 0.06, 0.35 * Math.max(0, s));
+      p.legR = L3(-0.3 * s, -0.06, 0.35 * Math.max(0, -s));
+      p.hipY = 0.97 - 0.02 * Math.abs(s) + 0.03 * jolt * (time < 0.4 ? 1 : 0);
+      p.torsoX = -0.22 * jolt - 0.08 * k;
+      p.headX = -0.25 * jolt - 0.05 * k;
+      shieldArms(p, k, Math.sin(time * 17) * 0.05 * Math.max(0, 1 - time / 1.2));
+      return p;
+    }
+    case 'runbucket': {
+      // rennen, Eimer mit beiden Händen vor dem Bauch
+      const p = dummyPose('run', time, speed);
+      p.armL = L3(-0.55 + 0.06 * Math.sin(time * 9), -0.18, -1.05);
+      p.armR = L3(-0.55 + 0.06 * Math.sin(time * 9), 0.18, -1.05);
+      p.torsoX = 0.22;
+      p.headX = -0.05;
+      p.both = 'bucket';
+      return p;
+    }
+    case 'pullgift': {
+      // kniet, greift unter den Baum, zieht ein Geschenk heraus, legt es zur Seite – wiederholt sich (1,8 s)
+      const kneel = kneelPose();
+      kneel.torsoX = 0.6;
+      kneel.headX = -0.15;
+      if (time < 0.7) {
+        const st = base();
+        return mix(st, kneel, easeInOut(time / 0.7));
+      }
+      const u = ((time - 0.7) % 1.8) / 1.8;
+      const reach = L3(-1.45, 0.12, -0.1);
+      const reachR = L3(-1.45, -0.12, -0.1);
+      const pull = L3(-0.75, 0.15, -0.85);
+      const pullR = L3(-0.75, -0.15, -0.85);
+      const side = L3(-0.6, 0.55, -0.6);
+      const sideR = L3(-0.75, 0.1, -0.7);
+      let a: [Limb, Limb];
+      let torso = 0.6;
+      if (u < 0.3) {
+        const k = easeInOut(u / 0.3);
+        a = [mixLimb(pull, reach, k), mixLimb(pullR, reachR, k)];
+        torso = 0.6 + 0.35 * k;
+        kneel.both = '';
+      } else if (u < 0.65) {
+        const k = easeInOut((u - 0.3) / 0.35);
+        a = [mixLimb(reach, pull, k), mixLimb(reachR, pullR, k)];
+        torso = 0.95 - 0.45 * k;
+        kneel.both = 'gift';
+      } else if (u < 0.85) {
+        const k = easeInOut((u - 0.65) / 0.2);
+        a = [mixLimb(pull, side, k), mixLimb(pullR, sideR, k)];
+        torso = 0.5;
+        kneel.torsoY = 0.45 * k;
+        kneel.both = 'gift';
+      } else {
+        const k = easeInOut((u - 0.85) / 0.15);
+        a = [mixLimb(side, pull, k), mixLimb(sideR, pullR, k)];
+        kneel.torsoY = 0.45 * (1 - k);
+        kneel.both = '';
+      }
+      kneel.armL = a[0];
+      kneel.armR = a[1];
+      kneel.torsoX = torso;
+      kneel.headX = -0.2 + Math.sin(time * 5) * 0.04;
+      return kneel;
+    }
+    case 'closedoor': {
+      // rechte Hand greift den Griff vorne rechts (0–0,4 s), zieht die Tür zu (bis 1,2 s), lässt los
+      const p = base();
+      const reach = L3(-1.45, -0.25, -0.15);
+      const pulled = L3(-0.9, -0.05, -0.95);
+      let r: Limb;
+      if (time < 0.4) r = mixLimb(p.armR, reach, easeInOut(time / 0.4));
+      else if (time < 1.2) r = mixLimb(reach, pulled, easeInOut((time - 0.4) / 0.8));
+      else r = mixLimb(pulled, base().armR, easeInOut(clamp((time - 1.2) / 0.5)));
+      p.armR = r;
+      const lean = time < 0.4 ? easeInOut(time / 0.4) : time < 1.2 ? 1 - 0.6 * easeInOut((time - 0.4) / 0.8) : 0.4 * (1 - easeInOut(clamp((time - 1.2) / 0.5)));
+      p.torsoX = 0.15 * lean + breathe;
+      p.torsoY = -0.15 * lean;
+      p.headX = 0.1 * lean;
+      p.legR = L3(-0.25 * lean, -0.05, 0.1 * lean);
+      return p;
+    }
+    case 'callwave': {
+      // Handy rechts am Ohr, links groß winken
+      const p = gardenPose('call', time, speed)!;
+      const k = easeInOut(clamp((time - 0.2) / 0.5));
+      p.armL = L3(-0.3 * k, 0.1 + 2.4 * k + Math.sin(time * 8) * 0.35 * k, -0.25 - 0.2 * Math.sin(time * 8 + 0.8) * k);
+      p.torsoZ = -0.06 * k;
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -1826,6 +1942,29 @@ const HandItem = ({pose, time}: {pose: DummyPose; time: number}) => {
   );
 };
 
+/** Gegenstand in beiden Händen (Eimer, Geschenk): zwischen den Händen */
+const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
+  if (!pose.both) return null;
+  const l = armPoint(pose.armL, 1, 0, 0.33);
+  const r = armPoint(pose.armR, -1, pose.foreZ, 0.33);
+  const mid = l.clone().add(r).multiplyScalar(0.5);
+  // Gegenstand bleibt in der Welt waagrecht (Oberkörper-Neigung ausgleichen)
+  const rot: [number, number, number] = [-pose.torsoX - pose.pitch, -pose.torsoY, -pose.torsoZ];
+  return (
+    <group position={mid} rotation={rot}>
+      {pose.both === 'bucket' ? (
+        <group position={[0, -0.24, 0.06]}>
+          <Bucket time={time} slosh={1} />
+        </group>
+      ) : (
+        <group position={[0, -0.14, 0.04]}>
+          <Gift color={Math.floor(time / 1.8) % 6} w={0.3} h={0.22} d={0.26} />
+        </group>
+      )}
+    </group>
+  );
+};
+
 export const Dummy = ({
   pose,
   bite = false,
@@ -1913,6 +2052,7 @@ export const Dummy = ({
           <ShoulderBelt m={m} amount={pose.belt} />
           <Arm m={m} limb={pose.armL} side={1} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} />
           <HandItem pose={pose} time={time} />
+          <BothHandsItem pose={pose} time={time} />
           {coat && (
             <mesh material={m.joint} position={[0, 0.5, 0.05]} rotation={[1.1, 0, 0]}>
               <torusGeometry args={[0.12, 0.012, 5, 16, Math.PI * 1.15]} />

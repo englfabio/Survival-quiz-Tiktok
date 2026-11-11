@@ -692,6 +692,127 @@ const FIRSTAID_DEMOS: Demo[] = [
   },
 ];
 
+// ---------- Feuer / Weihnachtsbaum-Brand ----------
+const TREE_AT = {x: 1.5, z: -1.5};
+const tree = (fire: number, smoke: number, fire2 = fire, smoke2 = smoke): ActorKey[] => [
+  {t: 0, x: TREE_AT.x, z: TREE_AT.z, face: 180, motion: 'park', fire, smoke},
+  {t: 1, x: TREE_AT.x, z: TREE_AT.z, face: 180, motion: 'park', fire: fire2, smoke: smoke2},
+];
+const FIRE_DEMOS: Demo[] = [
+  {
+    label: 'Bühne: Wohnzimmer an Weihnachten',
+    stage: 'weihnachtszimmer',
+    seconds: 3,
+    shot: {camera: [{t: 0, pos: [0.3, 1.6, 4.6], look: [0, 1.2, -1.5]}], actors: {weihnachtsbaum: tree(0, 0)}},
+  },
+  {
+    label: 'Baum: Feuer läuft hoch bis zur Decke, Rauch sammelt sich',
+    stage: 'weihnachtszimmer',
+    seconds: 5,
+    shot: {camera: [{t: 0, pos: [0.0, 1.5, 3.8], look: [1.2, 1.3, -1.5]}], actors: {weihnachtsbaum: tree(0.1, 0, 1, 1)}},
+  },
+  {
+    label: 'Baum: riesige Flammen + dichter Rauch',
+    stage: 'weihnachtszimmer',
+    seconds: 3,
+    shot: {camera: [{t: 0, pos: [-0.2, 1.4, 3.9], look: [1.2, 1.4, -1.5]}], actors: {weihnachtsbaum: tree(1.6, 1.4)}},
+  },
+  {
+    label: 'Dummy: entsetzt zurückweichen',
+    stage: 'weihnachtszimmer',
+    seconds: 3,
+    shot: {
+      camera: [{t: 0, pos: [-0.6, 1.5, 4.2], look: [0.6, 1.1, -0.8]}],
+      actors: {
+        weihnachtsbaum: tree(1, 0.8),
+        dummy: [
+          {t: 0, x: 0.2, z: -0.4, face: 135, motion: 'recoil'},
+          {t: 0.75, x: -0.5, z: 0.5, face: 135, motion: 'recoil'},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Dummy: mit dem Eimer zum Baum rennen',
+    stage: 'weihnachtszimmer',
+    seconds: 3,
+    shot: {
+      camera: [{t: 0, pos: [-1.2, 1.4, 3.6], look: [0.3, 1.0, -0.7]}],
+      actors: {
+        weihnachtsbaum: tree(1.2, 0.9, 1.6, 1.1),
+        dummy: [
+          {t: 0, x: -1.8, z: 0.6, face: 120, motion: 'runbucket'},
+          {t: 1, x: 0.2, z: -0.6, face: 120, motion: 'runbucket'},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Dummy: Geschenke unter dem brennenden Baum hervorziehen',
+    stage: 'weihnachtszimmer',
+    seconds: 4,
+    shot: {
+      camera: [{t: 0, pos: [-0.4, 1.5, 2.2], look: [1.0, 0.7, -1.1]}],
+      actors: {
+        weihnachtsbaum: tree(1, 0.9, 1, 1.4),
+        dummy: [{t: 0, x: 1.1, z: -0.55, face: 165, motion: 'pullgift'}],
+        geschenke: [{t: 0, x: 0.35, z: -0.4, face: 180, motion: 'park'}],
+      },
+    },
+  },
+  {
+    label: 'Flur: Tür zuziehen – Rauch bleibt dahinter',
+    stage: 'flur',
+    seconds: 3.5,
+    shot: {
+      camera: [{t: 0, pos: [-0.6, 1.6, 2.6], look: [0.6, 1.1, -0.9]}],
+      actors: {
+        zimmertuer: [
+          {t: 0, x: 1.2, z: -1.25, face: 270, motion: 'park', door: 1, smoke: 1},
+          {t: 0.12, x: 1.2, z: -1.25, face: 270, motion: 'park', door: 1},
+          {t: 0.38, x: 1.2, z: -1.25, face: 270, motion: 'park', door: 0},
+        ],
+        wohnungstuer: [{t: 0, x: -0.47, z: -3, face: 180, motion: 'park', door: 0}],
+        dummy: [{t: 0, x: 0.35, z: -0.1, face: 140, motion: 'closedoor'}],
+      },
+    },
+  },
+  {
+    label: 'Draußen: telefonieren + winken, Feuerwehr kommt',
+    stage: 'hauseingang',
+    seconds: 5,
+    shot: {
+      camera: [{t: 0, pos: [-2.2, 1.7, 1.6], look: [2.5, 1.0, 8.5]}],
+      actors: {
+        dummy: [{t: 0, x: 0.6, z: 4.6, face: 170, motion: 'callwave'}],
+        feuerwehrauto: [
+          {t: 0, x: -22, z: 9.4, face: 90, motion: 'drive'},
+          {t: 0.8, x: 2.5, z: 9.4, face: 90, motion: 'drive'},
+          {t: 0.85, x: 2.5, z: 9.4, face: 90, motion: 'park'},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Bühne: Hauseingang bei Nacht im Schnee',
+    stage: 'hauseingang',
+    seconds: 3,
+    shot: {
+      camera: [{t: 0, pos: [2.0, 1.8, 10.5], look: [0, 1.8, -3]}],
+      actors: {haustuer: [{t: 0, x: -0.52, z: -4, face: 180, motion: 'park', door: 0.6}], dummy: [{t: 0, x: 0.5, z: 2.5, face: 180, motion: 'call'}]},
+    },
+  },
+  {
+    label: 'Objekte: Eimer mit Wasser, Geschenkpakete',
+    stage: 'weihnachtszimmer',
+    seconds: 3,
+    shot: {
+      camera: [{t: 0, pos: [-0.2, 1.0, 1.6], look: [-0.2, 0.25, -0.3]}],
+      actors: {eimer: [{t: 0, x: -0.6, z: -0.3, motion: 'park'}], geschenke: [{t: 0, x: 0.15, z: -0.3, face: 180, motion: 'park'}]},
+    },
+  },
+];
+
 const DEMOS: Demo[] = [
   dummyDemo('stehen', 'stand', [0, 0]),
   dummyDemo('gehen', 'walk', [0, -3.5]),
@@ -758,7 +879,12 @@ const DEMOS: Demo[] = [
   // ---------- Neu für "Burggraben" (Bühne Burg) ----------
   ...CASTLE_DEMOS,
   ...FIRSTAID_DEMOS,
+  // ---------- Neu für "Weihnachtsbaum-Brand" ----------
+  ...FIRE_DEMOS,
 ];
+
+/** Index der ersten Feuer-Demo (für Übersichtsbilder) */
+export const FIRE_DEMO_FIRST = DEMOS.length - FIRE_DEMOS.length;
 
 /** Index der ersten Burg-Demo (für Übersichtsbilder) */
 export const CASTLE_DEMO_FIRST = DEMOS.length - CASTLE_DEMOS.length;

@@ -57,12 +57,23 @@ const FirstAid = ({size, color}: {size: number; color: string}) => (
   </svg>
 );
 
+const Fire = ({size, color}: {size: number; color: string}) => (
+  <svg width={size} height={size} viewBox="0 0 100 100">
+    <path
+      d="M50 6 C56 22 72 30 76 50 C80 70 68 92 50 94 C32 92 20 78 22 60 C24 46 34 40 36 28 C42 36 44 42 44 48 C50 40 54 26 50 6 Z"
+      fill={color}
+    />
+    <path d="M50 58 C55 66 62 70 60 80 C58 88 42 88 40 80 C38 72 46 68 50 58 Z" fill="#2a2d31" />
+  </svg>
+);
+
 const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wildtiere: {label: 'Wildtiere', Icon: Paw},
   verkehr: {label: 'Verkehr', Icon: Car},
   alltag: {label: 'Alltag', Icon: House},
   wasser: {label: 'Wasser', Icon: Water},
   'erste-hilfe': {label: 'Erste Hilfe', Icon: FirstAid},
+  feuer: {label: 'Feuer', Icon: Fire},
 };
 
 export const categoryInfo = (id: string) => CATEGORIES[id] ?? {label: id, Icon: Warning};

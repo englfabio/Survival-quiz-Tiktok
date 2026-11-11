@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "German fire truck siren approaching from a distance, two-tone, getting louder, outdoor winter night",
+  "duration": 6,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T22:23:00.512Z"
+}

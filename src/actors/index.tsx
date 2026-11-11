@@ -1,3 +1,4 @@
+import {useCurrentFrame} from 'remotion';
 import * as THREE from 'three';
 import type {ActorKey} from '../data/types';
 import {breathPhaseAt, deg, inheritedKeys, sampleActor, segmentAt, type ActorState} from '../lib/anim';
@@ -16,6 +17,7 @@ import {Thermometer} from './Thermometer';
 import {AerialBomb, SmartphoneProp, SpadeProp, WarnStake, Wheelbarrow} from './GardenProps';
 import {Weever, weeverPose} from './Weever';
 import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
+import {Bucket, ChristmasTree, DoorLeaf, FireTruck, GiftPile} from './ChristmasProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
 
 /**
@@ -52,6 +54,14 @@ export const ACTORS = {
   pflaster: {height: 0, climbOffset: 0, speedLineHeight: 0},
   sprayflasche: {height: 0, climbOffset: 0, speedLineHeight: 0},
   kompresse: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Feuer (Weihnachtsbaum-Brand) ----
+  weihnachtsbaum: {height: 1.2, climbOffset: 0, speedLineHeight: 0},
+  zimmertuer: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  wohnungstuer: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  haustuer: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  eimer: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
+  geschenke: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
+  feuerwehrauto: {height: 1.5, climbOffset: 0, speedLineHeight: 1.2},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -203,6 +213,7 @@ export const Actor = ({
   waterLevel?: number;
 }) => {
   const {name, state, matrix, pos} = actor;
+  const clock = useCurrentFrame() / 30; // durchlaufende Zeit (Flackern, Blaulicht)
   const lines = state.motion === 'run' && state.speed > 1.5;
   const v = state.values;
   const coldPos = pos.clone().add(new THREE.Vector3(0, coldHeight(state.motion), 0));
@@ -249,6 +260,15 @@ export const Actor = ({
       {name === 'pflaster' && <PlasterStrip />}
       {name === 'sprayflasche' && <SprayBottle />}
       {name === 'kompresse' && <CompressPad />}
+      {name === 'weihnachtsbaum' && <ChristmasTree fire={v.fire} smoke={v.smoke} time={clock} />}
+      {name === 'zimmertuer' && <DoorLeaf kind="zimmer" open={v.door} smoke={v.smoke} time={clock} />}
+      {name === 'wohnungstuer' && <DoorLeaf kind="wohnung" open={v.door} smoke={v.smoke} time={clock} />}
+      {name === 'haustuer' && <DoorLeaf kind="haus" open={v.door} smoke={v.smoke} time={clock} />}
+      {name === 'eimer' && <Bucket time={clock} />}
+      {name === 'geschenke' && <GiftPile />}
+      {name === 'feuerwehrauto' && (
+        <FireTruck spin={state.motion === 'drive' ? (state.motionTime * state.speed) / 0.5 : 0} time={clock} />
+      )}
       {name === 'dummy' && v.spray > 0.01 && (
         <group position={[0, waterLevel - pos.y, state.motion === 'crawl' ? 1.1 : 0]}>
           <Spray time={state.motionTime} amount={v.spray} spread={state.motion === 'crawl' ? [0.55, 1.0] : [0.6, 0.6]} />

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Indoor fire crackling and burning steadily, wood and pine needles crackle, low roar, no music, no screams",
+  "duration": 20,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-11T22:22:52.995Z"
+}

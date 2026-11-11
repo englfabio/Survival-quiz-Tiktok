@@ -15,11 +15,11 @@ import type {StageDef} from './types';
  * (z < D/2, |x| < W/2 − 0.3), sonst sieht man die Wände von außen.
  */
 
-const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters> = {}) =>
+export const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters> = {}) =>
   new THREE.MeshStandardMaterial({color, roughness: 0.75, flatShading: true, ...extra});
 
 /** Fliesen-Bild (wiederholt sich) */
-const tileTexture = (fill: string, grout: string, repeat: [number, number]) => {
+export const tileTexture = (fill: string, grout: string, repeat: [number, number]) => {
   const c = document.createElement('canvas');
   c.width = 128;
   c.height = 128;
@@ -37,7 +37,7 @@ const tileTexture = (fill: string, grout: string, repeat: [number, number]) => {
 };
 
 /** Holzdielen-Bild */
-const plankTexture = (repeat: [number, number]) => {
+export const plankTexture = (repeat: [number, number]) => {
   const c = document.createElement('canvas');
   c.width = 256;
   c.height = 256;
@@ -70,17 +70,25 @@ type RoomCfg = {
   window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string};
   light: {ambient: number; hemi: number; sun: number; sunColor: string; lamp: number; lampColor: string};
   children?: ReactNode;
+  /** false = keine Standard-Wände (der Raum baut eigene Wände mit Öffnungen, siehe HoleWall) */
+  walls?: boolean;
+  /** Hintergrundfarbe (sonst hellblau) */
+  bg?: string;
+  /** Position der Hauptlampe (Licht von "draußen"), sonst automatisch */
+  sunPos?: [number, number, number];
+  /** Deckenleuchte zeigen */
+  ceilingLamp?: boolean;
 };
 
-const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children}: RoomCfg) => {
+export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children, walls = true, bg = '#dde6ee', sunPos, ceilingLamp = true}: RoomCfg) => {
   const winX = window ? (window.side * W) / 2 : 0;
   return (
     <>
-      <color attach="background" args={['#dde6ee']} />
+      <color attach="background" args={[bg]} />
       <ambientLight intensity={light.ambient} color="#fff6ea" />
       <hemisphereLight args={['#fffaf0', '#8a7c6c', light.hemi]} />
       <directionalLight
-        position={[window ? winX * 3 : 3, 4.5, window ? window.z + 1.5 : 3]}
+        position={sunPos ?? [window ? winX * 3 : 3, 4.5, window ? window.z + 1.5 : 3]}
         intensity={light.sun}
         color={light.sunColor}
         castShadow
@@ -102,6 +110,7 @@ const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children}
         <planeGeometry args={[W, D + 6]} />
       </mesh>
       {/* Rückwand, Seitenwände, Decke */}
+      {walls && (<>
       <mesh material={backWall ?? wall} position={[0, H / 2, -D / 2]} receiveShadow>
         <planeGeometry args={[W, H]} />
       </mesh>
@@ -160,15 +169,18 @@ const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children}
         <boxGeometry args={[W, 0.1, 0.02]} />
         <meshStandardMaterial color="#f2efe9" />
       </mesh>
+      </>)}
       <mesh position={[0, H, 3]} rotation={[Math.PI / 2, 0, 0]}>
         <planeGeometry args={[W, D + 6]} />
         <meshStandardMaterial color={ceiling} />
       </mesh>
       {/* Deckenleuchte */}
-      <mesh position={[0, H - 0.05, 0]}>
-        <cylinderGeometry args={[0.28, 0.32, 0.08, 16]} />
-        <meshStandardMaterial color="#ffffff" emissive="#fff4dc" emissiveIntensity={1.2} />
-      </mesh>
+      {ceilingLamp && (
+        <mesh position={[0, H - 0.05, 0]}>
+          <cylinderGeometry args={[0.28, 0.32, 0.08, 16]} />
+          <meshStandardMaterial color="#ffffff" emissive="#fff4dc" emissiveIntensity={1.2} />
+        </mesh>
+      )}
       {children}
     </>
   );
@@ -235,7 +247,7 @@ export const Sofa = ({color = '#4f7a8c'}: {color?: string}) => {
   );
 };
 
-const Plant = ({s = 1}: {s?: number}) => (
+export const Plant = ({s = 1}: {s?: number}) => (
   <group scale={s}>
     <mesh position={[0, 0.17, 0]} castShadow>
       <cylinderGeometry args={[0.16, 0.12, 0.34, 8]} />

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Interior wooden door closing firmly with a click, close perspective",
+  "duration": 1,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-11T22:22:57.825Z"
+}

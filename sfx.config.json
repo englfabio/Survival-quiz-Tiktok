@@ -281,6 +281,48 @@
       "duration": 2.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "feuer-knistern",
+      "prompt": "Indoor fire crackling and burning steadily, wood and pine needles crackle, low roar, no music, no screams",
+      "duration": 20,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "feuer-auflodern",
+      "prompt": "Fire flaring up with a soft whooshing roar, flames growing quickly, no explosion",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "tuer-zu",
+      "prompt": "Interior wooden door closing firmly with a click, close perspective",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "sirene",
+      "prompt": "German fire truck siren approaching from a distance, two-tone, getting louder, outdoor winter night",
+      "duration": 6,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "geschenk-rascheln",
+      "prompt": "Rustling wrapping paper and cardboard gift boxes being pulled across a wooden floor",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "eimer-schwappen",
+      "prompt": "Water sloshing in a plastic bucket being carried quickly",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

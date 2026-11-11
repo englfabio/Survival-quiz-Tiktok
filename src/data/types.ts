@@ -89,6 +89,12 @@ export type Motion =
   | 'rinse' // Dummy: vorgebeugt am Waschbecken, Unterarm unter fließendem Wasser
   | 'disinfect' // Dummy: Desinfektionsspray auf die Bissstelle sprühen (3 Stöße ab 0,5 s)
   | 'compress' // Dummy: Kompresse auflegen (bis 0,9 s) und mit Mullbinde umwickeln (bis 2,4 s)
+  // ---- Dummy: Feuer (Weihnachtsbaum-Brand) ----
+  | 'recoil' // Dummy: entsetzt zurückweichen (Zusammenzucken, Arme abwehrend vor dem Körper, Schritte rückwärts – Weg über Zeitpunkte)
+  | 'runbucket' // Dummy: mit einem Eimer Wasser in beiden Händen rennen (Weg über Zeitpunkte)
+  | 'pullgift' // Dummy: kniet und zieht Geschenke hervor (greifen 0–0,6 s, ziehen bis 1,3 s, zur Seite legen bis 1,8 s, wiederholt sich)
+  | 'closedoor' // Dummy: Tür zuziehen (Griff greifen 0–0,4 s, ziehen bis 1,2 s, loslassen)
+  | 'callwave' // Dummy: stehend telefonieren (Handy rechts am Ohr) und mit links groß winken
   // ---- Zombie (Figur "zombie") ----
   | 'shamble' // Zombie: schlurfen, Arme ausgestreckt (Weg über Zeitpunkte, ca. 0,4–0,6 m/s)
   | 'reach' // Zombie: stehen, Arme ausgestreckt, schwankt
@@ -155,10 +161,14 @@ export type ActorKey = {
   plaster?: number;
   /** Dummy: sterile Kompresse + Mullbinde, 0 = keine … 1 = fertig verbunden */
   dressing?: number;
+  /** Weihnachtsbaum: Feuer 0 = aus … 1 = Flammen bis zur Decke … 1.6 = riesig, breit unter der Decke */
+  fire?: number;
+  /** Weihnachtsbaum: Rauch unter der Decke 0 = keiner … 1 = dicke Schicht … 1.5 = sehr dicht, tief. Türen: Rauch + Glut dahinter */
+  smoke?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
