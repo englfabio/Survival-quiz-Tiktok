@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Muffled underwater ambience, low soft rumble, slow drifting, no music",
+  "duration": 8,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-11T01:26:50.244Z"
+}
