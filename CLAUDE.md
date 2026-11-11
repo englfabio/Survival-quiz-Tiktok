@@ -31,6 +31,24 @@ Gebaut mit Remotion (React → Video) und @remotion/three (3D).
     wird es neu gebaut – keine Scheu vor Neuerstellung. Neue Bausteine werden immer wiederverwendbar in den
     Baukasten aufgenommen.** Die Liste unter „Vorhandene Bausteine“ wird bei jedem neuen Baustein aktualisiert.
 
+## Durchlauf-Modus (optional – nur wenn der Inhaber ihn im Prompt ausdrücklich verlangt)
+
+Ohne ausdrückliche Anweisung gilt immer die normale Reihenfolge aus Regel 6 (mit Freigaben).
+Verlangt der Inhaber den „Durchlauf-Modus“, gilt für dieses Video:
+
+- Alle Schritte (Bausteine → Standbilder → Stimme → finales Video) werden **ohne Zwischenfreigabe in einem Rutsch** erledigt.
+  Commit + Push nach jedem Schritt (Regel 3) gilt weiterhin.
+- Die **Standbilder werden trotzdem gerendert**, aber Claude prüft sie selbst:
+  sichere Bereiche eingehalten, alles gut lesbar, alle Texte exakt aus der Szenario-Datei, nichts Verstörendes zu sehen.
+- Claude **hält NUR an und fragt**, wenn:
+  - bei der Selbstprüfung etwas nicht stimmt,
+  - das Video kürzer als 61 Sekunden wäre,
+  - bei der Stimme ein Fehler auftritt oder die ElevenLabs-Credits knapp werden,
+  - etwas an den fachlichen Texten geändert werden müsste.
+- Zwischengespeicherte Audios (`audio-cache/`) werden wie immer wiederverwendet.
+- Am Ende: fertiges Video + Standbilder zeigen und zusammenfassen, was wiederverwendet und was neu gebaut wurde.
+- **Ausnahme:** Ist noch KEIN einziges Video komplett mit Stimme fertig geworden, gilt der normale Ablauf mit Freigaben.
+
 ## Das Format (Ablauf eines Videos)
 
 Hochformat **1080 × 1920, 30 fps**. Pro Video EINE gefährliche Situation, drei Optionen,
