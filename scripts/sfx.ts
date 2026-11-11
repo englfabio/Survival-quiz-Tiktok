@@ -1,10 +1,12 @@
 // Erzeugt die Soundeffekte (für alle Videos gemeinsam) – mit Cache.
 // Aufruf:  npm run sfx [-- --dry]
+import {execFileSync} from 'node:child_process';
 import {copyFileSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {API, audioSeconds, authHeaders, cacheKey, cachePaths, isCached, writeCache} from './elevenlabs.ts';
 
-type Effect = {id: string; prompt: string; duration: number; loop: boolean; promptInfluence: number};
+/** gainDb (optional): lauter/leiser beim Kopieren nach public/sfx – kostet nichts, Zwischenspeicher bleibt gleich */
+type Effect = {id: string; prompt: string; duration: number; loop: boolean; promptInfluence: number; gainDb?: number};
 const cfg = JSON.parse(readFileSync('sfx.config.json', 'utf-8')) as {modelId: string; effects: Effect[]};
 const dry = process.argv.includes('--dry');
 const outDir = join('public', 'sfx');
@@ -37,7 +39,11 @@ for (const e of cfg.effects) {
   }
   if (dry) continue;
   const target = join(outDir, `${e.id}.mp3`);
-  copyFileSync(cachePaths(key).mp3, target);
+  if (e.gainDb) {
+    execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', cachePaths(key).mp3, '-af', `volume=${e.gainDb}dB,alimiter=limit=0.9`, '-b:a', '128k', target]);
+  } else {
+    copyFileSync(cachePaths(key).mp3, target);
+  }
   durations[e.id] = Math.round(audioSeconds(target) * 1000) / 1000;
 }
 if (!dry) writeFileSync(join(outDir, 'durations.json'), JSON.stringify(durations, null, 2) + '\n');

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Very fast snake strike, quick sharp swish with a short soft snap, no gore, no scream",
+  "duration": 1,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T00:14:21.438Z"
+}

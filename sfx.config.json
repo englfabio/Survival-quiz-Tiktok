@@ -9,6 +9,9 @@
     { "id": "richtig", "prompt": "Bright positive success chime, correct answer, game show", "duration": 1.5, "loop": false, "promptInfluence": 0.7 },
     { "id": "falsch", "prompt": "Short low dull buzzer, wrong answer, game show", "duration": 1, "loop": false, "promptInfluence": 0.7 },
     { "id": "baer-brummen", "prompt": "Brown bear deep low growl, close, outdoors", "duration": 2.5, "loop": false, "promptInfluence": 0.6 },
-    { "id": "schritte-rennen", "prompt": "Person running fast on a forest dirt path, footsteps, breathing", "duration": 4, "loop": false, "promptInfluence": 0.5 }
+    { "id": "schritte-rennen", "prompt": "Person running fast on a forest dirt path, footsteps, breathing", "duration": 4, "loop": false, "promptInfluence": 0.5 },
+    { "id": "schlange-zischen", "prompt": "Venomous snake hissing, sharp warning hiss, close, outdoors, no music", "duration": 2, "loop": false, "promptInfluence": 0.6 },
+    { "id": "schlange-biss", "prompt": "Very fast snake strike, quick sharp swish with a short soft snap, no gore, no scream", "duration": 1, "loop": false, "promptInfluence": 0.6 },
+    { "id": "handy-waehlen", "prompt": "Smartphone touchscreen dialing three numbers with soft keypad beeps, then one calm ringing tone", "duration": 3, "loop": false, "promptInfluence": 0.6, "gainDb": 22 }
   ]
 }
