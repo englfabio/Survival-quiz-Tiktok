@@ -15,8 +15,11 @@ Gebaut mit Remotion (React → Video) und @remotion/three (3D).
 5. **ElevenLabs-Audios zwischenspeichern und im Repository sichern** (Ordner `audio-cache/`).
    Dateiname = Hash aus Text + Stimme + Modell + Einstellungen. Existiert die Datei schon,
    wird NICHT neu bei ElevenLabs angefragt. So wird nie etwas doppelt bezahlt.
-6. **Reihenfolge immer:** 1. Standbilder zur Freigabe → 2. Stimme → 3. Vorschau → 4. finales Video.
-   Nie einen Schritt überspringen, nach jedem Schritt auf Freigabe warten.
+6. **Reihenfolge immer:** 1. Standbilder zur Freigabe → 2. Stimme → 3. Video.
+   Nach jedem Schritt auf Freigabe warten. Seit dem Kreuzotter-Video (vom Inhaber so entschieden):
+   Das Video wird nur EINMAL in voller Qualität gerendert; die Vorschau (halbe Größe) wird daraus
+   per ffmpeg verkleinert. Freigabe der Vorschau = Video ist fertig zum Hochladen.
+   Gibt es Änderungswünsche, wird nach der Änderung neu gerendert.
 7. **Fachliche Texte in `/scenarios` nie ohne Erlaubnis ändern** – auch nicht kürzen,
    umformulieren oder Satzzeichen „verbessern“. Sie sind fachlich geprüft.
 8. **Mindestlänge 61 Sekunden prüfen.** Ist ein Video kürzer: NICHT rendern, sondern
@@ -174,8 +177,9 @@ review/               Gesicherte Standbilder zur Freigabe (Pilot: phase3/; weite
 ## Befehle
 
 - `npm run check` – prüft alle Szenarien (Aufbau, Länge ≥ 61 s, nimmt echte Sprachlängen)
-- Vorschau-Video (halbe Größe): `npx remotion render <id> review/vorschau/<id>-vorschau.mp4 --scale=0.5 --crf=26`
-- Finales Video: `npx remotion render <id> out/<id>.mp4` (erst nach Freigabe der Vorschau!)
+- Video (volle Größe): `npx remotion render <id> out/<id>.mp4` → nach `review/final/<id>.mp4` kopieren
+- Vorschau daraus: `ffmpeg -i review/final/<id>.mp4 -vf scale=540:960 -crf 26 -c:a copy review/vorschau/<id>-vorschau.mp4`
+- Rendern dauert in der Cloud lange (3D per Software) → im Hintergrund starten.
 - `npm run studio` – Vorschau-Oberfläche
 - Standbild: `npx remotion still <id> out/bild.png --frame=150`
 - Mit sicheren Bereichen: `--props='{"scenarioId":"<id>","showSafeZones":true}'`
