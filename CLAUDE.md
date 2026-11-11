@@ -207,6 +207,10 @@ review/               Gesicherte Standbilder zur Freigabe (Pilot: phase3/; weite
 - Video (volle Größe): `npx remotion render <id> out/<id>.mp4` → nach `review/final/<id>.mp4` kopieren
 - Vorschau daraus: `ffmpeg -i review/final/<id>.mp4 -vf scale=540:960 -crf 26 -c:a copy review/vorschau/<id>-vorschau.mp4`
 - Rendern dauert in der Cloud lange (3D per Software) → im Hintergrund starten.
+- **Empfohlen:** `bash scripts/render-chunks.sh <id>` rendert in Stücken (je 240 Bilder) + Tonspur getrennt und
+  setzt alles zu `review/final/<id>.mp4` zusammen. Wird die Cloud mittendrin neu gestartet: denselben Befehl
+  erneut starten – fertige Stücke (in `out/chunks/<id>/`) werden übersprungen. Fortschritt im Log mitschreiben,
+  z. B. `> out/render-<id>.log`.
 - `npm run studio` – Vorschau-Oberfläche
 - Standbild: `npx remotion still <id> out/bild.png --frame=150`
 - Mit sicheren Bereichen: `--props='{"scenarioId":"<id>","showSafeZones":true}'`
