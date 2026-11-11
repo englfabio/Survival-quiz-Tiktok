@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Medieval wooden drawbridge being raised, heavy iron chains rattling and clanking over a winch, creaking wood, no music",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T14:57:03.827Z"
+}

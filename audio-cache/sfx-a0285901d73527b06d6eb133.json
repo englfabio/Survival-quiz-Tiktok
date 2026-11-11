@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Person falling into cold deep water, one big heavy splash, close, no voice, no music",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T14:57:06.087Z"
+}

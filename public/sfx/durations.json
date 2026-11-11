@@ -26,5 +26,9 @@
   "graben": 3.03,
   "spaten-klonk": 1.045,
   "erde-schieben": 3.03,
-  "schubkarre": 3.03
+  "schubkarre": 3.03,
+  "winter-atmo": 22.047,
+  "zugbruecke": 3.03,
+  "sturz-platschen": 1.515,
+  "hektisch-planschen": 4.049
 }

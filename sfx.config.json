@@ -197,6 +197,34 @@
       "duration": 3,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "winter-atmo",
+      "prompt": "Cold winter ambience by a castle moat, soft icy wind, faint gentle water lapping against stone, very quiet, no birds, no music, no voices",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "zugbruecke",
+      "prompt": "Medieval wooden drawbridge being raised, heavy iron chains rattling and clanking over a winch, creaking wood, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "sturz-platschen",
+      "prompt": "Person falling into cold deep water, one big heavy splash, close, no voice, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "hektisch-planschen",
+      "prompt": "Frantic panicked swimming in water, fast chaotic splashing and thrashing arms, no voice, no music",
+      "duration": 4,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }
