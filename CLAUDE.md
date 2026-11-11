@@ -26,6 +26,10 @@ Gebaut mit Remotion (React → Video) und @remotion/three (3D).
    dem Inhaber Bescheid geben.
 9. **Sichere Bereiche einhalten** (siehe unten).
 10. Arbeiten in **Phasen**; nach jeder Phase anhalten und berichten.
+11. **Vorhandene Bausteine (Bühnen, Figuren, Objekte, Bewegungen, Kleidung) dürfen und sollen wiederverwendet
+    werden, aber nur, wenn sie wirklich zur Szene passen. Wenn etwas Neues besser aussieht oder besser passt,
+    wird es neu gebaut – keine Scheu vor Neuerstellung. Neue Bausteine werden immer wiederverwendbar in den
+    Baukasten aufgenommen.** Die Liste unter „Vorhandene Bausteine“ wird bei jedem neuen Baustein aktualisiert.
 
 ## Das Format (Ablauf eines Videos)
 
@@ -70,7 +74,12 @@ Dort darf nichts Wichtiges stehen (wird von App-Bedienelementen verdeckt):
 
 Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 
-## Baukasten (wiederverwendbar)
+## Vorhandene Bausteine (Baukasten, wiederverwendbar)
+
+> Regel (vom Inhaber): Vorhandene Bausteine (Bühnen, Figuren, Objekte, Bewegungen, Kleidung) dürfen und sollen
+> wiederverwendet werden, aber nur, wenn sie wirklich zur Szene passen. Wenn etwas Neues besser aussieht oder
+> besser passt, wird es neu gebaut – keine Scheu vor Neuerstellung. Neue Bausteine werden immer wiederverwendbar
+> in den Baukasten aufgenommen. **Diese Liste immer aktuell halten.**
 
 - **Bühnen:** Wald mit Weg (`wald`), sonnige Waldlichtung am Waldrand (`waldlichtung`, Variante des Waldes),
   Seeufer mit Uferweg, Böschung, bewegtem See + automatischer Unterwasser-Ansicht (`seeufer`),
@@ -94,7 +103,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   über eine Brücke gehen, abrutschen + ins Wasser fallen, nach Luft schnappen, hektisch kraulen, im Wasser an der Jacke
   zerren, auf dem Rücken treiben, ruhig in Rückenlage schwimmen, am Rand festhalten (+ um Hilfe winken)
 - **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
-- **Weitere Figuren:** Braunbär, Kreuzotter, Petermännchen (gleicher Low-Poly-Look wie der Dummy),
+- **Weitere Figuren:** Braunbär (`bear`: stand, alert, sniff, walk, run, climb), Kreuzotter (`snake`: coil, slither,
+  strike), Petermännchen (`petermaennchen`: buried, finup, swimaway) – gleicher Low-Poly-Look wie der Dummy;
   Nachbar (`nachbar`: gleiche Figur wie der Dummy, aber blau – kann alle Dummy-Bewegungen)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
