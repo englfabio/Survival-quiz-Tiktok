@@ -193,7 +193,7 @@ const Water = ({tau}: {tau: number}) => {
       <meshStandardMaterial
         color={C.water}
         transparent
-        opacity={0.9}
+        opacity={0.8}
         roughness={0.07}
         metalness={0.3}
         flatShading

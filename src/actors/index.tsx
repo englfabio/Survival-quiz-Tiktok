@@ -45,7 +45,7 @@ export const ACTORS = {
 const WATER_MOTIONS = ['swim', 'struggle', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave'];
 
 /** Kälte-Symbol: Höhe über dem Ursprung der Figur (aufrecht im Wasser vs. liegend) */
-const coldHeight = (motion: string) => (['backfloat', 'backswim', 'crawl', 'swim'].includes(motion) ? 0.8 : 2.3);
+const coldHeight = (motion: string) => (['backfloat', 'backswim', 'crawl', 'swim'].includes(motion) ? 0.7 : 2.15);
 
 /** Körperfarbe des Nachbarn (gleiche Figur wie der Dummy, aber blau) */
 const NEIGHBOR_COLOR = '#3f8fd6';

@@ -21,7 +21,7 @@ export const ColdBadge = ({amount, time}: {amount: number; time: number}) => {
   const vis = clamp(amount * 3);
   const strong = clamp(amount - 1);
   const pulse = 1 + (0.06 + 0.1 * strong) * Math.sin(time * (5 + 6 * strong));
-  const size = (0.17 + 0.09 * Math.min(amount, 2)) * vis * pulse;
+  const size = (0.065 + 0.035 * Math.min(amount, 2)) * vis * pulse;
   m.disc.opacity = m.rim.opacity = m.flake.opacity = vis;
   const ringK = (time * (0.8 + strong)) % 1;
   m.ring.opacity = 0.7 * strong * (1 - ringK);

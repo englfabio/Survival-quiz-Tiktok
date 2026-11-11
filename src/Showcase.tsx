@@ -495,6 +495,94 @@ const GARDEN_DEMOS: Demo[] = [
   }),
 ];
 
+
+// ---------- Burg / Burggraben (Kälteschock) ----------
+const BRIDGE_DOWN = {t: 0, x: 0, z: -3, y: 1.0, face: 180, motion: 'park' as Motion, tilt: 0};
+const BRIDGE_UP = {...BRIDGE_DOWN, tilt: 84};
+const DRESSED = {jacket: 1, pants: 1};
+const cDemo = (label: string, seconds: number, camera: Shot['camera'], actors: Shot['actors']): Demo => ({
+  label,
+  stage: 'burg',
+  seconds,
+  shot: {camera, actors},
+});
+const waterCam = (look: [number, number, number], from: [number, number, number]): Shot['camera'] => gCam(look, from, [-0.3, 0, -0.2]);
+const W0 = {x: 2.1, z: 0.6, face: 200, ...DRESSED};
+
+const CASTLE_DEMOS: Demo[] = [
+  cDemo('Bühne: Burg im Winter', 4, gCam([0.5, 3.2, -3], [7.5, 3.0, 17], [-3, 0, 0]), {zugbruecke: [BRIDGE_DOWN]}),
+  cDemo('Bühne: Burggraben + Tor', 3, gCam([0.8, 1.6, -2.4], [5.2, 2.6, 8.5], [-0.8, 0, 0]), {zugbruecke: [BRIDGE_DOWN]}),
+  cDemo('Objekt: Zugbrücke hochklappen', 4.5, gCam([0, 2.6, -1], [8.5, 3.4, 9.5], [-0.6, 0, 0]), {
+    zugbruecke: [BRIDGE_DOWN, {...BRIDGE_DOWN, t: 0.15}, {...BRIDGE_DOWN, t: 0.95, tilt: 84}],
+  }),
+  cDemo('Kleidung: Winterjacke + lange Hose an/aus', 4.5, gCam([0.3, 1.9, 6.0], [-1.6, 2.4, 10.4], [0.4, 0, 0]), {
+    dummy: [
+      {t: 0, x: 0.3, z: 6.0, face: 160, motion: 'stand', jacket: 1, pants: 1},
+      {t: 0.2, x: 0.3, z: 6.0, face: 160, motion: 'stand', jacket: 1, pants: 1},
+      {t: 0.5, x: 0.3, z: 6.0, face: 160, motion: 'stand', jacket: 0, pants: 1},
+      {t: 0.65, x: 0.3, z: 6.0, face: 160, motion: 'stand', jacket: 0, pants: 1},
+      {t: 0.9, x: 0.3, z: 6.0, face: 160, motion: 'stand', jacket: 0, pants: 0},
+    ],
+  }),
+  cDemo('Dummy: über die Zugbrücke gehen', 3.5, gCam([0.2, 1.6, 0.6], [5.6, 2.6, 8.6], [-0.4, 0, 0]), {
+    zugbruecke: [BRIDGE_DOWN],
+    dummy: [
+      {t: 0, x: 0.2, z: 6.0, face: 180, motion: 'cross', attach: 'zugbruecke', ...DRESSED},
+      {t: 1, x: 0.2, z: 2.0, face: 180, motion: 'cross', attach: 'zugbruecke'},
+    ],
+  }),
+  cDemo('Dummy: abrutschen + ins Wasser fallen', 3.5, gCam([1.4, 1.2, 0.6], [5.8, 2.4, 8.4], [-0.3, 0, 0]), {
+    zugbruecke: [BRIDGE_DOWN, {...BRIDGE_DOWN, t: 0.05}, {...BRIDGE_DOWN, t: 0.5, tilt: 22}],
+    dummy: [
+      {t: 0, x: 0.35, z: 4.3, face: 180, motion: 'slip', attach: 'zugbruecke', ...DRESSED},
+      {t: 0.3, x: 1.0, z: 4.1, face: 150, motion: 'slip', attach: 'zugbruecke'},
+      {t: 0.38, x: 1.75, y: 1.75, z: 0.75, face: 140, motion: 'slip'},
+      {t: 0.48, x: 2.1, y: -1.0, z: 0.6, face: 160, motion: 'slip'},
+      {t: 0.5, x: 2.1, y: -1.7, z: 0.6, face: 200, motion: 'gasp', breath: 1.6},
+      {t: 0.65, x: 2.1, y: -1.5, z: 0.6, face: 200, motion: 'gasp'},
+    ],
+    splash: [{t: 0, x: 2.1, z: 0.6, motion: 'park'}, {t: 0.47, x: 2.1, z: 0.6, motion: 'splash'}],
+  }),
+  cDemo('Dummy: nach Luft schnappen (Atemwolken)', 3.5, waterCam([2.1, 0.2, 0.4], [4.2, 1.9, 4.6]), {
+    zugbruecke: [BRIDGE_UP],
+    dummy: [{t: 0, ...W0, y: -1.5, motion: 'gasp', breath: 1.6}],
+  }),
+  cDemo('Dummy: hektisch kraulen (Spritzwasser)', 3.5, waterCam([2.1, -0.1, 1.0], [5.6, 2.2, 4.8]), {
+    zugbruecke: [BRIDGE_UP],
+    dummy: [
+      {t: 0, x: 2.1, z: 0.0, y: -0.3, face: 180, motion: 'crawl', spray: 1, ...DRESSED},
+      {t: 0.5, x: 2.1, z: 0.4, y: -0.75, face: 180, motion: 'crawl'},
+      {t: 1, x: 2.1, z: 0.8, y: -0.3, face: 180, motion: 'crawl'},
+    ],
+  }),
+  cDemo('Dummy: im Wasser an der Jacke zerren (Kälte-Symbol)', 4, waterCam([2.1, -0.3, 0.3], [4.6, 2.8, 5.6]), {
+    zugbruecke: [BRIDGE_UP],
+    dummy: [
+      {t: 0, ...W0, y: -1.4, motion: 'tug', breath: 1.9, cold: 0.6},
+      {t: 1, ...W0, y: -1.7, motion: 'tug', jacket: 0.5, cold: 2},
+    ],
+  }),
+  cDemo('Dummy: auf dem Rücken treiben (Atmung wird ruhiger)', 4.5, gCam([2.4, -1.0, -3.6], [4.4, 5.6, 4.6], [-0.3, 0, 0]), {
+    zugbruecke: [BRIDGE_UP],
+    dummy: [
+      {t: 0, x: 2.3, z: -0.6, face: 200, y: -1.55, motion: 'backfloat', breath: 1.6, ...DRESSED},
+      {t: 0.27, x: 2.3, z: -0.6, face: 200, y: -0.15, motion: 'backfloat'},
+      {t: 1, x: 2.3, z: -0.6, face: 200, y: -0.15, motion: 'backfloat', breath: 0.35},
+    ],
+  }),
+  cDemo('Dummy: ruhig in Rückenlage zum Rand', 4, waterCam([2.6, -0.2, 0.6], [6.8, 3.4, 3.6]), {
+    zugbruecke: [BRIDGE_UP],
+    dummy: [
+      {t: 0, x: 2.3, z: -0.8, face: 0, y: -0.15, motion: 'backswim', breath: 0.35, ...DRESSED},
+      {t: 1, x: 3.0, z: 0.9, face: 0, y: -0.15, motion: 'backswim'},
+    ],
+  }),
+  cDemo('Dummy: am Rand festhalten + um Hilfe winken', 3.5, gCam([3.1, 0.95, 2.5], [7.6, 1.8, 1.0], [0, 0, 0.3]), {
+    zugbruecke: [BRIDGE_UP],
+    dummy: [{t: 0, x: 3.1, z: 2.62, y: -1.55, face: 180, motion: 'edgewave', ...DRESSED}],
+  }),
+];
+
 const DEMOS: Demo[] = [
   dummyDemo('stehen', 'stand', [0, 0]),
   dummyDemo('gehen', 'walk', [0, -3.5]),
@@ -558,13 +646,18 @@ const DEMOS: Demo[] = [
   ...BEACH_DEMOS,
   // ---------- Neu für "Fliegerbombe" (Bühne Garten) ----------
   ...GARDEN_DEMOS,
+  // ---------- Neu für "Burggraben" (Bühne Burg) ----------
+  ...CASTLE_DEMOS,
 ];
 
+/** Index der ersten Burg-Demo (für Übersichtsbilder) */
+export const CASTLE_DEMO_FIRST = DEMOS.length - CASTLE_DEMOS.length;
+
 /** Index der ersten Garten-Demo (für Übersichtsbilder) */
-export const GARDEN_DEMO_FIRST = DEMOS.length - GARDEN_DEMOS.length;
+export const GARDEN_DEMO_FIRST = DEMOS.length - GARDEN_DEMOS.length - CASTLE_DEMOS.length;
 
 /** Index der ersten Strand-Demo (für Übersichtsbilder) */
-export const BEACH_DEMO_FIRST = DEMOS.length - BEACH_DEMOS.length - GARDEN_DEMOS.length;
+export const BEACH_DEMO_FIRST = DEMOS.length - BEACH_DEMOS.length - GARDEN_DEMOS.length - CASTLE_DEMOS.length;
 
 export const SHOWCASE_SECONDS_EACH = 3;
 const secOf = (d: Demo) => d.seconds ?? SHOWCASE_SECONDS_EACH;
