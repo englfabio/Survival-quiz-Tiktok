@@ -1,12 +1,12 @@
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import type {Motion, Shot} from './data/types';
+import type {ActorKey, Motion, Shot} from './data/types';
 import {Scene3D} from './Scene3D';
 import {STAGES} from './stage';
 import {useFonts} from './ui/fonts';
 import {T} from './ui/theme';
 
 /**
- * Baukasten-Ansicht: zeigt jede Bewegung von Dummy, Bär und Kreuzotter einzeln (je 3 s, manche länger).
+ * Baukasten-Ansicht: zeigt jede Bewegung von Dummy, Bär, Kreuzotter und Auto einzeln (je 3 s, manche länger).
  * Nur zum Prüfen – kommt in keinem Quiz-Video vor.
  */
 type Demo = {label: string; shot: Shot; stage?: string; seconds?: number};
@@ -86,6 +86,150 @@ function snakeDemo(label: string, motion: Motion, to: [number, number], face: nu
   };
 }
 
+// ---------- Seeufer / Auto ----------
+/** Auto treibt bei (0, −1) im See, Front zum See (face 0). Fahrerseite (Kamera-Seite) = −x in der Welt. */
+const CAR_FLOAT = {t: 0, x: 0, z: -1, y: -0.55, face: 0, motion: 'float' as Motion};
+const carSideCam = (dist = 5.6, h = 1.3): Shot['camera'] => [
+  {t: 0, pos: [-dist, h, 0.2], look: [-0.5, 0.25, -0.9]},
+  {t: 1, pos: [-dist - 0.2, h + 0.05, -0.3], look: [-0.5, 0.25, -0.9]},
+];
+const seatDemo = (label: string, motion: Motion, seconds = 3, car: Partial<ActorKey>[] = []): Demo => ({
+  label: `Dummy: ${label}`,
+  stage: 'seeufer',
+  seconds,
+  shot: {
+    camera: carSideCam(),
+    actors: {
+      car: [{...CAR_FLOAT}, ...car.map((k) => ({...CAR_FLOAT, ...k}) as ActorKey)],
+      dummy: [{t: 0, x: 0.3, z: -0.2, face: 0, motion, attach: 'car'}],
+    },
+  },
+});
+const carDemo = (label: string, seconds: number, keys: Partial<ActorKey>[], camera: Shot['camera'], extra: Shot['actors'] = {}): Demo => ({
+  label: `Auto: ${label}`,
+  stage: 'seeufer',
+  seconds,
+  shot: {camera, actors: {car: keys.map((k) => ({...CAR_FLOAT, ...k}) as ActorKey), ...extra}},
+});
+
+const LAKE_DEMOS: Demo[] = [
+  {
+    label: 'Bühne: Seeufer',
+    stage: 'seeufer',
+    seconds: 4,
+    shot: {
+      camera: [
+        {t: 0, pos: [-6, 3.0, 10.5], look: [0, 0.3, -1]},
+        {t: 1, pos: [-3.5, 2.8, 10.8], look: [0, 0.2, -2]},
+      ],
+      actors: {car: [{...CAR_FLOAT}]},
+    },
+  },
+  {
+    label: 'Bühne: unter Wasser',
+    stage: 'seeufer',
+    seconds: 4,
+    shot: {
+      camera: [
+        {t: 0, pos: [-7.0, -1.6, 2.4], look: [0, -1.1, -1]},
+        {t: 1, pos: [-6.8, -1.8, 1.2], look: [0, -1.2, -1]},
+      ],
+      actors: {car: [{...CAR_FLOAT, y: -1.5, tilt: 8, motion: 'sink'}]},
+    },
+  },
+  carDemo(
+    'fahren',
+    3,
+    [
+      {t: 0, x: 9, z: 8.5, y: 0, face: 270, motion: 'drive'},
+      {t: 1, x: -9, z: 8.5, y: 0, face: 270, motion: 'drive'},
+    ],
+    [
+      {t: 0, pos: [3, 2.2, 0.5], look: [2, 1.2, 8.5]},
+      {t: 1, pos: [-3, 2.2, 0.5], look: [-4, 1.2, 8.5]},
+    ],
+  ),
+  carDemo(
+    'ins Wasser rollen',
+    4,
+    [
+      {t: 0, x: 0, z: 8.6, y: 0, face: 0, tilt: 0, motion: 'roll'},
+      {t: 0.3, x: 0, z: 5.2, y: 0, tilt: 16, motion: 'roll'},
+      {t: 0.45, x: 0, z: 2.4, y: -0.25, tilt: 8, motion: 'float'},
+      {t: 0.7, x: 0, z: 0.4, y: -0.5, tilt: 3, motion: 'float'},
+      {t: 1, x: 0, z: -0.2, y: -0.55, tilt: 4, motion: 'float'},
+    ],
+    [
+      {t: 0, pos: [-9.5, 3.0, 7.0], look: [0, 0.2, 4]},
+      {t: 1, pos: [-9.5, 2.6, 4.5], look: [0, -0.2, 1]},
+    ],
+    {splash: [{t: 0, x: 0, z: 2.6, motion: 'park'}, {t: 0.4, x: 0, z: 2.6, motion: 'splash'}]},
+  ),
+  carDemo('treiben', 3, [{t: 0}], [
+    {t: 0, pos: [-9.0, 2.2, 3.5], look: [0, -0.5, -1]},
+    {t: 1, pos: [-9.4, 2.3, 2.5], look: [0, -0.5, -1]},
+  ]),
+  carDemo('Fenster fährt runter', 3, [{t: 0.15, window: 0}, {t: 0.85, window: 1}], carSideCam(6)),
+  carDemo('Tür geht auf', 3, [{t: 0.15, door: 0}, {t: 0.85, door: 1}], carSideCam(6.5)),
+  carDemo('Wasserdruck-Pfeile', 3, [{t: 0, pressure: 0}, {t: 0.3, pressure: 1}], carSideCam(7, 1.8)),
+  carDemo('Wasser im Innenraum steigt', 3, [{t: 0, water: 0}, {t: 1, water: 1.2}], carSideCam(6)),
+  carDemo(
+    'vorne abkippen + sinken',
+    5,
+    [
+      {t: 0, y: -0.55, tilt: 0, motion: 'float'},
+      {t: 0.15, y: -0.55, tilt: 0, motion: 'sink'},
+      {t: 1, y: -2.6, tilt: 30, motion: 'sink'},
+    ],
+    [
+      {t: 0, pos: [-9.5, 2.0, 3.0], look: [0, -0.6, -1]},
+      {t: 1, pos: [-9.8, 1.4, 2.5], look: [0, -1.4, -1]},
+    ],
+  ),
+  seatDemo('angeschnallt sitzen', 'buckled'),
+  seatDemo('Gurt lösen', 'unbuckle', 3),
+  seatDemo('Knopf am Fensterheber drücken', 'button', 3.5, [{t: 0.15, window: 0}, {t: 0.9, window: 1}]),
+  seatDemo('gegen die Tür drücken', 'pushdoor', 3.5, [{t: 0, pressure: 1}]),
+  seatDemo('ruhig sitzen und warten', 'wait', 3, [{t: 0, water: 0.2}, {t: 1, water: 0.5}]),
+  {
+    label: 'Dummy: durchs Fenster klettern',
+    stage: 'seeufer',
+    seconds: 4,
+    shot: {
+      camera: [
+        {t: 0, pos: [-6.0, 1.5, 1.4], look: [-0.8, 0.3, -0.9]},
+        {t: 1, pos: [-6.3, 1.5, 1.0], look: [-1.1, 0.2, -0.9]},
+      ],
+      actors: {
+        car: [{...CAR_FLOAT, window: 1}],
+        dummy: [
+          {t: 0, x: 0.3, z: -0.2, face: 0, motion: 'climbout', attach: 'car'},
+          {t: 0.25, x: 0.3, z: -0.1, y: 0.05, face: 90, motion: 'climbout', attach: 'car'},
+          {t: 0.75, x: 0.75, z: -0.05, y: 0.15, face: 90, motion: 'climbout', attach: 'car'},
+          {t: 1, x: 1.35, z: 0.0, y: 0.0, face: 90, motion: 'climbout', attach: 'car'},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Dummy: an der Oberfläche schwimmen',
+    stage: 'seeufer',
+    seconds: 3.5,
+    shot: {
+      camera: [
+        {t: 0, pos: [-6.5, 1.8, 3.8], look: [-2.4, -0.3, 0.1]},
+        {t: 1, pos: [-6.8, 1.8, 4.2], look: [-2.6, -0.3, 0.3]},
+      ],
+      actors: {
+        dummy: [
+          {t: 0, x: -1.6, z: -0.6, y: -0.3, face: 235, motion: 'swim'},
+          {t: 1, x: -3.4, z: 0.7, y: -0.3, face: 235, motion: 'swim'},
+        ],
+      },
+    },
+  },
+];
+
 const DEMOS: Demo[] = [
   dummyDemo('stehen', 'stand', [0, 0]),
   dummyDemo('gehen', 'walk', [0, -3.5]),
@@ -143,6 +287,8 @@ const DEMOS: Demo[] = [
   snakeDemo('schlängeln', 'slither', [0.2, 0.9], 170),
   snakeDemo('zubeißen', 'strike', [0, 0], 150),
   snakeDemo('wegschlängeln', 'slither', [0.1, -1.6], 0, 3.5),
+  // ---------- Neu für "Auto im See" (Bühne Seeufer) ----------
+  ...LAKE_DEMOS,
 ];
 
 export const SHOWCASE_SECONDS_EACH = 3;

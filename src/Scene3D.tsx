@@ -3,7 +3,7 @@ import {ThreeCanvas} from '@remotion/three';
 import {useLayoutEffect} from 'react';
 import {useVideoConfig} from 'remotion';
 import * as THREE from 'three';
-import {Actor, ACTORS, resolveActor, type ActorName} from './actors';
+import {Actor, ACTORS, resolveActors, type ActorName} from './actors';
 import type {Shot, Vec3} from './data/types';
 import {sampleCamera} from './lib/anim';
 import type {StageDef} from './stage/types';
@@ -27,9 +27,7 @@ const CameraRig = ({pos, look, fov}: {pos: Vec3; look: Vec3; fov: number}) => {
  */
 export const Scene3D = ({stage, shot, t, seconds}: {stage: StageDef; shot: Shot; t: number; seconds: number}) => {
   const {width, height} = useVideoConfig();
-  const states = Object.entries(shot.actors)
-    .filter(([, keys]) => keys.length > 0)
-    .map(([name, keys]) => ({name, state: resolveActor(name, keys, t, seconds, stage)}));
+  const states = resolveActors(shot.actors, t, seconds, stage);
 
   const resolveLook = (name: string): Vec3 => {
     // "dummy+bear" = Mitte zwischen beiden Figuren
@@ -40,7 +38,7 @@ export const Scene3D = ({stage, shot, t, seconds}: {stage: StageDef; shot: Shot;
     const a = states.find((s) => s.name === name);
     if (!a) return [0, 1, 0];
     const h = ACTORS[name as ActorName]?.height ?? 1;
-    return [a.state.x, a.state.y + h, a.state.z];
+    return [a.pos.x, a.pos.y + h, a.pos.z];
   };
   const cam = sampleCamera(shot.camera, t, resolveLook);
   const StageComp = stage.Component;
@@ -54,9 +52,9 @@ export const Scene3D = ({stage, shot, t, seconds}: {stage: StageDef; shot: Shot;
       camera={{fov: 38, position: [0, 2, 6]}}
     >
       <CameraRig pos={cam.pos} look={cam.look} fov={cam.fov} />
-      <StageComp />
-      {states.map(({name, state}) => (
-        <Actor key={name} name={name} state={state} />
+      <StageComp cam={cam} />
+      {states.map((a) => (
+        <Actor key={a.name} actor={a} />
       ))}
     </ThreeCanvas>
   );

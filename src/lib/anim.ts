@@ -1,4 +1,4 @@
-import type {ActorKey, CameraKey, Motion, Vec3} from '../data/types';
+import {ACTOR_VALUES, type ActorKey, type ActorValue, type CameraKey, type Motion, type Vec3} from '../data/types';
 
 export const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -24,7 +24,23 @@ export const rng = (seed: number) => {
   };
 };
 
-const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither'];
+const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim'];
+
+/**
+ * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
+ * solange die gleiche Bewegung folgt). Nur für die neuen Bewegungen – ältere Videos bleiben unverändert.
+ */
+const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbuckle', 'button', 'climbout', 'swim', 'pushdoor', 'wait', 'splash'];
+
+/** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */
+const runStart = (keys: ActorKey[], i: number) => {
+  if (!CONTINUOUS.includes(keys[i].motion)) return keys[i].t;
+  let j = i;
+  while (j > 0 && keys[j - 1].motion === keys[i].motion) j--;
+  return keys[j].t;
+};
+
+export type ActorValues = Record<ActorValue, number>;
 
 export type ActorState = {
   x: number;
@@ -38,28 +54,26 @@ export type ActorState = {
   speed: number;
   /** Bissspuren zeigen (Dummy) */
   bite: boolean;
+  /** Weiche Zahlenwerte (Auto: tilt, window, door, water, pressure) */
+  values: ActorValues;
 };
 
-/**
- * Liefert Position/Blickrichtung/Bewegung einer Figur zum Zeitpunkt t (0…1).
- * sectionSeconds = Länge des Abschnitts in Sekunden (für Tempo-Berechnung).
- */
-export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number): ActorState => {
-  // Blickrichtung "vererbt" sich von Key zu Key
-  const faces: number[] = [];
-  const bites: boolean[] = [];
-  let last = 0;
-  let bit = false;
-  for (const k of keys) {
-    if (k.face !== undefined) last = k.face;
-    if (k.bite !== undefined) bit = k.bite;
-    faces.push(last);
-    bites.push(bit);
-  }
-  if (t <= keys[0].t || keys.length === 1) {
-    const k = keys[0];
-    return {x: k.x, y: k.y ?? 0, z: k.z, face: faces[0], motion: k.motion, motionTime: t * sectionSeconds, speed: 0, bite: bites[0]};
-  }
+/** Pro Zeitpunkt die "geerbten" Werte (face, bite, tilt …) – gelten weiter, bis sie sich ändern */
+export const inheritedKeys = (keys: ActorKey[]) => {
+  let face = 0;
+  let bite = false;
+  const vals = Object.fromEntries(ACTOR_VALUES.map((k) => [k, 0])) as ActorValues;
+  return keys.map((k) => {
+    if (k.face !== undefined) face = k.face;
+    if (k.bite !== undefined) bite = k.bite;
+    for (const v of ACTOR_VALUES) if (k[v] !== undefined) vals[v] = k[v] as number;
+    return {face, bite, values: {...vals}};
+  });
+};
+
+/** In welchem Abschnitt (zwischen Zeitpunkt i und i+1) steht t, und wie weit (p = mit Ease) */
+export const segmentAt = (keys: ActorKey[], t: number) => {
+  if (t <= keys[0].t || keys.length === 1) return {i: 0, raw: 0, p: 0, last: keys.length === 1};
   let i = keys.length - 1;
   for (let j = 0; j < keys.length - 1; j++) {
     if (t < keys[j + 1].t) {
@@ -67,36 +81,68 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
       break;
     }
   }
+  if (i === keys.length - 1) return {i, raw: 0, p: 0, last: true};
   const a = keys[i];
   const b = keys[i + 1];
-  if (!b) {
+  const raw = clamp((t - a.t) / (b.t - a.t));
+  const p = MOVING.includes(a.motion) ? raw : easeInOut(raw);
+  return {i, raw, p, last: false};
+};
+
+/**
+ * Liefert Position/Blickrichtung/Bewegung einer Figur zum Zeitpunkt t (0…1).
+ * sectionSeconds = Länge des Abschnitts in Sekunden (für Tempo-Berechnung).
+ */
+export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number): ActorState => {
+  const inh = inheritedKeys(keys);
+  if (t <= keys[0].t || keys.length === 1) {
+    const k = keys[0];
+    return {
+      x: k.x,
+      y: k.y ?? 0,
+      z: k.z,
+      face: inh[0].face,
+      motion: k.motion,
+      motionTime: t * sectionSeconds,
+      speed: 0,
+      bite: inh[0].bite,
+      values: inh[0].values,
+    };
+  }
+  const {i, raw, p, last} = segmentAt(keys, t);
+  const a = keys[i];
+  if (last) {
     return {
       x: a.x,
       y: a.y ?? 0,
       z: a.z,
-      face: faces[i],
+      face: inh[i].face,
       motion: a.motion,
-      motionTime: (t - a.t) * sectionSeconds,
+      motionTime: (t - runStart(keys, i)) * sectionSeconds,
       speed: 0,
-      bite: bites[i],
+      bite: inh[i].bite,
+      values: inh[i].values,
     };
   }
-  const raw = clamp((t - a.t) / (b.t - a.t));
-  const linear = MOVING.includes(a.motion);
-  const p = linear ? raw : easeInOut(raw);
+  const b = keys[i + 1];
   const segSec = Math.max(0.001, (b.t - a.t) * sectionSeconds);
   const dist = Math.hypot(b.x - a.x, b.z - a.z, (b.y ?? 0) - (a.y ?? 0));
   // Drehung passiert im ersten Teil des Abschnitts (schneller als die Bewegung)
   const turnP = easeInOut(clamp(raw * 4));
+  const vp = easeInOut(raw);
+  const values = Object.fromEntries(
+    ACTOR_VALUES.map((v) => [v, lerp(inh[i].values[v], inh[i + 1].values[v], vp)]),
+  ) as ActorValues;
   return {
     x: lerp(a.x, b.x, p),
     y: lerp(a.y ?? 0, b.y ?? 0, p),
     z: lerp(a.z, b.z, p),
-    face: lerpAngle(faces[i], faces[i + 1], turnP),
+    face: lerpAngle(inh[i].face, inh[i + 1].face, turnP),
     motion: a.motion,
-    motionTime: (t - a.t) * sectionSeconds,
+    motionTime: (t - runStart(keys, i)) * sectionSeconds,
     speed: dist / segSec,
-    bite: bites[i],
+    bite: inh[i].bite,
+    values,
   };
 };
 

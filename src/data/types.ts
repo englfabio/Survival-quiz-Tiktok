@@ -24,7 +24,23 @@ export type Motion =
   | 'phone' // Dummy: ruhig sitzen und telefonieren
   | 'slither' // Schlange: schlängeln (auch wegschlängeln)
   | 'coil' // Schlange: zusammengerollt liegen
-  | 'strike'; // Schlange: zubeißen (kurz vorschnellen, zurück)
+  | 'strike' // Schlange: zubeißen (kurz vorschnellen, zurück)
+  // ---- Auto ----
+  | 'park' // Auto: steht still
+  | 'drive' // Auto: fahren (Räder drehen sich)
+  | 'roll' // Auto: langsam rollen (z. B. ins Wasser)
+  | 'float' // Auto: im Wasser treiben (leichtes Schaukeln)
+  | 'sink' // Auto: sinken (Wackeln + Luftblasen); Abkippen über "tilt"
+  // ---- Dummy im Auto / im Wasser ----
+  | 'buckled' // Dummy: angeschnallt sitzen, Hände am Lenkrad
+  | 'unbuckle' // Dummy: Gurt lösen (ca. 1,6 s), danach ohne Gurt
+  | 'button' // Dummy: Knopf am Fensterheber drücken (Blick zum Fenster)
+  | 'climbout' // Dummy: durchs Fenster klettern
+  | 'swim' // Dummy: an der Oberfläche schwimmen
+  | 'pushdoor' // Dummy: mit aller Kraft gegen die Tür drücken
+  | 'wait' // Dummy: angeschnallt, ruhig sitzen und warten
+  // ---- Effekt ----
+  | 'splash'; // Effekt "splash": Wasser spritzt auf (Ring + Tropfen)
 
 /** Ein Zeitpunkt einer Figur. t = 0 … 1 (Anteil am Abschnitt, dehnt sich mit der Audiolänge). */
 export type ActorKey = {
@@ -37,7 +53,27 @@ export type ActorKey = {
   motion: Motion;
   /** Dummy: zwei kleine Bisspunkte an der rechten Wade zeigen (gilt ab diesem Zeitpunkt weiter) */
   bite?: boolean;
+  /**
+   * An eine andere Figur "anhängen" (z. B. "car"): x/y/z/face gelten dann im Auto
+   * (Dummy sitzt im Auto und bewegt sich mit). Wechsel angehängt ↔ frei wird weich überblendet.
+   */
+  attach?: string;
+  // ---- Zahlenwerte, die weich zum nächsten Zeitpunkt übergehen (gelten weiter, bis sie sich ändern) ----
+  /** Auto: nach vorne abkippen in Grad (positiv = Nase nach unten) */
+  tilt?: number;
+  /** Auto: Fahrerfenster 0 = zu … 1 = ganz offen */
+  window?: number;
+  /** Auto: Fahrertür 0 = zu … 1 = weit offen */
+  door?: number;
+  /** Auto: Wasserstand im Innenraum in Metern über dem Boden (0 = trocken, ca. 1,25 = Dach) */
+  water?: number;
+  /** Auto: Wasserdruck-Pfeile auf die Fahrertür, 0 = aus … 1 = voll */
+  pressure?: number;
 };
+
+/** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure'] as const;
+export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
   t: number;
@@ -54,6 +90,8 @@ export type Shot = {
   camera: CameraKey[];
   actors: Record<string, ActorKey[]>;
   sfx?: SfxCue[];
+  /** Abblenden der 3D-Szene: [t Beginn, t Ende, Stärke 0…1] – Texte bleiben sichtbar */
+  fade?: [number, number, number];
 };
 
 /** Wort-Zeitstempel einer Sprachaufnahme (von ElevenLabs) */

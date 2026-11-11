@@ -33,6 +33,8 @@ export type DummyPose = {
   band: number;
   /** Handy in der rechten Hand */
   phone: boolean;
+  /** Sicherheitsgurt: 0 = keiner, 1 = angelegt (dazwischen: rollt sich auf) */
+  belt: number;
 };
 
 const base = (): DummyPose => ({
@@ -50,6 +52,7 @@ const base = (): DummyPose => ({
   foreZ: 0,
   band: 0,
   phone: false,
+  belt: 0,
 });
 
 /** Zwei Haltungen mischen (k = 0 → a, 1 → b) */
@@ -71,7 +74,33 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     foreZ: L(a.foreZ, b.foreZ),
     band: L(a.band, b.band),
     phone: k < 0.5 ? a.phone : b.phone,
+    belt: L(a.belt, b.belt),
   };
+};
+
+/**
+ * Sitzen auf einem Autositz (Fahrer). Hüfte 0,56 m über dem Ursprung → mit "attach": "car"
+ * bei x 0.3, z −0.2, y 0 sitzt er genau auf dem Fahrersitz. Hände am Lenkrad.
+ */
+const carSeat = (time = 0): DummyPose => {
+  const p = base();
+  const breathe = Math.sin(time * 2.2) * 0.01;
+  p.hipY = 0.56;
+  p.legL = {sx: -1.72, sz: 0.07, bend: 0.72};
+  p.legR = {sx: -1.72, sz: -0.07, bend: 0.72};
+  p.torsoX = -0.2 + breathe;
+  p.headX = 0.14;
+  p.armL = {sx: -1.15, sz: -0.14, bend: -0.3};
+  p.armR = {sx: -1.15, sz: 0.14, bend: -0.3};
+  p.belt = 1;
+  return p;
+};
+
+/** Hände ruhig auf den Oberschenkeln */
+const lapArms = (p: DummyPose) => {
+  p.armL = {sx: -0.62, sz: 0.02, bend: -0.75};
+  p.armR = {sx: -0.62, sz: -0.02, bend: -0.75};
+  return p;
 };
 
 /** Sitzen auf dem Boden: Beine nach vorn gestreckt, Hände hinten aufgestützt */
@@ -310,6 +339,109 @@ export const dummyPose = (motion: Motion, time: number, speed: number): DummyPos
       out.band = wrap;
       return out;
     }
+    case 'buckled': {
+      // angeschnallt sitzen, Hände am Lenkrad (kleine Lenkbewegung)
+      const q = carSeat(time);
+      const steer = Math.sin(time * 0.8) * 0.04;
+      q.armL.sx += steer;
+      q.armR.sx -= steer;
+      q.headY = Math.sin(time * 0.6) * 0.1;
+      return q;
+    }
+    case 'wait': {
+      // angeschnallt, ganz ruhig sitzen und warten
+      const q = lapArms(carSeat(time));
+      q.headX = 0.22;
+      q.headY = Math.sin(time * 0.45) * 0.12;
+      return q;
+    }
+    case 'unbuckle': {
+      // rechte Hand zum Gurtschloss (rechte Hüfte), drücken, Gurt rollt sich auf, Hand zurück
+      const start = carSeat(time);
+      const reach = carSeat(time);
+      reach.armR = {sx: -0.3, sz: 0.16, bend: -1.05 + Math.sin(clamp((time - 0.45) / 0.2) * Math.PI) * 0.12};
+      reach.torsoY = -0.18;
+      reach.torsoX = -0.05;
+      reach.headX = 0.5;
+      reach.headY = -0.35;
+      const end = lapArms(carSeat(time));
+      end.belt = 0;
+      let q: DummyPose;
+      if (time < 0.45) q = mix(start, reach, easeInOut(time / 0.45));
+      else if (time < 1.1) q = reach;
+      else q = mix(reach, end, easeInOut(clamp((time - 1.1) / 0.5)));
+      q.belt = 1 - easeInOut(clamp((time - 0.6) / 0.5));
+      return q;
+    }
+    case 'button': {
+      // linke Hand zum Fensterheber an der Tür, Knopf gedrückt halten, Blick zum Fenster
+      const q = lapArms(carSeat(time));
+      q.belt = 0;
+      const k = easeInOut(clamp(time / 0.5));
+      const press = Math.sin(time * 9) * 0.04 * clamp((time - 0.5) / 0.2);
+      const target: Limb = {sx: -0.45, sz: -0.02, bend: -1.15 + press};
+      q.armL = {sx: lerpN(q.armL.sx, target.sx, k), sz: lerpN(q.armL.sz, target.sz, k), bend: lerpN(q.armL.bend, target.bend, k)};
+      q.torsoY = 0.18 * k;
+      q.torsoZ = -0.05 * k;
+      q.headY = 0.65 * k;
+      q.headX = 0.1;
+      return q;
+    }
+    case 'pushdoor': {
+      // angeschnallt, stemmt sich mit aller Kraft gegen die Fahrertür (links, +x)
+      const q = carSeat(time);
+      const k = easeInOut(clamp(time / 0.5));
+      const push = 0.5 + 0.5 * Math.sin(time * 3.4);
+      const shake = Math.sin(time * 31) * 0.025 * k;
+      const target = carSeat(time);
+      target.torsoZ = -0.1 - 0.04 * push + shake;
+      target.torsoY = 0.42;
+      target.torsoX = -0.05;
+      target.headY = 0.5;
+      target.headX = 0.2 + shake;
+      // Hände oben an der Tür (Fensterkante), damit man das Drücken durchs Fenster sieht
+      target.armL = {sx: -0.95, sz: -0.04, bend: -1.15 + 0.15 * push};
+      target.armR = {sx: -1.5, sz: 0.5 + 0.05 * push, bend: -0.45 + 0.15 * push};
+      target.legL = {sx: -1.6, sz: 0.2, bend: 0.5};
+      return mix(q, target, k);
+    }
+    case 'climbout': {
+      // durchs Fenster klettern: auf den Sitz knien, Oberkörper flach hinaus, Arme greifen nach vorn,
+      // Beine strecken sich nach hinten. Ca. 2,2 s, Weg über die Zeitpunkte (attach "car").
+      const u = clamp(time / 2.6);
+      const q = base();
+      const ph = time * TAU * 0.9;
+      const s = Math.sin(ph);
+      const kneel = easeInOut(clamp(u / 0.3));
+      const out = easeInOut(clamp((u - 0.3) / 0.7));
+      q.hipY = lerpN(0.56, 0.62, kneel) + 0.3 * out;
+      q.torsoX = lerpN(0.4, 1.05, kneel) + 0.4 * out;
+      q.headX = -0.6;
+      q.armL = {sx: -2.7 + 0.3 * s, sz: 0.12, bend: -0.3 - 0.3 * Math.max(0, s)};
+      q.armR = {sx: -2.7 - 0.3 * s, sz: -0.12, bend: -0.3 - 0.3 * Math.max(0, -s)};
+      const legSx = lerpN(lerpN(-1.7, 0.2, kneel), 1.15, out);
+      const legBend = lerpN(lerpN(0.7, 1.7, kneel), 0.35, out);
+      q.legL = {sx: legSx + 0.15 * s * out, sz: 0.08, bend: legBend};
+      q.legR = {sx: legSx - 0.15 * s * out, sz: -0.08, bend: legBend};
+      return q;
+    }
+    case 'swim': {
+      // Brustschwimmen an der Oberfläche: Körper liegt flach, Kopf über Wasser
+      const q = base();
+      const ph = (time / 1.3) % 1;
+      const pull = Math.sin(ph * Math.PI * 2);
+      const open = Math.max(0, Math.sin(ph * Math.PI * 2));
+      q.pitch = 1.38;
+      q.hipY = 0.98;
+      q.torsoX = -0.28;
+      q.headX = -0.85;
+      q.armL = {sx: -2.75 + 0.75 * open, sz: 0.25 + 0.9 * open, bend: -0.2 - 0.9 * Math.max(0, -pull)};
+      q.armR = {sx: -2.75 + 0.75 * open, sz: -0.25 - 0.9 * open, bend: -0.2 - 0.9 * Math.max(0, -pull)};
+      const kick = Math.max(0, Math.sin(ph * Math.PI * 2 + 2.2));
+      q.legL = {sx: -0.35 * kick, sz: 0.08 + 0.35 * kick, bend: 1.5 * kick};
+      q.legR = {sx: -0.35 * kick, sz: -0.08 - 0.35 * kick, bend: 1.5 * kick};
+      return q;
+    }
     case 'wave': {
       const k = easeInOut(clamp(time / 0.5));
       p.armR.sz = -0.1 - 2.5 * k;
@@ -333,6 +465,7 @@ const useMats = () =>
       yellow: new THREE.MeshBasicMaterial({color: '#ffd21a', side: THREE.DoubleSide}),
       bite: new THREE.MeshBasicMaterial({color: '#5a1a14', side: THREE.DoubleSide}),
       band: new THREE.MeshStandardMaterial({color: '#e9eef2', roughness: 0.8, flatShading: true}),
+      belt: new THREE.MeshStandardMaterial({color: '#30353b', roughness: 0.85, flatShading: true}),
     }),
     [],
   );
@@ -437,6 +570,19 @@ const Band = ({m, amount}: {m: Mats; amount: number}) => {
   );
 };
 
+/** Sicherheitsgurt: Schultergurt (linke Schulter → rechte Hüfte), rollt sich zur Schulter hin auf */
+const ShoulderBelt = ({m, amount}: {m: Mats; amount: number}) => {
+  if (amount <= 0.01) return null;
+  const len = 0.62;
+  return (
+    <group position={[0.2, 0.56, 0.1]} rotation={[0.28, 0, -0.62]}>
+      <mesh material={m.belt} position={[0, (-len * amount) / 2, 0.02]}>
+        <boxGeometry args={[0.075, len * amount, 0.025]} />
+      </mesh>
+    </group>
+  );
+};
+
 const Leg = ({m, limb, side, bite = false, band = 0}: {m: Mats; limb: Limb; side: 1 | -1; bite?: boolean; band?: number}) => (
   <group position={[0.105 * side, -0.06, 0]} rotation={[limb.sx, 0, limb.sz]}>
     <Joint m={m} r={0.1} />
@@ -465,6 +611,11 @@ export const Dummy = ({pose, bite = false}: {pose: DummyPose; bite?: boolean}) =
         </mesh>
         <Marker m={m} r={0.05} position={[0.19, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
         <Marker m={m} r={0.05} position={[-0.19, 0, 0]} rotation={[0, -Math.PI / 2, 0]} />
+        {pose.belt > 0.6 && (
+          <mesh material={m.belt} position={[0, 0.02, 0.145]}>
+            <boxGeometry args={[0.4, 0.075, 0.025]} />
+          </mesh>
+        )}
         <Leg m={m} limb={pose.legL} side={1} />
         <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} />
         {/* Oberkörper */}
@@ -476,6 +627,7 @@ export const Dummy = ({pose, bite = false}: {pose: DummyPose; bite?: boolean}) =
             <icosahedronGeometry args={[0.18, 1]} />
           </mesh>
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
+          <ShoulderBelt m={m} amount={pose.belt} />
           <Arm m={m} limb={pose.armL} side={1} />
           <Arm m={m} limb={pose.armR} side={-1} foreZ={pose.foreZ} phone={pose.phone} />
           {/* Hals + Kopf (ohne Gesicht) */}

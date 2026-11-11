@@ -78,7 +78,7 @@ const groundHeight = (x: number, z: number) => {
 };
 
 // ---------- Himmel ----------
-const Sky = ({c}: {c: ForestColors}) => {
+export const Sky = ({c}: {c: Pick<ForestColors, 'skyTop' | 'skyHorizon'>}) => {
   const mat = useMemo(
     () =>
       new THREE.ShaderMaterial({
@@ -177,9 +177,9 @@ const Path = ({c, half}: {c: ForestColors; half: number}) => {
 };
 
 // ---------- Instanzen (viele gleiche Objekte, schnell gezeichnet) ----------
-type Inst = {pos: [number, number, number]; scale: [number, number, number]; rotY: number; color: string};
+export type Inst = {pos: [number, number, number]; scale: [number, number, number]; rotY: number; color: string};
 
-const Instances = ({
+export const Instances = ({
   geometry,
   items,
   castShadow = true,

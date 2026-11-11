@@ -27,8 +27,17 @@ export const CommentIcon = ({size, color}: {size: number; color: string}) => (
   </svg>
 );
 
+const Car = ({size, color}: {size: number; color: string}) => (
+  <svg width={size} height={size} viewBox="0 0 100 100">
+    <path d="M14 58 L22 34 Q25 27 33 27 H67 Q75 27 78 34 L86 58 Q92 60 92 66 V76 H8 V66 Q8 60 14 58 Z M27 56 H73 L67 38 Q66 35 62 35 H38 Q34 35 33 38 Z" fill={color} fillRule="evenodd" />
+    <circle cx="26" cy="78" r="9" fill={color} />
+    <circle cx="74" cy="78" r="9" fill={color} />
+  </svg>
+);
+
 const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wildtiere: {label: 'Wildtiere', Icon: Paw},
+  verkehr: {label: 'Verkehr', Icon: Car},
 };
 
 export const categoryInfo = (id: string) => CATEGORIES[id] ?? {label: id, Icon: Warning};

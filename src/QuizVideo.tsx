@@ -88,6 +88,19 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
         <AbsoluteFill style={{color: 'white', fontSize: 50, padding: 100}}>Unbekannte Bühne: {s.stage}</AbsoluteFill>
       )}
 
+      {/* Abblenden der Szene (z. B. bevor es kritisch wirkt) – Texte bleiben darüber sichtbar */}
+      {shotFor(s, sec).fade && (
+        <AbsoluteFill
+          style={{
+            backgroundColor: '#05090b',
+            opacity: interpolate(t, [shotFor(s, sec).fade![0], shotFor(s, sec).fade![1]], [0, shotFor(s, sec).fade![2]], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+            }),
+          }}
+        />
+      )}
+
       {/* Abdunklung oben/unten für Lesbarkeit */}
       <AbsoluteFill
         style={{

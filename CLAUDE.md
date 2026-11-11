@@ -72,12 +72,18 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 
 ## Baukasten (wiederverwendbar)
 
-- **Bühnen:** Wald mit Weg (`wald`), sonnige Waldlichtung am Waldrand (`waldlichtung`, Variante des Waldes)
+- **Bühnen:** Wald mit Weg (`wald`), sonnige Waldlichtung am Waldrand (`waldlichtung`, Variante des Waldes),
+  Seeufer mit Uferweg, Böschung, bewegtem See + automatischer Unterwasser-Ansicht (`seeufer`)
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
   beschwichtigen, winken, gebissen zusammenzucken, besorgt zur Wade schauen, zur Wade beugen (Aussaugen),
-  Band ums Bein wickeln, hinsetzen, ruhig sitzen, sitzen + telefonieren
+  Band ums Bein wickeln, hinsetzen, ruhig sitzen, sitzen + telefonieren,
+  angeschnallt im Auto sitzen, Gurt lösen, Knopf am Fensterheber drücken, durchs Fenster klettern,
+  an der Oberfläche schwimmen, gegen die Tür drücken, ruhig sitzen und warten
 - **Weitere Figuren:** Braunbär, Kreuzotter (gleicher Low-Poly-Look wie der Dummy)
-- **Effekte:** rotes/grünes Aufleuchten, Bewegungslinien
+- **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
+  Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
+- **Effekte:** rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
+  Abblenden der Szene (`fade`)
 
 ## Stimme (ElevenLabs)
 
@@ -121,7 +127,7 @@ Beschreibung und angepinnter Kommentar.
 | Feld | Bedeutung |
 |------|-----------|
 | `id` | Name des Videos (nur a–z, 0–9, `-`) |
-| `category` | z. B. `wildtiere` (Symbol + Name in `src/ui/icons.tsx`) |
+| `category` | z. B. `wildtiere`, `verkehr` (Symbol + Name in `src/ui/icons.tsx`) |
 | `stage` | Bühne, z. B. `wald` (`src/stage/`) |
 | `situation.speech` | Sprechtext Einstieg (auch Untertitel) |
 | `options[]` | genau 3: `card` (Kartentext), `speech` (Sprechtext), `dummyAction` (Beschreibung), `explanation` (Erklärtext), `choreography` (Bewegungen + Kamera der Erklärszene) |
@@ -143,7 +149,18 @@ Beschreibung und angepinnter Kommentar.
   Dummy: `"bite": true` zeigt ab diesem Zeitpunkt zwei kleine Bisspunkte an der rechten Wade (kein Blut).
   `suck`, `tourniquet`, `sit`, `phone` sind Sitz-Haltungen; `sitdown` geht von Stehen zu Sitzen (ca. 1,2 s).
   `strike`: Kopf schnellt ca. 0,35–0,55 s nach Beginn vor (Reichweite ca. 0,6 m in Blickrichtung).
-- Kamera: `{ "t", "pos": [x,y,z], "look": [x,y,z] | "dummy" | "bear" | "dummy+bear", "fov"? }`
+- Auto (Figurname `car`): `park, drive, roll, float, sink`. Zusatzwerte je Zeitpunkt (gehen weich über und gelten
+  weiter, bis sie sich ändern): `tilt` (Grad, + = Nase nach unten), `window` (0 zu … 1 offen), `door` (0 … 1),
+  `water` (Wasserstand im Innenraum in m; ca. 1,25 = bis zum Dach), `pressure` (Druckpfeile 0 … 1).
+  Linkslenker, Fahrerseite = links in Fahrtrichtung. Auto mit `face 0` (Front zum See): Fahrerseite zeigt nach −x.
+- Dummy im Auto: `"attach": "car"` → x/y/z/face gelten im Auto. Fahrersitz: `x 0.3, z −0.2, y 0`
+  (face 0 = nach vorne, 90 = zur Fahrertür). Bewegungen dort: `buckled, unbuckle, button, pushdoor, wait`
+  (mit Gurt außer button), `climbout` (über mehrere Zeitpunkte zum Fenster hinaus). Wechsel von „im Auto“ zu
+  „frei“ (z. B. `swim`) wird automatisch weich überblendet. `swim`: y ≈ −0.3 (Körper flach an der Oberfläche).
+- Neue Bewegungen laufen über mehrere Zeitpunkte durch (Zeit startet nicht neu, solange die gleiche Bewegung folgt).
+- Effekt `splash`: `[{t:0, motion:"park"}, {t:0.27, motion:"splash"}]` – spritzt ab t = 0.27 (ca. 1,6 s).
+- Abblenden: `"fade": [tStart, tEnde, Stärke]` in einem Shot (z. B. `[0.84, 0.97, 0.9]`), Texte bleiben sichtbar.
+- Kamera: `{ "t", "pos": [x,y,z], "look": [x,y,z] | "dummy" | "bear" | "car" | "dummy+bear", "fov"? }`
 - Wald-Koordinaten: Weg entlang der z-Achse bei x = 0 (−20 … +24 gerade), Kletterbaum bei
   (3.3, −2.0). Bäume stehen ab ca. 2,2 m neben dem Weg → Kamera auf dem Weg halten (|x| < 1,5),
   sonst steht ein Baum im Bild.
@@ -151,6 +168,13 @@ Beschreibung und angepinnter Kommentar.
 - Waldlichtung-Koordinaten (`src/stage/Clearing.tsx`): schmaler Pfad bei x = 0, Bäume nur hinten (z < −8)
   und links (x < −7), Heidekraut v. a. rechts. Warmer Stein bei (0.95, −0.3), Oberseite y ≈ 0,26
   → Schlange darauf: `x 0.7, z −0.2, y 0.26`. Kein Kletterbaum.
+- Seeufer-Koordinaten (`src/stage/Lake.tsx`): Wasser bei y = 0, See bei −z, Uferlinie z ≈ 3.2, Böschung bis
+  z ≈ 6.8 (1,1 m hoch), Uferweg bei z ≈ 8.5 entlang x, Bäume ab z ≈ 11.7 (Kamera davor halten!). Holzsteg bei x ≈ 8.5.
+  Schilf nur bei x > 4.2 und x < −18 (Kamera-Bereich links frei). Auf dem See ist „Boden“ = Wasseroberfläche:
+  Auto `y −0.6` = 60 cm eingesunken. Kamera unter y = 0 → Unterwasser-Ansicht (Licht, Teilchen, Strahlen).
+  Auto im Video treibt bei `x 0, z −1, face 0`; Kamera auf der Fahrerseite (x negativ).
+- Kamera-Faustregel Auto: Für das ganze Auto ca. 10–11 m Abstand (das Hochformat ist nur ca. 22° breit),
+  für Fenster + Tür ca. 6 m.
 - Kamera-Faustregel: Das Bild ist schmal (Hochformat, fov 38). Für den ganzen stehenden Dummy ca. 4–5 m
   Abstand, für den sitzenden ca. 4 m. Unten liegen Untertitel (ab ca. y 1250), oben Kopfzeilen.
 
@@ -165,9 +189,9 @@ scripts/voice.ts      Stimme erzeugen (Cache)   scripts/sfx.ts  Soundeffekte erz
 audio-cache/          Alle bezahlten ElevenLabs-Dateien (Hash-Namen) – nie löschen
 src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
 src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
-src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung)
-src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx) + Bewegungen
-src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines)
+src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer)
+src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx) + Bewegungen; index.tsx = Anhängen ("attach")
+src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
 scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
