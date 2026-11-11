@@ -111,7 +111,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Eisenzaun, Kapelle, kahlen Bäumen, „Zombie-Grab“ (`friedhof`, leicht gruselig, aber freundlich, Atmo = `nacht-atmo`),
   helles gefliestes Badezimmer mit Spiegel, Badewanne, Erste-Hilfe-Schrank, Verbandskasten (`badezimmer`),
   gemütliches Wohnzimmer mit Sofa, Teppich, Couchtisch, Stehlampe, Regal (`wohnzimmer`, Atmo = `uhr-ticken`),
-  helle Arztpraxis mit Schreibtisch, Laptop, zwei Stühlen, Liege, Sehtafel, Fenster (`arztpraxis`).
+  helle Arztpraxis mit Schreibtisch, Laptop, zwei Stühlen, Liege, Sehtafel, Fenster (`arztpraxis`),
+  gemütliches Wohnzimmer an Weihnachten am Abend mit Sofa, Teppich, Beistelltisch mit Plätzchen, Stehlampe, Regal,
+  Fenster mit Schnee/Nachthimmel/Nachbarhäusern draußen, Fensterstern, Girlande, Zimmertür zum Flur (`weihnachtszimmer`,
+  Atmo = `feuer-knistern`), Wohnungsflur mit Zimmertür, Wohnungstür, Garderobe, Läufer (`flur`),
+  Mehrfamilienhaus von außen bei Nacht im Schnee mit Haustür, Vordach, Weg, Gehweg, Straße, Straßenlaternen,
+  verschneiten Tannen, Schneefall (`hauseingang`, Atmo = `winter-atmo`).
+  Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
   beschwichtigen, winken, gebissen zusammenzucken, besorgt zur Wade schauen, zur Wade beugen (Aussaugen),
@@ -128,7 +134,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   zerren, auf dem Rücken treiben, ruhig in Rückenlage schwimmen, am Rand festhalten (+ um Hilfe winken),
   in den Arm gebissen zusammenzucken + Arm halten, Unterarm halten, Bissstelle anschauen, Pflaster aufkleben,
   auf Sofa/Stuhl sitzen, auf dem Sofa warten (Finger trommeln, Blick Uhr ↔ Arm), Arm unter fließendes Wasser halten,
-  Desinfektionsspray sprühen, Kompresse auflegen + verbinden, sitzen + Impfpass zeigen, sitzen + nicken/erklären
+  Desinfektionsspray sprühen, Kompresse auflegen + verbinden, sitzen + Impfpass zeigen, sitzen + nicken/erklären,
+  entsetzt zurückweichen, mit dem Eimer rennen (oder stehen), kniend Geschenke hervorziehen, Tür zuziehen,
+  telefonieren + mit links winken
 - **Wunde am Arm (Dummy, linker Unterarm):** kleiner roter Bisspunkt (`armbite`), roter Schimmer/Rötung, die wächst
   (`redness` 0 … 2), Pflaster (`plaster` 0 … 1, Rötung scheint drunter durch), Kompresse + Mullbinde (`dressing` 0 … 1)
 - **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
@@ -151,6 +159,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `spin` = Zeiger rasen), Impfpass (`impfpass`, `open` = aufgeklappt mit Tetanus-Stempel + Haken), Verbandskasten
   (`verbandskasten`), Pflaster (`pflaster`), Desinfektionsspray (`sprayflasche`), sterile Kompresse (`kompresse`).
   Pflaster, Spray (mit Sprühnebel), Kompresse und Impfpass erscheinen bei den passenden Dummy-Bewegungen automatisch in der Hand.
+- **Objekte (Feuer, `src/actors/ChristmasProps.tsx`):** Weihnachtsbaum mit Kugeln, Lichterkette, Stern, Geschenken
+  (`weihnachtsbaum`, Werte `fire` 0 … 1 = Flammen bis zur Decke … 1.6 = riesig, `smoke` = Rauchschicht unter der Decke 0 … 1.5),
+  stilisierte Flammen + Rauch (auch einzeln: `SmokeLayer`), Türen `zimmertuer` / `wohnungstuer` / `haustuer` (Wert `door` 0 zu … 1 offen,
+  `smoke` > 0 = Glut + Rauch hinter der offenen Tür), Eimer mit Wasser (`eimer`; hält der Dummy bei `runbucket` automatisch),
+  Geschenkpakete (`geschenke`; ein Paket hält der Dummy bei `pullgift` automatisch), Feuerwehrauto ohne Logos mit Blaulicht,
+  Leiter, Rollläden (`feuerwehrauto`: `drive`, `park`)
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Effekte:** Schmerz-Symbol am rechten Fuß (Wert `pain`), Stich-Punkt (`sting`), rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
@@ -159,7 +173,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Bühnenwechsel:** Shot-Feld `"stage"` – andere Bühne für einen Abschnitt (`"stage": "wohnzimmer"`) oder Schnitt mitten
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
-- **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten)
+- **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme)
 
 ## Stimme (ElevenLabs)
 
@@ -185,6 +199,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Zombie-Biss: 918 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 69,1 s, Video 78,0 s.
   Wort-Zeitstempel = Text (geprüft). Inhaber wollte direkt bis zum fertigen Video (ohne Zwischenfreigaben).
   Finales Video: review/final/zombie-biss.mp4 (78,0 s), Vorschau in review/vorschau/, vom Inhaber freigegeben.
+- Weihnachtsbaum-Brand: 914 neue Zeichen (countdown/reveal aus Cache), Sprechzeit 65,9 s, Video 74,8 s. Wort-Zeitstempel = Text
+  (geprüft), Kontrolle per scribe_v2 (u. a. „112“): korrekt. Erstes Video im Durchlauf-Modus. Choreografie wird mit
+  `python3 scripts/weihnachtsbaum-choreo.py` aus den Wort-Zeitstempeln erzeugt. Standbilder in review/weihnachtsbaum-brand/phase1/.
+  Finales Video: review/final/weihnachtsbaum-brand.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -203,7 +221,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `graben`, `spaten-klonk`, `erde-schieben`, `schubkarre` (Fliegerbombe-Video; Garten nutzt `wald-atmo`);
   `winter-atmo` (Bühne Burg, Schleife), `zugbruecke`, `sturz-platschen`, `hektisch-planschen` (Burggraben-Video);
   `nacht-atmo` (Bühne Friedhof, Schleife), `uhr-ticken` (Bühne Wohnzimmer, Schleife), `zombie-stoehnen`, `zombie-biss`,
-  `pflaster`, `kalender-blaettern`, `wasserhahn`, `spruehen` (Zombie-Biss-Video).
+  `pflaster`, `kalender-blaettern`, `wasserhahn`, `spruehen` (Zombie-Biss-Video);
+  `feuer-knistern` (Bühne Weihnachtszimmer, Schleife), `feuer-auflodern`, `tuer-zu`, `sirene`, `geschenk-rascheln`,
+  `eimer-schwappen` (Weihnachtsbaum-Brand-Video).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -311,6 +331,17 @@ Beschreibung und angepinnter Kommentar.
   unter dem Strahl), Kamera links seitlich `[-1.95, 1.6, -0.7]`, fov 52. Wohnzimmer (W 5, D 4.6): Dummy auf dem Sofa
   `x 0.45, z −1.85, face 180`, Kalender `x 1.15, y 1.5, z −2.29`, Uhr `x 0.05, y 1.85, z −2.29` (face 180).
   Arztpraxis (W 5, D 4.6): Arzt `x −0.45, z −1.3, face 90`, Patient `x 0.95, z −1.3, face 270`, Fenster rechts (x 2.5, z −1.8 … −0.6).
+- Feuer-Bewegungen Dummy: `recoil, runbucket, pullgift, closedoor, callwave`. `recoil`: Zusammenzucken (0–0,25 s), dann
+  mit abwehrenden Armen rückwärts (Weg über Zeitpunkte; ohne Weg = stehen bleiben). `pullgift`: hinknien (0,7 s), dann alle 1,8 s
+  greifen → Geschenk herausziehen → zur Seite legen. `closedoor`: Griff vorn rechts greifen (0–0,4 s), Tür zudrücken bis 1,2 s
+  (Tür-Wert `door` passend von 1 auf 0). `callwave`: Handy rechts am Ohr, links winken.
+- Weihnachts-Koordinaten (`src/stage/Christmas.tsx`): Weihnachtszimmer W 5.2, D 4.6, Decke 2.6; Baum `x 1.5, z −1.5, face 180`
+  (Rauchgrenzen passen nur dort), Zimmertür linke Wand (x −2.6, z 0.3 … 1.2), Fenster Rückwand (x −1.25 … 0.15), Sofa links.
+  Kamera unter ca. y 1.6 halten (darüber hängt der Rauch), z. B. `[-2.1, 1.5, 6.6]` Blick `[0.4, 0.55, -0.6]` für Optionen.
+  Flur: x −1.2 … 1.2, Rückwand z −3; `zimmertuer` x 1.2, z −1.25, face 270; `wohnungstuer` x −0.47, z −3, face 180;
+  Kamera `[-0.5, 1.75, 5.0]` Blick `[0.5, 1.0, -1.2]`. Hauseingang: Hausfront z −4, `haustuer` x −0.52, z −4, face 180;
+  Gehweg z 4.5 … 6.2, Straße z 6.4 … 12.5, Feuerwehrauto z 9.4, face 90 (fährt nach +x), Länge 6,8 m.
+  Hecken links/rechts vom Weg (|x| 1.2 … 5.8, z ≈ 0.5) – Kamera nicht dahinter stellen.
 - Wald-Koordinaten: Weg entlang der z-Achse bei x = 0 (−20 … +24 gerade), Kletterbaum bei
   (3.3, −2.0). Bäume stehen ab ca. 2,2 m neben dem Weg → Kamera auf dem Weg halten (|x| < 1,5),
   sonst steht ein Baum im Bild.
@@ -348,10 +379,12 @@ src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
 src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
 src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer,
                       Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg, Graveyard.tsx = Friedhof,
-                      Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis)
+                      Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
+                      Christmas.tsx = Weihnachtszimmer, Flur, Hauseingang)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
-                      FirstAidProps.tsx = Erste Hilfe) + Bewegungen; index.tsx = Anhängen ("attach")
+                      FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
+                      Feuerwehrauto) + Bewegungen; index.tsx = Anhängen ("attach")
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
