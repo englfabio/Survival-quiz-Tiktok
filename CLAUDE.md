@@ -88,7 +88,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Hausgarten mit Rasen, umgegrabenem Gemüsebeet (dunkle Erde, Grabstelle), Holzzaun, Gartenhaus, Nachbarhaus,
   eigenem Wohnhaus, Apfelbaum (`garten`, freundliches Tageslicht, Atmo = Vogelgezwitscher vom Wald),
   Steinburg im Winter mit Torhaus, Rundtürmen, Burggraben (dunkles, kaltes Wasser, Eisschollen), kahlen Bäumen,
-  Raureif, leichtem Schneefall, kaltem bläulichem Licht (`burg`, Atmo = `winter-atmo`)
+  Raureif, leichtem Schneefall, kaltem bläulichem Licht (`burg`, Atmo = `winter-atmo`),
+  kleiner Friedhof bei Nacht mit Vollmond, Sternen, Bodennebel, Grabsteinen/Kreuzen, Grablichtern, Laternen,
+  Eisenzaun, Kapelle, kahlen Bäumen, „Zombie-Grab“ (`friedhof`, leicht gruselig, aber freundlich, Atmo = `nacht-atmo`),
+  helles gefliestes Badezimmer mit Spiegel, Badewanne, Erste-Hilfe-Schrank, Verbandskasten (`badezimmer`),
+  gemütliches Wohnzimmer mit Sofa, Teppich, Couchtisch, Stehlampe, Regal (`wohnzimmer`, Atmo = `uhr-ticken`),
+  helle Arztpraxis mit Schreibtisch, Laptop, zwei Stühlen, Liege, Sehtafel, Fenster (`arztpraxis`).
+  Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
   beschwichtigen, winken, gebissen zusammenzucken, besorgt zur Wade schauen, zur Wade beugen (Aussaugen),
   Band ums Bein wickeln, hinsetzen, ruhig sitzen, sitzen + telefonieren,
@@ -101,11 +107,19 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Schweres tragen, Schweres ablegen, Schubkarre schieben, ganz langsam rückwärts weggehen, Stelle mit Warnstab
   markieren, andere warnen (winken + zeigen), stehend telefonieren,
   über eine Brücke gehen, abrutschen + ins Wasser fallen, nach Luft schnappen, hektisch kraulen, im Wasser an der Jacke
-  zerren, auf dem Rücken treiben, ruhig in Rückenlage schwimmen, am Rand festhalten (+ um Hilfe winken)
+  zerren, auf dem Rücken treiben, ruhig in Rückenlage schwimmen, am Rand festhalten (+ um Hilfe winken),
+  in den Arm gebissen zusammenzucken + Arm halten, Unterarm halten, Bissstelle anschauen, Pflaster aufkleben,
+  auf Sofa/Stuhl sitzen, auf dem Sofa warten (Finger trommeln, Blick Uhr ↔ Arm), Arm unter fließendes Wasser halten,
+  Desinfektionsspray sprühen, Kompresse auflegen + verbinden, sitzen + Impfpass zeigen, sitzen + nicken/erklären
+- **Wunde am Arm (Dummy, linker Unterarm):** kleiner roter Bisspunkt (`armbite`), roter Schimmer/Rötung, die wächst
+  (`redness` 0 … 2), Pflaster (`plaster` 0 … 1, Rötung scheint drunter durch), Kompresse + Mullbinde (`dressing` 0 … 1)
 - **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
 - **Weitere Figuren:** Braunbär (`bear`: stand, alert, sniff, walk, run, climb), Kreuzotter (`snake`: coil, slither,
   strike), Petermännchen (`petermaennchen`: buried, finup, swimaway) – gleicher Low-Poly-Look wie der Dummy;
-  Nachbar (`nachbar`: gleiche Figur wie der Dummy, aber blau – kann alle Dummy-Bewegungen)
+  Nachbar (`nachbar`: gleiche Figur wie der Dummy, aber blau – kann alle Dummy-Bewegungen),
+  Zombie (`zombie`: gleicher Low-Poly-Look, grünlich-graue Haut, zerrissenes Hemd mit schiefer Krawatte, zerfranste
+  Hose, Kulleraugen – witzig, kein Blut; Bewegungen shamble, reach, chomp, confused (mit Fragezeichen), wave, stand),
+  Arzt/Ärztin (`arzt`: Dummy-Figur in Türkis mit weißem Kittel + Stethoskop – kann alle Dummy-Bewegungen)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
 - **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
@@ -114,10 +128,20 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Spaten (`spaten`; hält der Dummy bei dig/hithard/stiff automatisch), Schubkarre (`schubkarre`), rot-weißer
   Warnstab mit Absperrband-Fähnchen (`warnstab`), Smartphone (`smartphone`; hält der Dummy bei `call` automatisch)
 - **Objekte (Burg, `src/actors/CastleProps.tsx`):** Zugbrücke (`zugbruecke`) mit Ketten, hochklappbar über `tilt`
+- **Objekte (Erste Hilfe, `src/actors/FirstAidProps.tsx`):** Waschbecken mit Unterschrank + Wasserhahn (`waschbecken`,
+  `flow` = Wasser läuft), Abreißkalender (`kalender`, `flip` = Blätter fliegen, immer schneller), Wanduhr (`wanduhr`,
+  `spin` = Zeiger rasen), Impfpass (`impfpass`, `open` = aufgeklappt mit Tetanus-Stempel + Haken), Verbandskasten
+  (`verbandskasten`), Pflaster (`pflaster`), Desinfektionsspray (`sprayflasche`), sterile Kompresse (`kompresse`).
+  Pflaster, Spray (mit Sprühnebel), Kompresse und Impfpass erscheinen bei den passenden Dummy-Bewegungen automatisch in der Hand.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Effekte:** Schmerz-Symbol am rechten Fuß (Wert `pain`), Stich-Punkt (`sting`), rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
-  Abblenden der Szene (`fade`), Atemwolken (`breath`), Kälte-Symbol (`cold`), Spritzwasser (`spray`), Stoppuhr (`timer`)
+  Abblenden der Szene (`fade`), Atemwolken (`breath`), Kälte-Symbol (`cold`), Spritzwasser (`spray`), Stoppuhr (`timer`),
+  Sprühnebel (Desinfektionsspray), gelbes Fragezeichen über dem Kopf (Zombie `confused`)
+- **Bühnenwechsel:** Shot-Feld `"stage"` – andere Bühne für einen Abschnitt (`"stage": "wohnzimmer"`) oder Schnitt mitten
+  im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
+  Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
+- **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten)
 
 ## Stimme (ElevenLabs)
 
@@ -140,6 +164,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Finales Video: review/final/fliegerbombe-garten.mp4 (84,0 s), Vorschau in review/vorschau/.
 - Burggraben-Kälteschock: 1023 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 75,0 s, Video 84,0 s.
   Wort-Zeitstempel = Text (geprüft). Standbilder in review/burggraben-kaelteschock/phase1/. Finales Video: review/final/burggraben-kaelteschock.mp4 (84,0 s), vom Inhaber freigegeben.
+- Zombie-Biss: 918 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 69,1 s, Video 78,0 s.
+  Wort-Zeitstempel = Text (geprüft). Inhaber wollte direkt bis zum fertigen Video (ohne Zwischenfreigaben).
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -156,7 +182,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `gurt-klick`, `tuer-druecken`, `schwimmen` (Auto-im-See-Video);
   `meer-atmo` (Bühne Meeresstrand, Schleife), `waten`, `stich`, `dampf` (Petermännchen-Video);
   `graben`, `spaten-klonk`, `erde-schieben`, `schubkarre` (Fliegerbombe-Video; Garten nutzt `wald-atmo`);
-  `winter-atmo` (Bühne Burg, Schleife), `zugbruecke`, `sturz-platschen`, `hektisch-planschen` (Burggraben-Video).
+  `winter-atmo` (Bühne Burg, Schleife), `zugbruecke`, `sturz-platschen`, `hektisch-planschen` (Burggraben-Video);
+  `nacht-atmo` (Bühne Friedhof, Schleife), `uhr-ticken` (Bühne Wohnzimmer, Schleife), `zombie-stoehnen`, `zombie-biss`,
+  `pflaster`, `kalender-blaettern`, `wasserhahn`, `spruehen` (Zombie-Biss-Video).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -248,6 +276,22 @@ Beschreibung und angepinnter Kommentar.
   Oberkante 0.45), Ufer steigt bis y 1.0 (ab z ≈ 5), Brückenkopf |x| < 1.5, z 3.4 … 5. Sturzstelle im Video (2.1, 0.6).
   Kamera für Optionen/Countdown: `[4.4, 3.0, 10]` mit Blick `[1.8, −1.5, −2]` (Dummy im Wasser zwischen Überschrift und Karten).
 - Kamera: `{ "t", "pos": [x,y,z], "look": [x,y,z] | "dummy" | "bear" | "car" | "dummy+bear", "fov"? }`
+  (`fov` z. B. 52 in engen Räumen wie dem Badezimmer). Harter Kameraschnitt = zwei Zeitpunkte direkt hintereinander (t 0.748 / 0.752).
+- Erste-Hilfe-Bewegungen Dummy: `armflinch, armhold, armlook, applyplaster, couchsit, chairsit, couchwait, showpass,
+  chairnod, rinse, disinfect, compress`. Bissstelle = linker Unterarm, Oberseite. `armflinch`: Arm zurückreißen (0–0,15 s),
+  ab ca. 0,85 s Unterarm halten. `applyplaster`: Pflaster bei 0,85 s drauf (Wert `plaster` dort von 0 auf 1), ab 1,5 s Arm sinken.
+  `disinfect`: Sprühstöße bei 0,5 / 1,15 / 1,8 s. `compress`: Kompresse liegt bei 0,9 s (`dressing` 0.5), Binde fertig bei 2,4 s (`dressing` 1).
+  Sitzen (`couchsit/chairsit/couchwait/showpass/chairnod`): Sitzhöhe 0,45 m, Hüfte über der Sitzmitte.
+- Zombie (`zombie`): `chomp` – Mund schnappt bei ca. 0,45 s zu, ca. 0,54 m vor der Figur auf 1,36 m Höhe (passt zum
+  Dummy in `calm`, Zombie ca. 1,05 m entfernt, Blick auf den linken Unterarm). `confused`: mit Weg = verwirrt davonschlurfen.
+- Friedhof-Koordinaten (`src/stage/Graveyard.tsx`): Kiesweg bei x = 0 entlang z, Gräberreihen ab |x| ≈ 2,4,
+  Zombie-Grab (2.7, −1.6) mit aufgewühlter Erde davor, Laternen (−1.5, −6), (−1.6, 7.5), (1.45, 11), Zaun z = −26 / x = ±13,
+  Kapelle (−5, −33), Mond hinten links. Im Video: Dummy beim Biss (0, −2.2, face 150), Zombie (1.05, −2.0, face 279).
+- Innenräume (`src/stage/Rooms.tsx`): Boden y = 0, Rückwand bei z = −D/2, vorn offen; Kamera bis ca. z = D/2 + 5 möglich.
+  Badezimmer (W 4.2, D 4.4): Waschbecken `x 0, z −1.66, face 180`, Dummy zum Spülen `x 0.2, z −1.46, face 0` (Unterarm genau
+  unter dem Strahl), Kamera links seitlich `[-1.95, 1.6, -0.7]`, fov 52. Wohnzimmer (W 5, D 4.6): Dummy auf dem Sofa
+  `x 0.45, z −1.85, face 180`, Kalender `x 1.15, y 1.5, z −2.29`, Uhr `x 0.05, y 1.85, z −2.29` (face 180).
+  Arztpraxis (W 5, D 4.6): Arzt `x −0.45, z −1.3, face 90`, Patient `x 0.95, z −1.3, face 270`, Fenster rechts (x 2.5, z −1.8 … −0.6).
 - Wald-Koordinaten: Weg entlang der z-Achse bei x = 0 (−20 … +24 gerade), Kletterbaum bei
   (3.3, −2.0). Bäume stehen ab ca. 2,2 m neben dem Weg → Kamera auf dem Weg halten (|x| < 1,5),
   sonst steht ein Baum im Bild.
@@ -284,9 +328,11 @@ audio-cache/          Alle bezahlten ElevenLabs-Dateien (Hash-Namen) – nie lö
 src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
 src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
 src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer,
-                      Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg)
-src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen) + Objekte
-                      (Basin.tsx = Schüssel, Thermometer.tsx = Schild) + Bewegungen; index.tsx = Anhängen ("attach")
+                      Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg, Graveyard.tsx = Friedhof,
+                      Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis)
+src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
+                      (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
+                      FirstAidProps.tsx = Erste Hilfe) + Bewegungen; index.tsx = Anhängen ("attach")
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
