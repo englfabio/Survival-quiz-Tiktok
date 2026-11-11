@@ -77,7 +77,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Meeresstrand an Nord-/Ostsee mit flachem, klarem Wasser, Spülsaum-Schaum, Dünen mit Strandhafer, Dünenzaun,
   Buhnen, Sonnenschirm (`meeresstrand`, Wellen wie beim Seeufer; Dummy dort automatisch barfuß),
   Hausgarten mit Rasen, umgegrabenem Gemüsebeet (dunkle Erde, Grabstelle), Holzzaun, Gartenhaus, Nachbarhaus,
-  eigenem Wohnhaus, Apfelbaum (`garten`, freundliches Tageslicht, Atmo = Vogelgezwitscher vom Wald)
+  eigenem Wohnhaus, Apfelbaum (`garten`, freundliches Tageslicht, Atmo = Vogelgezwitscher vom Wald),
+  Steinburg im Winter mit Torhaus, Rundtürmen, Burggraben (dunkles, kaltes Wasser, Eisschollen), kahlen Bäumen,
+  Raureif, leichtem Schneefall, kaltem bläulichem Licht (`burg`, Atmo = `winter-atmo`)
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
   beschwichtigen, winken, gebissen zusammenzucken, besorgt zur Wade schauen, zur Wade beugen (Aussaugen),
   Band ums Bein wickeln, hinsetzen, ruhig sitzen, sitzen + telefonieren,
@@ -88,7 +90,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im tiefen Wasser kaum noch über Wasser kommen,
   umgraben, auf etwas Hartes stoßen + erstarren, erstarrt stehen, hinknien + Erde wegschieben, Schweres anheben,
   Schweres tragen, Schweres ablegen, Schubkarre schieben, ganz langsam rückwärts weggehen, Stelle mit Warnstab
-  markieren, andere warnen (winken + zeigen), stehend telefonieren
+  markieren, andere warnen (winken + zeigen), stehend telefonieren,
+  über eine Brücke gehen, abrutschen + ins Wasser fallen, nach Luft schnappen, hektisch kraulen, im Wasser an der Jacke
+  zerren, auf dem Rücken treiben, ruhig in Rückenlage schwimmen, am Rand festhalten (+ um Hilfe winken)
+- **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
 - **Weitere Figuren:** Braunbär, Kreuzotter, Petermännchen (gleicher Low-Poly-Look wie der Dummy),
   Nachbar (`nachbar`: gleiche Figur wie der Dummy, aber blau – kann alle Dummy-Bewegungen)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
@@ -98,10 +103,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Objekte (Garten, `src/actors/GardenProps.tsx`):** rostige Fliegerbombe mit Leitwerk (`fliegerbombe`),
   Spaten (`spaten`; hält der Dummy bei dig/hithard/stiff automatisch), Schubkarre (`schubkarre`), rot-weißer
   Warnstab mit Absperrband-Fähnchen (`warnstab`), Smartphone (`smartphone`; hält der Dummy bei `call` automatisch)
+- **Objekte (Burg, `src/actors/CastleProps.tsx`):** Zugbrücke (`zugbruecke`) mit Ketten, hochklappbar über `tilt`
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Effekte:** Schmerz-Symbol am rechten Fuß (Wert `pain`), Stich-Punkt (`sting`), rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
-  Abblenden der Szene (`fade`)
+  Abblenden der Szene (`fade`), Atemwolken (`breath`), Kälte-Symbol (`cold`), Spritzwasser (`spray`), Stoppuhr (`timer`)
 
 ## Stimme (ElevenLabs)
 
@@ -122,6 +128,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Fliegerbombe: 943 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 75,1 s, Video 84,0 s. Wort-Zeitstempel = Text
   (geprüft). Standbilder in review/fliegerbombe-garten/phase1/, Tonspur in review/fliegerbombe-garten/stimme/.
   Finales Video: review/final/fliegerbombe-garten.mp4 (84,0 s), Vorschau in review/vorschau/.
+- Burggraben-Kälteschock: 1023 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 75,0 s, Video 84,0 s.
+  Wort-Zeitstempel = Text (geprüft). Standbilder in review/burggraben-kaelteschock/phase1/. Finales Video: review/final/burggraben-kaelteschock.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -137,7 +145,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `see-atmo` (Bühne Seeufer, Schleife), `auto-platschen`, `blubbern`, `unterwasser-atmo`, `fensterheber`,
   `gurt-klick`, `tuer-druecken`, `schwimmen` (Auto-im-See-Video);
   `meer-atmo` (Bühne Meeresstrand, Schleife), `waten`, `stich`, `dampf` (Petermännchen-Video);
-  `graben`, `spaten-klonk`, `erde-schieben`, `schubkarre` (Fliegerbombe-Video; Garten nutzt `wald-atmo`).
+  `graben`, `spaten-klonk`, `erde-schieben`, `schubkarre` (Fliegerbombe-Video; Garten nutzt `wald-atmo`);
+  `winter-atmo` (Bühne Burg, Schleife), `zugbruecke`, `sturz-platschen`, `hektisch-planschen` (Burggraben-Video).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -213,6 +222,21 @@ Beschreibung und angepinnter Kommentar.
   (Nachbar am Zaun: (1.6, −7.7), face 180), Nachbarhaus (3.5, −16), Gartenhaus (−6, −4.4), Apfelbaum (6.2, −3.5),
   eigenes Haus ab z ≈ 16. Kamera für Optionen/Countdown: weit oben hinter dem Zaun, z. B. `[2.6, 7.6, −13]` mit
   Blick `[0.3, −1.15, 0]` (Dummy + Bombe zwischen Überschrift und Karten).
+- Burg-Bewegungen Dummy: `cross, slip, gasp, crawl, tug, backfloat, backswim, edgehold, edgewave`.
+  Im Wasser gilt y relativ zur Wasseroberfläche: aufrecht (`gasp, tug, edgehold, edgewave`) ca. −1.4 … −1.8,
+  Bauchlage `crawl` ca. −0.3 (−0.75 … −0.9 = geht kurz unter), Rückenlage (`backfloat, backswim`) −0.15.
+  `backfloat` legt sich in 1,2 s aus dem Aufrecht-Treten zurück (y gleichzeitig von −1.55 auf −0.15 ziehen);
+  in Rückenlage zeigt der Kopf ENTGEGEN der Blickrichtung `face` (face 0 → Kopf Richtung +z). `edgehold/edgewave`
+  richten sich in 1 s aus der Rückenlage auf; am Ufer: `x 3.1, z 2.62, y −1.55, face 180`.
+  `slip`: Fuß rutscht 0–0,35 s weg, danach Fallen mit rudernden Armen (Fallweg über Zeitpunkte, z. B. aus der Brücke heraus).
+  Werte (weich, gelten weiter): `jacket`, `pants` (0/1), `breath` (Atemzüge/s, z. B. 1.7 = hektisch, 0.35 = ruhig),
+  `cold` (Kälte-Symbol 0 … 2), `spray` (Spritzwasser 0 … 1, bei `crawl` vor dem Körper).
+- Zugbrücke (`zugbruecke`): `{x 0, z −3, y 1.0, face 180, motion "park", tilt 0}` = unten, `tilt 84` = oben.
+  Dummy darauf mit `"attach": "zugbruecke"` (z = Abstand vom Tor 0 … 6.4, x seitlich ±1.2, face 180 = Richtung Tor).
+- Shot-Feld `"timer": [tStart, tEnde, Sekunden]` = Stoppuhr oben rechts (Zeitraffer 0:00 → Sekunden, dann grün, blendet aus).
+- Burg-Koordinaten (`src/stage/Castle.tsx`): Graben-Wasser y = 0 zwischen z −3 (Burgmauer/Tor) und z +3 (Ufermauer,
+  Oberkante 0.45), Ufer steigt bis y 1.0 (ab z ≈ 5), Brückenkopf |x| < 1.5, z 3.4 … 5. Sturzstelle im Video (2.1, 0.6).
+  Kamera für Optionen/Countdown: `[4.4, 3.0, 10]` mit Blick `[1.8, −1.5, −2]` (Dummy im Wasser zwischen Überschrift und Karten).
 - Kamera: `{ "t", "pos": [x,y,z], "look": [x,y,z] | "dummy" | "bear" | "car" | "dummy+bear", "fov"? }`
 - Wald-Koordinaten: Weg entlang der z-Achse bei x = 0 (−20 … +24 gerade), Kletterbaum bei
   (3.3, −2.0). Bäume stehen ab ca. 2,2 m neben dem Weg → Kamera auf dem Weg halten (|x| < 1,5),
@@ -250,10 +274,10 @@ audio-cache/          Alle bezahlten ElevenLabs-Dateien (Hash-Namen) – nie lö
 src/Scene3D.tsx       3D-Leinwand: Bühne, Figuren, Kamera
 src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Regel)
 src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer,
-                      Beach.tsx = Meeresstrand, Garden.tsx = Garten)
+                      Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild) + Bewegungen; index.tsx = Anhängen ("attach")
-src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash)
+src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
 scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
