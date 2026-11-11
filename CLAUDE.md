@@ -121,6 +121,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Auto im See: 958 neue Zeichen = 383 Credits (countdown/reveal/outro aus Cache). Kontrolle (scribe_v2): korrekt.
 - Fliegerbombe: 943 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 75,1 s, Video 84,0 s. Wort-Zeitstempel = Text
   (geprüft). Standbilder in review/fliegerbombe-garten/phase1/, Tonspur in review/fliegerbombe-garten/stimme/.
+  Finales Video: review/final/fliegerbombe-garten.mp4 (84,0 s), Vorschau in review/vorschau/.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
