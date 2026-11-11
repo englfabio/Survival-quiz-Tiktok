@@ -244,7 +244,7 @@ export const Sink = ({flow, time}: {flow: boolean; time: number}) => {
       top: std('#eef1f3', {roughness: 0.3}),
       bowl: std('#ffffff', {roughness: 0.15}),
       chrome: new THREE.MeshStandardMaterial({color: '#dfe4e8', roughness: 0.15, metalness: 0.9, flatShading: true}),
-      water: new THREE.MeshStandardMaterial({color: '#9fd8ff', roughness: 0.05, metalness: 0.1, transparent: true, opacity: 0.6, emissive: '#5fb4ef', emissiveIntensity: 0.25}),
+      water: new THREE.MeshStandardMaterial({color: '#5ab8ff', roughness: 0.05, metalness: 0.1, transparent: true, opacity: 0.8, emissive: '#3d9fe8', emissiveIntensity: 0.45}),
       drop: new THREE.MeshBasicMaterial({color: '#cdeeff', transparent: true, opacity: 0.85}),
     }),
     [],
@@ -302,13 +302,13 @@ export const Sink = ({flow, time}: {flow: boolean; time: number}) => {
       {flow && (
         <group>
           <mesh material={m.water} position={[sx, sy - fall / 2, sz]}>
-            <cylinderGeometry args={[0.011, 0.016, fall, 8, 1, true]} />
+            <cylinderGeometry args={[0.02, 0.026, fall, 8, 1, true]} />
           </mesh>
           {[0, 1, 2, 3, 4].map((k) => {
             const u = (time * 2.4 + k / 5) % 1;
             return (
               <mesh key={k} material={m.water} position={[sx, sy - u * fall, sz]} scale={[1, 1.6, 1]}>
-                <icosahedronGeometry args={[0.018, 0]} />
+                <icosahedronGeometry args={[0.028, 0]} />
               </mesh>
             );
           })}

@@ -79,6 +79,7 @@ export type Motion =
   // ---- Dummy: Erste Hilfe (Zombie-Biss) – Bissstelle am linken Unterarm ----
   | 'armflinch' // Dummy: in den Arm gebissen – Arm zurückreißen, dann Unterarm halten und hinschauen
   | 'armhold' // Dummy: steht, hält den linken Unterarm mit der rechten Hand, schaut zur Bissstelle
+  | 'armlook' // Dummy: steht, hält den linken Unterarm vor sich und schaut auf die Bissstelle (rechte Hand locker)
   | 'applyplaster' // Dummy: Pflaster aufkleben (bis 0,85 s), glattstreichen, Arm sinken lassen (ab 1,5 s)
   | 'couchsit' // Dummy: auf Sofa/Stuhl sitzen (Sitzhöhe 0,45 m), Hände auf den Oberschenkeln
   | 'chairsit' // wie couchsit (für Stühle)

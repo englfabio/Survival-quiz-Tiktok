@@ -729,6 +729,13 @@ const firstAidPose = (motion: Motion, time: number, _speed: number): DummyPose |
     }
     case 'armhold':
       return armHoldPose(time);
+    case 'armlook': {
+      // steht, hält den linken Unterarm vor sich und schaut auf die Bissstelle (rechte Hand locker unten)
+      const q = armHoldPose(time);
+      q.armR = L3(-0.15, -0.12, -0.3);
+      q.torsoY = 0.05;
+      return q;
+    }
     case 'applyplaster': {
       // Pflaster über die Bissstelle (bis 0,45 s), aufdrücken (bis 0,85 s), glattstreichen, Arm sinken lassen (ab 1,5 s)
       const hold = armHoldPose(time);
@@ -1713,7 +1720,7 @@ const ForearmWound = ({w}: {w: ArmWound}) => {
   const mats = useMemo(
     () => ({
       dot: new THREE.MeshBasicMaterial({color: '#c8211a', side: THREE.DoubleSide}),
-      red: new THREE.MeshBasicMaterial({color: '#ff2a1c', transparent: true, depthWrite: false, side: THREE.DoubleSide}),
+      red: new THREE.MeshBasicMaterial({color: '#f0140c', transparent: true, depthWrite: false, side: THREE.DoubleSide}),
       glow: new THREE.MeshBasicMaterial({color: '#ff3a24', transparent: true, depthWrite: false}),
       plaster: new THREE.MeshStandardMaterial({color: '#e2b78f', roughness: 0.8, side: THREE.DoubleSide}),
       pad: new THREE.MeshStandardMaterial({color: '#f6f1ea', roughness: 0.9, side: THREE.DoubleSide}),
@@ -1724,9 +1731,9 @@ const ForearmWound = ({w}: {w: ArmWound}) => {
   );
   const R = 0.064;
   const pulse = 0.82 + 0.18 * Math.sin(w.time * 5);
-  mats.red.opacity = clamp(w.red * 1.5) * 0.55 * pulse;
+  mats.red.opacity = clamp(w.red * 1.5) * 0.78 * pulse;
   mats.glow.opacity = clamp(w.red - 1) * 0.35 * pulse;
-  mats.padRed.opacity = clamp(w.red * 0.8) * 0.5 * pulse;
+  mats.padRed.opacity = clamp(w.red * 0.8) * 0.65 * pulse;
   const redH = 0.035 + 0.075 * Math.min(2, w.red);
   const redArc = 0.9 + 0.9 * Math.min(2, w.red);
   return (
@@ -1734,9 +1741,9 @@ const ForearmWound = ({w}: {w: ArmWound}) => {
       {w.bite > 0.5 && w.dressing < 0.5 && (
         <group position={[0, -0.15, R + 0.0015]}>
           <mesh material={mats.dot}>
-            <circleGeometry args={[0.011, 10]} />
+            <circleGeometry args={[0.013, 10]} />
           </mesh>
-          <mesh material={mats.dot} position={[0.016, 0.004, 0]}>
+          <mesh material={mats.dot} position={[0.018, 0.004, 0]}>
             <circleGeometry args={[0.006, 8]} />
           </mesh>
         </group>
@@ -1811,8 +1818,8 @@ const HandItem = ({pose, time}: {pose: DummyPose; time: number}) => {
         </group>
       )}
       {pose.item === 'pass' && (
-        <group position={[0, -0.06, 0.035]} rotation={[0, 0, 0]}>
-          <VaccinationPass open={0.15} />
+        <group position={[0, -0.07, 0.04]} scale={1.5}>
+          <VaccinationPass />
         </group>
       )}
     </group>

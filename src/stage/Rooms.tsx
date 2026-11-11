@@ -123,8 +123,8 @@ const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children}
                 <planeGeometry args={[window.w, H - window.y - window.h]} />
               </mesh>
               {/* Himmel hinter dem Fenster + Rahmen */}
-              <mesh position={[(s * W) / 2 + s * 0.3, window.y + window.h / 2, window.z]} rotation={[0, -s * Math.PI / 2, 0]}>
-                <planeGeometry args={[window.w + 0.6, window.h + 0.6]} />
+              <mesh position={[(s * W) / 2 + s * 1.4, window.y + window.h / 2, window.z]} rotation={[0, -s * Math.PI / 2, 0]}>
+                <planeGeometry args={[window.w + 3, window.h + 3]} />
                 <meshBasicMaterial color={window.sky} />
               </mesh>
               {[
@@ -373,8 +373,9 @@ const BathroomScene = () => {
 // ---------- Wohnzimmer ----------
 /**
  * Wohnzimmer: W 5, D 4.6 → Rückwand z = −2.3. Sofa (fest) mit Sitzmitte bei (0, −1.82);
- * sitzender Dummy: x −0.45 oder 0.45, z −1.8, face 180, Bewegung couchsit/couchwait.
- * Kalender ("kalender"): x 1.45, y 1.45, z −2.29, face 180. Wanduhr ("wanduhr"): x −1.5, y 1.75, z −2.29, face 180.
+ * sitzender Dummy: x −0.5 oder 0.5, z −1.85, face 180, Bewegung couchsit/couchwait.
+ * Kalender ("kalender"): x 1.35, y 1.5, z −2.29, face 180. Wanduhr ("wanduhr"): x −0.35, y 1.75, z −2.29, face 180.
+ * (Bilderrahmen hängt links bei x −1.0.)
  */
 export const LIVING = {W: 5, D: 4.6};
 
@@ -468,15 +469,15 @@ const LivingScene = () => {
         <Plant s={1.3} />
       </group>
       {/* Bilderrahmen über dem Sofa */}
-      <mesh position={[0.1, 1.55, -D / 2 + 0.02]}>
+      <mesh position={[-1.0, 1.55, -D / 2 + 0.02]}>
         <boxGeometry args={[0.7, 0.45, 0.03]} />
         <meshStandardMaterial color="#f3ede0" />
       </mesh>
-      <mesh position={[0.1, 1.55, -D / 2 + 0.04]}>
+      <mesh position={[-1.0, 1.55, -D / 2 + 0.04]}>
         <planeGeometry args={[0.58, 0.33]} />
         <meshStandardMaterial color="#7fb2c9" />
       </mesh>
-      <mesh position={[0.1, 1.47, -D / 2 + 0.045]}>
+      <mesh position={[-1.0, 1.47, -D / 2 + 0.045]}>
         <planeGeometry args={[0.58, 0.14]} />
         <meshStandardMaterial color="#6e9b58" />
       </mesh>
@@ -486,9 +487,10 @@ const LivingScene = () => {
 
 // ---------- Arztpraxis ----------
 /**
- * Arztpraxis: W 5, D 4.6 → Rückwand z = −2.3. Schreibtisch (Oberkante 0,75) quer, Mitte (0.2, −1.0).
- * Arzt ("arzt") sitzt hinter dem Tisch: x 0.2, z −1.75, face 180, chairsit/chairnod.
- * Patient (Dummy) sitzt davor: x 0.05, z −0.05, face 0, chairsit/showpass.
+ * Arztpraxis: W 5, D 4.6 → Rückwand z = −2.3. Schreibtisch (Oberkante 0,75, 1,1 × 0,8 m), Mitte (0.2, −1.3).
+ * Arzt ("arzt") sitzt links am Tisch: x −0.45, z −1.3, face 90, chairsit/chairnod.
+ * Patient (Dummy) sitzt rechts am Tisch: x 0.95, z −1.3, face 270, chairsit/showpass (linker Arm zeigt zur Kamera vorn).
+ * Fenster rechts (x 2.5, z −1.8 … −0.6, Höhe 1.0 … 2.2) – dahinter kann z. B. der Zombie stehen (x 3.15, z −1.2, face 270).
  */
 export const PRAXIS = {W: 5, D: 4.6};
 
@@ -512,49 +514,58 @@ const PraxisScene = () => {
       window={{side: 1, z: -1.2, w: 1.2, y: 1.0, h: 1.2, sky: '#cfe8ff'}}
       light={{ambient: 0.6, hemi: 0.75, sun: 1.5, sunColor: '#fff6e8', lamp: 6, lampColor: '#f4f8ff'}}
     >
-      {/* Schreibtisch */}
-      <group position={[0.2, 0, -1.0]}>
+      {/* Schreibtisch (quer, nur Beine – Knie passen darunter) */}
+      <group position={[0.2, 0, -1.3]}>
         <mesh position={[0, 0.73, 0]} castShadow receiveShadow>
-          <boxGeometry args={[1.5, 0.05, 0.75]} />
+          <boxGeometry args={[1.1, 0.05, 0.8]} />
           <meshStandardMaterial color="#f4f1ea" flatShading />
         </mesh>
-        <mesh position={[-0.55, 0.36, 0]} castShadow>
-          <boxGeometry args={[0.4, 0.72, 0.7]} />
-          <meshStandardMaterial color="#b9c7c2" flatShading />
-        </mesh>
-        <mesh position={[0.72, 0.36, 0]}>
-          <boxGeometry args={[0.04, 0.72, 0.7]} />
-          <meshStandardMaterial color="#b9c7c2" flatShading />
-        </mesh>
-        {/* Bildschirm + Tastatur */}
-        <group position={[-0.35, 0.755, -0.18]} rotation={[0, 0.5, 0]}>
-          <mesh position={[0, 0.27, 0]} castShadow>
-            <boxGeometry args={[0.52, 0.32, 0.03]} />
-            <meshStandardMaterial color="#26292e" />
+        {[
+          [-0.5, -0.35],
+          [0.5, -0.35],
+          [-0.5, 0.35],
+          [0.5, 0.35],
+        ].map(([x, z], i) => (
+          <mesh key={i} position={[x, 0.36, z]} castShadow>
+            <boxGeometry args={[0.05, 0.72, 0.05]} />
+            <meshStandardMaterial color="#9aa8a3" metalness={0.3} />
           </mesh>
-          <mesh position={[0, 0.27, 0.016]}>
-            <planeGeometry args={[0.47, 0.27]} />
-            <meshStandardMaterial color="#7fc6e8" emissive="#5fb1dd" emissiveIntensity={0.4} />
+        ))}
+        {/* Laptop (aufgeklappt, zum Arzt gedreht – flach, verdeckt nichts) */}
+        <group position={[-0.28, 0.755, -0.18]} rotation={[0, Math.PI / 2 + 0.3, 0]}>
+          <mesh position={[0, 0.01, 0]} castShadow>
+            <boxGeometry args={[0.32, 0.02, 0.22]} />
+            <meshStandardMaterial color="#c9ced3" metalness={0.4} roughness={0.4} />
           </mesh>
-          <mesh position={[0, 0.06, 0]}>
-            <boxGeometry args={[0.05, 0.12, 0.05]} />
-            <meshStandardMaterial color="#26292e" />
-          </mesh>
+          <group position={[0, 0.02, -0.11]} rotation={[-0.35, 0, 0]}>
+            <mesh position={[0, 0.1, 0]} castShadow>
+              <boxGeometry args={[0.32, 0.2, 0.012]} />
+              <meshStandardMaterial color="#c9ced3" metalness={0.4} roughness={0.4} />
+            </mesh>
+            <mesh position={[0, 0.1, 0.007]}>
+              <planeGeometry args={[0.29, 0.17]} />
+              <meshStandardMaterial color="#7fc6e8" emissive="#5fb1dd" emissiveIntensity={0.4} />
+            </mesh>
+          </group>
         </group>
-        <mesh position={[0.35, 0.76, 0.12]} rotation={[0, -0.15, 0]}>
+        <mesh position={[-0.25, 0.76, 0.05]} rotation={[0, 0.2, 0]}>
+          <boxGeometry args={[0.2, 0.012, 0.36]} />
+          <meshStandardMaterial color="#e6e8ea" />
+        </mesh>
+        <mesh position={[0.2, 0.76, 0.15]} rotation={[0, -0.15, 0]}>
           <boxGeometry args={[0.3, 0.01, 0.22]} />
           <meshStandardMaterial color="#fdfdfb" />
         </mesh>
-        <mesh position={[0.55, 0.77, 0.1]} rotation={[0, 0, Math.PI / 2]}>
+        <mesh position={[0.38, 0.77, 0.12]} rotation={[0, 0, Math.PI / 2]}>
           <cylinderGeometry args={[0.008, 0.008, 0.14, 6]} />
           <meshStandardMaterial color="#2c7fd0" />
         </mesh>
       </group>
-      {/* Stühle */}
-      <group position={[0.2, 0, -1.78]}>
+      {/* Stühle: Arzt links (schaut nach +x), Patient rechts (schaut nach −x) */}
+      <group position={[-0.45, 0, -1.3]} rotation={[0, Math.PI / 2, 0]}>
         <Chair color="#3f5f7a" />
       </group>
-      <group position={[0.05, 0, -0.05]} rotation={[0, Math.PI, 0]}>
+      <group position={[0.95, 0, -1.3]} rotation={[0, -Math.PI / 2, 0]}>
         <Chair color="#6f9c8a" />
       </group>
       {/* Untersuchungsliege an der linken Wand */}
@@ -600,7 +611,7 @@ const PraxisScene = () => {
           <meshStandardMaterial color="#2f9d57" />
         </mesh>
       </group>
-      <group position={[2.05, 0, -0.1]}>
+      <group position={[-2.0, 0, 0.2]}>
         <Plant s={1.2} />
       </group>
     </Room>

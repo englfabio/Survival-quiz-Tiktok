@@ -16,7 +16,7 @@ import type {StageCam, StageDef} from './types';
  * - Kiesweg entlang der z-Achse bei x = 0 (Breite ca. 2,2 m), Boden flach (y = 0) für |x| < 13, −26 < z < 16.
  * - Gräberreihen links/rechts ab |x| ≈ 2,4. Freie Spielfläche auf dem Weg, z −6 … +10.
  * - „Zombie-Grab“ (großer schiefer Grabstein + aufgewühlte Erde) bei (2.7, −1.6): dahinter kann der Zombie stehen.
- * - Laternen bei (1.45, −4.5), (−1.45, 3.5), (1.45, 11) – warmes Licht.
+ * - Laternen bei (−1.5, −6.0), (−1.6, 7.5), (1.45, 11) – warmes Licht.
  * - Zaun bei z = −26 und x = ±13, Kapelle bei (−5, −33). Mond hinten links oben.
  */
 
@@ -494,8 +494,8 @@ const GraveyardScene = ({cam}: {cam?: StageCam}) => {
           </mesh>
         ))}
       </group>
-      <Lantern x={1.45} z={-4.5} tau={tau} />
-      <Lantern x={-1.45} z={3.5} tau={tau} />
+      <Lantern x={-1.5} z={-6.0} tau={tau} />
+      <Lantern x={-1.6} z={7.5} tau={tau} />
       <Lantern x={1.45} z={11} tau={tau} />
       <Fence from={[-13, -26]} to={[13, -26]} />
       <Fence from={[-13, -26]} to={[-13, 16]} />

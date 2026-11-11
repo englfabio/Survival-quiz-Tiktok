@@ -295,15 +295,15 @@ export const QuestionMark = ({amount}: {amount: number}) => {
   return (
     <group scale={s} rotation={[0, 0, Math.sin(time * 2.2) * 0.12]}>
       {[
-        {mat: m.qEdge, w: 0.042, z: -0.006},
-        {mat: m.q, w: 0.03, z: 0},
+        {mat: m.qEdge, w: 0.042, z: -0.004},
+        {mat: m.q, w: 0.028, z: 0},
       ].map(({mat, w, z}, i) => (
         <group key={i} position={[0, 0, z]}>
-          <mesh material={mat} position={[0, 0.1, 0]} rotation={[0, 0, -0.55]}>
-            <torusGeometry args={[0.08, w, 6, 14, Math.PI * 1.45]} />
+          <mesh material={mat} position={[0, 0.1, 0]}>
+            <ringGeometry args={[0.08 - w, 0.08 + w, 16, 1, -Math.PI / 2, Math.PI * 1.5]} />
           </mesh>
-          <mesh material={mat} position={[0, -0.01, 0]}>
-            <boxGeometry args={[w * 2, 0.08, w * 0.6]} />
+          <mesh material={mat} position={[0, -0.005, 0]}>
+            <planeGeometry args={[w * 2, 0.07]} />
           </mesh>
           <mesh material={mat} position={[0, -0.12, 0]}>
             <circleGeometry args={[w * 1.2, 10]} />

@@ -583,6 +583,115 @@ const CASTLE_DEMOS: Demo[] = [
   }),
 ];
 
+
+// ---------- Erste Hilfe / Zombie-Biss ----------
+const fdDummy = (label: string, motion: Motion, stage: string, seconds = 3.5, extra: Partial<ActorKey> = {}, at: [number, number, number] = [0, 0, -1]): Demo => ({
+  label: `Dummy: ${label}`,
+  stage,
+  seconds,
+  shot: {
+    camera: [
+      {t: 0, pos: [at[0] + 1.6, 1.8, at[1] + 2.4], look: [at[0] + 0.1, 1.0, at[1]]},
+      {t: 1, pos: [at[0] + 1.3, 1.75, at[1] + 2.6], look: [at[0] + 0.1, 1.0, at[1]]},
+    ],
+    actors: {dummy: [{t: 0, x: at[0], z: at[1], face: at[2], motion, armbite: 1, ...extra}]},
+  },
+});
+const zombieDemo = (label: string, motion: Motion, to: [number, number], face: number, seconds = 3.5): Demo => ({
+  label: `Zombie: ${label}`,
+  stage: 'friedhof',
+  seconds,
+  shot: {
+    camera: [
+      {t: 0, pos: [-2.4, 1.7, 4.6], look: [0.5, 1.0, 0]},
+      {t: 1, pos: [-2.0, 1.7, 4.8], look: [0.5, 1.0, 0]},
+    ],
+    actors: {
+      zombie: [
+        {t: 0, x: 0, z: 0, face, motion},
+        {t: 1, x: to[0], z: to[1], face, motion},
+      ],
+    },
+  },
+});
+
+const FIRSTAID_DEMOS: Demo[] = [
+  {
+    label: 'Bühne: Friedhof bei Nacht',
+    stage: 'friedhof',
+    seconds: 4,
+    shot: {camera: [{t: 0, pos: [-1.5, 2.2, 6], look: [0.5, 1.2, -6]}, {t: 1, pos: [-0.8, 2.2, 5.2], look: [0.5, 1.3, -6]}], actors: {}},
+  },
+  zombieDemo('schlurfen (Arme ausgestreckt)', 'shamble', [0, 2], 180),
+  zombieDemo('stehen, Arme ausgestreckt', 'reach', [0, 0], 160),
+  zombieDemo('zubeißen', 'chomp', [0, 0], 120, 2.5),
+  zombieDemo('verwirrt davonschlurfen (Fragezeichen)', 'confused', [1.5, -1.5], 140),
+  zombieDemo('winken', 'wave', [0, 0], 180, 2.5),
+  fdDummy('in den Arm gebissen (Zusammenzucken)', 'armflinch', 'friedhof', 3, {}, [0, 0, 150]),
+  fdDummy('Unterarm halten', 'armhold', 'friedhof', 3, {}, [0, 0, 150]),
+  fdDummy('Bissstelle anschauen (Rötung wächst)', 'armlook', 'friedhof', 3.5, {redness: 1.6}, [0, 0, 150]),
+  fdDummy('Pflaster aufkleben', 'applyplaster', 'friedhof', 3, {plaster: 1}, [0, 0, 150]),
+  {
+    label: 'Bühne: Badezimmer – Arm unter fließendem Wasser',
+    stage: 'badezimmer',
+    seconds: 4,
+    shot: {
+      camera: [{t: 0, pos: [-1.95, 1.6, -0.7], look: [0.111, 1.295, -1.649], fov: 52}],
+      actors: {waschbecken: [{t: 0, x: 0, z: -1.66, face: 180, motion: 'flow'}], dummy: [{t: 0, x: 0.2, z: -1.46, face: 0, motion: 'rinse', armbite: 1}]},
+    },
+  },
+  {
+    label: 'Dummy: Desinfektionsspray',
+    stage: 'badezimmer',
+    seconds: 3,
+    shot: {
+      camera: [{t: 0, pos: [-1.95, 1.65, -0.6], look: [0.131, 1.314, -1.517], fov: 52}],
+      actors: {waschbecken: [{t: 0, x: 0, z: -1.66, face: 180, motion: 'park'}], dummy: [{t: 0, x: 0.2, z: -1.42, face: 0, motion: 'disinfect', armbite: 1}]},
+    },
+  },
+  {
+    label: 'Dummy: Kompresse auflegen + verbinden',
+    stage: 'badezimmer',
+    seconds: 3.5,
+    shot: {
+      camera: [{t: 0, pos: [-1.95, 1.65, -0.6], look: [0.131, 1.314, -1.517], fov: 52}],
+      actors: {
+        waschbecken: [{t: 0, x: 0, z: -1.66, face: 180, motion: 'park'}],
+        dummy: [
+          {t: 0, x: 0.2, z: -1.42, face: 0, motion: 'compress', armbite: 1, dressing: 0},
+          {t: 0.25, x: 0.2, z: -1.42, face: 0, motion: 'compress', dressing: 0.5},
+          {t: 0.7, x: 0.2, z: -1.42, face: 0, motion: 'compress', dressing: 1},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Bühne: Wohnzimmer – warten, Kalender fliegt, Uhr rast',
+    stage: 'wohnzimmer',
+    seconds: 5,
+    shot: {
+      camera: [{t: 0, pos: [0.62, 1.4, 2.6], look: [0.6, 1.101, -1.995]}],
+      actors: {
+        dummy: [{t: 0, x: 0.45, z: -1.85, face: 180, motion: 'couchwait', armbite: 1, redness: 0}, {t: 1, x: 0.45, z: -1.85, face: 180, motion: 'couchwait', redness: 2}],
+        kalender: [{t: 0, x: 1.15, z: -2.29, y: 1.5, face: 180, motion: 'flip'}],
+        wanduhr: [{t: 0, x: 0.05, z: -2.29, y: 1.85, face: 180, motion: 'spin'}],
+      },
+    },
+  },
+  {
+    label: 'Bühne: Arztpraxis – Impfpass zeigen',
+    stage: 'arztpraxis',
+    seconds: 4,
+    shot: {
+      camera: [{t: 0, pos: [0.45, 1.9, 3.9], look: [0.25, 1.45, -1.3]}],
+      actors: {
+        arzt: [{t: 0, x: -0.45, z: -1.3, face: 90, motion: 'chairnod'}],
+        dummy: [{t: 0, x: 0.95, z: -1.3, face: 270, motion: 'showpass', dressing: 1}],
+      },
+    },
+  },
+];
+
 const DEMOS: Demo[] = [
   dummyDemo('stehen', 'stand', [0, 0]),
   dummyDemo('gehen', 'walk', [0, -3.5]),
@@ -648,6 +757,7 @@ const DEMOS: Demo[] = [
   ...GARDEN_DEMOS,
   // ---------- Neu für "Burggraben" (Bühne Burg) ----------
   ...CASTLE_DEMOS,
+  ...FIRSTAID_DEMOS,
 ];
 
 /** Index der ersten Burg-Demo (für Übersichtsbilder) */
