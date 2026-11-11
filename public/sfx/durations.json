@@ -30,5 +30,13 @@
   "winter-atmo": 22.047,
   "zugbruecke": 3.03,
   "sturz-platschen": 1.515,
-  "hektisch-planschen": 4.049
+  "hektisch-planschen": 4.049,
+  "nacht-atmo": 22.047,
+  "zombie-stoehnen": 2.508,
+  "zombie-biss": 1.045,
+  "pflaster": 1.515,
+  "kalender-blaettern": 4.049,
+  "uhr-ticken": 12.042,
+  "wasserhahn": 5.042,
+  "spruehen": 2.508
 }

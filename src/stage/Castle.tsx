@@ -498,7 +498,7 @@ const BankEdge = () => {
 };
 
 // ---------- Kahle Bäume, Raureif-Gras, Schneeflecken ----------
-const bareTreeGeo = () => {
+export const bareTreeGeo = () => {
   const r = rng(71);
   const parts: THREE.BufferGeometry[] = [];
   const trunk = new THREE.CylinderGeometry(0.12, 0.22, 2.6, 6);

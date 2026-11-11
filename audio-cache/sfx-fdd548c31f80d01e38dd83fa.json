@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Calm spooky night ambience on a small old cemetery, crickets chirping, a distant owl hooting softly now and then, light wind, gentle and not scary, no music, no voices",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-11T16:34:39.140Z"
+}

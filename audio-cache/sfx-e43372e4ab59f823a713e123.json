@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Adhesive bandage being peeled from its paper backing and pressed onto skin, short crinkle and soft pat, close, no voice",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T16:34:46.451Z"
+}

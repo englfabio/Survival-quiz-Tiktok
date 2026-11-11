@@ -49,11 +49,20 @@ const Water = ({size, color}: {size: number; color: string}) => (
   </svg>
 );
 
+const FirstAid = ({size, color}: {size: number; color: string}) => (
+  <svg width={size} height={size} viewBox="0 0 100 100">
+    <rect x="8" y="24" width="84" height="64" rx="10" fill={color} />
+    <path d="M36 24 V16 A6 6 0 0 1 42 10 H58 A6 6 0 0 1 64 16 V24" fill="none" stroke={color} strokeWidth="7" />
+    <path d="M43 38 H57 V49 H68 V63 H57 V74 H43 V63 H32 V49 H43 Z" fill="#2a2d31" />
+  </svg>
+);
+
 const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wildtiere: {label: 'Wildtiere', Icon: Paw},
   verkehr: {label: 'Verkehr', Icon: Car},
   alltag: {label: 'Alltag', Icon: House},
   wasser: {label: 'Wasser', Icon: Water},
+  'erste-hilfe': {label: 'Erste Hilfe', Icon: FirstAid},
 };
 
 export const categoryInfo = (id: string) => CATEGORIES[id] ?? {label: id, Icon: Warning};

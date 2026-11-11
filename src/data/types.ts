@@ -76,7 +76,28 @@ export type Motion =
   | 'backswim' // Dummy: ruhig in Rückenlage schwimmen (langsame Armzüge, Kopf voraus)
   | 'edgehold' // Dummy: aufrecht im Wasser, hält sich mit beiden Händen am Rand fest (stellt sich in ca. 1 s auf)
   | 'edgewave' // Dummy: hält sich links am Rand fest und winkt rechts um Hilfe
+  // ---- Dummy: Erste Hilfe (Zombie-Biss) – Bissstelle am linken Unterarm ----
+  | 'armflinch' // Dummy: in den Arm gebissen – Arm zurückreißen, dann Unterarm halten und hinschauen
+  | 'armhold' // Dummy: steht, hält den linken Unterarm mit der rechten Hand, schaut zur Bissstelle
+  | 'applyplaster' // Dummy: Pflaster aufkleben (bis 0,85 s), glattstreichen, Arm sinken lassen (ab 1,5 s)
+  | 'couchsit' // Dummy: auf Sofa/Stuhl sitzen (Sitzhöhe 0,45 m), Hände auf den Oberschenkeln
+  | 'chairsit' // wie couchsit (für Stühle)
+  | 'couchwait' // Dummy: zurückgelehnt sitzen und warten, Finger trommeln, Blick wechselt zwischen Uhr und Arm
+  | 'showpass' // Dummy: sitzt und hält den Impfpass nach vorn
+  | 'chairnod' // sitzt, nickt und erklärt mit der rechten Hand (z. B. Arzt)
+  | 'rinse' // Dummy: vorgebeugt am Waschbecken, Unterarm unter fließendem Wasser
+  | 'disinfect' // Dummy: Desinfektionsspray auf die Bissstelle sprühen (3 Stöße ab 0,5 s)
+  | 'compress' // Dummy: Kompresse auflegen (bis 0,9 s) und mit Mullbinde umwickeln (bis 2,4 s)
+  // ---- Zombie (Figur "zombie") ----
+  | 'shamble' // Zombie: schlurfen, Arme ausgestreckt (Weg über Zeitpunkte, ca. 0,4–0,6 m/s)
+  | 'reach' // Zombie: stehen, Arme ausgestreckt, schwankt
+  | 'chomp' // Zombie: zubeißen – vorbeugen, Kopf schnappt bei ca. 0,45 s zu, zurück
+  | 'confused' // Zombie: verwirrt (kratzt sich am Kopf, Fragezeichen) – mit Weg = verwirrt davonschlurfen
   // ---- Objekte ----
+  | 'flow' // Waschbecken ("waschbecken"): Wasser läuft
+  | 'flip' // Kalender ("kalender"): Blätter reißen ab und fliegen weg (immer schneller)
+  | 'spin' // Wanduhr ("wanduhr"): Zeiger rasen (Zeitraffer)
+  | 'open' // Impfpass ("impfpass"): aufgeklappt
   | 'plant' // Warnstab ("warnstab"): wird in die Erde gedrückt (gleichzeitig mit Dummy "mark")
   | 'buriedbomb' // Fliegerbombe: Erdkrümel liegen drauf (halb in der Erde)
   | 'steam' // Schüssel ("schuessel"): heißes Wasser dampft
@@ -125,10 +146,18 @@ export type ActorKey = {
   cold?: number;
   /** Dummy: Wasser spritzt um ihn herum (z. B. hektisches Kraulen). 0 = aus … 1 = stark */
   spray?: number;
+  /** Dummy: Bissstelle am linken Unterarm (kleiner roter Punkt), 0 = aus, 1 = an */
+  armbite?: number;
+  /** Dummy: Rötung um die Bissstelle (roter Schimmer), 0 = keine … 1 = rot … 2 = groß, ganzer Unterarm schimmert */
+  redness?: number;
+  /** Dummy: Pflaster auf der Bissstelle, 0 = keins … 1 = aufgeklebt */
+  plaster?: number;
+  /** Dummy: sterile Kompresse + Mullbinde, 0 = keine … 1 = fertig verbunden */
+  dressing?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
@@ -158,6 +187,11 @@ export type Shot = {
    * angegebenen Zeit (Zeitraffer), wird dann grün und blendet sich kurz danach aus.
    */
   timer?: [number, number, number];
+  /**
+   * Andere Bühne für diesen Abschnitt (sonst die Bühne des Szenarios). Entweder ein Name ("badezimmer")
+   * oder eine Liste mit Schnitten [{t: 0, stage: "badezimmer"}, {t: 0.62, stage: "arztpraxis"}].
+   */
+  stage?: string | {t: number; stage: string}[];
 };
 
 /** Wort-Zeitstempel einer Sprachaufnahme (von ElevenLabs) */

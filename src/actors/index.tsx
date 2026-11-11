@@ -15,6 +15,8 @@ import {Snake, snakePose} from './Snake';
 import {Thermometer} from './Thermometer';
 import {AerialBomb, SmartphoneProp, SpadeProp, WarnStake, Wheelbarrow} from './GardenProps';
 import {Weever, weeverPose} from './Weever';
+import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
+import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
 
 /**
  * Figuren-Baukasten. Neue Figur = neue Datei + hier eintragen.
@@ -39,6 +41,17 @@ export const ACTORS = {
   smartphone: {height: 0.12, climbOffset: 0, speedLineHeight: 0},
   // ---- Burg ----
   zugbruecke: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  // ---- Erste Hilfe (Zombie-Biss) ----
+  zombie: {height: 1.45, climbOffset: 0.2, speedLineHeight: 1.0},
+  arzt: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  waschbecken: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  kalender: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  wanduhr: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  impfpass: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  verbandskasten: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  pflaster: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  sprayflasche: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  kompresse: {height: 0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -49,6 +62,8 @@ const coldHeight = (motion: string) => (['backfloat', 'backswim', 'crawl', 'swim
 
 /** Körperfarbe des Nachbarn (gleiche Figur wie der Dummy, aber blau) */
 const NEIGHBOR_COLOR = '#3f8fd6';
+/** Körperfarbe der Ärztin/des Arztes (gleiche Figur wie der Dummy, türkis, mit weißem Kittel) */
+const DOCTOR_COLOR = '#2fae9c';
 
 /** Petermännchen größer als echt (ca. 0,48 m statt 0,3 m), damit es im Hochformat gut zu sehen ist */
 const WEEVER_SCALE = 1.6;
@@ -191,8 +206,14 @@ export const Actor = ({
   const lines = state.motion === 'run' && state.speed > 1.5;
   const v = state.values;
   const coldPos = pos.clone().add(new THREE.Vector3(0, coldHeight(state.motion), 0));
+  const qPos = pos.clone().add(new THREE.Vector3(0, 2.2, 0));
   return (
     <>
+    {name === 'zombie' && state.motion === 'confused' && (
+      <group position={qPos} quaternion={billboard(qPos, camPos)}>
+        <QuestionMark amount={Math.min(1, state.motionTime / 0.5)} />
+      </group>
+    )}
     {name === 'dummy' && v.cold > 0.01 && (
       <group position={coldPos} quaternion={billboard(coldPos, camPos)}>
         <ColdBadge amount={v.cold} time={state.motionTime} />
@@ -210,8 +231,24 @@ export const Actor = ({
           pants={v.pants}
           breath={v.breath}
           breathPhase={state.breathPhase}
+          armbite={v.armbite}
+          redness={v.redness}
+          plaster={v.plaster}
+          dressing={v.dressing}
         />
       )}
+      {name === 'arzt' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={DOCTOR_COLOR} coat />
+      )}
+      {name === 'zombie' && <Zombie pose={zombiePoseBlended(state.motion, state.motionTime, state.speed, state.prev)} />}
+      {name === 'waschbecken' && <Sink flow={state.motion === 'flow'} time={state.motionTime} />}
+      {name === 'kalender' && <WallCalendar flipTime={state.motion === 'flip' ? state.motionTime : 0} />}
+      {name === 'wanduhr' && <WallClock spinTime={state.motion === 'spin' ? state.motionTime : 0} time={state.motionTime} />}
+      {name === 'impfpass' && <VaccinationPass open={state.motion === 'open' ? 1 : 0} />}
+      {name === 'verbandskasten' && <FirstAidKit />}
+      {name === 'pflaster' && <PlasterStrip />}
+      {name === 'sprayflasche' && <SprayBottle />}
+      {name === 'kompresse' && <CompressPad />}
       {name === 'dummy' && v.spray > 0.01 && (
         <group position={[0, waterLevel - pos.y, state.motion === 'crawl' ? 1.1 : 0]}>
           <Spray time={state.motionTime} amount={v.spray} spread={state.motion === 'crawl' ? [0.55, 1.0] : [0.6, 0.6]} />

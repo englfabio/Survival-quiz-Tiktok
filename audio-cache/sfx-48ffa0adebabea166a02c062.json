@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Bathroom tap turned on, water running steadily from a faucet into a sink, close, no voice",
+  "duration": 5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T16:34:54.870Z"
+}

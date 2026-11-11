@@ -42,6 +42,18 @@ const shotFor = (s: Scenario, sec: Section): Shot => {
   }
 };
 
+/** Bühne eines Abschnitts zum Zeitpunkt t (Shot-Feld "stage" überschreibt die Bühne des Szenarios) */
+export const stageNameAt = (s: Scenario, shot: Shot, t: number) => {
+  if (!shot.stage) return s.stage;
+  if (typeof shot.stage === 'string') return shot.stage;
+  let cur = s.stage;
+  for (const k of shot.stage) if (t >= k.t) cur = k.stage;
+  return cur;
+};
+
+/** Zeitpunkte (0…1) der Bühnenwechsel innerhalb eines Abschnitts */
+export const stageCuts = (shot: Shot) => (Array.isArray(shot.stage) ? shot.stage.map((k) => k.t).filter((t) => t > 0) : []);
+
 /** Die drei Karten (während Optionen, Countdown, Auflösung) */
 const Cards = ({s, sec, local}: {s: Scenario; sec: Section; local: number}) => {
   const top = 860;
@@ -70,7 +82,6 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
   const sec = sectionAt(timeline, frame);
   const local = frame - sec.from;
   const t = Math.min(1, local / sec.duration);
-  const stage = STAGES[s.stage];
   const isCorrect = sec.kind === 'explain' && sec.option === s.correctOption;
 
   // Zeitstempel der Stimme für den aktuellen Abschnitt
@@ -84,9 +95,17 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
   const frozen = freezeLocal !== undefined && local >= freezeLocal;
   const sinceFreeze = freezeLocal !== undefined ? local - freezeLocal : 0;
   const flashFrame = freezeLocal !== undefined && !isCorrect ? sinceFreeze : local;
+  const stageName = stageNameAt(s, shot, frozen ? shot.freeze! : t);
+  const stage = STAGES[stageName];
 
-  // kurzer Abblende-Übergang an jedem Schnitt
-  const cutFade = interpolate(local, [0, 5], [0.55, 0], {extrapolateRight: 'clamp'});
+  // kurzer Abblende-Übergang an jedem Schnitt (auch bei Bühnenwechsel mitten im Abschnitt)
+  const cutFade = Math.max(
+    interpolate(local, [0, 5], [0.55, 0], {extrapolateRight: 'clamp'}),
+    ...stageCuts(shot).map((c) => {
+      const d = local - Math.round(c * sec.duration);
+      return d < 0 ? 0 : interpolate(d, [0, 6], [0.6, 0], {extrapolateRight: 'clamp'});
+    }),
+  );
 
   return (
     <AbsoluteFill style={{backgroundColor: T.anthracite}}>
@@ -109,7 +128,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
           </Freeze>
         </AbsoluteFill>
       ) : (
-        <AbsoluteFill style={{color: 'white', fontSize: 50, padding: 100}}>Unbekannte Bühne: {s.stage}</AbsoluteFill>
+        <AbsoluteFill style={{color: 'white', fontSize: 50, padding: 100}}>Unbekannte Bühne: {stageName}</AbsoluteFill>
       )}
 
       {/* Abblenden der Szene (z. B. bevor es kritisch wirkt) – Texte bleiben darüber sichtbar */}
@@ -204,7 +223,6 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
       <AudioLayer
         s={s}
         timeline={timeline}
-        stage={stage}
         hasVoice={!!alignment}
         fps={fps}
         shotFor={(x) => shotFor(s, x)}

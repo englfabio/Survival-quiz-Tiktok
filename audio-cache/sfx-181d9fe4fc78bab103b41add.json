@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Quiet living room with a wall clock ticking steadily, calm room tone, no music, no voices",
+  "duration": 12,
+  "loop": true,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T16:34:52.352Z"
+}

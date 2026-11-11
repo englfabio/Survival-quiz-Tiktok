@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Funny cartoon zombie groan, slow dopey moaning 'uuuhhh', goofy and harmless, not scary, no music",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-11T16:34:41.512Z"
+}

@@ -2,7 +2,7 @@ import type {ReactElement} from 'react';
 import {Html5Audio, Sequence, staticFile} from 'remotion';
 import type {Scenario, SfxCue, Shot} from './data/types';
 import type {Section, Timeline} from './data/timeline';
-import type {StageDef} from './stage/types';
+import {STAGES} from './stage';
 
 /**
  * Tonspur: Stimme, Hintergrundgeräusch der Bühne und Soundeffekte.
@@ -28,14 +28,12 @@ const Sfx = ({id, from, volume}: {id: string; from: number; volume: number}) => 
 export const AudioLayer = ({
   s,
   timeline,
-  stage,
   hasVoice,
   fps,
   shotFor,
 }: {
   s: Scenario;
   timeline: Timeline;
-  stage?: StageDef;
   hasVoice: boolean;
   fps: number;
   shotFor: (sec: Section) => Shot;
@@ -76,11 +74,35 @@ export const AudioLayer = ({
     );
   });
 
+  // Hintergrundgeräusch je Bühne (wechselt mit der Bühne; gleiche Geräusche hintereinander laufen durch)
+  const amb: {from: number; to: number; id?: string}[] = [];
+  const pushAmb = (from: number, to: number, stageName: string) => {
+    const id = STAGES[stageName]?.ambience;
+    const last = amb[amb.length - 1];
+    if (last && last.id === id) last.to = to;
+    else if (to > from) amb.push({from, to, id});
+  };
+  timeline.sections.forEach((sec) => {
+    const st = shotFor(sec).stage;
+    if (!st) return pushAmb(sec.from, sec.from + sec.duration, s.stage);
+    if (typeof st === 'string') return pushAmb(sec.from, sec.from + sec.duration, st);
+    const keys = st[0]?.t > 0 ? [{t: 0, stage: s.stage}, ...st] : st;
+    keys.forEach((k, j) => {
+      const a = sec.from + Math.round(k.t * sec.duration);
+      const b = j + 1 < keys.length ? sec.from + Math.round(keys[j + 1].t * sec.duration) : sec.from + sec.duration;
+      pushAmb(a, b, k.stage);
+    });
+  });
+
   return (
     <>
-      {stage?.ambience && (
-        <Html5Audio src={staticFile(`sfx/${stage.ambience}.mp3`)} volume={VOLUME.ambience} loop />
-      )}
+      {amb
+        .filter((a) => a.id)
+        .map((a) => (
+          <Sequence key={`amb-${a.from}`} from={a.from} durationInFrames={a.to - a.from} layout="none" name={`Atmo ${a.id}`}>
+            <Html5Audio src={staticFile(`sfx/${a.id}.mp3`)} volume={VOLUME.ambience} loop />
+          </Sequence>
+        ))}
       {items}
     </>
   );

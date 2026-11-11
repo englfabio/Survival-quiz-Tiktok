@@ -225,6 +225,62 @@
       "duration": 4,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "nacht-atmo",
+      "prompt": "Calm spooky night ambience on a small old cemetery, crickets chirping, a distant owl hooting softly now and then, light wind, gentle and not scary, no music, no voices",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "zombie-stoehnen",
+      "prompt": "Funny cartoon zombie groan, slow dopey moaning 'uuuhhh', goofy and harmless, not scary, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "zombie-biss",
+      "prompt": "Cartoon chomp bite sound, quick comedic teeth snap 'chomp' with a tiny squeak, no gore, no scream",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "pflaster",
+      "prompt": "Adhesive bandage being peeled from its paper backing and pressed onto skin, short crinkle and soft pat, close, no voice",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "kalender-blaettern",
+      "prompt": "Wall calendar pages being torn off one after another faster and faster, paper ripping and fluttering, no music",
+      "duration": 4,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "uhr-ticken",
+      "prompt": "Quiet living room with a wall clock ticking steadily, calm room tone, no music, no voices",
+      "duration": 12,
+      "loop": true,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "wasserhahn",
+      "prompt": "Bathroom tap turned on, water running steadily from a faucet into a sink, close, no voice",
+      "duration": 5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "spruehen",
+      "prompt": "Three short spray bursts from a small pump spray bottle, disinfectant spray hiss, close, no voice",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

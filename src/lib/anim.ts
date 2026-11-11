@@ -25,7 +25,7 @@ export const rng = (seed: number) => {
 };
 
 const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway',
-  'push', 'retreat', 'cross', 'crawl', 'backswim'];
+  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
@@ -35,13 +35,17 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'wade', 'stepflinch', 'hop', 'holdfoot', 'ice', 'tweeze', 'testtemp', 'footbath', 'struggle',
   'buried', 'finup', 'swimaway', 'steam', 'show',
   'dig', 'hithard', 'stiff', 'uncover', 'lift', 'carry', 'lower', 'push', 'retreat', 'mark', 'warn', 'call', 'plant',
-  'cross', 'slip', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave'];
+  'cross', 'slip', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave',
+  'armflinch', 'armhold', 'applyplaster', 'couchsit', 'chairsit', 'couchwait', 'showpass', 'chairnod', 'rinse', 'disinfect', 'compress',
+  'shamble', 'reach', 'chomp', 'confused', 'flow', 'flip', 'spin', 'open'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
   'wade', 'stepflinch', 'hop', 'holdfoot', 'ice', 'tweeze', 'testtemp', 'footbath', 'struggle',
   'dig', 'hithard', 'stiff', 'uncover', 'lift', 'carry', 'lower', 'push', 'retreat', 'mark', 'warn', 'call',
   'cross', 'slip', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave',
+  'armflinch', 'armhold', 'applyplaster', 'couchsit', 'chairsit', 'couchwait', 'showpass', 'chairnod', 'rinse', 'disinfect', 'compress',
+  'shamble', 'reach', 'chomp', 'confused',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */

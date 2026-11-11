@@ -4,6 +4,7 @@ import {useCurrentFrame} from 'remotion';
 import * as THREE from 'three';
 import type {Motion} from '../data/types';
 import {clamp, easeInOut} from '../lib/anim';
+import {CompressPad, PlasterStrip, SprayBottle, SprayMist, VaccinationPass} from './FirstAidProps';
 import {Smartphone, Spade} from './GardenProps';
 
 /**
@@ -52,6 +53,10 @@ export type DummyPose = {
   smartphone: boolean;
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
+  /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass';
+  /** Sprühnebel aus dem Desinfektionsspray: 0 = aus … 1 = voll */
+  mist: number;
 };
 
 const base = (): DummyPose => ({
@@ -76,6 +81,8 @@ const base = (): DummyPose => ({
   spadeTilt: -0.25,
   smartphone: false,
   chest: 0,
+  item: '',
+  mist: 0,
 });
 
 /** Zwei Haltungen mischen (k = 0 → a, 1 → b) */
@@ -105,6 +112,8 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     spadeTilt: L(a.spadeTilt, b.spadeTilt),
     smartphone: k < 0.5 ? a.smartphone : b.smartphone,
     chest: L(a.chest, b.chest),
+    item: k < 0.5 ? a.item : b.item,
+    mist: L(a.mist, b.mist),
   };
 };
 
@@ -646,9 +655,181 @@ const moatPose = (motion: Motion, time: number, speed: number): DummyPose | null
   return null;
 };
 
+// ---------- Erste Hilfe (Zombie-Biss) ----------
+// Bissstelle: linker Unterarm, Oberseite. Haltungen mit Python-Vorwärtsrechnung abgestimmt:
+// PRESENT_L = linker Unterarm waagerecht vor dem Körper (Mitte ca. 0,25 m vor, 1,2 m hoch), Oberseite zeigt nach oben.
+const PRESENT_L = (): Limb => L3(-0.35, -0.25, -1.2);
+/** rechte Hand liegt auf der Bissstelle */
+const HOLD_R = (): Limb => L3(-0.4, 0.95, -0.65);
+/** rechte Hand ca. 20 cm über der Bissstelle (Sprühen, Pflaster/Kompresse bereithalten) */
+const ABOVE_R = (): Limb => L3(-0.3, 1.25, -1.05);
+/** Unterarm unter dem Wasserhahn (Oberkörper 0,3 nach vorn gebeugt) */
+const SINK_L = (): Limb => L3(-0.5, -0.2, -1.35);
+const mixLimb = (a: Limb, b: Limb, k: number): Limb => ({sx: lerpN(a.sx, b.sx, k), sz: lerpN(a.sz, b.sz, k), bend: lerpN(a.bend, b.bend, k)});
+
+/** Steht und hält den gebissenen linken Unterarm mit der rechten Hand, Blick zur Bissstelle */
+const armHoldPose = (time: number): DummyPose => {
+  const p = base();
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  p.armL = PRESENT_L();
+  p.armR = HOLD_R();
+  p.torsoX = 0.12 + breathe;
+  p.torsoY = 0.1;
+  p.headX = 0.5;
+  p.headY = 0.28 + Math.sin(time * 0.9) * 0.04;
+  p.legL = L3(0, 0.07, 0.04);
+  p.legR = L3(0, -0.07, 0.04);
+  return p;
+};
+
+/** Sitzen auf Stuhl/Sofa: Sitzfläche 0,45 m hoch, Füße auf dem Boden, Hände auf den Oberschenkeln */
+const chairSit = (time: number): DummyPose => {
+  const p = base();
+  p.hipY = 0.56;
+  p.legL = L3(-1.57, 0.08, 1.5);
+  p.legR = L3(-1.57, -0.08, 1.5);
+  p.torsoX = -0.1 + Math.sin(time * 2.2) * 0.01;
+  p.headX = 0.08;
+  p.armL = L3(-0.62, 0.04, -0.75);
+  p.armR = L3(-0.62, -0.04, -0.75);
+  return p;
+};
+
+/** Sprühstöße: 0 … 1 (drei kurze Stöße ab 0,5 s) */
+const sprayPulses = (time: number) => {
+  let m = 0;
+  for (const s of [0.5, 1.15, 1.8]) {
+    const u = (time - s) / 0.4;
+    if (u > 0 && u < 1) m = Math.max(m, Math.sin(Math.PI * u));
+  }
+  return m;
+};
+
+const firstAidPose = (motion: Motion, time: number, _speed: number): DummyPose | null => {
+  switch (motion) {
+    case 'armflinch': {
+      // gebissen: Arm zurückreißen (0–0,15 s), Zittern, dann Unterarm halten und hinschauen
+      const yank = base();
+      yank.hipY = 1.02;
+      yank.armL = L3(-1.1, 0.55, -1.9);
+      yank.armR = L3(-0.3, -0.45, -0.5);
+      yank.torsoX = -0.18;
+      yank.torsoY = 0.25;
+      yank.headX = -0.15;
+      yank.headY = 0.3;
+      if (time < 0.15) return mix(base(), yank, easeInOut(time / 0.15));
+      const shake = Math.sin(time * 40) * 0.05 * Math.max(0, 1 - (time - 0.15) / 0.5);
+      if (time < 0.3) {
+        yank.torsoX += shake;
+        return yank;
+      }
+      const q = mix(yank, armHoldPose(time), easeInOut(clamp((time - 0.3) / 0.55)));
+      q.torsoX += shake;
+      return q;
+    }
+    case 'armhold':
+      return armHoldPose(time);
+    case 'applyplaster': {
+      // Pflaster über die Bissstelle (bis 0,45 s), aufdrücken (bis 0,85 s), glattstreichen, Arm sinken lassen (ab 1,5 s)
+      const hold = armHoldPose(time);
+      const above = armHoldPose(time);
+      above.armR = ABOVE_R();
+      let q: DummyPose;
+      if (time < 0.45) q = mix(hold, above, easeInOut(time / 0.45));
+      else if (time < 0.85) q = mix(above, hold, easeInOut((time - 0.45) / 0.4));
+      else if (time < 1.5) {
+        q = hold;
+        const st = Math.sin((time - 0.85) * TAU * 2.3);
+        q.armR = L3(-0.4 - 0.08 * st, 0.95, -0.65 + 0.12 * st);
+      } else {
+        const end = base();
+        end.torsoX = -0.03;
+        end.headX = 0.05;
+        end.armL = L3(-0.2, 0.12, -0.5);
+        q = mix(hold, end, easeInOut(clamp((time - 1.5) / 0.5)));
+      }
+      q.item = time < 0.85 ? 'plaster' : '';
+      return q;
+    }
+    case 'couchsit':
+    case 'chairsit':
+      return chairSit(time);
+    case 'couchwait': {
+      // sitzt zurückgelehnt auf dem Sofa, wartet: trommelt mit den Fingern, schaut abwechselnd zur Uhr und zum Arm
+      const q = chairSit(time);
+      q.torsoX = -0.24 + Math.sin(time * 1.6) * 0.012;
+      q.armL = L3(-0.95, -0.05, -0.75);
+      q.armR = L3(-0.55, -0.06, -0.78 + 0.07 * Math.max(0, Math.sin(time * 15)));
+      const look = (Math.sin(time * 0.75) + 1) / 2;
+      q.headY = lerpN(-0.45, 0.3, look);
+      q.headX = lerpN(-0.05, 0.45, look);
+      q.chest = 0.3 * Math.max(0, Math.sin(time * 0.5));
+      return q;
+    }
+    case 'showpass': {
+      // sitzt und hält mit rechts den Impfpass nach vorn (zeigt ihn dem Arzt)
+      const q = chairSit(time);
+      const k = easeInOut(clamp(time / 0.6));
+      q.armR = mixLimb(q.armR, L3(-1.05, 0.25, -0.55), k);
+      q.armL = L3(-0.75, 0.0, -0.9);
+      q.torsoX = -0.05 + 0.08 * k;
+      q.headX = 0.12 + Math.sin(time * 1.4) * 0.03;
+      q.item = 'pass';
+      return q;
+    }
+    case 'chairnod': {
+      // sitzt, nickt zustimmend und erklärt mit der rechten Hand (z. B. Arzt)
+      const q = chairSit(time);
+      q.torsoX = 0.05;
+      q.headX = 0.1 + 0.13 * Math.max(0, Math.sin(time * 5.2)) * (Math.sin(time * 0.9) > -0.3 ? 1 : 0);
+      q.armR = L3(-0.9 + 0.12 * Math.sin(time * 2.1), -0.15, -1.1 + 0.15 * Math.sin(time * 2.6));
+      q.foreZ = 0.2 * Math.sin(time * 2.1);
+      return q;
+    }
+    case 'rinse': {
+      // vorgebeugt am Waschbecken, linker Unterarm unter dem Wasserstrahl, rechte Hand spült/reibt sanft
+      const q = base();
+      const k = easeInOut(clamp(time / 0.6));
+      q.torsoX = 0.3 * k;
+      q.hipY = 0.97;
+      q.legL = L3(-0.08, 0.08, 0.1);
+      q.legR = L3(0.04, -0.08, 0.06);
+      q.armL = mixLimb(base().armL, SINK_L(), k);
+      const r = (Math.sin(time * 5.5) + 1) / 2;
+      q.armR = mixLimb(base().armR, L3(lerpN(-0.6, -0.3, r), lerpN(1.0, 1.1, r), -0.6), k);
+      q.headX = 0.55 * k;
+      q.headY = 0.15 * k;
+      return q;
+    }
+    case 'disinfect': {
+      // hält den Unterarm vor sich, sprüht mit rechts drei Stöße Desinfektionsspray auf die Bissstelle
+      const q = armHoldPose(time);
+      const k = easeInOut(clamp(time / 0.4));
+      q.armR = mixLimb(HOLD_R(), ABOVE_R(), k);
+      q.armR.bend += 0.05 * sprayPulses(time);
+      q.item = 'spray';
+      q.mist = sprayPulses(time);
+      return q;
+    }
+    case 'compress': {
+      // Kompresse auflegen (bis 0,9 s), mit Mullbinde umwickeln (bis 2,4 s), andrücken
+      const q = armHoldPose(time);
+      if (time < 0.45) q.armR = mixLimb(HOLD_R(), ABOVE_R(), easeInOut(time / 0.45));
+      else if (time < 0.9) q.armR = mixLimb(ABOVE_R(), HOLD_R(), easeInOut((time - 0.45) / 0.45));
+      else if (time < 2.4) {
+        const ph = (time - 0.9) * TAU * 1.4;
+        q.armR = L3(-0.42, 0.95 + 0.22 * Math.cos(ph), -0.7 - 0.3 * Math.sin(ph));
+      } else q.armR = HOLD_R();
+      q.item = time < 0.9 ? 'compress' : '';
+      return q;
+    }
+  }
+  return null;
+};
+
 /** Berechnet die Körperhaltung für eine Bewegung. time = Sekunden seit Bewegungsbeginn. */
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -1104,7 +1285,7 @@ export const dummyPoseBlended = (
 };
 
 // ---------- Bauteile ----------
-const useMats = (color = YELLOW) =>
+const useMats = (color = YELLOW, coat = false) =>
   useMemo(
     () => ({
       body: new THREE.MeshStandardMaterial({color, roughness: 0.45, metalness: 0.05, flatShading: true}),
@@ -1122,13 +1303,13 @@ const useMats = (color = YELLOW) =>
       painCore: new THREE.MeshBasicMaterial({color: '#ffd23a', depthTest: false, transparent: true}),
       painGlow: new THREE.MeshBasicMaterial({color: '#ff2a1a', transparent: true, opacity: 0.4, depthWrite: false}),
       // ---- Kleidung (Winterjacke + lange Hose) ----
-      jacket: new THREE.MeshStandardMaterial({color: JACKET, roughness: 0.75, flatShading: true}),
-      jacketDark: new THREE.MeshStandardMaterial({color: '#7e2219', roughness: 0.8, flatShading: true}),
-      fur: new THREE.MeshStandardMaterial({color: '#e9e1d2', roughness: 1, flatShading: true}),
+      jacket: new THREE.MeshStandardMaterial({color: coat ? '#f4f6f8' : JACKET, roughness: 0.75, flatShading: true}),
+      jacketDark: new THREE.MeshStandardMaterial({color: coat ? '#dfe5ea' : '#7e2219', roughness: 0.8, flatShading: true}),
+      fur: new THREE.MeshStandardMaterial({color: coat ? '#f4f6f8' : '#e9e1d2', roughness: 1, flatShading: true}),
       pants: new THREE.MeshStandardMaterial({color: PANTS, roughness: 0.85, flatShading: true}),
-      reflect: new THREE.MeshStandardMaterial({color: '#dfe6ea', roughness: 0.3, metalness: 0.2, flatShading: true}),
+      reflect: new THREE.MeshStandardMaterial({color: coat ? '#f4f6f8' : '#dfe6ea', roughness: 0.3, metalness: 0.2, flatShading: true}),
     }),
-    [color],
+    [color, coat],
   );
 
 type Mats = ReturnType<typeof useMats>;
@@ -1180,6 +1361,7 @@ const Arm = ({
   spade = false,
   smartphone = false,
   sleeve = 0,
+  wound,
 }: {
   m: Mats;
   limb: Limb;
@@ -1192,6 +1374,8 @@ const Arm = ({
   smartphone?: boolean;
   /** Jackenärmel: 1 = an, 0 = aus (dazwischen rutscht er Richtung Hand) */
   sleeve?: number;
+  /** linker Unterarm: Bissstelle, Rötung, Pflaster, Kompresse */
+  wound?: ArmWound;
 }) => (
   <group position={[0.27 * side, 0.44, 0]} rotation={[limb.sx, 0, limb.sz]}>
     <Joint m={m} r={0.09} />
@@ -1206,6 +1390,7 @@ const Arm = ({
     <group position={[0, -0.31, 0]} rotation={[limb.bend, 0, foreZ]}>
       <Joint m={m} r={0.07} />
       <Seg m={m} len={0.27} r={0.07} r2={0.058} />
+      {wound && <ForearmWound w={wound} />}
       {sleeve > 0.03 && (
         <group position={[0, -Math.min(1, 1 - sleeve) * 0.2, 0]}>
           <mesh material={m.jacket} position={[0, -0.12, 0]} castShadow>
@@ -1513,6 +1698,127 @@ const JacketBody = ({m, amount, chest}: {m: Mats; amount: number; chest: number}
   );
 };
 
+// ---------- Erste Hilfe: Bissstelle, Rötung, Pflaster, Kompresse (linker Unterarm, Oberseite) ----------
+/** Werte für den linken Unterarm: bite/plaster/dressing 0 … 1, red 0 … 2 */
+export type ArmWound = {bite: number; red: number; plaster: number; dressing: number; time: number};
+
+/** Teil-Zylinder auf der Oberseite (+z) des Unterarms, Mitte 0,15 m unter dem Ellbogen */
+const ArmShell = ({r, h, arc, mat, y = -0.15, z = 0}: {r: number; h: number; arc: number; mat: THREE.Material; y?: number; z?: number}) => (
+  <mesh material={mat} position={[0, y, z]} renderOrder={5}>
+    <cylinderGeometry args={[r * 1.02, r * 0.98, h, 16, 1, true, -arc / 2, arc]} />
+  </mesh>
+);
+
+const ForearmWound = ({w}: {w: ArmWound}) => {
+  const mats = useMemo(
+    () => ({
+      dot: new THREE.MeshBasicMaterial({color: '#c8211a', side: THREE.DoubleSide}),
+      red: new THREE.MeshBasicMaterial({color: '#ff2a1c', transparent: true, depthWrite: false, side: THREE.DoubleSide}),
+      glow: new THREE.MeshBasicMaterial({color: '#ff3a24', transparent: true, depthWrite: false}),
+      plaster: new THREE.MeshStandardMaterial({color: '#e2b78f', roughness: 0.8, side: THREE.DoubleSide}),
+      pad: new THREE.MeshStandardMaterial({color: '#f6f1ea', roughness: 0.9, side: THREE.DoubleSide}),
+      padRed: new THREE.MeshBasicMaterial({color: '#e0261a', transparent: true, depthWrite: false, side: THREE.DoubleSide}),
+      gauze: new THREE.MeshStandardMaterial({color: '#f4f6f8', roughness: 1, flatShading: true, side: THREE.DoubleSide}),
+    }),
+    [],
+  );
+  const R = 0.064;
+  const pulse = 0.82 + 0.18 * Math.sin(w.time * 5);
+  mats.red.opacity = clamp(w.red * 1.5) * 0.55 * pulse;
+  mats.glow.opacity = clamp(w.red - 1) * 0.35 * pulse;
+  mats.padRed.opacity = clamp(w.red * 0.8) * 0.5 * pulse;
+  const redH = 0.035 + 0.075 * Math.min(2, w.red);
+  const redArc = 0.9 + 0.9 * Math.min(2, w.red);
+  return (
+    <group>
+      {w.bite > 0.5 && w.dressing < 0.5 && (
+        <group position={[0, -0.15, R + 0.0015]}>
+          <mesh material={mats.dot}>
+            <circleGeometry args={[0.011, 10]} />
+          </mesh>
+          <mesh material={mats.dot} position={[0.016, 0.004, 0]}>
+            <circleGeometry args={[0.006, 8]} />
+          </mesh>
+        </group>
+      )}
+      {w.red > 0.01 && w.dressing < 0.5 && <ArmShell r={R + 0.003} h={redH} arc={redArc} mat={mats.red} />}
+      {w.red > 1.01 && (
+        <mesh material={mats.glow} position={[0, -0.14, 0]} scale={[1, clamp(w.red - 1) * 0.9 + 0.1, 1]} renderOrder={6}>
+          <cylinderGeometry args={[R * 1.45, R * 1.4, 0.26, 12]} />
+        </mesh>
+      )}
+      {w.plaster > 0.01 && (
+        <group scale={[1, Math.max(0.05, w.plaster), 1]} position={[0, -0.15 * (1 - Math.max(0.05, w.plaster)), 0]}>
+          <ArmShell r={R + 0.006} h={0.082} arc={1.7} mat={mats.plaster} />
+          <ArmShell r={R + 0.008} h={0.036} arc={0.95} mat={mats.pad} />
+          {w.red > 0.01 && <ArmShell r={R + 0.0095} h={0.036} arc={0.95} mat={mats.padRed} />}
+        </group>
+      )}
+      {w.dressing > 0.01 && (
+        <group>
+          <ArmShell r={R + 0.007} h={0.09} arc={1.9} mat={mats.pad} />
+          {w.dressing > 0.4 && (
+            <mesh material={mats.gauze} position={[0, -0.15, 0]} scale={[1, clamp((w.dressing - 0.4) / 0.6), 1]}>
+              <cylinderGeometry args={[R + 0.014, R + 0.012, 0.13, 10, 3, true]} />
+            </mesh>
+          )}
+        </group>
+      )}
+    </group>
+  );
+};
+
+/** Vorwärtsrechnung: Punkt am Arm (im Oberkörper-System). along = Abstand vom Ellbogen, up = Abstand über der Oberseite */
+const armPoint = (limb: Limb, side: 1 | -1, foreZ: number, along: number, up = 0) =>
+  new THREE.Vector3(0, -along, up)
+    .applyEuler(new THREE.Euler(limb.bend, 0, foreZ))
+    .add(new THREE.Vector3(0, -0.31, 0))
+    .applyEuler(new THREE.Euler(limb.sx, 0, limb.sz))
+    .add(new THREE.Vector3(0.27 * side, 0.44, 0));
+
+/** Gegenstand in der rechten Hand (Pflaster, Spray, Kompresse, Impfpass) */
+const HandItem = ({pose, time}: {pose: DummyPose; time: number}) => {
+  const hand = armPoint(pose.armR, -1, pose.foreZ, 0.33);
+  if (!pose.item) return null;
+  if (pose.item === 'spray') {
+    // Sprühflasche zeigt zur Bissstelle am linken Unterarm
+    const target = armPoint(pose.armL, 1, 0, 0.15, 0.07);
+    const dir = target.clone().sub(hand).normalize();
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
+    const dist = target.distanceTo(hand);
+    return (
+      <group position={hand} quaternion={q}>
+        <group position={[0, 0.02, -0.02]}>
+          <SprayBottle />
+        </group>
+        <SprayMist amount={pose.mist} length={Math.max(0.05, dist - 0.05)} time={time} />
+      </group>
+    );
+  }
+  const fwd = armPoint(pose.armR, -1, pose.foreZ, 0.45);
+  const dir = fwd.clone().sub(hand).normalize();
+  const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir);
+  return (
+    <group position={hand} quaternion={q}>
+      {pose.item === 'plaster' && (
+        <group position={[0, -0.03, 0.03]}>
+          <PlasterStrip />
+        </group>
+      )}
+      {pose.item === 'compress' && (
+        <group position={[0, -0.035, 0.03]}>
+          <CompressPad />
+        </group>
+      )}
+      {pose.item === 'pass' && (
+        <group position={[0, -0.06, 0.035]} rotation={[0, 0, 0]}>
+          <VaccinationPass open={0.15} />
+        </group>
+      )}
+    </group>
+  );
+};
+
 export const Dummy = ({
   pose,
   bite = false,
@@ -1524,6 +1830,11 @@ export const Dummy = ({
   pants = 0,
   breath = 0,
   breathPhase = 0,
+  armbite = 0,
+  redness = 0,
+  plaster = 0,
+  dressing = 0,
+  coat = false,
 }: {
   pose: DummyPose;
   bite?: boolean;
@@ -1540,9 +1851,22 @@ export const Dummy = ({
   breath?: number;
   /** Atemzüge seit Abschnittsbeginn */
   breathPhase?: number;
+  /** Bissstelle am linken Unterarm (kleiner roter Punkt) 0/1 */
+  armbite?: number;
+  /** Rötung um die Bissstelle: 0 = keine … 1 = rot … 2 = groß, ganzer Unterarm schimmert rot */
+  redness?: number;
+  /** Pflaster auf der Bissstelle 0 … 1 */
+  plaster?: number;
+  /** sterile Kompresse + Mullbinde auf der Bissstelle 0 … 1 */
+  dressing?: number;
+  /** weißer Arztkittel statt Winterjacke (Arzt-Figur) + Stethoskop */
+  coat?: boolean;
 }) => {
-  const m = useMats(color);
+  const m = useMats(color, coat);
   const time = useCurrentFrame() / 30;
+  const wound: ArmWound | undefined =
+    armbite > 0 || redness > 0 || plaster > 0 || dressing > 0 ? {bite: armbite, red: redness, plaster, dressing, time} : undefined;
+  if (coat) jacket = 1;
   return (
     <group rotation={[pose.pitch, 0, 0]}>
       <group position={[0, pose.hipY, 0]}>
@@ -1580,7 +1904,18 @@ export const Dummy = ({
           <JacketBody m={m} amount={jacket} chest={pose.chest} />
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
-          <Arm m={m} limb={pose.armL} side={1} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} />
+          <Arm m={m} limb={pose.armL} side={1} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} />
+          <HandItem pose={pose} time={time} />
+          {coat && (
+            <mesh material={m.joint} position={[0, 0.5, 0.05]} rotation={[1.1, 0, 0]}>
+              <torusGeometry args={[0.12, 0.012, 5, 16, Math.PI * 1.15]} />
+            </mesh>
+          )}
+          {coat && (
+            <mesh material={m.steel} position={[0.07, 0.3, 0.2]}>
+              <cylinderGeometry args={[0.03, 0.03, 0.015, 10]} />
+            </mesh>
+          )}
           <Arm
             m={m}
             limb={pose.armR}
