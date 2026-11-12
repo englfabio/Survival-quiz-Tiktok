@@ -41,7 +41,8 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'recoil', 'runbucket', 'pullgift', 'closedoor', 'callwave',
   'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall', 'peek', 'wiggle', 'withdraw',
   'boxguard', 'hitstagger', 'dazed', 'searchkneel', 'pickcrown', 'holdtooth', 'rinsetooth', 'wraptooth', 'placetooth', 'dentalsit',
-  'guard', 'punch', 'victory', 'fly', 'lie'];
+  'guard', 'punch', 'victory', 'fly', 'lie',
+  'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -54,6 +55,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall',
   'boxguard', 'hitstagger', 'dazed', 'searchkneel', 'pickcrown', 'holdtooth', 'rinsetooth', 'wraptooth', 'placetooth', 'dentalsit',
   'guard', 'punch', 'victory',
+  'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */

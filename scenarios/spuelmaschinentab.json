@@ -1,0 +1,1391 @@
+{
+  "id": "spuelmaschinentab",
+  "category": "erste-hilfe",
+  "stage": "wohnkueche",
+  "situation": {
+    "speech": "Du hast mal wieder einen Spülmaschinentab gegessen. In deinem Mund schäumt es schon. Was machst du jetzt?",
+    "hook": "Du hast mal wieder einen Spülmaschinentab gegessen",
+    "warning": "Nicht nachmachen!"
+  },
+  "options": [
+    {
+      "card": "Finger in den Hals",
+      "speech": "Eins: Finger in den Hals und alles wieder rausbrechen.",
+      "dummyAction": "Dummy führt den Finger Richtung Mund (nur angedeutet), die Schaumblasen werden mehr, Warndreieck + Pfeil vom Mund in die Lunge. Bild friert ein, rotes Aufleuchten.",
+      "explanation": "Erbrechen ist hier gefährlich. Spülmittel schäumen, und beim Erbrechen kann Schaum oder Erbrochenes in die Lunge gelangen. Deshalb gilt bei Vergiftungen: niemals selbst Erbrechen auslösen.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              0.55,
+              1.68,
+              3.4
+            ],
+            "look": [
+              0.05,
+              1.44,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.0729,
+            "pos": [
+              0.5,
+              1.65,
+              3.1
+            ],
+            "look": [
+              0.05,
+              1.42,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.1922,
+            "pos": [
+              0.47,
+              1.64,
+              2.95
+            ],
+            "look": [
+              0.05,
+              1.42,
+              -0.1
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.45,
+              1.63,
+              2.8
+            ],
+            "look": [
+              0.05,
+              1.42,
+              -0.1
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "stand",
+              "face": 180,
+              "foam": 1.2,
+              "lunge": 0,
+              "teeth": 1,
+              "gap": 0
+            },
+            {
+              "t": 0.0153,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "fingermouth",
+              "face": 180
+            },
+            {
+              "t": 0.0916,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "fingermouth",
+              "face": 180,
+              "foam": 1.6
+            },
+            {
+              "t": 0.0992,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "fingermouth",
+              "face": 180,
+              "foam": 1.75,
+              "lunge": 0
+            },
+            {
+              "t": 0.2137,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "fingermouth",
+              "face": 180,
+              "foam": 2,
+              "lunge": 1
+            },
+            {
+              "t": 1,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "fingermouth",
+              "face": 180,
+              "foam": 2,
+              "lunge": 1
+            }
+          ],
+          "hinweis": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            },
+            {
+              "t": 0.1908,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            },
+            {
+              "t": 0.1928,
+              "x": 0.41,
+              "z": 0.0,
+              "motion": "show",
+              "y": 1.5,
+              "text": "Lunge",
+              "size": 0.2
+            }
+          ],
+          "oberschrank": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -2.3,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.45,
+              "door": 0,
+              "lock": 0
+            }
+          ],
+          "tabpackung": [
+            {
+              "t": 0,
+              "x": -0.38,
+              "z": 0.42,
+              "motion": "stand",
+              "face": 172,
+              "y": 0.76,
+              "lid": 1
+            }
+          ],
+          "milchglas": [
+            {
+              "t": 0,
+              "x": -0.66,
+              "z": 0.36,
+              "motion": "stand",
+              "face": 0,
+              "y": 0.76,
+              "fill": 1
+            }
+          ],
+          "kuechenpapier": [
+            {
+              "t": 0,
+              "x": 0.33,
+              "z": 0.3,
+              "motion": "stand",
+              "face": 200,
+              "y": 0.76
+            }
+          ],
+          "smartphone": [
+            {
+              "t": 0,
+              "x": -0.12,
+              "z": 0.62,
+              "motion": "lie",
+              "face": 160,
+              "y": 0.76
+            }
+          ]
+        },
+        "freeze": 0.229,
+        "sfx": [
+          {
+            "t": 0.0916,
+            "id": "blubbern",
+            "volume": 0.5
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Ein großes Glas Milch",
+      "speech": "Zwei: Schnell ein großes Glas Milch trinken.",
+      "dummyAction": "Dummy trinkt ein großes Glas Milch, Pfeil vom Magen zum Blut (Giftpunkte wandern mit). Bild friert ein, rotes Aufleuchten.",
+      "explanation": "Milch ist ein Mythos. Sie ist kein Gegenmittel. Im Gegenteil: Sie kann dafür sorgen, dass Giftstoffe schneller ins Blut gelangen.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              0.55,
+              1.7,
+              3.4
+            ],
+            "look": [
+              0.05,
+              1.5,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.2301,
+            "pos": [
+              0.5,
+              1.68,
+              3.1
+            ],
+            "look": [
+              0.05,
+              1.48,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.4189,
+            "pos": [
+              0.47,
+              1.67,
+              2.95
+            ],
+            "look": [
+              0.05,
+              1.48,
+              -0.1
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.45,
+              1.66,
+              2.8
+            ],
+            "look": [
+              0.05,
+              1.48,
+              -0.1
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "drinkmilk",
+              "face": 180,
+              "foam": 1.1,
+              "blut": 0,
+              "teeth": 1,
+              "gap": 0
+            },
+            {
+              "t": 0.2656,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "drinkmilk",
+              "face": 180,
+              "blut": 0
+            },
+            {
+              "t": 0.4114,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "drinkmilk",
+              "face": 180,
+              "blut": 1
+            },
+            {
+              "t": 1,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "drinkmilk",
+              "face": 180,
+              "blut": 1
+            }
+          ],
+          "hinweis": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            },
+            {
+              "t": 0.3801,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            },
+            {
+              "t": 0.3821,
+              "x": 0.39,
+              "z": 0.05,
+              "motion": "show",
+              "y": 1.66,
+              "text": "Blut",
+              "size": 0.2
+            }
+          ],
+          "oberschrank": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -2.3,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.45,
+              "door": 0,
+              "lock": 0
+            }
+          ],
+          "tabpackung": [
+            {
+              "t": 0,
+              "x": -0.38,
+              "z": 0.42,
+              "motion": "stand",
+              "face": 172,
+              "y": 0.76,
+              "lid": 1
+            }
+          ],
+          "kuechenpapier": [
+            {
+              "t": 0,
+              "x": 0.33,
+              "z": 0.3,
+              "motion": "stand",
+              "face": 200,
+              "y": 0.76
+            }
+          ],
+          "smartphone": [
+            {
+              "t": 0,
+              "x": -0.12,
+              "z": 0.62,
+              "motion": "lie",
+              "face": 160,
+              "y": 0.76
+            }
+          ]
+        },
+        "freeze": 0.4322,
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Ausspucken, nicht erbrechen, Giftnotruf",
+      "speech": "Drei: Reste ausspucken, auf keinen Fall erbrechen und sofort den Giftnotruf anrufen.",
+      "dummyAction": "Dummy spuckt die Reste ins Küchenpapier, telefoniert ruhig, räumt am Ende die Tabs in den Oberschrank mit Kindersicherung. Grünes Aufleuchten beim Einrasten der Kindersicherung.",
+      "explanation": "Spuck aus, was noch im Mund ist. Kein Erbrechen. Dann sofort den Giftnotruf anrufen und sagen, was du geschluckt hast, wie viel und wann. Dort erfährst du auch, ob du etwas trinken sollst. Hast du Atemnot oder geht es dir schlecht, sofort die 112.",
+      "steps": [
+        {
+          "text": "Reste ausspucken",
+          "cue": "Spuck aus"
+        },
+        {
+          "text": "Kein Erbrechen",
+          "cue": "Kein Erbrechen"
+        },
+        {
+          "text": "Keine Milch",
+          "cue": "Dann sofort"
+        },
+        {
+          "text": "Giftnotruf: Was? Wie viel? Wann?",
+          "cue": "und sagen, was du geschluckt hast"
+        },
+        {
+          "text": "Atemnot: 112",
+          "cue": "Hast du Atemnot"
+        }
+      ],
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              0.4,
+              1.7,
+              3.4
+            ],
+            "look": [
+              -0.28,
+              1.38,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.1717,
+            "pos": [
+              0.38,
+              1.68,
+              3.1
+            ],
+            "look": [
+              -0.28,
+              1.38,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.1757,
+            "pos": [
+              0.45,
+              1.72,
+              3.5
+            ],
+            "look": [
+              -0.28,
+              1.38,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.7771,
+            "pos": [
+              0.42,
+              1.7,
+              3.2
+            ],
+            "look": [
+              -0.28,
+              1.38,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.7812,
+            "pos": [
+              0.0,
+              1.85,
+              2.0
+            ],
+            "look": [
+              0.9,
+              1.55,
+              -1.9
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.05,
+              1.84,
+              1.75
+            ],
+            "look": [
+              0.92,
+              1.56,
+              -1.9
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "stand",
+              "face": 180,
+              "foam": 1.1,
+              "teeth": 1,
+              "gap": 0
+            },
+            {
+              "t": 0.018,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "spit",
+              "face": 180,
+              "foam": 1.1
+            },
+            {
+              "t": 0.0722,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "spit",
+              "face": 180,
+              "foam": 1.0
+            },
+            {
+              "t": 0.1746,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "spit",
+              "face": 180,
+              "foam": 0.0
+            },
+            {
+              "t": 0.2095,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "spit",
+              "face": 180,
+              "foam": 0
+            },
+            {
+              "t": 0.2125,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "call",
+              "face": 180,
+              "foam": 0
+            },
+            {
+              "t": 0.7422,
+              "x": 0.05,
+              "z": -0.1,
+              "motion": "call",
+              "face": 180
+            },
+            {
+              "t": 0.7452,
+              "x": 1.33,
+              "z": -1.58,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.7663,
+              "x": 1.33,
+              "z": -1.58,
+              "motion": "stowtabs",
+              "face": 0
+            },
+            {
+              "t": 1,
+              "x": 1.33,
+              "z": -1.58,
+              "motion": "stowtabs",
+              "face": 0
+            }
+          ],
+          "smartphone": [
+            {
+              "t": 0,
+              "x": -0.12,
+              "z": 0.62,
+              "motion": "lie",
+              "face": 160,
+              "y": 0.76
+            },
+            {
+              "t": 0.2105,
+              "x": -0.12,
+              "z": 0.62,
+              "motion": "lie",
+              "face": 160,
+              "y": 0.76
+            },
+            {
+              "t": 0.2125,
+              "x": -0.12,
+              "z": 0.62,
+              "motion": "lie",
+              "face": 160,
+              "y": -30
+            }
+          ],
+          "tabpackung": [
+            {
+              "t": 0,
+              "x": -0.38,
+              "z": 0.42,
+              "motion": "stand",
+              "face": 172,
+              "y": 0.76,
+              "lid": 1
+            },
+            {
+              "t": 0.7432,
+              "x": -0.38,
+              "z": 0.42,
+              "motion": "stand",
+              "face": 172,
+              "y": 0.76
+            },
+            {
+              "t": 0.7452,
+              "x": 1.36,
+              "z": -2.12,
+              "motion": "stand",
+              "face": 180,
+              "y": -30,
+              "lid": 0
+            },
+            {
+              "t": 0.8245,
+              "x": 1.36,
+              "z": -2.12,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.8265,
+              "x": 1.36,
+              "z": -2.12,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.6769999999999998,
+              "size": -0.15
+            },
+            {
+              "t": 1,
+              "x": 1.36,
+              "z": -2.12,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.6769999999999998
+            }
+          ],
+          "oberschrank": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -2.3,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.45,
+              "door": 1,
+              "lock": 0
+            },
+            {
+              "t": 0.8356,
+              "x": 1.3,
+              "z": -2.3,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.45,
+              "door": 1,
+              "lock": 0
+            },
+            {
+              "t": 0.8687,
+              "x": 1.3,
+              "z": -2.3,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.45,
+              "door": 0,
+              "lock": 0
+            },
+            {
+              "t": 0.8747,
+              "x": 1.3,
+              "z": -2.3,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.45,
+              "lock": 0
+            },
+            {
+              "t": 0.8898,
+              "x": 1.3,
+              "z": -2.3,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.45,
+              "lock": 1
+            },
+            {
+              "t": 1,
+              "x": 1.3,
+              "z": -2.3,
+              "motion": "stand",
+              "face": 180,
+              "y": 1.45,
+              "lock": 1
+            }
+          ],
+          "hinweis": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            },
+            {
+              "t": 0.8878,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            },
+            {
+              "t": 0.8898,
+              "x": 1.3,
+              "z": -1.94,
+              "motion": "show",
+              "y": 2.11,
+              "text": "Kindersicherung",
+              "size": -0.15,
+              "good": 1
+            }
+          ],
+          "milchglas": [
+            {
+              "t": 0,
+              "x": -0.66,
+              "z": 0.36,
+              "motion": "stand",
+              "face": 0,
+              "y": 0.76,
+              "fill": 1
+            }
+          ],
+          "kuechenpapier": [
+            {
+              "t": 0,
+              "x": 0.33,
+              "z": 0.3,
+              "motion": "stand",
+              "face": 200,
+              "y": 0.76
+            }
+          ]
+        },
+        "flash": 0.8898,
+        "sfx": [
+          {
+            "t": 0.2125,
+            "id": "whoosh",
+            "volume": 0.5
+          },
+          {
+            "t": 0.2366,
+            "id": "handy-waehlen",
+            "volume": 0.5
+          },
+          {
+            "t": 0.7452,
+            "id": "whoosh",
+            "volume": 0.5
+          },
+          {
+            "t": 0.8627,
+            "id": "tuer-zu",
+            "volume": 0.5
+          },
+          {
+            "t": 0.8868,
+            "id": "sicherung-klick",
+            "volume": 0.8
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "Richtig ist Nummer 3"
+  },
+  "outro": {
+    "speech": "Tabs gehören nicht in den Mund. Und immer außer Reichweite von Kindern aufbewahren. Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Tabs gehören nicht in den Mund. Und immer außer Reichweite von Kindern aufbewahren. Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: gesund.bund.de · Giftnotruf Berlin (Charité)",
+  "sources": [
+    {
+      "name": "Gesundheitsportal des Bundes, Erste Hilfe bei Vergiftungen",
+      "url": "https://gesund.bund.de/erste-hilfe-bei-vergiftungen"
+    },
+    {
+      "name": "Giftnotruf Berlin (Charité), Erste Maßnahmen",
+      "url": "https://giftnotruf.charite.de/fileadmin/user_upload/microsites/ohne_AZ/m_cc05/giftnotruf/pdf/Giftnotruf-Berlin-Info.pdf"
+    },
+    {
+      "name": "ADAC, Erste Hilfe bei Vergiftung",
+      "url": "https://www.adac.de/gesundheit/gesund-unterwegs/vorsorge/erste-hilfe-bei-vergiftung/"
+    }
+  ],
+  "publishing": {
+    "description": "Du hast mal wieder einen Spülmaschinentab gegessen – was machst du jetzt? 🧼 Schreib 1, 2 oder 3 in die Kommentare!\n\nBitte nicht nachmachen: Tabs gehören nicht in den Mund. Gerade Kinder verwechseln sie leicht mit Süßigkeiten, also immer außer Reichweite aufbewahren.\n\nQuellen:\nGesundheitsportal des Bundes, Erste Hilfe bei Vergiftungen: https://gesund.bund.de/erste-hilfe-bei-vergiftungen\nGiftnotruf Berlin (Charité), Erste Maßnahmen: https://giftnotruf.charite.de/fileadmin/user_upload/microsites/ohne_AZ/m_cc05/giftnotruf/pdf/Giftnotruf-Berlin-Info.pdf\nADAC, Erste Hilfe bei Vergiftung: https://www.adac.de/gesundheit/gesund-unterwegs/vorsorge/erste-hilfe-bei-vergiftung/\n\nGiftnotruf z. B. Berlin: 030 19240. Im Notfall: 112.\n\n#waswürdestdutun #erstehilfe #vergiftung #giftnotruf #mythos #wusstestdu #survival #quiz",
+    "pinnedComment": "Ehrlich: Wer hätte zur Milch gegriffen? 🥛👇 Und was soll der Dummy als Nächstes aus Versehen erwischen?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.45,
+            1.75,
+            3.2
+          ],
+          "look": [
+            0.0,
+            1.48,
+            -0.1
+          ]
+        },
+        {
+          "t": 0.4757,
+          "pos": [
+            0.42,
+            1.74,
+            2.85
+          ],
+          "look": [
+            0.0,
+            1.48,
+            -0.1
+          ]
+        },
+        {
+          "t": 0.4804,
+          "pos": [
+            0.3,
+            1.78,
+            1.35
+          ],
+          "look": [
+            0.05,
+            1.7,
+            -0.1
+          ]
+        },
+        {
+          "t": 0.799,
+          "pos": [
+            0.27,
+            1.77,
+            1.2
+          ],
+          "look": [
+            0.05,
+            1.7,
+            -0.1
+          ]
+        },
+        {
+          "t": 0.8031,
+          "pos": [
+            0.7,
+            1.85,
+            3.6
+          ],
+          "look": [
+            -0.02,
+            1.45,
+            -0.1
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.62,
+            1.83,
+            3.35
+          ],
+          "look": [
+            -0.02,
+            1.45,
+            -0.1
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.05,
+            "z": -0.1,
+            "motion": "tabstare",
+            "face": 180,
+            "foam": 0.55,
+            "teeth": 1,
+            "gap": 0
+          },
+          {
+            "t": 0.4837,
+            "x": 0.05,
+            "z": -0.1,
+            "motion": "tabstare",
+            "face": 180,
+            "foam": 0.9
+          },
+          {
+            "t": 0.7664,
+            "x": 0.05,
+            "z": -0.1,
+            "motion": "tabstare",
+            "face": 180,
+            "foam": 1.25
+          },
+          {
+            "t": 1,
+            "x": 0.05,
+            "z": -0.1,
+            "motion": "tabstare",
+            "face": 180,
+            "foam": 1.3
+          }
+        ],
+        "oberschrank": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -2.3,
+            "motion": "stand",
+            "face": 180,
+            "y": 1.45,
+            "door": 0,
+            "lock": 0
+          }
+        ],
+        "tabpackung": [
+          {
+            "t": 0,
+            "x": -0.38,
+            "z": 0.42,
+            "motion": "stand",
+            "face": 172,
+            "y": 0.76,
+            "lid": 1
+          }
+        ],
+        "milchglas": [
+          {
+            "t": 0,
+            "x": -0.66,
+            "z": 0.36,
+            "motion": "stand",
+            "face": 0,
+            "y": 0.76,
+            "fill": 1
+          }
+        ],
+        "kuechenpapier": [
+          {
+            "t": 0,
+            "x": 0.33,
+            "z": 0.3,
+            "motion": "stand",
+            "face": 200,
+            "y": 0.76
+          }
+        ],
+        "smartphone": [
+          {
+            "t": 0,
+            "x": -0.12,
+            "z": 0.62,
+            "motion": "lie",
+            "face": 160,
+            "y": 0.76
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.02,
+          "id": "blubbern",
+          "volume": 0.35
+        },
+        {
+          "t": 0.4837,
+          "id": "blubbern",
+          "volume": 0.45
+        }
+      ],
+      "sharpCuts": true
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.0,
+            2.6,
+            7.0
+          ],
+          "look": [
+            -0.1,
+            1.05,
+            -0.1
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.95,
+            2.55,
+            6.7
+          ],
+          "look": [
+            -0.1,
+            1.05,
+            -0.1
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.05,
+            "z": -0.1,
+            "motion": "tabstare",
+            "face": 180,
+            "foam": 1.3,
+            "teeth": 1,
+            "gap": 0
+          }
+        ],
+        "oberschrank": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -2.3,
+            "motion": "stand",
+            "face": 180,
+            "y": 1.45,
+            "door": 0,
+            "lock": 0
+          }
+        ],
+        "tabpackung": [
+          {
+            "t": 0,
+            "x": -0.38,
+            "z": 0.42,
+            "motion": "stand",
+            "face": 172,
+            "y": 0.76,
+            "lid": 1
+          }
+        ],
+        "milchglas": [
+          {
+            "t": 0,
+            "x": -0.66,
+            "z": 0.36,
+            "motion": "stand",
+            "face": 0,
+            "y": 0.76,
+            "fill": 1
+          }
+        ],
+        "kuechenpapier": [
+          {
+            "t": 0,
+            "x": 0.33,
+            "z": 0.3,
+            "motion": "stand",
+            "face": 200,
+            "y": 0.76
+          }
+        ],
+        "smartphone": [
+          {
+            "t": 0,
+            "x": -0.12,
+            "z": 0.62,
+            "motion": "lie",
+            "face": 160,
+            "y": 0.76
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.95,
+            2.55,
+            6.7
+          ],
+          "look": [
+            -0.1,
+            1.05,
+            -0.1
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.92,
+            2.52,
+            6.5
+          ],
+          "look": [
+            -0.1,
+            1.05,
+            -0.1
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.05,
+            "z": -0.1,
+            "motion": "tabstare",
+            "face": 180,
+            "foam": 1.3,
+            "teeth": 1,
+            "gap": 0
+          }
+        ],
+        "oberschrank": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -2.3,
+            "motion": "stand",
+            "face": 180,
+            "y": 1.45,
+            "door": 0,
+            "lock": 0
+          }
+        ],
+        "tabpackung": [
+          {
+            "t": 0,
+            "x": -0.38,
+            "z": 0.42,
+            "motion": "stand",
+            "face": 172,
+            "y": 0.76,
+            "lid": 1
+          }
+        ],
+        "milchglas": [
+          {
+            "t": 0,
+            "x": -0.66,
+            "z": 0.36,
+            "motion": "stand",
+            "face": 0,
+            "y": 0.76,
+            "fill": 1
+          }
+        ],
+        "kuechenpapier": [
+          {
+            "t": 0,
+            "x": 0.33,
+            "z": 0.3,
+            "motion": "stand",
+            "face": 200,
+            "y": 0.76
+          }
+        ],
+        "smartphone": [
+          {
+            "t": 0,
+            "x": -0.12,
+            "z": 0.62,
+            "motion": "lie",
+            "face": 160,
+            "y": 0.76
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.92,
+            2.52,
+            6.5
+          ],
+          "look": [
+            -0.1,
+            1.05,
+            -0.1
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.9,
+            2.5,
+            6.35
+          ],
+          "look": [
+            -0.1,
+            1.05,
+            -0.1
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.05,
+            "z": -0.1,
+            "motion": "tabstare",
+            "face": 180,
+            "foam": 1.3,
+            "teeth": 1,
+            "gap": 0
+          }
+        ],
+        "oberschrank": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -2.3,
+            "motion": "stand",
+            "face": 180,
+            "y": 1.45,
+            "door": 0,
+            "lock": 0
+          }
+        ],
+        "tabpackung": [
+          {
+            "t": 0,
+            "x": -0.38,
+            "z": 0.42,
+            "motion": "stand",
+            "face": 172,
+            "y": 0.76,
+            "lid": 1
+          }
+        ],
+        "milchglas": [
+          {
+            "t": 0,
+            "x": -0.66,
+            "z": 0.36,
+            "motion": "stand",
+            "face": 0,
+            "y": 0.76,
+            "fill": 1
+          }
+        ],
+        "kuechenpapier": [
+          {
+            "t": 0,
+            "x": 0.33,
+            "z": 0.3,
+            "motion": "stand",
+            "face": 200,
+            "y": 0.76
+          }
+        ],
+        "smartphone": [
+          {
+            "t": 0,
+            "x": -0.12,
+            "z": 0.62,
+            "motion": "lie",
+            "face": 160,
+            "y": 0.76
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.2,
+            1.7,
+            3.6
+          ],
+          "look": [
+            0.9,
+            1.2,
+            -1.6
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.25,
+            1.7,
+            3.3
+          ],
+          "look": [
+            0.9,
+            1.2,
+            -1.6
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 1.28,
+            "z": -1.48,
+            "motion": "wave",
+            "face": 165,
+            "teeth": 1,
+            "gap": 0
+          }
+        ],
+        "oberschrank": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -2.3,
+            "motion": "stand",
+            "face": 180,
+            "y": 1.45,
+            "door": 0,
+            "lock": 1
+          }
+        ],
+        "milchglas": [
+          {
+            "t": 0,
+            "x": -0.66,
+            "z": 0.36,
+            "motion": "stand",
+            "face": 0,
+            "y": 0.76,
+            "fill": 1
+          }
+        ],
+        "kuechenpapier": [
+          {
+            "t": 0,
+            "x": 0.33,
+            "z": 0.3,
+            "motion": "stand",
+            "face": 200,
+            "y": 0.76
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}

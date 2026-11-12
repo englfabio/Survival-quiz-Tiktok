@@ -17,9 +17,11 @@ import {Broom, FuseBox, WetTowel} from './ShockProps';
 import {Kangaroo, kangarooPoseBlended} from './Kangaroo';
 import {GardenTap, HintSign, MilkCarton, RescueBox, Tissue, Tooth, WaterGlass} from './ToothProps';
 import {ZapAura, zapShake} from '../effects/Zap';
+import {ChildLockCabinet, DishTab, KitchenRoll, MilkGlass, PaperSheet, TabPack} from './TabProps';
+import {T} from '../ui/theme';
 import {Snake, snakePose} from './Snake';
 import {Thermometer} from './Thermometer';
-import {AerialBomb, SmartphoneProp, SpadeProp, WarnStake, Wheelbarrow} from './GardenProps';
+import {AerialBomb, Smartphone, SmartphoneProp, SpadeProp, WarnStake, Wheelbarrow} from './GardenProps';
 import {Weever, weeverPose} from './Weever';
 import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
 import {Bucket, ChristmasTree, DoorLeaf, FireTruck, GiftPile} from './ChristmasProps';
@@ -82,6 +84,13 @@ export const ACTORS = {
   zahnrettungsbox: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
   hmilch: {height: 0.12, climbOffset: 0, speedLineHeight: 0},
   hinweis: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Vergiftung (Spülmaschinentab) ----
+  spuelmaschinentab: {height: 0.01, climbOffset: 0, speedLineHeight: 0},
+  tabpackung: {height: 0.08, climbOffset: 0, speedLineHeight: 0},
+  milchglas: {height: 0.08, climbOffset: 0, speedLineHeight: 0},
+  kuechenpapier: {height: 0.15, climbOffset: 0, speedLineHeight: 0},
+  papierblatt: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  oberschrank: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -286,6 +295,10 @@ export const Actor = ({
           teeth={v.teeth}
           gap={v.gap}
           tooth={{gray: v.gray, mark: v.mark, wrap: v.wrap}}
+          foam={v.foam}
+          lunge={v.lunge}
+          blut={v.blut}
+          fxTime={zt}
         />
       )}
       {name === 'kaenguru' && <Kangaroo pose={kangarooPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} />}
@@ -303,7 +316,25 @@ export const Actor = ({
         </group>
       )}
       {name === 'hmilch' && <MilkCarton />}
-      {name === 'hinweis' && <HintSign text={actor.text ?? ''} time={state.motionTime} visible={state.motion === 'show'} height={0.07 * (1 + v.size)} below={v.below > 0.5} />}
+      {name === 'hinweis' && <HintSign text={actor.text ?? ''} time={state.motionTime} visible={state.motion === 'show'} height={0.07 * (1 + v.size)} below={v.below > 0.5} color={v.good > 0.5 ? T.green : T.red} />}
+      {name === 'spuelmaschinentab' && (
+        <group scale={1 + v.size}>
+          <DishTab bitten={v.mark > 0.5} />
+        </group>
+      )}
+      {name === 'tabpackung' && (
+        <group scale={1 + v.size}>
+          <TabPack open={v.lid} />
+        </group>
+      )}
+      {name === 'milchglas' && <MilkGlass fill={v.fill} />}
+      {name === 'kuechenpapier' && <KitchenRoll />}
+      {name === 'papierblatt' && (
+        <group rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 0]}>
+          <PaperSheet />
+        </group>
+      )}
+      {name === 'oberschrank' && <ChildLockCabinet door={v.door} lock={v.lock} />}
       {name === 'arzt' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={DOCTOR_COLOR} coat />
       )}
@@ -338,7 +369,14 @@ export const Actor = ({
       {name === 'spaten' && <SpadeProp upright={state.motion === 'stand'} />}
       {name === 'schubkarre' && <Wheelbarrow spin={state.motion === 'push' ? (state.motionTime * state.speed) / 0.2 : 0} />}
       {name === 'warnstab' && <WarnStake time={state.motionTime} plant={state.motion === 'plant'} />}
-      {name === 'smartphone' && <SmartphoneProp time={state.motionTime} />}
+      {name === 'smartphone' &&
+        (state.motion === 'lie' ? (
+          <group position={[0, 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={1.6}>
+            <Smartphone />
+          </group>
+        ) : (
+          <SmartphoneProp time={state.motionTime} />
+        ))}
       {name === 'petermaennchen' && (
         <group scale={WEEVER_SCALE}>
           <Weever pose={weeverPose(state.motion, state.motionTime)} />

@@ -65,7 +65,8 @@ export const AudioLayer = ({
       const ok = sec.option === s.correctOption;
       // Mit "freeze": Falsch-Ton genau beim Einfrieren
       const fz = shotFor(sec).freeze;
-      const at = !ok && fz !== undefined ? sec.from + fz * sec.duration : sec.from;
+      const fl = shotFor(sec).flash;
+      const at = !ok && fz !== undefined ? sec.from + fz * sec.duration : ok && fl !== undefined ? sec.from + Math.round(fl * sec.duration) : sec.from;
       items.push(<Sfx key={`e-${i}`} id={ok ? 'richtig' : 'falsch'} from={at} volume={ok ? VOLUME.chime : VOLUME.buzzer} />);
     }
     // Effekte aus der Szenario-Datei (z. B. Bär brummt, Schritte)

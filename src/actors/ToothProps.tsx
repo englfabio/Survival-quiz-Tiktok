@@ -24,7 +24,7 @@ const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters>
   new THREE.MeshStandardMaterial({color, roughness: 0.6, flatShading: true, ...extra});
 
 /** Wartet (beim Rendern), bis die Schrift geladen ist, und liefert dann eine Textur */
-const useFontTexture = (draw: () => THREE.Texture, key: string) => {
+export const useFontTexture = (draw: () => THREE.Texture, key: string) => {
   const [ready, setReady] = useState(false);
   const [handle] = useState(() => delayRender(`Schrift für ${key}`));
   const advance = useThree((st) => st.advance);

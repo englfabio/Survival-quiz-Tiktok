@@ -10,6 +10,9 @@ import {Bucket, Gift} from './ChristmasProps';
 import {Broom, towelPoints, WetTowel} from './ShockProps';
 import {ZapAura} from '../effects/Zap';
 import {BoxingGlove, RescueBox, Tissue, Tooth} from './ToothProps';
+import {DishTab, MilkGlass, PaperSheet, TabPack} from './TabProps';
+import {Foam} from '../effects/Foam';
+import {BodyHint} from '../effects/BodyHint';
 import {rng} from '../lib/anim';
 
 /**
@@ -61,7 +64,11 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger';
+  /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
+  cup: number;
+  /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
+  fill: number;
   /** Gegenstand in beiden Händen (Feuer): Eimer mit Wasser, Geschenkpaket */
   both: '' | 'bucket' | 'gift' | 'broom';
   /** Sprühnebel aus dem Desinfektionsspray: 0 = aus … 1 = voll */
@@ -94,6 +101,8 @@ const base = (): DummyPose => ({
   item: '',
   both: '',
   mist: 0,
+  cup: 0,
+  fill: 1,
 });
 
 /** Zwei Haltungen mischen (k = 0 → a, 1 → b) */
@@ -127,6 +136,8 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     item: k < 0.5 ? a.item : b.item,
     both: k < 0.5 ? a.both : b.both,
     mist: L(a.mist, b.mist),
+    cup: L(a.cup ?? 0, b.cup ?? 0),
+    fill: L(a.fill ?? 1, b.fill ?? 1),
   };
 };
 
@@ -1295,6 +1306,106 @@ const zahnPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+
+// ---------- Spülmaschinentab (Vergiftung) ----------
+/**
+ *  - tabstare:    erschrocken: zuckt zurück (0–0,3 s), hält den angebissenen Tab mit rechts vor sich (ca. 0,34 m vor ihm,
+ *                 1,42 m hoch) und starrt darauf, linke Hand erschrocken erhoben, leichtes Zittern
+ *  - fingermouth: führt die rechte Hand mit ausgestrecktem Finger bis kurz vor den Mund (bis 1,0 s) und zögert dort
+ *                 (nur angedeutet – der Finger geht NICHT in den Mund), linke Hand am Bauch
+ *  - drinkmilk:   hebt das Glas Milch zum Mund (bis 0,8 s), kippt es (0,8–1,4 s), Kopf nach hinten, trinkt (Glas leert sich bis 3,2 s)
+ *  - spit:        beugt sich vor, hält mit rechts ein Blatt Küchenpapier vor den Mund (bis 0,6 s), spuckt bei 0,9 / 1,6 / 2,3 s
+ *  - stowtabs:    hebt die Tab-Packung mit rechts in den Oberschrank (Schrank-Front 0,45 m vor ihm, Regal 1,68 m hoch,
+ *                 Hand dort bei 0,9 s, loslassen bei 1,0 s), drückt die Tür zu (1,2–1,7 s), Hand runter bis 2,3 s
+ */
+const L3t = (sx: number, sz: number, bend: number): Limb => ({sx, sz, bend});
+type P3 = [number, number, number];
+const lerp3t = (a: P3, b: P3, q: number) => a.map((v, i) => v + (b[i] - v) * q) as P3;
+const tabPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'tabstare': {
+      const p = base();
+      const jolt = easeInOut(clamp(time / 0.18)) * (1 - easeInOut(clamp((time - 0.25) / 0.6)));
+      const tr = Math.sin(time * 31) * 0.004 + Math.sin(time * 23) * 0.003;
+      p.torsoX = -0.04 - 0.12 * jolt + breathe;
+      p.headX = 0.3 - 0.25 * jolt + Math.sin(time * 1.3) * 0.02;
+      p.headY = Math.sin(time * 0.9) * 0.05;
+      p.legL = L3t(-0.06, 0.08, 0.04);
+      p.legR = L3t(0.06, -0.08, 0.04);
+      reachR(p, [-0.03 + tr, 1.58 + tr + 0.05 * jolt, 0.44], 0.36);
+      reachL(p, [0.2, 1.62 + 0.06 * jolt, 0.22], 0.3);
+      p.item = 'tab';
+      return p;
+    }
+    case 'fingermouth': {
+      const p = base();
+      const k = easeInOut(clamp(time / 1.0));
+      const hes = time > 1.0 ? Math.sin((time - 1.0) * 4.5) * 0.012 : 0;
+      p.torsoX = 0.03 + breathe;
+      p.headX = -0.06 * k;
+      const rest: P3 = [-0.22, 1.0, 0.12];
+      const near: P3 = [-0.035, 1.68 + hes * 0.5, 0.27 + hes];
+      reachR(p, lerp3t(rest, near, k), 0.33, [0.7, -1, -0.1]);
+      reachL(p, [0.08, 1.12, 0.2], 0.33);
+      p.item = k > 0.25 ? 'finger' : '';
+      return p;
+    }
+    case 'drinkmilk': {
+      const p = base();
+      const up = easeInOut(clamp(time / 0.8));
+      const tilt = easeInOut(clamp((time - 0.8) / 0.6));
+      p.torsoX = -0.05 * tilt + breathe;
+      p.headX = 0.15 * (1 - up) - 0.42 * tilt;
+      const low: P3 = [-0.07, 1.2, 0.33];
+      const mouth: P3 = [-0.03, 1.78 + 0.03 * tilt, 0.24 - 0.02 * tilt];
+      reachR(p, lerp3t(low, mouth, up), 0.33);
+      p.armL = L3t(-0.1, 0.12, -0.3);
+      p.item = 'milk';
+      p.cup = tilt;
+      p.fill = 1 - 0.85 * clamp((time - 1.1) / 2.1);
+      return p;
+    }
+    case 'spit': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      let pulse = 0;
+      for (const s0 of [0.9, 1.6, 2.3]) {
+        const d = time - s0;
+        if (d > -0.15 && d < 0.35) pulse = Math.max(pulse, Math.sin(((d + 0.15) / 0.5) * Math.PI));
+      }
+      p.torsoX = 0.32 * k + 0.06 * pulse + breathe;
+      p.headX = 0.3 * k + 0.16 * pulse;
+      p.hipY = 0.98 - 0.02 * k;
+      const mouth: P3 = [-0.02, 1.64 - 0.02 * pulse, 0.42 + 0.01 * pulse];
+      reachR(p, lerp3t([-0.2, 1.0, 0.2], mouth, k), 0.36);
+      reachL(p, lerp3t([0.2, 1.0, 0.2], [0.08, 1.58, 0.42], k), 0.33);
+      p.item = 'paper';
+      return p;
+    }
+    case 'stowtabs': {
+      const p = base();
+      const up = easeInOut(clamp(time / 0.9));
+      const push = easeInOut(clamp((time - 1.15) / 0.55));
+      const down = easeInOut(clamp((time - 1.8) / 0.5));
+      p.torsoX = 0.02 + breathe;
+      p.headX = -0.28 * up * (1 - down) + 0.02;
+      const low: P3 = [-0.1, 1.12, 0.3];
+      const shelf: P3 = [-0.05, 1.68, 0.5];
+      const door: P3 = [0.05, 1.8, 0.48];
+      let tgt = lerp3t(low, shelf, up);
+      if (time > 1.0) tgt = lerp3t(shelf, door, easeInOut(clamp((time - 1.0) / 0.25)));
+      if (time > 1.15) tgt = lerp3t(door, [0.04, 1.8, 0.44], push);
+      if (time > 1.8) tgt = lerp3t([0.04, 1.8, 0.44], [-0.22, 1.0, 0.12], down);
+      reachR(p, tgt, 0.33, [0.6, -1, -0.3]);
+      p.armL = L3t(-0.05, 0.12, -0.25);
+      p.item = time < 1.0 ? 'tabpack' : '';
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Zittern unter Strom: Gliedmaßen zucken zufällig (amount 0 … 1), ändert sich jedes Bild */
 export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): DummyPose => {
   if (amount < 0.01) return p;
@@ -1316,7 +1427,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -2309,6 +2420,62 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
       </group>
     );
   }
+  if (pose.item === 'tab') {
+    // angebissener Tab mit Bissstelle zur Kamera (comichaft vergrößert)
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0.005, -0.04, 0.045]} rotation={[1.25, Math.PI + 0.35, 0]} scale={3}>
+          <DishTab bitten />
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'milk') {
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.33);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0.01, -0.075, 0.03]} rotation={[-pose.cup * 1.55, 0, 0]}>
+          <group position={[0, -0.02, 0]}>
+            <MilkGlass fill={pose.fill} />
+          </group>
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'paper') {
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.35);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0.04, -0.02, 0.03]} rotation={[0.15, 0, 0]}>
+          <PaperSheet />
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'tabpack') {
+    return (
+      <group position={hand} quaternion={level}>
+        <group position={[0, -0.05, 0.04]} scale={0.85}>
+          <TabPack open={0} />
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'finger') {
+    // ausgestreckter Zeigefinger in Verlängerung des Unterarms
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
+    const far = armPoint(pose.armR, -1, pose.foreZ, 0.5);
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), far.clone().sub(tip).normalize());
+    return (
+      <group position={tip} quaternion={q}>
+        <mesh position={[0, 0.035, 0]}>
+          <capsuleGeometry args={[0.014, 0.05, 3, 6]} />
+          <meshStandardMaterial color={YELLOW} roughness={0.45} flatShading />
+        </mesh>
+      </group>
+    );
+  }
   if (pose.item === 'box') {
     return (
       <group position={hand} quaternion={level}>
@@ -2466,7 +2633,19 @@ export const Dummy = ({
   teeth = 0,
   gap = 0,
   tooth,
+  foam = 0,
+  lunge = 0,
+  blut = 0,
+  fxTime = 0,
 }: {
+  /** Schaumblasen am Mund 0 … 2 */
+  foam?: number;
+  /** Röntgen-Hinweis Lunge + Pfeil 0 … 1 */
+  lunge?: number;
+  /** Röntgen-Hinweis Magen → Blut 0 … 1 */
+  blut?: number;
+  /** Zeit für Schaum/Hinweise (friert beim Einfrieren mit ein) */
+  fxTime?: number;
   pose: DummyPose;
   /** rote Boxhandschuhe 0/1 */
   gloves?: number;
@@ -2602,7 +2781,9 @@ export const Dummy = ({
             <Marker m={m} r={0.05} position={[-0.118, 0.01, 0]} rotation={[0, -Math.PI / 2, 0]} />
             <BreathPuffs phase={breathPhase} rate={breath} />
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
+            <Foam amount={foam} time={fxTime} />
           </group>
+          <BodyHint lunge={lunge} blut={blut} time={fxTime} />
         </group>
       </group>
     </group>

@@ -1,7 +1,7 @@
 import {useMemo} from 'react';
 import * as THREE from 'three';
 import {Broom, Cable, Socket, Toaster} from '../actors/ShockProps';
-import {Room, std, tileTexture} from './Rooms';
+import {Chair, Room, std, tileTexture} from './Rooms';
 import type {StageDef} from './types';
 
 /**
@@ -31,7 +31,7 @@ const CabinetRow = ({x0, x1, front}: {x0: number; x1: number; front: THREE.Mater
   );
 };
 
-const KitchenScene = () => {
+const KitchenScene = ({dining = false}: {dining?: boolean}) => {
   const {W, D, H} = KITCHEN;
   const mats = useMemo(
     () => ({
@@ -207,6 +207,7 @@ const KitchenScene = () => {
       <group position={[2.3, 0, zb + 0.27]} rotation={[-0.19, 0.4, 0.05]}>
         <Broom />
       </group>
+      {dining && <DiningExtras zb={zb} depth={depth} x1={x1} />}
       {/* Wanduhr oben auf der freien Wand */}
       <group position={[2.05, 1.95, zb + 0.02]}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
@@ -230,4 +231,78 @@ const KitchenScene = () => {
   );
 };
 
-export const kitchenStage: StageDef = {id: 'kueche', Component: KitchenScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+/**
+ * Wohnküche ("wohnkueche") = Küche wie oben + Spülmaschine (Edelstahl-Front rechts in der Küchenzeile, x 0.0 … 0.55),
+ * Küchentisch in der Raummitte (Mitte x −0.2, z 0.55, 1,2 × 0,75 m, Platte 0,76 m hoch) mit Stuhl links.
+ * Der Oberschrank mit Kindersicherung ist ein eigenes Objekt ("oberschrank") – im Video an der Rückwand bei x 1.3, y 1.45.
+ */
+export const DINING = {table: {x: -0.2, z: 0.55, w: 1.2, d: 0.75, h: 0.76}, dishwasher: {x: 0.257, w: 0.58}};
+
+const DiningExtras = ({zb, depth, x1}: {zb: number; depth: number; x1: number}) => {
+  const m = useMemo(
+    () => ({
+      steel: std('#c9cfd5', {roughness: 0.3, metalness: 0.7}),
+      panel: std('#2a2e33', {roughness: 0.4}),
+      led: new THREE.MeshBasicMaterial({color: '#4fd8ff'}),
+      ledG: new THREE.MeshBasicMaterial({color: '#5be37a'}),
+      handle: std('#eef1f4', {roughness: 0.2, metalness: 0.8}),
+      wood: std('#c48a52', {roughness: 0.65}),
+      woodDark: std('#8e5f36', {roughness: 0.7}),
+    }),
+    [],
+  );
+  const {table, dishwasher} = DINING;
+  const fz = zb + depth + 0.005;
+  return (
+    <>
+      {/* Spülmaschine: Edelstahl-Front mit Bedienleiste oben */}
+      <group position={[dishwasher.x, 0, fz]}>
+        <mesh material={m.steel} position={[0, 0.47, 0.012]} castShadow>
+          <boxGeometry args={[dishwasher.w, 0.76, 0.024]} />
+        </mesh>
+        <mesh material={m.panel} position={[0, 0.81, 0.026]}>
+          <boxGeometry args={[dishwasher.w - 0.02, 0.07, 0.006]} />
+        </mesh>
+        {[-0.2, -0.15, -0.1].map((x, i) => (
+          <mesh key={x} material={i === 2 ? m.ledG : m.led} position={[x, 0.81, 0.03]}>
+            <circleGeometry args={[0.009, 10]} />
+          </mesh>
+        ))}
+        <mesh material={m.led} position={[0.15, 0.81, 0.03]}>
+          <planeGeometry args={[0.1, 0.03]} />
+        </mesh>
+        <mesh material={m.handle} position={[0, 0.74, 0.045]}>
+          <boxGeometry args={[0.4, 0.022, 0.022]} />
+        </mesh>
+        {[-0.19, 0.19].map((x) => (
+          <mesh key={x} material={m.handle} position={[x, 0.74, 0.033]}>
+            <boxGeometry args={[0.02, 0.02, 0.02]} />
+          </mesh>
+        ))}
+      </group>
+      {/* Küchentisch */}
+      <group position={[table.x, 0, table.z]}>
+        <mesh material={m.wood} position={[0, table.h - 0.02, 0]} castShadow receiveShadow>
+          <boxGeometry args={[table.w, 0.04, table.d]} />
+        </mesh>
+        {[
+          [-1, -1],
+          [1, -1],
+          [-1, 1],
+          [1, 1],
+        ].map(([sx, sz], i) => (
+          <mesh key={i} material={m.woodDark} position={[sx * (table.w / 2 - 0.07), (table.h - 0.04) / 2, sz * (table.d / 2 - 0.07)]} castShadow>
+            <boxGeometry args={[0.05, table.h - 0.04, 0.05]} />
+          </mesh>
+        ))}
+      </group>
+      <group position={[table.x - table.w / 2 - 0.12, 0, table.z]} rotation={[0, Math.PI / 2, 0]}>
+        <Chair color="#c9584a" />
+      </group>
+    </>
+  );
+};
+
+export const diningKitchenStage: StageDef = {id: 'wohnkueche', Component: () => <KitchenScene dining />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+
+export const kitchenStage: StageDef = {id: 'kueche', Component: () => <KitchenScene />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};

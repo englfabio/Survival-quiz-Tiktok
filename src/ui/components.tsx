@@ -657,3 +657,39 @@ export const Stopwatch = ({
     </div>
   );
 };
+
+// ---------- Kleiner Warnhinweis oben rechts (z. B. "Nicht nachmachen!") ----------
+/** Warnschild-Stil: rotes Schild mit gelbem Warndreieck, oben rechts neben dem Kategorie-Abzeichen (sicherer Bereich). */
+export const WarnTag = ({text, frame, until}: {text: string; frame: number; until: number}) => {
+  const {fps} = useVideoConfig();
+  const s = spring({frame: frame - 2, fps, config: {damping: 14}});
+  const out = interpolate(frame, [until - 8, until], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const o = Math.min(s, out);
+  if (o <= 0.001) return null;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        right: 1080 - T.rightTop,
+        top: T.top,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        background: T.red,
+        border: `4px solid ${T.white}`,
+        borderRadius: 14,
+        padding: '8px 22px 8px 12px',
+        opacity: o,
+        transform: `translateX(${(1 - s) * 60}px)`,
+        boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+      }}
+    >
+      <svg width={58} height={52} viewBox="0 0 58 52">
+        <path d="M29 3 L55 49 L3 49 Z" fill={T.yellow} stroke={T.black} strokeWidth={4} strokeLinejoin="round" />
+        <rect x={26} y={17} width={6} height={18} rx={2} fill={T.black} />
+        <circle cx={29} cy={41} r={3.4} fill={T.black} />
+      </svg>
+      <span style={{fontFamily: T.font, fontWeight: 800, fontSize: 44, color: T.white, letterSpacing: 1.5, textTransform: 'uppercase', textShadow}}>{text}</span>
+    </div>
+  );
+};

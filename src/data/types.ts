@@ -113,6 +113,12 @@ export type Motion =
   | 'wraptooth' // Dummy: legt den Zahn ins Taschentuch (linke Hand) und wickelt ihn ein (bis ca. 1,6 s)
   | 'placetooth' // Dummy: legt den Zahn vorn unten ab (Hand runter bis 0,7 s, loslassen bei 0,8 s, zurück bis 1,3 s)
   | 'dentalsit' // Dummy: halb liegend im Behandlungsstuhl, Hände auf dem Bauch
+  // ---- Dummy: Spülmaschinentab (Vergiftung) ----
+  | 'tabstare' // Dummy: erschrocken auf den angebissenen Tab in der rechten Hand starren (zuckt 0–0,3 s zurück, zittert leicht)
+  | 'fingermouth' // Dummy: Finger bis kurz vor den Mund führen (bis 1,0 s) und zögern – nur angedeutet
+  | 'drinkmilk' // Dummy: Glas Milch zum Mund (bis 0,8 s), kippen + trinken (Glas leert sich bis ca. 3,2 s)
+  | 'spit' // Dummy: vorbeugen, Küchenpapier vor den Mund (bis 0,6 s), ausspucken bei 0,9 / 1,6 / 2,3 s
+  | 'stowtabs' // Dummy: Tab-Packung in den Oberschrank heben (Hand dort 0,9 s, loslassen 1,0 s), Tür zudrücken (1,2–1,7 s)
   // ---- Känguru (Figur "kaenguru") – hüpfen = "hop" (Weg über Zeitpunkte, ohne Weg = auf der Stelle) ----
   | 'guard' // Känguru: Boxhaltung, wippt auf dem Schwanz
   | 'punch' // Känguru: Schlag mit rechts (ausholen 0–0,25 s, Treffer bei ca. 0,4 s, ca. 0,75 m vor ihm auf 1,55 m), zurück
@@ -220,10 +226,22 @@ export type ActorKey = {
   size?: number;
   /** Hinweisschild: 0 = Schild oberhalb (Zeiger nach unten), 1 = Schild unterhalb (Zeiger nach oben) */
   below?: number;
+  /** Hinweisschild: 1 = grün statt rot (für "richtig"-Hinweise) */
+  good?: number;
+  /** Dummy: comichafte Schaumblasen am Mund, 0 = keine … 1 = ein paar … 2 = viele */
+  foam?: number;
+  /** Dummy: Röntgen-Hinweis Lunge mit Pfeil vom Mund in die Lunge + Warndreieck, 0 … 1 (Pfeil wächst) */
+  lunge?: number;
+  /** Dummy: Röntgen-Hinweis Magen mit Pfeil zum Blutstropfen + Giftpunkte + Warndreieck, 0 … 1 */
+  blut?: number;
+  /** Glas Milch ("milchglas"): Füllstand 1 = voll … 0 = leer */
+  fill?: number;
+  /** Oberschrank ("oberschrank"): Kindersicherung 1 = eingerastet … 0 = offen */
+  lock?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
@@ -250,6 +268,8 @@ export type Shot = {
    * Bei falschen Optionen kommt das rote Aufleuchten (+ Falsch-Ton) genau in diesem Moment statt am Anfang.
    */
   freeze?: number;
+  /** Nur richtige Option: grünes Aufleuchten (+ Richtig-Ton) erst bei t (0…1) statt am Anfang */
+  flash?: number;
   /**
    * Stoppuhr einblenden: [t Beginn, t Ende, Sekunden]. Läuft zwischen Beginn und Ende von 0:00 bis zur
    * angegebenen Zeit (Zeitraffer), wird dann grün und blendet sich kurz danach aus.
@@ -284,7 +304,7 @@ export type Scenario = {
   category: string;
   stage: string;
   /** hook (optional) = große Überschrift oben während der Situation (nur eingeblendet, nicht gesprochen) */
-  situation: {speech: string; hook?: string};
+  situation: {speech: string; hook?: string; warning?: string};
   options: [Option, Option, Option];
   correctOption: 1 | 2 | 3;
   countdown: {speech: string; screen: string};

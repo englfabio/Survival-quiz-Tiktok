@@ -19,8 +19,7 @@ import {
   StepList,
   Stopwatch,
   Subtitle,
-  type CardState,
-} from './ui/components';
+  type CardState, WarnTag} from './ui/components';
 import {useFonts} from './ui/fonts';
 import {SafeZones} from './ui/SafeZones';
 import {T} from './ui/theme';
@@ -94,7 +93,12 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
   const freezeLocal = shot.freeze !== undefined ? Math.round(shot.freeze * sec.duration) : undefined;
   const frozen = freezeLocal !== undefined && local >= freezeLocal;
   const sinceFreeze = freezeLocal !== undefined ? local - freezeLocal : 0;
-  const flashFrame = freezeLocal !== undefined && !isCorrect ? sinceFreeze : local;
+  const flashFrame =
+    freezeLocal !== undefined && !isCorrect
+      ? sinceFreeze
+      : isCorrect && shot.flash !== undefined
+        ? local - Math.round(shot.flash * sec.duration)
+        : local;
   const stageName = stageNameAt(s, shot, frozen ? shot.freeze! : t);
   const stage = STAGES[stageName];
 
@@ -157,6 +161,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
         <>
           <CategoryBadge category={s.category} frame={local} />
           {s.situation.hook && <Headline text={s.situation.hook} frame={local - 4} top={300} size={78} />}
+          {s.situation.warning && <WarnTag text={s.situation.warning} frame={local} until={3 * fps} />}
           <Subtitle text={s.situation.speech} t={t} starts={timer(s.situation.speech)?.sentenceStarts} />
         </>
       )}
