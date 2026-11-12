@@ -126,7 +126,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   kleine Zahnarztpraxis mit Behandlungsstuhl (türkis, Lehne nach hinten), Behandlungslampe am Schwenkarm, Instrumentenablage,
   Schrank mit Waschbecken, Zahn-Poster (`zahnarztpraxis`, `src/stage/Dental.tsx`),
   Wohnküche = Küche + Spülmaschine (Edelstahl, rechts in der Küchenzeile) + Küchentisch (Mitte x −0.2, z 0.55, Platte 0,76 m) + roter
-  Stuhl (`wohnkueche`, `src/stage/Kitchen.tsx`, Atmo = `uhr-ticken`).
+  Stuhl (`wohnkueche`, `src/stage/Kitchen.tsx`, Atmo = `uhr-ticken`),
+  kleines gemütliches Schlafzimmer am Abend (`schlafzimmer`, `src/stage/Bedroom.tsx`, Atmo = `uhr-ticken`: Bett an der Rückwand rechts, Nachttisch
+  mit Lampe, Schreibtisch unter dem Fenster links (Abendhimmel + Mond), Leseecke vorn links mit Stuhl + rundem Beistelltisch, Tür rechts, Teppich,
+  Poster, Pflanze), Aufzugkabine mit Stahlwänden, Spiegel, Handlauf, Tastenfeld, Stockwerk-Anzeige + zwei Mitfahrenden (`aufzug`, Atmo =
+  `aufzug-summen`), volle U-/S-Bahn mit Sitzbänken, gelben Stangen, Haltegriffen, Tunnel-Lichtern, vielen Fahrgästen (`bahn`, Atmo = `bahn-atmo`).
+  Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
@@ -155,7 +160,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Zahn unter dem Wasserhahn abspülen (`rinsetooth`), Zahn ins Taschentuch wickeln (`wraptooth`), Zahn ablegen in Glas/Box/Milch
   (`placetooth`), halb liegend im Behandlungsstuhl (`dentalsit`),
   erschrocken auf den angebissenen Tab in der Hand starren (`tabstare`), Finger bis kurz vor den Mund – nur angedeutet (`fingermouth`),
-  Glas Milch trinken (`drinkmilk`), ins Küchenpapier ausspucken (`spit`), Tab-Packung in den Oberschrank räumen + Tür zudrücken (`stowtabs`)
+  Glas Milch trinken (`drinkmilk`), ins Küchenpapier ausspucken (`spit`), Tab-Packung in den Oberschrank räumen + Tür zudrücken (`stowtabs`),
+  mit dem Rücken an die Wand gedrückt, Hände flach an der Wand (`wallpress`), verkrampfen + Fäuste ballen + zittern (`clench`),
+  hinsetzen auf Stuhl/Bett 0,45 m (`bedsitdown`, danach ruhig atmen), aufrecht sitzen + Bauchatmung 2 s ein / 4 s aus, Hände auf dem Bauch (`sitbreathe`),
+  Wasser trinken + Coolpack in den Nacken über die Werte `sip` / `pack` (0 … 1, bei `sitbreathe`/`bedsitdown`), angespannt stehen (`uneasy`),
+  in der Bahn am Haltegriff festhalten (`holdstrap`)
+- **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
+  pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
+  mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
+  Shot-Feld `"breathGuide": [tStart, tEnde]` = Atem-Anzeige „Ein · kurz / Aus · lang“ (6-s-Takt ab Beginn, passt zu `sitbreathe` ab gleicher Zeit)
 - **Wunde am Arm (Dummy, linker Unterarm):** kleiner roter Bisspunkt (`armbite`), roter Schimmer/Rötung, die wächst
   (`redness` 0 … 2), Pflaster (`plaster` 0 … 1, Rötung scheint drunter durch), Kompresse + Mullbinde (`dressing` 0 … 1)
 - **Zähne (Dummy):** stilisierte Zahnreihe vorn am Kopf (`teeth` 0/1) mit Zahnlücke (`gap` 0/1, kein Blut);
@@ -176,7 +189,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   schaut aus der Steckdose: `peek` = herausgucken, `wiggle` = zappeln, `withdraw` = beleidigt zurückziehen),
   Känguru (`kaenguru`, `src/actors/Kangaroo.tsx`: rotbraun, heller Bauch, große Ohren, halb geschlossene Lider + hochgezogene Braue
   = frech, rote Boxhandschuhe, ca. 1,75 m; `stand`, `guard` = Boxhaltung, `hop` = hüpfen (Weg über Zeitpunkte), `punch` = Schlag
-  mit rechts (Treffer bei 0,4 s, Faust ca. 0,75 m vor ihm), `victory` = Siegerpose mit erhobenen Pfoten)
+  mit rechts (Treffer bei 0,4 s, Faust ca. 0,75 m vor ihm), `victory` = Siegerpose mit erhobenen Pfoten),
+  Wal (`wal`, `src/actors/Whale.tsx`: großer, freundlicher Low-Poly-Blauwal, ca. 3,9 m lang, große Kulleraugen, rosa Bäckchen, Lächeln;
+  `float` = schweben + blinzeln, `spout` = gemütlich schnaufen mit kleiner Wasserfontäne (0,3 s, dann alle 3,2 s), `appear` = erscheint mit „Plopp“,
+  `shrink` = schrumpft in 2,2 s und verschwindet mit Glitzern; Werte `size` (größer) und `squish` 0 … 1 = drückt gegen die Wände; y immer mitgeben)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
 - **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
@@ -213,6 +229,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (`kuechenpapier`), einzelnes Blatt (`papierblatt`; bei `spit` in der Hand), Oberschrank mit Kindersicherung (`oberschrank`, Ursprung unten
   hinten an der Wand, `door` 0 zu … 1 offen – Tür rechts angeschlagen, `lock` 1 = Kindersicherung eingerastet mit grünem Punkt),
   Warndreieck (`WarnBadge`), Smartphone flach liegend (`smartphone` mit Bewegung `lie`)
+- **Objekte (Panik, `src/actors/PanicProps.tsx`):** Glas mit kaltem Wasser, Eiswürfeln + Kondens-Tropfen (`kaltwasser`, `fill`; beim Dummy-Wert `sip`
+  automatisch in der Hand), blaues Coolpack mit Schneeflocke (`coolpack`; bei `pack` automatisch in der Hand), Herz-Symbol (`HeartBadge`)
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -227,7 +245,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Bühnenwechsel:** Shot-Feld `"stage"` – andere Bühne für einen Abschnitt (`"stage": "wohnzimmer"`) oder Schnitt mitten
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
-- **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme)
+- **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz)
 
 ## Stimme (ElevenLabs)
 
@@ -269,6 +287,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `python3 scripts/spuelmaschinentab-choreo.py`. Hook „Du hast mal wieder einen Spülmaschinentab gegessen“, Warnhinweis „Nicht nachmachen!“.
   Darstellung bewusst ohne Reinbeißen (Video beginnt mit dem angebissenen Tab in der Hand). Standbilder in review/spuelmaschinentab/phase1/.
   Finales Video: review/final/spuelmaschinentab.mp4.
+- Wal-Panikattacke: 1237 neue Zeichen (countdown/reveal aus Cache, laut ElevenLabs 494 Credits), Sprechzeit 91,1 s, Video 100,1 s. Wort-Zeitstempel = Text
+  (geprüft), Kontrolle scribe_v2 (Erklärung 1 + 3): korrekt. Fünftes Video im Durchlauf-Modus. Choreografie: `python3 scripts/wal-panikattacke-choreo.py`.
+  Darstellung: Wal witzig/absurd, Panik respektvoll (kein Auslachen). Standbilder in review/wal-panikattacke/phase1/. Finales Video: review/final/wal-panikattacke.mp4.
+  Hinweis: Der ElevenLabs-Schlüssel darf den Credit-Stand nicht abfragen (fehlende Berechtigung `user_read`) – Kosten stehen in der Ausgabe von `npm run voice`.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -291,7 +313,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `feuer-knistern` (Bühne Weihnachtszimmer, Schleife), `feuer-auflodern`, `tuer-zu`, `sirene`, `geschenk-rascheln`,
   `eimer-schwappen` (Weihnachtsbaum-Brand-Video);
   `strom-knistern`, `sicherung-klick`, `handtuch-klatsch`, `aal-schmollen` (Zitteraal-Video; Küche nutzt `uhr-ticken`);
-  `outback-atmo` (Bühne Outback, Schleife), `boxglocke`, `boxschlag`, `zahn-ping` (Känguru-Zahn-Video).
+  `outback-atmo` (Bühne Outback, Schleife), `boxglocke`, `boxschlag`, `zahn-ping` (Känguru-Zahn-Video);
+  `herzschlag`, `wal-schnaufen`, `wal-ruf`, `plopp`, `schrumpfen`, `aufzug-summen` (Bühne Aufzug, Schleife), `aufzug-ding`, `bahn-atmo` (Bühne Bahn, Schleife) (Wal-Panikattacke).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -407,6 +430,10 @@ Beschreibung und angepinnter Kommentar.
   vor ihm auf 1,34 m), `towelswing` (ausholen bis 0,45 s, Treffer 0,7 s, Handtuchspitze ca. 1,3 m vor ihm auf 1,28 m), `switchoff`
   (Hand zum Schalter 0,67 m vor / 0,28 m rechts auf 1,39 m, runter bis 0,7 s), `broompush`, `kneelcall` (kniet in 0,7 s).
   Positionen planen mit `scripts/dummy_kin.py` (Nachbau der Gelenkkette: `hand(x, z, face, pose)` = Welt-Position der Hand).
+- Schlafzimmer-Koordinaten (`src/stage/Bedroom.tsx`, `BEDROOM`): W 3.6, D 3.8 (Rückwand z −1.9), H 2.5. Dummy an der Wand (−1.12, −1.66, face 162),
+  Wal (1.15, −0.85, face 240, y 0.38) schwebt über dem Bett; Stuhl (−1.25, 0.55, face 145), Glas/Coolpack auf dem Beistelltisch (Lage aus SIT_SPOT_* in Dummy.tsx,
+  im Choreo-Skript per `rot()` umgerechnet). Wegen des schmalen Hochformats: Kamera für den ganzen Raum ca. 6–7 m vor der Rückwand (z 5 … 6,6).
+  Aufzug: Dummy (0, 0.2, face 180), Kamera [0, 1.75, 4.8]. Bahn: Haltegriffe bei x ±0.45 → Dummy (−0.31, −0.5) mit `holdstrap`, Kamera [0.3, 1.85, 4.2].
 - Wohnküche im Spülmaschinentab-Video: Dummy hinter dem Tisch `x 0.05, z −0.1, face 180`; Oberschrank `x 1.3, y 1.45, z −2.3, face 180`,
   Dummy davor (`stowtabs`) `x 1.06, z −1.6, face 0`; Packung im Schrank auf dem Regal (1.3, 1.677, −2.12). Neue Bewegungen müssen in
   `src/lib/anim.ts` in CONTINUOUS (+ BLEND_MOTIONS) stehen, sonst springt ihre Zeit an jedem Zeitpunkt zurück.
@@ -469,14 +496,16 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg, Graveyard.tsx = Friedhof,
                       Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
                       Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche;
-                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche)
+                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche;
+                      Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
                       Feuerwehrauto, Eel.tsx = Zitteraal, ShockProps.tsx = Handtuch/Sicherungskasten/Besen/
                       Steckdose/Toaster, Kangaroo.tsx = Känguru, ToothProps.tsx = Zahn/Taschentuch/Glas/Wasserhahn/
                       Zahnrettungsbox/H-Milch/Boxhandschuh/Hinweisschild, TabProps.tsx = Tab/Packung/Milchglas/
-                      Küchenpapier/Oberschrank/Warndreieck) + Bewegungen; index.tsx = Anhängen ("attach")
+                      Küchenpapier/Oberschrank/Warndreieck, Whale.tsx = Wal, PanicProps.tsx = Kaltes Wasser/Coolpack/
+                      Herz-Symbol) + Bewegungen; index.tsx = Anhängen ("attach")
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
