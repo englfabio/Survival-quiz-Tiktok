@@ -25,7 +25,7 @@ export const rng = (seed: number) => {
 };
 
 const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway',
-  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket'];
+  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
@@ -39,7 +39,9 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'armflinch', 'armhold', 'armlook', 'applyplaster', 'couchsit', 'chairsit', 'couchwait', 'showpass', 'chairnod', 'rinse', 'disinfect', 'compress',
   'shamble', 'reach', 'chomp', 'confused', 'flow', 'flip', 'spin', 'open',
   'recoil', 'runbucket', 'pullgift', 'closedoor', 'callwave',
-  'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall', 'peek', 'wiggle', 'withdraw'];
+  'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall', 'peek', 'wiggle', 'withdraw',
+  'boxguard', 'hitstagger', 'dazed', 'searchkneel', 'pickcrown', 'holdtooth', 'rinsetooth', 'wraptooth', 'placetooth', 'dentalsit',
+  'guard', 'punch', 'victory', 'fly', 'lie'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -50,6 +52,8 @@ export const BLEND_MOTIONS: Motion[] = [
   'shamble', 'reach', 'chomp', 'confused',
   'recoil', 'runbucket', 'pullgift', 'closedoor', 'callwave',
   'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall',
+  'boxguard', 'hitstagger', 'dazed', 'searchkneel', 'pickcrown', 'holdtooth', 'rinsetooth', 'wraptooth', 'placetooth', 'dentalsit',
+  'guard', 'punch', 'victory',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */

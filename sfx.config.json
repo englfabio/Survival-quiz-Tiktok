@@ -351,6 +351,34 @@
       "duration": 1.5,
       "loop": false,
       "promptInfluence": 0.5
+    },
+    {
+      "id": "outback-atmo",
+      "prompt": "Warm evening outback ambience at sunset, soft crickets, gentle dry wind over grassland, distant bird calls, calm, no music",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "boxglocke",
+      "prompt": "Single boxing ring bell ding, clear metallic, short",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "boxschlag",
+      "prompt": "Comic cartoon boxing glove punch hit, punchy thump with a light whoosh, no voice",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "zahn-ping",
+      "prompt": "Tiny cartoon tooth landing, short bright plink ping, playful",
+      "duration": 0.6,
+      "loop": false,
+      "promptInfluence": 0.7
     }
   ]
 }

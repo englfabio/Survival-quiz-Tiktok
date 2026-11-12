@@ -102,6 +102,24 @@ export type Motion =
   | 'switchoff' // Dummy: Schalter vorn oben umlegen (greifen 0–0,45 s, runterdrücken bis 0,7 s, loslassen ab 1,0 s)
   | 'broompush' // Dummy: Besen mit trockenem Holzstiel waagrecht halten und nach vorn schieben
   | 'kneelcall' // Dummy: hinknien (0,7 s), telefonieren, linke Hand vorn unten (z. B. auf der Schulter)
+  // ---- Dummy: Zahnunfall (Känguru) ----
+  | 'boxguard' // Dummy: Boxhaltung (Fäuste vor dem Gesicht, leichtes Wippen)
+  | 'hitstagger' // Dummy: getroffen – Kopf fliegt zurück (0–0,25 s), taumelt rückwärts (Weg über Zeitpunkte), ab ca. 1,4 s benommen (= dazed)
+  | 'dazed' // Dummy: benommen stehen, schwankt, linke Hand am Mund
+  | 'searchkneel' // Dummy: hinknien (0,7 s) und mit den Händen im Gras suchen (Kopf schaut hin und her)
+  | 'pickcrown' // Dummy: kniet, greift den Zahn vorsichtig an der Krone (bis 0,9 s), hebt ihn vor die Augen (bis 1,7 s)
+  | 'holdtooth' // Dummy: steht, hält den Zahn mit spitzen Fingern vor sich und schaut ihn an
+  | 'rinsetooth' // Dummy: steht vorgebeugt, hält den Zahn mit beiden Händen unter den Wasserhahn (reibt)
+  | 'wraptooth' // Dummy: legt den Zahn ins Taschentuch (linke Hand) und wickelt ihn ein (bis ca. 1,6 s)
+  | 'placetooth' // Dummy: legt den Zahn vorn unten ab (Hand runter bis 0,7 s, loslassen bei 0,8 s, zurück bis 1,3 s)
+  | 'dentalsit' // Dummy: halb liegend im Behandlungsstuhl, Hände auf dem Bauch
+  // ---- Känguru (Figur "kaenguru") – hüpfen = "hop" (Weg über Zeitpunkte, ohne Weg = auf der Stelle) ----
+  | 'guard' // Känguru: Boxhaltung, wippt auf dem Schwanz
+  | 'punch' // Känguru: Schlag mit rechts (ausholen 0–0,25 s, Treffer bei ca. 0,4 s, ca. 0,75 m vor ihm auf 1,55 m), zurück
+  | 'victory' // Känguru: Siegerpose – beide Pfoten hoch, hüpft kurz, freches Grinsen
+  // ---- Zahn (Figur "zahn") ----
+  | 'fly' // Zahn: dreht sich im Flug (Weg/Bogen über Zeitpunkte)
+  | 'lie' // Zahn: liegt still
   // ---- Zitteraal (Figur "zitteraal") ----
   | 'peek' // Aal: aus der Steckdose herausgucken, sich umschauen, blinzeln
   | 'wiggle' // Aal: zappeln (passt zu "zap")
@@ -141,6 +159,8 @@ export type ActorKey = {
    * (Dummy sitzt im Auto und bewegt sich mit). Wechsel angehängt ↔ frei wird weich überblendet.
    */
   attach?: string;
+  /** Hinweisschild ("hinweis"): Text auf dem Schild (gilt ab diesem Zeitpunkt weiter) */
+  text?: string;
   // ---- Zahlenwerte, die weich zum nächsten Zeitpunkt übergehen (gelten weiter, bis sie sich ändern) ----
   /** Auto: nach vorne abkippen in Grad (positiv = Nase nach unten) */
   tilt?: number;
@@ -182,10 +202,28 @@ export type ActorKey = {
   lever?: number;
   /** Besen: Neigung in Grad (an die Wand gelehnt) */
   lean?: number;
+  /** Dummy: rote Boxhandschuhe 0 = aus, 1 = an */
+  gloves?: number;
+  /** Dummy: Zahnreihe zeigen 0 = aus, 1 = an */
+  teeth?: number;
+  /** Dummy: Zahnlücke (ein Zahn fehlt) 0 = nein, 1 = ja */
+  gap?: number;
+  /** Zahn (auch Zahn in der Hand des Dummys): 0 = gesund weiß … 1 = grau (Zellen abgestorben) */
+  gray?: number;
+  /** Zahn: Markierung 0 = aus … 1 = Krone grün + Wurzel rot mit Schild "Nicht anfassen" (1 … 2: Schild blendet aus, Krone bleibt grün) */
+  mark?: number;
+  /** Taschentuch: 0 = offen … 1 = eingewickelt */
+  wrap?: number;
+  /** Zahnrettungsbox: Deckel 0 = zu … 1 = offen */
+  lid?: number;
+  /** Zahn, Hinweisschild, Zahnrettungsbox: Größe (0 = normal, 1 = doppelt so groß …) */
+  size?: number;
+  /** Hinweisschild: 0 = Schild oberhalb (Zeiger nach unten), 1 = Schild unterhalb (Zeiger nach oben) */
+  below?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
@@ -243,7 +281,8 @@ export type Scenario = {
   id: string;
   category: string;
   stage: string;
-  situation: {speech: string};
+  /** hook (optional) = große Überschrift oben während der Situation (nur eingeblendet, nicht gesprochen) */
+  situation: {speech: string; hook?: string};
   options: [Option, Option, Option];
   correctOption: 1 | 2 | 3;
   countdown: {speech: string; screen: string};

@@ -156,6 +156,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
       {sec.kind === 'situation' && (
         <>
           <CategoryBadge category={s.category} frame={local} />
+          {s.situation.hook && <Headline text={s.situation.hook} frame={local - 4} top={300} size={78} />}
           <Subtitle text={s.situation.speech} t={t} starts={timer(s.situation.speech)?.sentenceStarts} />
         </>
       )}

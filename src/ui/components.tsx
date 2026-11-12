@@ -50,7 +50,7 @@ export const CategoryBadge = ({category, frame}: {category: string; frame: numbe
 };
 
 // ---------- Überschrift im Warnschild-Look ----------
-export const Headline = ({text, frame, top = 300}: {text: string; frame: number; top?: number}) => {
+export const Headline = ({text, frame, top = 300, size = 92}: {text: string; frame: number; top?: number; size?: number}) => {
   const {fps} = useVideoConfig();
   const s = spring({frame, fps, config: {damping: 14}});
   return (
@@ -62,7 +62,7 @@ export const Headline = ({text, frame, top = 300}: {text: string; frame: number;
           color: T.black,
           fontFamily: T.font,
           fontWeight: 800,
-          fontSize: 92,
+          fontSize: size,
           lineHeight: 1,
           padding: '14px 26px 10px',
           textTransform: 'uppercase',

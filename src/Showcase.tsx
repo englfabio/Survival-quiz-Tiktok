@@ -4,12 +4,13 @@ import {Scene3D} from './Scene3D';
 import {STAGES} from './stage';
 import {useFonts} from './ui/fonts';
 import {T} from './ui/theme';
+import {ZAHN_DEMOS} from './ShowcaseZahn';
 
 /**
  * Baukasten-Ansicht: zeigt jede Bewegung von Dummy, Bär, Kreuzotter und Auto einzeln (je 3 s, manche länger).
  * Nur zum Prüfen – kommt in keinem Quiz-Video vor.
  */
-type Demo = {label: string; shot: Shot; stage?: string; seconds?: number};
+export type Demo = {label: string; shot: Shot; stage?: string; seconds?: number};
 
 const cam = (look: [number, number, number], dist = 6, side = 1): Shot['camera'] => [
   {t: 0, pos: [look[0] + side * dist * 0.75, look[1] + 1.2, look[2] + dist * 0.75], look},
@@ -981,13 +982,18 @@ const DEMOS: Demo[] = [
   ...FIRE_DEMOS,
   // ---------- Neu für "Zitteraal-Steckdose" ----------
   ...STROM_DEMOS,
+  // ---------- Neu für "Känguru-Zahn" ----------
+  ...ZAHN_DEMOS,
 ];
 
+/** Index der ersten Zahn-Demo (für Übersichtsbilder) */
+export const ZAHN_DEMO_FIRST = DEMOS.length - ZAHN_DEMOS.length;
+
 /** Index der ersten Strom-Demo (für Übersichtsbilder) */
-export const STROM_DEMO_FIRST = DEMOS.length - STROM_DEMOS.length;
+export const STROM_DEMO_FIRST = DEMOS.length - STROM_DEMOS.length - ZAHN_DEMOS.length;
 
 /** Index der ersten Feuer-Demo (für Übersichtsbilder) */
-export const FIRE_DEMO_FIRST = DEMOS.length - FIRE_DEMOS.length - STROM_DEMOS.length;
+export const FIRE_DEMO_FIRST = DEMOS.length - FIRE_DEMOS.length - STROM_DEMOS.length - ZAHN_DEMOS.length;
 
 /** Index der ersten Burg-Demo (für Übersichtsbilder) */
 export const CASTLE_DEMO_FIRST = DEMOS.length - CASTLE_DEMOS.length;

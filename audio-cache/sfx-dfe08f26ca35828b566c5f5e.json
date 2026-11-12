@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Tiny cartoon tooth landing, short bright plink ping, playful",
+  "duration": 0.6,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-12T11:17:02.753Z"
+}

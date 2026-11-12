@@ -9,6 +9,7 @@ import {Smartphone, Spade} from './GardenProps';
 import {Bucket, Gift} from './ChristmasProps';
 import {Broom, towelPoints, WetTowel} from './ShockProps';
 import {ZapAura} from '../effects/Zap';
+import {BoxingGlove, RescueBox, Tissue, Tooth} from './ToothProps';
 import {rng} from '../lib/anim';
 
 /**
@@ -39,6 +40,8 @@ export type DummyPose = {
   legL: Limb;
   legR: Limb;
   foreZ: number; // Unterarm rechts seitlich (Winken)
+  /** Unterarm links seitlich (für genaues Greifen) */
+  foreZL: number;
   /** Band am rechten Oberschenkel: 0 = keins, 1 = fertig gewickelt */
   band: number;
   /** Handy in der rechten Hand */
@@ -58,7 +61,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box';
   /** Gegenstand in beiden Händen (Feuer): Eimer mit Wasser, Geschenkpaket */
   both: '' | 'bucket' | 'gift' | 'broom';
   /** Sprühnebel aus dem Desinfektionsspray: 0 = aus … 1 = voll */
@@ -78,6 +81,7 @@ const base = (): DummyPose => ({
   legL: {sx: 0, sz: 0.03, bend: 0},
   legR: {sx: 0, sz: -0.03, bend: 0},
   foreZ: 0,
+  foreZL: 0,
   band: 0,
   phone: false,
   belt: 0,
@@ -110,6 +114,7 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     legL: limb(a.legL, b.legL),
     legR: limb(a.legR, b.legR),
     foreZ: L(a.foreZ, b.foreZ),
+    foreZL: L(a.foreZL ?? 0, b.foreZL ?? 0),
     band: L(a.band, b.band),
     phone: k < 0.5 ? a.phone : b.phone,
     belt: L(a.belt, b.belt),
@@ -1078,6 +1083,218 @@ const stromPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+// ---------- Zahnunfall (Känguru) ----------
+/** Punkt (im Dummy-System: Ursprung am Boden, +z = vorn) → Oberkörper-System der Haltung */
+const torsoLocal = (p: DummyPose, v: THREE.Vector3) =>
+  v
+    .clone()
+    .applyEuler(new THREE.Euler(-p.pitch, 0, 0))
+    .sub(new THREE.Vector3(0, p.hipY + 0.06, 0))
+    .applyMatrix4(new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(p.torsoX, p.torsoY, p.torsoZ)).invert());
+
+/**
+ * Arm so ausrichten, dass die Hand (along = Abstand ab Ellbogen, 0,33 = Handmitte) den Punkt target trifft.
+ * target im Dummy-System (Ursprung am Boden zwischen den Füßen, +z = vorn, rechte Hand liegt bei −x).
+ * Zwei-Gelenk-Rechnung: Ellbogen zeigt in Richtung "pole" (Oberkörper-System, Standard: unten, leicht außen + hinten).
+ * Ergebnis: Oberarm (sx, sz), Ellbogen (bend) und seitliche Unterarm-Drehung (foreZ).
+ */
+const reach = (p: DummyPose, side: 1 | -1, target: [number, number, number], along = 0.33, pole: [number, number, number] = [0.45, -1, -0.35]): {limb: Limb; fz: number} => {
+  const T = torsoLocal(p, new THREE.Vector3(...target));
+  const S = new THREE.Vector3(0.27 * side, 0.44, 0);
+  const a = 0.31;
+  const b = along;
+  const d0 = T.clone().sub(S);
+  const d = Math.min(Math.max(d0.length(), Math.abs(a - b) + 0.01), (a + b) * 0.999);
+  const n = d0.normalize();
+  const pv = new THREE.Vector3(pole[0] * side, pole[1], pole[2]);
+  const perp = pv.sub(n.clone().multiplyScalar(pv.dot(n))).normalize();
+  const ca = clamp((a * a + d * d - b * b) / (2 * a * d), -1, 1);
+  const al = Math.acos(ca);
+  const E = S.clone().add(n.clone().multiplyScalar(a * Math.cos(al))).add(perp.clone().multiplyScalar(a * Math.sin(al)));
+  const H = S.clone().add(n.clone().multiplyScalar(d));
+  const u = E.clone().sub(S).normalize();
+  const sz = Math.asin(clamp(u.x, -1, 1));
+  const sx = Math.atan2(-u.z, -u.y);
+  const f = H.clone().sub(E).normalize();
+  // Unterarm-Richtung ins Oberarm-System (R = Rx(sx)·Rz(sz) → R⁻¹ = Rz(−sz)·Rx(−sx))
+  const fl = f.applyEuler(new THREE.Euler(-sx, 0, 0)).applyEuler(new THREE.Euler(0, 0, -sz));
+  const fz = Math.asin(clamp(fl.x, -1, 1));
+  const bend = Math.atan2(-fl.z, -fl.y);
+  return {limb: {sx, sz, bend}, fz};
+};
+/** Rechte Hand an einen Punkt (setzt armR + foreZ) */
+const reachR = (p: DummyPose, target: [number, number, number], along = 0.33, pole?: [number, number, number]) => {
+  const r = reach(p, -1, target, along, pole);
+  p.armR = r.limb;
+  p.foreZ = r.fz;
+};
+/** Linke Hand an einen Punkt (setzt armL + foreZL) */
+const reachL = (p: DummyPose, target: [number, number, number], along = 0.33, pole?: [number, number, number]) => {
+  const r = reach(p, 1, target, along, pole);
+  p.armL = r.limb;
+  p.foreZL = r.fz;
+};
+
+/**
+ *  - boxguard:    Boxhaltung, Fäuste vor dem Gesicht, wippt
+ *  - hitstagger:  getroffen: Kopf fliegt zurück (0–0,25 s), Arme fliegen auseinander, taumelt (Weg über Zeitpunkte),
+ *                 ab ca. 1,4 s benommen wie "dazed"
+ *  - dazed:       benommen stehen, schwankt, linke Hand am Mund
+ *  - searchkneel: hinknien (0,7 s), mit beiden Händen im Gras suchen, Kopf schaut hin und her
+ *  - pickcrown:   kniet; rechte Hand greift den Zahn ca. 0,5 m vor ihm am Boden an der Krone (bis 0,9 s),
+ *                 hebt ihn vor die Augen (bis 1,7 s, Zahn ca. 0,35 m vor ihm auf 1,05 m Höhe)
+ *  - holdtooth:   steht und hält den Zahn mit spitzen Fingern vor sich (ca. 0,35 m vor ihm, 1,3 m hoch)
+ *  - rinsetooth:  vorgebeugt, beide Hände unter dem Wasserhahn (Hände ca. 0,45 m vor ihm auf 0,85 m Höhe), reibt den Zahn
+ *  - wraptooth:   linke Hand hält das Taschentuch (0,33 m vor ihm, 1,0 m hoch), rechte Hand faltet (Wert "wrap" am Dummy)
+ *  - placetooth:  legt den Zahn ab: Ablagestelle 0,42 m vor ihm, 0,1 m rechts, 0,72 m hoch (Hand dort bei 0,7 s,
+ *                 loslassen bei 0,8 s, zurück bis 1,3 s)
+ *  - dentalsit:   halb liegend im Behandlungsstuhl (Sitz 0,5 m hoch, Lehne nach hinten), Hände auf dem Bauch
+ */
+export const PLACE_SPOT: [number, number, number] = [-0.1, 0.72, 0.42];
+const zahnPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'boxguard': {
+      const p = base();
+      const b = Math.abs(Math.sin(time * 4.6));
+      p.hipY = 0.93 - 0.025 * b;
+      p.torsoX = 0.12 + breathe;
+      p.torsoY = 0.12;
+      p.headX = 0.12;
+      p.legL = L3(-0.28, 0.08, 0.3);
+      p.legR = L3(0.2, -0.08, 0.28);
+      const jab = 0.03 * Math.sin(time * 3);
+      reachL(p, [0.12, 1.5 + jab, 0.36 + jab], 0.28, [0.6, -1, 0.1]);
+      reachR(p, [-0.1, 1.42 - jab, 0.28], 0.28, [0.6, -1, 0.1]);
+      return p;
+    }
+    case 'hitstagger': {
+      const p = base();
+      const hit = easeInOut(clamp(time / 0.22));
+      const rec = easeInOut(clamp((time - 0.5) / 0.9));
+      const k = hit * (1 - rec);
+      p.headX = -0.75 * k + 0.15 * rec;
+      p.headY = 0.3 * k;
+      p.torsoX = -0.38 * k + 0.08 * rec;
+      p.torsoZ = 0.12 * k + Math.sin(time * 5) * 0.06 * (1 - rec * 0.5);
+      p.armL = mixLimb(L3(-0.6, 0.9, -0.6), L3(-1.0, -0.45, -2.3), rec);
+      p.armR = mixLimb(L3(-0.4, -1.0, -0.4), L3(0, -0.12, -0.25), rec);
+      const step = Math.sin(time * 9) * (1 - rec);
+      p.legL = L3(0.35 * step, 0.1, 0.25 * Math.max(0, step));
+      p.legR = L3(-0.35 * step, -0.1, 0.25 * Math.max(0, -step));
+      p.hipY = 0.96 - 0.04 * k;
+      if (time > 1.4) return mix(p, zahnPose('dazed', time - 1.4)!, easeInOut(clamp((time - 1.4) / 0.4)));
+      return p;
+    }
+    case 'dazed': {
+      const p = base();
+      p.torsoZ = Math.sin(time * 1.6) * 0.07;
+      p.torsoX = 0.06 + Math.sin(time * 1.1) * 0.03;
+      p.headX = 0.18 + Math.sin(time * 1.3) * 0.06;
+      p.headY = Math.sin(time * 0.9) * 0.2;
+      p.headY += 0;
+      reachL(p, [0.13, 1.64, 0.1], 0.3, [0.8, -1, 0]);
+      p.armR = L3(0, -0.12, -0.25 + Math.sin(time * 1.6) * 0.1);
+      p.legL = L3(0.05, 0.12, 0.05);
+      p.legR = L3(-0.05, -0.12, 0.08);
+      p.hipY = 0.97;
+      return p;
+    }
+    case 'searchkneel': {
+      const kneel = kneelPose();
+      kneel.torsoX = 0.75;
+      const k = easeInOut(clamp(time / 0.7));
+      const p = mix(base(), kneel, k);
+      const s = Math.max(0, time - 0.6);
+      const sw = Math.sin(s * 3.2);
+      p.armL = mixLimb(p.armL, L3(-0.95 + 0.15 * sw, 0.15 + 0.25 * sw, -0.35), k);
+      p.armR = mixLimb(p.armR, L3(-0.95 - 0.15 * sw, -0.15 + 0.25 * sw, -0.35), k);
+      p.headY = 0.45 * Math.sin(s * 1.4) * k;
+      p.headX = 0.35 * k;
+      p.torsoY = 0.12 * Math.sin(s * 1.4) * k;
+      return p;
+    }
+    case 'pickcrown': {
+      const kneel = kneelPose();
+      const k0 = easeInOut(clamp(time / 0.5));
+      const up = easeInOut(clamp((time - 0.9) / 0.8));
+      kneel.torsoX = 0.75 - 0.55 * up;
+      kneel.headX = 0.45 - 0.05 * up;
+      const p = mix(base(), kneel, k0);
+      const ground: [number, number, number] = [-0.08, 0.06, 0.52];
+      const eye: [number, number, number] = [-0.04, 1.05, 0.36];
+      const g = easeInOut(clamp(time / 0.9));
+      const rest: [number, number, number] = [-0.2, 0.55, 0.3];
+      const lerp3 = (a: [number, number, number], b: [number, number, number], q: number) => a.map((v, i) => v + (b[i] - v) * q) as [number, number, number];
+      reachR(p, time < 0.9 ? lerp3(rest, ground, g) : lerp3(ground, eye, up), 0.36);
+      p.armL = L3(-0.75, 0.2, -0.5 - 0.6 * up);
+      p.item = time > 0.85 ? 'tooth' : '';
+      return p;
+    }
+    case 'holdtooth': {
+      const p = base();
+      p.torsoX = 0.04 + breathe;
+      p.headX = 0.32;
+      reachR(p, [-0.04, 1.3 + Math.sin(time * 1.5) * 0.01, 0.36], 0.36);
+      p.armL = L3(-0.3, 0.12, -0.5);
+      p.item = 'tooth';
+      return p;
+    }
+    case 'rinsetooth': {
+      const p = base();
+      p.torsoX = 0.38 + breathe;
+      p.headX = 0.35;
+      p.hipY = 0.96;
+      p.legL = L3(-0.08, 0.08, 0.06);
+      p.legR = L3(0.1, -0.08, 0.08);
+      const rub = Math.sin(time * 9) * 0.025;
+      reachR(p, [-0.03 + rub, 0.86, 0.45], 0.36);
+      reachL(p, [0.05 - rub, 0.84, 0.43], 0.33);
+      p.item = 'tooth';
+      return p;
+    }
+    case 'wraptooth': {
+      const p = base();
+      p.torsoX = 0.1 + breathe;
+      p.headX = 0.4;
+      reachL(p, [0.04, 1.0, 0.33], 0.36);
+      const c = Math.min(1, time / 0.5);
+      reachR(p, [-0.03 + Math.sin(time * 5) * 0.04 * c, 1.1 + Math.cos(time * 5) * 0.02 * c, 0.33], 0.36);
+      p.item = 'tissue';
+      return p;
+    }
+    case 'placetooth': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.7));
+      const back = easeInOut(clamp((time - 0.85) / 0.45));
+      const lean = k * (1 - back);
+      p.torsoX = 0.42 * lean + breathe;
+      p.headX = 0.25 + 0.2 * lean;
+      p.hipY = 0.98 - 0.03 * lean;
+      const start: [number, number, number] = [-0.04, 1.2, 0.33];
+      const tgt: [number, number, number] = [PLACE_SPOT[0], PLACE_SPOT[1] + 0.05, PLACE_SPOT[2]];
+      const mixT = (a: [number, number, number], b: [number, number, number], q: number) => a.map((v, i) => v + (b[i] - v) * q) as [number, number, number];
+      reachR(p, mixT(start, tgt, lean), 0.36);
+      p.armL = L3(-0.3, 0.12, -0.5);
+      p.item = time < 0.8 ? 'tooth' : '';
+      return p;
+    }
+    case 'dentalsit': {
+      const p = base();
+      p.hipY = 0.6;
+      p.pitch = -0.55;
+      p.legL = L3(-1.0, 0.06, 0.75);
+      p.legR = L3(-1.0, -0.06, 0.75);
+      p.torsoX = 0.1 + breathe * 0.5;
+      p.headX = 0.08 + Math.sin(time * 0.8) * 0.03;
+      p.armL = L3(-0.35, -0.12, -1.25);
+      p.armR = L3(-0.35, 0.12, -1.25);
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Zittern unter Strom: Gliedmaßen zucken zufällig (amount 0 … 1), ändert sich jedes Bild */
 export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): DummyPose => {
   if (amount < 0.01) return p;
@@ -1099,7 +1316,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -1632,8 +1849,11 @@ const Arm = ({
   smartphone = false,
   sleeve = 0,
   wound,
+  glove = false,
 }: {
   m: Mats;
+  /** roter Boxhandschuh statt Hand */
+  glove?: boolean;
   limb: Limb;
   side: 1 | -1;
   foreZ?: number;
@@ -1671,9 +1891,15 @@ const Arm = ({
           </mesh>
         </group>
       )}
-      <mesh material={m.body} position={[0, -0.32, 0.0]} scale={[0.8, 1.1, 0.6]} castShadow>
-        <icosahedronGeometry args={[0.08, 0]} />
-      </mesh>
+      {glove ? (
+        <group position={[0, -0.25, 0]}>
+          <BoxingGlove s={0.95} />
+        </group>
+      ) : (
+        <mesh material={m.body} position={[0, -0.32, 0.0]} scale={[0.8, 1.1, 0.6]} castShadow>
+          <icosahedronGeometry args={[0.08, 0]} />
+        </mesh>
+      )}
       {phone && (
         <group position={[0.045 * side, -0.33, 0.03]} rotation={[0.2, 0, 0]}>
           <mesh material={m.joint} castShadow>
@@ -2047,9 +2273,51 @@ const armPoint = (limb: Limb, side: 1 | -1, foreZ: number, along: number, up = 0
     .add(new THREE.Vector3(0.27 * side, 0.44, 0));
 
 /** Gegenstand in der rechten Hand (Pflaster, Spray, Kompresse, Impfpass) */
-const HandItem = ({pose, time, zap = 0, zapTime = 0}: {pose: DummyPose; time: number; zap?: number; zapTime?: number}) => {
+const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; time: number; zap?: number; zapTime?: number; tooth?: ToothLook}) => {
   const hand = armPoint(pose.armR, -1, pose.foreZ, 0.33);
   if (!pose.item) return null;
+  // Gegenstand bleibt in der Welt aufrecht (Oberkörper-Neigung ausgleichen)
+  const level = new THREE.Quaternion()
+    .setFromEuler(new THREE.Euler(pose.torsoX, pose.torsoY, pose.torsoZ))
+    .invert()
+    .multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-pose.pitch, 0, 0)));
+  if (pose.item === 'tooth') {
+    // Zahn mit spitzen Fingern an der Krone: Krone oben in der Hand, Wurzel zeigt nach unten
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0, -0.04, 0]} rotation={[0.25, 0.4, 0]} scale={1.7}>
+          <Tooth gray={tooth?.gray} mark={tooth?.mark} time={time} />
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'tissue') {
+    // Taschentuch liegt auf der linken Hand (Handfläche oben), Zahn liegt darauf
+    const palm = armPoint(pose.armL, 1, pose.foreZL, 0.36);
+    const w = tooth?.wrap ?? 0;
+    return (
+      <group position={palm} quaternion={level}>
+        <group position={[0, 0.02, 0]} rotation={[0, 0.3, 0]}>
+          <Tissue wrap={w} />
+          {w < 0.85 && (
+            <group position={[0, 0.02, 0]} rotation={[Math.PI / 2, 0, 0.4]} scale={1.7}>
+              <Tooth gray={tooth?.gray} mark={tooth?.mark} time={time} />
+            </group>
+          )}
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'box') {
+    return (
+      <group position={hand} quaternion={level}>
+        <group position={[0, -0.06, 0.03]}>
+          <RescueBox lid={0} />
+        </group>
+      </group>
+    );
+  }
   if (pose.item === 'towel') {
     // Handtuch hängt in Verlängerung des Unterarms aus der Hand (wie eine Peitsche), Blitze laufen daran entlang
     const fwd = armPoint(pose.armR, -1, pose.foreZ, 0.45);
@@ -2102,6 +2370,43 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0}: {pose: DummyPose; time: nu
     </group>
   );
 };
+
+/**
+ * Stilisierte Zahnreihe vorn am Kopf (wie ein breites Grinsen): dunkler Mund, 6 obere Zähne.
+ * gap = der zweite Zahn links von der Mitte (aus Sicht des Dummys rechts) fehlt – Lücke dunkel. Kein Blut.
+ */
+export const TeethRow = ({gap = false}: {gap?: boolean}) => {
+  const mats = useMemo(
+    () => ({
+      mouth: new THREE.MeshStandardMaterial({color: '#2b1414', roughness: 0.8, flatShading: true}),
+      tooth: new THREE.MeshStandardMaterial({color: '#fdfdf8', roughness: 0.25, flatShading: true}),
+    }),
+    [],
+  );
+  const N = 6;
+  return (
+    <group position={[0, -0.04, 0]}>
+      {/* Mund (flaches, gebogenes Band) */}
+      <mesh material={mats.mouth} position={[0, -0.002, 0.118]} scale={[1, 0.55, 0.32]} rotation={[0.05, 0, 0]}>
+        <sphereGeometry args={[0.08, 14, 8, 0, Math.PI * 2, Math.PI * 0.33, Math.PI * 0.34]} />
+      </mesh>
+      {Array.from({length: N}, (_, i) => {
+        if (gap && i === 2) return null;
+        const a = ((i - (N - 1) / 2) / (N - 1)) * 1.25;
+        const r = 0.118;
+        const w = i === 2 || i === 3 ? 0.024 : 0.02;
+        return (
+          <mesh key={i} material={mats.tooth} position={[Math.sin(a) * r, 0.004, Math.cos(a) * r + 0.006]} rotation={[0, a, 0]} castShadow>
+            <boxGeometry args={[w, 0.03, 0.012]} />
+          </mesh>
+        );
+      })}
+    </group>
+  );
+};
+
+/** Aussehen des Zahns in der Hand (Werte des Dummys) */
+export type ToothLook = {gray: number; mark: number; wrap: number};
 
 /** Gegenstand in beiden Händen (Eimer, Geschenk): zwischen den Händen */
 const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
@@ -2157,8 +2462,20 @@ export const Dummy = ({
   coat = false,
   zap = 0,
   zapTime = 0,
+  gloves = 0,
+  teeth = 0,
+  gap = 0,
+  tooth,
 }: {
   pose: DummyPose;
+  /** rote Boxhandschuhe 0/1 */
+  gloves?: number;
+  /** Zahnreihe zeigen 0/1 */
+  teeth?: number;
+  /** Zahnlücke 0/1 */
+  gap?: number;
+  /** Zahn in der Hand: grau, Markierung, Taschentuch */
+  tooth?: ToothLook;
   /** unter Strom: Blitze um Hände, Arme, Kopf (0 … 1) – Zittern kommt über zapPose */
   zap?: number;
   /** Zeit für die Blitze (Bewegungszeit → friert beim Einfrieren mit ein) */
@@ -2230,8 +2547,8 @@ export const Dummy = ({
           <JacketBody m={m} amount={jacket} chest={pose.chest} />
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
-          <Arm m={m} limb={pose.armL} side={1} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} />
-          <HandItem pose={pose} time={time} zap={zap} zapTime={zapTime} />
+          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} />
+          <HandItem pose={pose} time={time} zap={zap} zapTime={zapTime} tooth={tooth} />
           {zap > 0.01 && (
             <ZapAura
               anchors={[
@@ -2270,6 +2587,7 @@ export const Dummy = ({
             tweezers={pose.tweezers}
             smartphone={pose.smartphone}
             sleeve={clamp(jacket * 2)}
+            glove={gloves > 0.5}
           />
           {pose.spade && <HeldSpade pose={pose} />}
           {/* Hals + Kopf (ohne Gesicht) */}
@@ -2283,6 +2601,7 @@ export const Dummy = ({
             <Marker m={m} r={0.05} position={[0.118, 0.01, 0]} rotation={[0, Math.PI / 2, 0]} />
             <Marker m={m} r={0.05} position={[-0.118, 0.01, 0]} rotation={[0, -Math.PI / 2, 0]} />
             <BreathPuffs phase={breathPhase} rate={breath} />
+            {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
           </group>
         </group>
       </group>

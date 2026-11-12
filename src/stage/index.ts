@@ -2,6 +2,8 @@ import {beachStage} from './Beach';
 import {castleStage} from './Castle';
 import {christmasRoomStage, hallStage, outsideStage, plainHallStage} from './Christmas';
 import {kitchenStage} from './Kitchen';
+import {outbackStage} from './Outback';
+import {dentalStage} from './Dental';
 import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
 import {gardenStage} from './Garden';
@@ -27,4 +29,6 @@ export const STAGES: Record<string, StageDef> = {
   hauseingang: outsideStage,
   kueche: kitchenStage,
   hausflur: plainHallStage,
+  outback: outbackStage,
+  zahnarztpraxis: dentalStage,
 };

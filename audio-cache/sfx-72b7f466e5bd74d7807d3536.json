@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Comic cartoon boxing glove punch hit, punchy thump with a light whoosh, no voice",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-12T11:17:00.594Z"
+}

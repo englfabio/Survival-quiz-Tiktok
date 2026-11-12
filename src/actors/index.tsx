@@ -14,6 +14,8 @@ import {Basin} from './Basin';
 import {Dummy, dummyPoseBlended, zapPose} from './Dummy';
 import {Eel, eelAnchors, eelPose} from './Eel';
 import {Broom, FuseBox, WetTowel} from './ShockProps';
+import {Kangaroo, kangarooPoseBlended} from './Kangaroo';
+import {GardenTap, HintSign, MilkCarton, RescueBox, Tissue, Tooth, WaterGlass} from './ToothProps';
 import {ZapAura, zapShake} from '../effects/Zap';
 import {Snake, snakePose} from './Snake';
 import {Thermometer} from './Thermometer';
@@ -71,6 +73,15 @@ export const ACTORS = {
   handtuch: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
   sicherungskasten: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
   besen: {height: 0.7, climbOffset: 0, speedLineHeight: 0},
+  // ---- Zahnunfall (Känguru) ----
+  kaenguru: {height: 1.45, climbOffset: 0.2, speedLineHeight: 0.9},
+  zahn: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  taschentuch: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  wasserglas: {height: 0.07, climbOffset: 0, speedLineHeight: 0},
+  wasserhahn: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
+  zahnrettungsbox: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
+  hmilch: {height: 0.12, climbOffset: 0, speedLineHeight: 0},
+  hinweis: {height: 0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -88,6 +99,9 @@ const BUDDY_COLOR = '#f07a1e';
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
 const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel'];
 
+/** Zahn: Drehung im Flug (rad/s) */
+const TOOTH_SPIN = 13;
+
 /** Petermännchen größer als echt (ca. 0,48 m statt 0,3 m), damit es im Hochformat gut zu sehen ist */
 const WEEVER_SCALE = 1.6;
 
@@ -97,7 +111,7 @@ const SNAKE_SCALE = 1.2;
 export type ActorName = keyof typeof ACTORS;
 
 /** Fertig berechnete Figur: Zustand + Lage in der Welt */
-export type ResolvedActor = {name: string; state: ActorState; matrix: THREE.Matrix4; pos: THREE.Vector3};
+export type ResolvedActor = {name: string; state: ActorState; matrix: THREE.Matrix4; pos: THREE.Vector3; text?: string};
 
 /** Position einer Figur (inkl. "am Baum kleben" beim Klettern und Bodenhöhe) */
 const placeOnStage = (name: string, s: ActorState, stage: StageDef) => {
@@ -204,7 +218,9 @@ export const resolveActors = (
     const matrix = base.clone().multiply(ownMotionMatrix(name, s));
     inner.set(name, matrix);
     const pos = new THREE.Vector3().setFromMatrixPosition(base);
-    done.set(name, {name, state: s, matrix, pos});
+    let text: string | undefined;
+    for (const k of keys) if (k.t <= t + 1e-6 && k.text !== undefined) text = k.text;
+    done.set(name, {name, state: s, matrix, pos, text});
   }
   return entries.map(([name]) => done.get(name)!);
 };
@@ -266,8 +282,28 @@ export const Actor = ({
           redness={v.redness}
           plaster={v.plaster}
           dressing={v.dressing}
+          gloves={v.gloves}
+          teeth={v.teeth}
+          gap={v.gap}
+          tooth={{gray: v.gray, mark: v.mark, wrap: v.wrap}}
         />
       )}
+      {name === 'kaenguru' && <Kangaroo pose={kangarooPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} />}
+      {name === 'zahn' && (
+        <group scale={1 + v.size} rotation={state.motion === 'fly' ? [state.motionTime * TOOTH_SPIN, 0, state.motionTime * TOOTH_SPIN * 0.6] : [0, 0, 0]}>
+          <Tooth gray={v.gray} mark={v.mark} time={clock} />
+        </group>
+      )}
+      {name === 'taschentuch' && <Tissue wrap={v.wrap} />}
+      {name === 'wasserglas' && <WaterGlass time={clock} ripple={1} />}
+      {name === 'wasserhahn' && <GardenTap water={v.water} time={clock} />}
+      {name === 'zahnrettungsbox' && (
+        <group scale={1 + v.size}>
+          <RescueBox lid={v.lid} />
+        </group>
+      )}
+      {name === 'hmilch' && <MilkCarton />}
+      {name === 'hinweis' && <HintSign text={actor.text ?? ''} time={state.motionTime} visible={state.motion === 'show'} height={0.07 * (1 + v.size)} below={v.below > 0.5} />}
       {name === 'arzt' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={DOCTOR_COLOR} coat />
       )}

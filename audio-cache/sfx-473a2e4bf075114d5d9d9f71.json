@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Warm evening outback ambience at sunset, soft crickets, gentle dry wind over grassland, distant bird calls, calm, no music",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-12T11:16:55.990Z"
+}
