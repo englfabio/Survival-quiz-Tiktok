@@ -464,13 +464,16 @@ export const OutroPanel = ({text, frame}: {text: string; frame: number}) => {
   const {fps} = useVideoConfig();
   const s = spring({frame, fps, config: {damping: 13}});
   const parts = splitSentences(text);
+  // Langer Outro-Text (mehr als 3 Sätze): etwas höher und kleiner, damit alles über der Bildmitte bleibt
+  // (unten rechts ist Sperrzone). Kürzere Outros bleiben wie bisher.
+  const long = parts.length > 3;
   return (
     <div
       style={{
         position: 'absolute',
         left: T.left,
         width: T.rightTop - T.left,
-        top: 420,
+        top: long ? 320 : 420,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -487,7 +490,7 @@ export const OutroPanel = ({text, frame}: {text: string; frame: number}) => {
           style={{
             fontFamily: T.font,
             fontWeight: 800,
-            fontSize: i === 0 ? 120 : 70,
+            fontSize: i === 0 ? (long ? 104 : 120) : long ? 62 : 70,
             lineHeight: 1,
             color: i === 0 ? T.yellow : T.white,
             textTransform: 'uppercase',
