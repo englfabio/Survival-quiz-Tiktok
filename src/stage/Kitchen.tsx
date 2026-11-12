@@ -8,12 +8,12 @@ import type {StageDef} from './types';
  * Küche ("kueche"), aus dem Innenraum-Baukasten (Rooms.tsx): W 5, D 4.6, H 2.6 → Rückwand bei z = −2.3.
  *  - Küchenzeile an der Rückwand x −2.5 … 0.55: Kühlschrank links, Spüle, Kochfeld, Oberschränke, Fliesenspiegel.
  *  - Roter Toaster auf der Arbeitsplatte (x 0.3), Kabel zur gut sichtbaren Doppel-Steckdose auf der freien Wand rechts
- *    daneben: Steckdose Mitte x 1.2, y 1.12 (Stecker links, rechtes Loch frei bei x 1.245 → dort schaut der Zitteraal
- *    heraus: "zitteraal" x 1.245, y 1.12, z −2.275, face 180).
- *  - Besen mit Holzstiel in der Ecke hinten rechts (x 2.3, z −2.05), Wanduhr + Bild auf der freien Wand, Fenster links.
- * Freie Fläche vor der Steckdose: x 0.6 … 2.3, z −2.2 … 0.5 (dort stehen Kumpel + Dummy).
+ *    daneben: Steckdose Mitte x 1.7, y 1.12 (Stecker links, rechtes Loch frei bei x 1.745 → dort schaut der Zitteraal
+ *    heraus: "zitteraal" x 1.745, y 1.12, z −2.275, face 180).
+ *  - Besen mit Holzstiel in der Ecke hinten rechts (x 2.3, z −2.05), Wanduhr oben auf der freien Wand, Fenster links.
+ * Freie Fläche vor der Steckdose: x 0.6 … 2.3, z −2.2 … 0.5. Im Video: Kumpel hängt fest bei x 1.15, z −1.96, face 35.
  */
-export const KITCHEN = {W: 5, D: 4.6, H: 2.6, socket: {x: 1.2, y: 1.12}, eel: {x: 1.245, y: 1.12, z: -2.275}};
+export const KITCHEN = {W: 5, D: 4.6, H: 2.6, socket: {x: 1.7, y: 1.12}, eel: {x: 1.745, y: 1.12, z: -2.275}};
 
 const CabinetRow = ({x0, x1, front}: {x0: number; x1: number; front: THREE.Material}) => {
   const n = Math.max(1, Math.round((x1 - x0) / 0.6));
@@ -150,13 +150,14 @@ const KitchenScene = () => {
       </group>
       <Cable
         pts={[
-          [0.42, 0.95, zb + 0.22],
-          [0.5, 0.925, zb + 0.12],
-          [0.58, 0.93, zb + 0.06],
-          [0.72, 0.97, zb + 0.035],
-          [0.88, 1.0, zb + 0.035],
-          [1.0, 1.02, zb + 0.04],
-          [1.1, 1.03, zb + 0.045],
+          [0.47, 0.95, zb + 0.22],
+          [0.55, 0.925, zb + 0.12],
+          [0.6, 0.93, zb + 0.05],
+          [0.68, 0.88, zb + 0.035],
+          [0.9, 0.84, zb + 0.035],
+          [1.2, 0.86, zb + 0.035],
+          [1.45, 0.93, zb + 0.04],
+          [KITCHEN.socket.x - 0.11, 1.0, zb + 0.045],
           [KITCHEN.socket.x - 0.045, KITCHEN.socket.y - 0.06, zb + 0.055],
         ]}
       />
@@ -206,8 +207,8 @@ const KitchenScene = () => {
       <group position={[2.3, 0, zb + 0.27]} rotation={[-0.19, 0.4, 0.05]}>
         <Broom />
       </group>
-      {/* Wanduhr + Bild auf der freien Wand */}
-      <group position={[1.9, 1.95, zb + 0.02]}>
+      {/* Wanduhr oben auf der freien Wand */}
+      <group position={[2.05, 1.95, zb + 0.02]}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[0.17, 0.17, 0.03, 20]} />
           <meshStandardMaterial color="#f8f8f6" />
@@ -225,18 +226,6 @@ const KitchenScene = () => {
           <meshStandardMaterial color="#222" />
         </mesh>
       </group>
-      <mesh position={[1.7, 1.5, zb + 0.02]}>
-        <boxGeometry args={[0.5, 0.36, 0.03]} />
-        <meshStandardMaterial color="#f3ede0" />
-      </mesh>
-      <mesh position={[1.7, 1.5, zb + 0.04]}>
-        <planeGeometry args={[0.42, 0.28]} />
-        <meshStandardMaterial color="#e9b23a" />
-      </mesh>
-      <mesh position={[1.7, 1.44, zb + 0.045]}>
-        <planeGeometry args={[0.42, 0.12]} />
-        <meshStandardMaterial color="#d8642a" />
-      </mesh>
     </Room>
   );
 };

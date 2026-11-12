@@ -203,8 +203,8 @@ export const Eel = ({pose, glow = 1}: {pose: EelPose; glow?: number}) => {
         <mesh material={m.body} position={[0, 0.004, 0.02]} scale={[1.0, 0.82, 1.2]} castShadow>
           <icosahedronGeometry args={[0.05, 1]} />
         </mesh>
-        <mesh material={m.chin} position={[0, -0.022, 0.035]} scale={[0.85, 0.45, 1.0]}>
-          <icosahedronGeometry args={[0.04, 1]} />
+        <mesh material={m.chin} position={[0, -0.02, 0.028]} scale={[0.8, 0.42, 0.85]}>
+          <icosahedronGeometry args={[0.038, 1]} />
         </mesh>
         {/* leuchtender Streifen über die Stirn */}
         <mesh material={m.stripe} position={[0, 0.043, 0.0]} scale={[1, 0.35, 1]}>

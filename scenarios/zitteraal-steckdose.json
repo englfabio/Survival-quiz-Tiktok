@@ -1,7 +1,7 @@
 {
   "id": "zitteraal-steckdose",
   "category": "erste-hilfe",
-  "stage": "wohnzimmer",
+  "stage": "kueche",
   "situation": {
     "speech": "Ein Zitteraal hat sich mal wieder in deiner Steckdose eingenistet. Dein Kumpel hat ihn angefasst und kommt nicht mehr los. Was machst du jetzt?"
   },
@@ -9,190 +9,1296 @@
     {
       "card": "Kumpel wegziehen",
       "speech": "Eins: Deinen Kumpel sofort an den Armen wegziehen.",
-      "dummyAction": "",
+      "dummyAction": "Dummy packt den zitternden Kumpel von hinten an den Armen, die Blitze springen auf ihn über, beide zittern. Bild friert ein, rotes Aufleuchten.",
       "explanation": "Genau so wirst du selbst zum Opfer. Solange Strom fließen kann, darfst du einen Menschen niemals mit der Hand berühren. Sonst stehst du selbst unter Strom.",
       "choreography": {
         "camera": [
           {
-            "t": 0,
+            "t": 0.0,
             "pos": [
-              0,
-              1.5,
-              4
+              2.1,
+              1.65,
+              3.4
             ],
             "look": [
-              0,
-              1,
-              0
+              1.3,
+              1.2,
+              -1.8
+            ]
+          },
+          {
+            "t": 0.2606,
+            "pos": [
+              2.1,
+              1.65,
+              3.0
+            ],
+            "look": [
+              1.3,
+              1.2,
+              -1.8
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              2.05,
+              1.62,
+              2.6
+            ],
+            "look": [
+              1.3,
+              1.22,
+              -1.8
             ]
           }
         ],
-        "actors": {}
+        "actors": {
+          "zitteraal": [
+            {
+              "t": 0,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "wiggle",
+              "face": 180,
+              "y": 1.12,
+              "zap": 1
+            }
+          ],
+          "kumpel": [
+            {
+              "t": 0,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "stuck",
+              "face": 35,
+              "zap": 1,
+              "y": 0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.7,
+              "z": -0.75,
+              "motion": "walk",
+              "face": -47,
+              "zap": 0
+            },
+            {
+              "t": 0.009,
+              "x": 1.7,
+              "z": -0.75,
+              "motion": "walk",
+              "face": -47
+            },
+            {
+              "t": 0.078,
+              "x": 0.9,
+              "z": -1.48,
+              "motion": "walk",
+              "face": 20
+            },
+            {
+              "t": 0.091,
+              "x": 0.85,
+              "z": -1.53,
+              "motion": "walk",
+              "face": 35
+            },
+            {
+              "t": 0.095,
+              "x": 0.85,
+              "z": -1.53,
+              "motion": "grabarms",
+              "face": 35,
+              "zap": 0
+            },
+            {
+              "t": 0.132,
+              "x": 0.85,
+              "z": -1.53,
+              "motion": "grabarms",
+              "face": 35,
+              "zap": 0
+            },
+            {
+              "t": 0.146,
+              "x": 0.85,
+              "z": -1.53,
+              "motion": "grabarms",
+              "face": 35,
+              "zap": 1
+            },
+            {
+              "t": 1,
+              "x": 0.85,
+              "z": -1.53,
+              "motion": "grabarms",
+              "face": 35,
+              "zap": 1
+            }
+          ]
+        },
+        "freeze": 0.294,
+        "sfx": [
+          {
+            "t": 0.01,
+            "id": "strom-knistern",
+            "volume": 0.35
+          },
+          {
+            "t": 0.132,
+            "id": "strom-knistern",
+            "volume": 0.85
+          }
+        ]
       }
     },
     {
       "card": "Mit nassem Handtuch wegschlagen",
       "speech": "Zwei: Den Aal mit einem nassen Handtuch wegschlagen.",
-      "dummyAction": "",
+      "dummyAction": "Dummy schlägt mit dem nassen, tropfenden Handtuch nach dem Aal, Blitze laufen das Handtuch entlang. Bild friert ein, rotes Aufleuchten.",
       "explanation": "Nass ist hier das Gefährlichste überhaupt, denn Wasser leitet Strom. Wenn du etwas benutzt, dann nur einen trockenen Gegenstand, der nicht leitet, zum Beispiel einen Besenstiel.",
       "choreography": {
         "camera": [
           {
-            "t": 0,
+            "t": 0.0,
             "pos": [
-              0,
-              1.5,
-              4
+              -0.55,
+              1.8,
+              2.75
             ],
             "look": [
-              0,
-              1,
-              0
+              1.5,
+              1.15,
+              -1.5
+            ]
+          },
+          {
+            "t": 0.2211,
+            "pos": [
+              -0.5,
+              1.8,
+              2.5
+            ],
+            "look": [
+              1.5,
+              1.15,
+              -1.5
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.45,
+              1.78,
+              2.25
+            ],
+            "look": [
+              1.5,
+              1.15,
+              -1.55
             ]
           }
         ],
-        "actors": {}
+        "actors": {
+          "zitteraal": [
+            {
+              "t": 0,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "wiggle",
+              "face": 180,
+              "y": 1.12,
+              "zap": 1
+            }
+          ],
+          "kumpel": [
+            {
+              "t": 0,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "stuck",
+              "face": 35,
+              "zap": 1,
+              "y": 0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.86,
+              "z": -0.82,
+              "motion": "stand",
+              "face": -10,
+              "zap": 0
+            },
+            {
+              "t": 0.028,
+              "x": 1.86,
+              "z": -0.82,
+              "motion": "towelswing",
+              "face": -10,
+              "zap": 0
+            },
+            {
+              "t": 0.084,
+              "x": 1.86,
+              "z": -0.82,
+              "motion": "towelswing",
+              "face": -10,
+              "zap": 0
+            },
+            {
+              "t": 0.094,
+              "x": 1.86,
+              "z": -0.82,
+              "motion": "towelswing",
+              "face": -10,
+              "zap": 1
+            },
+            {
+              "t": 1,
+              "x": 1.86,
+              "z": -0.82,
+              "motion": "towelswing",
+              "face": -10,
+              "zap": 1
+            }
+          ]
+        },
+        "freeze": 0.257,
+        "sfx": [
+          {
+            "t": 0.01,
+            "id": "strom-knistern",
+            "volume": 0.35
+          },
+          {
+            "t": 0.08,
+            "id": "handtuch-klatsch",
+            "volume": 0.8
+          },
+          {
+            "t": 0.084,
+            "id": "strom-knistern",
+            "volume": 0.85
+          }
+        ]
       }
     },
     {
       "card": "Erst Strom aus, dann helfen",
       "speech": "Drei: Erst den Strom abschalten, dann deinem Kumpel helfen.",
-      "dummyAction": "",
+      "dummyAction": "Dummy läuft in den Flur zum Sicherungskasten und legt den Hauptschalter um, die Blitze verschwinden, der Aal zieht sich beleidigt zurück, Dummy kniet beim Kumpel und telefoniert. Grünes Aufleuchten.",
       "explanation": "Unterbrich zuerst den Stromkreis: Stecker ziehen, Gerät ausschalten oder die Sicherung raus. Erst dann helfen. Hat dein Kumpel danach Herzrasen, Herzstolpern oder Atemnot, oder ist er bewusstlos, sofort die 112. Der Zitteraal war ausgedacht. Aber genau so hilfst du bei jedem echten Stromunfall.",
+      "steps": [
+        {
+          "text": "Nicht anfassen",
+          "cue": "Unterbrich zuerst den Stromkreis"
+        },
+        {
+          "text": "Stecker ziehen oder Sicherung raus",
+          "cue": "Stecker ziehen"
+        },
+        {
+          "text": "Notfalls: trockener Besenstiel",
+          "cue": "oder die Sicherung raus"
+        },
+        {
+          "text": "Dann helfen",
+          "cue": "Erst dann helfen"
+        },
+        {
+          "text": "Beschwerden oder bewusstlos: 112",
+          "cue": "Hat dein Kumpel danach"
+        }
+      ],
       "choreography": {
-        "camera": [
+        "stage": [
           {
             "t": 0,
+            "stage": "kueche"
+          },
+          {
+            "t": 0.136,
+            "stage": "hausflur"
+          },
+          {
+            "t": 0.295,
+            "stage": "kueche"
+          }
+        ],
+        "camera": [
+          {
+            "t": 0.0,
             "pos": [
-              0,
-              1.5,
-              4
+              0.5,
+              1.7,
+              5.6
             ],
             "look": [
-              0,
-              1,
-              0
+              1.0,
+              1.25,
+              -1.5
+            ]
+          },
+          {
+            "t": 0.1006,
+            "pos": [
+              0.45,
+              1.7,
+              5.4
+            ],
+            "look": [
+              0.9,
+              1.25,
+              -1.4
+            ]
+          },
+          {
+            "t": 0.1041,
+            "pos": [
+              1.0,
+              1.5,
+              2.3
+            ],
+            "look": [
+              0.45,
+              1.7,
+              -2.6
+            ]
+          },
+          {
+            "t": 0.2573,
+            "pos": [
+              1.0,
+              1.5,
+              2.0
+            ],
+            "look": [
+              0.45,
+              1.7,
+              -2.6
+            ]
+          },
+          {
+            "t": 0.2617,
+            "pos": [
+              0.9,
+              1.2,
+              3.8
+            ],
+            "look": [
+              1.35,
+              1.3,
+              -1.5
+            ]
+          },
+          {
+            "t": 0.7599,
+            "pos": [
+              0.9,
+              1.15,
+              3.4
+            ],
+            "look": [
+              1.35,
+              1.3,
+              -1.5
+            ]
+          },
+          {
+            "t": 0.7642,
+            "pos": [
+              1.3,
+              1.55,
+              -0.95
+            ],
+            "look": [
+              1.85,
+              1.22,
+              -2.25
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              1.32,
+              1.53,
+              -1.05
+            ],
+            "look": [
+              1.85,
+              1.22,
+              -2.25
             ]
           }
         ],
-        "actors": {}
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 2.0,
+              "z": -0.35,
+              "motion": "recoil",
+              "face": -40
+            },
+            {
+              "t": 0.022,
+              "x": 2.0,
+              "z": -0.35,
+              "motion": "recoil",
+              "face": -40
+            },
+            {
+              "t": 0.026,
+              "x": 2.0,
+              "z": -0.35,
+              "motion": "run",
+              "face": 140
+            },
+            {
+              "t": 0.132,
+              "x": 2.45,
+              "z": 1.6,
+              "motion": "run",
+              "face": 160
+            },
+            {
+              "t": 0.136,
+              "x": 0.6,
+              "z": 0.4,
+              "motion": "run",
+              "face": -3
+            },
+            {
+              "t": 0.229,
+              "x": 0.54,
+              "z": -2.13,
+              "motion": "run",
+              "face": 0
+            },
+            {
+              "t": 0.233,
+              "x": 0.54,
+              "z": -2.13,
+              "motion": "switchoff",
+              "face": 0
+            },
+            {
+              "t": 0.291,
+              "x": 0.54,
+              "z": -2.13,
+              "motion": "switchoff",
+              "face": 0
+            },
+            {
+              "t": 0.295,
+              "x": 2.5,
+              "z": 0.6,
+              "motion": "run",
+              "face": -60
+            },
+            {
+              "t": 0.349,
+              "x": 1.92,
+              "z": -1.25,
+              "motion": "run",
+              "face": -100
+            },
+            {
+              "t": 0.353,
+              "x": 1.92,
+              "z": -1.25,
+              "motion": "kneelcall",
+              "face": -100
+            },
+            {
+              "t": 1,
+              "x": 1.92,
+              "z": -1.25,
+              "motion": "kneelcall",
+              "face": -100
+            }
+          ],
+          "kumpel": [
+            {
+              "t": 0,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "stuck",
+              "face": 35,
+              "zap": 1,
+              "y": 0
+            },
+            {
+              "t": 0.134,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "stuck",
+              "face": 35,
+              "zap": 1,
+              "y": 0
+            },
+            {
+              "t": 0.136,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "stuck",
+              "face": 35,
+              "zap": 1,
+              "y": -30
+            },
+            {
+              "t": 0.293,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "stuck",
+              "face": 35,
+              "zap": 1,
+              "y": -30
+            },
+            {
+              "t": 0.295,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "stuck",
+              "face": 0,
+              "zap": 0.5,
+              "y": 0
+            },
+            {
+              "t": 0.306,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "stuck",
+              "face": 0,
+              "zap": 0,
+              "y": 0
+            },
+            {
+              "t": 0.308,
+              "x": 1.15,
+              "z": -1.96,
+              "motion": "sitdown",
+              "face": 0
+            },
+            {
+              "t": 0.361,
+              "x": 1.3,
+              "z": -1.5,
+              "motion": "sitdown",
+              "face": 165
+            },
+            {
+              "t": 0.362,
+              "x": 1.3,
+              "z": -1.5,
+              "motion": "sit",
+              "face": 165
+            },
+            {
+              "t": 1,
+              "x": 1.3,
+              "z": -1.5,
+              "motion": "sit",
+              "face": 165
+            }
+          ],
+          "zitteraal": [
+            {
+              "t": 0,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "wiggle",
+              "face": 180,
+              "y": 1.12,
+              "zap": 1
+            },
+            {
+              "t": 0.134,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "wiggle",
+              "face": 180,
+              "y": 1.12,
+              "zap": 1
+            },
+            {
+              "t": 0.136,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "wiggle",
+              "face": 180,
+              "y": -30,
+              "zap": 1
+            },
+            {
+              "t": 0.293,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "wiggle",
+              "face": 180,
+              "y": -30,
+              "zap": 1
+            },
+            {
+              "t": 0.295,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "withdraw",
+              "face": 180,
+              "y": 1.12,
+              "zap": 0.5
+            },
+            {
+              "t": 0.306,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "withdraw",
+              "face": 180,
+              "y": 1.12,
+              "zap": 0
+            },
+            {
+              "t": 0.729,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "withdraw",
+              "face": 180,
+              "y": 1.12,
+              "zap": 0
+            },
+            {
+              "t": 0.733,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "peek",
+              "face": 180,
+              "y": 1.12,
+              "zap": 0
+            },
+            {
+              "t": 0.813,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "peek",
+              "face": 180,
+              "y": 1.12,
+              "zap": 0
+            },
+            {
+              "t": 0.813,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "withdraw",
+              "face": 180,
+              "y": 1.12,
+              "zap": 0
+            },
+            {
+              "t": 1,
+              "x": 1.745,
+              "z": -2.275,
+              "motion": "withdraw",
+              "face": 180,
+              "y": 1.12,
+              "zap": 0
+            }
+          ],
+          "sicherungskasten": [
+            {
+              "t": 0,
+              "x": 0.82,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "lever": 1
+            },
+            {
+              "t": 0.134,
+              "x": 0.82,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.136,
+              "x": 0.82,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0,
+              "lever": 1
+            },
+            {
+              "t": 0.253,
+              "x": 0.82,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0,
+              "lever": 1
+            },
+            {
+              "t": 0.26,
+              "x": 0.82,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0,
+              "lever": 0
+            },
+            {
+              "t": 0.293,
+              "x": 0.82,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0,
+              "lever": 0
+            },
+            {
+              "t": 0.295,
+              "x": 0.82,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "lever": 0
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.01,
+            "id": "strom-knistern",
+            "volume": 0.35
+          },
+          {
+            "t": 0.022,
+            "id": "schritte-rennen",
+            "volume": 0.45
+          },
+          {
+            "t": 0.258,
+            "id": "sicherung-klick",
+            "volume": 0.9
+          },
+          {
+            "t": 0.302,
+            "id": "aal-schmollen",
+            "volume": 0.6
+          },
+          {
+            "t": 0.589,
+            "id": "handy-waehlen",
+            "volume": 0.55
+          }
+        ]
       }
     }
   ],
   "correctOption": 3,
   "countdown": {
     "speech": "Schreib eins, zwei oder drei in die Kommentare.",
-    "screen": "x"
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
   },
   "reveal": {
     "speech": "Richtig ist Nummer drei.",
-    "screen": "x"
+    "screen": "Richtig ist Nummer 3"
   },
   "outro": {
     "speech": "Wusstest du es? Schreib's in die Kommentare.",
     "screen": "Wusstest du es? Schreib's in die Kommentare."
   },
-  "sourceLine": "x",
+  "sourceLine": "Quellen: Deutscher Feuerwehrverband · Apotheken Umschau",
   "sources": [
     {
-      "name": "x",
-      "url": "x"
+      "name": "Deutscher Feuerwehrverband, Erste-Hilfe kompakt: Stromunfall",
+      "url": "https://download.kfv-oh.de/Sicherheit%20und%20Gesundheit/Publikationen/Gesundheit%20und%20Fitness/Erste-Hilfe-Kompakt-DFV/16-Stromunfall.pdf"
+    },
+    {
+      "name": "Apotheken Umschau, Stromschlag",
+      "url": "https://www.apotheken-umschau.de/therapie/erste-hilfe/stromschlag-warum-ist-er-gefaehrlich-738493.html"
     }
   ],
   "publishing": {
-    "description": "x",
-    "pinnedComment": "x"
+    "description": "Ein Zitteraal hat sich mal wieder in deiner Steckdose eingenistet – was machst du jetzt? ⚡🐍 Schreib 1, 2 oder 3 in die Kommentare! Der Aal ist ausgedacht, die Regel gilt bei jedem echten Stromunfall.\n\nQuellen:\nDeutscher Feuerwehrverband, Erste-Hilfe kompakt: Stromunfall: https://download.kfv-oh.de/Sicherheit%20und%20Gesundheit/Publikationen/Gesundheit%20und%20Fitness/Erste-Hilfe-Kompakt-DFV/16-Stromunfall.pdf\nApotheken Umschau, Stromschlag: https://www.apotheken-umschau.de/therapie/erste-hilfe/stromschlag-warum-ist-er-gefaehrlich-738493.html\n\nKein Ersatz für einen Erste-Hilfe-Kurs. Im Notfall: 112.\n\n#waswürdestdutun #stromunfall #erstehilfe #strom #wusstestdu #survival #notfall #quiz",
+    "pinnedComment": "Ehrlich: Wer hätte seinen Kumpel einfach weggezogen? 👇 Und welches Tier soll sich als Nächstes bei dem Dummy einnisten?"
   },
   "shots": {
     "situation": {
       "camera": [
         {
-          "t": 0,
+          "t": 0.0,
           "pos": [
-            0,
-            1.5,
-            4
+            1.72,
+            1.3,
+            -1.25
           ],
           "look": [
-            0,
-            1,
-            0
+            1.73,
+            1.2,
+            -2.25
+          ]
+        },
+        {
+          "t": 0.4557,
+          "pos": [
+            1.7,
+            1.32,
+            -1.1
+          ],
+          "look": [
+            1.72,
+            1.2,
+            -2.25
+          ]
+        },
+        {
+          "t": 0.4604,
+          "pos": [
+            0.85,
+            1.65,
+            4.7
+          ],
+          "look": [
+            1.25,
+            1.0,
+            -1.6
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.75,
+            1.65,
+            5.4
+          ],
+          "look": [
+            1.25,
+            0.95,
+            -1.6
           ]
         }
       ],
-      "actors": {}
+      "actors": {
+        "zitteraal": [
+          {
+            "t": 0,
+            "x": 1.745,
+            "z": -2.275,
+            "motion": "peek",
+            "face": 180,
+            "y": 1.12,
+            "zap": 0
+          },
+          {
+            "t": 0.564,
+            "x": 1.745,
+            "z": -2.275,
+            "motion": "peek",
+            "face": 180,
+            "y": 1.12,
+            "zap": 0
+          },
+          {
+            "t": 0.568,
+            "x": 1.745,
+            "z": -2.275,
+            "motion": "wiggle",
+            "face": 180,
+            "y": 1.12,
+            "zap": 1
+          },
+          {
+            "t": 1,
+            "x": 1.745,
+            "z": -2.275,
+            "motion": "wiggle",
+            "face": 180,
+            "y": 1.12,
+            "zap": 1
+          }
+        ],
+        "kumpel": [
+          {
+            "t": 0,
+            "x": 0.75,
+            "z": -0.9,
+            "motion": "stand",
+            "face": 30,
+            "zap": 0
+          },
+          {
+            "t": 0.446,
+            "x": 0.75,
+            "z": -0.9,
+            "motion": "walk",
+            "face": 30,
+            "zap": 0
+          },
+          {
+            "t": 0.558,
+            "x": 1.0299999999999998,
+            "z": -1.78,
+            "motion": "walk",
+            "face": 35,
+            "zap": 0
+          },
+          {
+            "t": 0.562,
+            "x": 1.15,
+            "z": -1.96,
+            "motion": "stuck",
+            "face": 35,
+            "zap": 0,
+            "y": 0
+          },
+          {
+            "t": 0.57,
+            "x": 1.15,
+            "z": -1.96,
+            "motion": "stuck",
+            "face": 35,
+            "zap": 1,
+            "y": 0
+          },
+          {
+            "t": 1,
+            "x": 1.15,
+            "z": -1.96,
+            "motion": "stuck",
+            "face": 35,
+            "zap": 1,
+            "y": 0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 1.85,
+            "z": -0.39999999999999997,
+            "motion": "stand",
+            "face": -40
+          },
+          {
+            "t": 0.594,
+            "x": 1.85,
+            "z": -0.39999999999999997,
+            "motion": "stand",
+            "face": -40
+          },
+          {
+            "t": 0.599,
+            "x": 1.85,
+            "z": -0.39999999999999997,
+            "motion": "recoil",
+            "face": -40
+          },
+          {
+            "t": 0.701,
+            "x": 2.0,
+            "z": -0.35,
+            "motion": "recoil",
+            "face": -40
+          },
+          {
+            "t": 1,
+            "x": 2.0,
+            "z": -0.35,
+            "motion": "recoil",
+            "face": -40
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.02,
+          "id": "aal-schmollen",
+          "volume": 0.35
+        },
+        {
+          "t": 0.564,
+          "id": "strom-knistern",
+          "volume": 0.75
+        },
+        {
+          "t": 0.703,
+          "id": "strom-knistern",
+          "volume": 0.55
+        }
+      ]
     },
     "options": {
       "camera": [
         {
-          "t": 0,
+          "t": 0.0,
           "pos": [
-            0,
-            1.5,
-            4
+            0.75,
+            1.7,
+            5.9
           ],
           "look": [
-            0,
-            1,
-            0
+            1.2,
+            0.75,
+            -1.5
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.8,
+            1.7,
+            5.5
+          ],
+          "look": [
+            1.25,
+            0.75,
+            -1.5
           ]
         }
       ],
-      "actors": {}
+      "actors": {
+        "zitteraal": [
+          {
+            "t": 0,
+            "x": 1.745,
+            "z": -2.275,
+            "motion": "wiggle",
+            "face": 180,
+            "y": 1.12,
+            "zap": 1
+          }
+        ],
+        "kumpel": [
+          {
+            "t": 0,
+            "x": 1.15,
+            "z": -1.96,
+            "motion": "stuck",
+            "face": 35,
+            "zap": 1,
+            "y": 0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 2.0,
+            "z": -0.35,
+            "motion": "recoil",
+            "face": -40
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.01,
+          "id": "strom-knistern",
+          "volume": 0.35
+        }
+      ]
     },
     "countdown": {
       "camera": [
         {
-          "t": 0,
+          "t": 0.0,
           "pos": [
-            0,
-            1.5,
-            4
+            0.75,
+            1.7,
+            5.5
           ],
           "look": [
-            0,
-            1,
-            0
+            1.2,
+            0.85,
+            -1.5
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.8,
+            1.7,
+            5.2
+          ],
+          "look": [
+            1.22,
+            0.85,
+            -1.5
           ]
         }
       ],
-      "actors": {}
+      "actors": {
+        "zitteraal": [
+          {
+            "t": 0,
+            "x": 1.745,
+            "z": -2.275,
+            "motion": "wiggle",
+            "face": 180,
+            "y": 1.12,
+            "zap": 1
+          }
+        ],
+        "kumpel": [
+          {
+            "t": 0,
+            "x": 1.15,
+            "z": -1.96,
+            "motion": "stuck",
+            "face": 35,
+            "zap": 1,
+            "y": 0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 2.0,
+            "z": -0.35,
+            "motion": "recoil",
+            "face": -40
+          }
+        ]
+      },
+      "sfx": []
     },
     "reveal": {
       "camera": [
         {
-          "t": 0,
+          "t": 0.0,
           "pos": [
-            0,
-            1.5,
-            4
+            0.8,
+            1.7,
+            5.5
           ],
           "look": [
-            0,
-            1,
-            0
+            1.22,
+            0.8,
+            -1.5
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.8,
+            1.7,
+            5.4
+          ],
+          "look": [
+            1.22,
+            0.8,
+            -1.5
           ]
         }
       ],
-      "actors": {}
+      "actors": {
+        "zitteraal": [
+          {
+            "t": 0,
+            "x": 1.745,
+            "z": -2.275,
+            "motion": "wiggle",
+            "face": 180,
+            "y": 1.12,
+            "zap": 1
+          }
+        ],
+        "kumpel": [
+          {
+            "t": 0,
+            "x": 1.15,
+            "z": -1.96,
+            "motion": "stuck",
+            "face": 35,
+            "zap": 1,
+            "y": 0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 2.0,
+            "z": -0.35,
+            "motion": "recoil",
+            "face": -40
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.01,
+          "id": "strom-knistern",
+          "volume": 0.35
+        }
+      ]
     },
     "outro": {
       "camera": [
         {
-          "t": 0,
+          "t": 0.0,
           "pos": [
-            0,
-            1.5,
-            4
+            0.7,
+            1.6,
+            4.0
           ],
           "look": [
-            0,
-            1,
-            0
+            1.05,
+            1.95,
+            -1.4
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.75,
+            1.6,
+            3.6
+          ],
+          "look": [
+            1.05,
+            1.95,
+            -1.4
           ]
         }
       ],
-      "actors": {}
+      "actors": {
+        "zitteraal": [
+          {
+            "t": 0,
+            "x": 1.745,
+            "z": -2.275,
+            "motion": "peek",
+            "face": 180,
+            "y": 1.12,
+            "zap": 0
+          }
+        ],
+        "kumpel": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -1.5,
+            "motion": "wave",
+            "face": 170
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.6,
+            "z": -1.2,
+            "motion": "wave",
+            "face": 165
+          }
+        ]
+      }
     }
   }
 }

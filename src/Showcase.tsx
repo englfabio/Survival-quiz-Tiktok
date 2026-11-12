@@ -813,6 +813,104 @@ const FIRE_DEMOS: Demo[] = [
   },
 ];
 
+
+// ---------- Neu für "Zitteraal-Steckdose" (Strom) ----------
+const KCAM = (pos: [number, number, number], look: [number, number, number]): Shot['camera'] => [{t: 0, pos, look}];
+const STROM_DEMOS: Demo[] = [
+  {
+    label: 'Bühne: Küche mit Steckdose, Toaster, Besen + Zitteraal (herausgucken)',
+    stage: 'kueche',
+    seconds: 4,
+    shot: {camera: KCAM([0.8, 1.65, 4.8], [1.1, 1.0, -1.6]), actors: {zitteraal: [{t: 0, x: 1.745, y: 1.12, z: -2.275, face: 180, motion: 'peek'}]}},
+  },
+  {
+    label: 'Zitteraal: herausgucken, zappeln (mit Blitzen), beleidigt zurückziehen',
+    stage: 'kueche',
+    seconds: 6,
+    shot: {
+      camera: KCAM([1.6, 1.4, -1.1], [1.75, 1.22, -2.25]),
+      actors: {
+        zitteraal: [
+          {t: 0, x: 1.745, y: 1.12, z: -2.275, face: 180, motion: 'peek', zap: 0},
+          {t: 0.33, x: 1.745, y: 1.12, z: -2.275, face: 180, motion: 'peek', zap: 0},
+          {t: 0.34, x: 1.745, y: 1.12, z: -2.275, face: 180, motion: 'wiggle', zap: 1},
+          {t: 0.66, x: 1.745, y: 1.12, z: -2.275, face: 180, motion: 'wiggle', zap: 1},
+          {t: 0.67, x: 1.745, y: 1.12, z: -2.275, face: 180, motion: 'withdraw', zap: 0},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Kumpel (orange) hängt zitternd fest + Dummy greift an den Armen (Blitze springen über)',
+    stage: 'kueche',
+    seconds: 4,
+    shot: {
+      camera: KCAM([2.1, 1.65, 3.0], [1.3, 1.2, -1.8]),
+      actors: {
+        zitteraal: [{t: 0, x: 1.745, y: 1.12, z: -2.275, face: 180, motion: 'wiggle', zap: 1}],
+        kumpel: [{t: 0, x: 1.15, z: -1.96, face: 35, motion: 'stuck', zap: 1}],
+        dummy: [
+          {t: 0, x: 0.85, z: -1.53, face: 35, motion: 'grabarms', zap: 0},
+          {t: 0.3, x: 0.85, z: -1.53, face: 35, motion: 'grabarms', zap: 0},
+          {t: 0.35, x: 0.85, z: -1.53, face: 35, motion: 'grabarms', zap: 1},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Dummy: mit nassem Handtuch schlagen (Blitze laufen am Handtuch entlang)',
+    stage: 'kueche',
+    seconds: 3,
+    shot: {
+      camera: KCAM([-0.5, 1.8, 2.5], [1.5, 1.15, -1.5]),
+      actors: {
+        zitteraal: [{t: 0, x: 1.745, y: 1.12, z: -2.275, face: 180, motion: 'wiggle', zap: 1}],
+        dummy: [
+          {t: 0, x: 1.86, z: -0.82, face: -10, motion: 'towelswing', zap: 0},
+          {t: 0.23, x: 1.86, z: -0.82, face: -10, motion: 'towelswing', zap: 0},
+          {t: 0.27, x: 1.86, z: -0.82, face: -10, motion: 'towelswing', zap: 1},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Hausflur: Dummy legt den Hauptschalter im Sicherungskasten um',
+    stage: 'hausflur',
+    seconds: 3,
+    shot: {
+      camera: KCAM([1.0, 1.5, 2.0], [0.45, 1.7, -2.6]),
+      actors: {
+        dummy: [{t: 0, x: 0.54, z: -2.13, face: 0, motion: 'switchoff'}],
+        sicherungskasten: [
+          {t: 0, x: 0.82, z: -3, face: 180, motion: 'park', lever: 1},
+          {t: 0.15, x: 0.82, z: -3, face: 180, motion: 'park', lever: 1},
+          {t: 0.23, x: 0.82, z: -3, face: 180, motion: 'park', lever: 0},
+        ],
+      },
+    },
+  },
+  {
+    label: 'Dummy: mit trockenem Besenstiel schieben',
+    stage: 'kueche',
+    seconds: 4,
+    shot: {camera: KCAM([-0.2, 1.6, 2.6], [1.0, 0.9, -1.0]), actors: {dummy: [{t: 0, x: 0.6, z: -0.6, face: 60, motion: 'broompush'}]}},
+  },
+  {
+    label: 'Dummy kniet beim Kumpel und telefoniert; Objekte: Handtuch, Besen',
+    stage: 'kueche',
+    seconds: 4,
+    shot: {
+      camera: KCAM([0.9, 1.15, 3.4], [1.35, 1.3, -1.5]),
+      actors: {
+        kumpel: [{t: 0, x: 1.3, z: -1.5, face: 165, motion: 'sit'}],
+        dummy: [{t: 0, x: 1.92, z: -1.25, face: -100, motion: 'kneelcall'}],
+        handtuch: [{t: 0, x: 0.3, y: 1.0, z: -0.5, face: 180, motion: 'park'}],
+        besen: [{t: 0, x: -0.2, z: -0.8, face: 180, motion: 'park', lean: 0}],
+      },
+    },
+  },
+];
+
 const DEMOS: Demo[] = [
   dummyDemo('stehen', 'stand', [0, 0]),
   dummyDemo('gehen', 'walk', [0, -3.5]),
@@ -881,10 +979,15 @@ const DEMOS: Demo[] = [
   ...FIRSTAID_DEMOS,
   // ---------- Neu für "Weihnachtsbaum-Brand" ----------
   ...FIRE_DEMOS,
+  // ---------- Neu für "Zitteraal-Steckdose" ----------
+  ...STROM_DEMOS,
 ];
 
+/** Index der ersten Strom-Demo (für Übersichtsbilder) */
+export const STROM_DEMO_FIRST = DEMOS.length - STROM_DEMOS.length;
+
 /** Index der ersten Feuer-Demo (für Übersichtsbilder) */
-export const FIRE_DEMO_FIRST = DEMOS.length - FIRE_DEMOS.length;
+export const FIRE_DEMO_FIRST = DEMOS.length - FIRE_DEMOS.length - STROM_DEMOS.length;
 
 /** Index der ersten Burg-Demo (für Übersichtsbilder) */
 export const CASTLE_DEMO_FIRST = DEMOS.length - CASTLE_DEMOS.length;
