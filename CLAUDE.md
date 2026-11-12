@@ -116,7 +116,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Fenster mit Schnee/Nachthimmel/Nachbarhäusern draußen, Fensterstern, Girlande, Zimmertür zum Flur (`weihnachtszimmer`,
   Atmo = `feuer-knistern`), Wohnungsflur mit Zimmertür, Wohnungstür, Garderobe, Läufer (`flur`),
   Mehrfamilienhaus von außen bei Nacht im Schnee mit Haustür, Vordach, Weg, Gehweg, Straße, Straßenlaternen,
-  verschneiten Tannen, Schneefall (`hauseingang`, Atmo = `winter-atmo`).
+  verschneiten Tannen, Schneefall (`hauseingang`, Atmo = `winter-atmo`),
+  helle Küche mit Küchenzeile (Kühlschrank, Spüle, Kochfeld, Oberschränke, Fliesenspiegel), rotem Toaster, Kabel zur gut
+  sichtbaren Doppel-Steckdose, Besen mit Holzstiel in der Ecke, Wanduhr, Fenster (`kueche`, `src/stage/Kitchen.tsx`, Atmo = `uhr-ticken`),
+  Hausflur ohne Weihnachtsdeko (`hausflur`, sonst wie `flur`; Platz für den Sicherungskasten rechts neben der Wohnungstür).
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
@@ -136,7 +139,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   auf Sofa/Stuhl sitzen, auf dem Sofa warten (Finger trommeln, Blick Uhr ↔ Arm), Arm unter fließendes Wasser halten,
   Desinfektionsspray sprühen, Kompresse auflegen + verbinden, sitzen + Impfpass zeigen, sitzen + nicken/erklären,
   entsetzt zurückweichen, mit dem Eimer rennen (oder stehen), kniend Geschenke hervorziehen, Tür zuziehen,
-  telefonieren + mit links winken
+  telefonieren + mit links winken,
+  zitternd festhängen (`stuck`), von hinten an den Armen packen (`grabarms`), mit nassem Handtuch schlagen (`towelswing`),
+  Schalter im Sicherungskasten umlegen (`switchoff`), mit dem trockenen Besenstiel schieben (`broompush`),
+  hinknien + telefonieren (`kneelcall`)
 - **Wunde am Arm (Dummy, linker Unterarm):** kleiner roter Bisspunkt (`armbite`), roter Schimmer/Rötung, die wächst
   (`redness` 0 … 2), Pflaster (`plaster` 0 … 1, Rötung scheint drunter durch), Kompresse + Mullbinde (`dressing` 0 … 1)
 - **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
@@ -145,7 +151,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Nachbar (`nachbar`: gleiche Figur wie der Dummy, aber blau – kann alle Dummy-Bewegungen),
   Zombie (`zombie`: gleicher Low-Poly-Look, grünlich-graue Haut, zerrissenes Hemd mit schiefer Krawatte, zerfranste
   Hose, Kulleraugen – witzig, kein Blut; Bewegungen shamble, reach, chomp, confused (mit Fragezeichen), wave, stand),
-  Arzt/Ärztin (`arzt`: Dummy-Figur in Türkis mit weißem Kittel + Stethoskop – kann alle Dummy-Bewegungen)
+  Arzt/Ärztin (`arzt`: Dummy-Figur in Türkis mit weißem Kittel + Stethoskop – kann alle Dummy-Bewegungen),
+  Kumpel-Dummy (`kumpel`: zweiter Crashtest-Dummy in Orange – kann alle Dummy-Bewegungen, für alle Szenen „jemandem helfen“),
+  Zitteraal (`zitteraal`, `src/actors/Eel.tsx`: niedlicher Low-Poly-Aal, blaugrau mit leuchtend gelben Streifen, Kulleraugen;
+  schaut aus der Steckdose: `peek` = herausgucken, `wiggle` = zappeln, `withdraw` = beleidigt zurückziehen)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
 - **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
@@ -165,11 +174,17 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `smoke` > 0 = Glut + Rauch hinter der offenen Tür), Eimer mit Wasser (`eimer`; hält der Dummy bei `runbucket` automatisch),
   Geschenkpakete (`geschenke`; ein Paket hält der Dummy bei `pullgift` automatisch), Feuerwehrauto ohne Logos mit Blaulicht,
   Leiter, Rollläden (`feuerwehrauto`: `drive`, `park`)
+- **Objekte (Strom, `src/actors/ShockProps.tsx`):** nasses, tropfendes Handtuch (`handtuch`; hält der Dummy bei `towelswing`
+  automatisch), Sicherungskasten mit großem rotem Hauptschalter (`sicherungskasten`, Wert `lever` 1 = an … 0 = aus),
+  Besen mit trockenem Holzstiel (`besen`, Wert `lean` = Neigung; hält der Dummy bei `broompush` automatisch),
+  Doppel-Steckdose (`Socket`), Kabel (`Cable`), Toaster (`Toaster`) als Bauteile für Bühnen; Smartphone wie gehabt (bei `call`/`kneelcall`).
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Effekte:** Schmerz-Symbol am rechten Fuß (Wert `pain`), Stich-Punkt (`sting`), rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
   Abblenden der Szene (`fade`), Atemwolken (`breath`), Kälte-Symbol (`cold`), Spritzwasser (`spray`), Stoppuhr (`timer`),
-  Sprühnebel (Desinfektionsspray), gelbes Fragezeichen über dem Kopf (Zombie `confused`)
+  Sprühnebel (Desinfektionsspray), gelbes Fragezeichen über dem Kopf (Zombie `confused`),
+  Strom (`src/effects/Zap.tsx`): Wert `zap` 0 … 1 an `dummy`/`kumpel`/`nachbar`/`arzt`/`zitteraal` = comichafte Zickzack-Blitze +
+  Zittern (kein Rauch, keine Verbrennungen); beim nassen Handtuch laufen die Blitze am Handtuch entlang. Friert beim Einfrieren mit ein.
 - **Bühnenwechsel:** Shot-Feld `"stage"` – andere Bühne für einen Abschnitt (`"stage": "wohnzimmer"`) oder Schnitt mitten
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
@@ -203,6 +218,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (geprüft), Kontrolle per scribe_v2 (u. a. „112“): korrekt. Erstes Video im Durchlauf-Modus. Choreografie wird mit
   `python3 scripts/weihnachtsbaum-choreo.py` aus den Wort-Zeitstempeln erzeugt. Standbilder in review/weihnachtsbaum-brand/phase1/.
   Finales Video: review/final/weihnachtsbaum-brand.mp4.
+- Zitteraal-Steckdose: 931 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 72,3 s, Video 81,2 s. Wort-Zeitstempel = Text
+  (geprüft). Zweites Video im Durchlauf-Modus; Inhaber wollte Vorschau + Standbilder überspringen. Choreografie wird mit
+  `python3 scripts/zitteraal-choreo.py` aus den Wort-Zeitstempeln erzeugt. Finales Video: review/final/zitteraal-steckdose.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -223,7 +241,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `nacht-atmo` (Bühne Friedhof, Schleife), `uhr-ticken` (Bühne Wohnzimmer, Schleife), `zombie-stoehnen`, `zombie-biss`,
   `pflaster`, `kalender-blaettern`, `wasserhahn`, `spruehen` (Zombie-Biss-Video);
   `feuer-knistern` (Bühne Weihnachtszimmer, Schleife), `feuer-auflodern`, `tuer-zu`, `sirene`, `geschenk-rascheln`,
-  `eimer-schwappen` (Weihnachtsbaum-Brand-Video).
+  `eimer-schwappen` (Weihnachtsbaum-Brand-Video);
+  `strom-knistern`, `sicherung-klick`, `handtuch-klatsch`, `aal-schmollen` (Zitteraal-Video; Küche nutzt `uhr-ticken`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -335,6 +354,15 @@ Beschreibung und angepinnter Kommentar.
   mit abwehrenden Armen rückwärts (Weg über Zeitpunkte; ohne Weg = stehen bleiben). `pullgift`: hinknien (0,7 s), dann alle 1,8 s
   greifen → Geschenk herausziehen → zur Seite legen. `closedoor`: Griff vorn rechts greifen (0–0,4 s), Tür zudrücken bis 1,2 s
   (Tür-Wert `door` passend von 1 auf 0). `callwave`: Handy rechts am Ohr, links winken.
+- Strom-Bewegungen Dummy: `stuck` (rechte Hand gestreckt nach vorn, ca. 1,18 m hoch), `grabarms` (greift 0–0,45 s, Hände ca. 0,57 m
+  vor ihm auf 1,34 m), `towelswing` (ausholen bis 0,45 s, Treffer 0,7 s, Handtuchspitze ca. 1,3 m vor ihm auf 1,28 m), `switchoff`
+  (Hand zum Schalter 0,67 m vor / 0,28 m rechts auf 1,39 m, runter bis 0,7 s), `broompush`, `kneelcall` (kniet in 0,7 s).
+  Positionen planen mit `scripts/dummy_kin.py` (Nachbau der Gelenkkette: `hand(x, z, face, pose)` = Welt-Position der Hand).
+- Küchen-Koordinaten (`src/stage/Kitchen.tsx`): W 5, D 4.6, Rückwand z −2.3; Küchenzeile x −2.5 … 0.55 (Tiefe 0,6, Arbeitsplatte 0,9 m),
+  Steckdose x 1.7, y 1.12; Zitteraal `x 1.745, y 1.12, z −2.275, face 180`; Kumpel hängt fest bei `x 1.15, z −1.96, face 35`.
+  Sicherungskasten im `hausflur`: `x 0.82, z −3, face 180`, Dummy davor `x 0.54, z −2.13, face 0` (`switchoff`).
+- Kamera-Zeitachse: `sampleCamera` glättet die Zeit (te = easeInOut(t)·0,35 + t·0,65). Für harte Schnitte, die genau zu einem
+  Bühnenwechsel passen sollen, die Kamera-Zeitpunkte umrechnen (siehe `te()` in `scripts/zitteraal-choreo.py`).
 - Weihnachts-Koordinaten (`src/stage/Christmas.tsx`): Weihnachtszimmer W 5.2, D 4.6, Decke 2.6; Baum `x 1.5, z −1.5, face 180`
   (Rauchgrenzen passen nur dort), Zimmertür linke Wand (x −2.6, z 0.3 … 1.2), Fenster Rückwand (x −1.25 … 0.15), Sofa links.
   Kamera unter ca. y 1.6 halten (darüber hängt der Rauch), z. B. `[-2.1, 1.5, 6.6]` Blick `[0.4, 0.55, -0.6]` für Optionen.
@@ -380,12 +408,14 @@ src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Rege
 src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer,
                       Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg, Graveyard.tsx = Friedhof,
                       Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
-                      Christmas.tsx = Weihnachtszimmer, Flur, Hauseingang)
+                      Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
-                      Feuerwehrauto) + Bewegungen; index.tsx = Anhängen ("attach")
-src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray)
+                      Feuerwehrauto, Eel.tsx = Zitteraal, ShockProps.tsx = Handtuch/Sicherungskasten/Besen/
+                      Steckdose/Toaster) + Bewegungen; index.tsx = Anhängen ("attach")
+src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
+                      Strom-Blitze + Zittern (Zap)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
 scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
