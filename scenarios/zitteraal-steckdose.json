@@ -1,0 +1,198 @@
+{
+  "id": "zitteraal-steckdose",
+  "category": "erste-hilfe",
+  "stage": "wohnzimmer",
+  "situation": {
+    "speech": "Ein Zitteraal hat sich mal wieder in deiner Steckdose eingenistet. Dein Kumpel hat ihn angefasst und kommt nicht mehr los. Was machst du jetzt?"
+  },
+  "options": [
+    {
+      "card": "Kumpel wegziehen",
+      "speech": "Eins: Deinen Kumpel sofort an den Armen wegziehen.",
+      "dummyAction": "",
+      "explanation": "Genau so wirst du selbst zum Opfer. Solange Strom fließen kann, darfst du einen Menschen niemals mit der Hand berühren. Sonst stehst du selbst unter Strom.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              0,
+              1.5,
+              4
+            ],
+            "look": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "actors": {}
+      }
+    },
+    {
+      "card": "Mit nassem Handtuch wegschlagen",
+      "speech": "Zwei: Den Aal mit einem nassen Handtuch wegschlagen.",
+      "dummyAction": "",
+      "explanation": "Nass ist hier das Gefährlichste überhaupt, denn Wasser leitet Strom. Wenn du etwas benutzt, dann nur einen trockenen Gegenstand, der nicht leitet, zum Beispiel einen Besenstiel.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              0,
+              1.5,
+              4
+            ],
+            "look": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "actors": {}
+      }
+    },
+    {
+      "card": "Erst Strom aus, dann helfen",
+      "speech": "Drei: Erst den Strom abschalten, dann deinem Kumpel helfen.",
+      "dummyAction": "",
+      "explanation": "Unterbrich zuerst den Stromkreis: Stecker ziehen, Gerät ausschalten oder die Sicherung raus. Erst dann helfen. Hat dein Kumpel danach Herzrasen, Herzstolpern oder Atemnot, oder ist er bewusstlos, sofort die 112. Der Zitteraal war ausgedacht. Aber genau so hilfst du bei jedem echten Stromunfall.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0,
+            "pos": [
+              0,
+              1.5,
+              4
+            ],
+            "look": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "actors": {}
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "x"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "x"
+  },
+  "outro": {
+    "speech": "Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "x",
+  "sources": [
+    {
+      "name": "x",
+      "url": "x"
+    }
+  ],
+  "publishing": {
+    "description": "x",
+    "pinnedComment": "x"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            1.5,
+            4
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            1.5,
+            4
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            1.5,
+            4
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            1.5,
+            4
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            1.5,
+            4
+          ],
+          "look": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "actors": {}
+    }
+  }
+}
