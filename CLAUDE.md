@@ -119,7 +119,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   verschneiten Tannen, Schneefall (`hauseingang`, Atmo = `winter-atmo`),
   helle Küche mit Küchenzeile (Kühlschrank, Spüle, Kochfeld, Oberschränke, Fliesenspiegel), rotem Toaster, Kabel zur gut
   sichtbaren Doppel-Steckdose, Besen mit Holzstiel in der Ecke, Wanduhr, Fenster (`kueche`, `src/stage/Kitchen.tsx`, Atmo = `uhr-ticken`),
-  Hausflur ohne Weihnachtsdeko (`hausflur`, sonst wie `flur`; Platz für den Sicherungskasten rechts neben der Wohnungstür).
+  Hausflur ohne Weihnachtsdeko (`hausflur`, sonst wie `flur`; Platz für den Sicherungskasten rechts neben der Wohnungstür),
+  Boxring mitten in der roten australischen Steppe bei Sonnenuntergang (`outback`, `src/stage/Outback.tsx`: Ring mit Seilen + Eckpolstern,
+  Ringboden 0,5 m hoch, Hocker in der roten Ecke, Grasbüschel rund um den Ring, Eukalyptusbäume, Tafelberge, tiefstehende Sonne,
+  Klapptisch neben dem Ring, freie Zahnstelle im Gras; Atmo = `outback-atmo`),
+  kleine Zahnarztpraxis mit Behandlungsstuhl (türkis, Lehne nach hinten), Behandlungslampe am Schwenkarm, Instrumentenablage,
+  Schrank mit Waschbecken, Zahn-Poster (`zahnarztpraxis`, `src/stage/Dental.tsx`).
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
@@ -142,9 +147,16 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   telefonieren + mit links winken,
   zitternd festhängen (`stuck`), von hinten an den Armen packen (`grabarms`), mit nassem Handtuch schlagen (`towelswing`),
   Schalter im Sicherungskasten umlegen (`switchoff`), mit dem trockenen Besenstiel schieben (`broompush`),
-  hinknien + telefonieren (`kneelcall`)
+  hinknien + telefonieren (`kneelcall`),
+  Boxhaltung (`boxguard`), getroffen werden + taumeln (`hitstagger`), benommen mit Hand an der Wange (`dazed`),
+  hinknien + Zahn im Gras suchen (`searchkneel`), Zahn vorsichtig an der Krone hochheben (`pickcrown`), Zahn halten (`holdtooth`),
+  Zahn unter dem Wasserhahn abspülen (`rinsetooth`), Zahn ins Taschentuch wickeln (`wraptooth`), Zahn ablegen in Glas/Box/Milch
+  (`placetooth`), halb liegend im Behandlungsstuhl (`dentalsit`)
 - **Wunde am Arm (Dummy, linker Unterarm):** kleiner roter Bisspunkt (`armbite`), roter Schimmer/Rötung, die wächst
   (`redness` 0 … 2), Pflaster (`plaster` 0 … 1, Rötung scheint drunter durch), Kompresse + Mullbinde (`dressing` 0 … 1)
+- **Zähne (Dummy):** stilisierte Zahnreihe vorn am Kopf (`teeth` 0/1) mit Zahnlücke (`gap` 0/1, kein Blut);
+  rote Boxhandschuhe (`gloves` 0/1); Zahn in der Hand (bei `pickcrown/holdtooth/rinsetooth/placetooth` automatisch, Aussehen über
+  die Dummy-Werte `gray`, `mark`), Taschentuch mit Zahn auf der linken Hand (bei `wraptooth`, Wert `wrap` 0 offen … 1 eingewickelt)
 - **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
 - **Weitere Figuren:** Braunbär (`bear`: stand, alert, sniff, walk, run, climb), Kreuzotter (`snake`: coil, slither,
   strike), Petermännchen (`petermaennchen`: buried, finup, swimaway) – gleicher Low-Poly-Look wie der Dummy;
@@ -154,7 +166,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Arzt/Ärztin (`arzt`: Dummy-Figur in Türkis mit weißem Kittel + Stethoskop – kann alle Dummy-Bewegungen),
   Kumpel-Dummy (`kumpel`: zweiter Crashtest-Dummy in Orange – kann alle Dummy-Bewegungen, für alle Szenen „jemandem helfen“),
   Zitteraal (`zitteraal`, `src/actors/Eel.tsx`: niedlicher Low-Poly-Aal, blaugrau mit leuchtend gelben Streifen, Kulleraugen;
-  schaut aus der Steckdose: `peek` = herausgucken, `wiggle` = zappeln, `withdraw` = beleidigt zurückziehen)
+  schaut aus der Steckdose: `peek` = herausgucken, `wiggle` = zappeln, `withdraw` = beleidigt zurückziehen),
+  Känguru (`kaenguru`, `src/actors/Kangaroo.tsx`: rotbraun, heller Bauch, große Ohren, halb geschlossene Lider + hochgezogene Braue
+  = frech, rote Boxhandschuhe, ca. 1,75 m; `stand`, `guard` = Boxhaltung, `hop` = hüpfen (Weg über Zeitpunkte), `punch` = Schlag
+  mit rechts (Treffer bei 0,4 s, Faust ca. 0,75 m vor ihm), `victory` = Siegerpose mit erhobenen Pfoten)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
 - **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
@@ -178,8 +193,17 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   automatisch), Sicherungskasten mit großem rotem Hauptschalter (`sicherungskasten`, Wert `lever` 1 = an … 0 = aus),
   Besen mit trockenem Holzstiel (`besen`, Wert `lean` = Neigung; hält der Dummy bei `broompush` automatisch),
   Doppel-Steckdose (`Socket`), Kabel (`Cable`), Toaster (`Toaster`) als Bauteile für Bühnen; Smartphone wie gehabt (bei `call`/`kneelcall`).
+- **Objekte (Zahnunfall, `src/actors/ToothProps.tsx`):** einzelner Zahn (`zahn`: Krone weiß, Wurzel gelblich; `gray` 0 … 1 = wird grau,
+  `mark` 1 = Krone grün + Wurzel rot, 1 … 2 = Wurzel-Rot blendet aus; `fly` = dreht sich im Flug, Bogen über Zeitpunkte; `lie` = liegt;
+  `size` = größer), Papiertaschentuch (`taschentuch`, `wrap`), Glas mit Leitungswasser (`wasserglas`), Wasserhahn am Standrohr
+  (`wasserhahn`, `water` 0/1 = Wasser läuft, Auslauf bei (0, 1.0, 0.17) im eigenen System), Zahnrettungsbox ohne Markennamen mit
+  Zahn-Symbol (`zahnrettungsbox`, `lid` 0 zu … 1 offen, `size`), H-Milch-Packung mit Aufschrift „H-Milch“ (`hmilch`), Boxhandschuh
+  (Bauteil `BoxingGlove`), Hinweisschild mit beliebigem Text (`hinweis`: Feld `"text"`, Bewegung `show`, `below` 1 = Schild unter
+  der Stelle mit Zeiger nach oben, `size` = Größe; schaut immer zur Kamera)
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
+- **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
+- **Harte Schnitte:** Shot-Feld `"sharpCuts": true` – die Kamera schwingt bei Schnitten nicht über (für alle neuen Videos setzen).
 - **Effekte:** Schmerz-Symbol am rechten Fuß (Wert `pain`), Stich-Punkt (`sting`), rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
   Abblenden der Szene (`fade`), Atemwolken (`breath`), Kälte-Symbol (`cold`), Spritzwasser (`spray`), Stoppuhr (`timer`),
   Sprühnebel (Desinfektionsspray), gelbes Fragezeichen über dem Kopf (Zombie `confused`),
@@ -221,6 +245,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Zitteraal-Steckdose: 931 neue Zeichen (countdown/reveal/outro aus Cache), Sprechzeit 72,3 s, Video 81,2 s. Wort-Zeitstempel = Text
   (geprüft). Zweites Video im Durchlauf-Modus; Inhaber wollte Vorschau + Standbilder überspringen. Choreografie wird mit
   `python3 scripts/zitteraal-choreo.py` aus den Wort-Zeitstempeln erzeugt. Finales Video: review/final/zitteraal-steckdose.mp4.
+- Känguru-Zahn: 1056 neue Zeichen (countdown/reveal aus Cache), Sprechzeit 77,1 s, Video 86,1 s. Wort-Zeitstempel = Text (geprüft).
+  Drittes Video im Durchlauf-Modus. Choreografie wird mit `python3 scripts/kaenguru-choreo.py` aus den Wort-Zeitstempeln erzeugt.
+  Hook-Überschrift „Du hast mal wieder mit einem Känguru gekämpft“ (Sprechtext bleibt wortgenau „gegen ein Känguru“).
+  Standbilder in review/kaenguru-zahn/phase1/. Finales Video: review/final/kaenguru-zahn.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -242,7 +270,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `pflaster`, `kalender-blaettern`, `wasserhahn`, `spruehen` (Zombie-Biss-Video);
   `feuer-knistern` (Bühne Weihnachtszimmer, Schleife), `feuer-auflodern`, `tuer-zu`, `sirene`, `geschenk-rascheln`,
   `eimer-schwappen` (Weihnachtsbaum-Brand-Video);
-  `strom-knistern`, `sicherung-klick`, `handtuch-klatsch`, `aal-schmollen` (Zitteraal-Video; Küche nutzt `uhr-ticken`).
+  `strom-knistern`, `sicherung-klick`, `handtuch-klatsch`, `aal-schmollen` (Zitteraal-Video; Küche nutzt `uhr-ticken`);
+  `outback-atmo` (Bühne Outback, Schleife), `boxglocke`, `boxschlag`, `zahn-ping` (Känguru-Zahn-Video).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -361,6 +390,14 @@ Beschreibung und angepinnter Kommentar.
 - Küchen-Koordinaten (`src/stage/Kitchen.tsx`): W 5, D 4.6, Rückwand z −2.3; Küchenzeile x −2.5 … 0.55 (Tiefe 0,6, Arbeitsplatte 0,9 m),
   Steckdose x 1.7, y 1.12; Zitteraal `x 1.745, y 1.12, z −2.275, face 180`; Kumpel hängt fest bei `x 1.15, z −1.96, face 35`.
   Sicherungskasten im `hausflur`: `x 0.82, z −3, face 180`, Dummy davor `x 0.54, z −2.13, face 0` (`switchoff`).
+- Zahnunfall-Bewegungen Dummy: Hände werden automatisch per Arm-Ausrichtung (`reachR`/`reachL` in Dummy.tsx) an Zielpunkte gesetzt.
+  `pickcrown`: Zahn liegt 0,52 m vor ihm (0,08 m rechts) am Boden, Griff bei 0,9 s, vor den Augen bei 1,7 s (0,44 m vor ihm, 1,1 m hoch).
+  `rinsetooth`: Hände 0,45 m vor ihm auf 0,86 m – Dummy 0,62 m vor dem Wasserhahn, Blick zum Hahn (Hahn face 90 → Dummy face 270, x + 0.62).
+  `placetooth`: Ablagestelle 0,42 m vor ihm, 0,1 m rechts, Hand dort bei 0,7 s, loslassen bei 0,8 s (dann Zahn-Objekt einblenden).
+  `dentalsit`: Stuhl in der Zahnarztpraxis bei (0, −0.5), Dummy dort face 180, Kopf bei ca. (0, 1.2, −1.18).
+- Outback-Koordinaten (`src/stage/Outback.tsx`): Ring-Mitte (0, 0), Ringboden 0,5 m, Kampffläche ±2.5, Pfosten ±2.6, Schürze ±2.85;
+  Zahnstelle im Gras (0.9, 3.55); Klapptisch (−3.3, 2.2), Platte 0,6 m; Sonne hinten links. Im Video: Känguru (0.5, −0.35, face 235),
+  Dummy (−0.42, 0.33, face 55), Wasserhahn (3.3, 3.7). Zahnarztpraxis: W 4.6, D 4.4, Arzt neben dem Stuhl (0.8, −0.75, face 250).
 - Kamera-Zeitachse: `sampleCamera` glättet die Zeit (te = easeInOut(t)·0,35 + t·0,65). Für harte Schnitte, die genau zu einem
   Bühnenwechsel passen sollen, die Kamera-Zeitpunkte umrechnen (siehe `te()` in `scripts/zitteraal-choreo.py`).
 - Weihnachts-Koordinaten (`src/stage/Christmas.tsx`): Weihnachtszimmer W 5.2, D 4.6, Decke 2.6; Baum `x 1.5, z −1.5, face 180`
@@ -408,16 +445,18 @@ src/data/             Typen, Prüfung, Zeitplan (timeline.ts: Längen, 61-s-Rege
 src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx = Waldlichtung, Lake.tsx = Seeufer,
                       Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg, Graveyard.tsx = Friedhof,
                       Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
-                      Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche)
+                      Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche;
+                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
                       Feuerwehrauto, Eel.tsx = Zitteraal, ShockProps.tsx = Handtuch/Sicherungskasten/Besen/
-                      Steckdose/Toaster) + Bewegungen; index.tsx = Anhängen ("attach")
+                      Steckdose/Toaster, Kangaroo.tsx = Känguru, ToothProps.tsx = Zahn/Taschentuch/Glas/Wasserhahn/
+                      Zahnrettungsbox/H-Milch/Boxhandschuh/Hinweisschild) + Bewegungen; index.tsx = Anhängen ("attach")
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
-src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen
+src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen (Zahnunfall-Demos in src/ShowcaseZahn.tsx)
 scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
 review/               Gesicherte Standbilder zur Freigabe (Pilot: phase3/; weitere Videos: review/<id>/)
 ```
