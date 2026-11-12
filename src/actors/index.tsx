@@ -11,7 +11,9 @@ import {bridgeLocalMatrix, Drawbridge} from './CastleProps';
 import {Bear, bearPose} from './Bear';
 import {Car, carLocalMatrix, carPose} from './Car';
 import {Basin} from './Basin';
-import {Dummy, dummyPoseBlended, zapPose} from './Dummy';
+import {Dummy, dummyPoseBlended, sitExtras, zapPose} from './Dummy';
+import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
+import {Whale, whalePose} from './Whale';
 import {Eel, eelAnchors, eelPose} from './Eel';
 import {Broom, FuseBox, WetTowel} from './ShockProps';
 import {Kangaroo, kangarooPoseBlended} from './Kangaroo';
@@ -19,6 +21,7 @@ import {GardenTap, HintSign, MilkCarton, RescueBox, Tissue, Tooth, WaterGlass} f
 import {ZapAura, zapShake} from '../effects/Zap';
 import {ChildLockCabinet, DishTab, KitchenRoll, MilkGlass, PaperSheet, TabPack} from './TabProps';
 import {T} from '../ui/theme';
+import {clamp} from '../lib/anim';
 import {Snake, snakePose} from './Snake';
 import {Thermometer} from './Thermometer';
 import {AerialBomb, Smartphone, SmartphoneProp, SpadeProp, WarnStake, Wheelbarrow} from './GardenProps';
@@ -91,6 +94,10 @@ export const ACTORS = {
   kuechenpapier: {height: 0.15, climbOffset: 0, speedLineHeight: 0},
   papierblatt: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   oberschrank: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  // ---- Panikattacke (Wal im Zimmer) ----
+  wal: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  kaltwasser: {height: 0.07, climbOffset: 0, speedLineHeight: 0},
+  coolpack: {height: 0.02, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -189,6 +196,7 @@ export const resolveActors = (
   for (const [name, keys] of ordered) {
     const s = sampleActor(keys, t, sectionSeconds);
     s.breathPhase = breathPhaseAt(keys, t, sectionSeconds);
+    s.heartPhase = breathPhaseAt(keys, t, sectionSeconds, 'heart');
     s.sectionTime = t * sectionSeconds;
     let base: THREE.Matrix4;
     if (!hasAttach(keys)) {
@@ -257,6 +265,9 @@ export const Actor = ({
   const v = state.values;
   const coldPos = pos.clone().add(new THREE.Vector3(0, coldHeight(state.motion), 0));
   const qPos = pos.clone().add(new THREE.Vector3(0, 2.2, 0));
+  // Herz-Symbol: links neben dem Kopf (aus Sicht der Kamera), Höhe passt zu Stehen/Sitzen
+  const sitting = ['bedsitdown', 'sitbreathe', 'chairsit', 'couchsit'].includes(state.motion);
+  const heartPos = pos.clone().add(new THREE.Vector3(0, sitting ? 1.55 : 1.95, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().cross(new THREE.Vector3(0, 1, 0)).multiplyScalar(-0.42));
   // Zeit für Blitze/Zittern = Gesamtzeit im Abschnitt (läuft über Bewegungswechsel weiter, friert beim Einfrieren ein)
   const zt = state.sectionTime ?? state.motionTime;
   const shake = DUMMY_LIKE.includes(name) ? zapShake(zt, v.zap, name.length) : {pos: [0, 0, 0] as [number, number, number], rot: [0, 0, 0] as [number, number, number]};
@@ -265,6 +276,11 @@ export const Actor = ({
     {name === 'zombie' && state.motion === 'confused' && (
       <group position={qPos} quaternion={billboard(qPos, camPos)}>
         <QuestionMark amount={Math.min(1, state.motionTime / 0.5)} />
+      </group>
+    )}
+    {name === 'dummy' && v.heart > 0.01 && (
+      <group position={heartPos} quaternion={billboard(heartPos, camPos)}>
+        <HeartBadge phase={state.heartPhase ?? 0} rate={v.heart} amount={clamp(v.heart / 0.3, 0, 1)} />
       </group>
     )}
     {name === 'dummy' && v.cold > 0.01 && (
@@ -278,7 +294,8 @@ export const Actor = ({
         <Dummy
           zap={v.zap}
           zapTime={zt}
-          pose={zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 3)}
+          pose={sitExtras(zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 3), v.pack, v.sip)}
+          heave={v.heave}
           bite={state.bite}
           sting={state.sting}
           pain={v.pain}
@@ -335,6 +352,9 @@ export const Actor = ({
         </group>
       )}
       {name === 'oberschrank' && <ChildLockCabinet door={v.door} lock={v.lock} />}
+      {name === 'wal' && <Whale pose={whalePose(state.motion, state.motionTime)} size={v.size} squish={v.squish} time={zt} />}
+      {name === 'kaltwasser' && <ColdWaterGlass fill={state.values.fill > 0 ? v.fill : 1} />}
+      {name === 'coolpack' && <CoolPack />}
       {name === 'arzt' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={DOCTOR_COLOR} coat />
       )}

@@ -52,5 +52,13 @@
   "outback-atmo": 22.047,
   "boxglocke": 1.515,
   "boxschlag": 0.836,
-  "zahn-ping": 0.627
+  "zahn-ping": 0.627,
+  "herzschlag": 0.627,
+  "wal-schnaufen": 1.515,
+  "wal-ruf": 2.508,
+  "plopp": 0.627,
+  "schrumpfen": 2.247,
+  "aufzug-summen": 12.042,
+  "aufzug-ding": 1.045,
+  "bahn-atmo": 15.047
 }

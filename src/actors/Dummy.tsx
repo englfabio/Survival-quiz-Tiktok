@@ -12,6 +12,7 @@ import {ZapAura} from '../effects/Zap';
 import {BoxingGlove, RescueBox, Tissue, Tooth} from './ToothProps';
 import {DishTab, MilkGlass, PaperSheet, TabPack} from './TabProps';
 import {Foam} from '../effects/Foam';
+import {ColdWaterGlass, CoolPack} from './PanicProps';
 import {BodyHint} from '../effects/BodyHint';
 import {rng} from '../lib/anim';
 
@@ -64,7 +65,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water';
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
   cup: number;
   /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
@@ -73,6 +74,13 @@ export type DummyPose = {
   both: '' | 'bucket' | 'gift' | 'broom';
   /** Sprühnebel aus dem Desinfektionsspray: 0 = aus … 1 = voll */
   mist: number;
+  /** Bauchatmung: Bauch zeigen (Panik-Video) + wie weit er sich hebt 0 … 1 */
+  bellyOn?: boolean;
+  belly?: number;
+  /** Fäuste ballen (Hände runder, Knöchel) */
+  fists?: boolean;
+  /** ruhige Atemwolken im Takt der Bauchatmung: Atemzüge (Phase, Wolke beim Ausatmen) – sonst über "breath" */
+  puffPhase?: number;
 };
 
 const base = (): DummyPose => ({
@@ -138,6 +146,10 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     mist: L(a.mist, b.mist),
     cup: L(a.cup ?? 0, b.cup ?? 0),
     fill: L(a.fill ?? 1, b.fill ?? 1),
+    bellyOn: k < 0.5 ? a.bellyOn : b.bellyOn,
+    belly: L(a.belly ?? 0, b.belly ?? 0),
+    fists: k < 0.5 ? a.fists : b.fists,
+    puffPhase: k < 0.5 ? a.puffPhase : b.puffPhase,
   };
 };
 
@@ -1406,6 +1418,142 @@ const tabPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+// ---------- Panikattacke (Wal im Zimmer) ----------
+/**
+ *  - wallpress:  Rücken an der Wand (Wand ca. 0,15 m hinter ihm), Handflächen flach an der Wand, Kopf an die Wand gedrückt,
+ *                schaut zum Wal (leicht nach oben/links), zittert leicht. Schnelles Atmen über die Werte "breath" + "heave".
+ *  - clench:     verkrampft: Fäuste vor der Brust (bis 0,6 s), Ellbogen raus, Kopf eingezogen, zittert immer stärker
+ *  - bedsitdown: hinsetzen auf eine Sitzfläche 0,45 m (Hüfte über der Kante, ca. 1,2 s), danach = sitbreathe (Zeit ab 1,2 s)
+ *  - sitbreathe: aufrecht sitzen, Hände auf dem Bauch; Atemzyklus 6 s: 0–2 s einatmen (Bauch hebt sich), 2–6 s lang ausatmen
+ *                (ruhige Atemwolke beim Ausatmen). Coolpack/Wasser über die Werte "pack"/"sip" (siehe sitExtras)
+ *  - uneasy:     angespannt stehen, Arme eng, Hände vor dem Bauch verschränkt, Blick wandert (Aufzug)
+ *  - holdstrap:  stehen, rechte Hand hält einen Griff über dem Kopf (ca. 1,95 m), leichtes Schwanken (Bahn)
+ */
+/** Bauch-Atemzyklus 6 s: 2 s ein, 4 s aus → 0 … 1 */
+export const calmBreath = (time: number) => {
+  const c = ((time % 6) + 6) % 6;
+  return c < 2 ? easeInOut(c / 2) : 1 - easeInOut((c - 2) / 4);
+};
+/** Rest-Haltung im Sitzen (Hände auf dem Bauch) – Zeit ab dem Hinsetzen */
+const sitBreathePose = (time: number): DummyPose => {
+  const p = chairSit(time);
+  const b = calmBreath(time);
+  p.torsoX = -0.03 - 0.02 * b;
+  p.headX = 0.06 - 0.05 * b;
+  p.chest = 0.15 * b;
+  p.bellyOn = true;
+  p.belly = b;
+  p.legL = L3(-1.57, 0.1, 1.55);
+  p.legR = L3(-1.57, -0.1, 1.55);
+  reachR(p, [-0.06, 0.78, 0.2 + 0.03 * b], 0.36, [0.6, -1, -0.5]);
+  reachL(p, [0.07, 0.8, 0.2 + 0.03 * b], 0.36, [0.6, -1, -0.5]);
+  // Atemwolke beim Ausatmen (ab 2 s jedes Zyklus)
+  p.puffPhase = time >= 2 ? Math.floor((time - 2) / 6) + 1 + (((time - 2) % 6) / 6) : 0;
+  return p;
+};
+/** Wo Coolpack/Glas neben dem sitzenden Dummy liegen (rechts neben ihm, z. B. Nachttisch 0,55 m hoch) */
+export const SIT_SPOT_PACK: [number, number, number] = [-0.5, 0.6, 0.12];
+export const SIT_SPOT_GLASS: [number, number, number] = [-0.5, 0.6, 0.3];
+/**
+ * Coolpack (pack) bzw. Wasserglas (sip) über die Sitz-Haltung mischen: 0 … 0,35 = Hand greift zur Ablage rechts neben ihm,
+ * 0,35 … 1 = Coolpack in den Nacken bzw. Glas zum Mund (bei 1 gekippt). Ab 0,35 ist der Gegenstand in der Hand.
+ */
+export const sitExtras = (p: DummyPose, pack: number, sip: number): DummyPose => {
+  const use = pack > sip ? 'pack' : 'sip';
+  const k = Math.max(pack, sip);
+  if (k < 0.002) return p;
+  const q: DummyPose = {...p, armL: {...p.armL}, armR: {...p.armR}};
+  const rest: P3 = [-0.06, 0.78, 0.22];
+  const spot = use === 'pack' ? SIT_SPOT_PACK : SIT_SPOT_GLASS;
+  const goal: P3 = use === 'pack' ? [-0.04, 1.27, -0.1] : [-0.02, 1.3, 0.26];
+  let tgt: P3;
+  if (k < 0.35) tgt = lerp3t(rest, spot, easeInOut(k / 0.35));
+  else tgt = lerp3t(spot, goal, easeInOut((k - 0.35) / 0.65));
+  const pole: [number, number, number] = use === 'pack' && k > 0.5 ? [1, 0.6, 0.2] : [0.7, -1, -0.2];
+  reachR(q, tgt, use === 'pack' ? 0.38 : 0.33, pole);
+  if (use === 'pack') {
+    q.headX = p.headX + 0.18 * clamp((k - 0.5) * 2);
+    q.item = k >= 0.35 ? 'coolpack' : '';
+  } else {
+    const tilt = clamp((k - 0.8) / 0.2);
+    q.headX = p.headX - 0.35 * tilt;
+    q.item = k >= 0.35 ? 'water' : '';
+    q.cup = tilt;
+    q.fill = 1 - 0.3 * tilt;
+  }
+  return q;
+};
+const panicPose = (motion: Motion, time: number): DummyPose | null => {
+  switch (motion) {
+    case 'wallpress': {
+      const p = base();
+      const tr = Math.sin(time * 29) * 0.006 + Math.sin(time * 37) * 0.004;
+      p.hipY = 0.96;
+      p.torsoX = -0.1 + tr;
+      p.headX = -0.16 + Math.sin(time * 0.7) * 0.03;
+      p.headY = 0.22 + Math.sin(time * 0.55) * 0.12;
+      p.legL = L3(0.05, 0.1, 0.06);
+      p.legR = L3(0.05, -0.1, 0.06);
+      reachR(p, [-0.42 + tr, 1.02, -0.16], 0.36, [0.9, -0.4, 0.2]);
+      reachL(p, [0.42 - tr, 1.05, -0.16], 0.36, [0.9, -0.4, 0.2]);
+      return p;
+    }
+    case 'clench': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      const amp = (0.006 + 0.01 * clamp((time - 0.6) / 2.5)) * k;
+      const tr = Math.sin(time * 31) * amp + Math.sin(time * 43) * amp * 0.7;
+      p.hipY = 0.97 - 0.02 * k;
+      p.torsoX = 0.14 * k + tr;
+      p.headX = 0.32 * k + tr * 2;
+      p.headY = Math.sin(time * 1.3) * 0.04 * k;
+      p.legL = L3(-0.05 * k, 0.1, 0.1 * k);
+      p.legR = L3(-0.05 * k, -0.1, 0.1 * k);
+      reachR(p, lerp3t([-0.25, 0.95, 0.05], [-0.13 + tr, 1.3, 0.24], k), 0.33, [1, -0.5, -0.3]);
+      reachL(p, lerp3t([0.25, 0.95, 0.05], [0.13 - tr, 1.31, 0.24], k), 0.33, [1, -0.5, -0.3]);
+      p.fists = k > 0.3;
+      p.chest = 0.3 * k;
+      return p;
+    }
+    case 'bedsitdown': {
+      if (time >= 1.2) return sitBreathePose(time - 1.2);
+      const stand = base();
+      const mid = squat();
+      mid.hipY = 0.68;
+      mid.torsoX = 0.35;
+      if (time < 0.6) return mix(stand, mid, easeInOut(time / 0.6));
+      return mix(mid, sitBreathePose(0), easeInOut((time - 0.6) / 0.6));
+    }
+    case 'sitbreathe':
+      return sitBreathePose(time);
+    case 'uneasy': {
+      const p = base();
+      p.torsoX = 0.03 + Math.sin(time * 3.2) * 0.012;
+      p.headX = -0.12 + Math.sin(time * 0.8) * 0.08;
+      p.headY = Math.sin(time * 0.6) * 0.25;
+      p.legL = L3(0, 0.05, 0.03);
+      p.legR = L3(0, -0.05, 0.03);
+      reachR(p, [-0.03, 1.0, 0.2], 0.33);
+      reachL(p, [0.04, 1.02, 0.21], 0.33);
+      return p;
+    }
+    case 'holdstrap': {
+      const p = base();
+      const sway = Math.sin(time * 1.1) * 0.03;
+      p.torsoZ = sway;
+      p.torsoX = 0.02 + Math.sin(time * 2.6) * 0.01;
+      p.headX = 0.05;
+      p.headY = Math.sin(time * 0.5) * 0.15;
+      p.legL = L3(0, 0.1, 0.03);
+      p.legR = L3(0, -0.1, 0.03);
+      reachR(p, [-0.14, 1.93, 0.06], 0.36, [0.8, 0.2, -0.3]);
+      reachL(p, [0.06, 1.0, 0.2], 0.33);
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Zittern unter Strom: Gliedmaßen zucken zufällig (amount 0 … 1), ändert sich jedes Bild */
 export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): DummyPose => {
   if (amount < 0.01) return p;
@@ -1427,7 +1575,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -1961,8 +2109,11 @@ const Arm = ({
   sleeve = 0,
   wound,
   glove = false,
+  fist = false,
 }: {
   m: Mats;
+  /** geballte Faust (runder, Knöchel-Kante) */
+  fist?: boolean;
   /** roter Boxhandschuh statt Hand */
   glove?: boolean;
   limb: Limb;
@@ -2005,6 +2156,15 @@ const Arm = ({
       {glove ? (
         <group position={[0, -0.25, 0]}>
           <BoxingGlove s={0.95} />
+        </group>
+      ) : fist ? (
+        <group position={[0, -0.31, 0]}>
+          <mesh material={m.body} scale={[0.95, 0.9, 0.85]} castShadow>
+            <icosahedronGeometry args={[0.075, 1]} />
+          </mesh>
+          <mesh material={m.joint} position={[0, -0.03, 0.045]} rotation={[0.5, 0, 0]}>
+            <boxGeometry args={[0.11, 0.022, 0.03]} />
+          </mesh>
         </group>
       ) : (
         <mesh material={m.body} position={[0, -0.32, 0.0]} scale={[0.8, 1.1, 0.6]} castShadow>
@@ -2236,7 +2396,7 @@ const HeldSpade = ({pose}: {pose: DummyPose}) => {
 };
 
 /** Atemwolken vor dem Mund: je Atemzug eine kleine Wolke, die wächst, nach vorn/oben treibt und verblasst */
-const BreathPuffs = ({phase, rate}: {phase: number; rate: number}) => {
+const BreathPuffs = ({phase, rate, life = 1.7}: {phase: number; rate: number; life?: number}) => {
   const mats = useMemo(
     () =>
       [0, 1, 2, 3].map(
@@ -2245,8 +2405,8 @@ const BreathPuffs = ({phase, rate}: {phase: number; rate: number}) => {
     [],
   );
   if (rate <= 0.01 && phase <= 0) return null;
-  const LIFE = 1.7;
-  const r = Math.max(0.15, rate);
+  const LIFE = life;
+  const r = Math.max(life > 1.7 ? 0.1 : 0.15, rate);
   const out = [];
   for (let j = 0; j < 4; j++) {
     const n = Math.floor(phase) - j;
@@ -2439,6 +2599,29 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
           <group position={[0, -0.02, 0]}>
             <MilkGlass fill={pose.fill} />
           </group>
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'water') {
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.33);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0.01, -0.06, 0.04]} rotation={[-pose.cup * 0.95, 0, 0]} scale={1.35}>
+          <group position={[0, -0.02, 0]}>
+            <ColdWaterGlass fill={pose.fill} />
+          </group>
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'coolpack') {
+    // Coolpack liegt flach auf der Handfläche und wird in den Nacken gedrückt
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0, 0.0, 0.0]} rotation={[Math.PI / 2 - 0.2, 0, 0]} scale={1.25}>
+          <CoolPack />
         </group>
       </group>
     );
@@ -2637,7 +2820,10 @@ export const Dummy = ({
   lunge = 0,
   blut = 0,
   fxTime = 0,
+  heave = 0,
 }: {
+  /** Brustkorb hebt sich mit jedem Atemzug (Phase breathPhase), 0 … 1 */
+  heave?: number;
   /** Schaumblasen am Mund 0 … 2 */
   foam?: number;
   /** Röntgen-Hinweis Lunge + Pfeil 0 … 1 */
@@ -2689,6 +2875,7 @@ export const Dummy = ({
   const wound: ArmWound | undefined =
     armbite > 0 || redness > 0 || plaster > 0 || dressing > 0 ? {bite: armbite, red: redness, plaster, dressing, time} : undefined;
   if (coat) jacket = 1;
+  if (heave > 0.001) pose = {...pose, chest: pose.chest + 1.5 * heave * (0.5 - 0.5 * Math.cos(2 * Math.PI * breathPhase))};
   return (
     <group rotation={[pose.pitch, 0, 0]}>
       <group position={[0, pose.hipY, 0]}>
@@ -2724,9 +2911,14 @@ export const Dummy = ({
             <icosahedronGeometry args={[0.18, 1]} />
           </mesh>
           <JacketBody m={m} amount={jacket} chest={pose.chest} />
+          {pose.bellyOn && (
+            <mesh material={m.body} position={[0, 0.16, 0.05 + 0.02 * (pose.belly ?? 0)]} scale={[1.05, 0.78, 0.72 + 0.38 * (pose.belly ?? 0)]} castShadow>
+              <icosahedronGeometry args={[0.14, 1]} />
+            </mesh>
+          )}
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
-          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} />
+          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} fist={pose.fists} />
           <HandItem pose={pose} time={time} zap={zap} zapTime={zapTime} tooth={tooth} />
           {zap > 0.01 && (
             <ZapAura
@@ -2767,6 +2959,7 @@ export const Dummy = ({
             smartphone={pose.smartphone}
             sleeve={clamp(jacket * 2)}
             glove={gloves > 0.5}
+            fist={pose.fists}
           />
           {pose.spade && <HeldSpade pose={pose} />}
           {/* Hals + Kopf (ohne Gesicht) */}
@@ -2779,7 +2972,7 @@ export const Dummy = ({
             </mesh>
             <Marker m={m} r={0.05} position={[0.118, 0.01, 0]} rotation={[0, Math.PI / 2, 0]} />
             <Marker m={m} r={0.05} position={[-0.118, 0.01, 0]} rotation={[0, -Math.PI / 2, 0]} />
-            <BreathPuffs phase={breathPhase} rate={breath} />
+            {pose.puffPhase !== undefined ? <BreathPuffs phase={pose.puffPhase} rate={1 / 6} life={3.2} /> : <BreathPuffs phase={breathPhase} rate={breath} />}
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
             <Foam amount={foam} time={fxTime} />
           </group>

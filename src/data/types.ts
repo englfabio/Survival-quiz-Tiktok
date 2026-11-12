@@ -119,6 +119,19 @@ export type Motion =
   | 'drinkmilk' // Dummy: Glas Milch zum Mund (bis 0,8 s), kippen + trinken (Glas leert sich bis ca. 3,2 s)
   | 'spit' // Dummy: vorbeugen, Küchenpapier vor den Mund (bis 0,6 s), ausspucken bei 0,9 / 1,6 / 2,3 s
   | 'stowtabs' // Dummy: Tab-Packung in den Oberschrank heben (Hand dort 0,9 s, loslassen 1,0 s), Tür zudrücken (1,2–1,7 s)
+  // ---- Dummy: Panikattacke (Wal im Zimmer) ----
+  | 'wallpress' // Dummy: mit dem Rücken an die Wand gedrückt, Handflächen flach an der Wand, Blick zum Wal (Atmen über "heave"/"breath")
+  | 'clench' // Dummy: verkrampft sich – ballt die Fäuste vor der Brust (bis 0,6 s), zittert vor Anspannung, Kopf eingezogen
+  | 'bedsitdown' // Dummy: hinsetzen auf Bett/Stuhl (Sitzhöhe 0,45 m, ca. 1,2 s), danach wie sitbreathe
+  | 'sitbreathe' // Dummy: sitzt aufrecht, Hände auf dem Bauch, atmet ruhig: 2 s ein (Bauch hebt sich), 4 s aus (Zyklus 6 s ab Bewegungsbeginn). Werte "pack" (Coolpack in den Nacken) und "sip" (Wasser trinken) mischen sich darüber
+  | 'uneasy' // Dummy: steht angespannt (Arme eng am Körper, Blick wandert nach oben/zur Seite) – z. B. im Aufzug
+  | 'holdstrap' // Dummy: steht und hält sich mit rechts an einem Haltegriff über dem Kopf fest (volle Bahn)
+  // ---- Wal (Figur "wal") ----
+  | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
+  | 'appear' // Wal: erscheint mit "Plopp" (wächst in 0,9 s, federt nach)
+  | 'shrink' // Wal: schrumpft langsam (2,2 s) und verschwindet mit Glitzern
+  // 'spout' = Wal schnauft: kleine Wasserfontäne (bei 0,3 s, dann alle 3,2 s)
+  | 'spout'
   // ---- Känguru (Figur "kaenguru") – hüpfen = "hop" (Weg über Zeitpunkte, ohne Weg = auf der Stelle) ----
   | 'guard' // Känguru: Boxhaltung, wippt auf dem Schwanz
   | 'punch' // Känguru: Schlag mit rechts (ausholen 0–0,25 s, Treffer bei ca. 0,4 s, ca. 0,75 m vor ihm auf 1,55 m), zurück
@@ -238,10 +251,20 @@ export type ActorKey = {
   fill?: number;
   /** Oberschrank ("oberschrank"): Kindersicherung 1 = eingerastet … 0 = offen */
   lock?: number;
+  /** Dummy: Herz-Symbol neben dem Kopf, Schläge pro Sekunde (0 = aus, 1 = ruhig, 2.5 = rast). Ändert sich weich */
+  heart?: number;
+  /** Dummy: Brustkorb hebt sich mit jedem Atemzug ("breath"), 0 = normal … 1 = stark (hektisches Atmen) */
+  heave?: number;
+  /** Wal: drückt gegen die Wände 0 … 1 (gestaucht, gewölbt, drängelt) */
+  squish?: number;
+  /** Dummy (sitbreathe): Coolpack in den Nacken 0 = Hände am Bauch … 1 = Coolpack im Nacken */
+  pack?: number;
+  /** Dummy (sitbreathe): Glas kaltes Wasser trinken 0 = aus … 1 = Glas am Mund */
+  sip?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
@@ -280,6 +303,13 @@ export type Shot = {
    * oder eine Liste mit Schnitten [{t: 0, stage: "badezimmer"}, {t: 0.62, stage: "arztpraxis"}].
    */
   stage?: string | {t: number; stage: string}[];
+  /**
+   * Enge/Panik-Wirkung: Bild zoomt leicht heran + dunkler Rand (Vignette). Liste von {t, v} mit v 0 = normal … 1 = sehr eng.
+   * Geht weich zwischen den Zeitpunkten über.
+   */
+  tight?: {t: number; v: number}[];
+  /** Atem-Anzeige einblenden: [t Beginn, t Ende] – zeigt im Takt "Ein" (2 s, kurz) und "Aus" (4 s, lang), Zyklus 6 s ab Beginn */
+  breathGuide?: [number, number];
 };
 
 /** Wort-Zeitstempel einer Sprachaufnahme (von ElevenLabs) */

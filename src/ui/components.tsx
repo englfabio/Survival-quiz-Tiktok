@@ -693,3 +693,52 @@ export const WarnTag = ({text, frame, until}: {text: string; frame: number; unti
     </div>
   );
 };
+
+/**
+ * Atem-Anzeige (Panik-Video): Balken mit kurzem "EIN"-Teil (2 s) und langem "AUS"-Teil (4 s), ein Lichtpunkt läuft im Takt
+ * mit, das aktive Wort leuchtet. sec = Sekunden seit Beginn der Anzeige, appear = Einblenden 0 … 1.
+ */
+export const BreathGuide = ({sec, appear, top, left = T.left, width = 520}: {sec: number; appear: number; top: number; left?: number; width?: number}) => {
+  const c = ((sec % 6) + 6) % 6;
+  const inhale = c < 2;
+  const pos = c / 6;
+  const inW = width / 3;
+  const glow = (on: boolean) => (on ? 1 : 0.38);
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left,
+        top,
+        width,
+        opacity: appear,
+        transform: `translateY(${(1 - appear) * 20}px)`,
+        fontFamily: T.font,
+        fontWeight: 700,
+        textTransform: 'uppercase',
+      }}
+    >
+      <div style={{display: 'flex', justifyContent: 'space-between', color: T.white, fontSize: 30, marginBottom: 6, letterSpacing: 1}}>
+        <span style={{width: inW, textAlign: 'center', opacity: glow(inhale)}}>Ein · kurz</span>
+        <span style={{flex: 1, textAlign: 'center', opacity: glow(!inhale)}}>Aus · lang</span>
+      </div>
+      <div style={{position: 'relative', height: 34, borderRadius: 17, background: 'rgba(20,24,28,0.82)', border: `3px solid ${T.white}`, overflow: 'hidden'}}>
+        <div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: inW, background: '#4fb3ff', opacity: glow(inhale) * 0.9}} />
+        <div style={{position: 'absolute', left: inW, top: 0, bottom: 0, right: 0, background: T.green, opacity: glow(!inhale) * 0.9}} />
+        <div style={{position: 'absolute', left: inW - 1.5, top: 0, bottom: 0, width: 3, background: T.white}} />
+        <div
+          style={{
+            position: 'absolute',
+            left: pos * width - 14,
+            top: 3,
+            width: 22,
+            height: 22,
+            borderRadius: 11,
+            background: T.white,
+            boxShadow: '0 0 12px 4px rgba(255,255,255,0.8)',
+          }}
+        />
+      </div>
+    </div>
+  );
+};

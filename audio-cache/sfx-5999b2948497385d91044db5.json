@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Inside a crowded subway train in motion, rhythmic rails clatter, low rumble, muffled crowd murmur without clear words, no music",
+  "duration": 15,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-12T20:52:56.520Z"
+}

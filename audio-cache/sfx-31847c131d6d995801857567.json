@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Inside a small elevator cabin moving, quiet steady low mechanical hum, soft air, no music, no voices",
+  "duration": 12,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-12T20:52:50.328Z"
+}

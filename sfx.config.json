@@ -379,6 +379,62 @@
       "duration": 0.6,
       "loop": false,
       "promptInfluence": 0.7
+    },
+    {
+      "id": "herzschlag",
+      "prompt": "Single human heartbeat, one double thump lub-dub, deep, close, clean, no music",
+      "duration": 0.6,
+      "loop": false,
+      "promptInfluence": 0.75
+    },
+    {
+      "id": "wal-schnaufen",
+      "prompt": "Friendly whale blowing air and a little water spout through its blowhole, soft gentle whoosh with light spray, cartoon cozy",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.55
+    },
+    {
+      "id": "wal-ruf",
+      "prompt": "Gentle friendly whale song call, short low soft moan, calm and cute, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "plopp",
+      "prompt": "Big soft cartoon pop, something appearing out of nowhere, bouncy and playful",
+      "duration": 0.6,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "schrumpfen",
+      "prompt": "Gentle magical shrinking sound, soft descending sparkle chime with a tiny pop at the end, calm",
+      "duration": 2.2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "aufzug-summen",
+      "prompt": "Inside a small elevator cabin moving, quiet steady low mechanical hum, soft air, no music, no voices",
+      "duration": 12,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "aufzug-ding",
+      "prompt": "Single elevator arrival bell ding, soft and clear",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "bahn-atmo",
+      "prompt": "Inside a crowded subway train in motion, rhythmic rails clatter, low rumble, muffled crowd murmur without clear words, no music",
+      "duration": 15,
+      "loop": true,
+      "promptInfluence": 0.5
     }
   ]
 }

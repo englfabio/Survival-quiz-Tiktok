@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Gentle friendly whale song call, short low soft moan, calm and cute, no music",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-12T20:52:42.264Z"
+}

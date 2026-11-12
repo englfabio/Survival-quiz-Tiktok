@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Friendly whale blowing air and a little water spout through its blowhole, soft gentle whoosh with light spray, cartoon cozy",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.55,
+  "createdAt": "2026-11-12T20:52:40.094Z"
+}

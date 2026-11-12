@@ -9,6 +9,7 @@ import {STAGES} from './stage';
 import {
   AnswerCard,
   Banner,
+  BreathGuide,
   Callout,
   CategoryBadge,
   CountdownRing,
@@ -52,6 +53,18 @@ export const stageNameAt = (s: Scenario, shot: Shot, t: number) => {
 
 /** Zeitpunkte (0…1) der Bühnenwechsel innerhalb eines Abschnitts */
 export const stageCuts = (shot: Shot) => (Array.isArray(shot.stage) ? shot.stage.map((k) => k.t).filter((t) => t > 0) : []);
+
+/** Enge-Wert (0 … 1) zum Zeitpunkt t, weich zwischen den Zeitpunkten */
+const tightAt = (keys: {t: number; v: number}[], t: number) => {
+  if (t <= keys[0].t) return keys[0].v;
+  for (let i = 0; i < keys.length - 1; i++) {
+    if (t < keys[i + 1].t) {
+      const u = (t - keys[i].t) / (keys[i + 1].t - keys[i].t);
+      return keys[i].v + (keys[i + 1].v - keys[i].v) * (0.5 - 0.5 * Math.cos(Math.PI * u));
+    }
+  }
+  return keys[keys.length - 1].v;
+};
 
 /** Die drei Karten (während Optionen, Countdown, Auflösung) */
 const Cards = ({s, sec, local}: {s: Scenario; sec: Section; local: number}) => {
@@ -100,6 +113,8 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
         ? local - Math.round(shot.flash * sec.duration)
         : local;
   const stageName = stageNameAt(s, shot, frozen ? shot.freeze! : t);
+  // Enge/Panik-Wirkung (leichter Zoom + dunkler Rand) – friert beim Einfrieren mit ein
+  const tightV = shot.tight?.length ? tightAt(shot.tight, frozen ? shot.freeze! : t) : 0;
   const stage = STAGES[stageName];
 
   // kurzer Abblende-Übergang an jedem Schnitt (auch bei Bühnenwechsel mitten im Abschnitt)
@@ -121,6 +136,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
               : undefined,
           }}
         >
+          <AbsoluteFill style={{transform: tightV > 0.001 ? `scale(${1 + 0.07 * tightV})` : undefined}}>
           <Freeze frame={sec.from + (freezeLocal ?? 0)} active={frozen}>
             <Scene3D
               stage={stage}
@@ -130,6 +146,14 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
               seconds={sec.duration / fps}
             />
           </Freeze>
+          </AbsoluteFill>
+          {tightV > 0.001 && (
+            <AbsoluteFill
+              style={{
+                background: `radial-gradient(ellipse 62% 48% at 50% 47%, rgba(8,6,12,0) ${Math.round(70 - 28 * tightV)}%, rgba(8,6,12,${(0.8 * tightV).toFixed(3)}) 100%)`,
+              }}
+            />
+          )}
         </AbsoluteFill>
       ) : (
         <AbsoluteFill style={{color: 'white', fontSize: 50, padding: 100}}>Unbekannte Bühne: {stageName}</AbsoluteFill>
@@ -217,6 +241,18 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
             />
           ) : null}
         </>
+      )}
+
+      {/* Atem-Anzeige (optional, "breathGuide": [Beginn, Ende]) */}
+      {shot.breathGuide && t >= shot.breathGuide[0] && t <= shot.breathGuide[1] + 0.03 && (
+        <BreathGuide
+          sec={(t - shot.breathGuide[0]) * (sec.duration / fps)}
+          appear={Math.min(
+            interpolate(local - shot.breathGuide[0] * sec.duration, [0, 10], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
+            interpolate(local - shot.breathGuide[1] * sec.duration, [0, 8], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
+          )}
+          top={1110}
+        />
       )}
 
       {/* Stoppuhr (optional, aus der Szenario-Datei: "timer") */}

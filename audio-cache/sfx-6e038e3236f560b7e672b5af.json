@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Single human heartbeat, one double thump lub-dub, deep, close, clean, no music",
+  "duration": 0.6,
+  "loop": false,
+  "promptInfluence": 0.75,
+  "createdAt": "2026-11-12T20:52:37.540Z"
+}

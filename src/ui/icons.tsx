@@ -67,6 +67,17 @@ const Fire = ({size, color}: {size: number; color: string}) => (
   </svg>
 );
 
+/** Psyche: Kopf im Profil mit Herz darin */
+const Psyche = ({size, color}: {size: number; color: string}) => (
+  <svg width={size} height={size} viewBox="0 0 100 100">
+    <path
+      d="M44 8 C66 8 82 24 82 44 C82 52 86 58 90 64 C92 67 90 70 86 70 H80 V80 C80 86 75 90 69 90 H58 V96 H24 V76 C14 68 8 56 8 44 C8 24 24 8 44 8 Z"
+      fill={color}
+    />
+    <path d="M44 66 C30 56 24 50 24 42 C24 36 29 32 34 32 C38 32 42 34 44 38 C46 34 50 32 54 32 C59 32 64 36 64 42 C64 50 58 56 44 66 Z" fill="#2a2d31" />
+  </svg>
+);
+
 const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wildtiere: {label: 'Wildtiere', Icon: Paw},
   verkehr: {label: 'Verkehr', Icon: Car},
@@ -74,6 +85,7 @@ const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wasser: {label: 'Wasser', Icon: Water},
   'erste-hilfe': {label: 'Erste Hilfe', Icon: FirstAid},
   feuer: {label: 'Feuer', Icon: Fire},
+  psyche: {label: 'Psyche', Icon: Psyche},
 };
 
 export const categoryInfo = (id: string) => CATEGORIES[id] ?? {label: id, Icon: Warning};

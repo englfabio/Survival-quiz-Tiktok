@@ -42,7 +42,8 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall', 'peek', 'wiggle', 'withdraw',
   'boxguard', 'hitstagger', 'dazed', 'searchkneel', 'pickcrown', 'holdtooth', 'rinsetooth', 'wraptooth', 'placetooth', 'dentalsit',
   'guard', 'punch', 'victory', 'fly', 'lie',
-  'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs'];
+  'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs',
+  'wallpress', 'clench', 'bedsitdown', 'sitbreathe', 'uneasy', 'holdstrap', 'float', 'appear', 'shrink', 'spout'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -56,6 +57,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'boxguard', 'hitstagger', 'dazed', 'searchkneel', 'pickcrown', 'holdtooth', 'rinsetooth', 'wraptooth', 'placetooth', 'dentalsit',
   'guard', 'punch', 'victory',
   'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs',
+  'wallpress', 'clench', 'bedsitdown', 'sitbreathe', 'uneasy', 'holdstrap',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */
@@ -98,6 +100,8 @@ export type ActorState = {
   values: ActorValues;
   /** Atemwolken: aufsummierte Atemzüge seit Abschnittsbeginn (damit sich das Tempo weich ändert) */
   breathPhase: number;
+  /** Herzschläge seit Abschnittsbeginn (Herz-Symbol) */
+  heartPhase?: number;
   /** Sekunden seit Abschnittsbeginn (für Blitze/Zittern; wird in resolveActors gesetzt) */
   sectionTime?: number;
 };
@@ -201,13 +205,13 @@ export const sampleActor = (keys: ActorKey[], t: number, sectionSeconds: number)
 };
 
 /** Atemzüge seit Abschnittsbeginn (Summe über das Atemtempo "breath") – nur wenn ein Zeitpunkt "breath" hat */
-export const breathPhaseAt = (keys: ActorKey[], t: number, sectionSeconds: number) => {
-  if (!keys.some((k) => k.breath !== undefined)) return 0;
-  const N = 90;
+export const breathPhaseAt = (keys: ActorKey[], t: number, sectionSeconds: number, value: 'breath' | 'heart' = 'breath') => {
+  if (!keys.some((k) => k[value] !== undefined)) return 0;
+  const N = value === 'heart' ? 240 : 90;
   let sum = 0;
   for (let i = 0; i < N; i++) {
     const tt = ((i + 0.5) / N) * t;
-    sum += sampleActor(keys, tt, sectionSeconds).values.breath * (t / N) * sectionSeconds;
+    sum += sampleActor(keys, tt, sectionSeconds).values[value] * (t / N) * sectionSeconds;
   }
   return sum;
 };
