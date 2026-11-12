@@ -1674,7 +1674,7 @@
             "z": 0.2,
             "motion": "uneasy",
             "face": 180,
-            "heart": 1.7,
+            "heart": 0,
             "pack": 0
           },
           {
@@ -1683,7 +1683,7 @@
             "z": 0.2,
             "motion": "uneasy",
             "face": 180,
-            "heart": 1.8
+            "heart": 0
           },
           {
             "t": 0.3381,
@@ -1691,7 +1691,7 @@
             "z": -0.5,
             "motion": "holdstrap",
             "face": 180,
-            "heart": 1.8
+            "heart": 0
           },
           {
             "t": 1,
@@ -1699,7 +1699,7 @@
             "z": -0.5,
             "motion": "holdstrap",
             "face": 180,
-            "heart": 1.8
+            "heart": 0
           }
         ],
         "kaltwasser": [

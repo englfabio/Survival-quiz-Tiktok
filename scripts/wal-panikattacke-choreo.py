@@ -236,7 +236,7 @@ outro = {
  'camera': [cam(0, [0.3, 1.75, 5.4], [-0.9, 1.6, 0.3]), cam(r3(cut_a - 0.004), [0.3, 1.74, 5.1], [-0.9, 1.6, 0.3]),
             cam(cut_a, [0.0, 1.75, 4.8], [0.0, 1.95, 0.0]), cam(r3(cut_b - 0.004), [0.0, 1.75, 4.5], [0.0, 1.95, 0.0]),
             cam(cut_b, [0.3, 1.85, 4.2], [-0.25, 1.95, -0.8]), cam(1, [0.28, 1.84, 3.9], [-0.25, 1.95, -0.8])],
- 'actors': {'dummy': dummyO,
+ 'actors': {'dummy': [dict(k, heart=0) if 'heart' in k else k for k in dummyO],  # Herz-Symbol im Outro aus (läge hinter dem Text) – nur Herzschlag-Ton + Vignette
             'kaltwasser': [K(0, GLASS[0], GLASS[1], 'stand', 0, y=DESK_H, fill=0.7), K(r3(cut_a - 0.002), GLASS[0], GLASS[1], 'stand', 0, y=DESK_H), K(cut_a, 0, 0, 'stand', 0, y=HIDE)]},
  'tight': [{'t': 0, 'v': 0}, {'t': r3(cut_a - 0.002), 'v': 0}, {'t': cut_a, 'v': 0.35}, {'t': 1, 'v': 0.45}],
  'sfx': [{'t': r3(cut_a + sec(L4, 0.2)), 'id': 'aufzug-ding', 'volume': 0.35}] + [c for c in heart_sfx(L4, dummyO, vol=0.18) if c['t'] >= cut_a],

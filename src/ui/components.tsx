@@ -702,7 +702,8 @@ export const BreathGuide = ({sec, appear, top, left = T.left, width = 520}: {sec
   const c = ((sec % 6) + 6) % 6;
   const inhale = c < 2;
   const pos = c / 6;
-  const inW = width / 3;
+  const inW = (width - 28) / 3;
+  const barW = width - 28;
   const glow = (on: boolean) => (on ? 1 : 0.38);
   return (
     <div
@@ -716,6 +717,10 @@ export const BreathGuide = ({sec, appear, top, left = T.left, width = 520}: {sec
         fontFamily: T.font,
         fontWeight: 700,
         textTransform: 'uppercase',
+        background: 'rgba(20,24,28,0.82)',
+        borderRadius: 14,
+        padding: '8px 14px 14px',
+        boxSizing: 'border-box',
       }}
     >
       <div style={{display: 'flex', justifyContent: 'space-between', color: T.white, fontSize: 36, marginBottom: 6, letterSpacing: 1, textShadow: '0 2px 6px rgba(0,0,0,0.8)'}}>
@@ -729,7 +734,7 @@ export const BreathGuide = ({sec, appear, top, left = T.left, width = 520}: {sec
         <div
           style={{
             position: 'absolute',
-            left: pos * width - 14,
+            left: pos * barW - 14,
             top: 3,
             width: 22,
             height: 22,

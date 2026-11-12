@@ -1465,7 +1465,7 @@ export const sitExtras = (p: DummyPose, pack: number, sip: number): DummyPose =>
   const q: DummyPose = {...p, armL: {...p.armL}, armR: {...p.armR}};
   const rest: P3 = [-0.06, 0.78, 0.22];
   const spot = use === 'pack' ? SIT_SPOT_PACK : SIT_SPOT_GLASS;
-  const goal: P3 = use === 'pack' ? [-0.1, 1.25, -0.06] : [-0.02, 1.3, 0.26];
+  const goal: P3 = use === 'pack' ? [-0.16, 1.26, -0.04] : [-0.02, 1.3, 0.26];
   let tgt: P3;
   if (k < 0.35) tgt = lerp3t(rest, spot, easeInOut(k / 0.35));
   else tgt = lerp3t(spot, goal, easeInOut((k - 0.35) / 0.65));
@@ -2620,7 +2620,7 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
     return (
       <group position={tip} quaternion={level}>
-        <group position={[-0.03, 0.0, 0.0]} rotation={[Math.PI / 2 - 0.2, 0, 0.5]} scale={1.7}>
+        <group position={[-0.03, 0.0, 0.0]} rotation={[Math.PI / 2 - 0.2, 0, 0.5]} scale={1.9}>
           <CoolPack />
         </group>
       </group>
