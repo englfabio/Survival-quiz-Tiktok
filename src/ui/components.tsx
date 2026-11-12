@@ -718,7 +718,7 @@ export const BreathGuide = ({sec, appear, top, left = T.left, width = 520}: {sec
         textTransform: 'uppercase',
       }}
     >
-      <div style={{display: 'flex', justifyContent: 'space-between', color: T.white, fontSize: 30, marginBottom: 6, letterSpacing: 1}}>
+      <div style={{display: 'flex', justifyContent: 'space-between', color: T.white, fontSize: 36, marginBottom: 6, letterSpacing: 1, textShadow: '0 2px 6px rgba(0,0,0,0.8)'}}>
         <span style={{width: inW, textAlign: 'center', opacity: glow(inhale)}}>Ein · kurz</span>
         <span style={{flex: 1, textAlign: 'center', opacity: glow(!inhale)}}>Aus · lang</span>
       </div>

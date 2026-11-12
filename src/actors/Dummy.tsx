@@ -1451,9 +1451,9 @@ const sitBreathePose = (time: number): DummyPose => {
   p.puffPhase = time >= 2 ? Math.floor((time - 2) / 6) + 1 + (((time - 2) % 6) / 6) : 0;
   return p;
 };
-/** Wo Coolpack/Glas neben dem sitzenden Dummy liegen (rechts neben ihm, z. B. Nachttisch 0,55 m hoch) */
-export const SIT_SPOT_PACK: [number, number, number] = [-0.5, 0.6, 0.12];
-export const SIT_SPOT_GLASS: [number, number, number] = [-0.5, 0.6, 0.3];
+/** Wo Coolpack/Glas neben dem sitzenden Dummy liegen (rechts neben ihm, z. B. Beistelltisch 0,72 m hoch) */
+export const SIT_SPOT_PACK: [number, number, number] = [-0.55, 0.78, 0.05];
+export const SIT_SPOT_GLASS: [number, number, number] = [-0.55, 0.8, 0.25];
 /**
  * Coolpack (pack) bzw. Wasserglas (sip) über die Sitz-Haltung mischen: 0 … 0,35 = Hand greift zur Ablage rechts neben ihm,
  * 0,35 … 1 = Coolpack in den Nacken bzw. Glas zum Mund (bei 1 gekippt). Ab 0,35 ist der Gegenstand in der Hand.
@@ -1465,7 +1465,7 @@ export const sitExtras = (p: DummyPose, pack: number, sip: number): DummyPose =>
   const q: DummyPose = {...p, armL: {...p.armL}, armR: {...p.armR}};
   const rest: P3 = [-0.06, 0.78, 0.22];
   const spot = use === 'pack' ? SIT_SPOT_PACK : SIT_SPOT_GLASS;
-  const goal: P3 = use === 'pack' ? [-0.04, 1.27, -0.1] : [-0.02, 1.3, 0.26];
+  const goal: P3 = use === 'pack' ? [-0.1, 1.25, -0.06] : [-0.02, 1.3, 0.26];
   let tgt: P3;
   if (k < 0.35) tgt = lerp3t(rest, spot, easeInOut(k / 0.35));
   else tgt = lerp3t(spot, goal, easeInOut((k - 0.35) / 0.65));
@@ -1494,8 +1494,8 @@ const panicPose = (motion: Motion, time: number): DummyPose | null => {
       p.headY = 0.22 + Math.sin(time * 0.55) * 0.12;
       p.legL = L3(0.05, 0.1, 0.06);
       p.legR = L3(0.05, -0.1, 0.06);
-      reachR(p, [-0.42 + tr, 1.02, -0.16], 0.36, [0.9, -0.4, 0.2]);
-      reachL(p, [0.42 - tr, 1.05, -0.16], 0.36, [0.9, -0.4, 0.2]);
+      reachR(p, [-0.55 + tr, 1.3, -0.14], 0.36, [0.6, -0.9, 0.1]);
+      reachL(p, [0.55 - tr, 1.33, -0.14], 0.36, [0.6, -0.9, 0.1]);
       return p;
     }
     case 'clench': {
@@ -2620,7 +2620,7 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
     return (
       <group position={tip} quaternion={level}>
-        <group position={[0, 0.0, 0.0]} rotation={[Math.PI / 2 - 0.2, 0, 0]} scale={1.25}>
+        <group position={[-0.03, 0.0, 0.0]} rotation={[Math.PI / 2 - 0.2, 0, 0.5]} scale={1.7}>
           <CoolPack />
         </group>
       </group>

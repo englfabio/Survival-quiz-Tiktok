@@ -76,16 +76,16 @@ def heart_sfx(c, keys, t_end=1.0, vol=0.35, vol_end=None):
 
 # ---- feste Plätze (Bühne schlafzimmer, siehe src/stage/Bedroom.tsx) ----
 DX, DZ, DF = -1.12, -1.66, 162            # Dummy an der Rückwand links, schaut leicht zum Wal
-WX, WZ, WF, WY = 1.25, -0.95, 252, 0.12   # Wal schwebt über dem Bett, Kopf zum Dummy
-CHX, CHZ, CHF = -0.95, -0.55, 160         # Schreibtischstuhl (zur Kamera gedreht)
-DESK_H = 0.75
+WX, WZ, WF, WY = 1.15, -0.85, 240, 0.38   # Wal schwebt über dem Bett, Kopf zum Dummy
+CHX, CHZ, CHF = -1.25, 0.55, 145          # Stuhl in der Leseecke
+DESK_H = 0.72                             # Beistelltisch
 def rot(face, lx, lz):
     """Dummy-System → Welt (Drehung um y um 180 − face)"""
     th = math.radians(180 - face)
     return (lx * math.cos(th) + lz * math.sin(th), -lx * math.sin(th) + lz * math.cos(th))
 # Glas + Coolpack auf dem Schreibtisch, rechts neben dem sitzenden Dummy (passt zu SIT_SPOT_* in Dummy.tsx)
-gx, gz = rot(CHF, -0.5, 0.3); GLASS = (CHX + gx, CHZ + gz)
-px, pz = rot(CHF, -0.5, 0.1); PACK = (CHX + px, CHZ + pz)
+gx, gz = rot(CHF, -0.55, 0.25); GLASS = (CHX + gx, CHZ + gz)
+px, pz = rot(CHF, -0.55, 0.05); PACK = (CHX + px, CHZ + pz)
 def desk_props(glass=True, pack=True):
     a = {}
     a['kaltwasser'] = [K(0, GLASS[0], GLASS[1], 'stand', 0, y=DESK_H if glass else HIDE, fill=1)]
@@ -104,9 +104,9 @@ dummy0 = [K(0, DX, DZ, 'wallpress', DF, heart=1.5, breath=1.2, heave=0.5),
           K(c_herz, DX, DZ, 'wallpress', DF, heart=2.3, breath=1.8, heave=1.0),
           K(1, DX, DZ, 'wallpress', DF, heart=2.4, breath=1.9, heave=1.0)]
 situation = {
- 'camera': [cam(0, [-0.15, 1.75, 4.3], [-0.05, 1.15, -1.1]), cam(r3(c_herz - 0.004), [-0.2, 1.7, 3.9], [-0.1, 1.15, -1.1]),
-            cam(r3(c_herz), [-0.35, 1.6, 0.6], [DX + 0.15, 1.45, DZ]), cam(r3(c_was - 0.004), [-0.4, 1.58, 0.35], [DX + 0.15, 1.45, DZ]),
-            cam(r3(c_was), [-0.2, 1.8, 4.0], [-0.05, 1.15, -1.1]), cam(1, [-0.2, 1.75, 3.75], [-0.05, 1.15, -1.1])],
+ 'camera': [cam(0, [-0.3, 2.05, 6.3], [-0.35, 1.1, -1.0]), cam(r3(c_herz - 0.004), [-0.3, 2.0, 5.6], [-0.35, 1.1, -1.0]),
+            cam(r3(c_herz), [-0.85, 1.65, 2.0], [DX + 0.1, 1.5, DZ]), cam(r3(c_was - 0.004), [-0.85, 1.65, 1.75], [DX + 0.1, 1.5, DZ]),
+            cam(r3(c_was), [-0.3, 2.0, 5.6], [-0.35, 1.1, -1.0]), cam(1, [-0.3, 1.97, 5.2], [-0.35, 1.1, -1.0])],
  'actors': {
   'dummy': dummy0,
   'wal': [K(0, WX, WZ, 'appear', WF, y=WY, size=0, squish=0.1), K(sec(L0, 1.6), WX, WZ, 'appear', WF, size=0.05, squish=0.35),
@@ -125,10 +125,10 @@ def still(p0, l0, p1, l1, c=None):
           'actors': {'dummy': d, 'wal': whale(), **desk_props()},
           'tight': [{'t': 0, 'v': 0.45}]}
     return sh
-OL = [0.0, 1.0, -1.1]
-options = still([0.15, 2.7, 6.6], OL, [0.12, 2.65, 6.3], OL)
-countdown = still([0.12, 2.65, 6.3], OL, [0.1, 2.62, 6.1], OL)
-reveal = still([0.1, 2.62, 6.1], OL, [0.08, 2.6, 5.95], OL)
+OL = [-0.4, 0.5, -1.1]
+options = still([-0.38, 3.15, 6.9], OL, [-0.38, 3.1, 6.6], OL)
+countdown = still([-0.38, 3.1, 6.6], OL, [-0.38, 3.07, 6.4], OL)
+reveal = still([-0.38, 3.07, 6.4], OL, [-0.38, 3.05, 6.25], OL)
 
 # ================= Option 1: schnell viel Luft holen =================
 L1 = 'explain1'
@@ -138,11 +138,11 @@ dummy1 = [K(0, DX, DZ, 'wallpress', DF, heart=2.2, breath=1.7, heave=0.9),
           K(fz1, DX, DZ, 'wallpress', DF, heart=3.4, breath=3.2, heave=1.0),
           K(1, DX, DZ, 'wallpress', DF)]
 exp1 = {
- 'camera': [cam(0, [0.1, 1.75, 3.6], [-0.3, 1.25, -1.2]), cam(fz1, [-0.15, 1.65, 2.6], [-0.55, 1.35, -1.3]), cam(1, [-0.2, 1.62, 2.4], [-0.6, 1.36, -1.3])],
+ 'camera': [cam(0, [-0.5, 1.85, 5.4], [-0.5, 1.2, -1.2]), cam(fz1, [-0.45, 1.75, 4.6], [-0.45, 1.3, -1.3]), cam(1, [-0.46, 1.74, 4.4], [-0.46, 1.31, -1.3])],
  'actors': {
   'dummy': dummy1,
   'wal': [K(0, WX, WZ, 'spout', WF, y=WY, size=0.05, squish=0.35), K(sec(L1, 0.5), WX, WZ, 'spout', WF, size=0.05, squish=0.35),
-          K(fz1, WX - 0.1, WZ, 'spout', WF, size=0.3, squish=1.0), K(1, WX - 0.1, WZ, 'spout', WF)],
+          K(fz1, WX + 0.05, WZ - 0.05, 'spout', WF, size=0.22, squish=1.0), K(1, WX + 0.05, WZ - 0.05, 'spout', WF)],
   **desk_props(),
  },
  'tight': [{'t': 0, 'v': 0.5}, {'t': fz1, 'v': 1.0}],
@@ -158,11 +158,11 @@ dummy2 = [K(0, DX, DZ, 'wallpress', DF, heart=2.2, breath=1.6, heave=0.8),
           K(fz2, DX, DZ + 0.05, 'clench', DF, heart=3.0, breath=1.0, heave=0.3),
           K(1, DX, DZ + 0.05, 'clench', DF)]
 exp2 = {
- 'camera': [cam(0, [0.1, 1.75, 3.6], [-0.3, 1.25, -1.2]), cam(fz2, [-0.15, 1.65, 2.6], [-0.55, 1.35, -1.3]), cam(1, [-0.2, 1.62, 2.4], [-0.6, 1.36, -1.3])],
+ 'camera': [cam(0, [-0.5, 1.85, 5.4], [-0.5, 1.2, -1.2]), cam(fz2, [-0.45, 1.75, 4.6], [-0.45, 1.3, -1.3]), cam(1, [-0.46, 1.74, 4.4], [-0.46, 1.31, -1.3])],
  'actors': {
   'dummy': dummy2,
   'wal': [K(0, WX, WZ, 'spout', WF, y=WY, size=0.05, squish=0.35), K(sec(L2, 0.6), WX, WZ, 'spout', WF, size=0.05, squish=0.35),
-          K(fz2, WX - 0.1, WZ, 'spout', WF, size=0.3, squish=1.0), K(1, WX - 0.1, WZ, 'spout', WF)],
+          K(fz2, WX + 0.05, WZ - 0.05, 'spout', WF, size=0.22, squish=1.0), K(1, WX + 0.05, WZ - 0.05, 'spout', WF)],
   **desk_props(),
  },
  'tight': [{'t': 0, 'v': 0.5}, {'t': fz2, 'v': 1.0}],
@@ -206,8 +206,8 @@ wal3 = [K(0, WX, WZ, 'spout', WF, y=WY, size=0.05, squish=0.35), K(c_lass, WX, W
         K(c_panik, WX, WZ, 'spout', WF, size=-0.25, squish=0), K(r3(shr0 - 0.002), WX, WZ, 'spout', WF, size=-0.3),
         K(shr0, WX, WZ, 'shrink', WF, size=-0.3), K(1, WX, WZ, 'shrink', WF)]
 exp3 = {
- 'camera': [cam(0, [0.55, 1.45, 2.6], [-0.75, 1.0, -0.75]), cam(r3(c_wasser - 0.004), [0.45, 1.4, 2.25], [-0.8, 0.98, -0.65]),
-            cam(r3(c_wasser), [0.2, 1.35, 1.55], [-0.95, 1.0, -0.55]), cam(1, [0.15, 1.33, 1.4], [-0.95, 1.0, -0.55])],
+ 'camera': [cam(0, [0.1, 1.95, 6.6], [-0.5, 1.15, -0.3]), cam(r3(c_wasser - 0.004), [0.1, 1.92, 6.2], [-0.52, 1.15, -0.3]),
+            cam(r3(c_wasser), [0.25, 1.75, 4.3], [-1.3, 1.2, 0.5]), cam(1, [0.23, 1.74, 4.1], [-1.3, 1.2, 0.5])],
  'actors': {'dummy': dummy3, 'wal': wal3, 'kaltwasser': glass3, 'coolpack': pack3},
  'tight': [{'t': 0, 'v': 0.55}, {'t': c_lass, 'v': 0.35}, {'t': c_vorbei, 'v': 0.15}, {'t': c_panik, 'v': 0}],
  'breathGuide': [breathe0, r3(c_wasser - sec(L3, 0.2))],
@@ -233,9 +233,9 @@ dummyO = [K(0, CHX, CHZ, 'sitbreathe', CHF, heart=0, pack=1),
           K(cut_b, -0.31, -0.5, 'holdstrap', 180, heart=1.8), K(1, -0.31, -0.5, 'holdstrap', 180, heart=1.8)]
 outro = {
  'stage': [{'t': 0, 'stage': 'schlafzimmer'}, {'t': cut_a, 'stage': 'aufzug'}, {'t': cut_b, 'stage': 'bahn'}],
- 'camera': [cam(0, [0.35, 1.5, 2.9], [-0.6, 1.0, -0.8]), cam(r3(cut_a - 0.004), [0.33, 1.48, 2.7], [-0.6, 1.0, -0.8]),
-            cam(cut_a, [0.0, 1.6, 2.9], [0.0, 1.25, -0.3]), cam(r3(cut_b - 0.004), [0.0, 1.58, 2.6], [0.0, 1.25, -0.3]),
-            cam(cut_b, [0.35, 1.65, 2.9], [-0.25, 1.3, -1.2]), cam(1, [0.3, 1.63, 2.6], [-0.25, 1.3, -1.2])],
+ 'camera': [cam(0, [0.3, 1.75, 5.4], [-0.9, 1.6, 0.3]), cam(r3(cut_a - 0.004), [0.3, 1.74, 5.1], [-0.9, 1.6, 0.3]),
+            cam(cut_a, [0.0, 1.75, 4.8], [0.0, 1.95, 0.0]), cam(r3(cut_b - 0.004), [0.0, 1.75, 4.5], [0.0, 1.95, 0.0]),
+            cam(cut_b, [0.3, 1.85, 4.2], [-0.25, 1.95, -0.8]), cam(1, [0.28, 1.84, 3.9], [-0.25, 1.95, -0.8])],
  'actors': {'dummy': dummyO,
             'kaltwasser': [K(0, GLASS[0], GLASS[1], 'stand', 0, y=DESK_H, fill=0.7), K(r3(cut_a - 0.002), GLASS[0], GLASS[1], 'stand', 0, y=DESK_H), K(cut_a, 0, 0, 'stand', 0, y=HIDE)]},
  'tight': [{'t': 0, 'v': 0}, {'t': r3(cut_a - 0.002), 'v': 0}, {'t': cut_a, 'v': 0.35}, {'t': 1, 'v': 0.45}],
@@ -275,6 +275,8 @@ scen = {
 }
 for _sh in [situation, options, countdown, reveal, outro, exp1, exp2, exp3]:
     _sh['sharpCuts'] = True
+    for _k in _sh['actors'].get('wal', []):
+        _k.setdefault('y', WY)   # y gilt nur pro Zeitpunkt → beim Wal immer mitgeben
 json.dump(scen, open(f'{ROOT}/scenarios/{ID}.json', 'w'), ensure_ascii=False, indent=2)
 print('cues', dict(herz=c_herz, fz1=fz1, fz2=fz2, sit0=sit0, breathe0=breathe0, sip0=sip0, pk0=pk0, shr0=shr0, gone=gone, cut_a=cut_a, cut_b=cut_b),
       'audio' if dur else 'geschätzt', {k: seclen(k) for k in TEXT})

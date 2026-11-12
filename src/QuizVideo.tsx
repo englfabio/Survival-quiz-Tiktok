@@ -251,7 +251,9 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
             interpolate(local - shot.breathGuide[0] * sec.duration, [0, 10], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
             interpolate(local - shot.breathGuide[1] * sec.duration, [0, 8], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
           )}
-          top={1110}
+          top={1090}
+          left={410}
+          width={500}
         />
       )}
 

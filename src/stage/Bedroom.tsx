@@ -10,8 +10,8 @@ import type {StageDef} from './types';
  * "schlafzimmer" – kleines, gemütliches Schlafzimmer am Abend. W 3.6 (x −1.8 … 1.8), D 3.8 (Rückwand z −1.9), H 2.5.
  *   Bett an der Rückwand rechts (x −0.05 … 1.75, z −1.9 … −0.95, Matratze 0,47 m, Kopfteil rechts an der Wand),
  *   Nachttisch mit Lampe (x −0.3, z −1.7, Platte 0,52 m), Schreibtisch an der linken Wand (x −1.8 … −1.25,
- *   z −1.0 … 0.2, Platte 0,75 m) mit Lampe, Büchern, Laptop; Schreibtischstuhl (Mitte −0.95, −0.55, zur Kamera gedreht,
- *   Sitz 0,45 m); Fenster links über dem Schreibtisch (Abendhimmel mit Mond), Tür in der rechten Wand vorn
+ *   z −1.0 … 0.2, Platte 0,75 m) mit Lampe, Büchern, Laptop; Stuhl in der Leseecke vorn links (Mitte −1.25, 0.55, face 145, Sitz 0,45 m) mit rundem
+ *   Beistelltisch rechts daneben (−1.6, 1.0, Platte 0,72 m); Fenster links über dem Schreibtisch (Abendhimmel mit Mond), Tür in der rechten Wand vorn
  *   (z 0.55 … 1.45), Teppich, Poster, Pflanze. Platz für den Dummy an der Rückwand links: (−1.15, −1.62).
  * "aufzug" – kleine Aufzugkabine (W 1.7, D 1.6, H 2.3, Rückwand z −0.8), gebürsteter Stahl, Handlauf, Spiegel,
  *   Tastenfeld rechts, Stockwerk-Anzeige; zwei stilisierte Mitfahrende (ohne Gesicht).
@@ -19,7 +19,7 @@ import type {StageDef} from './types';
  *   (Höhe ca. 1,95 m bei x ±0.45), Fenster mit vorbeihuschenden Tunnel-Lichtern, viele stilisierte Fahrgäste.
  */
 
-export const BEDROOM = {W: 3.6, D: 3.8, H: 2.5, desk: {x: -1.525, z: -0.4, h: 0.75}, chair: {x: -0.95, z: -0.55, face: 160}, nightstand: {x: -0.3, z: -1.7, h: 0.52}};
+export const BEDROOM = {W: 3.6, D: 3.8, H: 2.5, desk: {x: -1.525, z: -0.4, h: 0.75}, chair: {x: -1.25, z: 0.55, face: 145}, sideTable: {x: -1.6, z: 1.0, h: 0.72}, nightstand: {x: -0.3, z: -1.7, h: 0.52}};
 
 const Bed = () => {
   const m = useMemo(
@@ -187,6 +187,18 @@ const BedroomScene = () => {
       <group position={[chair.x, 0, chair.z]} rotation={[0, ((180 - chair.face) * Math.PI) / 180, 0]}>
         <Chair color="#d07a4f" />
       </group>
+      {/* runder Beistelltisch rechts neben dem Stuhl (Glas + Coolpack) */}
+      <group position={[BEDROOM.sideTable.x, 0, BEDROOM.sideTable.z]}>
+        <mesh material={mats.wood} position={[0, BEDROOM.sideTable.h - 0.02, 0]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.27, 0.27, 0.04, 16]} />
+        </mesh>
+        <mesh material={mats.woodDark} position={[0, (BEDROOM.sideTable.h - 0.04) / 2, 0]}>
+          <cylinderGeometry args={[0.03, 0.03, BEDROOM.sideTable.h - 0.04, 8]} />
+        </mesh>
+        <mesh material={mats.woodDark} position={[0, 0.015, 0]}>
+          <cylinderGeometry args={[0.18, 0.2, 0.03, 12]} />
+        </mesh>
+      </group>
       {/* Teppich */}
       <mesh position={[0.1, 0.006, -0.1]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <circleGeometry args={[0.95, 20]} />
@@ -230,7 +242,7 @@ const BedroomScene = () => {
           <meshStandardMaterial color={['#4f8f63', '#7d4f8f', '#3f6fa6', '#c9573c'][i]} />
         </mesh>
       ))}
-      <group position={[-1.55, 0, 0.75]}>
+      <group position={[1.45, 0, 0.15]}>
         <Plant s={1.1} />
       </group>
     </Room>
@@ -444,7 +456,7 @@ const TrainScene = () => {
         </group>
       ))}
       {/* senkrechte Stangen */}
-      {[-3.2, 0.9, 4.5].map((z) => (
+      {[-3.0, -6.2].map((z) => (
         <mesh key={z} material={mats.pole} position={[0, 1.15, z]}>
           <cylinderGeometry args={[0.02, 0.02, 2.3, 8]} />
         </mesh>

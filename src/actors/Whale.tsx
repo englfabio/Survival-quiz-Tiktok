@@ -81,22 +81,24 @@ export const whalePose = (motion: Motion, time: number): WhalePose => {
 const Eye = ({side, blink, m}: {side: 1 | -1; blink: number; m: ReturnType<typeof useMats>}) => {
   const open = Math.max(0.06, 1 - blink);
   return (
-    <group position={[0.66 * side, 0.98, 1.2]} rotation={[0, side * 0.95, 0]}>
+    <group position={[0.6 * side, 1.08, 1.22]} rotation={[0, side * 0.9, 0]} scale={1.15}>
       <mesh material={m.white} scale={[1, 1, 0.45]}>
         <sphereGeometry args={[0.15, 14, 10]} />
       </mesh>
       <group scale={[1, open, 1]}>
-        <mesh material={m.pupil} position={[0, -0.01, 0.055]} scale={[1, 1.1, 0.4]}>
-          <sphereGeometry args={[0.095, 12, 8]} />
+        <mesh material={m.pupil} position={[0, -0.01, 0.055]} scale={[1, 1.15, 0.4]}>
+          <sphereGeometry args={[0.1, 12, 8]} />
         </mesh>
         <mesh material={m.white} position={[-0.03, 0.035, 0.095]}>
           <sphereGeometry args={[0.028, 8, 6]} />
         </mesh>
       </group>
-      {/* Lid (Körperfarbe) schiebt sich von oben herunter */}
-      <mesh material={m.body} position={[0, 0.15 - 0.15 * blink, 0.01]} scale={[1.08, 0.55 + 0.5 * blink, 0.55]}>
-        <sphereGeometry args={[0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2]} />
-      </mesh>
+      {/* Lid (Körperfarbe) schiebt sich beim Blinzeln von oben herunter */}
+      {blink > 0.02 && (
+        <mesh material={m.body} position={[0, 0.02, 0.012]} scale={[1.08, 1.06 * blink, 0.5]}>
+          <sphereGeometry args={[0.15, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        </mesh>
+      )}
     </group>
   );
 };
@@ -179,6 +181,41 @@ const Sparkles = ({age, m}: {age: number; m: ReturnType<typeof useMats>}) => {
   );
 };
 
+/** Punkt auf der Körperoberfläche (Ellipsoid) in Richtung phi (0 = vorn) auf Höhe y */
+const surf = (phi: number, y: number, out = 1.01): [number, number, number] => {
+  const yy = (y - 0.82) / 0.78;
+  const r = Math.sqrt(Math.max(0, 1 - yy * yy));
+  const dx = Math.sin(phi) * 0.86 * r;
+  const dz = Math.cos(phi) * 1.75 * r;
+  return [dx * out, y, 0.05 + dz * out];
+};
+/** Lächeln: Mundlinie läuft vorn um den Kopf, Mundwinkel leicht nach oben */
+const Smile = ({m}: {m: ReturnType<typeof useMats>}) => {
+  const N = 14;
+  const pts: [number, number, number][] = [];
+  for (let i = 0; i <= N; i++) {
+    const u = (i / N) * 2 - 1; // −1 … 1
+    const phi = u * 1.05;
+    pts.push(surf(phi, 0.6 + 0.09 * u * u));
+  }
+  return (
+    <>
+      {pts.slice(0, -1).map((a, i) => {
+        const b = pts[i + 1];
+        const A = new THREE.Vector3(...a);
+        const B = new THREE.Vector3(...b);
+        const mid = A.clone().add(B).multiplyScalar(0.5);
+        const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), B.clone().sub(A).normalize());
+        return (
+          <mesh key={i} material={m.mouth} position={mid} quaternion={q}>
+            <cylinderGeometry args={[0.022, 0.022, A.distanceTo(B) + 0.01, 5]} />
+          </mesh>
+        );
+      })}
+    </>
+  );
+};
+
 export const Whale = ({pose, size = 0, squish = 0, time = 0}: {pose: WhalePose; size?: number; squish?: number; time?: number}) => {
   const m = useMats();
   const s = (1 + size) * pose.pop;
@@ -240,11 +277,10 @@ export const Whale = ({pose, size = 0, squish = 0, time = 0}: {pose: WhalePose; 
                 <mesh material={m.blush} position={[k * 0.74, 0.74, 1.38]} rotation={[0, k * 1.05, 0]} scale={[1, 0.6, 1]}>
                   <circleGeometry args={[0.12, 12]} />
                 </mesh>
-                <mesh material={m.mouth} position={[k * 0.5, 0.64, 1.42]} rotation={[0.15, k * 0.75, k * 0.18]}>
-                  <torusGeometry args={[0.36, 0.022, 4, 14, Math.PI * 0.42]} />
-                </mesh>
+{/* Lächeln: Mundlinie */}
               </group>
             ))}
+            <Smile m={m} />
             {/* Blasloch + Fontäne */}
             <mesh material={m.mouth} position={[0, 1.58, 0.75]} rotation={[-0.25, 0, 0]} scale={[1, 0.3, 0.6]}>
               <sphereGeometry args={[0.06, 8, 5]} />

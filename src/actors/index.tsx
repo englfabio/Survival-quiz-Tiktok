@@ -267,7 +267,7 @@ export const Actor = ({
   const qPos = pos.clone().add(new THREE.Vector3(0, 2.2, 0));
   // Herz-Symbol: links neben dem Kopf (aus Sicht der Kamera), Höhe passt zu Stehen/Sitzen
   const sitting = ['bedsitdown', 'sitbreathe', 'chairsit', 'couchsit'].includes(state.motion);
-  const heartPos = pos.clone().add(new THREE.Vector3(0, sitting ? 1.55 : 1.95, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().cross(new THREE.Vector3(0, 1, 0)).multiplyScalar(-0.42));
+  const heartPos = pos.clone().add(new THREE.Vector3(0, sitting ? 1.6 : 2.05, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().cross(new THREE.Vector3(0, 1, 0)).multiplyScalar(-0.32));
   // Zeit für Blitze/Zittern = Gesamtzeit im Abschnitt (läuft über Bewegungswechsel weiter, friert beim Einfrieren ein)
   const zt = state.sectionTime ?? state.motionTime;
   const shake = DUMMY_LIKE.includes(name) ? zapShake(zt, v.zap, name.length) : {pos: [0, 0, 0] as [number, number, number], rot: [0, 0, 0] as [number, number, number]};
