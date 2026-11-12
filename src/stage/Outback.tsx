@@ -13,11 +13,12 @@ import type {StageDef} from './types';
  * - Ring: Mitte (0, 0), Ringboden 0,5 m hoch (groundHeight), Kampffläche x/z −2.5 … 2.5, Eckpfosten bei ±2.6,
  *   Seile 0,45 / 0,8 / 1,15 m über dem Ringboden, Ringschürze bis ±2.85.
  * - Grasstreifen rund um den Ring (Abstand 2,9 … 4,3 m von der Mitte), vorn (+z) dichter.
+ * - Zahnstelle: OUTBACK.toothSpot (0.9, 3.55) – dort ist das Gras frei (Zahn liegt gut sichtbar).
  * - Klapptisch: TABLE (−3.3, 2.2), Platte 0,6 m hoch, 0,8 × 0,5 m.
  * - Eukalyptusbäume bei (−8, −7), (9, −9), (−13, 2), (12, 6), (−4, −16), (5, −22).
  */
 
-export const OUTBACK = {ringHalf: 2.5, post: 2.6, apron: 2.85, floor: 0.5, table: {x: -3.3, z: 2.2, h: 0.6}};
+export const OUTBACK = {ringHalf: 2.5, post: 2.6, apron: 2.85, floor: 0.5, table: {x: -3.3, z: 2.2, h: 0.6}, toothSpot: {x: 0.9, z: 3.55}};
 
 const C = {
   skyTop: '#4a3f7a',
@@ -237,6 +238,8 @@ const useLayout = () =>
     const add = (x: number, z: number, big = 1) => {
       if (inRing(x, z)) return;
       if (Math.hypot(x - OUTBACK.table.x, z - OUTBACK.table.z) < 0.5) return;
+      // freie Stelle im Gras, an der der Zahn liegt (gut sichtbar)
+      if (Math.hypot(x - OUTBACK.toothSpot.x, z - OUTBACK.toothSpot.z) < 0.42) return;
       const s = (0.08 + r() * 0.1) * big;
       tufts.push({pos: [x, 0, z], scale: [s * 1.4, s * (1.3 + r() * 0.8), s * 1.4], rotY: r() * 6, color: C.grass[Math.floor(r() * C.grass.length)]});
     };

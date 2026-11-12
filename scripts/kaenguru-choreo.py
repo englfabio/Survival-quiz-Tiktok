@@ -83,9 +83,9 @@ hop0 = r3(punch0 - sec(L0, 0.9))
 # Mund des Dummys (Startpunkt des Zahns): Kopf ca. 2,22 m über dem Boden (Ringboden 0,5)
 mx, mz = DX + fwd(DF)[0] * 0.14, DZ + fwd(DF)[1] * 0.14
 situation = {
- 'camera': [cam(0, [2.9, 2.15, 6.6], [0.0, 1.65, 0.0]), cam(r3(c_zahn - 0.004), [2.4, 2.05, 5.9], [0.1, 1.6, 0.4]),
-            cam(r3(c_zahn), [LX + 0.55, 0.42, LZ + 0.95], [LX, 0.08, LZ - 0.05]), cam(r3(c_was - 0.004), [LX + 0.45, 0.4, LZ + 0.8], [LX, 0.08, LZ - 0.05]),
-            cam(r3(c_was), [-0.2, 2.35, 3.2], [D2X, 2.1, D2Z]), cam(1, [-0.35, 2.33, 2.9], [D2X, 2.1, D2Z])],
+ 'camera': [cam(0, [0.5, 2.2, 6.6], [-0.1, 1.65, 0.1]), cam(r3(c_zahn - 0.004), [0.2, 2.1, 6.0], [-0.3, 1.6, 0.4]),
+            cam(r3(c_zahn), [LX + 0.3, 0.85, LZ + 0.95], [LX, 0.05, LZ]), cam(r3(c_was - 0.004), [LX + 0.25, 0.75, LZ + 0.78], [LX, 0.05, LZ]),
+            cam(r3(c_was), [D2X + 1.5, 2.3, D2Z - 0.45], [D2X, 2.05, D2Z]), cam(1, [D2X + 1.3, 2.28, D2Z - 0.38], [D2X, 2.05, D2Z])],
  'actors': {
   'kaenguru': [K(0, KX + 0.35, KZ - 0.25, 'guard', KF), K(hop0, KX + 0.35, KZ - 0.25, 'hop', KF), K(r3(punch0 - 0.004), KX, KZ, 'hop', KF),
                K(punch0, KX, KZ, 'punch', KF), K(r3(hit + sec(L0, 0.45)), KX, KZ, 'punch', KF), K(r3(hit + sec(L0, 0.5)), KX, KZ, 'victory', KF),
@@ -106,9 +106,9 @@ def still(p0, l0, p1, l1):
             'actors': {'kaenguru': [K(0, KX, KZ, 'victory', 215)],
                        'dummy': [K(0, D2X, D2Z, 'dazed', DF + 10, gloves=1, teeth=1, gap=1)],
                        'zahn': [K(0, LX, LZ, 'lie', 25, y=0.03, size=TOOTH_SIZE)]}}
-options = still([1.6, 2.8, 9.6], [-0.1, 1.15, 0.2], [1.3, 2.75, 9.1], [-0.1, 1.15, 0.2])
-countdown = still([1.3, 2.75, 9.1], [-0.1, 1.25, 0.2], [1.1, 2.7, 8.7], [-0.1, 1.25, 0.2])
-reveal = still([1.1, 2.7, 8.7], [-0.1, 1.2, 0.2], [1.0, 2.7, 8.5], [-0.1, 1.2, 0.2])
+options = still([-0.1, 2.9, 9.4], [-0.3, 1.05, 0.3], [-0.2, 2.85, 8.9], [-0.3, 1.05, 0.3])
+countdown = still([-0.2, 2.85, 8.9], [-0.3, 1.05, 0.3], [-0.25, 2.8, 8.6], [-0.3, 1.05, 0.3])
+reveal = still([-0.25, 2.8, 8.6], [-0.3, 1.05, 0.3], [-0.3, 2.8, 8.4], [-0.3, 1.05, 0.3])
 
 KANG_BG = [K(0, KX, KZ, 'victory', 200)]   # Känguru jubelt im Hintergrund
 
@@ -124,9 +124,9 @@ WF = 205
 pf = fwd(WF)
 palm = (DTX + pf[0] * 0.33, 1.0, DTZ + pf[1] * 0.33)
 exp1 = {
- 'camera': [cam(0, [TAPX + 0.5, 1.45, TAPZ + 2.35], [TAPX + 0.32, 0.95, TAPZ]), cam(r3(r1), [TAPX + 0.45, 1.4, TAPZ + 2.0], [TAPX + 0.35, 0.95, TAPZ]),
-            cam(w0, [TAPX + 0.55, 1.4, TAPZ + 1.9], [palm[0], 1.0, palm[2]]), cam(r3(g0), [palm[0] - 0.05, 1.32, palm[2] + 0.85], [palm[0], 1.0, palm[2]]),
-            cam(fz1, [palm[0] - 0.05, 1.28, palm[2] + 0.72], [palm[0], 1.0, palm[2]]), cam(1, [palm[0] - 0.08, 1.26, palm[2] + 0.62], [palm[0], 1.0, palm[2]])],
+ 'camera': [cam(0, [TAPX + 0.3, 1.3, TAPZ + 2.2], [TAPX + 0.22, 0.88, TAPZ]), cam(r3(r1), [TAPX + 0.28, 1.25, TAPZ + 1.9], [TAPX + 0.22, 0.88, TAPZ]),
+            cam(w0, [palm[0] + 0.2, 1.5, palm[2] + 1.8], [palm[0], 0.92, palm[2]]), cam(r3(g0), [palm[0] + 0.17, 1.42, palm[2] + 1.35], [palm[0], 0.9, palm[2]]),
+            cam(fz1, [palm[0] + 0.15, 1.4, palm[2] + 1.2], [palm[0], 0.9, palm[2]]), cam(1, [palm[0] + 0.13, 1.38, palm[2] + 1.08], [palm[0], 0.9, palm[2]])],
  'actors': {
   'wasserhahn': [K(0, TAPX, TAPZ, 'stand', 90, water=0), K(r3(r0 * 0.5), TAPX, TAPZ, 'stand', 90, water=1), K(r3(r1), TAPX, TAPZ, 'stand', 90, water=1), K(r3(r1 + sec(L1, 0.3)), TAPX, TAPZ, 'stand', 90, water=0)],
   'dummy': [K(0, DTX, DTZ, 'rinsetooth', DTF, teeth=1, gap=1, gray=0, wrap=0), K(r3(r1), DTX, DTZ, 'rinsetooth', DTF),
@@ -177,7 +177,7 @@ PF = 180
 PX, PZ = LX + 0.08, LZ - 0.52
 pick0 = r3(max(sec(L3, 0.2), c_fass - sec(L3, 0.4)))
 grab = r3(pick0 + sec(L3, 0.88))
-eye = (PX - 0.04, 1.05, PZ + 0.36)
+eye = (PX - 0.08, 1.1, PZ + 0.44)
 cut1 = r3(c_leg - sec(L3, 0.25))         # Schnitt zum Tisch
 # B: in die Zahnrettungsbox legen, H-Milch daneben
 b0 = r3(cut1 + sec(L3, 0.15))
@@ -200,8 +200,8 @@ tooth3 = [K(0, LX, LZ, 'lie', 25, y=0.03, size=TOOTH_SIZE, mark=1), K(r3(grab - 
           K(r3(brel - 0.002), GLX, GLZ, 'lie', 25, y=HIDE), K(brel, GLX, GLZ, 'lie', 70, y=TBH + 0.1, size=0.3, mark=2), K(r3(cut2 - 0.002), GLX, GLZ, 'lie', 70, y=TBH + 0.1),
           K(cut2, GLX, GLZ, 'lie', 70, y=HIDE)]
 sign3 = [K(0, 0, 0, 'stand', y=HIDE), K(r3(c_nie - 0.003), 0, 0, 'stand', y=HIDE),
-         K(r3(c_nie), eye[0] + 0.02, eye[2] + 0.03, 'show', y=0.93, text='Nicht anfassen', size=0.25, below=1),
-         K(r3(c_mach + sec(L3, 0.6)), eye[0] + 0.02, eye[2] + 0.03, 'show', y=0.93), K(r3(c_mach + sec(L3, 0.62)), 0, 0, 'stand', y=HIDE)]
+         K(r3(c_nie), eye[0] + 0.0, eye[2] + 0.04, 'show', y=0.95, text='Nicht anfassen', size=-0.35, below=1),
+         K(r3(c_mach + sec(L3, 0.6)), eye[0] + 0.0, eye[2] + 0.04, 'show', y=0.95), K(r3(c_mach + sec(L3, 0.62)), 0, 0, 'stand', y=HIDE)]
 box3 = [K(0, GLX, GLZ, 'stand', 160, y=HIDE, size=0.5, lid=1), K(r3(cut1 - 0.002), GLX, GLZ, 'stand', 160, y=HIDE), K(cut1, GLX, GLZ, 'stand', 160, y=TBH, lid=1),
         K(r3(lid_close - sec(L3, 0.05)), GLX, GLZ, 'stand', 160, y=TBH, lid=1), K(r3(lid_close + sec(L3, 0.45)), GLX, GLZ, 'stand', 160, y=TBH, lid=0),
         K(r3(cut2 - 0.002), GLX, GLZ, 'stand', 160, y=TBH), K(cut2, GLX, GLZ, 'stand', 160, y=HIDE)]
@@ -211,12 +211,12 @@ arzt3 = [K(0, 0.8, -0.75, 'stand', 250, y=HIDE), K(r3(cut2 - 0.002), 0.8, -0.75,
          K(r3(seated), 0.8, -0.75, 'stand', 250, y=0), K(1, 0.8, -0.75, 'stand', 250, y=0)]
 exp3 = {
  'stage': [{'t': 0, 'stage': 'outback'}, {'t': cut2, 'stage': 'zahnarztpraxis'}],
- 'camera': [cam(0, [PX + 0.55, 1.25, PZ + 2.05], [LX - 0.02, 0.55, LZ - 0.25]), cam(r3(grab), [PX + 0.4, 1.2, PZ + 1.5], [eye[0], 0.85, eye[2]]),
-            cam(r3(c_nie), [eye[0] + 0.25, 1.12, eye[2] + 0.78], [eye[0], 0.98, eye[2]]), cam(r3(cut1 - 0.004), [eye[0] + 0.22, 1.1, eye[2] + 0.7], [eye[0], 0.98, eye[2]]),
-            cam(cut1, [GLX + 0.5, 1.3, GLZ + 1.45], [GLX + 0.05, 0.8, GLZ - 0.05]), cam(r3(brel), [GLX + 0.3, 1.05, GLZ + 0.8], [GLX + 0.1, 0.7, GLZ]),
+ 'camera': [cam(0, [PX + 1.0, 1.5, PZ + 3.95], [PX - 0.03, 0.25, PZ + 0.27]), cam(r3(grab), [PX + 0.8, 1.45, PZ + 3.2], [PX - 0.03, 0.55, PZ + 0.3]),
+            cam(r3(c_nie), [eye[0] + 0.3, 1.2, eye[2] + 1.2], [eye[0], 0.95, eye[2]]), cam(r3(cut1 - 0.004), [eye[0] + 0.28, 1.19, eye[2] + 1.1], [eye[0], 0.95, eye[2]]),
+            cam(cut1, [GLX + 0.5, 1.35, GLZ + 1.3], [GLX + 0.15, 0.7, GLZ - 0.05]), cam(r3(brel), [GLX + 0.42, 1.25, GLZ + 1.05], [GLX + 0.12, 0.7, GLZ]),
             cam(r3(c_oder), [GLX + 0.45, 0.98, GLZ + 0.75], [MKX - 0.05, 0.74, MKZ]), cam(r3(cut2 - 0.004), [GLX + 0.45, 0.96, GLZ + 0.65], [MKX - 0.05, 0.74, MKZ]),
             cam(cut2, [0.35, 1.65, 3.4], [0.3, 0.9, -0.3]), cam(r3(close - 0.004), [0.3, 1.7, 3.0], [0.1, 0.95, -0.6]),
-            cam(close, [0.1, 1.62, -0.05], [HEAD[0], HEAD[1], HEAD[2]]), cam(1, [0.08, 1.58, -0.18], [HEAD[0], HEAD[1], HEAD[2]])],
+            cam(close, [0.12, 1.5, -0.3], [HEAD[0], HEAD[1], HEAD[2]]), cam(1, [0.1, 1.46, -0.42], [HEAD[0], HEAD[1], HEAD[2]])],
  'actors': {'dummy': dummy3, 'zahn': tooth3, 'hinweis': sign3, 'zahnrettungsbox': box3, 'hmilch': milk3, 'arzt': arzt3},
  'sfx': [{'t': r3(cut1), 'id': 'whoosh', 'volume': 0.5}, {'t': r3(brel), 'id': 'zahn-ping', 'volume': 0.4},
          {'t': r3(cut2 + sec(L3, 0.05)), 'id': 'schritte-rennen', 'volume': 0.45}, {'t': r3(fix), 'id': 'zahn-ping', 'volume': 0.9}],
@@ -262,6 +262,8 @@ scen = {
  },
  'shots': {'situation': situation, 'options': options, 'countdown': countdown, 'reveal': reveal, 'outro': outro},
 }
+for _sh in [situation, options, countdown, reveal, outro, exp1, exp2, exp3]:
+    _sh['sharpCuts'] = True
 json.dump(scen, open(f'{ROOT}/scenarios/{ID}.json', 'w'), ensure_ascii=False, indent=2)
 print('cues', dict(gew=c_gew, hit=hit, fly1=fly1, zahn=c_zahn, was=c_was, fz1=fz1, rel=rel, fz2=fz2, pick0=pick0, grab=grab, nie=c_nie, cut1=cut1, brel=brel, cut2=cut2, arrive=arrive, close=close, fix=fix),
       'audio' if dur else 'geschätzt', {k: seclen(k) for k in TEXT})

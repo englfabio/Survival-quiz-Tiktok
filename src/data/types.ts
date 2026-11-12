@@ -239,6 +239,8 @@ export type SfxCue = {t: number; id: string; volume?: number};
 
 export type Shot = {
   camera: CameraKey[];
+  /** true = Kamera schwingt bei harten Schnitten nicht über (empfohlen für neue Videos) */
+  sharpCuts?: boolean;
   actors: Record<string, ActorKey[]>;
   sfx?: SfxCue[];
   /** Abblenden der 3D-Szene: [t Beginn, t Ende, Stärke 0…1] – Texte bleiben sichtbar */

@@ -53,7 +53,7 @@ export const Scene3D = ({
     const h = ACTORS[name as ActorName]?.height ?? 1;
     return [a.pos.x, a.pos.y + h, a.pos.z];
   };
-  const cam = sampleCamera(shot.camera, camT ?? t, resolveLook);
+  const cam = sampleCamera(shot.camera, camT ?? t, resolveLook, shot.sharpCuts);
   const StageComp = stage.Component;
 
   return (

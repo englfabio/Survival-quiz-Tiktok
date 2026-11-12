@@ -1222,7 +1222,7 @@ const zahnPose = (motion: Motion, time: number): DummyPose | null => {
       kneel.headX = 0.45 - 0.05 * up;
       const p = mix(base(), kneel, k0);
       const ground: [number, number, number] = [-0.08, 0.06, 0.52];
-      const eye: [number, number, number] = [-0.04, 1.05, 0.36];
+      const eye: [number, number, number] = [-0.08, 1.1, 0.44];
       const g = easeInOut(clamp(time / 0.9));
       const rest: [number, number, number] = [-0.2, 0.55, 0.3];
       const lerp3 = (a: [number, number, number], b: [number, number, number], q: number) => a.map((v, i) => v + (b[i] - v) * q) as [number, number, number];
@@ -2286,7 +2286,7 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
     return (
       <group position={tip} quaternion={level}>
-        <group position={[0, -0.04, 0]} rotation={[0.25, 0.4, 0]} scale={1.7}>
+        <group position={[0, -0.075, 0.02]} rotation={[0.25, 0.4, 0]} scale={1.7}>
           <Tooth gray={tooth?.gray} mark={tooth?.mark} time={time} />
         </group>
       </group>
@@ -2298,10 +2298,10 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
     const w = tooth?.wrap ?? 0;
     return (
       <group position={palm} quaternion={level}>
-        <group position={[0, 0.02, 0]} rotation={[0, 0.3, 0]}>
+        <group position={[0, 0.02, 0]} rotation={[0, 0.3, 0]} scale={1.6}>
           <Tissue wrap={w} />
           {w < 0.85 && (
-            <group position={[0, 0.02, 0]} rotation={[Math.PI / 2, 0, 0.4]} scale={1.7}>
+            <group position={[0, 0.012, 0]} rotation={[Math.PI / 2, 0, 0.4]} scale={1.05}>
               <Tooth gray={tooth?.gray} mark={tooth?.mark} time={time} />
             </group>
           )}
@@ -2387,7 +2387,7 @@ export const TeethRow = ({gap = false}: {gap?: boolean}) => {
   return (
     <group position={[0, -0.04, 0]}>
       {/* Mund (flaches, gebogenes Band) */}
-      <mesh material={mats.mouth} position={[0, -0.002, 0.118]} scale={[1, 0.55, 0.32]} rotation={[0.05, 0, 0]}>
+      <mesh material={mats.mouth} position={[0, -0.002, 0.094]} scale={[1, 0.55, 0.32]} rotation={[0.05, 0, 0]}>
         <sphereGeometry args={[0.08, 14, 8, 0, Math.PI * 2, Math.PI * 0.33, Math.PI * 0.34]} />
       </mesh>
       {Array.from({length: N}, (_, i) => {

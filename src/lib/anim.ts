@@ -219,16 +219,20 @@ const catmull = (p0: number, p1: number, p2: number, p3: number, t: number) => {
 };
 
 /** Weicher Weg durch alle Punkte (Catmull-Rom) */
-export const splineVec = (pts: Vec3[], times: number[], t: number): Vec3 => {
+export const splineVec = (pts: Vec3[], times: number[], t: number, sharpCuts = false): Vec3 => {
   if (pts.length === 1 || t <= times[0]) return pts[0];
   if (t >= times[times.length - 1]) return pts[pts.length - 1];
   let i = 0;
   while (i < times.length - 2 && t > times[i + 1]) i++;
   const u = (t - times[i]) / (times[i + 1] - times[i]);
-  const p0 = pts[Math.max(0, i - 1)];
+  // sharpCuts: Punkte jenseits eines harten Schnitts (zwei Zeitpunkte < 0,012 auseinander) nicht mitnehmen → kein Überschwingen
+  const CUT = 0.012;
+  const cutBefore = sharpCuts && i > 0 && times[i] - times[i - 1] < CUT;
+  const cutAfter = sharpCuts && i + 2 < times.length && times[i + 2] - times[i + 1] < CUT;
+  const p0 = cutBefore ? pts[i] : pts[Math.max(0, i - 1)];
   const p1 = pts[i];
   const p2 = pts[i + 1];
-  const p3 = pts[Math.min(pts.length - 1, i + 2)];
+  const p3 = cutAfter ? pts[i + 1] : pts[Math.min(pts.length - 1, i + 2)];
   return [0, 1, 2].map((c) => catmull(p0[c], p1[c], p2[c], p3[c], u)) as Vec3;
 };
 
@@ -236,6 +240,7 @@ export const sampleCamera = (
   keys: CameraKey[],
   t: number,
   resolveLook: (name: string) => Vec3,
+  sharpCuts = false,
 ): {pos: Vec3; look: Vec3; fov: number} => {
   const te = easeInOut(t) * 0.35 + t * 0.65; // sanftes An- und Auslaufen
   const times = keys.map((k) => k.t);
@@ -243,9 +248,10 @@ export const sampleCamera = (
     keys.map((k) => k.pos),
     times,
     te,
+    sharpCuts,
   );
   const looks = keys.map((k) => (typeof k.look === 'string' ? resolveLook(k.look) : k.look));
-  const look = splineVec(looks, times, te);
+  const look = splineVec(looks, times, te, sharpCuts);
   const fovs = keys.map((k) => k.fov ?? 38);
   const fov = splineVec(
     fovs.map((f) => [f, 0, 0] as Vec3),
