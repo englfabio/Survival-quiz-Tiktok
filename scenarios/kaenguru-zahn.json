@@ -1,0 +1,1514 @@
+{
+  "id": "kaenguru-zahn",
+  "category": "erste-hilfe",
+  "stage": "outback",
+  "situation": {
+    "speech": "Du hast mal wieder gegen ein Känguru gekämpft. Das Känguru hat gewonnen, und dein Zahn liegt im Gras. Was machst du jetzt?",
+    "hook": "Du hast mal wieder mit einem Känguru gekämpft"
+  },
+  "options": [
+    {
+      "card": "Abspülen, ins Taschentuch",
+      "speech": "Eins: Den Zahn mit Wasser abspülen und in ein Taschentuch wickeln.",
+      "dummyAction": "Dummy spült den Zahn unter dem Wasserhahn ab und wickelt ihn trocken ins Taschentuch, der Zahn wird grau. Bild friert ein, rotes Aufleuchten.",
+      "explanation": "An der Wurzel deines Zahns sitzen empfindliche Zellen. Die braucht er, um wieder einzuwachsen. Abspülen schadet ihnen, und im trockenen Taschentuch sterben sie schnell ab.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              3.8,
+              1.45,
+              6.050000000000001
+            ],
+            "look": [
+              3.6199999999999997,
+              0.95,
+              3.7
+            ]
+          },
+          {
+            "t": 0.1667,
+            "pos": [
+              3.75,
+              1.4,
+              5.7
+            ],
+            "look": [
+              3.65,
+              0.95,
+              3.7
+            ]
+          },
+          {
+            "t": 0.1793,
+            "pos": [
+              3.8499999999999996,
+              1.4,
+              5.6
+            ],
+            "look": [
+              3.780535973625569,
+              1.0,
+              3.9990815697220947
+            ]
+          },
+          {
+            "t": 0.325,
+            "pos": [
+              3.730535973625569,
+              1.32,
+              4.849081569722094
+            ],
+            "look": [
+              3.780535973625569,
+              1.0,
+              3.9990815697220947
+            ]
+          },
+          {
+            "t": 0.4594,
+            "pos": [
+              3.730535973625569,
+              1.28,
+              4.7190815697220945
+            ],
+            "look": [
+              3.780535973625569,
+              1.0,
+              3.9990815697220947
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              3.700535973625569,
+              1.26,
+              4.619081569722095
+            ],
+            "look": [
+              3.780535973625569,
+              1.0,
+              3.9990815697220947
+            ]
+          }
+        ],
+        "actors": {
+          "wasserhahn": [
+            {
+              "t": 0,
+              "x": 3.3,
+              "z": 3.7,
+              "motion": "stand",
+              "face": 90,
+              "water": 0
+            },
+            {
+              "t": 0.0064,
+              "x": 3.3,
+              "z": 3.7,
+              "motion": "stand",
+              "face": 90,
+              "water": 1
+            },
+            {
+              "t": 0.2034,
+              "x": 3.3,
+              "z": 3.7,
+              "motion": "stand",
+              "face": 90,
+              "water": 1
+            },
+            {
+              "t": 0.2288,
+              "x": 3.3,
+              "z": 3.7,
+              "motion": "stand",
+              "face": 90,
+              "water": 0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "rinsetooth",
+              "face": 270,
+              "teeth": 1,
+              "gap": 1,
+              "gray": 0,
+              "wrap": 0
+            },
+            {
+              "t": 0.2034,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "rinsetooth",
+              "face": 270
+            },
+            {
+              "t": 0.2064,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "holdtooth",
+              "face": 270
+            },
+            {
+              "t": 0.2131,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "holdtooth",
+              "face": 205
+            },
+            {
+              "t": 0.2161,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "wraptooth",
+              "face": 205,
+              "wrap": 0
+            },
+            {
+              "t": 0.3432,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "wraptooth",
+              "face": 205,
+              "wrap": 0.55,
+              "gray": 0
+            },
+            {
+              "t": 0.3517,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "wraptooth",
+              "face": 205,
+              "gray": 0
+            },
+            {
+              "t": 0.4534,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "wraptooth",
+              "face": 205,
+              "gray": 1
+            },
+            {
+              "t": 1,
+              "x": 3.92,
+              "z": 3.7,
+              "motion": "wraptooth",
+              "face": 205,
+              "gray": 1
+            }
+          ],
+          "kaenguru": [
+            {
+              "t": 0,
+              "x": 0.5,
+              "z": -0.35,
+              "motion": "victory",
+              "face": 200
+            }
+          ]
+        },
+        "freeze": 0.4661,
+        "sfx": [
+          {
+            "t": 0.0064,
+            "id": "wasserhahn",
+            "volume": 0.6
+          }
+        ]
+      }
+    },
+    {
+      "card": "In ein Glas Wasser legen",
+      "speech": "Zwei: Den Zahn in ein Glas Leitungswasser legen.",
+      "dummyAction": "Dummy legt den Zahn in ein Glas Leitungswasser, der Zahn wird grau. Bild friert ein, rotes Aufleuchten.",
+      "explanation": "Wasser klingt logisch, ist aber ungeeignet. Fachleute raten davon ab, einen ausgeschlagenen Zahn in Wasser aufzubewahren, denn das tut den Zellen an der Wurzel nicht gut.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -3.05,
+              1.35,
+              4.0
+            ],
+            "look": [
+              -3.6,
+              0.92,
+              2.25
+            ]
+          },
+          {
+            "t": 0.0607,
+            "pos": [
+              -3.25,
+              1.05,
+              3.25
+            ],
+            "look": [
+              -3.5,
+              0.7,
+              2.3
+            ]
+          },
+          {
+            "t": 0.2284,
+            "pos": [
+              -3.32,
+              0.92,
+              2.92
+            ],
+            "look": [
+              -3.5,
+              0.67,
+              2.3
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -3.35,
+              0.88,
+              2.82
+            ],
+            "look": [
+              -3.5,
+              0.67,
+              2.3
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -3.92,
+              "z": 2.2,
+              "motion": "holdtooth",
+              "face": 90,
+              "teeth": 1,
+              "gap": 1,
+              "gray": 0
+            },
+            {
+              "t": 0.017,
+              "x": -3.92,
+              "z": 2.2,
+              "motion": "holdtooth",
+              "face": 90
+            },
+            {
+              "t": 0.02,
+              "x": -3.92,
+              "z": 2.2,
+              "motion": "placetooth",
+              "face": 90
+            },
+            {
+              "t": 1,
+              "x": -3.92,
+              "z": 2.2,
+              "motion": "placetooth",
+              "face": 90
+            }
+          ],
+          "wasserglas": [
+            {
+              "t": 0,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "stand",
+              "face": 0,
+              "y": 0.6
+            }
+          ],
+          "zahn": [
+            {
+              "t": 0,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 20,
+              "y": -30,
+              "size": 0.25,
+              "gray": 0
+            },
+            {
+              "t": 0.082,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 20,
+              "y": -30
+            },
+            {
+              "t": 0.084,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 20,
+              "y": 0.6849999999999999
+            },
+            {
+              "t": 0.132,
+              "x": -3.495,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 35,
+              "y": 0.645
+            },
+            {
+              "t": 0.156,
+              "x": -3.495,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 35,
+              "y": 0.645,
+              "gray": 0
+            },
+            {
+              "t": 0.252,
+              "x": -3.495,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 35,
+              "y": 0.645,
+              "gray": 1
+            },
+            {
+              "t": 1,
+              "x": -3.495,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 35,
+              "y": 0.645,
+              "gray": 1
+            }
+          ],
+          "kaenguru": [
+            {
+              "t": 0,
+              "x": 0.5,
+              "z": -0.35,
+              "motion": "victory",
+              "face": 200
+            }
+          ]
+        },
+        "freeze": 0.264,
+        "sfx": [
+          {
+            "t": 0.084,
+            "id": "zahn-ping",
+            "volume": 0.35
+          }
+        ]
+      }
+    },
+    {
+      "card": "An der Krone fassen, H-Milch, Zahnarzt",
+      "speech": "Drei: Den Zahn nur oben anfassen, in eine Zahnrettungsbox oder H-Milch legen und sofort zum Zahnarzt.",
+      "dummyAction": "Dummy hebt den Zahn an der Krone hoch (Krone grün, Wurzel kurz rot mit \"Nicht anfassen\"), legt ihn in die Zahnrettungsbox (H-Milch daneben), läuft zum Zahnarzt und setzt sich in den Stuhl, am Ende sitzt der Zahn wieder in der Lücke. Grünes Aufleuchten.",
+      "explanation": "Fass den Zahn nur oben an der Krone an, nie an der Wurzel, und mach ihn nicht sauber. Leg ihn in eine Zahnrettungsbox aus der Apotheke, oder notfalls in kalte H-Milch. Keine frische Milch. Und dann sofort zum Zahnarzt. Je schneller, desto besser stehen die Chancen, dass der Zahn wieder einwächst.",
+      "steps": [
+        {
+          "text": "Nur an der Krone anfassen",
+          "cue": "Fass den Zahn nur oben an der Krone an"
+        },
+        {
+          "text": "Nicht sauber machen",
+          "cue": "und mach ihn nicht sauber"
+        },
+        {
+          "text": "Zahnrettungsbox oder kalte H-Milch",
+          "cue": "Leg ihn in eine Zahnrettungsbox"
+        },
+        {
+          "text": "Sofort zum Zahnarzt",
+          "cue": "Und dann sofort zum Zahnarzt"
+        }
+      ],
+      "choreography": {
+        "stage": [
+          {
+            "t": 0,
+            "stage": "outback"
+          },
+          {
+            "t": 0.6586,
+            "stage": "zahnarztpraxis"
+          }
+        ],
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              1.53,
+              1.25,
+              5.08
+            ],
+            "look": [
+              0.88,
+              0.55,
+              3.3
+            ]
+          },
+          {
+            "t": 0.0358,
+            "pos": [
+              1.38,
+              1.2,
+              4.529999999999999
+            ],
+            "look": [
+              0.94,
+              0.85,
+              3.3899999999999997
+            ]
+          },
+          {
+            "t": 0.1312,
+            "pos": [
+              1.19,
+              1.12,
+              4.17
+            ],
+            "look": [
+              0.94,
+              0.98,
+              3.3899999999999997
+            ]
+          },
+          {
+            "t": 0.2701,
+            "pos": [
+              1.16,
+              1.1,
+              4.09
+            ],
+            "look": [
+              0.94,
+              0.98,
+              3.3899999999999997
+            ]
+          },
+          {
+            "t": 0.2745,
+            "pos": [
+              -3.0,
+              1.3,
+              3.75
+            ],
+            "look": [
+              -3.45,
+              0.8,
+              2.25
+            ]
+          },
+          {
+            "t": 0.3254,
+            "pos": [
+              -3.2,
+              1.05,
+              3.0999999999999996
+            ],
+            "look": [
+              -3.4,
+              0.7,
+              2.3
+            ]
+          },
+          {
+            "t": 0.47,
+            "pos": [
+              -3.05,
+              0.98,
+              3.05
+            ],
+            "look": [
+              -3.17,
+              0.74,
+              2.18
+            ]
+          },
+          {
+            "t": 0.6822,
+            "pos": [
+              -3.05,
+              0.96,
+              2.9499999999999997
+            ],
+            "look": [
+              -3.17,
+              0.74,
+              2.18
+            ]
+          },
+          {
+            "t": 0.6867,
+            "pos": [
+              0.35,
+              1.65,
+              3.4
+            ],
+            "look": [
+              0.3,
+              0.9,
+              -0.3
+            ]
+          },
+          {
+            "t": 0.8044,
+            "pos": [
+              0.3,
+              1.7,
+              3.0
+            ],
+            "look": [
+              0.1,
+              0.95,
+              -0.6
+            ]
+          },
+          {
+            "t": 0.8085,
+            "pos": [
+              0.1,
+              1.62,
+              -0.05
+            ],
+            "look": [
+              0.0,
+              1.2,
+              -1.1800000000000002
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.08,
+              1.58,
+              -0.18
+            ],
+            "look": [
+              0.0,
+              1.2,
+              -1.1800000000000002
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.98,
+              "z": 3.03,
+              "motion": "stand",
+              "face": 180,
+              "teeth": 1,
+              "gap": 1,
+              "mark": 1,
+              "gray": 0
+            },
+            {
+              "t": 0.0095,
+              "x": 0.98,
+              "z": 3.03,
+              "motion": "pickcrown",
+              "face": 180
+            },
+            {
+              "t": 0.3037,
+              "x": 0.98,
+              "z": 3.03,
+              "motion": "pickcrown",
+              "face": 180
+            },
+            {
+              "t": 0.3067,
+              "x": -3.92,
+              "z": 2.2,
+              "motion": "holdtooth",
+              "face": 90,
+              "mark": 2
+            },
+            {
+              "t": 0.3119,
+              "x": -3.92,
+              "z": 2.2,
+              "motion": "holdtooth",
+              "face": 90
+            },
+            {
+              "t": 0.3139,
+              "x": -3.92,
+              "z": 2.2,
+              "motion": "placetooth",
+              "face": 90
+            },
+            {
+              "t": 0.6556,
+              "x": -3.92,
+              "z": 2.2,
+              "motion": "placetooth",
+              "face": 90
+            },
+            {
+              "t": 0.6586,
+              "x": 1.7,
+              "z": 1.9,
+              "motion": "run",
+              "face": 215
+            },
+            {
+              "t": 0.7081,
+              "x": 0.1,
+              "z": 0.05,
+              "motion": "run",
+              "face": 200
+            },
+            {
+              "t": 0.7111,
+              "x": 0.1,
+              "z": 0.05,
+              "motion": "dentalsit",
+              "face": 180
+            },
+            {
+              "t": 0.7445,
+              "x": 0.0,
+              "z": -0.5,
+              "motion": "dentalsit",
+              "face": 180
+            },
+            {
+              "t": 0.9139,
+              "x": 0.0,
+              "z": -0.5,
+              "motion": "dentalsit",
+              "face": 180,
+              "gap": 1
+            },
+            {
+              "t": 0.9179,
+              "x": 0.0,
+              "z": -0.5,
+              "motion": "dentalsit",
+              "face": 180,
+              "gap": 0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -0.5,
+              "motion": "dentalsit",
+              "face": 180,
+              "gap": 0
+            }
+          ],
+          "zahn": [
+            {
+              "t": 0,
+              "x": 0.9,
+              "z": 3.55,
+              "motion": "lie",
+              "face": 25,
+              "y": 0.03,
+              "size": 0.9,
+              "mark": 1
+            },
+            {
+              "t": 0.0495,
+              "x": 0.9,
+              "z": 3.55,
+              "motion": "lie",
+              "face": 25,
+              "y": 0.03
+            },
+            {
+              "t": 0.0515,
+              "x": 0.9,
+              "z": 3.55,
+              "motion": "lie",
+              "face": 25,
+              "y": -30
+            },
+            {
+              "t": 0.3501,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 25,
+              "y": -30
+            },
+            {
+              "t": 0.3521,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 70,
+              "y": 0.7,
+              "size": 0.3,
+              "mark": 2
+            },
+            {
+              "t": 0.6566,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 70,
+              "y": 0.7
+            },
+            {
+              "t": 0.6586,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "lie",
+              "face": 70,
+              "y": -30
+            }
+          ],
+          "hinweis": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            },
+            {
+              "t": 0.163,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            },
+            {
+              "t": 0.166,
+              "x": 0.96,
+              "z": 3.42,
+              "motion": "show",
+              "y": 0.93,
+              "text": "Nicht anfassen",
+              "size": 0.25,
+              "below": 1
+            },
+            {
+              "t": 0.2614,
+              "x": 0.96,
+              "z": 3.42,
+              "motion": "show",
+              "y": 0.93
+            },
+            {
+              "t": 0.2624,
+              "x": 0,
+              "z": 0,
+              "motion": "stand",
+              "y": -30
+            }
+          ],
+          "zahnrettungsbox": [
+            {
+              "t": 0,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "stand",
+              "face": 160,
+              "y": -30,
+              "size": 0.5,
+              "lid": 1
+            },
+            {
+              "t": 0.3047,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "stand",
+              "face": 160,
+              "y": -30
+            },
+            {
+              "t": 0.3067,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "stand",
+              "face": 160,
+              "y": 0.6,
+              "lid": 1
+            },
+            {
+              "t": 0.3735,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "stand",
+              "face": 160,
+              "y": 0.6,
+              "lid": 1
+            },
+            {
+              "t": 0.3974,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "stand",
+              "face": 160,
+              "y": 0.6,
+              "lid": 0
+            },
+            {
+              "t": 0.6566,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "stand",
+              "face": 160,
+              "y": 0.6
+            },
+            {
+              "t": 0.6586,
+              "x": -3.5,
+              "z": 2.3,
+              "motion": "stand",
+              "face": 160,
+              "y": -30
+            }
+          ],
+          "hmilch": [
+            {
+              "t": 0,
+              "x": -3.12,
+              "z": 2.18,
+              "motion": "stand",
+              "face": 175,
+              "y": -30
+            },
+            {
+              "t": 0.3047,
+              "x": -3.12,
+              "z": 2.18,
+              "motion": "stand",
+              "face": 175,
+              "y": -30
+            },
+            {
+              "t": 0.3067,
+              "x": -3.12,
+              "z": 2.18,
+              "motion": "stand",
+              "face": 175,
+              "y": 0.6
+            },
+            {
+              "t": 0.6566,
+              "x": -3.12,
+              "z": 2.18,
+              "motion": "stand",
+              "face": 175,
+              "y": 0.6
+            },
+            {
+              "t": 0.6586,
+              "x": -3.12,
+              "z": 2.18,
+              "motion": "stand",
+              "face": 175,
+              "y": -30
+            }
+          ],
+          "arzt": [
+            {
+              "t": 0,
+              "x": 0.8,
+              "z": -0.75,
+              "motion": "stand",
+              "face": 250,
+              "y": -30
+            },
+            {
+              "t": 0.6566,
+              "x": 0.8,
+              "z": -0.75,
+              "motion": "stand",
+              "face": 250,
+              "y": -30
+            },
+            {
+              "t": 0.6586,
+              "x": 0.8,
+              "z": -0.75,
+              "motion": "wave",
+              "face": 225,
+              "y": 0
+            },
+            {
+              "t": 0.7445,
+              "x": 0.8,
+              "z": -0.75,
+              "motion": "stand",
+              "face": 250,
+              "y": 0
+            },
+            {
+              "t": 1,
+              "x": 0.8,
+              "z": -0.75,
+              "motion": "stand",
+              "face": 250,
+              "y": 0
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.3067,
+            "id": "whoosh",
+            "volume": 0.5
+          },
+          {
+            "t": 0.3521,
+            "id": "zahn-ping",
+            "volume": 0.4
+          },
+          {
+            "t": 0.661,
+            "id": "schritte-rennen",
+            "volume": 0.45
+          },
+          {
+            "t": 0.9139,
+            "id": "zahn-ping",
+            "volume": 0.9
+          }
+        ]
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "Richtig ist Nummer 3"
+  },
+  "outro": {
+    "speech": "Und nächstes Mal: Mundschutz tragen. Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Und nächstes Mal: Mundschutz tragen. Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: Land Tirol · AOK · proDente",
+  "sources": [
+    {
+      "name": "Land Tirol, Erste Hilfe bei Zahnunfällen",
+      "url": "https://www.tirol.gv.at/fileadmin/themen/gesundheit-vorsorge/lds-sanitaetsdirektion/downloads/01-Kindergarten/erste_hilfe_bei_zahnunfaellen_2.pdf"
+    },
+    {
+      "name": "AOK, Zahnunfall richtig handeln",
+      "url": "https://www.aok.de/pk/magazin/koerper-psyche/zaehne/zahnunfall-von-kindern-richtig-und-schnell-handeln/"
+    },
+    {
+      "name": "proDente, Magazin Zahnunfall",
+      "url": "https://www.prodente.de/media/online_shop/files/Magazin_Zahnunfall.pdf"
+    }
+  ],
+  "publishing": {
+    "description": "Du hast mal wieder gegen ein Känguru gekämpft – und jetzt liegt dein Zahn im Gras. Was machst du? 🦘🥊🦷 Schreib 1, 2 oder 3 in die Kommentare!\n\nÜbrigens: Nur etwa 2 % der Haushalte haben eine Zahnrettungsbox. Die gibt's in der Apotheke.\n\nQuellen:\nLand Tirol, Erste Hilfe bei Zahnunfällen: https://www.tirol.gv.at/fileadmin/themen/gesundheit-vorsorge/lds-sanitaetsdirektion/downloads/01-Kindergarten/erste_hilfe_bei_zahnunfaellen_2.pdf\nAOK, Zahnunfall richtig handeln: https://www.aok.de/pk/magazin/koerper-psyche/zaehne/zahnunfall-von-kindern-richtig-und-schnell-handeln/\nproDente, Magazin Zahnunfall: https://www.prodente.de/media/online_shop/files/Magazin_Zahnunfall.pdf\n\nKein Ersatz für zahnärztliche Behandlung. Im Notfall: 112.\n\n#waswürdestdutun #känguru #zahnunfall #erstehilfe #wusstestdu #boxen #survival #quiz",
+    "pinnedComment": "Ehrlich: Wer hätte den Zahn ins Taschentuch gewickelt? 👇 Und gegen welches Tier soll der Dummy als Nächstes antreten?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            2.9,
+            2.15,
+            6.6
+          ],
+          "look": [
+            0.0,
+            1.65,
+            0.0
+          ]
+        },
+        {
+          "t": 0.5832,
+          "pos": [
+            2.4,
+            2.05,
+            5.9
+          ],
+          "look": [
+            0.1,
+            1.6,
+            0.4
+          ]
+        },
+        {
+          "t": 0.5879,
+          "pos": [
+            1.4500000000000002,
+            0.42,
+            4.5
+          ],
+          "look": [
+            0.9,
+            0.08,
+            3.5
+          ]
+        },
+        {
+          "t": 0.8459,
+          "pos": [
+            1.35,
+            0.4,
+            4.35
+          ],
+          "look": [
+            0.9,
+            0.08,
+            3.5
+          ]
+        },
+        {
+          "t": 0.8497,
+          "pos": [
+            -0.2,
+            2.35,
+            3.2
+          ],
+          "look": [
+            -1.0,
+            2.1,
+            0.95
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -0.35,
+            2.33,
+            2.9
+          ],
+          "look": [
+            -1.0,
+            2.1,
+            0.95
+          ]
+        }
+      ],
+      "actors": {
+        "kaenguru": [
+          {
+            "t": 0,
+            "x": 0.85,
+            "z": -0.6,
+            "motion": "guard",
+            "face": 235
+          },
+          {
+            "t": 0.2556,
+            "x": 0.85,
+            "z": -0.6,
+            "motion": "hop",
+            "face": 235
+          },
+          {
+            "t": 0.3596,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "hop",
+            "face": 235
+          },
+          {
+            "t": 0.3636,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "punch",
+            "face": 235
+          },
+          {
+            "t": 0.4656,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "punch",
+            "face": 235
+          },
+          {
+            "t": 0.4716,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "victory",
+            "face": 235
+          },
+          {
+            "t": 1,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "victory",
+            "face": 235
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.42,
+            "z": 0.33,
+            "motion": "boxguard",
+            "face": 55,
+            "gloves": 1,
+            "teeth": 1,
+            "gap": 0
+          },
+          {
+            "t": 0.4116,
+            "x": -0.42,
+            "z": 0.33,
+            "motion": "boxguard",
+            "face": 55
+          },
+          {
+            "t": 0.4146,
+            "x": -0.42,
+            "z": 0.33,
+            "motion": "hitstagger",
+            "face": 55,
+            "gap": 1
+          },
+          {
+            "t": 0.5676,
+            "x": -1.0,
+            "z": 0.95,
+            "motion": "hitstagger",
+            "face": 65
+          },
+          {
+            "t": 1,
+            "x": -1.0,
+            "z": 0.95,
+            "motion": "hitstagger",
+            "face": 65
+          }
+        ],
+        "zahn": [
+          {
+            "t": 0,
+            "x": -0.305,
+            "z": 0.25,
+            "motion": "fly",
+            "y": -30,
+            "size": 0.9
+          },
+          {
+            "t": 0.4096,
+            "x": -0.305,
+            "z": 0.25,
+            "motion": "fly",
+            "y": -30
+          },
+          {
+            "t": 0.4116,
+            "x": -0.305,
+            "z": 0.25,
+            "motion": "fly",
+            "y": 1.75
+          },
+          {
+            "t": 0.4656,
+            "x": 0.297,
+            "z": 1.9,
+            "motion": "fly",
+            "y": 3.2
+          },
+          {
+            "t": 0.5316,
+            "x": 0.9,
+            "z": 3.55,
+            "motion": "fly",
+            "y": 0.04
+          },
+          {
+            "t": 0.5336,
+            "x": 0.9,
+            "z": 3.55,
+            "motion": "lie",
+            "face": 25,
+            "y": 0.03
+          },
+          {
+            "t": 1,
+            "x": 0.9,
+            "z": 3.55,
+            "motion": "lie",
+            "face": 25,
+            "y": 0.03
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.01,
+          "id": "boxglocke",
+          "volume": 0.6
+        },
+        {
+          "t": 0.4056,
+          "id": "boxschlag",
+          "volume": 0.9
+        },
+        {
+          "t": 0.528,
+          "id": "zahn-ping",
+          "volume": 0.8
+        }
+      ]
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.6,
+            2.8,
+            9.6
+          ],
+          "look": [
+            -0.1,
+            1.15,
+            0.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.3,
+            2.75,
+            9.1
+          ],
+          "look": [
+            -0.1,
+            1.15,
+            0.2
+          ]
+        }
+      ],
+      "actors": {
+        "kaenguru": [
+          {
+            "t": 0,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "victory",
+            "face": 215
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -1.0,
+            "z": 0.95,
+            "motion": "dazed",
+            "face": 65,
+            "gloves": 1,
+            "teeth": 1,
+            "gap": 1
+          }
+        ],
+        "zahn": [
+          {
+            "t": 0,
+            "x": 0.9,
+            "z": 3.55,
+            "motion": "lie",
+            "face": 25,
+            "y": 0.03,
+            "size": 0.9
+          }
+        ]
+      }
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.3,
+            2.75,
+            9.1
+          ],
+          "look": [
+            -0.1,
+            1.25,
+            0.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.1,
+            2.7,
+            8.7
+          ],
+          "look": [
+            -0.1,
+            1.25,
+            0.2
+          ]
+        }
+      ],
+      "actors": {
+        "kaenguru": [
+          {
+            "t": 0,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "victory",
+            "face": 215
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -1.0,
+            "z": 0.95,
+            "motion": "dazed",
+            "face": 65,
+            "gloves": 1,
+            "teeth": 1,
+            "gap": 1
+          }
+        ],
+        "zahn": [
+          {
+            "t": 0,
+            "x": 0.9,
+            "z": 3.55,
+            "motion": "lie",
+            "face": 25,
+            "y": 0.03,
+            "size": 0.9
+          }
+        ]
+      }
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.1,
+            2.7,
+            8.7
+          ],
+          "look": [
+            -0.1,
+            1.2,
+            0.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.0,
+            2.7,
+            8.5
+          ],
+          "look": [
+            -0.1,
+            1.2,
+            0.2
+          ]
+        }
+      ],
+      "actors": {
+        "kaenguru": [
+          {
+            "t": 0,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "victory",
+            "face": 215
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -1.0,
+            "z": 0.95,
+            "motion": "dazed",
+            "face": 65,
+            "gloves": 1,
+            "teeth": 1,
+            "gap": 1
+          }
+        ],
+        "zahn": [
+          {
+            "t": 0,
+            "x": 0.9,
+            "z": 3.55,
+            "motion": "lie",
+            "face": 25,
+            "y": 0.03,
+            "size": 0.9
+          }
+        ]
+      }
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.4,
+            2.3,
+            6.4
+          ],
+          "look": [
+            -0.1,
+            2.05,
+            0.1
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.2,
+            2.3,
+            5.9
+          ],
+          "look": [
+            -0.1,
+            2.05,
+            0.1
+          ]
+        }
+      ],
+      "actors": {
+        "kaenguru": [
+          {
+            "t": 0,
+            "x": 0.5,
+            "z": -0.35,
+            "motion": "victory",
+            "face": 200
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.8,
+            "z": 0.85,
+            "motion": "wave",
+            "face": 150,
+            "teeth": 1,
+            "gap": 0
+          }
+        ]
+      }
+    }
+  }
+}
