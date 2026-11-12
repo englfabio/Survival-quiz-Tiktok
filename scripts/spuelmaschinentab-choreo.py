@@ -57,8 +57,8 @@ MILK = (-0.66, 0.36)                      # Glas Milch auf dem Tisch
 ROLL = (0.33, 0.3)                       # Küchenpapier
 PHONE = (-0.12, 0.62, 160)               # Smartphone liegt auf dem Tisch
 CABX, CABY, CABZ = 1.3, 1.45, -2.3       # Oberschrank mit Kindersicherung (Rückwand)
-SX, SZ, SF = 1.33, -1.58, 0              # Dummy vor dem Oberschrank (stowtabs)
-SHELF = (1.36, CABY + 0.22 + 0.007, -2.12)  # Packung im Schrank (auf dem Regalboden)
+SX, SZ, SF = 1.06, -1.6, 0               # Dummy links vor dem Oberschrank (stowtabs)
+SHELF = (1.3, CABY + 0.22 + 0.007, -2.12)  # Packung im Schrank (auf dem Regalboden)
 MOUTH = (DX, 1.74, DZ + 0.12)
 
 def table_props(pack=True, milk=True, roll=True, phone=True, until=None):
@@ -164,11 +164,11 @@ cab3 = [K(0, CABX, CABZ, 'stand', 180, y=CABY, door=1, lock=0), K(shut0, CABX, C
         K(shut1, CABX, CABZ, 'stand', 180, y=CABY, door=0, lock=0), K(r3(shut1 + sec(L3, 0.1)), CABX, CABZ, 'stand', 180, y=CABY, lock=0),
         K(locked, CABX, CABZ, 'stand', 180, y=CABY, lock=1), K(1, CABX, CABZ, 'stand', 180, y=CABY, lock=1)]
 sign3 = [K(0, 0, 0, 'stand', y=HIDE), K(r3(locked - 0.002), 0, 0, 'stand', y=HIDE),
-         K(locked, CABX, CABZ + 0.36, 'show', y=CABY + 0.66, text='Kindersicherung', size=-0.15, good=1)]
+         K(locked, CABX + 0.14, CABZ + 0.42, 'show', y=CABY + 0.3, text='Kindersicherung', size=0.6, good=1)]
 exp3 = {
  'camera': [cam(0, [0.4, 1.7, 3.4], [-0.28, 1.38, DZ]), cam(r3(cut1 - 0.004), [0.38, 1.68, 3.1], [-0.28, 1.38, DZ]),
             cam(cut1, [0.45, 1.72, 3.5], [-0.28, 1.38, DZ]), cam(r3(cut2 - 0.004), [0.42, 1.7, 3.2], [-0.28, 1.38, DZ]),
-            cam(cut2, [0.0, 1.85, 2.0], [0.9, 1.55, -1.9]), cam(1, [0.05, 1.84, 1.75], [0.92, 1.56, -1.9])],
+            cam(cut2, [0.4, 2.4, 2.4], [1.05, 1.45, -1.95]), cam(1, [0.43, 2.36, 2.15], [1.06, 1.46, -1.95])],
  'actors': {'dummy': dummy3, 'smartphone': phone3, 'tabpackung': pack3, 'oberschrank': cab3, 'hinweis': sign3,
             **table_props(pack=False, phone=False)},
  'flash': locked,
@@ -183,8 +183,8 @@ steps3 = [{'text': 'Reste ausspucken', 'cue': 'Spuck aus'},
           {'text': 'Atemnot: 112', 'cue': 'Hast du Atemnot'}]
 
 # ================= Outro =================
-outro = {'camera': [cam(0, [0.2, 1.7, 3.6], [0.9, 1.2, -1.6]), cam(1, [0.25, 1.7, 3.3], [0.9, 1.2, -1.6])],
-         'actors': {'dummy': [K(0, SX - 0.05, SZ + 0.1, 'wave', 165, **DUM)],
+outro = {'camera': [cam(0, [0.8, 1.4, 2.4], [1.2, 1.95, -1.8]), cam(1, [0.82, 1.42, 2.15], [1.2, 1.95, -1.8])],
+         'actors': {'dummy': [K(0, 1.25, -1.4, 'wave', 170, **DUM)],
                     'oberschrank': [K(0, CABX, CABZ, 'stand', 180, y=CABY, door=0, lock=1)],
                     **table_props(pack=False, phone=False)}}
 

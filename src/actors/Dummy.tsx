@@ -1315,7 +1315,7 @@ const zahnPose = (motion: Motion, time: number): DummyPose | null => {
  *                 (nur angedeutet – der Finger geht NICHT in den Mund), linke Hand am Bauch
  *  - drinkmilk:   hebt das Glas Milch zum Mund (bis 0,8 s), kippt es (0,8–1,4 s), Kopf nach hinten, trinkt (Glas leert sich bis 3,2 s)
  *  - spit:        beugt sich vor, hält mit rechts ein Blatt Küchenpapier vor den Mund (bis 0,6 s), spuckt bei 0,9 / 1,6 / 2,3 s
- *  - stowtabs:    hebt die Tab-Packung mit rechts in den Oberschrank (Schrank-Front 0,45 m vor ihm, Regal 1,68 m hoch,
+ *  - stowtabs:    steht links vor dem Oberschrank, hebt die Tab-Packung mit rechts hinein (0,24 m rechts, 0,5 m vor ihm, 1,68 m hoch,
  *                 Hand dort bei 0,9 s, loslassen bei 1,0 s), drückt die Tür zu (1,2–1,7 s), Hand runter bis 2,3 s
  */
 const L3t = (sx: number, sz: number, bend: number): Limb => ({sx, sz, bend});
@@ -1358,7 +1358,7 @@ const tabPose = (motion: Motion, time: number): DummyPose | null => {
       p.torsoX = -0.05 * tilt + breathe;
       p.headX = 0.15 * (1 - up) - 0.42 * tilt;
       const low: P3 = [-0.07, 1.2, 0.33];
-      const mouth: P3 = [-0.03, 1.78 + 0.03 * tilt, 0.24 - 0.02 * tilt];
+      const mouth: P3 = [-0.03, 1.6 + 0.04 * tilt, 0.3 - 0.03 * tilt];
       reachR(p, lerp3t(low, mouth, up), 0.33);
       p.armL = L3t(-0.1, 0.12, -0.3);
       p.item = 'milk';
@@ -1377,9 +1377,9 @@ const tabPose = (motion: Motion, time: number): DummyPose | null => {
       p.torsoX = 0.32 * k + 0.06 * pulse + breathe;
       p.headX = 0.3 * k + 0.16 * pulse;
       p.hipY = 0.98 - 0.02 * k;
-      const mouth: P3 = [-0.02, 1.64 - 0.02 * pulse, 0.42 + 0.01 * pulse];
+      const mouth: P3 = [-0.02, 1.48 - 0.02 * pulse, 0.42 + 0.01 * pulse];
       reachR(p, lerp3t([-0.2, 1.0, 0.2], mouth, k), 0.36);
-      reachL(p, lerp3t([0.2, 1.0, 0.2], [0.08, 1.58, 0.42], k), 0.33);
+      reachL(p, lerp3t([0.2, 1.0, 0.2], [0.09, 1.44, 0.42], k), 0.33);
       p.item = 'paper';
       return p;
     }
@@ -1391,12 +1391,12 @@ const tabPose = (motion: Motion, time: number): DummyPose | null => {
       p.torsoX = 0.02 + breathe;
       p.headX = -0.28 * up * (1 - down) + 0.02;
       const low: P3 = [-0.1, 1.12, 0.3];
-      const shelf: P3 = [-0.05, 1.68, 0.5];
-      const door: P3 = [0.05, 1.8, 0.48];
+      const shelf: P3 = [-0.24, 1.68, 0.5];
+      const door: P3 = [-0.5, 1.78, 0.4];
       let tgt = lerp3t(low, shelf, up);
       if (time > 1.0) tgt = lerp3t(shelf, door, easeInOut(clamp((time - 1.0) / 0.25)));
-      if (time > 1.15) tgt = lerp3t(door, [0.04, 1.8, 0.44], push);
-      if (time > 1.8) tgt = lerp3t([0.04, 1.8, 0.44], [-0.22, 1.0, 0.12], down);
+      if (time > 1.15) tgt = lerp3t(door, [-0.36, 1.78, 0.46], push);
+      if (time > 1.8) tgt = lerp3t([-0.36, 1.78, 0.46], [-0.22, 1.0, 0.12], down);
       reachR(p, tgt, 0.33, [0.6, -1, -0.3]);
       p.armL = L3t(-0.05, 0.12, -0.25);
       p.item = time < 1.0 ? 'tabpack' : '';
@@ -2435,7 +2435,7 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.33);
     return (
       <group position={tip} quaternion={level}>
-        <group position={[0.01, -0.075, 0.03]} rotation={[-pose.cup * 1.55, 0, 0]}>
+        <group position={[0.01, -0.06, 0.04]} rotation={[-pose.cup * 0.95, 0, 0]} scale={1.35}>
           <group position={[0, -0.02, 0]}>
             <MilkGlass fill={pose.fill} />
           </group>
@@ -2447,8 +2447,8 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.35);
     return (
       <group position={tip} quaternion={level}>
-        <group position={[0.04, -0.02, 0.03]} rotation={[0.15, 0, 0]}>
-          <PaperSheet />
+        <group position={[0.04, -0.035, 0.03]} rotation={[-0.35, 0, 0]}>
+          <PaperSheet w={0.17} h={0.15} />
         </group>
       </group>
     );

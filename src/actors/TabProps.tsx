@@ -14,7 +14,7 @@ import {useFontTexture} from './ToothProps';
  *  - KitchenRoll ("kuechenpapier"): Rolle Küchenpapier im Halter, ein Blatt hängt herunter. Ursprung = Boden.
  *  - PaperSheet: einzelnes Blatt Küchenpapier (hält der Dummy bei "spit").
  *  - ChildLockCabinet ("oberschrank"): Oberschrank (Wandschrank) mit Kindersicherung. Ursprung = unten hinten Mitte
- *      (an die Wand setzen). door 0 = zu … 1 = offen (Tür links angeschlagen), lock 1 = Kindersicherung eingerastet
+ *      (an die Wand setzen). door 0 = zu … 1 = offen (Tür rechts angeschlagen, Kindersicherung links), lock 1 = Kindersicherung eingerastet
  *      (rotes Schloss mit Bügel, grüner Punkt), 0 = offen. Innen ein Regalboden bei 0,22 m.
  *  - WarnBadge: gelbes Warndreieck mit "!" (immer zur Kamera, z. B. neben den Organ-Pfeilen).
  */
@@ -301,7 +301,9 @@ export const KitchenRoll = () => {
 
 // ---------- Oberschrank mit Kindersicherung ----------
 export const CABINET = {W: 0.62, H: 0.6, D: 0.34, shelf: 0.22};
-export const ChildLockCabinet = ({door = 0, lock = 1}: {door?: number; lock?: number}) => {
+export const ChildLockCabinet = ({door = 0, lock = 1, hinge = 'right'}: {door?: number; lock?: number; hinge?: 'left' | 'right'}) => {
+  /** h = −1: Tür rechts angeschlagen (Scharnier bei +x), +1: links */
+  const h = hinge === 'right' ? -1 : 1;
   const m = useMemo(
     () => ({
       body: std('#6f8f78', {roughness: 0.55}),
@@ -339,16 +341,16 @@ export const ChildLockCabinet = ({door = 0, lock = 1}: {door?: number; lock?: nu
       <mesh material={m.inner} position={[0, shelf, D / 2]}>
         <boxGeometry args={[W - 2 * t, 0.014, D - 0.03]} />
       </mesh>
-      {/* Tür (links angeschlagen, öffnet nach vorn) */}
-      <group position={[-W / 2, 0, D]} rotation={[0, -o * 1.75, 0]}>
-        <mesh material={m.body} position={[W / 2, H / 2, t / 2]} castShadow>
+      {/* Tür (rechts angeschlagen, öffnet nach vorn) – mit hinge="left" links angeschlagen */}
+      <group position={[(-h * W) / 2, 0, D]} rotation={[0, -h * o * 1.75, 0]}>
+        <mesh material={m.body} position={[(h * W) / 2, H / 2, t / 2]} castShadow>
           <boxGeometry args={[W - 0.004, H - 0.004, t]} />
         </mesh>
-        <mesh material={m.handle} position={[W - 0.06, 0.12, t + 0.012]}>
+        <mesh material={m.handle} position={[h * (W - 0.06), 0.12, t + 0.012]}>
           <boxGeometry args={[0.022, 0.14, 0.022]} />
         </mesh>
         {/* Kindersicherung: Riegel-Teil an der Tür */}
-        <group position={[W - 0.008, H - 0.1, t + 0.012]}>
+        <group position={[h * (W - 0.008), H - 0.1, t + 0.012]}>
           <mesh material={m.latchWhite}>
             <boxGeometry args={[0.07, 0.07, 0.024]} />
           </mesh>
@@ -361,24 +363,24 @@ export const ChildLockCabinet = ({door = 0, lock = 1}: {door?: number; lock?: nu
         </group>
       </group>
       {/* Kindersicherung: Gegenstück an der Seitenwand + Bügel, der über die Tür greift */}
-      <group position={[W / 2 + 0.012, H - 0.1, D + t]}>
-        <mesh material={m.latchWhite} position={[0.012, 0, -0.04]}>
+      <group position={[h * (W / 2 + 0.012), H - 0.1, D + t]}>
+        <mesh material={m.latchWhite} position={[h * 0.012, 0, -0.04]}>
           <boxGeometry args={[0.024, 0.07, 0.09]} />
         </mesh>
-        <mesh material={m.latch} position={[0.025, 0, -0.04]}>
+        <mesh material={m.latch} position={[h * 0.025, 0, -0.04]}>
           <boxGeometry args={[0.004, 0.055, 0.075]} />
         </mesh>
         {/* Bügel: liegt geschlossen vorn auf dem Riegel (lock 1), steht offen zur Seite (lock 0) */}
-        <group position={[0.012, 0, 0.0]} rotation={[0, (1 - l) * 1.4, 0]}>
-          <mesh material={m.latch} position={[-0.03, 0.022, 0.024]}>
+        <group position={[h * 0.012, 0, 0.0]} rotation={[0, h * (1 - l) * 1.4, 0]}>
+          <mesh material={m.latch} position={[-h * 0.03, 0.022, 0.024]}>
             <boxGeometry args={[0.07, 0.014, 0.012]} />
           </mesh>
-          <mesh material={m.latch} position={[-0.03, -0.022, 0.024]}>
+          <mesh material={m.latch} position={[-h * 0.03, -0.022, 0.024]}>
             <boxGeometry args={[0.07, 0.014, 0.012]} />
           </mesh>
         </group>
         {/* kleines Schloss-Symbol */}
-        <group position={[0.034, 0.075, -0.035]} rotation={[0, Math.PI / 2, 0]}>
+        <group position={[h * 0.034, 0.075, -0.035]} rotation={[0, (h * Math.PI) / 2, 0]}>
           <mesh material={m.latch}>
             <boxGeometry args={[0.04, 0.034, 0.012]} />
           </mesh>
