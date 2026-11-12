@@ -124,7 +124,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Ringboden 0,5 m hoch, Hocker in der roten Ecke, Grasbüschel rund um den Ring, Eukalyptusbäume, Tafelberge, tiefstehende Sonne,
   Klapptisch neben dem Ring, freie Zahnstelle im Gras; Atmo = `outback-atmo`),
   kleine Zahnarztpraxis mit Behandlungsstuhl (türkis, Lehne nach hinten), Behandlungslampe am Schwenkarm, Instrumentenablage,
-  Schrank mit Waschbecken, Zahn-Poster (`zahnarztpraxis`, `src/stage/Dental.tsx`).
+  Schrank mit Waschbecken, Zahn-Poster (`zahnarztpraxis`, `src/stage/Dental.tsx`),
+  Wohnküche = Küche + Spülmaschine (Edelstahl, rechts in der Küchenzeile) + Küchentisch (Mitte x −0.2, z 0.55, Platte 0,76 m) + roter
+  Stuhl (`wohnkueche`, `src/stage/Kitchen.tsx`, Atmo = `uhr-ticken`).
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
 - **Dummy-Bewegungen:** stehen, gehen, rennen, klettern, langsam rückwärts/seitlich gehen, stolpern,
@@ -151,12 +153,17 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Boxhaltung (`boxguard`), getroffen werden + taumeln (`hitstagger`), benommen mit Hand an der Wange (`dazed`),
   hinknien + Zahn im Gras suchen (`searchkneel`), Zahn vorsichtig an der Krone hochheben (`pickcrown`), Zahn halten (`holdtooth`),
   Zahn unter dem Wasserhahn abspülen (`rinsetooth`), Zahn ins Taschentuch wickeln (`wraptooth`), Zahn ablegen in Glas/Box/Milch
-  (`placetooth`), halb liegend im Behandlungsstuhl (`dentalsit`)
+  (`placetooth`), halb liegend im Behandlungsstuhl (`dentalsit`),
+  erschrocken auf den angebissenen Tab in der Hand starren (`tabstare`), Finger bis kurz vor den Mund – nur angedeutet (`fingermouth`),
+  Glas Milch trinken (`drinkmilk`), ins Küchenpapier ausspucken (`spit`), Tab-Packung in den Oberschrank räumen + Tür zudrücken (`stowtabs`)
 - **Wunde am Arm (Dummy, linker Unterarm):** kleiner roter Bisspunkt (`armbite`), roter Schimmer/Rötung, die wächst
   (`redness` 0 … 2), Pflaster (`plaster` 0 … 1, Rötung scheint drunter durch), Kompresse + Mullbinde (`dressing` 0 … 1)
 - **Zähne (Dummy):** stilisierte Zahnreihe vorn am Kopf (`teeth` 0/1) mit Zahnlücke (`gap` 0/1, kein Blut);
   rote Boxhandschuhe (`gloves` 0/1); Zahn in der Hand (bei `pickcrown/holdtooth/rinsetooth/placetooth` automatisch, Aussehen über
   die Dummy-Werte `gray`, `mark`), Taschentuch mit Zahn auf der linken Hand (bei `wraptooth`, Wert `wrap` 0 offen … 1 eingewickelt)
+- **Schaum + Röntgen-Hinweise (Dummy):** comichafte Schaumblasen am Mund (`foam` 0 … 2, `src/effects/Foam.tsx`), rosa Lunge +
+  roter Pfeil vom Mund hinein + Warndreieck (`lunge` 0 … 1), Magen + Pfeil zum Blutstropfen + grüne Giftpunkte + Warndreieck (`blut` 0 … 1,
+  beides `src/effects/BodyHint.tsx`, liegt immer sichtbar über dem Körper)
 - **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
 - **Weitere Figuren:** Braunbär (`bear`: stand, alert, sniff, walk, run, climb), Kreuzotter (`snake`: coil, slither,
   strike), Petermännchen (`petermaennchen`: buried, finup, swimaway) – gleicher Low-Poly-Look wie der Dummy;
@@ -199,10 +206,18 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (`wasserhahn`, `water` 0/1 = Wasser läuft, Auslauf bei (0, 1.0, 0.17) im eigenen System), Zahnrettungsbox ohne Markennamen mit
   Zahn-Symbol (`zahnrettungsbox`, `lid` 0 zu … 1 offen, `size`), H-Milch-Packung mit Aufschrift „H-Milch“ (`hmilch`), Boxhandschuh
   (Bauteil `BoxingGlove`), Hinweisschild mit beliebigem Text (`hinweis`: Feld `"text"`, Bewegung `show`, `below` 1 = Schild unter
-  der Stelle mit Zeiger nach oben, `size` = Größe; schaut immer zur Kamera)
+  der Stelle mit Zeiger nach oben, `size` = Größe, `good` 1 = grün statt rot; schaut immer zur Kamera)
+- **Objekte (Vergiftung, `src/actors/TabProps.tsx`):** bunter Spülmaschinentab ohne Marke (`spuelmaschinentab`, `mark` 1 = mit Bissstelle;
+  hält der Dummy bei `tabstare` automatisch angebissen), Packung Tabs mit Aufschrift „TABS“ + Warnraute (`tabpackung`, `lid` 1 = offen, Tabs schauen
+  heraus; bei `stowtabs` in der Hand), großes Glas Milch (`milchglas`, `fill` 1 voll … 0 leer; bei `drinkmilk` in der Hand), Küchenpapier-Rolle
+  (`kuechenpapier`), einzelnes Blatt (`papierblatt`; bei `spit` in der Hand), Oberschrank mit Kindersicherung (`oberschrank`, Ursprung unten
+  hinten an der Wand, `door` 0 zu … 1 offen – Tür rechts angeschlagen, `lock` 1 = Kindersicherung eingerastet mit grünem Punkt),
+  Warndreieck (`WarnBadge`), Smartphone flach liegend (`smartphone` mit Bewegung `lie`)
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
+- **Warnhinweis:** `situation.warning` (z. B. „Nicht nachmachen!“) = rotes Schild mit Warndreieck oben rechts neben der Kategorie, nur in den ersten 3 s.
+- **Grünes Aufleuchten später:** Shot-Feld `"flash": t` bei der richtigen Option = grünes Aufleuchten + Richtig-Ton erst bei t statt am Anfang.
 - **Harte Schnitte:** Shot-Feld `"sharpCuts": true` – die Kamera schwingt bei Schnitten nicht über (für alle neuen Videos setzen).
 - **Effekte:** Schmerz-Symbol am rechten Fuß (Wert `pain`), Stich-Punkt (`sting`), rotes/grünes Aufleuchten, Bewegungslinien, Wasser-Platschen (`splash`), Luftblasen (beim Sinken),
   Abblenden der Szene (`fade`), Atemwolken (`breath`), Kälte-Symbol (`cold`), Spritzwasser (`spray`), Stoppuhr (`timer`),
@@ -249,6 +264,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Drittes Video im Durchlauf-Modus. Choreografie wird mit `python3 scripts/kaenguru-choreo.py` aus den Wort-Zeitstempeln erzeugt.
   Hook-Überschrift „Du hast mal wieder mit einem Känguru gekämpft“ (Sprechtext bleibt wortgenau „gegen ein Känguru“).
   Standbilder in review/kaenguru-zahn/phase1/. Finales Video: review/final/kaenguru-zahn.mp4.
+- Spülmaschinentab: 979 neue Zeichen (countdown/reveal aus Cache), Sprechzeit 71,9 s, Video 80,8 s. Wort-Zeitstempel = Text (geprüft),
+  Kontrolle scribe_v2 (Situation + Erklärung 3 mit „112“): korrekt. Viertes Video im Durchlauf-Modus. Choreografie:
+  `python3 scripts/spuelmaschinentab-choreo.py`. Hook „Du hast mal wieder einen Spülmaschinentab gegessen“, Warnhinweis „Nicht nachmachen!“.
+  Darstellung bewusst ohne Reinbeißen (Video beginnt mit dem angebissenen Tab in der Hand). Standbilder in review/spuelmaschinentab/phase1/.
+  Finales Video: review/final/spuelmaschinentab.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -387,6 +407,9 @@ Beschreibung und angepinnter Kommentar.
   vor ihm auf 1,34 m), `towelswing` (ausholen bis 0,45 s, Treffer 0,7 s, Handtuchspitze ca. 1,3 m vor ihm auf 1,28 m), `switchoff`
   (Hand zum Schalter 0,67 m vor / 0,28 m rechts auf 1,39 m, runter bis 0,7 s), `broompush`, `kneelcall` (kniet in 0,7 s).
   Positionen planen mit `scripts/dummy_kin.py` (Nachbau der Gelenkkette: `hand(x, z, face, pose)` = Welt-Position der Hand).
+- Wohnküche im Spülmaschinentab-Video: Dummy hinter dem Tisch `x 0.05, z −0.1, face 180`; Oberschrank `x 1.3, y 1.45, z −2.3, face 180`,
+  Dummy davor (`stowtabs`) `x 1.06, z −1.6, face 0`; Packung im Schrank auf dem Regal (1.3, 1.677, −2.12). Neue Bewegungen müssen in
+  `src/lib/anim.ts` in CONTINUOUS (+ BLEND_MOTIONS) stehen, sonst springt ihre Zeit an jedem Zeitpunkt zurück.
 - Küchen-Koordinaten (`src/stage/Kitchen.tsx`): W 5, D 4.6, Rückwand z −2.3; Küchenzeile x −2.5 … 0.55 (Tiefe 0,6, Arbeitsplatte 0,9 m),
   Steckdose x 1.7, y 1.12; Zitteraal `x 1.745, y 1.12, z −2.275, face 180`; Kumpel hängt fest bei `x 1.15, z −1.96, face 35`.
   Sicherungskasten im `hausflur`: `x 0.82, z −3, face 180`, Dummy davor `x 0.54, z −2.13, face 0` (`switchoff`).
@@ -446,15 +469,16 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg, Graveyard.tsx = Friedhof,
                       Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
                       Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche;
-                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis)
+                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
                       Feuerwehrauto, Eel.tsx = Zitteraal, ShockProps.tsx = Handtuch/Sicherungskasten/Besen/
                       Steckdose/Toaster, Kangaroo.tsx = Känguru, ToothProps.tsx = Zahn/Taschentuch/Glas/Wasserhahn/
-                      Zahnrettungsbox/H-Milch/Boxhandschuh/Hinweisschild) + Bewegungen; index.tsx = Anhängen ("attach")
+                      Zahnrettungsbox/H-Milch/Boxhandschuh/Hinweisschild, TabProps.tsx = Tab/Packung/Milchglas/
+                      Küchenpapier/Oberschrank/Warndreieck) + Bewegungen; index.tsx = Anhängen ("attach")
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
-                      Strom-Blitze + Zittern (Zap)
+                      Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen (Zahnunfall-Demos in src/ShowcaseZahn.tsx)
 scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
