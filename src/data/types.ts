@@ -95,6 +95,17 @@ export type Motion =
   | 'pullgift' // Dummy: kniet und zieht Geschenke hervor (greifen 0–0,6 s, ziehen bis 1,3 s, zur Seite legen bis 1,8 s, wiederholt sich)
   | 'closedoor' // Dummy: Tür zuziehen (Griff greifen 0–0,4 s, ziehen bis 1,2 s, loslassen)
   | 'callwave' // Dummy: stehend telefonieren (Handy rechts am Ohr) und mit links groß winken
+  // ---- Dummy: Strom (Zitteraal) ----
+  | 'stuck' // Dummy/Kumpel: hängt mit der rechten Hand fest (Arm gestreckt nach vorn, ca. 1,15 m hoch), linker Arm zappelt
+  | 'grabarms' // Dummy: greift von hinten nach den Oberarmen der Person vor ihm (0–0,45 s) und zieht
+  | 'towelswing' // Dummy: mit nassem Handtuch ausholen (0–0,45 s) und nach vorn schlagen (Treffer bei ca. 0,7 s)
+  | 'switchoff' // Dummy: Schalter vorn oben umlegen (greifen 0–0,45 s, runterdrücken bis 0,7 s, loslassen ab 1,0 s)
+  | 'broompush' // Dummy: Besen mit trockenem Holzstiel waagrecht halten und nach vorn schieben
+  | 'kneelcall' // Dummy: hinknien (0,7 s), telefonieren, linke Hand vorn unten (z. B. auf der Schulter)
+  // ---- Zitteraal (Figur "zitteraal") ----
+  | 'peek' // Aal: aus der Steckdose herausgucken, sich umschauen, blinzeln
+  | 'wiggle' // Aal: zappeln (passt zu "zap")
+  | 'withdraw' // Aal: beleidigt zurückziehen (Kopf weg, Augen halb zu, Schmollmund, dann in die Steckdose)
   // ---- Zombie (Figur "zombie") ----
   | 'shamble' // Zombie: schlurfen, Arme ausgestreckt (Weg über Zeitpunkte, ca. 0,4–0,6 m/s)
   | 'reach' // Zombie: stehen, Arme ausgestreckt, schwankt
@@ -165,10 +176,16 @@ export type ActorKey = {
   fire?: number;
   /** Weihnachtsbaum: Rauch unter der Decke 0 = keiner … 1 = dicke Schicht … 1.5 = sehr dicht, tief. Türen: Rauch + Glut dahinter */
   smoke?: number;
+  /** Unter Strom: Figur zittert + Blitze (Dummy, Kumpel, Nachbar, Arzt, Zitteraal). 0 = aus … 1 = stark */
+  zap?: number;
+  /** Sicherungskasten: Hauptschalter 1 = an (oben) … 0 = aus (unten) */
+  lever?: number;
+  /** Besen: Neigung in Grad (an die Wand gelehnt) */
+  lean?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cute cartoon creature grumpy hmph squeak, then a quick slide and soft pop back into a small hole, playful",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-12T09:18:18.027Z"
+}

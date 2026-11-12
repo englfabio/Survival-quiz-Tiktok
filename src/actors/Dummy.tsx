@@ -7,6 +7,9 @@ import {clamp, easeInOut} from '../lib/anim';
 import {CompressPad, PlasterStrip, SprayBottle, SprayMist, VaccinationPass} from './FirstAidProps';
 import {Smartphone, Spade} from './GardenProps';
 import {Bucket, Gift} from './ChristmasProps';
+import {Broom, towelPoints, WetTowel} from './ShockProps';
+import {ZapAura} from '../effects/Zap';
+import {rng} from '../lib/anim';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -55,9 +58,9 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel';
   /** Gegenstand in beiden Händen (Feuer): Eimer mit Wasser, Geschenkpaket */
-  both: '' | 'bucket' | 'gift';
+  both: '' | 'bucket' | 'gift' | 'broom';
   /** Sprühnebel aus dem Desinfektionsspray: 0 = aus … 1 = voll */
   mist: number;
 };
@@ -951,8 +954,152 @@ const firePose = (motion: Motion, time: number, speed: number): DummyPose | null
   return null;
 };
 
+// ---------- Strom (Zitteraal) ----------
+/**
+ * Bewegungen für Strom-Szenen:
+ *  - stuck:      hängt mit der rechten Hand fest (Arm gestreckt nach vorn, ca. 1,15 m hoch), linker Arm zappelt,
+ *                lehnt sich leicht zurück. Zittern + Blitze kommen über den Wert "zap".
+ *  - grabarms:   greift von hinten mit beiden Händen nach vorn (Oberarme der Person vor ihm, 0–0,45 s), zieht dann
+ *  - towelswing: nasses Handtuch rechts: ausholen (0–0,45 s), Schlag nach vorn (bis 0,7 s, Treffer ca. 1,2 m hoch)
+ *  - switchoff:  rechte Hand zum Schalter vorn (0–0,45 s, ca. 1,39 m hoch, 0,67 m vor ihm, 0,28 m rechts), nach unten
+ *                drücken (bis 0,7 s, auf ca. 1,30 m), loslassen ab 1,0 s
+ *  - broompush:  Besen mit beiden Händen waagrecht nach vorn, schiebt (Stoß alle 1,4 s)
+ *  - kneelcall:  kniet (in 0,7 s), Handy rechts am Ohr, linke Hand vorn unten (z. B. auf der Schulter der Person)
+ */
+const stromPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'stuck': {
+      const p = base();
+      p.armR = L3(-1.05 + Math.sin(time * 5) * 0.02, -0.06, -0.05);
+      p.armL = L3(-0.5 + Math.sin(time * 6.3) * 0.35, 0.75 + Math.sin(time * 4.1) * 0.35, -0.7 + Math.sin(time * 5.2) * 0.3);
+      p.torsoX = -0.06;
+      p.torsoY = -0.12;
+      p.headX = -0.22 + Math.sin(time * 3.3) * 0.06;
+      p.headY = 0.1;
+      p.hipY = 0.95;
+      p.legL = L3(0.12, 0.08, 0.15);
+      p.legR = L3(-0.08, -0.08, 0.12);
+      return p;
+    }
+    case 'grabarms': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      const pull = easeInOut(clamp((time - 0.45) / 0.5));
+      p.armL = mixLimb(p.armL, L3(-1.1 + 0.1 * pull, -0.1, -0.4 - 0.25 * pull), k);
+      p.armR = mixLimb(p.armR, L3(-1.1 + 0.1 * pull, 0.1, -0.4 - 0.25 * pull), k);
+      p.torsoX = 0.12 * k - 0.22 * pull + breathe;
+      p.headX = -0.05 * k;
+      p.legL = L3(-0.25 * k + 0.1 * pull, 0.06, 0.1);
+      p.legR = L3(0.3 * pull, -0.06, 0.2 * pull);
+      p.hipY = 0.98 - 0.04 * pull;
+      return p;
+    }
+    case 'towelswing': {
+      const p = base();
+      p.item = 'towel';
+      const rest = L3(-0.35, -0.1, -0.6);
+      const wind = L3(-3.35, -0.12, -0.55);
+      const hit = L3(-1.6, -0.02, -0.08);
+      let r: Limb;
+      let twist = 0;
+      let lean = 0;
+      if (time < 0.45) {
+        const k = easeInOut(time / 0.45);
+        r = mixLimb(rest, wind, k);
+        twist = -0.35 * k;
+        lean = -0.1 * k;
+      } else if (time < 0.7) {
+        const k = easeInOut((time - 0.45) / 0.25);
+        r = mixLimb(wind, hit, k);
+        twist = -0.35 + 0.5 * k;
+        lean = -0.1 + 0.32 * k;
+      } else {
+        r = hit;
+        twist = 0.15;
+        lean = 0.22;
+      }
+      p.armR = r;
+      p.armL = L3(-0.7, 0.25, -0.5);
+      p.torsoY = twist;
+      p.torsoX = lean;
+      p.headX = 0.1;
+      const step = easeInOut(clamp((time - 0.4) / 0.3));
+      p.legR = L3(-0.35 * step, -0.05, 0.1 * step);
+      p.legL = L3(0.2 * step, 0.05, 0.05);
+      p.hipY = 0.98 - 0.03 * step;
+      return p;
+    }
+    case 'switchoff': {
+      const p = base();
+      const reach = L3(-1.45, -0.02, -0.12);
+      const down = L3(-1.33, -0.02, -0.12);
+      let r: Limb;
+      if (time < 0.45) r = mixLimb(p.armR, reach, easeInOut(time / 0.45));
+      else if (time < 0.7) r = mixLimb(reach, down, easeInOut((time - 0.45) / 0.25));
+      else if (time < 1.0) r = down;
+      else r = mixLimb(down, base().armR, easeInOut(clamp((time - 1.0) / 0.4)));
+      p.armR = r;
+      const lean = time < 1.0 ? easeInOut(clamp(time / 0.45)) : 1 - easeInOut(clamp((time - 1.0) / 0.4));
+      p.torsoX = 0.08 * lean + breathe;
+      p.headX = -0.18 * lean;
+      return p;
+    }
+    case 'broompush': {
+      const p = base();
+      p.both = 'broom';
+      const k = easeInOut(clamp(time / 0.4));
+      const ph = Math.max(0, time - 0.4);
+      const push = 0.5 - 0.5 * Math.cos((ph / 1.4) * TAU);
+      p.armL = mixLimb(p.armL, L3(-1.15 - 0.25 * push, -0.05, -0.35 + 0.25 * push), k);
+      p.armR = mixLimb(p.armR, L3(-0.55 - 0.25 * push, 0.2, -1.05 + 0.3 * push), k);
+      p.torsoX = (0.12 + 0.1 * push) * k;
+      p.legL = L3(-0.3 * k, 0.06, 0.12 * k);
+      p.legR = L3(0.25 * k, -0.06, 0.05);
+      p.hipY = 0.98 - 0.04 * k;
+      return p;
+    }
+    case 'kneelcall': {
+      const kneel = kneelPose();
+      kneel.torsoX = 0.18;
+      kneel.headX = 0.05;
+      const st = base();
+      const k = easeInOut(clamp(time / 0.7));
+      const p = mix(st, kneel, k);
+      const c = easeInOut(clamp((time - 0.6) / 0.6));
+      p.armR = L3(-2.0 * c - 0.3 * (1 - c), -0.1 + 0.4 * c, -0.15 - 2.15 * c);
+      p.smartphone = c > 0.15;
+      p.armL = L3(-1.0 * k + Math.sin(time * 1.7) * 0.04, 0.12, -0.35 * k);
+      p.headY = 0.12 * c;
+      p.headX = 0.1 * c + Math.sin(time * 1.6) * 0.03 + 0.05;
+      return p;
+    }
+  }
+  return null;
+};
+
+/** Zittern unter Strom: Gliedmaßen zucken zufällig (amount 0 … 1), ändert sich jedes Bild */
+export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): DummyPose => {
+  if (amount < 0.01) return p;
+  const r = rng(seed * 4241 + Math.floor(time * 30) * 15013);
+  const n = () => (r() - 0.5) * 2 * amount;
+  const j = (l: Limb, a: number): Limb => ({sx: l.sx + n() * a, sz: l.sz + n() * a, bend: l.bend + n() * a});
+  return {
+    ...p,
+    armL: j(p.armL, 0.12),
+    armR: j(p.armR, 0.05),
+    legL: j(p.legL, 0.05),
+    legR: j(p.legR, 0.05),
+    headX: p.headX + n() * 0.12,
+    headY: p.headY + n() * 0.15,
+    torsoX: p.torsoX + n() * 0.04,
+    torsoZ: p.torsoZ + n() * 0.05,
+    hipY: p.hipY + n() * 0.01,
+  };
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -1900,9 +2047,23 @@ const armPoint = (limb: Limb, side: 1 | -1, foreZ: number, along: number, up = 0
     .add(new THREE.Vector3(0.27 * side, 0.44, 0));
 
 /** Gegenstand in der rechten Hand (Pflaster, Spray, Kompresse, Impfpass) */
-const HandItem = ({pose, time}: {pose: DummyPose; time: number}) => {
+const HandItem = ({pose, time, zap = 0, zapTime = 0}: {pose: DummyPose; time: number; zap?: number; zapTime?: number}) => {
   const hand = armPoint(pose.armR, -1, pose.foreZ, 0.33);
   if (!pose.item) return null;
+  if (pose.item === 'towel') {
+    // Handtuch hängt in Verlängerung des Unterarms aus der Hand (wie eine Peitsche), Blitze laufen daran entlang
+    const fwd = armPoint(pose.armR, -1, pose.foreZ, 0.45);
+    const dir = fwd.clone().sub(hand).normalize();
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir);
+    return (
+      <group position={hand} quaternion={q}>
+        <group position={[0, 0.02, 0]}>
+          <WetTowel time={time} bend={0.12} />
+        </group>
+        <ZapAura anchors={[new THREE.Vector3(0, 0, 0), ...towelPoints(0.12)].reverse()} amount={zap} time={zapTime} seed={77} count={6} len={0.16} light={false} />
+      </group>
+    );
+  }
   if (pose.item === 'spray') {
     // Sprühflasche zeigt zur Bissstelle am linken Unterarm
     const target = armPoint(pose.armL, 1, 0, 0.15, 0.07);
@@ -1948,6 +2109,19 @@ const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
   const l = armPoint(pose.armL, 1, 0, 0.33);
   const r = armPoint(pose.armR, -1, pose.foreZ, 0.33);
   const mid = l.clone().add(r).multiplyScalar(0.5);
+  if (pose.both === 'broom') {
+    // Stiel läuft durch beide Hände (links vorn), Bürste am vorderen Ende
+    const dir = l.clone().sub(r).normalize();
+    const far = l.clone().addScaledVector(dir, 0.95);
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().negate());
+    return (
+      <group position={far} quaternion={q}>
+        <group position={[0, -0.06, 0]}>
+          <Broom />
+        </group>
+      </group>
+    );
+  }
   // Gegenstand bleibt in der Welt waagrecht (Oberkörper-Neigung ausgleichen)
   const rot: [number, number, number] = [-pose.torsoX - pose.pitch, -pose.torsoY, -pose.torsoZ];
   return (
@@ -1981,8 +2155,14 @@ export const Dummy = ({
   plaster = 0,
   dressing = 0,
   coat = false,
+  zap = 0,
+  zapTime = 0,
 }: {
   pose: DummyPose;
+  /** unter Strom: Blitze um Hände, Arme, Kopf (0 … 1) – Zittern kommt über zapPose */
+  zap?: number;
+  /** Zeit für die Blitze (Bewegungszeit → friert beim Einfrieren mit ein) */
+  zapTime?: number;
   bite?: boolean;
   sting?: boolean;
   pain?: number;
@@ -2051,7 +2231,25 @@ export const Dummy = ({
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
           <Arm m={m} limb={pose.armL} side={1} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} />
-          <HandItem pose={pose} time={time} />
+          <HandItem pose={pose} time={time} zap={zap} zapTime={zapTime} />
+          {zap > 0.01 && (
+            <ZapAura
+              anchors={[
+                armPoint(pose.armR, -1, pose.foreZ, 0.33),
+                armPoint(pose.armL, 1, 0, 0.33),
+                armPoint(pose.armR, -1, pose.foreZ, 0),
+                armPoint(pose.armL, 1, 0, 0),
+                new THREE.Vector3(0, 0.78, 0),
+                new THREE.Vector3(0, 0.36, 0.13),
+                new THREE.Vector3(0.2, 0.3, 0),
+                new THREE.Vector3(-0.2, 0.3, 0),
+              ]}
+              amount={zap}
+              time={zapTime}
+              seed={color ? color.length * 13 + color.charCodeAt(1) : 5}
+              count={9}
+            />
+          )}
           <BothHandsItem pose={pose} time={time} />
           {coat && (
             <mesh material={m.joint} position={[0, 0.5, 0.05]} rotation={[1.1, 0, 0]}>

@@ -323,6 +323,34 @@
       "duration": 2,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "strom-knistern",
+      "prompt": "Cartoon electric zap, crackling buzzing electricity sparks, comedic, no explosion, no screams",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "sicherung-klick",
+      "prompt": "Heavy plastic circuit breaker main switch flipped off, single firm clunk click, close perspective",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "handtuch-klatsch",
+      "prompt": "Wet towel whip slap with a splash of water, single hit",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "aal-schmollen",
+      "prompt": "Cute cartoon creature grumpy hmph squeak, then a quick slide and soft pop back into a small hole, playful",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.5
     }
   ]
 }

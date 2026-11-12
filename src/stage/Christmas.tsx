@@ -401,7 +401,8 @@ const ChristmasRoomScene = () => {
  */
 export const HALL = {W: 2.4, D: 6, H: 2.6, roomDoor: {z0: -1.25, z1: -0.35}, flatDoor: {x0: -0.47, x1: 0.47}};
 
-const HallScene = () => {
+/** Flur; wreath = Weihnachtskranz an der Wand (nur in der Weihnachts-Version "flur") */
+const HallBase = ({wreath}: {wreath: boolean}) => {
   const {W, D, H} = HALL;
   const mats = useMemo(
     () => ({
@@ -485,10 +486,10 @@ const HallScene = () => {
         <meshStandardMaterial color="#d9a441" />
       </mesh>
       {/* Kranz an der Wohnungstür (Wandseite) */}
-      <mesh position={[0.78, 1.6, -D / 2 + 0.05]}>
+      {wreath && <mesh position={[0.78, 1.6, -D / 2 + 0.05]}>
         <torusGeometry args={[0.13, 0.05, 6, 12]} />
         <meshStandardMaterial color="#2f6e45" flatShading />
-      </mesh>
+      </mesh>}
     </Room>
   );
 };
@@ -718,5 +719,9 @@ const OutsideScene = ({cam}: {cam?: StageCam}) => {
 };
 
 export const christmasRoomStage: StageDef = {id: 'weihnachtszimmer', Component: ChristmasRoomScene, climbTrees: [], groundHeight: () => 0, ambience: 'feuer-knistern'};
+const HallScene = () => <HallBase wreath />;
+const PlainHallScene = () => <HallBase wreath={false} />;
+/** Flur ohne Weihnachtsdeko (sonst wie "flur"). Platz für den Sicherungskasten rechts neben der Wohnungstür: x 0.82, z −3 */
+export const plainHallStage: StageDef = {id: 'hausflur', Component: PlainHallScene, climbTrees: [], groundHeight: () => 0};
 export const hallStage: StageDef = {id: 'flur', Component: HallScene, climbTrees: [], groundHeight: () => 0};
 export const outsideStage: StageDef = {id: 'hauseingang', Component: OutsideScene, climbTrees: [], groundHeight: () => 0, ambience: 'winter-atmo'};

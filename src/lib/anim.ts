@@ -38,7 +38,8 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'cross', 'slip', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave',
   'armflinch', 'armhold', 'armlook', 'applyplaster', 'couchsit', 'chairsit', 'couchwait', 'showpass', 'chairnod', 'rinse', 'disinfect', 'compress',
   'shamble', 'reach', 'chomp', 'confused', 'flow', 'flip', 'spin', 'open',
-  'recoil', 'runbucket', 'pullgift', 'closedoor', 'callwave'];
+  'recoil', 'runbucket', 'pullgift', 'closedoor', 'callwave',
+  'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall', 'peek', 'wiggle', 'withdraw'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -48,6 +49,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'armflinch', 'armhold', 'armlook', 'applyplaster', 'couchsit', 'chairsit', 'couchwait', 'showpass', 'chairnod', 'rinse', 'disinfect', 'compress',
   'shamble', 'reach', 'chomp', 'confused',
   'recoil', 'runbucket', 'pullgift', 'closedoor', 'callwave',
+  'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */
@@ -90,6 +92,8 @@ export type ActorState = {
   values: ActorValues;
   /** Atemwolken: aufsummierte Atemzüge seit Abschnittsbeginn (damit sich das Tempo weich ändert) */
   breathPhase: number;
+  /** Sekunden seit Abschnittsbeginn (für Blitze/Zittern; wird in resolveActors gesetzt) */
+  sectionTime?: number;
 };
 
 /** Pro Zeitpunkt die "geerbten" Werte (face, bite, tilt …) – gelten weiter, bis sie sich ändern */

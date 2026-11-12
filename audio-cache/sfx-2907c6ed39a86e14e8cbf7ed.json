@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Heavy plastic circuit breaker main switch flipped off, single firm clunk click, close perspective",
+  "duration": 1,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-12T09:18:13.307Z"
+}

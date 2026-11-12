@@ -11,7 +11,10 @@ import {bridgeLocalMatrix, Drawbridge} from './CastleProps';
 import {Bear, bearPose} from './Bear';
 import {Car, carLocalMatrix, carPose} from './Car';
 import {Basin} from './Basin';
-import {Dummy, dummyPoseBlended} from './Dummy';
+import {Dummy, dummyPoseBlended, zapPose} from './Dummy';
+import {Eel, eelAnchors, eelPose} from './Eel';
+import {Broom, FuseBox, WetTowel} from './ShockProps';
+import {ZapAura, zapShake} from '../effects/Zap';
 import {Snake, snakePose} from './Snake';
 import {Thermometer} from './Thermometer';
 import {AerialBomb, SmartphoneProp, SpadeProp, WarnStake, Wheelbarrow} from './GardenProps';
@@ -62,6 +65,12 @@ export const ACTORS = {
   eimer: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
   geschenke: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
   feuerwehrauto: {height: 1.5, climbOffset: 0, speedLineHeight: 1.2},
+  // ---- Strom (Zitteraal) ----
+  kumpel: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  zitteraal: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
+  handtuch: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  sicherungskasten: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
+  besen: {height: 0.7, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -74,6 +83,10 @@ const coldHeight = (motion: string) => (['backfloat', 'backswim', 'crawl', 'swim
 const NEIGHBOR_COLOR = '#3f8fd6';
 /** Körperfarbe der Ärztin/des Arztes (gleiche Figur wie der Dummy, türkis, mit weißem Kittel) */
 const DOCTOR_COLOR = '#2fae9c';
+/** Körperfarbe des Kumpels (zweiter Crashtest-Dummy, orange – für alle Szenen, in denen man jemandem hilft) */
+const BUDDY_COLOR = '#f07a1e';
+/** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel'];
 
 /** Petermännchen größer als echt (ca. 0,48 m statt 0,3 m), damit es im Hochformat gut zu sehen ist */
 const WEEVER_SCALE = 1.6;
@@ -153,6 +166,7 @@ export const resolveActors = (
   for (const [name, keys] of ordered) {
     const s = sampleActor(keys, t, sectionSeconds);
     s.breathPhase = breathPhaseAt(keys, t, sectionSeconds);
+    s.sectionTime = t * sectionSeconds;
     let base: THREE.Matrix4;
     if (!hasAttach(keys)) {
       placeOnStage(name, s, stage);
@@ -218,6 +232,9 @@ export const Actor = ({
   const v = state.values;
   const coldPos = pos.clone().add(new THREE.Vector3(0, coldHeight(state.motion), 0));
   const qPos = pos.clone().add(new THREE.Vector3(0, 2.2, 0));
+  // Zeit für Blitze/Zittern = Gesamtzeit im Abschnitt (läuft über Bewegungswechsel weiter, friert beim Einfrieren ein)
+  const zt = state.sectionTime ?? state.motionTime;
+  const shake = DUMMY_LIKE.includes(name) ? zapShake(zt, v.zap, name.length) : {pos: [0, 0, 0] as [number, number, number], rot: [0, 0, 0] as [number, number, number]};
   return (
     <>
     {name === 'zombie' && state.motion === 'confused' && (
@@ -231,9 +248,12 @@ export const Actor = ({
       </group>
     )}
     <group matrix={matrix} matrixAutoUpdate={false}>
+    <group position={shake.pos} rotation={shake.rot}>
       {name === 'dummy' && (
         <Dummy
-          pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)}
+          zap={v.zap}
+          zapTime={zt}
+          pose={zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 3)}
           bite={state.bite}
           sting={state.sting}
           pain={v.pain}
@@ -307,7 +327,35 @@ export const Actor = ({
       )}
       {name === 'splash' && state.motion === 'splash' && <Splash time={state.motionTime} />}
       {lines && <SpeedLines time={state.motionTime} height={ACTORS[name as ActorName]?.speedLineHeight ?? 1} />}
+      {name === 'kumpel' && (
+        <Dummy
+          color={BUDDY_COLOR}
+          zap={v.zap}
+          zapTime={zt}
+          pose={zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 9)}
+        />
+      )}
+      {name === 'zitteraal' && <ZitterAal motion={state.motion} time={state.motionTime} zap={v.zap} zt={zt} />}
+      {name === 'handtuch' && <WetTowel time={state.motionTime} bend={0.05} />}
+      {name === 'sicherungskasten' && <FuseBox lever={v.lever} />}
+      {name === 'besen' && (
+        <group rotation={[deg(-v.lean), 0, 0]}>
+          <Broom />
+        </group>
+      )}
     </group>
+    </group>
+    </>
+  );
+};
+
+/** Zitteraal mit Blitzen (zap) */
+const ZitterAal = ({motion, time, zap, zt}: {motion: string; time: number; zap: number; zt: number}) => {
+  const pose = eelPose(motion as never, time);
+  return (
+    <>
+      <Eel pose={pose} glow={0.4 + zap * (0.6 + 0.4 * Math.sin(zt * 31))} />
+      <ZapAura anchors={eelAnchors(pose)} amount={zap} time={zt} seed={21} count={5} len={0.14} width={0.009} />
     </>
   );
 };
