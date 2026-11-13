@@ -63,6 +63,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - herrenloser-koffer → 3.
 - pistole-wald → 1. Push
 - geldkoffer-million → 2. Push
+- bahnsteigkante-sog → 1. Push
 
 ## Das Format (Ablauf eines Videos)
 
@@ -158,6 +159,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (x 1.4 … 14, z −7 … 9) für Kameras, Sonne von rechts. Waldrand an einer Straße (`waldstrasse`, gleiche Datei): Waldweg endet bei z 4.6 am
   Gehweg (z 5 … 7), Straße mit Mittellinie (z 7 … 13), gegenüber Gehweg, Hecken, vier Häuser (ab z 18), Straßenlaternen; Boden flach.
   Wald-Baukasten (`makeForestStage`) kann jetzt: eigene Bodenhöhe (`ground`), Weg nur in einem Bereich (`pathRange`), Deko-Sperrzonen (`decoAllowed`).
+  Bahnsteig mit Oberleitung (`bahnsteig`, gleiche Datei, Atmo = `bahnhof-atmo`): wie `bahnhof`, dazu deutlich sichtbare weiße Linie (0,25 m, hell),
+  Oberleitung über Gleis 3 + 2 (Bauteil `Catenary`: Masten zwischen den Gleisen bei z −4.12, x −54/−30/−6/18/42, Fahrdraht Welt-y 4.55) und
+  schlanker Mast mit Lautsprecher-Trichter + Lampe (Bauteil `SpeakerMast`, Fuß (−2.6, 2.7), Trichter ca. (−2.45, 3.55, 2.42)).
   Reisende als Bühnen-Bauteil mit Gehbewegung + optionalem Rollkoffer: `Passenger` in `src/stage/Station.tsx`.
   Stadtpark in der Abenddämmerung (`park`, `src/stage/Park.tsx`, Atmo = `outback-atmo` = Grillen + Abendwind): Kiesweg entlang x (z −1 … 1),
   Parkbank (0, −1.65) Blick +z (Bauteil `ParkBench`), Platz „neben der Bank“ `PARK.beside` (1.3, −1.55), Laternen an (Bauteil `ParkLantern`) bei z −1.45
@@ -214,6 +218,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Koffer greifen + unter den linken Arm klemmen (`tuckcase`), geduckt schleichen mit Koffer unterm Arm (`sneak`), Bündel aus dem Koffer in die Jacke
   stecken (`grabwads`, alle 1,5 s), mit Koffer in der Hand gehen/stehen (`carrycase`/`holdcase`, Koffer `hand` 1 + `drop` 0.4), Koffer auf den Tresen
   heben (`setcounter`), am Tresen Formular ausfüllen (`fillform`, Kugelschreiber automatisch), jubeln (`cheer`). Achtung: Auf der Wache face 0 (zum Tresen).
+  Bahnsteig: außer Atem vorgebeugt, Hände auf den Knien (`pant`, mit `breath`/`heave`), Durchsage hören – aufrichten, Kopf nach links oben, Hand hinters Ohr,
+  ab 2,2 s Blick das Gleis entlang (`perkup`), zügig rückwärts gehen mit Blick zum Gleis (`hurryback`, Weg über Zeitpunkte), sicher stehen und dem
+  vorbeifahrenden Zug mit dem Kopf folgen (0,8–2,6 s links → rechts, `brace`), an der Kante stehen + leicht vorneigen, Blick nach links (`edgelean`),
+  Handy quer mit beiden Händen vors Gesicht + filmen, mit Weg = Schlurf-Schritte (`filmphone`, Handy-Objekt `filmhandy` mit `hand` 1, `drop` −0.05).
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -226,7 +234,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Schaum + Röntgen-Hinweise (Dummy):** comichafte Schaumblasen am Mund (`foam` 0 … 2, `src/effects/Foam.tsx`), rosa Lunge +
   roter Pfeil vom Mund hinein + Warndreieck (`lunge` 0 … 1), Magen + Pfeil zum Blutstropfen + grüne Giftpunkte + Warndreieck (`blut` 0 … 1,
   beides `src/effects/BodyHint.tsx`, liegt immer sichtbar über dem Körper)
-- **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
+- **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen.
+  Wind/Sog an der Jacke: Wert `wind` 0 … 1 = Jackensaum flattert Richtung Gleis (−z der Welt), `drift` = seitlich mit dem Zug.
 - **Fragezeichen über jeder Figur mit Dummy-Körper:** Wert `question` 0 … 1 (z. B. verwunderte Polizisten).
 - **Augenbrauen** (Figuren mit Dummy-Körper): Wert `brow` – ab 0,01 sichtbar, 1 = rechte Braue hochgezogen („Hm?“).
 - **Geldbündel in der Jacke** (Dummy mit `jacket` 1): Wert `stash` 0 … 3 = so viele Bündel schauen vorn aus der Jacke.
@@ -314,6 +323,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   = ausgefüllt, `pen` 1 = Kugelschreiber daneben, `size`), Taschenrechner (`taschenrechner`, Text Standard „30.010 €“, `fill` 0 … 1 zählt hoch, `tilt`),
   Kalenderblatt (`kalenderblatt`, Text Standard „6 Monate“, `show` springt auf), rundes rotes §-Schild (`paragraf`, Text Standard „§ 246“, `show`) –
   beide schauen immer zur Kamera.
+- **Objekte (Bahnsteig, `src/actors/TrainProps.tsx`):** schneller, stilisierter Durchgangszug ohne Logos/ohne ICE-Design (`zug`: dunkelblau, helles
+  Fensterband, oranger Streifen, stumpfe Nase, Triebkopf + 3 Wagen + Steuerwagen ≈ 90 m, Stromabnehmer am Fahrdraht; Ursprung = Nasenspitze in Gleismitte,
+  steht im Gleis → y relativ zum Gleisbett; face 90 = fährt nach +x; Bewegung `pass` mit Weg über Zeitpunkte, ab ca. 8 m/s Bewegungsunschärfe + Windlinien),
+  Kaffeebecher (`becher`, `toss` = wirbelt durch die Luft, `size`), gelbe Schallwellen „)))“ für Durchsagen (`durchsage`, `show`, schaut zur Kamera, `side` 1 = nach
+  links, `size`), Handy quer zum Filmen mit blauer Hülle + Display mit Zug und rotem Aufnahme-Punkt (`filmhandy`, Display zeigt zum Dummy: face Dummy + 180),
+  Sog-Windlinien vom Bahnsteig zum Gleis (`sog`, face 0, Werte `wind` 0 … 1, `drift`, `size` = breiter).
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -329,7 +344,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million)
+  (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million)
 
 ## Stimme (ElevenLabs)
 
@@ -392,6 +407,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Option 1: „§ 246“-Schild). Standbilder in review/geldkoffer-million/phase1/. Finales Video: review/final/geldkoffer-million.mp4.
   Kamera-Planung: `scripts/fitcam.py` (`fit(punkte, az, el, fov, bildbereich)` sucht Abstand + Blickpunkt, damit alles in einen Bildbereich passt –
   bei der richtigen Option liegt links oben die Schrittliste, also Geschehen rechts halten).
+- Bahnsteigkante-Sog: 949 neue Zeichen (countdown/reveal/outro aus Cache, laut ElevenLabs 379 Credits), Sprechzeit 74,0 s, Video 82,9 s. Wort-Zeitstempel = Text
+  (geprüft), Kontrolle scribe_v2 (Erklärung 1 mit „15.000 Volt“ + Option 3): korrekt. Choreografie: `python3 scripts/bahnsteigkante-choreo.py` (prüft mit
+  check_safe, dass beim Einfrieren niemand im Gleis ist und der Zug noch ≥ 12 m entfernt ist – im Video ca. 32 m). Niemand fällt ins Gleis, niemand wird erfasst.
+  Standbilder in review/bahnsteigkante-sog/phase1/. Finales Video: review/final/bahnsteigkante-sog.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -418,7 +437,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `herzschlag`, `wal-schnaufen`, `wal-ruf`, `plopp`, `schrumpfen`, `aufzug-summen` (Bühne Aufzug, Schleife), `aufzug-ding`, `bahn-atmo` (Bühne Bahn, Schleife) (Wal-Panikattacke);
   `magnet-platsch`, `seil-ziehen`, `kopfsteinpflaster` (Magnetfischen-Granate; Kanal nutzt `see-atmo`);
   `bahnhof-atmo` (Bühne Bahnhof, Schleife), `koffer-rollen`, `schnallen-klick`, `absperrband` (Herrenloser Koffer);
-  `laub-rascheln`, `hund-bellen` (Pistole im Wald); Geldkoffer nutzt nur vorhandene Effekte.
+  `laub-rascheln`, `hund-bellen` (Pistole im Wald); Geldkoffer nutzt nur vorhandene Effekte;
+  `durchsage-gong`, `zug-naht`, `zug-durchfahrt`, `wind-sog` (Bahnsteigkante-Sog; Bühne `bahnsteig` nutzt `bahnhof-atmo`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -610,7 +630,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche;
                       Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche;
                       Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer;
-                      Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Variante volle Halle) + Passenger-Figuren;
+                      Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Varianten volle Halle + Bahnsteig mit Oberleitung/Lautsprecher) + Passenger-Figuren;
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
                       PoliceStation.tsx = Polizeiwache mit Tresen)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
@@ -623,7 +643,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Herz-Symbol, MagnetProps.tsx = Magnet/Granate/Seil, StationProps.tsx = Koffer/
                       Absperrband/Rechnung/Absperrband-Rolle, PistolProps.tsx = Pistole/Karten-Handy/
                       Polizeiauto/Hund/Leine, MoneyProps.tsx = Geldkoffer/Bündel/Formular/Taschenrechner/
-                      Kalenderblatt/§-Schild) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
