@@ -1,0 +1,1601 @@
+{
+  "id": "magnetfischen-granate",
+  "category": "fundstuecke",
+  "stage": "kanal",
+  "situation": {
+    "speech": "Du hast mal wieder beim Magnetfischen eine Granate rausgezogen. Rostig, und sie hängt noch an deinem Magneten. Was machst du jetzt?",
+    "hook": "Du hast mal wieder eine Granate geangelt"
+  },
+  "options": [
+    {
+      "card": "Zurück ins Wasser werfen",
+      "speech": "Eins: Sie schnell zurück ins Wasser werfen.",
+      "dummyAction": "Dummy hält die Granate in der Hand und holt weit aus, um sie zurück ins Wasser zu werfen. Bild friert im Ausholen ein, rotes Aufleuchten. Keine Explosion.",
+      "explanation": "Werfen ist das Gefährlichste, was du tun kannst. Alte Munition kann auch nach Jahrzehnten noch explodieren, schon ein Stoß kann reichen. Wenn du so etwas schon in der Hand hast: vorsichtig ablegen, niemals werfen.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -2.5,
+              2.05,
+              -5.4
+            ],
+            "look": [
+              0.0,
+              1.05,
+              0.6
+            ]
+          },
+          {
+            "t": 0.0872,
+            "pos": [
+              -2.4,
+              2.0,
+              -5.2
+            ],
+            "look": [
+              0.0,
+              1.05,
+              0.6
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -2.3,
+              1.98,
+              -5.0
+            ],
+            "look": [
+              0.0,
+              1.05,
+              0.6
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "holdgren",
+              "face": 0
+            },
+            {
+              "t": 0.0308,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "windup",
+              "face": 0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "windup",
+              "face": 0
+            }
+          ],
+          "granate": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "park",
+              "face": 0,
+              "hand": 1,
+              "drop": 0.03,
+              "tilt": 10
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "park",
+              "face": 0
+            }
+          ],
+          "magnet": [
+            {
+              "t": 0,
+              "x": -0.45,
+              "z": 0.37,
+              "motion": "park",
+              "face": 30,
+              "y": 0.168,
+              "rope": 0
+            }
+          ],
+          "car": [
+            {
+              "t": 0,
+              "x": 5.6,
+              "z": 3.0,
+              "motion": "park",
+              "face": 270
+            }
+          ]
+        },
+        "freeze": 0.1164,
+        "sfx": [
+          {
+            "t": 0.0514,
+            "id": "whoosh",
+            "volume": 0.3
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Ablegen, Abstand, 110",
+      "speech": "Zwei: Vorsichtig ablegen, Abstand halten und die 110 anrufen.",
+      "dummyAction": "Dummy geht in die Hocke, setzt die Granate vorsichtig am Ufer ab, löst den Magneten, geht langsam rückwärts weg, warnt einen Spaziergänger und telefoniert aus sicherer Entfernung. Grünes Aufleuchten.",
+      "explanation": "Leg die Granate vorsichtig ab, genau da, wo du stehst. Geh auf Abstand und warn andere. Dann ruf die 110. Die Polizei holt den Kampfmittelräumdienst, und der kümmert sich um den Rest. Genau so hat es ein Finder an der Saale gemacht, und die Polizei hat ihn dafür gelobt.",
+      "steps": [
+        {
+          "text": "Vorsichtig ablegen",
+          "cue": "Leg die Granate"
+        },
+        {
+          "text": "Niemals werfen",
+          "cue": "genau da"
+        },
+        {
+          "text": "Abstand halten, andere warnen",
+          "cue": "Geh auf Abstand"
+        },
+        {
+          "text": "110 anrufen",
+          "cue": "Dann ruf die 110"
+        }
+      ],
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.3,
+              2.75,
+              -6.45
+            ],
+            "look": [
+              0.5,
+              0.8,
+              0.4
+            ]
+          },
+          {
+            "t": 0.2268,
+            "pos": [
+              2.1,
+              2.65,
+              -6.1
+            ],
+            "look": [
+              0.5,
+              0.75,
+              0.4
+            ]
+          },
+          {
+            "t": 0.2311,
+            "pos": [
+              -0.6,
+              3.1,
+              -9.0
+            ],
+            "look": [
+              -1.7,
+              0.25,
+              2.5
+            ]
+          },
+          {
+            "t": 0.3941,
+            "pos": [
+              -0.8,
+              3.2,
+              -9.5
+            ],
+            "look": [
+              -1.7,
+              0.2,
+              2.5
+            ]
+          },
+          {
+            "t": 0.3835,
+            "pos": [
+              -0.8,
+              3.15,
+              -9.3
+            ],
+            "look": [
+              -1.7,
+              0.2,
+              2.5
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.75,
+              3.05,
+              -8.9
+            ],
+            "look": [
+              -1.7,
+              0.25,
+              2.5
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "startle",
+              "face": 0
+            },
+            {
+              "t": 0.0278,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "lowerset",
+              "face": 0
+            },
+            {
+              "t": 0.1413,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "unhook",
+              "face": 0
+            },
+            {
+              "t": 0.2665,
+              "x": 0.0,
+              "z": 0.62,
+              "motion": "retreat",
+              "face": 0
+            },
+            {
+              "t": 0.4029,
+              "x": -1.6,
+              "z": 4.4,
+              "motion": "retreat",
+              "face": 15
+            },
+            {
+              "t": 0.4112,
+              "x": -1.6,
+              "z": 4.4,
+              "motion": "warn",
+              "face": 290
+            },
+            {
+              "t": 0.4983,
+              "x": -1.6,
+              "z": 4.4,
+              "motion": "warn",
+              "face": 290
+            },
+            {
+              "t": 0.5003,
+              "x": -1.6,
+              "z": 4.4,
+              "motion": "call",
+              "face": 25
+            },
+            {
+              "t": 1,
+              "x": -1.6,
+              "z": 4.4,
+              "motion": "call",
+              "face": 25
+            }
+          ],
+          "magnet": [
+            {
+              "t": 0,
+              "x": 0.05,
+              "z": -0.36,
+              "motion": "park",
+              "face": 0,
+              "y": 1.2,
+              "hand": 1,
+              "drop": 0.34,
+              "rope": 1
+            },
+            {
+              "t": 0.0278,
+              "x": 0.05,
+              "z": -0.36,
+              "motion": "park",
+              "face": 0,
+              "y": 1.2,
+              "drop": 0.34
+            },
+            {
+              "t": 0.128,
+              "x": 0.05,
+              "z": -0.36,
+              "motion": "park",
+              "face": 0,
+              "y": 1.2,
+              "drop": 0.0
+            },
+            {
+              "t": 0.1413,
+              "x": 0.05,
+              "z": -0.36,
+              "motion": "park",
+              "face": 0,
+              "y": 1.2,
+              "drop": 0.0
+            },
+            {
+              "t": 0.2081,
+              "x": 0.05,
+              "z": -0.36,
+              "motion": "park",
+              "face": 0,
+              "y": 1.2,
+              "drop": 0.08
+            },
+            {
+              "t": 0.2637,
+              "x": 0.05,
+              "z": -0.36,
+              "motion": "park",
+              "face": 0,
+              "y": 1.2,
+              "drop": 0.22
+            },
+            {
+              "t": 1,
+              "x": 0.05,
+              "z": -0.36,
+              "motion": "park",
+              "face": 0,
+              "y": 1.2
+            }
+          ],
+          "granate": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 20,
+              "attach": "magnet",
+              "y": -0.26,
+              "tilt": 78
+            },
+            {
+              "t": 0.126,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 20,
+              "attach": "magnet",
+              "y": -0.26,
+              "tilt": 78
+            },
+            {
+              "t": 0.128,
+              "x": 0.06,
+              "z": 0.06,
+              "motion": "park",
+              "face": 20,
+              "y": 0.1,
+              "tilt": 82
+            },
+            {
+              "t": 1,
+              "x": 0.06,
+              "z": 0.06,
+              "motion": "park",
+              "face": 20,
+              "y": 0.1,
+              "tilt": 82
+            }
+          ],
+          "nachbar": [
+            {
+              "t": 0,
+              "x": -12,
+              "z": 3.2,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.2442,
+              "x": -12,
+              "z": 3.2,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.4223,
+              "x": -3.4,
+              "z": 3.2,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.4251,
+              "x": -3.4,
+              "z": 3.2,
+              "motion": "stand",
+              "face": 90
+            },
+            {
+              "t": 0.4613,
+              "x": -3.4,
+              "z": 3.2,
+              "motion": "stand",
+              "face": 90
+            },
+            {
+              "t": 0.4669,
+              "x": -3.4,
+              "z": 3.2,
+              "motion": "walk",
+              "face": 270
+            },
+            {
+              "t": 0.7452,
+              "x": -15,
+              "z": 3.2,
+              "motion": "walk",
+              "face": 270
+            },
+            {
+              "t": 1,
+              "x": -15,
+              "z": 3.2,
+              "motion": "stand",
+              "face": 270
+            }
+          ],
+          "car": [
+            {
+              "t": 0,
+              "x": 5.6,
+              "z": 3.0,
+              "motion": "park",
+              "face": 270
+            }
+          ]
+        },
+        "flash": 0.5003,
+        "sfx": [
+          {
+            "t": 0.517,
+            "id": "handy-waehlen",
+            "volume": 0.45
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Ins Auto, zur Polizei fahren",
+      "speech": "Drei: Sie ins Auto legen und selbst zur Polizei fahren.",
+      "dummyAction": "Dummy legt die Granate durchs offene Fenster auf den Beifahrersitz und fährt los, das Auto rumpelt über Kopfsteinpflaster, die Granate rüttelt auf dem Sitz. Bild friert ein, rotes Aufleuchten. Keine Explosion.",
+      "explanation": "Gut gemeint, aber lebensgefährlich. Die Polizei warnt ausdrücklich davor, gefundene Munition anzufassen, zu bewegen oder mitzunehmen. Im Auto rollt und rüttelt sie bei jeder Fahrt.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              10.12,
+              2.7,
+              -0.32
+            ],
+            "look": [
+              5.42,
+              0.8,
+              2.48
+            ]
+          },
+          {
+            "t": 0.1769,
+            "pos": [
+              9.82,
+              2.6,
+              -0.12
+            ],
+            "look": [
+              5.42,
+              0.8,
+              2.48
+            ]
+          },
+          {
+            "t": 0.1809,
+            "pos": [
+              5.5,
+              2.8,
+              0.55
+            ],
+            "look": [
+              5.74,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.1949,
+            "pos": [
+              5.043,
+              2.8,
+              0.55
+            ],
+            "look": [
+              5.283,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.209,
+            "pos": [
+              4.59,
+              2.8,
+              0.55
+            ],
+            "look": [
+              4.83,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.2234,
+            "pos": [
+              4.137,
+              2.8,
+              0.55
+            ],
+            "look": [
+              4.377,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.2381,
+            "pos": [
+              3.68,
+              2.8,
+              0.55
+            ],
+            "look": [
+              3.92,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.253,
+            "pos": [
+              3.224,
+              2.8,
+              0.55
+            ],
+            "look": [
+              3.464,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.268,
+            "pos": [
+              2.77,
+              2.8,
+              0.55
+            ],
+            "look": [
+              3.01,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.2833,
+            "pos": [
+              2.314,
+              2.8,
+              0.55
+            ],
+            "look": [
+              2.554,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.2987,
+            "pos": [
+              1.861,
+              2.8,
+              0.55
+            ],
+            "look": [
+              2.101,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.3143,
+            "pos": [
+              1.407,
+              2.8,
+              0.55
+            ],
+            "look": [
+              1.647,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.3301,
+            "pos": [
+              0.951,
+              2.8,
+              0.55
+            ],
+            "look": [
+              1.191,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.346,
+            "pos": [
+              0.497,
+              2.8,
+              0.55
+            ],
+            "look": [
+              0.737,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.3621,
+            "pos": [
+              0.041,
+              2.8,
+              0.55
+            ],
+            "look": [
+              0.281,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.161,
+              2.8,
+              0.55
+            ],
+            "look": [
+              0.401,
+              0.75,
+              2.7
+            ],
+            "fov": 50
+          }
+        ],
+        "actors": {
+          "car": [
+            {
+              "t": 0,
+              "x": 5.6,
+              "z": 3.0,
+              "motion": "park",
+              "face": 270,
+              "window2": 1
+            },
+            {
+              "t": 0.2157,
+              "x": 5.6,
+              "z": 3.0,
+              "motion": "park",
+              "face": 270
+            },
+            {
+              "t": 0.2177,
+              "x": 5.6,
+              "z": 3.0,
+              "motion": "drive",
+              "face": 270,
+              "rumble": 1
+            },
+            {
+              "t": 1,
+              "x": -20.096,
+              "z": 3.0,
+              "motion": "drive",
+              "face": 270
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 5.72,
+              "z": 1.88,
+              "motion": "holdgren",
+              "face": 180
+            },
+            {
+              "t": 0.0198,
+              "x": 5.72,
+              "z": 1.88,
+              "motion": "placeseat",
+              "face": 180
+            },
+            {
+              "t": 0.2157,
+              "x": 5.72,
+              "z": 1.88,
+              "motion": "placeseat",
+              "face": 180
+            },
+            {
+              "t": 0.2177,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "buckled",
+              "face": 0,
+              "attach": "car",
+              "y": 0
+            },
+            {
+              "t": 1,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "buckled",
+              "face": 0,
+              "attach": "car",
+              "y": 0
+            }
+          ],
+          "granate": [
+            {
+              "t": 0,
+              "x": 5.72,
+              "z": 1.88,
+              "motion": "park",
+              "face": 0,
+              "hand": 1,
+              "drop": 0.03,
+              "tilt": 10
+            },
+            {
+              "t": 0.0989,
+              "x": -0.3,
+              "z": -0.14,
+              "motion": "park",
+              "face": 90,
+              "attach": "car",
+              "y": 0.6,
+              "tilt": 80,
+              "hand": 1
+            },
+            {
+              "t": 0.1227,
+              "x": -0.3,
+              "z": -0.14,
+              "motion": "park",
+              "face": 90,
+              "attach": "car",
+              "y": 0.6,
+              "tilt": 80,
+              "hand": 0
+            },
+            {
+              "t": 0.2157,
+              "x": -0.3,
+              "z": -0.14,
+              "motion": "park",
+              "face": 90,
+              "attach": "car",
+              "y": 0.6,
+              "tilt": 80,
+              "rumble": 0
+            },
+            {
+              "t": 0.2177,
+              "x": -0.3,
+              "z": -0.14,
+              "motion": "park",
+              "face": 90,
+              "attach": "car",
+              "y": 0.6,
+              "tilt": 80,
+              "rumble": 1
+            },
+            {
+              "t": 1,
+              "x": -0.3,
+              "z": -0.14,
+              "motion": "park",
+              "face": 90,
+              "attach": "car",
+              "y": 0.6,
+              "tilt": 80
+            }
+          ],
+          "magnet": [
+            {
+              "t": 0,
+              "x": 0.2,
+              "z": 0.32,
+              "motion": "park",
+              "face": 30,
+              "y": 0.168,
+              "rope": 0
+            }
+          ]
+        },
+        "freeze": 0.3839,
+        "sfx": [
+          {
+            "t": 0.2177,
+            "id": "kopfsteinpflaster",
+            "volume": 0.6
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "correctOption": 2,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer zwei.",
+    "screen": "Richtig ist Nummer 2"
+  },
+  "outro": {
+    "speech": "Und vorher checken, ob Magnetfischen bei dir überhaupt erlaubt ist. Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Und vorher checken, ob Magnetfischen bei dir überhaupt erlaubt ist. Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: Stadt Köln · Land Schleswig-Holstein · Polizei",
+  "sources": [
+    {
+      "name": "Stadt Köln, Was mache ich, wenn ich ein Kampfmittel finde?",
+      "url": "https://www.stadt-koeln.de/leben-in-koeln/sicherheit-ordnung/kampfmittelangelegenheiten/was-mache-ich-wenn-ich-ein-kampfmittel-finde"
+    },
+    {
+      "name": "Land Schleswig-Holstein, Magnetangeln",
+      "url": "https://www.schleswig-holstein.de/uxo/DE/Themen/Fachinhalte/magnetangeln/textMagnetangeln"
+    },
+    {
+      "name": "Polizeimeldung zum Granatenfund in der Saale (inFranken)",
+      "url": "https://www.infranken.de/lk/main-spessart/blaulicht/graefendorf-mann-findet-granate-in-der-saale-und-verstaendigt-polizei-art-6384556"
+    }
+  ],
+  "publishing": {
+    "description": "Du hast mal wieder beim Magnetfischen eine Granate rausgezogen – was machst du jetzt? 🧲💣 Schreib 1, 2 oder 3 in die Kommentare!\n\nWichtig: Magnetfischen ist nicht überall erlaubt. Jedes Bundesland regelt das selbst, in Schleswig-Holstein ist es zum Beispiel in landeseigenen Gewässern verboten. Informier dich vorher.\n\nQuellen:\nStadt Köln, Was mache ich, wenn ich ein Kampfmittel finde?: https://www.stadt-koeln.de/leben-in-koeln/sicherheit-ordnung/kampfmittelangelegenheiten/was-mache-ich-wenn-ich-ein-kampfmittel-finde\nLand Schleswig-Holstein, Magnetangeln: https://www.schleswig-holstein.de/uxo/DE/Themen/Fachinhalte/magnetangeln/textMagnetangeln\nPolizeimeldung zum Granatenfund in der Saale (inFranken): https://www.infranken.de/lk/main-spessart/blaulicht/graefendorf-mann-findet-granate-in-der-saale-und-verstaendigt-polizei-art-6384556\n\nIm Notfall: 110.\n\n#waswürdestdutun #magnetfischen #magnetangeln #granate #fundstücke #wusstestdu #survival #quiz",
+    "pinnedComment": "Ehrlich: Wer hätte sie zurück ins Wasser geworfen? 👇 Was soll der Dummy als Nächstes finden?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.2,
+            2.9,
+            5.0
+          ],
+          "look": [
+            0.25,
+            0.0,
+            -2.0
+          ]
+        },
+        {
+          "t": 0.3243,
+          "pos": [
+            1.15,
+            2.8,
+            4.6
+          ],
+          "look": [
+            0.25,
+            0.0,
+            -2.0
+          ]
+        },
+        {
+          "t": 0.3289,
+          "pos": [
+            2.4,
+            1.8,
+            -4.4
+          ],
+          "look": [
+            0.1,
+            0.85,
+            0.4
+          ]
+        },
+        {
+          "t": 0.4692,
+          "pos": [
+            2.3,
+            1.75,
+            -4.2
+          ],
+          "look": [
+            0.1,
+            0.85,
+            0.4
+          ]
+        },
+        {
+          "t": 0.474,
+          "pos": [
+            1.15,
+            1.1,
+            -2.2
+          ],
+          "look": [
+            0.04,
+            0.85,
+            0.1
+          ]
+        },
+        {
+          "t": 0.8387,
+          "pos": [
+            1.05,
+            1.07,
+            -2.0
+          ],
+          "look": [
+            0.04,
+            0.85,
+            0.1
+          ]
+        },
+        {
+          "t": 0.8426,
+          "pos": [
+            2.4,
+            1.8,
+            -4.4
+          ],
+          "look": [
+            0.1,
+            0.85,
+            0.4
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            2.25,
+            1.75,
+            -4.1
+          ],
+          "look": [
+            0.1,
+            0.85,
+            0.4
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.62,
+            "motion": "magthrow",
+            "face": 0
+          },
+          {
+            "t": 0.1643,
+            "x": 0.0,
+            "z": 0.62,
+            "motion": "haul",
+            "face": 0
+          },
+          {
+            "t": 0.3657,
+            "x": 0.0,
+            "z": 0.62,
+            "motion": "haul",
+            "face": 0
+          },
+          {
+            "t": 0.3922,
+            "x": 0.0,
+            "z": 0.62,
+            "motion": "startle",
+            "face": 0
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": 0.62,
+            "motion": "startle",
+            "face": 0
+          }
+        ],
+        "magnet": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0.3,
+            "motion": "park",
+            "face": 0,
+            "hand": 1,
+            "drop": 0.26,
+            "rope": 1
+          },
+          {
+            "t": 0.0721,
+            "x": 0,
+            "z": -0.2,
+            "motion": "toss",
+            "face": 0,
+            "hand": 1
+          },
+          {
+            "t": 0.0827,
+            "x": 0.03,
+            "z": -0.55,
+            "motion": "toss",
+            "face": 0,
+            "y": 3.35,
+            "hand": 0
+          },
+          {
+            "t": 0.106,
+            "x": 0.1,
+            "z": -1.6,
+            "motion": "toss",
+            "face": 0,
+            "y": 3.6
+          },
+          {
+            "t": 0.1293,
+            "x": 0.18,
+            "z": -2.7,
+            "motion": "toss",
+            "face": 0,
+            "y": 2.7
+          },
+          {
+            "t": 0.1505,
+            "x": 0.25,
+            "z": -3.7,
+            "motion": "toss",
+            "face": 0,
+            "y": 0.0
+          },
+          {
+            "t": 0.1749,
+            "x": 0.25,
+            "z": -3.7,
+            "motion": "park",
+            "face": 0,
+            "y": -0.5
+          },
+          {
+            "t": 0.1882,
+            "x": 0.217,
+            "z": -3.143,
+            "motion": "park",
+            "face": 0,
+            "y": -0.475
+          },
+          {
+            "t": 0.212,
+            "x": 0.183,
+            "z": -2.587,
+            "motion": "park",
+            "face": 0,
+            "y": -0.45
+          },
+          {
+            "t": 0.2359,
+            "x": 0.15,
+            "z": -2.03,
+            "motion": "park",
+            "face": 0,
+            "y": -0.425
+          },
+          {
+            "t": 0.2597,
+            "x": 0.117,
+            "z": -1.473,
+            "motion": "park",
+            "face": 0,
+            "y": -0.4
+          },
+          {
+            "t": 0.2836,
+            "x": 0.083,
+            "z": -0.917,
+            "motion": "park",
+            "face": 0,
+            "y": -0.375
+          },
+          {
+            "t": 0.3074,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": -0.35
+          },
+          {
+            "t": 0.3313,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": 0.3
+          },
+          {
+            "t": 0.3551,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": 1.2
+          },
+          {
+            "t": 0.3572,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": 1.2,
+            "hand": 0,
+            "drop": 0.34
+          },
+          {
+            "t": 0.4081,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": 1.2,
+            "hand": 1,
+            "drop": 0.34
+          },
+          {
+            "t": 1,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": 1.2
+          }
+        ],
+        "granate": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0,
+            "motion": "park",
+            "face": 0,
+            "y": -30
+          },
+          {
+            "t": 0.1802,
+            "x": 0,
+            "z": 0,
+            "motion": "park",
+            "face": 0,
+            "y": -30
+          },
+          {
+            "t": 0.1812,
+            "x": 0,
+            "z": 0,
+            "motion": "park",
+            "face": 20,
+            "attach": "magnet",
+            "y": -0.26,
+            "tilt": 78
+          },
+          {
+            "t": 1,
+            "x": 0,
+            "z": 0,
+            "motion": "park",
+            "face": 20,
+            "attach": "magnet",
+            "y": -0.26,
+            "tilt": 78
+          }
+        ],
+        "splash": [
+          {
+            "t": 0,
+            "x": 0.25,
+            "z": -3.7,
+            "motion": "park",
+            "face": 0,
+            "y": -30
+          },
+          {
+            "t": 0.1505,
+            "x": 0.25,
+            "z": -3.7,
+            "motion": "splash",
+            "face": 0,
+            "y": 0,
+            "size": -0.55
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": 5.6,
+            "z": 3.0,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.0583,
+          "id": "whoosh",
+          "volume": 0.45
+        },
+        {
+          "t": 0.1484,
+          "id": "magnet-platsch",
+          "volume": 0.6
+        },
+        {
+          "t": 0.1643,
+          "id": "seil-ziehen",
+          "volume": 0.5
+        },
+        {
+          "t": 0.3445,
+          "id": "spaten-klonk",
+          "volume": 0.35
+        },
+        {
+          "t": 0.3922,
+          "id": "herzschlag",
+          "volume": 0.5
+        }
+      ],
+      "sharpCuts": true
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            4.0,
+            4.0,
+            -9.5
+          ],
+          "look": [
+            0.2,
+            -0.1,
+            0.6
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.9,
+            3.9,
+            -9.2
+          ],
+          "look": [
+            0.2,
+            -0.1,
+            0.6
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.62,
+            "motion": "startle",
+            "face": 0
+          }
+        ],
+        "magnet": [
+          {
+            "t": 0,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": 1.2,
+            "hand": 1,
+            "drop": 0.34,
+            "rope": 1
+          }
+        ],
+        "granate": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0,
+            "motion": "park",
+            "face": 20,
+            "attach": "magnet",
+            "y": -0.26,
+            "tilt": 78
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": 5.6,
+            "z": 3.0,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.9,
+            3.9,
+            -9.2
+          ],
+          "look": [
+            0.2,
+            -0.1,
+            0.6
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.8,
+            3.8,
+            -8.95
+          ],
+          "look": [
+            0.2,
+            -0.1,
+            0.6
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.62,
+            "motion": "startle",
+            "face": 0
+          }
+        ],
+        "magnet": [
+          {
+            "t": 0,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": 1.2,
+            "hand": 1,
+            "drop": 0.34,
+            "rope": 1
+          }
+        ],
+        "granate": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0,
+            "motion": "park",
+            "face": 20,
+            "attach": "magnet",
+            "y": -0.26,
+            "tilt": 78
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": 5.6,
+            "z": 3.0,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.8,
+            3.8,
+            -8.95
+          ],
+          "look": [
+            0.2,
+            -0.1,
+            0.6
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.75,
+            3.75,
+            -8.8
+          ],
+          "look": [
+            0.2,
+            -0.1,
+            0.6
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.62,
+            "motion": "startle",
+            "face": 0
+          }
+        ],
+        "magnet": [
+          {
+            "t": 0,
+            "x": 0.05,
+            "z": -0.36,
+            "motion": "park",
+            "face": 0,
+            "y": 1.2,
+            "hand": 1,
+            "drop": 0.34,
+            "rope": 1
+          }
+        ],
+        "granate": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0,
+            "motion": "park",
+            "face": 20,
+            "attach": "magnet",
+            "y": -0.26,
+            "tilt": 78
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": 5.6,
+            "z": 3.0,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.8,
+            1.5,
+            -3.6
+          ],
+          "look": [
+            -0.1,
+            2.2,
+            1.0
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.65,
+            1.48,
+            -3.35
+          ],
+          "look": [
+            -0.1,
+            2.2,
+            1.0
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.2,
+            "z": 1.12,
+            "motion": "stand",
+            "face": 340
+          }
+        ],
+        "magnet": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0,
+            "motion": "park",
+            "face": 0,
+            "y": 1.0,
+            "hand": 1,
+            "drop": 0.38,
+            "rope": 1
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": 5.6,
+            "z": 3.0,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}

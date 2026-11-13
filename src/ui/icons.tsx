@@ -78,6 +78,15 @@ const Psyche = ({size, color}: {size: number; color: string}) => (
   </svg>
 );
 
+/** Fundstücke: Lupe */
+const Finds = ({size, color}: {size: number; color: string}) => (
+  <svg width={size} height={size} viewBox="0 0 100 100">
+    <circle cx="42" cy="42" r="26" fill="none" stroke={color} strokeWidth="11" />
+    <path d="M61 61 L88 88" stroke={color} strokeWidth="14" strokeLinecap="round" />
+    <path d="M30 34 A14 14 0 0 1 42 26" fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" />
+  </svg>
+);
+
 const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wildtiere: {label: 'Wildtiere', Icon: Paw},
   verkehr: {label: 'Verkehr', Icon: Car},
@@ -86,6 +95,7 @@ const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   'erste-hilfe': {label: 'Erste Hilfe', Icon: FirstAid},
   feuer: {label: 'Feuer', Icon: Fire},
   psyche: {label: 'Psyche', Icon: Psyche},
+  fundstuecke: {label: 'Fundstücke', Icon: Finds},
 };
 
 export const categoryInfo = (id: string) => CATEGORIES[id] ?? {label: id, Icon: Warning};

@@ -4,6 +4,7 @@ import {useLayoutEffect} from 'react';
 import {useVideoConfig} from 'remotion';
 import * as THREE from 'three';
 import {Actor, ACTORS, resolveActors, type ActorName} from './actors';
+import {Rope} from './actors/MagnetProps';
 import type {Shot, Vec3} from './data/types';
 import {sampleCamera} from './lib/anim';
 import type {StageDef} from './stage/types';
@@ -19,6 +20,15 @@ const CameraRig = ({pos, look, fov}: {pos: Vec3; look: Vec3; fov: number}) => {
     camera.updateProjectionMatrix();
   }, [camera, pos, look, fov]);
   return null;
+};
+
+/** Seil von der rechten Hand des Dummys zum Magneten (Wert "rope" am Magneten) */
+const RopeLine = ({states}: {states: ReturnType<typeof resolveActors>}) => {
+  const d = states.find((a) => a.name === 'dummy');
+  const mg = states.find((a) => a.name === 'magnet');
+  if (!d?.hand || !mg || !(mg.state.values.rope > 0.5)) return null;
+  const to = new THREE.Vector3().setFromMatrixPosition(mg.matrix);
+  return <Rope from={d.hand} to={to} sag={mg.state.values.drop > 0.01 ? 0.01 : 0.07} />;
 };
 
 /**
@@ -69,6 +79,7 @@ export const Scene3D = ({
       {states.map((a) => (
         <Actor key={a.name} actor={a} barefoot={stage.barefoot} camPos={cam.pos} waterLevel={stage.waterLevel ?? 0} />
       ))}
+      <RopeLine states={states} />
     </ThreeCanvas>
   );
 };

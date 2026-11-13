@@ -435,6 +435,27 @@
       "duration": 15,
       "loop": true,
       "promptInfluence": 0.5
+    },
+    {
+      "id": "magnet-platsch",
+      "prompt": "Small heavy metal object plopping into a canal, short deep water plop with a little splash, close, no music, no voice",
+      "duration": 1.2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "seil-ziehen",
+      "prompt": "Hands pulling a wet rope hand over hand out of water, rhythmic rope friction and soft dripping, close, no music, no voice",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "kopfsteinpflaster",
+      "prompt": "Small car driving slowly over cobblestones, bumpy rattling tires and suspension, low engine hum, close, no music, no voice",
+      "duration": 4,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

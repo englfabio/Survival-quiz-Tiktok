@@ -1554,6 +1554,174 @@ const panicPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+
+// ---------- Magnetfischen (Granate) ----------
+/**
+ *  - magthrow:  Magnet an der Leine werfen: ausholen (0–0,55 s), Wurf (bis 0,8 s, loslassen ca. 0,7 s), danach Seil vorn halten
+ *  - haul:      Seil Hand über Hand hochziehen (Takt 1 s), Blick nach unten ins Wasser
+ *  - startle:   erschrocken erstarren: zuckt zurück (0–0,3 s), rechte Hand hält das Seil weit vor sich (Magnet + Granate hängen
+ *               darunter), linke Hand abwehrend gehoben, zittert leicht
+ *  - lowerset:  ganz langsam in die Hocke und das Hängende vorsichtig auf den Boden setzen (bis 1,8 s), rechte Hand dann
+ *               ca. 0,55 m vor ihm auf 0,36 m Höhe
+ *  - unhook:    in der Hocke: links hält die Granate fest, rechts zieht den Magneten ab (0,4–1,2 s), aufstehen bis 2,2 s
+ *  - holdgren:  steht, hält die Granate mit rechts vor der Brust (links stützt), starrt darauf
+ *  - windup:    hält die Granate, holt weit aus zum Werfen (0,3–1,3 s), Ausfallschritt, linker Arm zeigt nach vorn
+ *  - placeseat: beugt sich durchs offene Beifahrerfenster und legt etwas auf den Sitz (Hand vorn bei 1,2 s), zurück bis 2,4 s
+ *  Hand-Position für Gegenstände ("hand" am Gegenstand) = rechte Hand (rightHandLocal).
+ */
+export const ROPE_HOLD: P3 = [-0.1, 1.15, 0.42];
+const crouchBody = (): DummyPose => {
+  const p = base();
+  p.hipY = 0.56;
+  p.legL = L3t(-1.3, 0.2, 2.1);
+  p.legR = L3t(-1.3, -0.2, 2.1);
+  p.torsoX = 0.78;
+  p.headX = 0.15;
+  return p;
+};
+const startleBody = (time: number): DummyPose => {
+  const p = base();
+  const k = clamp(time / 0.25);
+  const jolt = Math.sin(Math.PI * k) * (1 - k) * 0.6 + k;
+  const tr = Math.sin(time * 31) * 0.007 + Math.sin(time * 23) * 0.005;
+  p.torsoX = -0.18 * jolt + tr;
+  p.headX = 0.45 - 0.12 * jolt + tr;
+  p.legL = L3t(-0.08, 0.1, 0.08);
+  p.legR = L3t(0.22 * jolt, -0.1, 0.12 * jolt);
+  p.hipY = 0.97;
+  return p;
+};
+const magnetPose = (motion: Motion, time: number): DummyPose | null => {
+  switch (motion) {
+    case 'magthrow': {
+      const p = base();
+      const back: P3 = [-0.36, 1.62, -0.2];
+      const rest: P3 = [-0.24, 1.02, 0.28];
+      const fwd: P3 = [-0.12, 1.6, 0.62];
+      let tgt: P3;
+      let tw = 0;
+      let lean = 0;
+      if (time < 0.55) {
+        const k = easeInOut(time / 0.55);
+        tgt = lerp3t(rest, back, k);
+        tw = -0.4 * k;
+        lean = -0.12 * k;
+      } else if (time < 0.8) {
+        const k = easeInOut((time - 0.55) / 0.25);
+        tgt = lerp3t(back, fwd, k);
+        tw = -0.4 + 0.62 * k;
+        lean = -0.12 + 0.3 * k;
+      } else {
+        const k = easeInOut(clamp((time - 0.8) / 0.6));
+        tgt = lerp3t(fwd, ROPE_HOLD, k);
+        tw = 0.22 * (1 - k);
+        lean = 0.18 - 0.12 * k;
+      }
+      p.torsoY = tw;
+      p.torsoX = lean;
+      p.headX = 0.3;
+      p.legL = L3t(-0.25, 0.08, 0.15);
+      p.legR = L3t(0.15, -0.08, 0.05);
+      reachR(p, tgt, 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.06, 1.08, 0.3], 0.33);
+      return p;
+    }
+    case 'haul': {
+      const p = base();
+      const ph = (time / 1.0) % 1;
+      const far: P3 = [-0.06, 0.98, 0.56];
+      const near: P3 = [-0.1, 1.36, 0.16];
+      const handAt = (u: number, side: 1 | -1): P3 => {
+        const q = u < 0.5 ? easeInOut(u / 0.5) : 1 - easeInOut((u - 0.5) / 0.5);
+        const lift = u < 0.5 ? 0 : Math.sin(Math.PI * (u - 0.5) / 0.5) * 0.12;
+        const a = lerp3t(far, near, q);
+        return [a[0] * -side + (side === 1 ? 0.08 : 0), a[1] + lift, a[2] - (u >= 0.5 ? 0.06 : 0)];
+      };
+      p.torsoX = -0.06 + Math.sin(ph * TAU) * 0.04;
+      p.headX = 0.5;
+      p.hipY = 0.95;
+      p.legL = L3t(-0.22, 0.1, 0.25);
+      p.legR = L3t(0.12, -0.1, 0.18);
+      reachR(p, handAt(ph, -1), 0.33, [0.6, -1, -0.3]);
+      reachL(p, handAt((ph + 0.5) % 1, 1), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'startle': {
+      const p = startleBody(time);
+      const k = clamp(time / 0.25);
+      const tr = Math.sin(time * 29) * 0.006;
+      reachR(p, lerp3t(ROPE_HOLD, [-0.08 + tr, 1.32, 0.56], easeInOut(k)), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.1, 1.1, 0.32], [0.3, 1.48 + tr, 0.26], easeInOut(k)), 0.33, [0.8, -0.6, -0.5]);
+      return p;
+    }
+    case 'lowerset': {
+      const k = easeInOut(clamp(time / 1.8));
+      const p = mix(startleBody(1), crouchBody(), k);
+      p.headX = lerpN(0.45, 0.25, k);
+      reachR(p, lerp3t([-0.08, 1.32, 0.56], [-0.06, 0.36, 0.56], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.3, 1.48, 0.26], [0.08, 0.32, 0.5], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'unhook': {
+      const up = easeInOut(clamp((time - 1.25) / 0.95));
+      const p = mix(crouchBody(), base(), up);
+      p.headX = lerpN(0.25, 0.5, up);
+      const tug = time < 0.4 ? 0 : easeInOut(clamp((time - 0.4) / 0.8));
+      const wig = time > 0.4 && time < 1.2 ? Math.sin(time * 15) * 0.035 : 0;
+      const pulled: P3 = [-0.12 + wig, 0.62, 0.5];
+      reachR(p, lerp3t(lerp3t([-0.06, 0.36, 0.56], pulled, tug), [-0.22, 1.0, 0.25], up), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.08, 0.26, 0.54], [0.22, 0.95, 0.12], up), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'holdgren': {
+      const p = base();
+      const tr = Math.sin(time * 27) * 0.004;
+      p.headX = 0.42;
+      p.torsoX = 0.02 + Math.sin(time * 2.2) * 0.01;
+      reachR(p, [-0.07 + tr, 1.16, 0.38], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.04, 1.09, 0.36], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'windup': {
+      const p = base();
+      const k = easeInOut(clamp((time - 0.3) / 1.0));
+      const tr = time > 1.3 ? Math.sin(time * 25) * 0.004 : 0;
+      p.torsoY = -0.55 * k;
+      p.torsoX = 0.02 - 0.2 * k;
+      p.headX = lerpN(0.42, -0.05, k);
+      p.headY = 0.4 * k;
+      p.legL = L3t(-0.38 * k, 0.1, 0.12 * k);
+      p.legR = L3t(0.28 * k, -0.1, 0.1 * k);
+      p.hipY = 0.98 - 0.04 * k;
+      reachR(p, lerp3t([-0.07, 1.16, 0.38], [-0.4 + tr, 1.74, -0.32], k), 0.33, [0.6, -0.4, -0.8]);
+      reachL(p, lerp3t([0.04, 1.09, 0.36], [0.22, 1.45, 0.62], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'placeseat': {
+      const lean = time < 1.6 ? easeInOut(clamp(time / 0.9)) : 1 - easeInOut(clamp((time - 1.6) / 0.8));
+      const p = base();
+      p.pitch = 0.18 * lean;
+      p.torsoX = 0.9 * lean;
+      p.headX = 0.2 * lean;
+      p.hipY = 0.97 - 0.05 * lean;
+      p.legL = L3t(-0.15 * lean, 0.1, 0.15 * lean);
+      p.legR = L3t(0.35 * lean, -0.1, 0.05);
+      const reachK = time < 1.6 ? easeInOut(clamp((time - 0.2) / 1.0)) : 1 - easeInOut(clamp((time - 1.6) / 0.6));
+      reachR(p, lerp3t([-0.07, 1.16, 0.38], [-0.05, 0.62, 0.95], reachK), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.04, 1.09, 0.36], [0.3, 1.0, 0.5], lean), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+  }
+  return null;
+};
+
+/** Rechte Hand (Handmitte) im Dummy-System (Ursprung am Boden, +z = vorn) – für Gegenstände mit "hand" */
+export const rightHandLocal = (p: DummyPose) =>
+  armPoint(p.armR, -1, p.foreZ, 0.33)
+    .applyEuler(new THREE.Euler(p.torsoX, p.torsoY, p.torsoZ))
+    .add(new THREE.Vector3(0, p.hipY + 0.06, 0))
+    .applyEuler(new THREE.Euler(p.pitch, 0, 0));
+
 /** Zittern unter Strom: Gliedmaßen zucken zufällig (amount 0 … 1), ändert sich jedes Bild */
 export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): DummyPose => {
   if (amount < 0.01) return p;
@@ -1575,7 +1743,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;

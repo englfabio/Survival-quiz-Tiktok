@@ -11,7 +11,8 @@ import {bridgeLocalMatrix, Drawbridge} from './CastleProps';
 import {Bear, bearPose} from './Bear';
 import {Car, carLocalMatrix, carPose} from './Car';
 import {Basin} from './Basin';
-import {Dummy, dummyPoseBlended, sitExtras, zapPose} from './Dummy';
+import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dummy';
+import {Grenade, Magnet} from './MagnetProps';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
 import {Whale, whalePose} from './Whale';
 import {Eel, eelAnchors, eelPose} from './Eel';
@@ -98,6 +99,9 @@ export const ACTORS = {
   wal: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
   kaltwasser: {height: 0.07, climbOffset: 0, speedLineHeight: 0},
   coolpack: {height: 0.02, climbOffset: 0, speedLineHeight: 0},
+  // ---- Magnetfischen (Granate) ----
+  magnet: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  granate: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -127,7 +131,7 @@ const SNAKE_SCALE = 1.2;
 export type ActorName = keyof typeof ACTORS;
 
 /** Fertig berechnete Figur: Zustand + Lage in der Welt */
-export type ResolvedActor = {name: string; state: ActorState; matrix: THREE.Matrix4; pos: THREE.Vector3; text?: string};
+export type ResolvedActor = {name: string; state: ActorState; matrix: THREE.Matrix4; pos: THREE.Vector3; text?: string; hand?: THREE.Vector3};
 
 /** Position einer Figur (inkl. "am Baum kleben" beim Klettern und Bodenhöhe) */
 const placeOnStage = (name: string, s: ActorState, stage: StageDef) => {
@@ -174,10 +178,23 @@ const attachedMatrix = (parent: THREE.Matrix4, x: number, y: number, z: number, 
 /** Zusätzliche Eigenbewegung (Auto schaukelt / kippt) – gilt auch für angehängte Figuren */
 const ownMotionMatrix = (name: string, s: ActorState) =>
   name === 'car'
-    ? carLocalMatrix(carPose(s.motion, s.motionTime, s.speed), s.values.tilt)
+    ? rumbleMatrix(s).multiply(carLocalMatrix(carPose(s.motion, s.motionTime, s.speed), s.values.tilt))
     : name === 'zugbruecke'
       ? bridgeLocalMatrix(s.values.tilt)
       : new THREE.Matrix4();
+
+/** Rumpeln über Kopfsteinpflaster (Wert "rumble"): kleine schnelle Stöße + Wanken */
+const rumbleMatrix = (s: ActorState) => {
+  const r = s.values.rumble;
+  if (!(r > 0.001)) return new THREE.Matrix4();
+  const tt = s.sectionTime ?? s.motionTime;
+  const dy = (Math.abs(Math.sin(tt * 21)) * 0.025 + Math.abs(Math.sin(tt * 33 + 1)) * 0.012) * r;
+  return new THREE.Matrix4().compose(
+    new THREE.Vector3(0, dy, 0),
+    new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.sin(tt * 17) * 0.012 * r, 0, Math.sin(tt * 13 + 2) * 0.018 * r)),
+    new THREE.Vector3(1, 1, 1),
+  );
+};
 
 /** Berechnet alle Figuren einer Einstellung. Figuren mit "attach" werden nach ihrer "Trägerfigur" berechnet. */
 export const resolveActors = (
@@ -188,7 +205,10 @@ export const resolveActors = (
 ): ResolvedActor[] => {
   const entries = Object.entries(actors).filter(([, keys]) => keys.length > 0);
   const hasAttach = (keys: ActorKey[]) => keys.some((k) => k.attach);
-  const ordered = [...entries.filter(([, k]) => !hasAttach(k)), ...entries.filter(([, k]) => hasAttach(k))];
+  // Dummy zuerst (Gegenstände mit "hand" brauchen seine Hand-Position)
+  const free = entries.filter(([, k]) => !hasAttach(k)).sort(([a], [b]) => (a === 'dummy' ? -1 : b === 'dummy' ? 1 : 0));
+  const ordered = [...free, ...entries.filter(([, k]) => hasAttach(k))];
+  let dummyHand: THREE.Vector3 | undefined;
   const done = new Map<string, ResolvedActor>();
   // "Innen"-Matrix einer Figur: Welt-Lage inkl. Schaukeln/Abkippen (dort sitzen angehängte Figuren)
   const inner = new Map<string, THREE.Matrix4>();
@@ -232,12 +252,31 @@ export const resolveActors = (
         base = new THREE.Matrix4().compose(pa.lerp(pb, seg.p), qa.slerp(qb, seg.p), new THREE.Vector3(1, 1, 1));
       }
     }
+    // Gegenstand in der rechten Hand des Dummys ("hand" 0 … 1, hängt "drop" Meter darunter, pendelt leicht)
+    const hk = s.values.hand;
+    if (hk > 0.001 && dummyHand) {
+      const st = s.sectionTime ?? 0;
+      const drop = s.values.drop;
+      const target = dummyHand
+        .clone()
+        .add(new THREE.Vector3(Math.sin(st * 2.3) * 0.12 * drop, -drop, Math.sin(st * 1.7 + 1) * 0.08 * drop));
+      const p0 = new THREE.Vector3();
+      const q0 = new THREE.Quaternion();
+      const sc0 = new THREE.Vector3();
+      base.decompose(p0, q0, sc0);
+      base = new THREE.Matrix4().compose(p0.lerp(target, Math.min(1, hk)), q0, sc0);
+    }
     const matrix = base.clone().multiply(ownMotionMatrix(name, s));
     inner.set(name, matrix);
     const pos = new THREE.Vector3().setFromMatrixPosition(base);
+    let hand: THREE.Vector3 | undefined;
+    if (name === 'dummy') {
+      hand = rightHandLocal(dummyPoseBlended(s.motion, s.motionTime, s.speed, s.prev)).applyMatrix4(matrix);
+      dummyHand = hand;
+    }
     let text: string | undefined;
     for (const k of keys) if (k.t <= t + 1e-6 && k.text !== undefined) text = k.text;
-    done.set(name, {name, state: s, matrix, pos, text});
+    done.set(name, {name, state: s, matrix, pos, text, hand});
   }
   return entries.map(([name]) => done.get(name)!);
 };
@@ -417,9 +456,16 @@ export const Actor = ({
           door={v.door}
           water={v.water}
           pressure={v.pressure}
+          window2={v.window2}
         />
       )}
-      {name === 'splash' && state.motion === 'splash' && <Splash time={state.motionTime} />}
+      {name === 'splash' && state.motion === 'splash' && <Splash time={state.motionTime} size={1 + v.size} />}
+      {name === 'magnet' && <Magnet />}
+      {name === 'granate' && (
+        <group rotation={[0, 0, deg(v.tilt)]}>
+          <Grenade time={zt} rumble={v.rumble} />
+        </group>
+      )}
       {lines && <SpeedLines time={state.motionTime} height={ACTORS[name as ActorName]?.speedLineHeight ?? 1} />}
       {name === 'kumpel' && (
         <Dummy

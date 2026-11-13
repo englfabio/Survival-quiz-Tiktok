@@ -126,6 +126,16 @@ export type Motion =
   | 'sitbreathe' // Dummy: sitzt aufrecht, Hände auf dem Bauch, atmet ruhig: 2 s ein (Bauch hebt sich), 4 s aus (Zyklus 6 s ab Bewegungsbeginn). Werte "pack" (Coolpack in den Nacken) und "sip" (Wasser trinken) mischen sich darüber
   | 'uneasy' // Dummy: steht angespannt (Arme eng am Körper, Blick wandert nach oben/zur Seite) – z. B. im Aufzug
   | 'holdstrap' // Dummy: steht und hält sich mit rechts an einem Haltegriff über dem Kopf fest (volle Bahn)
+  // ---- Dummy: Magnetfischen (Granate) ----
+  | 'magthrow' // Dummy: Magnet an der Leine werfen (ausholen 0–0,55 s, loslassen ca. 0,7 s), danach Seil vorn halten
+  | 'haul' // Dummy: Seil Hand über Hand hochziehen (Takt 1 s), Blick ins Wasser
+  | 'startle' // Dummy: erschrocken erstarren – zuckt zurück, hält das Seil mit Magnet + Granate weit vor sich, linke Hand abwehrend
+  | 'lowerset' // Dummy: ganz langsam in die Hocke, das Hängende vorsichtig auf den Boden setzen (bis 1,8 s)
+  | 'unhook' // Dummy: in der Hocke Granate festhalten und Magnet abziehen (0,4–1,2 s), aufstehen bis 2,2 s
+  | 'holdgren' // Dummy: hält die Granate mit rechts vor der Brust und starrt darauf
+  | 'windup' // Dummy: holt mit der Granate weit aus zum Werfen (0,3–1,3 s)
+  | 'placeseat' // Dummy: beugt sich durchs offene Beifahrerfenster, legt etwas auf den Sitz (Hand vorn bei 1,2 s), zurück bis 2,4 s
+  | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
   | 'appear' // Wal: erscheint mit "Plopp" (wächst in 0,9 s, federt nach)
@@ -261,10 +271,20 @@ export type ActorKey = {
   pack?: number;
   /** Dummy (sitbreathe): Glas kaltes Wasser trinken 0 = aus … 1 = Glas am Mund */
   sip?: number;
+  /** Gegenstand (z. B. Magnet, Granate) in der rechten Hand des Dummys: 0 = frei (eigene Position) … 1 = in der Hand */
+  hand?: number;
+  /** Gegenstand in der Hand: hängt so viele Meter unter der Hand (Magnet am Seil) */
+  drop?: number;
+  /** Magnet: Seil von der Hand des Dummys zum Magneten zeigen (0/1) */
+  rope?: number;
+  /** Auto / Granate: rumpeln (Kopfsteinpflaster), 0 … 1 */
+  rumble?: number;
+  /** Auto: Beifahrerfenster 0 = zu … 1 = offen */
+  window2?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

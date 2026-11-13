@@ -305,8 +305,11 @@ export const Car = ({
   door = 0,
   water = 0,
   pressure = 0,
+  window2 = 0,
   color = BODY,
 }: {
+  /** Beifahrerfenster 0 = zu … 1 = offen */
+  window2?: number;
   pose: CarPose;
   windowOpen?: number;
   door?: number;
@@ -399,9 +402,20 @@ export const Car = ({
         <boxGeometry args={[1.5, rwLen, 0.01]} />
       </mesh>
       {/* Seitenfenster Beifahrerseite + hinteres Fenster Fahrerseite */}
-      <mesh material={m.glass} position={[-SIDE_X, (Y_SILL + Y_ROOF) / 2, (Z_C + Z_FRONT_CABIN) / 2 - 0.15]} renderOrder={2}>
-        <boxGeometry args={[0.01, Y_ROOF - Y_SILL, 1.4]} />
+      {/* Beifahrerseite: hinteres Fenster fest, vorderes kann sich öffnen (window2) */}
+      <mesh material={m.glass} position={[-SIDE_X, (Y_SILL + Y_ROOF) / 2, (Z_C + Z_B) / 2]} renderOrder={2}>
+        <boxGeometry args={[0.01, Y_ROOF - Y_SILL, Z_B - Z_C - 0.08]} />
       </mesh>
+      {window2 < 0.99 && (
+        <mesh
+          material={m.glass}
+          position={[-SIDE_X, (Y_SILL + Y_ROOF) / 2 - (Y_ROOF - Y_SILL - 0.04) * clamp(window2), (Z_B + Z_A_TOP + 0.25) / 2]}
+          scale={[1, 1 - clamp(window2) * 0.98, 1]}
+          renderOrder={2}
+        >
+          <boxGeometry args={[0.01, Y_ROOF - Y_SILL, Z_A_TOP + 0.25 - Z_B]} />
+        </mesh>
+      )}
       <mesh material={m.glass} position={[SIDE_X, (Y_SILL + Y_ROOF) / 2, (Z_C + Z_B) / 2]} renderOrder={2}>
         <boxGeometry args={[0.01, Y_ROOF - Y_SILL, Z_B - Z_C - 0.08]} />
       </mesh>
