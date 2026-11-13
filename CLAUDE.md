@@ -49,6 +49,11 @@ Verlangt der Inhaber den „Durchlauf-Modus“, gilt für dieses Video:
 - Am Ende: fertiges Video + Standbilder zeigen und zusammenfassen, was wiederverwendet und was neu gebaut wurde.
 - **Ausnahme:** Ist noch KEIN einziges Video komplett mit Stimme fertig geworden, gilt der normale Ablauf mit Freigaben.
 
+## Positionsplan (Reihenfolge der richtigen Antwort)
+
+Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber gewünscht).
+- magnetfischen-granate → 2. Push
+
 ## Das Format (Ablauf eines Videos)
 
 Hochformat **1080 × 1920, 30 fps**. Pro Video EINE gefährliche Situation, drei Optionen,
@@ -130,7 +135,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   kleines gemütliches Schlafzimmer am Abend (`schlafzimmer`, `src/stage/Bedroom.tsx`, Atmo = `uhr-ticken`: Bett an der Rückwand rechts, Nachttisch
   mit Lampe, Schreibtisch unter dem Fenster links (Abendhimmel + Mond), Leseecke vorn links mit Stuhl + rundem Beistelltisch, Tür rechts, Teppich,
   Poster, Pflanze), Aufzugkabine mit Stahlwänden, Spiegel, Handlauf, Tastenfeld, Stockwerk-Anzeige + zwei Mitfahrenden (`aufzug`, Atmo =
-  `aufzug-summen`), volle U-/S-Bahn mit Sitzbänken, gelben Stangen, Haltegriffen, Tunnel-Lichtern, vielen Fahrgästen (`bahn`, Atmo = `bahn-atmo`).
+  `aufzug-summen`), volle U-/S-Bahn mit Sitzbänken, gelben Stangen, Haltegriffen, Tunnel-Lichtern, vielen Fahrgästen (`bahn`, Atmo = `bahn-atmo`),
+  alte Kaimauer an einem Kanal in der Stadt (`kanal`, `src/stage/Canal.tsx`, Atmo = `see-atmo`): Uferweg mit Kopfsteinpflaster, Randsteine, Quader-
+  Mauer, bewegtes Wasser 1,3 m unter dem Weg, gegenüber zweite Mauer mit Geländer + Häuserzeile, Steinbogenbrücke links, Bäume, Laternen, Poller.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -164,7 +171,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   mit dem Rücken an die Wand gedrückt, Hände flach an der Wand (`wallpress`), verkrampfen + Fäuste ballen + zittern (`clench`),
   hinsetzen auf Stuhl/Bett 0,45 m (`bedsitdown`, danach ruhig atmen), aufrecht sitzen + Bauchatmung 2 s ein / 4 s aus, Hände auf dem Bauch (`sitbreathe`),
   Wasser trinken + Coolpack in den Nacken über die Werte `sip` / `pack` (0 … 1, bei `sitbreathe`/`bedsitdown`), angespannt stehen (`uneasy`),
-  in der Bahn am Haltegriff festhalten (`holdstrap`)
+  in der Bahn am Haltegriff festhalten (`holdstrap`),
+  Magnet an der Leine werfen (`magthrow`), Seil Hand über Hand hochziehen (`haul`), erschrocken erstarren mit Seil in der Hand (`startle`),
+  langsam in die Hocke + Hängendes vorsichtig absetzen (`lowerset`), Granate festhalten + Magnet abziehen + aufstehen (`unhook`),
+  Granate vor der Brust halten (`holdgren`), mit der Granate zum Werfen ausholen (`windup`), durchs Beifahrerfenster etwas auf den Sitz legen (`placeseat`);
+  vorhanden und wiederverwendet: langsam rückwärts weggehen (`retreat`), andere warnen (`warn`), telefonieren (`call`)
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -231,6 +242,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Warndreieck (`WarnBadge`), Smartphone flach liegend (`smartphone` mit Bewegung `lie`)
 - **Objekte (Panik, `src/actors/PanicProps.tsx`):** Glas mit kaltem Wasser, Eiswürfeln + Kondens-Tropfen (`kaltwasser`, `fill`; beim Dummy-Wert `sip`
   automatisch in der Hand), blaues Coolpack mit Schneeflocke (`coolpack`; bei `pack` automatisch in der Hand), Herz-Symbol (`HeartBadge`)
+- **Objekte (Magnetfischen, `src/actors/MagnetProps.tsx`):** runder Topfmagnet mit Öse + rotem Lackring (`magnet`, Ursprung = Öse),
+  rostige, verkrustete Weltkriegs-Handgranate mit Riffeln, Sicherungsbügel und Abzugsring (`granate`, Wert `tilt` = auf die Seite legen,
+  `rumble` = rüttelt), blaues Seil von der rechten Hand des Dummys zum Magneten (Magnet-Wert `rope` 1). Allgemein für Gegenstände:
+  Wert `hand` 0 … 1 = in der rechten Hand des Dummys, `drop` = hängt so viele Meter darunter (pendelt leicht). Granate am Magneten:
+  `"attach": "magnet", x 0, y −0.26, z 0, tilt 78`. Auto: Werte `window2` (Beifahrerfenster offen) und `rumble` (Kopfsteinpflaster).
+  Bewegung `toss` = Gegenstand fliegt gleichmäßig (Weg über Zeitpunkte); Effekt `splash` mit Wert `size` (−0.55 = klein).
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -245,7 +262,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Bühnenwechsel:** Shot-Feld `"stage"` – andere Bühne für einen Abschnitt (`"stage": "wohnzimmer"`) oder Schnitt mitten
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
-- **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz)
+- **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
+  fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate)
 
 ## Stimme (ElevenLabs)
 
@@ -291,6 +309,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (geprüft), Kontrolle scribe_v2 (Erklärung 1 + 3): korrekt. Fünftes Video im Durchlauf-Modus. Choreografie: `python3 scripts/wal-panikattacke-choreo.py`.
   Darstellung: Wal witzig/absurd, Panik respektvoll (kein Auslachen). Standbilder in review/wal-panikattacke/phase1/. Finales Video: review/final/wal-panikattacke.mp4.
   Hinweis: Der ElevenLabs-Schlüssel darf den Credit-Stand nicht abfragen (fehlende Berechtigung `user_read`) – Kosten stehen in der Ausgabe von `npm run voice`.
+- Magnetfischen-Granate: 1089 neue Zeichen (countdown aus Cache), Sprechzeit 80,2 s, Video 89,1 s. Wort-Zeitstempel = Text (geprüft),
+  Kontrolle scribe_v2 (Option 2 + Erklärung 2 mit „110“): korrekt. Sechstes Video im Durchlauf-Modus. Choreografie: `python3 scripts/magnetfischen-choreo.py`.
+  Hook „Du hast mal wieder eine Granate geangelt“. Keine Explosion/kein Rauch: falsche Optionen frieren ein. Standbilder in review/magnetfischen-granate/phase1/.
+  Finales Video: review/final/magnetfischen-granate.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -314,7 +336,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `eimer-schwappen` (Weihnachtsbaum-Brand-Video);
   `strom-knistern`, `sicherung-klick`, `handtuch-klatsch`, `aal-schmollen` (Zitteraal-Video; Küche nutzt `uhr-ticken`);
   `outback-atmo` (Bühne Outback, Schleife), `boxglocke`, `boxschlag`, `zahn-ping` (Känguru-Zahn-Video);
-  `herzschlag`, `wal-schnaufen`, `wal-ruf`, `plopp`, `schrumpfen`, `aufzug-summen` (Bühne Aufzug, Schleife), `aufzug-ding`, `bahn-atmo` (Bühne Bahn, Schleife) (Wal-Panikattacke).
+  `herzschlag`, `wal-schnaufen`, `wal-ruf`, `plopp`, `schrumpfen`, `aufzug-summen` (Bühne Aufzug, Schleife), `aufzug-ding`, `bahn-atmo` (Bühne Bahn, Schleife) (Wal-Panikattacke);
+  `magnet-platsch`, `seil-ziehen`, `kopfsteinpflaster` (Magnetfischen-Granate; Kanal nutzt `see-atmo`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -434,6 +457,10 @@ Beschreibung und angepinnter Kommentar.
   Wal (1.15, −0.85, face 240, y 0.38) schwebt über dem Bett; Stuhl (−1.25, 0.55, face 145), Glas/Coolpack auf dem Beistelltisch (Lage aus SIT_SPOT_* in Dummy.tsx,
   im Choreo-Skript per `rot()` umgerechnet). Wegen des schmalen Hochformats: Kamera für den ganzen Raum ca. 6–7 m vor der Rückwand (z 5 … 6,6).
   Aufzug: Dummy (0, 0.2, face 180), Kamera [0, 1.75, 4.8]. Bahn: Haltegriffe bei x ±0.45 → Dummy (−0.31, −0.5) mit `holdstrap`, Kamera [0.3, 1.85, 4.2].
+- Kanal-Koordinaten (`src/stage/Canal.tsx`, `CANAL`): Uferweg y 0 von der Mauerkante z 0 bis z 6.2, Wasser y −1.3 für z −12 … 0
+  (dort ist „Boden“ = Wasser, y relativ dazu), Bäume bei z 5.7 (Lücke x −3.5 … 2.5), Brücke x −15. Im Video: Dummy (0, 0.62, face 0) an der Kante,
+  Auto (5.6, 3.0, face 270 → Beifahrerseite zum Wasser), Granate abgelegt bei (0.06, 0.06). Kamera übers Wasser (z negativ) ist frei.
+  Für den Blick ins Auto auf den Beifahrersitz: Kamera neben dem Auto schräg von oben (y 2.8, fov 50) durchs offene Fenster.
 - Wohnküche im Spülmaschinentab-Video: Dummy hinter dem Tisch `x 0.05, z −0.1, face 180`; Oberschrank `x 1.3, y 1.45, z −2.3, face 180`,
   Dummy davor (`stowtabs`) `x 1.06, z −1.6, face 0`; Packung im Schrank auf dem Regal (1.3, 1.677, −2.12). Neue Bewegungen müssen in
   `src/lib/anim.ts` in CONTINUOUS (+ BLEND_MOTIONS) stehen, sonst springt ihre Zeit an jedem Zeitpunkt zurück.
@@ -497,7 +524,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
                       Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche;
                       Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche;
-                      Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren)
+                      Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -505,7 +532,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Steckdose/Toaster, Kangaroo.tsx = Känguru, ToothProps.tsx = Zahn/Taschentuch/Glas/Wasserhahn/
                       Zahnrettungsbox/H-Milch/Boxhandschuh/Hinweisschild, TabProps.tsx = Tab/Packung/Milchglas/
                       Küchenpapier/Oberschrank/Warndreieck, Whale.tsx = Wal, PanicProps.tsx = Kaltes Wasser/Coolpack/
-                      Herz-Symbol) + Bewegungen; index.tsx = Anhängen ("attach")
+                      Herz-Symbol, MagnetProps.tsx = Magnet/Granate/Seil) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
