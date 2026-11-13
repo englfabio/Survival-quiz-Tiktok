@@ -188,7 +188,7 @@ touch = r3(lw0 + sec(L2, 1.8))
 uh0 = r3(max(touch + sec(L2, 0.15), c_genau))
 uh1 = r3(uh0 + sec(L2, 2.2))
 rt0 = r3(max(uh1 + sec(L2, 0.05), c_abst))
-FAR = (-1.6, 4.4)
+FAR = (-2.6, 4.2)
 wn0 = r3(max(rt0 + sec(L2, 2.6), c_warn))
 rt1 = r3(wn0 - sec(L2, 0.15))
 call0 = r3(max(wn0 + sec(L2, 1.6), c_ruf))
@@ -204,13 +204,13 @@ gren2 = [K(0, **GREN_ON_MAG, motion='park'), K(r3(touch - 0.002), **GREN_ON_MAG,
 # Spaziergänger (Nachbar-Figur, blau) kommt links den Uferweg entlang, bleibt stehen, dreht um
 NZ = 3.2
 nb0 = r3(max(0, wn0 - sec(L2, 3.0)))
-nachbar2 = [K(0, -12, NZ, 'walk', 90), K(nb0, -12, NZ, 'walk', 90), K(r3(wn0 + sec(L2, 0.2)), -3.4, NZ, 'walk', 90),
-            K(r3(wn0 + sec(L2, 0.25)), -3.4, NZ, 'stand', 90), K(r3(wn0 + sec(L2, 0.9)), -3.4, NZ, 'stand', 90),
-            K(r3(wn0 + sec(L2, 1.0)), -3.4, NZ, 'walk', 270), K(r3(wn0 + sec(L2, 6.0)), -15, NZ, 'walk', 270), K(1, -15, NZ, 'stand', 270)]
+nachbar2 = [K(0, -12, NZ, 'walk', 90), K(nb0, -12, NZ, 'walk', 90), K(r3(wn0 + sec(L2, 0.2)), -3.7, NZ, 'walk', 90),
+            K(r3(wn0 + sec(L2, 0.25)), -3.7, NZ, 'stand', 90), K(r3(wn0 + sec(L2, 0.9)), -3.7, NZ, 'stand', 90),
+            K(r3(wn0 + sec(L2, 1.0)), -3.7, NZ, 'walk', 270), K(r3(wn0 + sec(L2, 6.0)), -15, NZ, 'walk', 270), K(1, -15, NZ, 'stand', 270)]
 exp2 = {
  'camera': [cam(0, [2.3, 2.75, -6.45], [0.5, 0.8, 0.4]), cam(r3(rt0 - 0.004), [2.1, 2.65, -6.1], [0.5, 0.75, 0.4]),
-            cam(r3(rt0), [-0.6, 3.1, -9.0], [-1.7, 0.25, 2.5]), cam(r3(wn0), [-0.8, 3.2, -9.5], [-1.7, 0.2, 2.5]),
-            cam(r3(c_pol), [-0.8, 3.15, -9.3], [-1.7, 0.2, 2.5]), cam(1, [-0.75, 3.05, -8.9], [-1.7, 0.25, 2.5])],
+            cam(r3(rt0), [-0.6, 3.1, -9.0], [-1.4, 0.25, 2.5]), cam(r3(wn0), [-0.8, 3.2, -9.5], [-1.4, 0.2, 2.5]),
+            cam(r3(c_pol), [-0.8, 3.15, -9.3], [-1.4, 0.2, 2.5]), cam(1, [-0.75, 3.05, -8.9], [-1.4, 0.25, 2.5])],
  'actors': {'dummy': dummy2, 'magnet': mag2, 'granate': gren2, 'nachbar': nachbar2, 'car': [car_park()]},
  'flash': call0,
  'sfx': [{'t': r3(call0 + sec(L2, 0.3)), 'id': 'handy-waehlen', 'volume': 0.45}],

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Hands pulling a wet rope hand over hand out of water, rhythmic rope friction and soft dripping, close, no music, no voice",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-13T08:56:13.565Z"
+}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Small heavy metal object plopping into a canal, short deep water plop with a little splash, close, no music, no voice",
+  "duration": 1.2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-13T08:56:11.339Z"
+}
