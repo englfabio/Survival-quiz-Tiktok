@@ -12,6 +12,7 @@ import {forestStage} from './Forest';
 import {autumnForestStage, streetStage} from './AutumnForest';
 import {gardenStage} from './Garden';
 import {parkStage} from './Park';
+import {playgroundStage} from './Playground';
 import {policeStationStage} from './PoliceStation';
 import {graveyardStage} from './Graveyard';
 import {lakeStage} from './Lake';
@@ -48,4 +49,5 @@ export const STAGES: Record<string, StageDef> = {
   waldstrasse: streetStage,
   park: parkStage,
   polizeiwache: policeStationStage,
+  spielplatz: playgroundStage,
 };

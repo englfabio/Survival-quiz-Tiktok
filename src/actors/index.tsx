@@ -14,9 +14,10 @@ import {Basin} from './Basin';
 import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dummy';
 import {Grenade, Magnet} from './MagnetProps';
 import {Bill, CordonTape, Suitcase, TapeRoll} from './StationProps';
+import {Branch, HiddenNeedle, LitterPile, NeedleCap, Syringe, SYRINGE_SCALE} from './SyringeProps';
 import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, PaperForm} from './MoneyProps';
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
-import type {Uniform} from './Dummy';
+import type {Kid, Uniform} from './Dummy';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
 import {Whale, whalePose} from './Whale';
 import {Eel, eelAnchors, eelPose} from './Eel';
@@ -126,7 +127,24 @@ export const ACTORS = {
   taschenrechner: {height: 0.08, climbOffset: 0, speedLineHeight: 0},
   kalenderblatt: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   paragraf: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spritze auf dem Spielplatz (Fundstücke) ----
+  kind1: {height: 0.75, climbOffset: 0.1, speedLineHeight: 0.6},
+  kind2: {height: 0.75, climbOffset: 0.1, speedLineHeight: 0.6},
+  kind3: {height: 0.75, climbOffset: 0.1, speedLineHeight: 0.6},
+  spritze: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  kappe: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  muell: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  nadel: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  ast: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
 } as const;
+
+/** Kinder-Dummys: klein (Maßstab 0,6), bunte Körperfarben, Kappe oder Zöpfe – freundlich, ohne Gesicht wie alle Dummys */
+export const KIDS: Record<string, {color: string; kid: Kid}> = {
+  kind1: {color: '#ff7eb3', kid: {hair: '#6b3d1f'}},
+  kind2: {color: '#4fc3f7', kid: {cap: '#ffb300'}},
+  kind3: {color: '#8bd450', kid: {cap: '#e53935'}},
+};
+export const KID_SCALE = 0.6;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
 const WATER_MOTIONS = ['swim', 'struggle', 'gasp', 'crawl', 'tug', 'backfloat', 'backswim', 'edgehold', 'edgewave'];
@@ -557,6 +575,36 @@ export const Actor = ({
       )}
       {name === 'polizistin' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE3_COLOR} uniform={POLICE_UNIFORM_W} brow={v.brow} />
+      )}
+      {KIDS[name] && (
+        <group scale={KID_SCALE}>
+          <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={KIDS[name].color} kid={KIDS[name].kid} />
+        </group>
+      )}
+      {name === 'spritze' && (
+        <group scale={SYRINGE_SCALE * (1 + v.size)} rotation={[deg(v.tilt), 0, 0]}>
+          <Syringe capon={v.capon} blink={v.blink * (0.65 + 0.35 * Math.sin(clock * 10))} />
+        </group>
+      )}
+      {name === 'kappe' && (
+        <group scale={SYRINGE_SCALE * (1 + v.size)} position={[0, 0.008 * SYRINGE_SCALE, 0]}>
+          <NeedleCap />
+        </group>
+      )}
+      {name === 'muell' && (
+        <group scale={1 + v.size}>
+          <LitterPile seed={3 + Math.round(v.mark * 7)} />
+        </group>
+      )}
+      {name === 'nadel' && (
+        <group scale={1 + v.size}>
+          <HiddenNeedle blink={v.blink} time={clock} />
+        </group>
+      )}
+      {name === 'ast' && (
+        <group rotation={[0, 0, deg(v.tilt)]}>
+          <Branch time={state.motionTime} plant={state.motion === 'plant'} />
+        </group>
       )}
       {name === 'geldkoffer' && <MoneyCase tilt={v.tilt} lid={v.lid} money={state.values.money > 0 ? v.money : 1} />}
       {name === 'geldbuendel' && (

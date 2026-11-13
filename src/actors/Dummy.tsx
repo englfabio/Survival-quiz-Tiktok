@@ -16,6 +16,7 @@ import {ColdWaterGlass, CoolPack} from './PanicProps';
 import {BodyHint} from '../effects/BodyHint';
 import {rng} from '../lib/anim';
 import {MoneyBundle, Pen} from './MoneyProps';
+import {Glint, NeedleCap, Syringe, SYRINGE_SCALE, SYRINGE_TIP} from './SyringeProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -66,7 +67,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo';
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
   cup: number;
   /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
@@ -82,6 +83,10 @@ export type DummyPose = {
   fists?: boolean;
   /** ruhige Atemwolken im Takt der Bauchatmung: Atemzüge (Phase, Wolke beim Ausatmen) – sonst über "breath" */
   puffPhase?: number;
+  /** Spritze (item 'recap'): Zielpunkt der Nadel im Dummy-System (Kappe bzw. abgerutscht Richtung Finger) */
+  aim?: P3;
+  /** Handy-Foto (item 'photo'): Blitz 0 … 1 */
+  snap?: number;
 };
 
 const base = (): DummyPose => ({
@@ -151,6 +156,8 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     belly: L(a.belly ?? 0, b.belly ?? 0),
     fists: k < 0.5 ? a.fists : b.fists,
     puffPhase: k < 0.5 ? a.puffPhase : b.puffPhase,
+    aim: k < 0.5 ? a.aim : b.aim,
+    snap: L(a.snap ?? 0, b.snap ?? 0),
   };
 };
 
@@ -2144,6 +2151,147 @@ const geldPose = (motion: Motion, time: number, speed: number): DummyPose | null
   return null;
 };
 
+// ---------- Spritze auf dem Spielplatz (Fundstücke) ----------
+/**
+ * Bewegungen für das Spritzen-Video (wiederverwendbar):
+ *  - notice:     bleibt stehen (aus dem Gehen), zuckt kurz, beugt sich leicht vor und schaut auf den Boden ca. 0,6–1 m vor sich,
+ *                Hände vorsichtig etwas gehoben (nicht zeigen), bleibt so stehen (leichtes Atmen)
+ *  - pinchpick:  geht in die Hocke (bis 0,6 s), rechte Hand greift mit spitzen Fingern etwas 0,55 m vor ihm am Boden (PINCH_SPOT,
+ *                Griff bei 0,9 s – ab da Spritze in der Hand: item 'syringe'), steht auf (1,0–2,0 s) und hält sie weit von sich weg (PINCH_HOLD)
+ *  - pinchcarry: geht und hält die Spritze mit spitzen Fingern weit vor sich (rechter Arm gestreckt), linker Arm schwingt
+ *  - recap:      steht leicht vorgebeugt, linke Hand hält die Kappe (RECAP_L), rechte Hand die Spritze; schiebt die Nadel bis 1,4 s
+ *                bis an die Kappenöffnung, ab 1,45 s rutscht sie ab und gleitet Richtung linke Finger (bei 1,9 s wäre sie dort –
+ *                im Video vorher einfrieren, ca. 1,65 s)
+ *  - shoo:       breitet freundlich die Arme aus (bis 0,5 s), Hände winken sanft "geht bitte da rüber", Kopf leicht geneigt
+ *  - photo:      hebt das Handy mit beiden Händen vor das Gesicht (bis 0,6 s), Blitz bei 1,0 s (und alle 2 s erneut)
+ *  - swingsit:   (Kind) sitzt auf einem Schaukelsitz (Sitz 0,42 m bei Kind-Maßstab 0,6 → Figur y ≈ 0,15), hält die Ketten,
+ *                baumelt fröhlich mit den Beinen
+ *  - sandplay:   (Kind) kniet und buddelt fröhlich mit beiden Händen, Kopf wippt
+ */
+export const PINCH_SPOT: P3 = [-0.06, 0.07, 0.55];
+export const PINCH_HOLD: P3 = [-0.22, 1.12, 0.55];
+export const RECAP_L: P3 = [0.07, 1.12, 0.36];
+const spritzePose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'notice': {
+      const p = base();
+      const jolt = Math.sin(Math.PI * clamp(time / 0.3)) * (1 - clamp(time / 0.3));
+      const k = easeInOut(clamp((time - 0.1) / 0.5));
+      p.torsoX = 0.16 * k + breathe - 0.08 * jolt;
+      p.headX = 0.55 * k;
+      p.hipY = 0.98 - 0.02 * k;
+      const tr = time > 0.6 ? Math.sin(time * 1.7) * 0.01 : 0;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.24, 1.0 + tr, 0.32], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.24, 1.0 - tr, 0.32], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'pinchpick': {
+      const down = easeInOut(clamp(time / 0.6));
+      const up = easeInOut(clamp((time - 1.0) / 1.0));
+      const sq = squatReach();
+      sq.torsoX = 0.55;
+      sq.headX = 0.45;
+      const p = mix(mix(base(), sq, down), base(), up);
+      p.headX = lerpN(0.45 * down, 0.25, up);
+      p.torsoX = lerpN(p.torsoX, -0.05, up);
+      const g = easeInOut(clamp((time - 0.2) / 0.7));
+      const rest: P3 = [-0.2, 0.55, 0.3];
+      reachR(p, time < 0.95 ? lerp3t(rest, PINCH_SPOT, g) : lerp3t(PINCH_SPOT, PINCH_HOLD, up), 0.37, [0.6, -1, -0.3]);
+      // linke Hand stützt sich auf dem Knie ab, dann locker
+      reachL(p, lerp3t([0.22, 0.6, 0.3], [0.24, 0.9, 0.05], up), 0.33);
+      p.item = time > 0.9 ? 'syringe' : '';
+      return p;
+    }
+    case 'pinchcarry': {
+      const p = dummyPose('walk', time, speed);
+      const ph = time * TAU * Math.max(0.8, speed * 0.62);
+      p.torsoX = -0.04;
+      p.headX = 0.25;
+      reachR(p, [PINCH_HOLD[0] - 0.02, PINCH_HOLD[1] + 0.02 * Math.sin(ph * 2), PINCH_HOLD[2]], 0.37, [0.6, -1, -0.3]);
+      p.item = 'syringe';
+      return p;
+    }
+    case 'recap': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const push = easeInOut(clamp((time - 0.5) / 0.9));
+      const slip = easeInOut(clamp((time - 1.45) / 0.45));
+      const tr = time > 0.5 ? Math.sin(time * 23) * 0.004 : 0;
+      p.torsoX = 0.14 * k + breathe;
+      p.headX = 0.1 + 0.5 * k;
+      const L: P3 = RECAP_L;
+      // Kappe steckt mit dem geschlossenen Ende in der linken Hand, Öffnung zeigt nach rechts (−x)
+      const mouth: P3 = [L[0] - 0.065, L[1], L[2]];
+      const finger: P3 = [L[0] - 0.01, L[1] + 0.045, L[2] + 0.01];
+      // Nadelspitze (Dummy-System): nähert sich der Kappenöffnung, rutscht dann ab Richtung Finger (bleibt 2 cm davor)
+      const t0: P3 = [mouth[0] - 0.13, mouth[1] + 0.01, mouth[2] + 0.02];
+      const t1: P3 = [mouth[0] - 0.008, mouth[1], mouth[2]];
+      const t2: P3 = [finger[0] - 0.02, finger[1], finger[2]];
+      const tip = lerp3t(lerp3t(t0, t1, push), t2, slip);
+      const R: P3 = [tip[0] - 0.168, tip[1] - 0.012 + tr, tip[2] + 0.02];
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], R, k), 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], L, k), 0.36, [0.6, -1, -0.3]);
+      p.aim = tip;
+      p.item = 'recap';
+      return p;
+    }
+    case 'shoo': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const w = time > 0.5 ? Math.sin((time - 0.5) * 5.5) : 0;
+      p.torsoX = 0.06 * k + breathe;
+      p.headX = 0.15 * k;
+      p.torsoZ = 0.03 * w * k;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.72, 1.32 + 0.04 * w, 0.32], k), 0.33, [0.3, -1, -0.6]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.72, 1.32 - 0.04 * w, 0.32], k), 0.33, [0.3, -1, -0.6]);
+      p.foreZ -= 0.35 * w * k;
+      p.foreZL += 0.35 * w * k;
+      return p;
+    }
+    case 'photo': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      p.torsoX = -0.02 * k + breathe;
+      p.headX = 0.05 * k;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.03, 1.5, 0.36], k), 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.06, 1.47, 0.34], k), 0.33, [0.6, -1, -0.3]);
+      p.item = k > 0.2 ? 'photo' : '';
+      const f = time >= 1.0 ? (time - 1.0) % 2 : 9;
+      p.snap = f < 0.25 ? 1 - f / 0.25 : 0;
+      return p;
+    }
+    case 'swingsit': {
+      const p = chairSit(time);
+      const kick = Math.sin(time * 4.2);
+      p.legL = L3(-1.45 + 0.35 * kick, 0.06, 1.25 - 0.45 * kick);
+      p.legR = L3(-1.45 - 0.35 * kick, -0.06, 1.25 + 0.45 * kick);
+      p.torsoX = -0.05 + 0.04 * kick;
+      p.headX = -0.1 + Math.sin(time * 2.1) * 0.06;
+      p.headY = Math.sin(time * 1.3) * 0.25;
+      // Hände an den Ketten (seitlich, ca. 0,23 m neben der Mitte, etwas über Schulterhöhe)
+      reachR(p, [-0.24, 1.25, 0.02], 0.33, [0.6, -1, 0.3]);
+      reachL(p, [0.24, 1.25, 0.02], 0.33, [0.6, -1, 0.3]);
+      return p;
+    }
+    case 'sandplay': {
+      const kneel = kneelPose();
+      kneel.torsoX = 0.6;
+      const k = easeInOut(clamp(time / 0.5));
+      const p = mix(base(), kneel, k);
+      const s = Math.max(0, time - 0.4);
+      const a = Math.sin(s * 5.2);
+      const b = Math.sin(s * 5.2 + Math.PI);
+      reachR(p, lerp3t([-0.2, 0.55, 0.3], [-0.14 + 0.05 * a, 0.12 + 0.12 * Math.max(0, a), 0.45 + 0.08 * a], k), 0.33);
+      reachL(p, lerp3t([0.2, 0.55, 0.3], [0.14 + 0.05 * b, 0.12 + 0.12 * Math.max(0, b), 0.45 + 0.08 * b], k), 0.33);
+      p.headX = 0.3 + 0.08 * Math.sin(s * 2.6);
+      p.headY = 0.2 * Math.sin(s * 1.1);
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Rechte Hand (Handmitte) im Dummy-System (Ursprung am Boden, +z = vorn) – für Gegenstände mit "hand" */
 export const rightHandLocal = (p: DummyPose) =>
   armPoint(p.armR, -1, p.foreZ, 0.33)
@@ -2172,7 +2320,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? spritzePose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -3231,6 +3379,54 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
       </group>
     );
   }
+  if (pose.item === 'syringe') {
+    // Spritze mit spitzen Fingern am Kolben, Nadel zeigt vom Körper weg nach vorn unten
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0, -0.025, 0.02]} rotation={[0.55, -0.35, 0]} scale={SYRINGE_SCALE}>
+          <Syringe />
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'recap') {
+    // rechte Hand: Spritze, Nadel zeigt auf den Zielpunkt (Kappenöffnung bzw. abgerutscht zu den Fingern); linke Hand: Kappe
+    const R = armPoint(pose.armR, -1, pose.foreZ, 0.36);
+    const Lh = armPoint(pose.armL, 1, pose.foreZL, 0.36);
+    const aim = pose.aim ? torsoLocal(pose, new THREE.Vector3(...pose.aim)) : Lh.clone();
+    const d = aim.clone().sub(R).normalize();
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), d);
+    // Spritze so setzen, dass die Nadelspitze genau am Zielpunkt liegt
+    const body = pose.aim ? aim.clone().sub(d.clone().multiplyScalar(SYRINGE_TIP * SYRINGE_SCALE)) : R;
+    const mouth = torsoLocal(pose, new THREE.Vector3(RECAP_L[0] - 0.065, RECAP_L[1], RECAP_L[2]));
+    const dc = mouth.clone().sub(Lh).normalize();
+    const qc = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), dc);
+    return (
+      <>
+        <group position={body} quaternion={q} scale={SYRINGE_SCALE}>
+          <Syringe />
+        </group>
+        <group position={Lh.clone().add(dc.clone().multiplyScalar(0.02))} quaternion={qc} scale={SYRINGE_SCALE}>
+          <NeedleCap />
+        </group>
+      </>
+    );
+  }
+  if (pose.item === 'photo') {
+    // Handy hochkant vor dem Gesicht, Bildschirm zum Dummy, Kamera nach vorn; Blitz bei "snap"
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0.035, 0.05, 0.03]} rotation={[0, Math.PI, 0]} scale={1.15}>
+          <Smartphone />
+        </group>
+        <group position={[0.06, 0.11, 0.05]}>
+          <Glint amount={pose.snap ?? 0} size={0.35} />
+        </group>
+      </group>
+    );
+  }
   if (pose.item === 'tab') {
     // angebissener Tab mit Bissstelle zur Kamera (comichaft vergrößert)
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
@@ -3445,6 +3641,50 @@ const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
   );
 };
 
+/** Kinder-Dummy: Kappe (Farbe) oder Zöpfe (Haarfarbe) */
+export type Kid = {cap?: string; hair?: string};
+const KidHead = ({kid}: {kid: Kid}) => {
+  const m = useMemo(
+    () => ({
+      cap: new THREE.MeshStandardMaterial({color: kid.cap ?? '#e53935', roughness: 0.6, flatShading: true}),
+      hair: new THREE.MeshStandardMaterial({color: kid.hair ?? '#7a4a24', roughness: 0.85, flatShading: true}),
+      tie: new THREE.MeshStandardMaterial({color: '#ffffff', roughness: 0.6, flatShading: true}),
+    }),
+    [kid.cap, kid.hair],
+  );
+  return (
+    <group>
+      {kid.cap && (
+        <group position={[0, 0.035, 0]} rotation={[-0.12, 0, 0]}>
+          <mesh material={m.cap} castShadow>
+            <sphereGeometry args={[0.128, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
+          </mesh>
+          <mesh material={m.cap} position={[0, 0.005, 0.13]} rotation={[0.12, 0, 0]} scale={[1, 1, 0.8]}>
+            <cylinderGeometry args={[0.1, 0.1, 0.012, 12, 1, false, -Math.PI / 2, Math.PI]} />
+          </mesh>
+        </group>
+      )}
+      {kid.hair && (
+        <group>
+          <mesh material={m.hair} position={[0, 0.03, -0.01]} castShadow>
+            <sphereGeometry args={[0.132, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2.1]} />
+          </mesh>
+          {[-1, 1].map((s) => (
+            <group key={s} position={[s * 0.13, 0.02, -0.04]} rotation={[0.2, 0, s * -0.5]}>
+              <mesh material={m.tie} position={[0, 0, 0]}>
+                <sphereGeometry args={[0.022, 6, 4]} />
+              </mesh>
+              <mesh material={m.hair} position={[s * 0.015, -0.06, 0]} scale={[0.8, 1.5, 0.8]} castShadow>
+                <icosahedronGeometry args={[0.04, 0]} />
+              </mesh>
+            </group>
+          ))}
+        </group>
+      )}
+    </group>
+  );
+};
+
 /** Augenbrauen vorn am Kopf (Figur sonst ohne Gesicht): raise 0 = gerade … 1 = rechte Braue weit hochgezogen */
 const Brows = ({m, raise}: {m: Mats; raise: number}) => (
   <group>
@@ -3487,7 +3727,10 @@ export const Dummy = ({
   heave = 0,
   brow = 0,
   stash = 0,
+  kid,
 }: {
+  /** Kinder-Dummy: größerer Kopf + Kappe oder Zöpfe in bunten Farben (Figur wird außen auf ca. 0,6 verkleinert) */
+  kid?: Kid;
   /** Augenbrauen (für Figuren ohne Gesicht): ab 0,01 sichtbar, bis 1 = rechte Braue hochgezogen ("Hm?") */
   brow?: number;
   /** Geldbündel, die vorn aus der Jacke schauen (0 … 3, braucht jacket) */
@@ -3649,7 +3892,8 @@ export const Dummy = ({
           <mesh material={m.joint} position={[0, 0.58, 0]} castShadow>
             <cylinderGeometry args={[0.045, 0.055, 0.1, 6]} />
           </mesh>
-          <group position={[0, 0.74, 0]} rotation={[pose.headX, pose.headY, 0]}>
+          <group position={[0, kid ? 0.77 : 0.74, 0]} rotation={[pose.headX, pose.headY, 0]} scale={kid ? 1.32 : 1}>
+            {kid && <KidHead kid={kid} />}
             <mesh material={m.body} scale={[0.9, 1.1, 0.95]} castShadow>
               <icosahedronGeometry args={[0.13, 1]} />
             </mesh>
