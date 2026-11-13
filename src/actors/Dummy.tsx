@@ -3448,11 +3448,11 @@ const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
 /** Augenbrauen vorn am Kopf (Figur sonst ohne Gesicht): raise 0 = gerade … 1 = rechte Braue weit hochgezogen */
 const Brows = ({m, raise}: {m: Mats; raise: number}) => (
   <group>
-    <mesh material={m.joint} position={[0.048, 0.045, 0.118]} rotation={[-0.2, 0.35, -0.12 * raise]}>
-      <boxGeometry args={[0.055, 0.014, 0.014]} />
+    <mesh material={m.joint} position={[0.058, 0.035, 0.113]} rotation={[-0.2, 0.45, -0.08 * raise]}>
+      <boxGeometry args={[0.048, 0.02, 0.02]} />
     </mesh>
-    <mesh material={m.joint} position={[-0.048, 0.045 + 0.035 * raise, 0.116 - 0.006 * raise]} rotation={[-0.2 - 0.25 * raise, -0.35, -0.45 * raise]}>
-      <boxGeometry args={[0.055, 0.014, 0.014]} />
+    <mesh material={m.joint} position={[-0.058, 0.035 + 0.055 * raise, 0.113 - 0.01 * raise]} rotation={[-0.2 - 0.3 * raise, -0.45, -0.55 * raise]}>
+      <boxGeometry args={[0.048, 0.02, 0.02]} />
     </mesh>
   </group>
 );
@@ -3590,7 +3590,7 @@ export const Dummy = ({
           {jacket > 0.5 &&
             stash > 0.05 &&
             [0, 1, 2].slice(0, Math.ceil(stash)).map((i) => (
-              <group key={`st${i}`} position={[0.035 - i * 0.045, 0.44 - i * 0.025, 0.17 + 0.01 * i]} rotation={[-0.35, 0.25 * (i - 1), 0.25 + i * 0.25]}>
+              <group key={`st${i}`} position={[0.06 - i * 0.06, 0.4, 0.15]} rotation={[-0.25, 0, Math.PI / 2 + (i - 1) * 0.3]} scale={1.3}>
                 <MoneyBundle />
               </group>
             ))}

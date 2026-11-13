@@ -23,7 +23,7 @@ const C = {
   skyTop: '#2b3f73',
   skyHorizon: '#f2a46f',
   fog: '#7c6f8f',
-  grass: '#4f6b3a',
+  grass: '#5d7a42',
   grassDark: '#41592f',
   gravel: '#a39a88',
   curb: '#8f8a80',
@@ -64,7 +64,7 @@ const useLayout = () =>
     for (let i = 0; i < 22; i++) {
       const x = -40 + r() * 80;
       const z = 4 + r() * 18;
-      if (Math.abs(x) < 9 && z < 16) continue;
+      if (Math.abs(x) < 11 && z < 24) continue;
       addTree(x, z, 1 + r() * 0.35);
     }
     // Büsche hinter dem Weg (nicht an der Bank) und ein paar flache vorn
@@ -233,12 +233,12 @@ const ParkScene = (_: {cam?: StageCam}) => {
       <color attach="background" args={[C.fog]} />
       <fog attach="fog" args={[C.fog, 26, 110]} />
       <Sky c={C} />
-      <hemisphereLight args={['#8fa0d8', '#3a3045', 0.85]} />
-      <ambientLight intensity={0.18} color="#c7b8e0" />
+      <hemisphereLight args={['#a9b6ea', '#4a4058', 1.35]} />
+      <ambientLight intensity={0.38} color="#d2c6ea" />
       {/* tief stehende Abendsonne von links hinten (warm) */}
       <directionalLight
         position={[-16, 7, -10]}
-        intensity={1.5}
+        intensity={2.1}
         color="#ffb27a"
         castShadow
         shadow-mapSize-width={2048}
@@ -253,7 +253,7 @@ const ParkScene = (_: {cam?: StageCam}) => {
         shadow-normalBias={0.03}
       />
       {/* Fülllicht von vorn (bläulich), damit die Figuren gut zu sehen sind */}
-      <directionalLight position={[4, 6, 12]} intensity={0.9} color="#c9d4ff" />
+      <directionalLight position={[6, 7, 10]} intensity={1.5} color="#d6ddff" />
       {/* Rasen */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[240, 240]} />

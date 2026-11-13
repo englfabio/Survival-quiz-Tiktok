@@ -70,18 +70,19 @@ def lerp2(a, b, k): return (a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k)
 
 # ---- feste Plätze: Park (src/stage/Park.tsx) ----
 CASE_P = (1.3, -1.55)            # Koffer steht neben der Bank (PARK.beside)
-KS = (CASE_P[0], CASE_P[1] + 0.55)   # hier kniet der Dummy (Koffer 0,55 m vor ihm)
-DF = 0
+KS = (CASE_P[0] + 0.55, CASE_P[1])   # hier kniet der Dummy (Koffer 0,55 m vor ihm, Blick nach −x)
+DF = 270
+DFS = 0                           # Blick zum Tresen (Polizeiwache)
 JK = dict(jacket=1)
 DROP = 0.4                        # Koffer am Griff in der Hand
-def case_up(t=0, **kw): return K(t, CASE_P[0], CASE_P[1], 'park', 180, tilt=0, lid=0, **kw)
-def case_lie(t=0, lid=1, **kw): return K(t, CASE_P[0], CASE_P[1], 'park', 180, tilt=90, lid=lid, **kw)
+def case_up(t=0, **kw): return K(t, CASE_P[0], CASE_P[1], 'park', 90, tilt=0, lid=0, **kw)
+def case_lie(t=0, lid=1, **kw): return K(t, CASE_P[0], CASE_P[1], 'park', 90, tilt=90, lid=lid, **kw)
 # Koffer im System des Dummys (attach): liegend vor ihm / vor der Brust / unter dem linken Arm
 def case_att(t, x, y, z, face, tilt, lid=0): return K(t, x, z, 'park', face, y=y, tilt=tilt, lid=lid, attach='dummy')
 # ---- Polizeiwache (src/stage/PoliceStation.tsx): Tresen-Platte 1,05 m, Vorderkante z −0.45 ----
 CT = 1.05
 OFF = (0.1, -1.68)                # Polizist hinter dem Tresen
-DA = (0.35, -0.15)                # Dummy beim Abstellen des Koffers
+DA = (0.75, -0.15)                # Dummy beim Abstellen des Koffers
 DB = (-0.3, -0.15)                # Dummy am Formular
 DOOR = (2.75, 0.75)
 CASE_C = (DA[0] + 0.1, DA[1] - 0.48)     # Koffer auf dem Tresen (aus setcounter: Hand 0,48 m vor, 0,1 m rechts)
@@ -91,37 +92,39 @@ FORM_C = (DB[0] + 0.02, DB[1] - 0.5)     # Formular (FORM_SPOT im Dummy.tsx)
 L0 = 'situation'
 c_er = cue(L0, 'Er stand')
 c_was = cue(L0, 'Was machst')
-W0 = (-2.9, 0.15)
-W1 = (0.65, 0.12)
+W0 = (6.2, 0.1)
+W1 = (2.75, 0.1)
+WT = (KS[0] + 0.1, KS[1] + 0.3)
 arrive = r3(sec(L0, 0.2 + seglen(W0, W1) / 1.3))
 sp1 = r3(arrive + sec(L0, 0.7))
-ks = r3(sp1 + sec(L0, seglen(W1, KS) / 1.0))
+wt = r3(sp1 + sec(L0, seglen(W1, WT) / 1.0))
+ks = r3(wt + sec(L0, 0.35))
 oc0 = r3(ks + 0.002)
 look0 = r3(max(oc0 + sec(L0, 2.6), c_was - sec(L0, 0.1)))
-dummy0 = [K(0, *W0, 'walk', 90, **JK), K(arrive, *W1, 'walk', 90), K(r3(arrive + 0.002), *W1, 'spotpoint', face_to(W1, CASE_P)),
-          K(sp1, *W1, 'spotpoint', face_to(W1, CASE_P)), K(r3(sp1 + 0.002), *W1, 'walk', face_to(W1, KS)), K(ks, *KS, 'walk', face_to(W1, KS)),
+dummy0 = [K(0, *W0, 'walk', 270, **JK), K(arrive, *W1, 'walk', 270), K(r3(arrive + 0.002), *W1, 'spotpoint', face_to(W1, CASE_P)),
+          K(sp1, *W1, 'spotpoint', face_to(W1, CASE_P)), K(r3(sp1 + 0.002), *W1, 'walk', face_to(W1, WT)), K(wt, *WT, 'walk', face_to(W1, WT)), K(ks, *KS, 'walk', DF),
           K(oc0, *KS, 'opencase', DF), K(r3(look0 - 0.002), *KS, 'opencase', DF), K(look0, *KS, 'kneellook', DF), K(1, *KS, 'kneellook', DF)]
 tip0 = r3(oc0 + sec(L0, 0.6)); tip1 = r3(oc0 + sec(L0, 1.0))
 op0 = tip1; op1 = r3(oc0 + sec(L0, 1.55)); op2 = r3(oc0 + sec(L0, 1.9))
 case0 = [case_up(0), case_up(tip0), case_lie(tip1, lid=0), case_lie(op1, lid=0.62), case_lie(op2, lid=1), case_lie(1, lid=1)]
 cutB = r3(max(op0 - sec(L0, 0.05), c_er - sec(L0, 1.4)))
 situation = {
- 'camera': [cam(0, [3.4, 1.75, 5.0], [-0.4, 0.95, -0.9]), cam(r3(cutB - 0.004), [3.1, 1.7, 4.4], [0.6, 0.8, -1.1]),
-            cam(cutB, [2.05, 1.45, 0.35], [1.25, 0.18, -1.45]), cam(r3(c_was - 0.004), [1.95, 1.4, 0.2], [1.25, 0.2, -1.45]),
-            cam(c_was, [3.3, 1.75, 3.7], [0.9, 0.7, -1.2]), cam(1, [3.1, 1.7, 3.4], [0.9, 0.7, -1.2])],
+ 'camera': [cam(0, [5.6, 3.0, 13.5], [2.9, 1.15, -0.86]), cam(r3(cutB - 0.004), [4.6, 2.6, 10.5], [2.2, 0.95, -1.0]),
+            cam(cutB, [3.51, 3.79, 2.76], [1.27, 0.34, -1.35], 34), cam(r3(c_was - 0.004), [3.3, 3.6, 2.45], [1.27, 0.34, -1.35], 34),
+            cam(c_was, [4.56, 1.82, 2.25], [1.37, 0.45, -1.55]), cam(1, [4.3, 1.8, 2.0], [1.37, 0.45, -1.55])],
  'actors': {'dummy': dummy0, 'geldkoffer': case0},
  'sfx': [{'t': r3(sp1 - sec(L0, 0.5)), 'id': 'herzschlag', 'volume': 0.35}, {'t': r3(op0 - sec(L0, 0.1)), 'id': 'schnallen-klick', 'volume': 0.55},
          {'t': r3(op2), 'id': 'aufzug-ding', 'volume': 0.3}],
 }
 
 # ================= Optionen / Countdown / Auflösung =================
-OL = [1.0, -0.55, -1.2]
+OL = [1.58, -0.58, -1.07]
 def still(p0, p1):
     return {'camera': [cam(0, p0, OL), cam(1, p1, OL)],
             'actors': {'dummy': [K(0, *KS, 'kneellook', DF, **JK)], 'geldkoffer': [case_lie(0, lid=1)]}}
-options = still([6.4, 4.4, 8.6], [6.2, 4.3, 8.3])
-countdown = still([6.2, 4.3, 8.3], [6.0, 4.2, 8.05])
-reveal = still([6.0, 4.2, 8.05], [5.9, 4.15, 7.9])
+options = still([7.9, 7.3, 7.9], [7.73, 7.14, 7.72])
+countdown = still([7.73, 7.14, 7.72], [7.6, 7.02, 7.58])
+reveal = still([7.6, 7.02, 7.58], [7.5, 6.95, 7.5])
 
 # ================= Option 1: behalten (falsch) =================
 L1 = 'explain1'
@@ -131,7 +134,7 @@ cc1 = r3(cc0 + sec(L1, 0.75))
 tk0 = r3(cc1 + 0.002)
 g1 = r3(tk0 + sec(L1, 0.35)); u1 = r3(tk0 + sec(L1, 0.9)); k1 = r3(tk0 + sec(L1, 1.3))
 sn0 = r3(tk0 + sec(L1, 1.35))
-P1 = (KS[0] - 0.9, 0.25)
+P1 = (KS[0] - 0.85, 0.25)
 SN_SPEED = 0.85
 sn1 = r3(sn0 + sec(L1, seglen(KS, P1) / SN_SPEED))
 P2 = (-12.0, 0.3)
@@ -146,13 +149,13 @@ case1 = [case_lie(0, lid=1), case_lie(r3(cc0 + sec(L1, 0.1)), lid=1), case_lie(r
          case_att(r3(g1 + 0.002), 0, 0, 0.55, 180, 90), case_att(u1, 0, 0.82, 0.32, 180, 90), case_att(k1, 0.3, 0.86, 0.02, 90, 0),
          case_att(1, 0.3, 0.86, 0.02, 90, 0)]
 par1 = [K(0, 0, 0, 'park', 0, y=HIDE, attach='dummy'), K(r3(par0 - 0.002), 0, 0, 'park', 0, y=HIDE, attach='dummy'),
-        K(par0, 0, 0, 'show', 0, y=2.1, attach='dummy', size=0.25), K(1, 0, 0, 'show', 0, y=2.1, attach='dummy')]
+        K(par0, 0, 0, 'show', 0, y=1.9, attach='dummy', size=0.1), K(1, 0, 0, 'show', 0, y=1.9, attach='dummy')]
 DZ = pos_at(fz1, P1, P2, sn1, sn2)
 cut1 = sn0
 exp1 = {
- 'camera': [cam(0, [2.7, 1.55, 2.2], [1.2, 0.55, -1.1]), cam(r3(cut1 - 0.004), [2.5, 1.5, 1.95], [1.1, 0.75, -1.0]),
-            cam(cut1, [KS[0] + 1.4, 1.9, 4.6], [KS[0] - 1.2, 1.05, -0.2]),
-            cam(fz1, [DZ[0] + 2.0, 1.9, 4.4], [DZ[0] - 0.2, 1.2, 0.0]), cam(1, [DZ[0] + 1.8, 1.88, 4.1], [DZ[0] - 0.2, 1.2, 0.0])],
+ 'camera': [cam(0, [5.54, 2.26, 1.28], [1.5, 0.46, -1.55]), cam(r3(cut1 - 0.004), [5.2, 2.2, 1.1], [1.5, 0.5, -1.55]),
+            cam(cut1, [KS[0] + 1.6, 2.25, 6.7], [KS[0] - 0.7, 1.1, 0.0]),
+            cam(fz1, [DZ[0] + 2.3, 2.23, 6.67], [DZ[0], 1.1, 0.32]), cam(1, [DZ[0] + 2.1, 2.2, 6.3], [DZ[0], 1.1, 0.32])],
  'actors': {'dummy': dummy1, 'geldkoffer': case1, 'paragraf': par1},
  'freeze': fz1,
  'sfx': [{'t': r3(cc0 + sec(L1, 0.55)), 'id': 'schnallen-klick', 'volume': 0.55}],
@@ -169,13 +172,13 @@ cut3 = r3(max(gw_end, c_musst - sec(L3, 0.6)))
 dummy3 = [K(0, *KS, 'kneellook', DF, stash=0, **JK), K(r3(gw0 - 0.002), *KS, 'kneellook', DF), K(gw0, *KS, 'grabwads', DF)]
 for n in range(NW):
     dummy3 += [K(r3(cyc(n) - sec(L3, 0.08)), *KS, 'grabwads', DF, stash=n), K(cyc(n), *KS, 'grabwads', DF, stash=n + 1)]
-DS = (-0.05, -0.12)
-dummy3 += [K(r3(cut3 - 0.003), *KS, 'grabwads', DF), K(cut3, *DS, 'handover', DF, stash=NW), K(1, *DS, 'handover', DF)]
+DS = (-0.6, -0.12)
+dummy3 += [K(r3(cut3 - 0.003), *KS, 'grabwads', DF), K(cut3, *DS, 'sheepish', 0, stash=NW), K(1, *DS, 'sheepish', 0)]
 dummy3 = sorted(dummy3, key=lambda k: k['t'])
 case3 = [case_lie(0, lid=1, money=1)]
 for n in range(NW):
     case3 += [case_lie(r3(cyc(n) - sec(L3, 0.5)), lid=1, money=round(1 - n / 16, 3)), case_lie(r3(cyc(n) - sec(L3, 0.48)), lid=1, money=round(1 - (n + 1) / 16, 3))]
-case3 += [case_lie(r3(cut3 - 0.003), lid=1), K(cut3, -0.05, -0.75, 'park', 180, y=CT, tilt=0, lid=0), K(1, -0.05, -0.75, 'park', 180)]
+case3 += [case_lie(r3(cut3 - 0.003), lid=1), K(cut3, 0.15, -0.75, 'park', 180, y=CT, tilt=0, lid=0), K(1, 0.15, -0.75, 'park', 180)]
 br0 = r3(cut3 + sec(L3, 1.0))
 fz3 = r3(br0 + sec(L3, 0.9))
 pol3 = [K(0, *OFF, 'stand', 180, y=HIDE), K(r3(cut3 - 0.002), *OFF, 'stand', 180, y=HIDE), K(cut3, *OFF, 'listen', 180, y=0, brow=0.1),
@@ -184,9 +187,9 @@ pol3 = [K(0, *OFF, 'stand', 180, y=HIDE), K(r3(cut3 - 0.002), *OFF, 'stand', 180
 cutR = r3(br0 - sec(L3, 0.15))
 exp3 = {
  'stage': [{'t': 0, 'stage': 'park'}, {'t': cut3, 'stage': 'polizeiwache'}],
- 'camera': [cam(0, [2.25, 1.5, 0.75], [1.15, 0.45, -1.3]), cam(r3(cut3 - 0.004), [2.1, 1.45, 0.6], [1.15, 0.5, -1.3]),
-            cam(cut3, [0.75, 1.62, -2.45], [-0.12, 1.25, -0.1], 34), cam(r3(cutR - 0.004), [0.7, 1.6, -2.35], [-0.12, 1.25, -0.1], 34),
-            cam(cutR, [-0.62, 1.72, 0.55], [OFF[0], 1.72, OFF[1]], 30), cam(1, [-0.58, 1.72, 0.45], [OFF[0], 1.72, OFF[1]], 30)],
+ 'camera': [cam(0, [-2.41, 2.74, 1.88], [1.26, 0.45, -1.96], 36), cam(r3(cut3 - 0.004), [-2.2, 2.65, 1.7], [1.26, 0.45, -1.96], 36),
+            cam(cut3, [-1.45, 1.6, -2.4], [-0.55, 1.22, -0.12], 40), cam(r3(cutR - 0.004), [-1.42, 1.6, -2.33], [-0.55, 1.22, -0.12], 40),
+            cam(cutR, [-0.55, 1.86, 1.4], [OFF[0], 1.67, OFF[1]], 30), cam(1, [-0.52, 1.85, 1.27], [OFF[0], 1.67, OFF[1]], 30)],
  'actors': {'dummy': dummy3, 'geldkoffer': case3, 'polizist': pol3},
  'freeze': fz3,
 }
@@ -216,10 +219,10 @@ flash2 = calc_full
 cal0 = r3(c_meld + sec(L2, 0.1))
 ch0 = r3(max(cal0 + sec(L2, 1.0), c_soga - sec(L2, 0.3)))
 dummy2 = [K(0, *KS, 'kneellook', DF, **JK), K(r3(cl0 - 0.002), *KS, 'kneellook', DF), K(cl0, *KS, 'closecase', DF), K(r3(cut2a - 0.003), *KS, 'closecase', DF),
-          K(cut2a, *DOOR, 'carrycase', face_to(DOOR, DA)), K(wk1, *DA, 'carrycase', face_to(DOOR, DA)), K(sc0, *DA, 'setcounter', DF),
-          K(r3(sc1 - 0.002), *DA, 'setcounter', DF), K(sc1, *DA, 'walk', 270), K(r3(db0 - 0.002), *DB, 'walk', 270), K(ff0, *DB, 'fillform', DF),
-          K(ff1, *DB, 'fillform', DF), K(r3(ff1 + 0.002), *DB, 'listen', DF), K(r3(ch0 - 0.002), *DB, 'listen', DF), K(ch0, *DB, 'cheer', 15),
-          K(1, *DB, 'cheer', 15)]
+          K(cut2a, *DOOR, 'carrycase', face_to(DOOR, DA)), K(wk1, *DA, 'carrycase', face_to(DOOR, DA)), K(sc0, *DA, 'setcounter', DFS),
+          K(r3(sc1 - 0.002), *DA, 'setcounter', DFS), K(sc1, *DA, 'walk', 270), K(r3(db0 - 0.002), *DB, 'walk', 270), K(ff0, *DB, 'fillform', DFS),
+          K(ff1, *DB, 'fillform', DFS), K(r3(ff1 + 0.002), *DB, 'listen', DFS), K(r3(ch0 - 0.002), *DB, 'listen', DFS), K(ch0, *DB, 'cheer', 196),
+          K(1, *DB, 'cheer', 196)]
 case2 = [case_lie(0, lid=1), case_lie(r3(cl0 + sec(L2, 0.1)), lid=1), case_lie(r3(cl0 + sec(L2, 0.6)), lid=0), case_lie(r3(cut2a - 0.003), lid=0),
          K(cut2a, *DOOR, 'park', 180, tilt=0, lid=0, hand=1, drop=DROP), K(sc_rel, *CASE_C, 'park', 180, y=CT, tilt=0, hand=1),
          K(r3(sc_rel + 0.003), *CASE_C, 'park', 180, y=CT, hand=0), K(1, *CASE_C, 'park', 180, y=CT, hand=0)]
@@ -233,7 +236,7 @@ calc2 = [K(0, *OFF, 'park', 180, y=HIDE, fill=0, hand=0, holder='polizist', drop
          K(r3(calc0 + sec(L2, 0.17)), *OFF, 'park', 180, y=0, hand=1, fill=0), K(calc_up, *OFF, 'park', 180, hand=1, fill=0),
          K(calc_full, *OFF, 'park', 180, hand=1, fill=1), K(r3(cal0 - sec(L2, 0.4)), *OFF, 'park', 180, hand=1),
          K(r3(cal0 - sec(L2, 0.38)), 0.15, -0.82, 'park', 165, y=CT, hand=0, tilt=12), K(1, 0.15, -0.82, 'park', 165, y=CT, hand=0, tilt=12)]
-CALP = (-0.95, -0.95)
+CALP = (0.6, -1.15)
 cal2 = [K(0, *CALP, 'park', 0, y=HIDE), K(r3(cal0 - 0.002), *CALP, 'park', 0, y=HIDE), K(cal0, *CALP, 'show', 0, y=1.45, size=0.15),
         K(1, *CALP, 'show', 0, y=1.45)]
 cutC = r3(max(ff0 + sec(L2, 0.4), calc0 - sec(L2, 1.4)))
@@ -242,12 +245,12 @@ cutE = r3(calc_full + sec(L2, 1.6))
 cutF = r3(cal0 - sec(L2, 0.45))
 exp2 = {
  'stage': [{'t': 0, 'stage': 'park'}, {'t': cut2a, 'stage': 'polizeiwache'}],
- 'camera': [cam(0, [2.3, 1.5, 0.9], [1.15, 0.45, -1.3]), cam(r3(cut2a - 0.004), [2.15, 1.45, 0.75], [1.15, 0.5, -1.3]),
-            cam(cut2a, [-1.6, 1.8, 2.9], [1.2, 1.0, -0.6]), cam(r3(cutC - 0.004), [-1.3, 1.75, 2.6], [0.3, 1.05, -0.6]),
-            cam(cutC, [-1.25, 1.95, 0.45], [-0.25, 1.05, -0.65], 32), cam(r3(cutD - 0.004), [-1.2, 1.92, 0.4], [-0.25, 1.05, -0.65], 32),
-            cam(cutD, [-0.25, 1.4, 0.75], [0.0, 1.22, -1.1], 30), cam(r3(cutE - 0.004), [-0.22, 1.4, 0.65], [0.0, 1.22, -1.1], 30),
-            cam(cutE, [1.6, 1.85, 2.6], [-0.1, 1.1, -0.7]), cam(r3(cutF - 0.004), [1.45, 1.82, 2.4], [-0.1, 1.1, -0.7]),
-            cam(cutF, [0.9, 1.75, 3.3], [-0.15, 1.3, -0.8]), cam(1, [0.8, 1.72, 3.0], [-0.15, 1.3, -0.8])],
+ 'camera': [cam(0, [5.54, 2.26, 1.28], [1.5, 0.46, -1.55]), cam(r3(cut2a - 0.004), [5.2, 2.2, 1.1], [1.5, 0.5, -1.55]),
+            cam(cut2a, [0.4, 2.7, 8.6], [0.6, 1.0, 0.0]), cam(r3(cutC - 0.004), [0.0, 2.65, 8.0], [-0.1, 1.0, -0.1]),
+            cam(cutC, [-1.6, 2.6, -2.3], [-0.38, 1.12, -0.55], 54), cam(r3(cutD - 0.004), [-1.55, 2.55, -2.22], [-0.38, 1.12, -0.55], 53),
+            cam(cutD, [1.16, 1.75, 2.74], [-0.36, 1.31, -1.28], 30), cam(r3(cutE - 0.004), [1.12, 1.74, 2.6], [-0.36, 1.31, -1.28], 30),
+            cam(cutE, [-2.88, 3.16, 7.91], [-0.66, 0.61, -0.91]), cam(r3(cutF - 0.004), [-2.7, 3.05, 7.4], [-0.66, 0.65, -0.91]),
+            cam(cutF, [-2.6, 3.0, 7.2], [-0.66, 0.65, -0.91]), cam(1, [-2.4, 2.9, 6.7], [-0.66, 0.7, -0.91])],
  'actors': {'dummy': dummy2, 'geldkoffer': case2, 'formular': form2, 'polizist': pol2, 'taschenrechner': calc2, 'kalenderblatt': cal2},
  'flash': flash2,
  'sfx': [{'t': r3(cl0 + sec(L2, 0.5)), 'id': 'schnallen-klick', 'volume': 0.55}, {'t': r3(cal0), 'id': 'kalender-blaettern', 'volume': 0.35},
@@ -262,8 +265,8 @@ steps2 = [{'text': 'Nicht behalten', 'cue': 'Bring den Koffer'},
 # ================= Outro: Polizeiwache, Dummy jubelt, Taschenrechner zeigt 30.010 € =================
 outro = {
  'stage': 'polizeiwache',
- 'camera': [cam(0, [1.0, 1.7, 3.1], [-0.05, 1.3, -0.8]), cam(1, [0.9, 1.68, 2.8], [-0.05, 1.3, -0.8])],
- 'actors': {'dummy': [K(0, *DB, 'cheer', 20, **JK)],
+ 'camera': [cam(0, [-2.4, 2.9, 7.2], [0.15, 0.45, -0.5]), cam(1, [-2.2, 2.85, 6.8], [0.15, 0.45, -0.5])],
+ 'actors': {'dummy': [K(0, *DB, 'cheer', 196, **JK)],
             'polizist': [K(0, *OFF, 'listen', 200)],
             'geldkoffer': [K(0, *CASE_C, 'park', 180, y=CT, tilt=0)],
             'formular': [K(0, *FORM_C, 'park', 180, y=CT, fill=1, size=0.3)],

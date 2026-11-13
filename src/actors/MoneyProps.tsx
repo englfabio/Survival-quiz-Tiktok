@@ -103,10 +103,10 @@ export const MoneyBundle = ({mats}: {mats?: ReturnType<typeof useBundleMats>}) =
 
 // ---------- Metallkoffer ----------
 export const MCASE = {w: 0.46, h: 0.33, d: 0.13};
-/** Bündel-Raster im Koffer (liegend): 2 Spalten × 4 Reihen × 2 Lagen */
+/** Bündel-Raster im Koffer (liegend): 2 Spalten × 4 Reihen × 3 Lagen (oberste Lage schaut über den Rand) */
 const SLOTS = (() => {
   const out: [number, number, number][] = [];
-  for (let layer = 0; layer < 2; layer++)
+  for (let layer = 0; layer < 3; layer++)
     for (let row = 0; row < 4; row++)
       for (let col = 0; col < 2; col++) out.push([(col - 0.5) * 0.19, 0.012 + layer * BUNDLE.h, 0.045 + row * 0.077]);
   return out;
