@@ -205,7 +205,8 @@ export const CountdownRing = ({frame, seconds, size = 250}: {frame: number; seco
 // ---------- Untertitel ----------
 /** Teilt Text in Sätze (Inhalt bleibt unverändert) */
 export const splitSentences = (text: string): string[] =>
-  text.match(/[^.!?:]+[.!?:]+["“”]?\s*|[^.!?:]+$/g)?.map((s) => s.trim()).filter(Boolean) ?? [text];
+  // Punkt/Doppelpunkt direkt vor einer Ziffer (z. B. "30.000") beendet keinen Satz
+  text.match(/(?:[^.!?:]|[.:](?=\d))+(?:[.!?:](?!\d))+["“”]?\s*|(?:[^.!?:]|[.:](?=\d))+$/g)?.map((s) => s.trim()).filter(Boolean) ?? [text];
 
 /**
  * Zeitplan der Sätze (0…1), solange es noch keine Audio-Zeitstempel gibt: nach Zeichenanzahl.
