@@ -1,5 +1,6 @@
 import {beachStage} from './Beach';
 import {canalStage} from './Canal';
+import {stationFullStage, stationStage} from './Station';
 import {castleStage} from './Castle';
 import {christmasRoomStage, hallStage, outsideStage, plainHallStage} from './Christmas';
 import {diningKitchenStage, kitchenStage} from './Kitchen';
@@ -38,4 +39,6 @@ export const STAGES: Record<string, StageDef> = {
   aufzug: elevatorStage,
   bahn: trainStage,
   kanal: canalStage,
+  bahnhof: stationStage,
+  'bahnhof-voll': stationFullStage,
 };

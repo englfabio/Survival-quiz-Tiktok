@@ -13,6 +13,8 @@ import {Car, carLocalMatrix, carPose} from './Car';
 import {Basin} from './Basin';
 import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dummy';
 import {Grenade, Magnet} from './MagnetProps';
+import {Bill, CordonTape, Suitcase, TapeRoll} from './StationProps';
+import type {Uniform} from './Dummy';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
 import {Whale, whalePose} from './Whale';
 import {Eel, eelAnchors, eelPose} from './Eel';
@@ -102,6 +104,12 @@ export const ACTORS = {
   // ---- Magnetfischen (Granate) ----
   magnet: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   granate: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Bahnhof (herrenloser Koffer) ----
+  bahnmitarbeiterin: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  bundespolizist: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  koffer: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
+  absperrband: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
+  rechnung: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -117,7 +125,13 @@ const DOCTOR_COLOR = '#2fae9c';
 /** Körperfarbe des Kumpels (zweiter Crashtest-Dummy, orange – für alle Szenen, in denen man jemandem hilft) */
 const BUDDY_COLOR = '#f07a1e';
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist'];
+/** Bahnmitarbeiterin: Körper hellgrau-lila, Uniform weinrot/grau mit rotem Halstuch + Zopf (ohne Logo) */
+const STAFF_COLOR = '#b9a6d6';
+const STAFF_UNIFORM: Uniform = {jacket: '#7b1f35', dark: '#4e1222', collar: '#e9e6e1', pants: '#3c4048', cap: '#7b1f35', band: '#3c4048', scarf: '#d8b23a', hair: '#5a3622'};
+/** Bundespolizist: Körper hellgrau, stilisierte dunkelblaue Uniform (ohne echte Abzeichen) */
+const POLICE_COLOR = '#aeb8c4';
+const POLICE_UNIFORM: Uniform = {jacket: '#1e2b4a', dark: '#121a2e', collar: '#8fb0d6', pants: '#1a2440', cap: '#1e2b4a', band: '#8fb0d6', trim: '#2c3d63'};
 
 /** Zahn: Drehung im Flug (rad/s) */
 const TOOTH_SPIN = 13;
@@ -205,10 +219,11 @@ export const resolveActors = (
 ): ResolvedActor[] => {
   const entries = Object.entries(actors).filter(([, keys]) => keys.length > 0);
   const hasAttach = (keys: ActorKey[]) => keys.some((k) => k.attach);
-  // Dummy zuerst (Gegenstände mit "hand" brauchen seine Hand-Position)
-  const free = entries.filter(([, k]) => !hasAttach(k)).sort(([a], [b]) => (a === 'dummy' ? -1 : b === 'dummy' ? 1 : 0));
+  // Figuren mit Dummy-Körper zuerst (Gegenstände mit "hand" brauchen ihre Hand-Position)
+  const rank = (n: string) => (n === 'dummy' ? 0 : DUMMY_LIKE.includes(n) ? 1 : 2);
+  const free = entries.filter(([, k]) => !hasAttach(k)).sort(([a], [b]) => rank(a) - rank(b));
   const ordered = [...free, ...entries.filter(([, k]) => hasAttach(k))];
-  let dummyHand: THREE.Vector3 | undefined;
+  const hands = new Map<string, THREE.Vector3>();
   const done = new Map<string, ResolvedActor>();
   // "Innen"-Matrix einer Figur: Welt-Lage inkl. Schaukeln/Abkippen (dort sitzen angehängte Figuren)
   const inner = new Map<string, THREE.Matrix4>();
@@ -254,6 +269,9 @@ export const resolveActors = (
     }
     // Gegenstand in der rechten Hand des Dummys ("hand" 0 … 1, hängt "drop" Meter darunter, pendelt leicht)
     const hk = s.values.hand;
+    let holder = 'dummy';
+    for (const k of keys) if (k.t <= t + 1e-6 && k.holder !== undefined) holder = k.holder;
+    const dummyHand = hands.get(holder);
     if (hk > 0.001 && dummyHand) {
       const st = s.sectionTime ?? 0;
       const drop = s.values.drop;
@@ -270,9 +288,9 @@ export const resolveActors = (
     inner.set(name, matrix);
     const pos = new THREE.Vector3().setFromMatrixPosition(base);
     let hand: THREE.Vector3 | undefined;
-    if (name === 'dummy') {
+    if (DUMMY_LIKE.includes(name)) {
       hand = rightHandLocal(dummyPoseBlended(s.motion, s.motionTime, s.speed, s.prev)).applyMatrix4(matrix);
-      dummyHand = hand;
+      hands.set(name, hand);
     }
     let text: string | undefined;
     for (const k of keys) if (k.t <= t + 1e-6 && k.text !== undefined) text = k.text;
@@ -475,6 +493,22 @@ export const Actor = ({
           pose={zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 9)}
         />
       )}
+      {name === 'bahnmitarbeiterin' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={STAFF_COLOR} uniform={STAFF_UNIFORM} />
+      )}
+      {name === 'bundespolizist' && (
+        <>
+          <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE_COLOR} uniform={POLICE_UNIFORM} />
+          {state.motion === 'tapewalk' && (
+            <group position={rightHandLocal(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev))}>
+              <TapeRoll />
+            </group>
+          )}
+        </>
+      )}
+      {name === 'koffer' && <Suitcase handle={v.handle} tilt={v.tilt} />}
+      {name === 'absperrband' && <CordonTape fill={v.fill} size={v.size} />}
+      {name === 'rechnung' && <Bill size={v.size} />}
       {name === 'zitteraal' && <ZitterAal motion={state.motion} time={state.motionTime} zap={v.zap} zt={zt} />}
       {name === 'handtuch' && <WetTowel time={state.motionTime} bend={0.05} />}
       {name === 'sicherungskasten' && <FuseBox lever={v.lever} />}

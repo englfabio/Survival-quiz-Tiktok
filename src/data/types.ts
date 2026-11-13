@@ -135,6 +135,16 @@ export type Motion =
   | 'holdgren' // Dummy: hält die Granate mit rechts vor der Brust und starrt darauf
   | 'windup' // Dummy: holt mit der Granate weit aus zum Werfen (0,3–1,3 s)
   | 'placeseat' // Dummy: beugt sich durchs offene Beifahrerfenster, legt etwas auf den Sitz (Hand vorn bei 1,2 s), zurück bis 2,4 s
+  // ---- Dummy & Co.: Bahnhof (herrenloser Koffer) ----
+  | 'lookaround' // Dummy: schaut sich um (links, rechts), bemerkt bei 2,2 s etwas vor sich am Boden
+  | 'bendopen' // Dummy: beugt sich vor und fummelt an den Schnallen eines Koffers 0,55 m vor ihm
+  | 'grabcase' // Dummy: greift den Koffergriff (Hand bei 0,5 s), zieht den Teleskopgriff hoch (0,6–1,2 s)
+  | 'rollcase' // Dummy: geht und zieht einen Rollkoffer hinter sich her (Koffer attach dummy x −0.2, z −1.04, tilt 40, handle 1)
+  | 'pointtalk' // Dummy: zeigt mit rechts nach vorn, dreht den Kopf zwischendurch zur Seite (erklärt jemandem etwas)
+  | 'sheepish' // Figur: verlegen am Hinterkopf kratzen, Kopf gesenkt, rechte Hand ab 0,8 s nach vorn (nimmt etwas entgegen)
+  | 'handover' // Figur: reicht mit der rechten Hand etwas nach vorn (bis 0,6 s)
+  | 'tapewalk' // Figur: geht und rollt mit rechts Absperrband ab (Rolle seitlich vor sich)
+  | 'listen' // Figur: steht, hört zu, nickt leicht, Hände vor dem Bauch
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
@@ -281,10 +291,14 @@ export type ActorKey = {
   rumble?: number;
   /** Auto: Beifahrerfenster 0 = zu … 1 = offen */
   window2?: number;
+  /** Koffer: Teleskopgriff 0 = eingefahren … 1 = ausgezogen */
+  handle?: number;
+  /** Gegenstand mit "hand": in wessen rechter Hand (Figur mit Dummy-Körper, z. B. "kumpel", "bundespolizist"). Standard "dummy". Gilt ab diesem Zeitpunkt weiter */
+  holder?: string;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

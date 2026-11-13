@@ -1,0 +1,1409 @@
+{
+  "id": "herrenloser-koffer",
+  "category": "fundstuecke",
+  "stage": "bahnhof",
+  "situation": {
+    "speech": "Du hast mal wieder einen herrenlosen Koffer am Bahnhof entdeckt. Weit und breit niemand, dem er gehören könnte. Was machst du jetzt?"
+  },
+  "options": [
+    {
+      "card": "Reinschauen, wem er gehört",
+      "speech": "Eins: Kurz reinschauen, ob ein Name drinsteht.",
+      "dummyAction": "Dummy beugt sich über den Koffer und will die Schnallen öffnen. Bild friert ein, rotes Aufleuchten. Nichts Bedrohliches zu sehen.",
+      "explanation": "Lieber nicht. Von außen kannst du nicht erkennen, was in dem Koffer ist. Genau deshalb rät die Bundespolizei: Im öffentlichen Raum herrenlose Gegenstände nicht anfassen und nicht öffnen.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.3,
+              1.55,
+              7.1
+            ],
+            "look": [
+              0.448,
+              0.82,
+              3.3
+            ]
+          },
+          {
+            "t": 0.1747,
+            "pos": [
+              2.1,
+              1.5,
+              6.7
+            ],
+            "look": [
+              0.448,
+              0.8,
+              3.3
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              2.05,
+              1.49,
+              6.6
+            ],
+            "look": [
+              0.448,
+              0.8,
+              3.3
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.45,
+              "z": 3.4,
+              "motion": "stand",
+              "face": 90
+            },
+            {
+              "t": 0.0115,
+              "x": -0.45,
+              "z": 3.4,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.0769,
+              "x": 0.148,
+              "z": 3.4,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.0789,
+              "x": 0.148,
+              "z": 3.4,
+              "motion": "bendopen",
+              "face": 90
+            },
+            {
+              "t": 1,
+              "x": 0.148,
+              "z": 3.4,
+              "motion": "bendopen",
+              "face": 90
+            }
+          ],
+          "koffer": [
+            {
+              "t": 0,
+              "x": 0.8,
+              "z": 3.4,
+              "motion": "park",
+              "face": 270
+            }
+          ]
+        },
+        "freeze": 0.2115,
+        "sfx": [
+          {
+            "t": 0.15,
+            "id": "schnallen-klick",
+            "volume": 0.55
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Zum Fundbüro bringen",
+      "speech": "Zwei: Den Koffer schnell zum Fundbüro bringen.",
+      "dummyAction": "Dummy zieht den Teleskopgriff aus und rollt den Koffer quer durch die volle Bahnhofshalle Richtung Fundbüro. Bild friert ein, rotes Aufleuchten.",
+      "explanation": "Gut gemeint, aber auch das ist keine gute Idee. Wenn du den Koffer bewegst, trägst du ein unbekanntes Risiko quer durch einen vollen Bahnhof. Und die Polizei kann nicht mehr sehen, wo und wie er abgestellt wurde.",
+      "choreography": {
+        "stage": "bahnhof-voll",
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.5,
+              1.6,
+              7.2
+            ],
+            "look": [
+              0.43,
+              0.85,
+              3.3
+            ]
+          },
+          {
+            "t": 0.2119,
+            "pos": [
+              2.3,
+              1.55,
+              6.9
+            ],
+            "look": [
+              0.43,
+              0.85,
+              3.3
+            ]
+          },
+          {
+            "t": 0.216,
+            "pos": [
+              -2.87,
+              4.6,
+              -1.6
+            ],
+            "look": [
+              1.23,
+              0.45,
+              7.0
+            ]
+          },
+          {
+            "t": 0.2665,
+            "pos": [
+              -2.84,
+              4.6,
+              -1.487
+            ],
+            "look": [
+              1.26,
+              0.45,
+              7.113
+            ]
+          },
+          {
+            "t": 0.3193,
+            "pos": [
+              -2.601,
+              4.6,
+              -0.592
+            ],
+            "look": [
+              1.499,
+              0.45,
+              8.008
+            ]
+          },
+          {
+            "t": 0.3738,
+            "pos": [
+              -2.361,
+              4.6,
+              0.304
+            ],
+            "look": [
+              1.739,
+              0.45,
+              8.904
+            ]
+          },
+          {
+            "t": 0.4296,
+            "pos": [
+              -2.122,
+              4.6,
+              1.2
+            ],
+            "look": [
+              1.978,
+              0.45,
+              9.8
+            ]
+          },
+          {
+            "t": 0.4861,
+            "pos": [
+              -1.883,
+              4.6,
+              2.095
+            ],
+            "look": [
+              2.217,
+              0.45,
+              10.695
+            ]
+          },
+          {
+            "t": 0.5428,
+            "pos": [
+              -1.644,
+              4.6,
+              2.991
+            ],
+            "look": [
+              2.456,
+              0.45,
+              11.591
+            ]
+          },
+          {
+            "t": 0.5989,
+            "pos": [
+              -1.404,
+              4.6,
+              3.886
+            ],
+            "look": [
+              2.696,
+              0.45,
+              12.486
+            ]
+          },
+          {
+            "t": 0.6542,
+            "pos": [
+              -1.165,
+              4.6,
+              4.782
+            ],
+            "look": [
+              2.935,
+              0.45,
+              13.382
+            ]
+          },
+          {
+            "t": 0.7079,
+            "pos": [
+              -0.954,
+              4.6,
+              5.684
+            ],
+            "look": [
+              3.146,
+              0.45,
+              14.284
+            ]
+          },
+          {
+            "t": 0.7596,
+            "pos": [
+              -0.804,
+              4.6,
+              6.599
+            ],
+            "look": [
+              3.296,
+              0.45,
+              15.199
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.604,
+              4.5,
+              6.999
+            ],
+            "look": [
+              3.296,
+              0.45,
+              15.199
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.45,
+              "z": 3.4,
+              "motion": "stand",
+              "face": 90
+            },
+            {
+              "t": 0.0069,
+              "x": -0.45,
+              "z": 3.4,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.0261,
+              "x": 0.13,
+              "z": 3.4,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.0275,
+              "x": 0.13,
+              "z": 3.4,
+              "motion": "grabcase",
+              "face": 90
+            },
+            {
+              "t": 0.1789,
+              "x": 0.13,
+              "z": 3.4,
+              "motion": "grabcase",
+              "face": 90
+            },
+            {
+              "t": 0.1809,
+              "x": 0.13,
+              "z": 3.4,
+              "motion": "rollcase",
+              "face": 90
+            },
+            {
+              "t": 0.2935,
+              "x": 0.73,
+              "z": 5.0,
+              "motion": "rollcase",
+              "face": 165.0
+            },
+            {
+              "t": 0.6628,
+              "x": 2.6,
+              "z": 12.0,
+              "motion": "rollcase",
+              "face": 165.0
+            },
+            {
+              "t": 1,
+              "x": 4.5,
+              "z": 23.6,
+              "motion": "rollcase",
+              "face": 170.7
+            },
+            {
+              "t": 1.2619,
+              "x": 4.5,
+              "z": 23.6,
+              "motion": "rollcase",
+              "face": 170.7
+            }
+          ],
+          "koffer": [
+            {
+              "t": 0,
+              "x": 0.8,
+              "z": 3.4,
+              "motion": "park",
+              "face": 270,
+              "handle": 0,
+              "tilt": 0
+            },
+            {
+              "t": 0.1479,
+              "x": 0.8,
+              "z": 3.4,
+              "motion": "park",
+              "face": 270,
+              "handle": 1,
+              "tilt": 0
+            },
+            {
+              "t": 0.1769,
+              "x": 0.8,
+              "z": 3.4,
+              "motion": "park",
+              "face": 270,
+              "handle": 1,
+              "tilt": 0
+            },
+            {
+              "t": 0.2099,
+              "x": -0.2,
+              "z": -1.04,
+              "motion": "park",
+              "face": 0,
+              "attach": "dummy",
+              "y": 0,
+              "tilt": 40,
+              "handle": 1
+            },
+            {
+              "t": 1,
+              "x": -0.2,
+              "z": -1.04,
+              "motion": "park",
+              "face": 0,
+              "attach": "dummy",
+              "y": 0,
+              "tilt": 40,
+              "handle": 1
+            }
+          ]
+        },
+        "freeze": 0.7247,
+        "sfx": [
+          {
+            "t": 0.1789,
+            "id": "koffer-rollen",
+            "volume": 0.5
+          },
+          {
+            "t": 0.6284,
+            "id": "koffer-rollen",
+            "volume": 0.45
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Nicht anfassen, Bahnpersonal oder Polizei",
+      "speech": "Drei: Nicht anfassen, Abstand halten und Bahnpersonal oder Bundespolizei Bescheid sagen.",
+      "dummyAction": "Dummy geht rückwärts auf Abstand, sagt der Bahnmitarbeiterin Bescheid (zeigt auf den Koffer), sie ruft die Bundespolizei, ein Bundespolizist sperrt mit Absperrband ab. Grünes Aufleuchten. Am Ende rennt der verlegene Kumpel-Dummy herbei und bekommt einen Zettel mit Euro-Zeichen (die Rechnung).",
+      "explanation": "Fass nichts an und geh auf Abstand. Sag sofort Bahnpersonal oder der Bundespolizei Bescheid. Die prüfen den Koffer mit Spezialisten. Meistens ist es nur vergessenes Gepäck. Aber das kannst du von außen eben nicht erkennen.",
+      "steps": [
+        {
+          "text": "Nicht anfassen",
+          "cue": "Fass nichts an"
+        },
+        {
+          "text": "Nicht öffnen",
+          "cue": "und geh auf"
+        },
+        {
+          "text": "Abstand halten",
+          "cue": "Abstand."
+        },
+        {
+          "text": "Bahnpersonal oder Bundespolizei informieren",
+          "cue": "Sag sofort"
+        }
+      ],
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              3.4,
+              1.8,
+              8.8
+            ],
+            "look": [
+              -1.0,
+              0.85,
+              3.2
+            ]
+          },
+          {
+            "t": 0.1906,
+            "pos": [
+              3.1,
+              1.8,
+              8.5
+            ],
+            "look": [
+              -1.3,
+              0.85,
+              3.3
+            ]
+          },
+          {
+            "t": 0.1947,
+            "pos": [
+              -0.2,
+              1.9,
+              0.2
+            ],
+            "look": [
+              -2.6,
+              0.95,
+              5.2
+            ]
+          },
+          {
+            "t": 0.3799,
+            "pos": [
+              -0.4,
+              1.85,
+              0.5
+            ],
+            "look": [
+              -2.6,
+              0.95,
+              5.2
+            ]
+          },
+          {
+            "t": 0.3846,
+            "pos": [
+              4.23,
+              4.3,
+              10.0
+            ],
+            "look": [
+              0.23,
+              0.45,
+              2.7
+            ]
+          },
+          {
+            "t": 0.719,
+            "pos": [
+              4.03,
+              4.1,
+              9.6
+            ],
+            "look": [
+              0.23,
+              0.45,
+              2.7
+            ]
+          },
+          {
+            "t": 0.7234,
+            "pos": [
+              -2.045,
+              2.0,
+              -1.65
+            ],
+            "look": [
+              -0.845,
+              1.0,
+              4.95
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -1.995,
+              2.0,
+              -1.15
+            ],
+            "look": [
+              -0.845,
+              1.0,
+              4.95
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.45,
+              "z": 3.4,
+              "motion": "stand",
+              "face": 90
+            },
+            {
+              "t": 0.0132,
+              "x": -0.45,
+              "z": 3.4,
+              "motion": "retreat",
+              "face": 90
+            },
+            {
+              "t": 0.1388,
+              "x": -1.5,
+              "z": 3.55,
+              "motion": "retreat",
+              "face": 90
+            },
+            {
+              "t": 0.1408,
+              "x": -1.5,
+              "z": 3.55,
+              "motion": "walk",
+              "face": 235.4
+            },
+            {
+              "t": 0.2558,
+              "x": -3.6,
+              "z": 5.0,
+              "motion": "walk",
+              "face": 235.4
+            },
+            {
+              "t": 0.2578,
+              "x": -3.6,
+              "z": 5.0,
+              "motion": "pointtalk",
+              "face": 69.3
+            },
+            {
+              "t": 0.423,
+              "x": -3.6,
+              "z": 5.0,
+              "motion": "pointtalk",
+              "face": 69.3
+            },
+            {
+              "t": 0.4263,
+              "x": -3.6,
+              "z": 5.0,
+              "motion": "stand",
+              "face": 69.3
+            },
+            {
+              "t": 1,
+              "x": -3.6,
+              "z": 5.0,
+              "motion": "stand",
+              "face": 69.3
+            }
+          ],
+          "koffer": [
+            {
+              "t": 0,
+              "x": 0.8,
+              "z": 3.4,
+              "motion": "park",
+              "face": 270
+            }
+          ],
+          "bahnmitarbeiterin": [
+            {
+              "t": 0,
+              "x": -3.264,
+              "z": 5.889,
+              "motion": "stand",
+              "face": 200
+            },
+            {
+              "t": 0.2182,
+              "x": -3.264,
+              "z": 5.889,
+              "motion": "stand",
+              "face": 339.3
+            },
+            {
+              "t": 0.271,
+              "x": -3.264,
+              "z": 5.889,
+              "motion": "listen",
+              "face": 339.3
+            },
+            {
+              "t": 0.3417,
+              "x": -3.264,
+              "z": 5.889,
+              "motion": "listen",
+              "face": 339.3
+            },
+            {
+              "t": 0.3437,
+              "x": -3.264,
+              "z": 5.889,
+              "motion": "call",
+              "face": 57.4
+            },
+            {
+              "t": 1,
+              "x": -3.264,
+              "z": 5.889,
+              "motion": "call",
+              "face": 57.4
+            }
+          ],
+          "bundespolizist": [
+            {
+              "t": 0,
+              "x": 0.2,
+              "z": 8.6,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.3681,
+              "x": 0.2,
+              "z": 8.6,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.3701,
+              "x": 0.2,
+              "z": 8.6,
+              "motion": "walk",
+              "face": 353.9,
+              "y": 0
+            },
+            {
+              "t": 0.5272,
+              "x": -0.26,
+              "z": 4.29,
+              "motion": "walk",
+              "face": 353.9
+            },
+            {
+              "t": 0.5292,
+              "x": -0.26,
+              "z": 4.29,
+              "motion": "tapewalk",
+              "face": 90
+            },
+            {
+              "t": 0.5945,
+              "x": 1.52,
+              "z": 4.29,
+              "motion": "tapewalk",
+              "face": 0
+            },
+            {
+              "t": 0.6599,
+              "x": 1.52,
+              "z": 2.51,
+              "motion": "tapewalk",
+              "face": 270
+            },
+            {
+              "t": 0.7252,
+              "x": -0.26,
+              "z": 2.51,
+              "motion": "tapewalk",
+              "face": 180
+            },
+            {
+              "t": 0.7906,
+              "x": -0.26,
+              "z": 4.29,
+              "motion": "tapewalk",
+              "face": 180
+            },
+            {
+              "t": 0.7936,
+              "x": -0.26,
+              "z": 4.29,
+              "motion": "walk",
+              "face": 208.6
+            },
+            {
+              "t": 0.8435,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "walk",
+              "face": 236.3
+            },
+            {
+              "t": 0.8455,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "stand",
+              "face": 236.3
+            },
+            {
+              "t": 0.8567,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "handover",
+              "face": 236.3
+            },
+            {
+              "t": 1,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "handover",
+              "face": 236.3
+            }
+          ],
+          "absperrband": [
+            {
+              "t": 0,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0,
+              "size": -0.15,
+              "y": -30
+            },
+            {
+              "t": 0.5262,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0,
+              "y": -30
+            },
+            {
+              "t": 0.5272,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0,
+              "y": 0
+            },
+            {
+              "t": 0.5619,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.125
+            },
+            {
+              "t": 0.5945,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.25
+            },
+            {
+              "t": 0.6272,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.375
+            },
+            {
+              "t": 0.6599,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.5
+            },
+            {
+              "t": 0.6926,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.625
+            },
+            {
+              "t": 0.7252,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.75
+            },
+            {
+              "t": 0.7579,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.875
+            },
+            {
+              "t": 0.7906,
+              "x": 0.63,
+              "z": 3.4,
+              "motion": "park",
+              "face": 90,
+              "fill": 1.0
+            }
+          ],
+          "kumpel": [
+            {
+              "t": 0,
+              "x": -12,
+              "z": 5.4,
+              "motion": "stand",
+              "face": 90,
+              "y": -30
+            },
+            {
+              "t": 0.6564,
+              "x": -12,
+              "z": 5.4,
+              "motion": "stand",
+              "face": 90,
+              "y": -30
+            },
+            {
+              "t": 0.6584,
+              "x": -9.5,
+              "z": 5.4,
+              "motion": "run",
+              "face": 90,
+              "y": 0
+            },
+            {
+              "t": 0.7972,
+              "x": -1.37,
+              "z": 5.1,
+              "motion": "run",
+              "face": 90
+            },
+            {
+              "t": 0.7992,
+              "x": -1.37,
+              "z": 5.1,
+              "motion": "stand",
+              "face": 56.3
+            },
+            {
+              "t": 0.8038,
+              "x": -1.37,
+              "z": 5.1,
+              "motion": "sheepish",
+              "face": 56.3
+            },
+            {
+              "t": 1,
+              "x": -1.37,
+              "z": 5.1,
+              "motion": "sheepish",
+              "face": 56.3
+            }
+          ],
+          "rechnung": [
+            {
+              "t": 0,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "park",
+              "face": 236.3,
+              "y": -30
+            },
+            {
+              "t": 0.8547,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "park",
+              "face": 236.3,
+              "y": -30
+            },
+            {
+              "t": 0.8567,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "park",
+              "face": 349.4,
+              "y": 0,
+              "hand": 1,
+              "holder": "bundespolizist",
+              "size": 0.5,
+              "drop": -0.16
+            },
+            {
+              "t": 0.9063,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "park",
+              "face": 349.4,
+              "holder": "kumpel"
+            },
+            {
+              "t": 1,
+              "x": -0.32,
+              "z": 4.4,
+              "motion": "park",
+              "face": 349.4
+            }
+          ]
+        },
+        "flash": 0.2578,
+        "sfx": [
+          {
+            "t": 0.3635,
+            "id": "handy-waehlen",
+            "volume": 0.4
+          },
+          {
+            "t": 0.5292,
+            "id": "absperrband",
+            "volume": 0.5
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "Richtig ist Nummer 3"
+  },
+  "outro": {
+    "speech": "Und lass deinen eigenen Koffer nie allein stehen. Den Polizeieinsatz kann man dir sonst in Rechnung stellen. Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Und lass deinen eigenen Koffer nie allein stehen. Den Polizeieinsatz kann man dir sonst in Rechnung stellen. Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: Bundespolizei",
+  "sources": [
+    {
+      "name": "Bundespolizei Kiel, Herrenloser Koffer am Bahnhof Lübeck",
+      "url": "https://www.presseportal.de/blaulicht/pm/70257/6252980"
+    },
+    {
+      "name": "Bundespolizei Ludwigsdorf, Herrenloser Koffer am Bahnhof Görlitz",
+      "url": "https://www.presseportal.de/blaulicht/pm/74160/6298219"
+    },
+    {
+      "name": "Stuttgarter Zeitung, Bundespolizei zu herrenlosen Gegenständen",
+      "url": "https://www.stuttgarter-zeitung.de/lokales/stuttgart/polizeieinsatz-in-stuttgart-alarm-um-koffer-im-hauptbahnhof-79013865.html"
+    }
+  ],
+  "publishing": {
+    "description": "Du hast mal wieder einen herrenlosen Koffer am Bahnhof entdeckt – was machst du jetzt? 🧳 Schreib 1, 2 oder 3 in die Kommentare!\n\nMeistens ist es nur vergessenes Gepäck. Aber von außen erkennt das niemand.\n\nQuellen:\nBundespolizei Kiel, Herrenloser Koffer am Bahnhof Lübeck: https://www.presseportal.de/blaulicht/pm/70257/6252980\nBundespolizei Ludwigsdorf, Herrenloser Koffer am Bahnhof Görlitz: https://www.presseportal.de/blaulicht/pm/74160/6298219\nStuttgarter Zeitung, Bundespolizei zu herrenlosen Gegenständen: https://www.stuttgarter-zeitung.de/lokales/stuttgart/polizeieinsatz-in-stuttgart-alarm-um-koffer-im-hauptbahnhof-79013865.html\n\nIm Notfall: 110.\n\n#waswürdestdutun #bahnhof #koffer #bundespolizei #fundstücke #wusstestdu #survival #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ehrlich: Wer hätte kurz reingeschaut? 👀👇 Was soll der Dummy als Nächstes finden?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.7,
+            1.45,
+            7.3
+          ],
+          "look": [
+            -0.8,
+            0.75,
+            2.8
+          ]
+        },
+        {
+          "t": 0.4751,
+          "pos": [
+            3.4,
+            1.45,
+            7.0
+          ],
+          "look": [
+            -0.8,
+            0.8,
+            2.8
+          ]
+        },
+        {
+          "t": 0.4798,
+          "pos": [
+            9.3,
+            2.7,
+            3.8
+          ],
+          "look": [
+            -2.2,
+            0.6,
+            3.0
+          ]
+        },
+        {
+          "t": 0.8421,
+          "pos": [
+            8.8,
+            2.65,
+            3.8
+          ],
+          "look": [
+            -2.2,
+            0.6,
+            3.0
+          ]
+        },
+        {
+          "t": 0.846,
+          "pos": [
+            3.4,
+            1.6,
+            8.0
+          ],
+          "look": [
+            0.1,
+            0.85,
+            3.3
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.2,
+            1.57,
+            7.7
+          ],
+          "look": [
+            0.1,
+            0.85,
+            3.3
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -5.0,
+            "z": 3.4,
+            "motion": "walk",
+            "face": 90
+          },
+          {
+            "t": 0.3169,
+            "x": -0.45,
+            "z": 3.4,
+            "motion": "walk",
+            "face": 90
+          },
+          {
+            "t": 0.3189,
+            "x": -0.45,
+            "z": 3.4,
+            "motion": "stand",
+            "face": 90
+          },
+          {
+            "t": 0.4621,
+            "x": -0.45,
+            "z": 3.4,
+            "motion": "lookaround",
+            "face": 90
+          },
+          {
+            "t": 1,
+            "x": -0.45,
+            "z": 3.4,
+            "motion": "lookaround",
+            "face": 90
+          }
+        ],
+        "koffer": [
+          {
+            "t": 0,
+            "x": 0.8,
+            "z": 3.4,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.6892,
+          "id": "herzschlag",
+          "volume": 0.35
+        }
+      ],
+      "sharpCuts": true
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.9,
+            4.0,
+            12.0
+          ],
+          "look": [
+            0.23,
+            0.0,
+            3.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.8,
+            3.9,
+            11.7
+          ],
+          "look": [
+            0.23,
+            0.0,
+            3.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.45,
+            "z": 3.4,
+            "motion": "stand",
+            "face": 90
+          }
+        ],
+        "koffer": [
+          {
+            "t": 0,
+            "x": 0.8,
+            "z": 3.4,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.8,
+            3.9,
+            11.7
+          ],
+          "look": [
+            0.23,
+            0.0,
+            3.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.7,
+            3.8,
+            11.45
+          ],
+          "look": [
+            0.23,
+            0.0,
+            3.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.45,
+            "z": 3.4,
+            "motion": "stand",
+            "face": 90
+          }
+        ],
+        "koffer": [
+          {
+            "t": 0,
+            "x": 0.8,
+            "z": 3.4,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.7,
+            3.8,
+            11.45
+          ],
+          "look": [
+            0.23,
+            0.0,
+            3.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.65,
+            3.75,
+            11.3
+          ],
+          "look": [
+            0.23,
+            0.0,
+            3.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.45,
+            "z": 3.4,
+            "motion": "stand",
+            "face": 90
+          }
+        ],
+        "koffer": [
+          {
+            "t": 0,
+            "x": 0.8,
+            "z": 3.4,
+            "motion": "park",
+            "face": 270
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            2.0,
+            1.6,
+            -1.5
+          ],
+          "look": [
+            0.3,
+            1.6,
+            4.6
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.9,
+            1.6,
+            -1.25
+          ],
+          "look": [
+            0.3,
+            1.6,
+            4.6
+          ]
+        }
+      ],
+      "actors": {
+        "kumpel": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 4.4,
+            "motion": "sheepish",
+            "face": 18.7
+          }
+        ],
+        "rechnung": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 4.4,
+            "motion": "park",
+            "face": 18.7,
+            "hand": 1,
+            "holder": "kumpel",
+            "size": 0.7,
+            "drop": -0.2
+          }
+        ],
+        "koffer": [
+          {
+            "t": 0,
+            "x": -0.6,
+            "z": 4.55,
+            "motion": "park",
+            "face": 90,
+            "handle": 1
+          }
+        ],
+        "bundespolizist": [
+          {
+            "t": 0,
+            "x": 1.15,
+            "z": 5.4,
+            "motion": "listen",
+            "face": 311.0
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}

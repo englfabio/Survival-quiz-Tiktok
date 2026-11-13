@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Large train station hall ambience, distant indistinct crowd murmur, footsteps on stone floor, faint rolling suitcases, distant train hum, no announcements, no voices clearly audible, no music",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-13T09:48:55.302Z"
+}

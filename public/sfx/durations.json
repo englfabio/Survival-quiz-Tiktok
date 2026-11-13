@@ -63,5 +63,9 @@
   "bahn-atmo": 15.047,
   "magnet-platsch": 1.228,
   "seil-ziehen": 3.03,
-  "kopfsteinpflaster": 4.049
+  "kopfsteinpflaster": 4.049,
+  "bahnhof-atmo": 22.047,
+  "koffer-rollen": 3.03,
+  "schnallen-klick": 1.228,
+  "absperrband": 2.508
 }

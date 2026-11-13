@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Fingers fiddling with metal suitcase latches, two small metallic clicks and rattle, close, no music, no voice",
+  "duration": 1.2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-13T09:49:03.289Z"
+}

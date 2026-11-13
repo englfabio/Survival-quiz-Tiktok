@@ -25,7 +25,7 @@ export const rng = (seed: number) => {
 };
 
 const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway',
-  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger', 'toss'];
+  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger', 'toss', 'rollcase', 'tapewalk'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
@@ -44,7 +44,8 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'guard', 'punch', 'victory', 'fly', 'lie',
   'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs',
   'wallpress', 'clench', 'bedsitdown', 'sitbreathe', 'uneasy', 'holdstrap', 'float', 'appear', 'shrink', 'spout',
-  'magthrow', 'haul', 'startle', 'lowerset', 'unhook', 'holdgren', 'windup', 'placeseat'];
+  'magthrow', 'haul', 'startle', 'lowerset', 'unhook', 'holdgren', 'windup', 'placeseat',
+  'lookaround', 'bendopen', 'grabcase', 'pointtalk', 'sheepish', 'handover', 'listen'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -60,6 +61,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs',
   'wallpress', 'clench', 'bedsitdown', 'sitbreathe', 'uneasy', 'holdstrap',
   'magthrow', 'haul', 'startle', 'lowerset', 'unhook', 'holdgren', 'windup', 'placeseat',
+  'lookaround', 'bendopen', 'grabcase', 'rollcase', 'pointtalk', 'sheepish', 'handover', 'tapewalk', 'listen',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */

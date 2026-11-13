@@ -1715,6 +1715,129 @@ const magnetPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+// ---------- Bahnhof (herrenloser Koffer) ----------
+/**
+ * Bewegungen für das Bahnhof-Video (wiederverwendbar):
+ *  - lookaround: steht, schaut sich um (links 0–1 s, rechts 1–2 s), bemerkt dann etwas vor sich am Boden (2,2 s: kleines
+ *                Zusammenzucken, Blick nach vorn unten, linke Hand kurz hoch)
+ *  - bendopen:   beugt sich vor (bis 0,8 s) und fummelt mit beiden Händen an den Schnallen eines Koffers 0,55 m vor ihm
+ *                (Hände ca. 0,7 m hoch)
+ *  - grabcase:   greift den Koffergriff oben (Koffer 0,55 m vor ihm, Hand bei 0,5 s), zieht den Teleskopgriff hoch (0,6–1,2 s),
+ *                dreht sich mit dem Koffer – danach "rollcase"
+ *  - rollcase:   geht und zieht einen Rollkoffer hinter sich her (rechte Hand hinten bei CASE_HAND). Koffer dazu mit
+ *                "attach": "dummy" bei x −0.2, y 0, z −1.04, face 0, tilt 40, handle 1
+ *  - pointtalk:  steht, zeigt mit rechts nach vorn, dreht den Kopf zwischendurch nach rechts (redet mit jemandem rechts neben sich)
+ *  - sheepish:   verlegen: linke Hand kratzt am Hinterkopf, Kopf gesenkt, rechte Hand ab 0,8 s nach vorn (nimmt etwas entgegen)
+ *  - handover:   streckt die rechte Hand nach vorn und reicht etwas (bis 0,6 s), Hand bleibt vorn
+ *  - tapewalk:   geht und hält mit rechts eine Rolle Absperrband seitlich vor sich (Band wird abgerollt)
+ *  - listen:     steht, hört zu, nickt leicht, Hände vor dem Bauch verschränkt
+ */
+export const CASE_HAND: P3 = [-0.2, 0.97, -0.3];
+const stationPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  switch (motion) {
+    case 'lookaround': {
+      const p = base();
+      const br = Math.sin(time * 2.2) * 0.012;
+      let hy = 0;
+      if (time < 1.0) hy = 0.75 * Math.sin((Math.PI / 2) * easeInOut(time / 1.0));
+      else if (time < 2.0) hy = 0.75 * Math.cos(Math.PI * easeInOut(time - 1.0));
+      else hy = -0.75 * (1 - easeInOut(clamp((time - 2.0) / 0.35)));
+      const notice = easeInOut(clamp((time - 2.1) / 0.3));
+      const jolt = time > 2.1 ? Math.sin(Math.PI * clamp((time - 2.1) / 0.35)) : 0;
+      p.headY = hy;
+      p.torsoY = hy * 0.3;
+      p.headX = 0.05 + 0.4 * notice;
+      p.torsoX = 0.02 + br - 0.08 * jolt + 0.06 * notice;
+      p.armL = L3t(-0.5 * jolt - 0.2 * notice, 0.15, -0.4 - 0.6 * jolt - 0.3 * notice);
+      return p;
+    }
+    case 'bendopen': {
+      const k = easeInOut(clamp(time / 0.8));
+      const p = base();
+      p.pitch = 0.12 * k;
+      p.torsoX = 0.62 * k;
+      p.headX = 0.25 * k;
+      p.hipY = 0.98 - 0.16 * k;
+      p.legL = L3t(-0.32 * k, 0.12, 0.55 * k);
+      p.legR = L3t(-0.32 * k, -0.12, 0.55 * k);
+      const f = time > 0.8 ? Math.sin(time * 13) * 0.025 : 0;
+      const g = time > 0.8 ? Math.sin(time * 11 + 1.3) * 0.025 : 0;
+      reachR(p, lerp3t([-0.2, 0.95, 0.15], [-0.14 + f, 0.74 + g, 0.47], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.2, 0.95, 0.15], [0.14 - g, 0.74 + f, 0.47], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'grabcase': {
+      const p = base();
+      const bend = time < 0.5 ? easeInOut(time / 0.5) : 1 - easeInOut(clamp((time - 0.5) / 0.7));
+      p.torsoX = 0.45 * bend;
+      p.hipY = 0.98 - 0.08 * bend;
+      p.headX = 0.3;
+      p.legL = L3t(-0.15 * bend, 0.1, 0.3 * bend);
+      p.legR = L3t(-0.15 * bend, -0.1, 0.3 * bend);
+      const reachK = easeInOut(clamp(time / 0.5));
+      const pull = easeInOut(clamp((time - 0.6) / 0.6));
+      const top: P3 = [-0.06, 0.82, 0.5];
+      reachR(p, lerp3t(lerp3t([-0.2, 0.95, 0.15], top, reachK), [-0.08, 1.2, 0.42], pull), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'rollcase': {
+      const p = dummyPose('walk', time, speed);
+      reachR(p, CASE_HAND, 0.33, [0.3, -1, 0.4]);
+      p.headX = 0.05;
+      return p;
+    }
+    case 'pointtalk': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const look = Math.sin(Math.max(0, time - 0.6) * 1.6);
+      p.headY = -0.6 * Math.max(0, look) * k;
+      p.headX = 0.1;
+      p.torsoX = Math.sin(time * 2.2) * 0.01;
+      p.torsoY = -0.12 * Math.max(0, look) * k;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.14, 1.38, 0.62], k), 0.4, [0.6, -1, -0.3]);
+      // linke Hand gestikuliert
+      reachL(p, [0.24, 1.0 + 0.06 * Math.sin(time * 4) * k, 0.25 + 0.05 * Math.sin(time * 3.1) * k], 0.33);
+      return p;
+    }
+    case 'sheepish': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const scratch = Math.sin(time * 9) * 0.03 * k;
+      p.headX = 0.32 * k;
+      p.headY = -0.12 * k;
+      p.torsoX = 0.08 * k;
+      p.torsoZ = 0.04 * k;
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.1 + scratch, 1.86, -0.06], k), 0.33, [0.8, 0.2, -0.5]);
+      const give = easeInOut(clamp((time - 0.8) / 0.5));
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.1, 1.15, 0.45], give), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'handover': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      p.torsoX = 0.06 * k;
+      p.headX = 0.15;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.1, 1.18, 0.55], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'tapewalk': {
+      const p = dummyPose('walk', time, speed);
+      reachR(p, [-0.38, 1.1, 0.38], 0.33, [0.6, -1, -0.3]);
+      p.headX = 0.1;
+      return p;
+    }
+    case 'listen': {
+      const p = base();
+      p.headX = 0.08 + Math.max(0, Math.sin(time * 3.2)) * 0.12;
+      p.torsoX = Math.sin(time * 2.2) * 0.01;
+      reachR(p, [-0.05, 1.0, 0.24], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.05, 1.0, 0.24], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Rechte Hand (Handmitte) im Dummy-System (Ursprung am Boden, +z = vorn) – für Gegenstände mit "hand" */
 export const rightHandLocal = (p: DummyPose) =>
   armPoint(p.armR, -1, p.foreZ, 0.33)
@@ -1743,7 +1866,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -2199,7 +2322,12 @@ export const dummyPoseBlended = (
 };
 
 // ---------- Bauteile ----------
-const useMats = (color = YELLOW, coat = false) =>
+/**
+ * Uniform für Figuren mit Dummy-Körper (Bahnmitarbeiterin, Bundespolizist …): Farben für Jacke, Säume, Kragen, Hose,
+ * Mütze (Schirmmütze) + Mützenband, optional Halstuch und Zopf. Ohne Logos und ohne echte Abzeichen.
+ */
+export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string};
+const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
   useMemo(
     () => ({
       body: new THREE.MeshStandardMaterial({color, roughness: 0.45, metalness: 0.05, flatShading: true}),
@@ -2217,13 +2345,18 @@ const useMats = (color = YELLOW, coat = false) =>
       painCore: new THREE.MeshBasicMaterial({color: '#ffd23a', depthTest: false, transparent: true}),
       painGlow: new THREE.MeshBasicMaterial({color: '#ff2a1a', transparent: true, opacity: 0.4, depthWrite: false}),
       // ---- Kleidung (Winterjacke + lange Hose) ----
-      jacket: new THREE.MeshStandardMaterial({color: coat ? '#f4f6f8' : JACKET, roughness: 0.75, flatShading: true}),
-      jacketDark: new THREE.MeshStandardMaterial({color: coat ? '#dfe5ea' : '#7e2219', roughness: 0.8, flatShading: true}),
-      fur: new THREE.MeshStandardMaterial({color: coat ? '#f4f6f8' : '#e9e1d2', roughness: 1, flatShading: true}),
-      pants: new THREE.MeshStandardMaterial({color: PANTS, roughness: 0.85, flatShading: true}),
-      reflect: new THREE.MeshStandardMaterial({color: coat ? '#f4f6f8' : '#dfe6ea', roughness: 0.3, metalness: 0.2, flatShading: true}),
+      jacket: new THREE.MeshStandardMaterial({color: uni ? uni.jacket : coat ? '#f4f6f8' : JACKET, roughness: 0.75, flatShading: true}),
+      jacketDark: new THREE.MeshStandardMaterial({color: uni ? uni.dark : coat ? '#dfe5ea' : '#7e2219', roughness: 0.8, flatShading: true}),
+      fur: new THREE.MeshStandardMaterial({color: uni ? uni.collar : coat ? '#f4f6f8' : '#e9e1d2', roughness: 1, flatShading: true}),
+      pants: new THREE.MeshStandardMaterial({color: uni ? uni.pants : PANTS, roughness: 0.85, flatShading: true}),
+      reflect: new THREE.MeshStandardMaterial({color: uni ? (uni.trim ?? uni.jacket) : coat ? '#f4f6f8' : '#dfe6ea', roughness: 0.3, metalness: 0.2, flatShading: true}),
+      cap: new THREE.MeshStandardMaterial({color: uni?.cap ?? '#222', roughness: 0.6, flatShading: true}),
+      capBand: new THREE.MeshStandardMaterial({color: uni?.band ?? '#222', roughness: 0.5, flatShading: true}),
+      visor: new THREE.MeshStandardMaterial({color: '#15171a', roughness: 0.3, flatShading: true}),
+      scarf: new THREE.MeshStandardMaterial({color: uni?.scarf ?? '#c8102e', roughness: 0.8, flatShading: true, side: THREE.DoubleSide}),
+      hair: new THREE.MeshStandardMaterial({color: uni?.hair ?? '#4a2f1f', roughness: 0.9, flatShading: true}),
     }),
-    [color, coat],
+    [color, coat, uni],
   );
 
 type Mats = ReturnType<typeof useMats>;
@@ -2600,6 +2733,26 @@ const BreathPuffs = ({phase, rate, life = 1.7}: {phase: number; rate: number; li
   }
   return <>{out}</>;
 };
+
+/** Schirmmütze (Uniform) + optional Zopf hinten. Im Kopf-System (Kopfmitte = 0) */
+const UniformCap = ({m, hair}: {m: Mats; hair: boolean}) => (
+  <group position={[0, 0.1, 0]} rotation={[-0.08, 0, 0]}>
+    <mesh material={m.cap} position={[0, 0.045, 0]} castShadow>
+      <cylinderGeometry args={[0.15, 0.125, 0.07, 12]} />
+    </mesh>
+    <mesh material={m.capBand} position={[0, 0.005, 0]}>
+      <cylinderGeometry args={[0.127, 0.124, 0.035, 12]} />
+    </mesh>
+    <mesh material={m.visor} position={[0, -0.01, 0.12]} rotation={[0.25, 0, 0]} scale={[1, 0.25, 0.75]}>
+      <cylinderGeometry args={[0.1, 0.1, 0.05, 12, 1, false, -Math.PI / 2, Math.PI]} />
+    </mesh>
+    {hair && (
+      <mesh material={m.hair} position={[0, -0.16, -0.13]} rotation={[0.5, 0, 0]} scale={[0.7, 1.4, 0.7]} castShadow>
+        <icosahedronGeometry args={[0.06, 0]} />
+      </mesh>
+    )}
+  </group>
+);
 
 /** Winterjacke am Oberkörper (Rumpf, Kragen, Reißverschluss). amount < 0.5: hängt nur noch am rechten Arm */
 const JacketBody = ({m, amount, chest}: {m: Mats; amount: number; chest: number}) => {
@@ -2978,6 +3131,7 @@ export const Dummy = ({
   plaster = 0,
   dressing = 0,
   coat = false,
+  uniform,
   zap = 0,
   zapTime = 0,
   gloves = 0,
@@ -3037,8 +3191,14 @@ export const Dummy = ({
   dressing?: number;
   /** weißer Arztkittel statt Winterjacke (Arzt-Figur) + Stethoskop */
   coat?: boolean;
+  /** Uniform (Bahnmitarbeiterin, Bundespolizist): Jacke + Hose + Schirmmütze in festen Farben */
+  uniform?: Uniform;
 }) => {
-  const m = useMats(color, coat);
+  const m = useMats(color, coat, uniform);
+  if (uniform) {
+    jacket = 1;
+    pants = 1;
+  }
   const time = useCurrentFrame() / 30;
   const wound: ArmWound | undefined =
     armbite > 0 || redness > 0 || plaster > 0 || dressing > 0 ? {bite: armbite, red: redness, plaster, dressing, time} : undefined;
@@ -3142,9 +3302,15 @@ export const Dummy = ({
             <Marker m={m} r={0.05} position={[-0.118, 0.01, 0]} rotation={[0, -Math.PI / 2, 0]} />
             {pose.puffPhase !== undefined ? <BreathPuffs phase={pose.puffPhase} rate={1 / 6} life={3.2} /> : <BreathPuffs phase={breathPhase} rate={breath} />}
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
+            {uniform && <UniformCap m={m} hair={!!uniform.hair} />}
             <Foam amount={foam} time={fxTime} />
           </group>
           <BodyHint lunge={lunge} blut={blut} time={fxTime} />
+          {uniform?.scarf && (
+            <mesh material={m.scarf} position={[0, 0.5, 0.15]} rotation={[0.35, 0, Math.PI]}>
+              <circleGeometry args={[0.085, 3]} />
+            </mesh>
+          )}
         </group>
       </group>
     </group>
