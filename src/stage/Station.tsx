@@ -45,6 +45,12 @@ export const STATION = {
   ] as [number, number][],
   ticket: [4.6, 7.9] as [number, number],
   board: [-1.2, 5.0, 3.1] as [number, number, number],
+  /** Variante "bahnsteig": Lautsprecher-Mast am Bahnsteig (Fuß) + Lautsprecher-Trichter (Mitte, Welt) */
+  speakerMast: [-2.6, 2.7] as [number, number],
+  speaker: [-2.6, 3.55, 2.45] as [number, number, number],
+  /** Variante "bahnsteig": Fahrdraht der Oberleitung (Welt-y) und Mastreihe zwischen den Gleisen (z) */
+  wireY: 4.55,
+  catMastZ: -4.12,
 };
 
 const C = {
@@ -773,8 +779,144 @@ const FarPlatform = () => {
   );
 };
 
+// ---------- Oberleitung + Lautsprecher (Variante "bahnsteig") ----------
+/**
+ * Oberleitung über Gleis 3 und Gleis 2: Masten zwischen den Gleisen (z STATION.catMastZ) mit Auslegern, Tragseil, Hängern
+ * und Fahrdraht (Welt-y STATION.wireY, ca. 5,3 m über dem Gleisbett). Ohne Logos. Wiederverwendbar für alle Gleis-Szenen.
+ */
+export const Catenary = ({xs = [-54, -30, -6, 18, 42]}: {xs?: number[]}) => {
+  const m = useMemo(
+    () => ({
+      mast: new THREE.MeshStandardMaterial({color: '#6f7b84', flatShading: true, metalness: 0.4, roughness: 0.5}),
+      wire: new THREE.MeshStandardMaterial({color: '#2b2f33', roughness: 0.6, metalness: 0.3}),
+      iso: new THREE.MeshStandardMaterial({color: '#8b5a3c', roughness: 0.5}),
+    }),
+    [],
+  );
+  const wy = STATION.wireY;
+  const my = wy + 1.35; // Tragseil an den Masten
+  const tracks = [STATION.track3Z, STATION.track2Z];
+  const droppers = useMemo(() => {
+    const out: Inst[] = [];
+    for (const tz of tracks)
+      for (let x = -70; x < 70; x += 4.5) {
+        // Tragseil hängt zwischen den Masten durch → Hänger unterschiedlich lang
+        const nearest = xs.reduce((a, b) => (Math.abs(b - x) < Math.abs(a - x) ? b : a));
+        const span = 24;
+        const u = clamp01(Math.abs(x - nearest) / (span / 2));
+        const top = my - 0.95 * (u * (2 - u));
+        const len = Math.max(0.12, top - wy);
+        out.push({pos: [x, wy, tz], scale: [0.02, len, 0.02], rotY: 0, color: '#3a3f44'});
+      }
+    return out;
+  }, [xs]);
+  const sag = useMemo(() => {
+    // Tragseil als Kette kurzer Stücke
+    const out: Inst[] = [];
+    for (const tz of tracks)
+      for (let x = -70; x < 70; x += 1.5) {
+        const nearest = xs.reduce((a, b) => (Math.abs(b - x) < Math.abs(a - x) ? b : a));
+        const u = clamp01(Math.abs(x - nearest) / 12);
+        out.push({pos: [x, my - 0.95 * (u * (2 - u)), tz], scale: [1.52, 0.025, 0.025], rotY: 0, color: '#2b2f33'});
+      }
+    return out;
+  }, [xs]);
+  return (
+    <group>
+      {/* Fahrdrähte */}
+      {tracks.map((tz) => (
+        <mesh key={tz} material={m.wire} position={[0, wy, tz]}>
+          <boxGeometry args={[140, 0.028, 0.028]} />
+        </mesh>
+      ))}
+      <Instances geometry={boxBottom} items={droppers} castShadow={false} />
+      <Instances geometry={box} items={sag} castShadow={false} />
+      {xs.map((x) => (
+        <group key={x} position={[x, STATION.trackY, STATION.catMastZ]}>
+          {/* Mast (Doppel-T-Profil) */}
+          <mesh material={m.mast} position={[0, (my - STATION.trackY + 0.6) / 2, 0]} castShadow>
+            <boxGeometry args={[0.32, my - STATION.trackY + 0.6, 0.22]} />
+          </mesh>
+          <mesh material={m.mast} position={[0, 0.25, 0]}>
+            <boxGeometry args={[0.6, 0.5, 0.6]} />
+          </mesh>
+          {/* Ausleger zu beiden Gleisen */}
+          {tracks.map((tz) => {
+            const dz = tz - STATION.catMastZ;
+            return (
+              <group key={tz}>
+                <mesh material={m.mast} position={[0, my - STATION.trackY, dz / 2]}>
+                  <boxGeometry args={[0.07, 0.07, Math.abs(dz) + 0.2]} />
+                </mesh>
+                <mesh material={m.mast} position={[0, wy - STATION.trackY + 0.35, dz / 2]} rotation={[Math.sign(dz) * -0.18, 0, 0]}>
+                  <boxGeometry args={[0.06, 0.06, Math.abs(dz) + 0.1]} />
+                </mesh>
+                <mesh material={m.iso} position={[0, my - STATION.trackY, Math.sign(dz) * 0.35]} rotation={[Math.PI / 2, 0, 0]}>
+                  <cylinderGeometry args={[0.06, 0.06, 0.3, 8]} />
+                </mesh>
+                <mesh material={m.wire} position={[0, (my + wy) / 2 - STATION.trackY, dz]}>
+                  <boxGeometry args={[0.03, my - wy, 0.03]} />
+                </mesh>
+              </group>
+            );
+          })}
+        </group>
+      ))}
+    </group>
+  );
+};
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+/**
+ * Schlanker Mast am Bahnsteig mit Lautsprecher-Trichter (für Durchsagen) + kleiner Lampe. Ursprung = Fuß am Boden.
+ * Der Trichter sitzt 3,55 m hoch und zeigt schräg zur Bahnsteigmitte (Welt-Lage: STATION.speaker).
+ */
+export const SpeakerMast = () => {
+  const m = useMemo(
+    () => ({
+      pole: new THREE.MeshStandardMaterial({color: '#4c5b67', flatShading: true, metalness: 0.4, roughness: 0.5}),
+      horn: new THREE.MeshStandardMaterial({color: '#d9dcdf', flatShading: true, roughness: 0.45}),
+      dark: new THREE.MeshStandardMaterial({color: '#2a2f35', roughness: 0.6}),
+      lamp: new THREE.MeshStandardMaterial({color: '#fff6dc', emissive: '#ffe9b0', emissiveIntensity: 0.6}),
+    }),
+    [],
+  );
+  return (
+    <group>
+      <mesh material={m.pole} position={[0, 2.1, 0]} castShadow>
+        <cylinderGeometry args={[0.06, 0.08, 4.2, 8]} />
+      </mesh>
+      <mesh material={m.pole} position={[0, 0.12, 0]}>
+        <cylinderGeometry args={[0.16, 0.18, 0.24, 8]} />
+      </mesh>
+      {/* Lautsprecher: Halter + Trichter, zeigt nach vorn (−z) und leicht nach unten */}
+      <group position={[0, 3.55, -0.12]} rotation={[0.35, 0, 0]}>
+        <mesh material={m.pole} position={[0, 0, 0.08]}>
+          <boxGeometry args={[0.06, 0.06, 0.16]} />
+        </mesh>
+        <mesh material={m.dark} position={[0, 0, -0.02]} rotation={[-Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.07, 0.08, 0.12, 10]} />
+        </mesh>
+        <mesh material={m.horn} position={[0, 0, -0.2]} rotation={[-Math.PI / 2, 0, 0]} castShadow>
+          <cylinderGeometry args={[0.23, 0.06, 0.28, 12, 1, true]} />
+        </mesh>
+        <mesh material={m.dark} position={[0, 0, -0.1]} rotation={[-Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[0.1, 12]} />
+        </mesh>
+      </group>
+      {/* Lampe oben */}
+      <mesh material={m.pole} position={[0, 4.2, -0.25]}>
+        <boxGeometry args={[0.06, 0.06, 0.5]} />
+      </mesh>
+      <mesh material={m.lamp} position={[0, 4.15, -0.5]}>
+        <boxGeometry args={[0.18, 0.06, 0.3]} />
+      </mesh>
+    </group>
+  );
+};
+
 // ---------- Szene ----------
-const StationScene = ({full}: {full: boolean; cam?: StageCam}) => {
+const StationScene = ({full, platform = false}: {full: boolean; platform?: boolean; cam?: StageCam}) => {
   const L = useTrackLayout();
   const tiles = useMemo(() => {
     const r = rng(9);
@@ -827,8 +969,8 @@ const StationScene = ({full}: {full: boolean; cam?: StageCam}) => {
         <meshStandardMaterial color={C.edge} roughness={0.8} />
       </mesh>
       <mesh position={[0, 0.006, STATION.lineZ]}>
-        <boxGeometry args={[140, 0.012, 0.12]} />
-        <meshStandardMaterial color={C.line} emissive="#ffffff" emissiveIntensity={0.15} />
+        <boxGeometry args={[140, 0.012, platform ? 0.2 : 0.12]} />
+        <meshStandardMaterial color={C.line} emissive="#ffffff" emissiveIntensity={platform ? 0.55 : 0.15} />
       </mesh>
       <mesh position={[0, -0.002, 1.15]}>
         <boxGeometry args={[140, 0.012, 0.3]} />
@@ -881,6 +1023,14 @@ const StationScene = ({full}: {full: boolean; cam?: StageCam}) => {
       </group>
       <Hall />
       <Crowd full={full} />
+      {platform && (
+        <>
+          <Catenary />
+          <group position={[STATION.speakerMast[0], 0, STATION.speakerMast[1]]} rotation={[0, -0.5, 0]}>
+            <SpeakerMast />
+          </group>
+        </>
+      )}
     </>
   );
 };
@@ -891,6 +1041,15 @@ const FullStation = (p: {cam?: StageCam}) => <StationScene full {...p} />;
 export const stationStage: StageDef = {
   id: 'bahnhof',
   Component: EmptyStation,
+  climbTrees: [],
+  groundHeight,
+  ambience: 'bahnhof-atmo',
+};
+const PlatformStation = (p: {cam?: StageCam}) => <StationScene full={false} platform {...p} />;
+/** Variante "bahnsteig": wie "bahnhof", dazu Oberleitung, Lautsprecher-Mast und deutlich sichtbare weiße Linie (0,2 m breit, hell) */
+export const stationPlatformStage: StageDef = {
+  id: 'bahnsteig',
+  Component: PlatformStation,
   climbTrees: [],
   groundHeight,
   ambience: 'bahnhof-atmo',

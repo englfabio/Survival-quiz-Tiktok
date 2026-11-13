@@ -14,6 +14,7 @@ import {Basin} from './Basin';
 import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dummy';
 import {Grenade, Magnet} from './MagnetProps';
 import {Bill, CordonTape, Suitcase, TapeRoll} from './StationProps';
+import {FilmPhone, PlasticCup, SoundWaves, SuctionWind, Train} from './TrainProps';
 import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, PaperForm} from './MoneyProps';
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
 import type {Uniform} from './Dummy';
@@ -126,6 +127,12 @@ export const ACTORS = {
   taschenrechner: {height: 0.08, climbOffset: 0, speedLineHeight: 0},
   kalenderblatt: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   paragraf: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Bahnsteigkante (Sog) ----
+  zug: {height: 2.6, climbOffset: 0, speedLineHeight: 0},
+  becher: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  durchsage: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  filmhandy: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  sog: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -327,6 +334,16 @@ export const resolveActors = (
   return entries.map(([name]) => done.get(name)!);
 };
 
+/** Windrichtung (Sog zum Gleis = −z der Welt, drift = seitlich +x) im System einer Figur mit Blickrichtung face → Winkel um y */
+const windLocal = (face: number, drift: number) => {
+  const th = deg(180 - face);
+  const wx = drift * 0.6;
+  const wz = -1;
+  const lx = wx * Math.cos(th) - wz * Math.sin(th);
+  const lz = wx * Math.sin(th) + wz * Math.cos(th);
+  return Math.atan2(lx, lz);
+};
+
 /** Drehung, damit ein flaches Symbol an Position p zur Kamera schaut */
 const billboard = (p: THREE.Vector3, cam: [number, number, number]) => {
   const m = new THREE.Matrix4().lookAt(new THREE.Vector3(...cam), p, new THREE.Vector3(0, 1, 0));
@@ -366,6 +383,11 @@ export const Actor = ({
     {DUMMY_LIKE.includes(name) && v.question > 0.01 && (
       <group position={qPos} quaternion={billboard(qPos, camPos)}>
         <QuestionMark amount={v.question} />
+      </group>
+    )}
+    {name === 'durchsage' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <SoundWaves time={state.motionTime} visible={state.motion === 'show'} left={v.side > 0.5} size={v.size} />
       </group>
     )}
     {name === 'hund' && actor.leashTo && <Leash a={DOG_COLLAR.clone().applyMatrix4(matrix)} b={actor.leashTo} />}
@@ -409,8 +431,18 @@ export const Actor = ({
           fxTime={zt}
           stash={v.stash}
           brow={v.brow}
+          wind={v.wind}
+          windDir={windLocal(state.face, v.drift)}
         />
       )}
+      {name === 'zug' && <Train speed={state.speed} time={zt} />}
+      {name === 'becher' && (
+        <group rotation={state.motion === 'toss' ? [state.motionTime * 7.5, state.motionTime * 3, state.motionTime * 11] : [0, 0, 0]}>
+          <PlasticCup size={v.size} />
+        </group>
+      )}
+      {name === 'filmhandy' && <FilmPhone time={zt} />}
+      {name === 'sog' && <SuctionWind time={zt} wind={v.wind} drift={v.drift} width={1.8 * (1 + v.size)} />}
       {name === 'kaenguru' && <Kangaroo pose={kangarooPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} />}
       {name === 'zahn' && (
         <group scale={1 + v.size} rotation={state.motion === 'fly' ? [state.motionTime * TOOTH_SPIN, 0, state.motionTime * TOOTH_SPIN * 0.6] : state.motion === 'lie' ? [0.25, 0, 1.3] : [0, 0, 0]}>

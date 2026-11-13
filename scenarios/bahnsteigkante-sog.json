@@ -1,0 +1,1193 @@
+{
+  "id": "bahnsteigkante-sog",
+  "category": "alltag",
+  "stage": "bahnsteig",
+  "situation": {
+    "speech": "Du hast mal wieder fast deinen Zug verpasst und stehst ganz vorne an der Bahnsteigkante. Da kündigt die Durchsage einen durchfahrenden Zug an. Was machst du jetzt?"
+  },
+  "options": [
+    {
+      "card": "Hinter die weiße Linie",
+      "speech": "Eins: Sofort hinter die weiße Linie zurückgehen.",
+      "dummyAction": "Dummy geht zügig hinter die weiße Linie und bleibt dort stehen. Der Zug rast vorbei, nur seine Jacke flattert leicht, ein Becher an der Kante wird vom Sog mitgerissen. Grünes Aufleuchten.",
+      "explanation": "Geh sofort hinter die weiße Linie und bleib dort, bis der Zug steht oder vorbei ist. Genau dafür ist die Linie da. Die Bundespolizei sagt: Solange ein Zug nicht steht, sollte niemand zwischen Bahnsteigkante und weißer Linie stehen. Und auch wenn kein Zug kommt: Niemals ins Gleis. In der Oberleitung fließen 15.000 Volt.",
+      "steps": [
+        {
+          "text": "Hinter die weiße Linie",
+          "cue": "Geh sofort"
+        },
+        {
+          "text": "Dort bleiben, bis der Zug steht",
+          "cue": "bleib dort"
+        },
+        {
+          "text": "Keine Videos an der Kante",
+          "cue": "sollte niemand"
+        },
+        {
+          "text": "Nie ins Gleis",
+          "cue": "Niemals ins Gleis"
+        }
+      ],
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              6.9,
+              2.99,
+              12.47
+            ],
+            "look": [
+              -0.98,
+              0.76,
+              1.53
+            ]
+          },
+          {
+            "t": 0.068,
+            "pos": [
+              6.75,
+              2.96,
+              12.2
+            ],
+            "look": [
+              -0.98,
+              0.76,
+              1.53
+            ]
+          },
+          {
+            "t": 0.3031,
+            "pos": [
+              6.4,
+              2.9,
+              11.6
+            ],
+            "look": [
+              -0.98,
+              0.78,
+              1.53
+            ]
+          },
+          {
+            "t": 0.3076,
+            "pos": [
+              -1.8,
+              2.6,
+              -5.6
+            ],
+            "look": [
+              0.8,
+              0.2,
+              1.5
+            ]
+          },
+          {
+            "t": 0.8793,
+            "pos": [
+              -1.6,
+              2.5,
+              -5.2
+            ],
+            "look": [
+              0.8,
+              0.2,
+              1.5
+            ]
+          },
+          {
+            "t": 0.8829,
+            "pos": [
+              -2.2,
+              1.3,
+              4.0
+            ],
+            "look": [
+              -3.4,
+              4.0,
+              -1.75
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -2.1,
+              1.3,
+              3.7
+            ],
+            "look": [
+              -3.4,
+              4.05,
+              -1.75
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": 0.36,
+              "motion": "edgelean",
+              "face": 0,
+              "wind": 0,
+              "jacket": 1
+            },
+            {
+              "t": 0.0239,
+              "x": 0.0,
+              "z": 0.36,
+              "motion": "hurryback",
+              "face": 0
+            },
+            {
+              "t": 0.0932,
+              "x": 0.0,
+              "z": 1.9,
+              "motion": "hurryback",
+              "face": 0
+            },
+            {
+              "t": 0.0952,
+              "x": 0.0,
+              "z": 1.9,
+              "motion": "brace",
+              "face": 0
+            },
+            {
+              "t": 0.1482,
+              "x": 0.0,
+              "z": 1.9,
+              "motion": "brace",
+              "face": 0,
+              "wind": 0,
+              "drift": 0.8
+            },
+            {
+              "t": 0.172,
+              "x": 0.0,
+              "z": 1.9,
+              "motion": "brace",
+              "face": 0,
+              "wind": 0.38
+            },
+            {
+              "t": 0.2791,
+              "x": 0.0,
+              "z": 1.9,
+              "motion": "brace",
+              "face": 0,
+              "wind": 0.32
+            },
+            {
+              "t": 0.3173,
+              "x": 0.0,
+              "z": 1.9,
+              "motion": "brace",
+              "face": 0,
+              "wind": 0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 1.9,
+              "motion": "brace",
+              "face": 0
+            }
+          ],
+          "zug": [
+            {
+              "t": 0.0,
+              "x": -120.651,
+              "z": -1.75,
+              "motion": "pass",
+              "face": 90
+            },
+            {
+              "t": 1.0,
+              "x": 632.949,
+              "z": -1.75,
+              "motion": "pass",
+              "face": 90
+            }
+          ],
+          "sog": [
+            {
+              "t": 0,
+              "x": 0.8,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "wind": 0,
+              "drift": 0.85,
+              "size": 0.3
+            },
+            {
+              "t": 0.1434,
+              "x": 0.8,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "wind": 0
+            },
+            {
+              "t": 0.1673,
+              "x": 0.8,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "wind": 0.9
+            },
+            {
+              "t": 0.2791,
+              "x": 0.8,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "wind": 0.8
+            },
+            {
+              "t": 0.3125,
+              "x": 0.8,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "wind": 0
+            },
+            {
+              "t": 1,
+              "x": 0.8,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "wind": 0
+            }
+          ],
+          "becher": [
+            {
+              "t": 0,
+              "x": -1.3,
+              "z": 0.17,
+              "motion": "park",
+              "face": 0
+            },
+            {
+              "t": 0.1578,
+              "x": -1.3,
+              "z": 0.17,
+              "motion": "park",
+              "face": 0
+            },
+            {
+              "t": 0.1598,
+              "x": -1.3,
+              "z": 0.17,
+              "motion": "toss",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.167,
+              "x": -0.9,
+              "z": 0.07,
+              "motion": "toss",
+              "face": 0,
+              "y": 0.9
+            },
+            {
+              "t": 0.1789,
+              "x": 0.6,
+              "z": 0.04,
+              "motion": "toss",
+              "face": 0,
+              "y": 2.0
+            },
+            {
+              "t": 0.2028,
+              "x": 12.7,
+              "z": 0.03,
+              "motion": "toss",
+              "face": 0,
+              "y": 2.7
+            },
+            {
+              "t": 0.2029,
+              "x": 18.7,
+              "z": 0.03,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 1,
+              "x": 18.7,
+              "z": 0.03,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            }
+          ],
+          "hinweis": [
+            {
+              "t": 0,
+              "x": -2.6,
+              "z": -1.75,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.8521,
+              "x": -2.6,
+              "z": -1.75,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.8541,
+              "x": -2.6,
+              "z": -1.75,
+              "motion": "show",
+              "face": 0,
+              "y": 5.27,
+              "below": 1,
+              "size": 4.5,
+              "text": "15.000 Volt"
+            },
+            {
+              "t": 1,
+              "x": -2.6,
+              "z": -1.75,
+              "motion": "show",
+              "face": 0
+            }
+          ]
+        },
+        "flash": 0.0932,
+        "sfx": [
+          {
+            "t": 0.0837,
+            "id": "zug-durchfahrt",
+            "volume": 0.7
+          },
+          {
+            "t": 0.1553,
+            "id": "wind-sog",
+            "volume": 0.4
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Stehen bleiben, ist ja nicht im Gleis",
+      "speech": "Zwei: Einfach stehen bleiben, du bist ja nicht im Gleis.",
+      "dummyAction": "Dummy bleibt an der Kante stehen und neigt sich leicht vor, der Zug nähert sich, Windlinien ziehen bereits an seiner Jacke. Bild friert ein, BEVOR etwas passiert, rotes Aufleuchten.",
+      "explanation": "Gefährlich. Ein schnell durchfahrender Zug erzeugt einen starken Sog. Wer zu nah an der Bahnsteigkante steht, kann zum Zug gezogen und mitgerissen werden.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              13.1,
+              3.45,
+              3.3
+            ],
+            "look": [
+              -8.39,
+              0.0,
+              -0.59
+            ]
+          },
+          {
+            "t": 0.3557,
+            "pos": [
+              12.51,
+              3.31,
+              3.1
+            ],
+            "look": [
+              -8.39,
+              0.0,
+              -0.59
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              12.1,
+              3.25,
+              3.0
+            ],
+            "look": [
+              -8.39,
+              0.02,
+              -0.59
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": 0.36,
+              "motion": "edgelean",
+              "face": 0,
+              "wind": 0,
+              "jacket": 1
+            },
+            {
+              "t": 0.1622,
+              "x": 0.0,
+              "z": 0.36,
+              "motion": "edgelean",
+              "face": 0,
+              "wind": 0,
+              "drift": 0.5
+            },
+            {
+              "t": 0.3784,
+              "x": 0.0,
+              "z": 0.36,
+              "motion": "edgelean",
+              "face": 0,
+              "wind": 0.8
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 0.36,
+              "motion": "edgelean",
+              "face": 0,
+              "wind": 0.8
+            }
+          ],
+          "zug": [
+            {
+              "t": 0.0,
+              "x": -151.4,
+              "z": -1.75,
+              "motion": "pass",
+              "face": 90
+            },
+            {
+              "t": 1.0,
+              "x": 203.8,
+              "z": -1.75,
+              "motion": "pass",
+              "face": 90
+            }
+          ],
+          "sog": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "wind": 0,
+              "drift": 0.5
+            },
+            {
+              "t": 0.1441,
+              "x": 0.0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "wind": 0.0
+            },
+            {
+              "t": 0.3784,
+              "x": 0.0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "wind": 0.95
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "wind": 0.95
+            }
+          ],
+          "becher": [
+            {
+              "t": 0,
+              "x": -1.3,
+              "z": 0.17,
+              "motion": "park",
+              "face": 0
+            }
+          ]
+        },
+        "freeze": 0.3784,
+        "sfx": [
+          {
+            "t": 0.036,
+            "id": "zug-naht",
+            "volume": 0.55
+          },
+          {
+            "t": 0.2342,
+            "id": "wind-sog",
+            "volume": 0.45
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Handy raus, Zug filmen",
+      "speech": "Drei: Handy raus und den Zug filmen. So nah sieht man den selten.",
+      "dummyAction": "Dummy hält das Handy hoch und filmt, schaut nur aufs Display und rutscht dabei Richtung Kante, der Zug nähert sich. Bild friert ein, BEVOR etwas passiert, rotes Aufleuchten.",
+      "explanation": "Kein Video ist das wert. Wer aufs Handy schaut, merkt nicht, wie nah er der Kante kommt. Und Züge sind oft schneller und leiser, als man denkt.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              1.018,
+              1.97,
+              1.233
+            ],
+            "look": [
+              0.109,
+              1.42,
+              0.732
+            ]
+          },
+          {
+            "t": 0.1796,
+            "pos": [
+              0.879,
+              1.97,
+              1.09
+            ],
+            "look": [
+              -0.083,
+              1.42,
+              0.529
+            ]
+          },
+          {
+            "t": 0.1836,
+            "pos": [
+              12.5,
+              3.7,
+              3.45
+            ],
+            "look": [
+              -6.05,
+              0.24,
+              -0.13
+            ]
+          },
+          {
+            "t": 0.4065,
+            "pos": [
+              12.0,
+              3.6,
+              3.3
+            ],
+            "look": [
+              -6.05,
+              0.24,
+              -0.13
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              11.6,
+              3.52,
+              3.2
+            ],
+            "look": [
+              -6.05,
+              0.26,
+              -0.13
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.35,
+              "z": 1.0,
+              "motion": "filmphone",
+              "face": 318,
+              "wind": 0,
+              "jacket": 1
+            },
+            {
+              "t": 0.0671,
+              "x": 0.35,
+              "z": 1.0,
+              "motion": "filmphone",
+              "face": 318
+            },
+            {
+              "t": 0.4217,
+              "x": -0.2,
+              "z": 0.42,
+              "motion": "filmphone",
+              "face": 318,
+              "wind": 0.55,
+              "drift": 0.4
+            },
+            {
+              "t": 1,
+              "x": -0.2,
+              "z": 0.42,
+              "motion": "filmphone",
+              "face": 318
+            }
+          ],
+          "filmhandy": [
+            {
+              "t": 0,
+              "x": 0.35,
+              "z": 1.0,
+              "motion": "park",
+              "face": 138,
+              "hand": 1,
+              "drop": 0
+            }
+          ],
+          "zug": [
+            {
+              "t": 0.0,
+              "x": -150.0,
+              "z": -1.75,
+              "motion": "pass",
+              "face": 90
+            },
+            {
+              "t": 1.0,
+              "x": 163.0,
+              "z": -1.75,
+              "motion": "pass",
+              "face": 90
+            }
+          ],
+          "sog": [
+            {
+              "t": 0,
+              "x": -0.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "wind": 0,
+              "drift": 0.4
+            },
+            {
+              "t": 0.2109,
+              "x": -0.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "wind": 0
+            },
+            {
+              "t": 0.4217,
+              "x": -0.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "wind": 0.7
+            },
+            {
+              "t": 1,
+              "x": -0.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "wind": 0.7
+            }
+          ],
+          "becher": [
+            {
+              "t": 0,
+              "x": -1.3,
+              "z": 0.17,
+              "motion": "park",
+              "face": 0
+            }
+          ]
+        },
+        "freeze": 0.4217,
+        "sfx": [
+          {
+            "t": 0.0575,
+            "id": "zug-naht",
+            "volume": 0.4
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "correctOption": 1,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer eins.",
+    "screen": "Richtig ist Nummer 1"
+  },
+  "outro": {
+    "speech": "Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: Deutsche Bahn · Bundespolizei",
+  "sources": [
+    {
+      "name": "Deutsche Bahn, Unfälle vermeiden",
+      "url": "https://www.deutschebahn.com/de/konzern/Im-Fokus/Unfaelle-vermeiden-13001562"
+    },
+    {
+      "name": "Deutsche Bahn, Präventionsteams",
+      "url": "https://www.deutschebahn.com/de/nachhaltigkeit/verantwortung_gesellschaft/unfallpraevention/Mit-den-DB-Praeventionsteams-sicher-unterwegs-an-Gleisen-und-Bahnhoefen-6852942"
+    },
+    {
+      "name": "Bundespolizei-Warnung nach Gleisunfall (News4teachers)",
+      "url": "https://www.news4teachers.de/2025/09/schueler-faellt-vor-einfahrendem-zug-aufs-gleis-lokfuehrer-reagiert-sofort/"
+    }
+  ],
+  "publishing": {
+    "description": "Du hast mal wieder fast deinen Zug verpasst und stehst ganz vorne an der Kante – was machst du jetzt? 🚆 Schreib 1, 2 oder 3 in die Kommentare!\n\nDie weiße Linie ist kein Deko-Element: Durchfahrende Züge erzeugen einen gefährlichen Sog.\n\nQuellen:\nDeutsche Bahn, Unfälle vermeiden: https://www.deutschebahn.com/de/konzern/Im-Fokus/Unfaelle-vermeiden-13001562\nDeutsche Bahn, Präventionsteams: https://www.deutschebahn.com/de/nachhaltigkeit/verantwortung_gesellschaft/unfallpraevention/Mit-den-DB-Praeventionsteams-sicher-unterwegs-an-Gleisen-und-Bahnhoefen-6852942\nBundespolizei-Warnung nach Gleisunfall (News4teachers): https://www.news4teachers.de/2025/09/schueler-faellt-vor-einfahrendem-zug-aufs-gleis-lokfuehrer-reagiert-sofort/\n\nIm Notfall: 112.\n\n#waswürdestdutun #bahn #bahnhof #zug #weißelinie #wusstestdu #sicherheit #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ehrlich: Wer hätte den Zug gefilmt? 📱👇 Was soll dem Dummy als Nächstes am Bahnhof passieren?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.3,
+            3.1,
+            10.2
+          ],
+          "look": [
+            -0.9,
+            0.8,
+            1.2
+          ]
+        },
+        {
+          "t": 0.1205,
+          "pos": [
+            3.05,
+            2.92,
+            9.5
+          ],
+          "look": [
+            -0.4,
+            0.75,
+            0.25
+          ]
+        },
+        {
+          "t": 0.5353,
+          "pos": [
+            2.95,
+            2.88,
+            9.2
+          ],
+          "look": [
+            -0.4,
+            0.75,
+            0.2
+          ]
+        },
+        {
+          "t": 0.54,
+          "pos": [
+            -6.2,
+            2.5,
+            10.4
+          ],
+          "look": [
+            -0.6,
+            1.4,
+            0.6
+          ]
+        },
+        {
+          "t": 0.8716,
+          "pos": [
+            -5.8,
+            2.45,
+            9.9
+          ],
+          "look": [
+            -0.6,
+            1.42,
+            0.6
+          ]
+        },
+        {
+          "t": 0.8753,
+          "pos": [
+            2.6,
+            1.55,
+            -5.4
+          ],
+          "look": [
+            -0.3,
+            0.62,
+            0.6
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            2.4,
+            1.52,
+            -5.0
+          ],
+          "look": [
+            -0.3,
+            0.62,
+            0.6
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.6,
+            "z": 4.6,
+            "motion": "run",
+            "face": 351.9,
+            "breath": 0,
+            "jacket": 1
+          },
+          {
+            "t": 0.1279,
+            "x": 0.0,
+            "z": 0.36,
+            "motion": "run",
+            "face": 351.9
+          },
+          {
+            "t": 0.1299,
+            "x": 0.0,
+            "z": 0.36,
+            "motion": "pant",
+            "face": 0,
+            "breath": 1.6,
+            "heave": 0.9
+          },
+          {
+            "t": 0.5623,
+            "x": 0.0,
+            "z": 0.36,
+            "motion": "pant",
+            "face": 0,
+            "breath": 1.4,
+            "heave": 0.7
+          },
+          {
+            "t": 0.5643,
+            "x": 0.0,
+            "z": 0.36,
+            "motion": "perkup",
+            "face": 0,
+            "breath": 0.9,
+            "heave": 0.3
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": 0.36,
+            "motion": "perkup",
+            "face": 0,
+            "breath": 0.6,
+            "heave": 0.1
+          }
+        ],
+        "durchsage": [
+          {
+            "t": 0,
+            "x": -2.22,
+            "z": 2.15,
+            "motion": "park",
+            "face": 0,
+            "y": 3.48
+          },
+          {
+            "t": 0.5113,
+            "x": -2.22,
+            "z": 2.15,
+            "motion": "show",
+            "face": 0,
+            "y": 3.48,
+            "size": 0.25
+          },
+          {
+            "t": 0.8322,
+            "x": -2.22,
+            "z": 2.15,
+            "motion": "park",
+            "face": 0,
+            "y": 3.48
+          }
+        ],
+        "becher": [
+          {
+            "t": 0,
+            "x": -1.3,
+            "z": 0.17,
+            "motion": "park",
+            "face": 0
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.1279,
+          "id": "herzschlag",
+          "volume": 0.25
+        },
+        {
+          "t": 0.5025,
+          "id": "durchsage-gong",
+          "volume": 0.6
+        }
+      ],
+      "sharpCuts": true
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            15.8,
+            4.3,
+            3.2
+          ],
+          "look": [
+            0.54,
+            -0.83,
+            -0.44
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            15.5,
+            4.24,
+            3.01
+          ],
+          "look": [
+            0.54,
+            -0.83,
+            -0.44
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.36,
+            "motion": "edgelean",
+            "face": 0,
+            "jacket": 1
+          }
+        ],
+        "becher": [
+          {
+            "t": 0,
+            "x": -1.3,
+            "z": 0.17,
+            "motion": "park",
+            "face": 0
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            15.5,
+            4.24,
+            3.01
+          ],
+          "look": [
+            0.54,
+            -0.83,
+            -0.44
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            15.1,
+            4.18,
+            2.85
+          ],
+          "look": [
+            0.54,
+            -0.83,
+            -0.44
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.36,
+            "motion": "edgelean",
+            "face": 0,
+            "jacket": 1
+          }
+        ],
+        "becher": [
+          {
+            "t": 0,
+            "x": -1.3,
+            "z": 0.17,
+            "motion": "park",
+            "face": 0
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            15.1,
+            4.18,
+            2.85
+          ],
+          "look": [
+            0.54,
+            -0.83,
+            -0.44
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            14.9,
+            4.15,
+            2.78
+          ],
+          "look": [
+            0.54,
+            -0.83,
+            -0.44
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.36,
+            "motion": "edgelean",
+            "face": 0,
+            "jacket": 1
+          }
+        ],
+        "becher": [
+          {
+            "t": 0,
+            "x": -1.3,
+            "z": 0.17,
+            "motion": "park",
+            "face": 0
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.75,
+            2.45,
+            16.0
+          ],
+          "look": [
+            0.05,
+            2.2,
+            1.71
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.6,
+            2.4,
+            15.5
+          ],
+          "look": [
+            0.05,
+            2.2,
+            1.71
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 1.9,
+            "motion": "stand",
+            "face": 180,
+            "jacket": 1
+          },
+          {
+            "t": 0.15,
+            "x": 0.0,
+            "z": 1.9,
+            "motion": "wave",
+            "face": 180
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": 1.9,
+            "motion": "wave",
+            "face": 180
+          }
+        ],
+        "becher": [
+          {
+            "t": 0,
+            "x": -1.3,
+            "z": 0.17,
+            "motion": "park",
+            "face": 0
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}

@@ -1945,6 +1945,117 @@ const pistolPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+// ---------- Bahnsteigkante (Sog eines durchfahrenden Zuges) ----------
+/**
+ * Bewegungen für das Bahnsteig-Video (wiederverwendbar für alle Bahnsteig-Szenen):
+ *  - pant:       außer Atem stehen bleiben (nach "run"): vorgebeugt, Hände auf den Knien (ab 0,5 s), Oberkörper hebt sich schnell,
+ *                Kopf schaut nach vorn. Passt zu den Werten "breath" (Atemwolken) + "heave".
+ *  - perkup:     hört eine Durchsage: richtet sich auf (0–0,5 s), Kopf hebt sich und dreht nach links oben (Lautsprecher links),
+ *                linke Hand hinters Ohr (bis 0,8 s), ab 2,2 s Blick nach links das Gleis entlang.
+ *  - hurryback:  zügig rückwärts gehen (Weg über Zeitpunkte, Blick bleibt zum Gleis), Arme leicht angewinkelt, Kopf schaut nach links
+ *                (dort kommt der Zug). Ohne Weg = auf der Stelle stehen.
+ *  - brace:      steht ruhig und sicher (Füße etwas breiter), Arme am Körper, Kopf folgt nach links → rechts (Zug fährt vorbei, 0,8–2,6 s).
+ *  - edgelean:   steht an der Kante und neigt sich leicht nach vorn, Hände locker, Blick nach links das Gleis entlang (Zug kommt).
+ *  - filmphone:  hebt ein Handy (quer) mit beiden Händen vor das Gesicht (bis 0,6 s) und filmt, Blick aufs Display; mit Weg über
+ *                Zeitpunkte = kleine Schlurf-Schritte (rutscht unbemerkt Richtung Kante). Handy-Objekt "filmhandy" mit "hand" 1.
+ */
+export const FILM_SPOT: P3 = [-0.06, 1.42, 0.36];
+const platformPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'pant': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const hv = Math.sin(time * 8.5) * 0.035 * k;
+      p.pitch = 0.04 * k;
+      p.torsoX = (0.55 + hv) * k;
+      p.headX = -0.38 * k + hv * 0.6;
+      p.hipY = 0.98 - 0.1 * k;
+      p.legL = L3t(-0.22 * k, 0.14, 0.42 * k);
+      p.legR = L3t(-0.22 * k, -0.14, 0.42 * k);
+      reachR(p, lerp3t([-0.24, 0.9, 0.05], [-0.15, 0.6, 0.26 + hv * 0.4], k), 0.33, [0.8, -0.2, -0.6]);
+      reachL(p, lerp3t([0.24, 0.9, 0.05], [0.15, 0.6, 0.26 + hv * 0.4], k), 0.33, [0.8, -0.2, -0.6]);
+      return p;
+    }
+    case 'perkup': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const ear = easeInOut(clamp((time - 0.15) / 0.65)) * (1 - easeInOut(clamp((time - 2.0) / 0.5)));
+      const down = easeInOut(clamp((time - 2.2) / 0.6));
+      p.headX = lerpN(-0.42 * k, 0.05, down);
+      p.headY = lerpN(0.45 * k, 0.75, down);
+      p.torsoY = 0.12 * k + 0.12 * down;
+      p.torsoX = breathe;
+      reachL(p, lerp3t([0.24, 0.92, 0.08], [0.17, 1.72, -0.02], ear), 0.33, [0.9, -0.3, -0.6]);
+      return p;
+    }
+    case 'hurryback': {
+      const p = base();
+      const mv = clamp(speed / 0.6);
+      const ph = time * TAU * 1.25;
+      const s = Math.sin(ph) * mv;
+      p.legL.sx = 0.38 * s;
+      p.legR.sx = -0.38 * s;
+      p.legL.bend = 0.35 * Math.max(0, Math.sin(ph + 1.2)) * mv;
+      p.legR.bend = 0.35 * Math.max(0, Math.sin(ph + 1.2 + Math.PI)) * mv;
+      p.hipY = 0.97 - 0.025 * Math.abs(s);
+      p.torsoX = 0.06;
+      p.headY = 0.55;
+      p.headX = 0.05;
+      p.armL = L3t(-0.35 - 0.15 * s, 0.25, -0.75);
+      p.armR = L3t(-0.35 + 0.15 * s, -0.25, -0.75);
+      return p;
+    }
+    case 'brace': {
+      const p = base();
+      const follow = easeInOut(clamp((time - 0.8) / 1.8));
+      p.legL = L3t(0, 0.1, 0.05);
+      p.legR = L3t(0, -0.1, 0.05);
+      p.headY = lerpN(0.6, -0.6, follow);
+      p.torsoY = lerpN(0.12, -0.12, follow);
+      p.headX = 0.04;
+      p.torsoX = -0.02 + breathe;
+      p.armL = L3t(0.02, 0.14, -0.12);
+      p.armR = L3t(0.02, -0.14, -0.12);
+      return p;
+    }
+    case 'edgelean': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.8));
+      const sway = Math.sin(time * 1.6) * 0.015;
+      p.pitch = 0.07 * k + sway;
+      p.torsoX = 0.12 * k + breathe;
+      p.headX = 0.12 * k;
+      p.headY = 0.62 * k;
+      p.torsoY = 0.1 * k;
+      p.legL = L3t(-0.04 * k, 0.06, 0.05);
+      p.legR = L3t(0.04 * k, -0.06, 0.05);
+      p.armL = L3t(0.08 * k, 0.12, -0.2);
+      p.armR = L3t(0.08 * k, -0.12, -0.2);
+      return p;
+    }
+    case 'filmphone': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      const mv = clamp(speed / 0.25);
+      const ph = time * TAU * 0.9;
+      const st = Math.sin(ph) * mv;
+      p.legL.sx = -0.12 * st;
+      p.legR.sx = 0.12 * st;
+      p.legL.bend = 0.12 * Math.max(0, Math.sin(ph + 1.2)) * mv;
+      p.legR.bend = 0.12 * Math.max(0, Math.sin(ph + 1.2 + Math.PI)) * mv;
+      p.hipY = 0.98 - 0.01 * Math.abs(st);
+      p.torsoX = 0.03 * k + breathe;
+      p.headX = 0.22 * k;
+      const jit = Math.sin(time * 3.1) * 0.006;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [FILM_SPOT[0], FILM_SPOT[1] + jit, FILM_SPOT[2]], k), 0.33, [0.7, -1, -0.2]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [FILM_SPOT[0] + 0.15, FILM_SPOT[1] + jit, FILM_SPOT[2]], k), 0.33, [0.7, -1, -0.2]);
+      return p;
+    }
+  }
+  return null;
+};
+
 // ---------- Geldkoffer (Fundstücke) ----------
 /**
  * Bewegungen für das Geldkoffer-Video (wiederverwendbar):
@@ -2172,7 +2283,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -3061,11 +3172,12 @@ const UniformCap = ({m, hair}: {m: Mats; hair: boolean}) => (
 );
 
 /** Winterjacke am Oberkörper (Rumpf, Kragen, Reißverschluss). amount < 0.5: hängt nur noch am rechten Arm */
-const JacketBody = ({m, amount, chest}: {m: Mats; amount: number; chest: number}) => {
+const JacketBody = ({m, amount, chest, wind = 0, windDir = 0, time = 0}: {m: Mats; amount: number; chest: number; wind?: number; windDir?: number; time?: number}) => {
   if (amount <= 0.03) return null;
   const hang = clamp((0.5 - amount) * 2);
   return (
     <group position={[-0.08 * hang, -0.04 * hang, 0]} rotation={[0, 0.3 * hang, -0.35 * hang]}>
+      {wind > 0.005 && hang < 0.5 && <JacketFlaps m={m} wind={wind} windDir={windDir} time={time} />}
       <mesh material={m.jacket} position={[0, 0.32 + 0.02 * chest, 0]} scale={[1.42 * (1 + 0.05 * chest), 1.38, 0.95 * (1 + 0.1 * chest)]} castShadow>
         <icosahedronGeometry args={[0.18, 1]} />
       </mesh>
@@ -3088,6 +3200,37 @@ const JacketBody = ({m, amount, chest}: {m: Mats; amount: number; chest: number}
           <torusGeometry args={[0.085, 0.035, 6, 12]} />
         </mesh>
       )}
+    </group>
+  );
+};
+
+/**
+ * Flatternder Jackensaum im Wind (z. B. Sog eines durchfahrenden Zuges): 8 Saum-Lappen rund um die Hüfte heben sich
+ * in Windrichtung (windDir = Richtung im Dummy-System, Bogenmaß um y, 0 = nach vorn +z), flattern schnell. wind 0 … 1.
+ */
+const JacketFlaps = ({m, wind, windDir, time}: {m: Mats; wind: number; windDir: number; time: number}) => {
+  const wx = Math.sin(windDir);
+  const wz = Math.cos(windDir);
+  return (
+    <group position={[0, 0.17, 0]}>
+      {Array.from({length: 8}, (_, i) => {
+        const a = (i / 8) * Math.PI * 2;
+        const along = Math.sin(a) * wx + Math.cos(a) * wz;
+        const flut = 0.55 + 0.45 * Math.sin(time * (16 + i * 1.3) + i * 1.7);
+        const lift = wind * (0.15 + 0.85 * Math.max(0, along)) * flut * 1.05;
+        return (
+          <group key={i} rotation={[0, a, 0]}>
+            <group position={[0, 0, 0.183]} rotation={[lift, 0, Math.sin(time * 21 + i) * 0.12 * wind]}>
+              <mesh material={m.jacket} position={[0, -0.12, 0]} castShadow>
+                <boxGeometry args={[0.15, 0.24, 0.014]} />
+              </mesh>
+              <mesh material={m.jacketDark} position={[0, -0.235, 0.002]}>
+                <boxGeometry args={[0.15, 0.025, 0.016]} />
+              </mesh>
+            </group>
+          </group>
+        );
+      })}
     </group>
   );
 };
@@ -3487,7 +3630,12 @@ export const Dummy = ({
   heave = 0,
   brow = 0,
   stash = 0,
+  wind = 0,
+  windDir = 0,
 }: {
+  /** Wind/Sog an der Jacke: 0 … 1 (Saum flattert), windDir = Richtung im Dummy-System (Bogenmaß, 0 = nach vorn) */
+  wind?: number;
+  windDir?: number;
   /** Augenbrauen (für Figuren ohne Gesicht): ab 0,01 sichtbar, bis 1 = rechte Braue hochgezogen ("Hm?") */
   brow?: number;
   /** Geldbündel, die vorn aus der Jacke schauen (0 … 3, braucht jacket) */
@@ -3586,7 +3734,7 @@ export const Dummy = ({
           >
             <icosahedronGeometry args={[0.18, 1]} />
           </mesh>
-          <JacketBody m={m} amount={jacket} chest={pose.chest} />
+          <JacketBody m={m} amount={jacket} chest={pose.chest} wind={wind} windDir={windDir} time={fxTime} />
           {jacket > 0.5 &&
             stash > 0.05 &&
             [0, 1, 2].slice(0, Math.ceil(stash)).map((i) => (

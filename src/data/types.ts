@@ -165,6 +165,14 @@ export type Motion =
   | 'setcounter' // Dummy: hebt den Koffer am Griff auf den Tresen (Hand 1,45 m hoch, 0,48 m vor ihm bei 0,7 s, loslassen 0,75 s)
   | 'fillform' // Dummy: steht am Tresen, schreibt mit dem Kugelschreiber auf ein Formular 0,5 m vor ihm (Tresen 1,05 m)
   | 'cheer' // Dummy: jubelt – Fäuste hoch, kleine Hüpfer
+  // ---- Bahnsteigkante (Sog) ----
+  | 'pant' // Dummy: außer Atem, vorgebeugt, Hände auf den Knien
+  | 'perkup' // Dummy: hört die Durchsage – richtet sich auf, Kopf nach links oben, Hand hinters Ohr
+  | 'hurryback' // Dummy: zügig rückwärts gehen (Weg über Zeitpunkte), Blick zum Gleis/nach links
+  | 'brace' // Dummy: steht ruhig und sicher, Kopf folgt dem vorbeifahrenden Zug (links → rechts)
+  | 'edgelean' // Dummy: steht an der Kante, neigt sich leicht nach vorn, Blick nach links das Gleis entlang
+  | 'filmphone' // Dummy: hält ein Handy quer mit beiden Händen vors Gesicht und filmt (mit Weg = Schlurf-Schritte)
+  | 'pass' // Zug ("zug"): fährt (Weg über Zeitpunkte), Bewegungsunschärfe + Windlinien je nach Tempo
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
@@ -333,12 +341,16 @@ export type ActorKey = {
   money?: number;
   /** Formular: Kugelschreiber daneben 1 = ja */
   pen?: number;
+  /** Wind/Sog 0 … 1: Dummy = Jackensaum flattert (Richtung = zum Gleis, −z der Welt), "sog" = Stärke der Windlinien */
+  wind?: number;
+  /** "sog": seitliches Mitziehen der Windlinien (−1 … 1, + = Richtung +x der Welt, mit dem Zug) */
+  drift?: number;
   /** Gegenstand mit "hand": in wessen rechter Hand (Figur mit Dummy-Körper, z. B. "kumpel", "bundespolizist"). Standard "dummy". Gilt ab diesem Zeitpunkt weiter */
   holder?: string;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
