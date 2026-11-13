@@ -221,7 +221,7 @@ bill3 = [K(0, PO[0], PO[1], 'park', face_to(PO, KU), y=HIDE), K(r3(hand0 - 0.002
          K(hand0, PO[0], PO[1], 'park', BILLF, y=0, hand=1, holder='bundespolizist', size=0.5, drop=-0.16),
          K(swap, PO[0], PO[1], 'park', BILLF, holder='kumpel'), K(1, PO[0], PO[1], 'park', BILLF)]
 cutB = r3(pt0 - sec(L3, 0.4))
-cutC = r3(pol_in + sec(L3, 0.5))
+cutC = r3(max(pol_in + sec(L3, 0.5), c_pruef - sec(L3, 0.3)))
 cutD = r3(ku0 + sec(L3, 0.5))
 MID_KP = ((KU[0] + PO[0]) / 2, (KU[1] + PO[1]) / 2)
 exp3 = {
