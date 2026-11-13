@@ -138,7 +138,7 @@ situation = {
 # ================= Optionen / Countdown / Auflösung =================
 def still(p0, p1):
     return {'camera': [cam(0, p0, OPT_CAM[1]), cam(1, p1, OPT_CAM[1])],
-            'actors': {'dummy': [K(0, *DN, 'notice', 0)], **static_props(), **bin_pile(), **kids_play()}}
+            'actors': {'dummy': [K(0, *DN, 'notice', 0)], **static_props(0.35), **bin_pile(), **kids_play()}}
 def towards(p, k):
     c = OPT_CAM[1]
     return [p[i] + (c[i] - p[i]) * k for i in range(3)]

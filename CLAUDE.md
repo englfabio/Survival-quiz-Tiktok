@@ -63,6 +63,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - herrenloser-koffer → 3.
 - pistole-wald → 1. Push
 - geldkoffer-million → 2. Push
+- spritze-spielplatz → 3. Push
 
 ## Das Format (Ablauf eines Videos)
 
