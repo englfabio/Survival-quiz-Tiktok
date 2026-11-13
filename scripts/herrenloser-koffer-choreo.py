@@ -246,7 +246,7 @@ CAM_O = [KO[0] + 2.0, 1.6, KO[1] - 5.9]
 KF_O = face_to(KO, (CAM_O[0], CAM_O[2]))
 POL_O = (KO[0] + 1.15, KO[1] + 1.0)
 outro = {
- 'camera': [cam(0, CAM_O, [KO[0] + 0.3, 1.6, KO[1] + 0.2]), cam(1, [CAM_O[0] - 0.1, CAM_O[1], CAM_O[2] + 0.25], [KO[0] + 0.3, 1.6, KO[1] + 0.2])],
+ 'camera': [cam(0, CAM_O, [KO[0] + 0.3, 2.15, KO[1] + 0.2]), cam(1, [CAM_O[0] - 0.1, CAM_O[1], CAM_O[2] + 0.25], [KO[0] + 0.3, 2.15, KO[1] + 0.2])],
  'actors': {'kumpel': [K(0, KO[0], KO[1], 'sheepish', KF_O)],
             'rechnung': [K(0, KO[0], KO[1], 'park', KF_O, hand=1, holder='kumpel', size=0.7, drop=-0.2)],
             'koffer': [K(0, KO[0] - 0.6, KO[1] + 0.15, 'park', 90, handle=1)],
