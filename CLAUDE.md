@@ -146,6 +146,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `aufzug-summen`), volle U-/S-Bahn mit Sitzbänken, gelben Stangen, Haltegriffen, Tunnel-Lichtern, vielen Fahrgästen (`bahn`, Atmo = `bahn-atmo`),
   alte Kaimauer an einem Kanal in der Stadt (`kanal`, `src/stage/Canal.tsx`, Atmo = `see-atmo`): Uferweg mit Kopfsteinpflaster, Randsteine, Quader-
   Mauer, bewegtes Wasser 1,3 m unter dem Weg, gegenüber zweite Mauer mit Geländer + Häuserzeile, Steinbogenbrücke links, Bäume, Laternen, Poller.
+  Bahnhof (`bahnhof`, `src/stage/Station.tsx`, Atmo = `bahnhof-atmo`): Bahnsteig (Gleis 3) mit Bahnsteigkante, weißer Sicherheitslinie,
+  Blindenleitstreifen, Gleisen mit Schotter/Schwellen, gegenüberliegendem Bahnsteig, Bänken, Fahrkartenautomat, hängender Anzeigetafel
+  (erfundene Ziele, kein Logo), Stahlstützen, Glas-Hallendach mit Stahlbögen; dahinter Bahnhofshalle mit Fundbüro-Schalter (Schild „FUNDBÜRO“),
+  Kiosk, Info, Ausgang, Bahnhofsuhr, Hängelampen. Variante `bahnhof-voll` = volle Halle mit vielen gehenden/wartenden Reisenden (freier Gang
+  zum Fundbüro x −1 … 6.5). Wiederverwendbar (z. B. Handy im Gleis: Gleisbett y −0,76, Figuren dort y relativ zum Gleisbett).
+  Reisende als Bühnen-Bauteil mit Gehbewegung + optionalem Rollkoffer: `Passenger` in `src/stage/Station.tsx`.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -182,7 +188,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   in der Bahn am Haltegriff festhalten (`holdstrap`),
   Magnet an der Leine werfen (`magthrow`), Seil Hand über Hand hochziehen (`haul`), erschrocken erstarren mit Seil in der Hand (`startle`),
   langsam in die Hocke + Hängendes vorsichtig absetzen (`lowerset`), Granate festhalten + Magnet abziehen + aufstehen (`unhook`),
-  Granate vor der Brust halten (`holdgren`), mit der Granate zum Werfen ausholen (`windup`), durchs Beifahrerfenster etwas auf den Sitz legen (`placeseat`);
+  Granate vor der Brust halten (`holdgren`), mit der Granate zum Werfen ausholen (`windup`), durchs Beifahrerfenster etwas auf den Sitz legen (`placeseat`),
+  sich umschauen + Koffer bemerken (`lookaround`), zum Koffer beugen + an den Schnallen fummeln (`bendopen`), Koffergriff greifen + Teleskopgriff
+  ausziehen (`grabcase`), Rollkoffer hinter sich herziehen (`rollcase`), auf etwas zeigen + mit jemandem rechts daneben reden (`pointtalk`),
+  verlegen am Hinterkopf kratzen + Hand nach vorn (`sheepish`), etwas überreichen (`handover`), Absperrband abrollen beim Gehen (`tapewalk`),
+  zuhören + nicken (`listen`) – alle auch für Kumpel, Bahnmitarbeiterin, Bundespolizist;
   vorhanden und wiederverwendet: langsam rückwärts weggehen (`retreat`), andere warnen (`warn`), telefonieren (`call`)
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
@@ -211,7 +221,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   mit rechts (Treffer bei 0,4 s, Faust ca. 0,75 m vor ihm), `victory` = Siegerpose mit erhobenen Pfoten),
   Wal (`wal`, `src/actors/Whale.tsx`: großer, freundlicher Low-Poly-Blauwal, ca. 3,9 m lang, große Kulleraugen, rosa Bäckchen, Lächeln;
   `float` = schweben + blinzeln, `spout` = gemütlich schnaufen mit kleiner Wasserfontäne (0,3 s, dann alle 3,2 s), `appear` = erscheint mit „Plopp“,
-  `shrink` = schrumpft in 2,2 s und verschwindet mit Glitzern; Werte `size` (größer) und `squish` 0 … 1 = drückt gegen die Wände; y immer mitgeben)
+  `shrink` = schrumpft in 2,2 s und verschwindet mit Glitzern; Werte `size` (größer) und `squish` 0 … 1 = drückt gegen die Wände; y immer mitgeben),
+  Bahnmitarbeiterin (`bahnmitarbeiterin`: Dummy-Figur, Körper hell-lila, weinrote Uniform mit grauer Hose, Schirmmütze, gelbem Halstuch, Zopf –
+  ohne Logo), Bundespolizist (`bundespolizist`: Dummy-Figur, hellgrau, stilisierte dunkelblaue Uniform + Mütze, ohne echte Abzeichen; hält bei
+  `tapewalk` automatisch die Rolle Absperrband) – beide können alle Dummy-Bewegungen (Uniform über Prop `uniform` in Dummy.tsx, wiederverwendbar)
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
 - **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
@@ -256,6 +269,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Wert `hand` 0 … 1 = in der rechten Hand des Dummys, `drop` = hängt so viele Meter darunter (pendelt leicht). Granate am Magneten:
   `"attach": "magnet", x 0, y −0.26, z 0, tilt 78`. Auto: Werte `window2` (Beifahrerfenster offen) und `rumble` (Kopfsteinpflaster).
   Bewegung `toss` = Gegenstand fliegt gleichmäßig (Weg über Zeitpunkte); Effekt `splash` mit Wert `size` (−0.55 = klein).
+- **Objekte (Bahnhof, `src/actors/StationProps.tsx`):** großer Hartschalenkoffer ohne Namensschild (`koffer`: Ursprung = hintere Rollenachse,
+  Front +z; Werte `handle` 0 … 1 = Teleskopgriff, `tilt` = kippen zum Ziehen, ca. 40°; zum Ziehen `"attach": "dummy", x −0.2, y 0, z −1.04, face 0`),
+  rot-weißes Absperrband mit vier Pfosten (`absperrband`: Quadrat 2 × (1.4 + `size`), `fill` 0 … 1 = wie weit gespannt; Start-Ecke hinten links
+  im eigenen System, mit face 90 = vorn links in der Welt), Zettel „RECHNUNG“ mit großem €-Zeichen (`rechnung`, `size`).
+  Gegenstand in der Hand einer anderen Figur: Feld `"holder": "kumpel"` (bzw. `bundespolizist`, `bahnmitarbeiterin` …) + `hand` 1;
+  `drop` negativ = Gegenstand über der Hand (z. B. −0.2, damit die Hand den Zettel nicht verdeckt). Smartphone wie gehabt bei `call`.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -271,7 +290,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate)
+  fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer)
 
 ## Stimme (ElevenLabs)
 
@@ -321,6 +340,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Kontrolle scribe_v2 (Option 2 + Erklärung 2 mit „110“): korrekt. Sechstes Video im Durchlauf-Modus. Choreografie: `python3 scripts/magnetfischen-choreo.py`.
   Hook „Du hast mal wieder eine Granate geangelt“. Keine Explosion/kein Rauch: falsche Optionen frieren ein. Standbilder in review/magnetfischen-granate/phase1/.
   Finales Video: review/final/magnetfischen-granate.mp4.
+- Herrenloser Koffer: 1085 neue Zeichen (countdown/reveal aus Cache, laut ElevenLabs 433 Credits), Sprechzeit 77,1 s, Video 86,0 s. Wort-Zeitstempel = Text
+  (geprüft), Kontrolle scribe_v2 (Option 3 + Erklärung 3): korrekt. Erstes Video mit Durchlauf-Modus als Standard. Choreografie:
+  `python3 scripts/herrenloser-koffer-choreo.py`. Keine Explosion/Bombe, falsche Optionen frieren nur ein. Standbilder in review/herrenloser-koffer/phase1/.
+  Finales Video: review/final/herrenloser-koffer.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -345,7 +368,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `strom-knistern`, `sicherung-klick`, `handtuch-klatsch`, `aal-schmollen` (Zitteraal-Video; Küche nutzt `uhr-ticken`);
   `outback-atmo` (Bühne Outback, Schleife), `boxglocke`, `boxschlag`, `zahn-ping` (Känguru-Zahn-Video);
   `herzschlag`, `wal-schnaufen`, `wal-ruf`, `plopp`, `schrumpfen`, `aufzug-summen` (Bühne Aufzug, Schleife), `aufzug-ding`, `bahn-atmo` (Bühne Bahn, Schleife) (Wal-Panikattacke);
-  `magnet-platsch`, `seil-ziehen`, `kopfsteinpflaster` (Magnetfischen-Granate; Kanal nutzt `see-atmo`).
+  `magnet-platsch`, `seil-ziehen`, `kopfsteinpflaster` (Magnetfischen-Granate; Kanal nutzt `see-atmo`);
+  `bahnhof-atmo` (Bühne Bahnhof, Schleife), `koffer-rollen`, `schnallen-klick`, `absperrband` (Herrenloser Koffer).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -469,6 +493,10 @@ Beschreibung und angepinnter Kommentar.
   (dort ist „Boden“ = Wasser, y relativ dazu), Bäume bei z 5.7 (Lücke x −3.5 … 2.5), Brücke x −15. Im Video: Dummy (0, 0.62, face 0) an der Kante,
   Auto (5.6, 3.0, face 270 → Beifahrerseite zum Wasser), Granate abgelegt bei (0.06, 0.06). Kamera übers Wasser (z negativ) ist frei.
   Für den Blick ins Auto auf den Beifahrersitz: Kamera neben dem Auto schräg von oben (y 2.8, fov 50) durchs offene Fenster.
+- Bahnhof-Koordinaten (`src/stage/Station.tsx`, `STATION`): Bahnsteigkante z 0, weiße Linie z 0.8, Bahnsteig bis z 9, Gleis 3 Mitte z −1.75, Halle z 9 … 26
+  (x ±16), Fundbüro-Theke (4.5, 25), Platz davor (4.5, 24.2). Kamera am besten von der Hallenseite (z größer als die Figuren) Richtung Gleise schauen lassen –
+  dann sind Bahnsteigkante, Linie und Gleise im Hintergrund. Fahrkartenautomat (4.6, 7.9) + Stützen (x ±6.5, z 5) nicht vor die Kamera stellen.
+  Im Video: Koffer (0.8, 3.4, face 270), Dummy (−0.45, 3.4, face 90), Bahnmitarbeiterin neben (−3.6, 5.0), Absperrband um (0.63, 3.4) mit size −0.15.
 - Wohnküche im Spülmaschinentab-Video: Dummy hinter dem Tisch `x 0.05, z −0.1, face 180`; Oberschrank `x 1.3, y 1.45, z −2.3, face 180`,
   Dummy davor (`stowtabs`) `x 1.06, z −1.6, face 0`; Packung im Schrank auf dem Regal (1.3, 1.677, −2.12). Neue Bewegungen müssen in
   `src/lib/anim.ts` in CONTINUOUS (+ BLEND_MOTIONS) stehen, sonst springt ihre Zeit an jedem Zeitpunkt zurück.
@@ -532,7 +560,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
                       Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche;
                       Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche;
-                      Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer)
+                      Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer;
+                      Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Variante volle Halle) + Passenger-Figuren)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -540,7 +569,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Steckdose/Toaster, Kangaroo.tsx = Känguru, ToothProps.tsx = Zahn/Taschentuch/Glas/Wasserhahn/
                       Zahnrettungsbox/H-Milch/Boxhandschuh/Hinweisschild, TabProps.tsx = Tab/Packung/Milchglas/
                       Küchenpapier/Oberschrank/Warndreieck, Whale.tsx = Wal, PanicProps.tsx = Kaltes Wasser/Coolpack/
-                      Herz-Symbol, MagnetProps.tsx = Magnet/Granate/Seil) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      Herz-Symbol, MagnetProps.tsx = Magnet/Granate/Seil, StationProps.tsx = Koffer/
+                      Absperrband/Rechnung/Absperrband-Rolle) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
