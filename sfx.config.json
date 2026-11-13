@@ -484,6 +484,20 @@
       "duration": 2.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "laub-rascheln",
+      "prompt": "Footsteps walking through dry autumn leaves on a forest path, crisp rustling, close, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "hund-bellen",
+      "prompt": "Single friendly short bark of a medium-sized dog outdoors, then quiet panting",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

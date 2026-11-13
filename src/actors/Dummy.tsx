@@ -1849,7 +1849,7 @@ const stationPose = (motion: Motion, time: number, speed: number): DummyPose | n
  *  - fiddle:     steht, hält etwas mit beiden Händen vor dem Bauch (rechts Griff bei FIDDLE_SPOT, links 0,1 m weiter links) und
  *                fummelt daran herum, Blick nach unten
  *  - stepback:   einen Schritt zurücktreten (Weg über Zeitpunkte, Schritt 0–0,9 s), Hände vorsichtig leicht gehoben, dann ruhig stehen
- *  - markphone:  hält ein Handy mit rechts vor der Brust (PHONE_SPOT), tippt mit links darauf, Blick aufs Handy
+ *  - markphone:  hält ein Handy mit rechts vor der Brust (PHONE_SPOT), tippt mit dem Daumen, Blick aufs Handy (Handy mit "drop" −0.1 = über der Hand)
  *  - stophand:   hebt die linke Hand nach vorn – "Stopp, nicht weitergehen!" (Handfläche nach vorn), Kopf nach vorn
  */
 export const PICK_SPOT: P3 = [-0.08, 0.06, 0.52];
@@ -1926,7 +1926,9 @@ const pistolPose = (motion: Motion, time: number): DummyPose | null => {
       p.headX = 0.1 + 0.45 * k;
       p.torsoX = 0.04 * k + breathe;
       reachR(p, lerp3t([-0.22, 0.95, 0.1], PHONE_SPOT, k), 0.33, [0.6, -1, -0.3]);
-      reachL(p, lerp3t([0.22, 0.95, 0.1], [PHONE_SPOT[0] + 0.07, PHONE_SPOT[1] + 0.02, PHONE_SPOT[2] + 0.06 - tap], k), 0.3, [0.6, -1, -0.3]);
+      // linke Hand bleibt locker unten (Kamera kann von links aufs Handy schauen); Daumen-Tippen = kleines Nicken der rechten Hand
+      reachL(p, [0.24, 0.9, 0.12], 0.33);
+      p.armR.bend -= tap;
       return p;
     }
     case 'stophand': {

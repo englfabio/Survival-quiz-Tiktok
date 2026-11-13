@@ -85,7 +85,7 @@ arrive = r3(sec(L0, 0.2 + seglen(WALK0, D0) / 1.35))
 dummy0 = [K(0, WALK0[0], WALK0[1], 'walk', DF, **JACKET), K(arrive, D0[0], D0[1], 'walk', DF), K(r3(arrive + 0.002), D0[0], D0[1], 'spotpoint', DF),
           K(1, D0[0], D0[1], 'spotpoint', DF)]
 situation = {
- 'camera': [cam(0, [5.4, 2.0, -6.0], [-0.1, 0.85, 1.2]), cam(r3(c_sie - 0.004), [5.0, 1.9, -5.4], [-0.05, 0.8, 0.5]),
+ 'camera': [cam(0, [5.6, 2.0, -4.4], [-0.1, 0.85, 1.4]), cam(r3(c_sie - 0.004), [5.2, 1.9, -4.0], [-0.05, 0.8, 0.6]),
             cam(c_sie, [1.3, 0.78, -2.25], [PS[0] - 0.02, 0.05, PS[1]]), cam(r3(c_was - 0.004), [1.2, 0.72, -2.1], [PS[0] - 0.02, 0.05, PS[1]]),
             cam(c_was, [4.6, 2.2, -3.8], [0.05, 0.6, -0.5]), cam(1, [4.3, 2.1, -3.5], [0.05, 0.6, -0.5])],
  'actors': {'dummy': dummy0, 'pistole': [lying()]},
@@ -114,7 +114,7 @@ D1 = (D0[0], D0[1] + 0.85)                       # einen Schritt zurück (rückw
 sb0 = sec(L1, 0.35)
 sb1 = r3(sb0 + sec(L1, 0.9))
 mp0 = r3(max(sb1 + sec(L1, 0.6), c_merk - sec(L1, 0.4)))      # Handy raus
-pin0 = r3(max(mp0 + sec(L1, 1.0), c_stand - sec(L1, 0.1)))   # Pin fällt
+pin0 = r3(max(mp0 + sec(L1, 1.0), c_stand - sec(L1, 0.9)))   # Pin fällt (Hinweis bleibt vor dem Schnitt ca. 1 s sichtbar)
 pin1 = r3(pin0 + sec(L1, 0.7))
 sh0 = r3(c_halt - sec(L1, 0.25))                              # Stopp-Hand
 call0 = r3(max(sh0 + sec(L1, 1.0), c_ruf - sec(L1, 0.2)))     # telefonieren
@@ -128,11 +128,12 @@ DOG_OFF = rot(180, -0.55, 0.3)    # Hund rechts neben dem Spaziergänger, leicht
 dummy1 = [K(0, D0[0], D0[1], 'stand', DF, **JACKET), K(sb0, D0[0], D0[1], 'stepback', DF), K(sb1, D1[0], D1[1], 'stepback', DF),
           K(r3(mp0 - 0.002), D1[0], D1[1], 'stepback', DF), K(mp0, D1[0], D1[1], 'markphone', DF), K(r3(sh0 - 0.002), D1[0], D1[1], 'markphone', DF),
           K(sh0, D1[0], D1[1], 'stophand', DF), K(r3(call0 - 0.002), D1[0], D1[1], 'stophand', DF), K(call0, D1[0], D1[1], 'call', DF)]
-# Handy mit Karte (Bildschirm zum Dummy, nach hinten gekippt) in der rechten Hand
-phone1 = [K(0, D1[0], D1[1], 'park', DF + 180, y=HIDE, tilt=70, pin=0), K(r3(mp0 + sec(L1, 0.25)), D1[0], D1[1], 'park', DF + 180, y=HIDE, hand=0),
-          K(r3(mp0 + sec(L1, 0.27)), D1[0], D1[1], 'park', DF + 180, y=0, hand=1), K(pin0, D1[0], D1[1], 'park', DF + 180, pin=0),
-          K(pin1, D1[0], D1[1], 'park', DF + 180, pin=1), K(r3(sh0 + sec(L1, 0.2)), D1[0], D1[1], 'park', DF + 180, hand=1),
-          K(r3(sh0 + sec(L1, 0.22)), D1[0], D1[1], 'park', DF + 180, y=HIDE, hand=0)]
+# Handy mit Karte in der rechten Hand
+PHF = DF - 90 + 360                # Bildschirm zeigt zur linken Seite des Dummys (dort steht die Kamera), 45° nach oben gekippt
+phone1 = [K(0, D1[0], D1[1], 'park', PHF, y=HIDE, tilt=45, pin=0, size=0.25, drop=-0.1), K(r3(mp0 + sec(L1, 0.25)), D1[0], D1[1], 'park', PHF, y=HIDE, hand=0),
+          K(r3(mp0 + sec(L1, 0.27)), D1[0], D1[1], 'park', PHF, y=0, hand=1), K(pin0, D1[0], D1[1], 'park', PHF, pin=0),
+          K(pin1, D1[0], D1[1], 'park', PHF, pin=1), K(r3(sh0 + sec(L1, 0.2)), D1[0], D1[1], 'park', PHF, hand=1),
+          K(r3(sh0 + sec(L1, 0.22)), D1[0], D1[1], 'park', PHF, y=HIDE, hand=0)]
 walker1 = [K(0, WK0[0], WK0[1], 'stand', 180, y=HIDE), K(r3(wk_start - 0.002), WK0[0], WK0[1], 'stand', 180, y=HIDE),
            K(wk_start, WK0[0], WK0[1], 'walk', 180, y=0), K(wk_arr, WS[0], WS[1], 'walk', 180), K(r3(wk_arr + 0.002), WS[0], WS[1], 'stand', 180),
            K(r3(wk_arr + sec(L1, 0.6)), WS[0], WS[1], 'listen', 180), K(1, WS[0], WS[1], 'listen', 180)]
@@ -157,16 +158,18 @@ dummy1 += [K(r3(talk1 - 0.002), D1[0], D1[1], 'call', DF), K(talk1, D1[0], D1[1]
 flash1 = r3(p_arr2 + sec(L1, 0.1))
 # Kameras
 PH = rot(DF, -0.04, 0.3)
-PHONE_W = (D1[0] + PH[0], 1.12, D1[1] + PH[1])
+PHONE_W = (D1[0] + PH[0], 1.22, D1[1] + PH[1])
 cutB = r3(mp0 + sec(L1, 0.45))
 cutC = r3(sh0 - sec(L1, 0.5))
 cutD = r3(call0 + sec(L1, 0.05))
 cutE = pol0
-SHO = rot(DF, -0.4, -0.1)
+# Nahaufnahme Handy: Kamera vor dem Bildschirm (zwischen Brust und Handy, von oben), Bildschirm-Normale = zum Dummy + 70° nach oben
+def PCAM(d):
+    n = (math.sin(math.radians(PHF)) * math.cos(math.radians(45)), math.sin(math.radians(45)), -math.cos(math.radians(PHF)) * math.cos(math.radians(45)))
+    return [PHONE_W[0] + n[0] * d, PHONE_W[1] + n[1] * d, PHONE_W[2] + n[2] * d]
 exp1 = {
  'camera': [cam(0, [4.6, 1.9, -3.9], [-0.05, 0.8, 0.0]), cam(r3(cutB - 0.004), [4.3, 1.85, -3.5], [-0.05, 0.85, 0.3]),
-            cam(cutB, [D1[0] + SHO[0], 2.35, D1[1] + SHO[1]], [PHONE_W[0], PHONE_W[1] - 0.02, PHONE_W[2]], 30),
-            cam(r3(cutC - 0.004), [D1[0] + SHO[0] + 0.02, 2.3, D1[1] + SHO[1] - 0.04], [PHONE_W[0], PHONE_W[1] - 0.02, PHONE_W[2]], 30),
+            cam(cutB, PCAM(0.95), PHONE_W), cam(r3(cutC - 0.004), PCAM(0.85), PHONE_W),
             cam(cutC, [1.1, 2.9, 7.0], [0.1, 0.55, -2.4]), cam(r3(cutD - 0.004), [1.05, 2.85, 6.6], [0.1, 0.55, -2.4]),
             cam(cutD, [3.6, 1.8, 4.6], [-0.1, 0.95, 0.6]), cam(r3(cutE - 0.004), [3.45, 1.8, 4.4], [-0.1, 0.95, 0.6]),
             cam(cutE, [6.2, 3.6, 5.6], [-0.1, 0.45, -0.3]), cam(1, [5.9, 3.45, 5.2], [-0.1, 0.45, -0.3])],
@@ -249,7 +252,7 @@ pist3 = [lying(0), lying(r3(grab3 - sec(L3, 0.05))),
          K(up3, PS[0], PS[1], 'park', **HELD, hand=1), K(r3(fd0 + sec(L3, 0.4)), PS[0], PS[1], 'park', **FIDD, hand=1), K(1, PS[0], PS[1], 'park', **FIDD, hand=1)]
 exp3 = {
  'camera': [cam(0, [4.3, 1.8, -3.4], [0.05, 0.75, -0.4]), cam(r3(up3 - 0.004), [4.0, 1.75, -3.1], [0.1, 0.75, -0.6]),
-            cam(up3, [3.2, 1.6, -2.7], [0.2, 0.85, -0.8]), cam(fz3, [3.0, 1.57, -2.55], [0.2, 0.85, -0.8]), cam(1, [2.9, 1.56, -2.45], [0.2, 0.85, -0.8])],
+            cam(up3, [1.0, 1.45, -4.3], [0.25, 0.95, -0.8]), cam(fz3, [0.96, 1.43, -4.0], [0.25, 0.95, -0.8]), cam(1, [0.94, 1.42, -3.88], [0.25, 0.95, -0.8])],
  'actors': {'dummy': dummy3, 'pistole': pist3},
  'freeze': fz3,
  'sfx': [{'t': r3(pk3 + sec(L3, 0.4)), 'id': 'laub-rascheln', 'volume': 0.4}],
