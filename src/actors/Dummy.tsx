@@ -1959,7 +1959,7 @@ const pistolPose = (motion: Motion, time: number): DummyPose | null => {
  *  - filmphone:  hebt ein Handy (quer) mit beiden Händen vor das Gesicht (bis 0,6 s) und filmt, Blick aufs Display; mit Weg über
  *                Zeitpunkte = kleine Schlurf-Schritte (rutscht unbemerkt Richtung Kante). Handy-Objekt "filmhandy" mit "hand" 1.
  */
-export const FILM_SPOT: P3 = [-0.06, 1.42, 0.36];
+export const FILM_SPOT: P3 = [-0.05, 1.56, 0.44];
 const platformPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
   const breathe = Math.sin(time * 2.2) * 0.012;
   switch (motion) {

@@ -347,7 +347,7 @@ export const SoundWaves = ({time, visible, left = false, size = 0}: {time: numbe
 export const FilmPhone = ({time = 0}: {time?: number}) => {
   const m = useMemo(
     () => ({
-      body: std('#1b1d21', {roughness: 0.4, metalness: 0.4}),
+      body: std('#2f6fd6', {roughness: 0.4, metalness: 0.2}),
       screen: new THREE.MeshBasicMaterial({color: '#7c8f9e'}),
       track: new THREE.MeshBasicMaterial({color: '#4a4f55'}),
       plat: new THREE.MeshBasicMaterial({color: '#b9b7b0'}),

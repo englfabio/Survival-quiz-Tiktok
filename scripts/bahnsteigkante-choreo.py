@@ -58,7 +58,7 @@ LINE = 0.8                 # weiße Linie (Mitte, 0,2 m breit)
 DX = 0.0
 DZ_EDGE = 0.36             # Dummy ganz vorn an der Kante (Fußspitzen ca. 0,2 m vor der Kante)
 DZ_SAFE = 1.9              # Dummy deutlich hinter der weißen Linie
-CUP = (-1.3, 0.17)         # Becher an der Kante
+CUP = (-2.2, 0.17)         # Becher an der Kante
 TZ = -1.75                 # Gleis 3 (Mitte)
 TRAIN_LEN = 5 * 17.5 + 4 * 0.55
 WAVES = (-2.22, 3.48, 2.15)  # Schallwellen rechts neben dem Lautsprecher-Trichter (-2.45, 3.55, 2.42)
@@ -120,8 +120,10 @@ sog2 = [K(0, DX, 0.55, 'park', 0, wind=0, drift=0.5), K(sec(L2, 1.6), DX, 0.55, 
 dummy2 = [K(0, DX, DZ_EDGE, 'edgelean', 0, wind=0, **DUMMY_LOOK), K(sec(L2, 1.8), DX, DZ_EDGE, 'edgelean', 0, wind=0, drift=0.5),
           K(fz2, DX, DZ_EDGE, 'edgelean', 0, wind=0.8), K(1, DX, DZ_EDGE, 'edgelean', 0, wind=0.8)]
 check_safe('Option 2', DZ_EDGE, NOSE2)
+cut2 = r3(sec(L2, 1.9))   # Schnitt: Profil an der Kante, Zug kommt im Hintergrund
 exp2 = {
- 'camera': [cam(0, [13.1, 3.45, 3.3], [-8.39, 0.0, -0.59]), cam(fz2, [12.51, 3.31, 3.1], [-8.39, 0.0, -0.59]), cam(1, [12.1, 3.25, 3.0], [-8.39, 0.02, -0.59])],
+ 'camera': [cam(0, [13.1, 3.45, 3.3], [-8.39, 0.0, -0.59]), cam(r3(cut2 - 0.004), [12.7, 3.36, 3.15], [-8.39, 0.0, -0.59]),
+            cam(cut2, [4.6, 1.5, 1.2], [-6.0, 0.7, -0.6]), cam(fz2, [4.35, 1.48, 1.12], [-6.0, 0.7, -0.6]), cam(1, [4.2, 1.47, 1.08], [-6.0, 0.7, -0.6])],
  'actors': {'dummy': dummy2, 'zug': train_keys(L2, NOSE2, fz2, V2), 'sog': sog2, 'becher': [cup()]},
  'freeze': r3(fz2),
  'sfx': [{'t': r3(sec(L2, 0.4)), 'id': 'zug-naht', 'volume': 0.55}, {'t': r3(fz2 - sec(L2, 1.6)), 'id': 'wind-sog', 'volume': 0.45}],
@@ -137,7 +139,7 @@ P30 = (0.35, 1.0)        # startet auf/an der weißen Linie
 P31 = (-0.2, 0.42)       # beim Einfrieren: ganz vorn, aber noch auf dem Bahnsteig
 dummy3 = [K(0, P30[0], P30[1], 'filmphone', F3, wind=0, **DUMMY_LOOK), K(sec(L3, 0.7), P30[0], P30[1], 'filmphone', F3),
           K(fz3, P31[0], P31[1], 'filmphone', F3, wind=0.55, drift=0.4), K(1, P31[0], P31[1], 'filmphone', F3)]
-phone3 = [K(0, P30[0], P30[1], 'park', (F3 + 180) % 360, hand=1, drop=0)]
+phone3 = [K(0, P30[0], P30[1], 'park', (F3 + 180) % 360, hand=1, drop=-0.05)]
 sog3 = [K(0, P31[0], 0.6, 'park', 0, wind=0, drift=0.4), K(sec(L3, 2.2), P31[0], 0.6, 'park', 0, wind=0), K(fz3, P31[0], 0.6, 'park', 0, wind=0.7),
         K(1, P31[0], 0.6, 'park', 0, wind=0.7)]
 check_safe('Option 3', P31[1], NOSE3, P31[0])
@@ -145,13 +147,16 @@ check_safe('Option 3', P31[1], NOSE3, P31[0])
 fw = (math.sin(math.radians(F3)), -math.cos(math.radians(F3)))
 rt = (math.cos(math.radians(F3)), math.sin(math.radians(F3)))   # rechts vom Dummy
 cut3 = r3(sec(L3, 2.3))
-def osh(p, back=0.5, side=0.62, h=1.78):
-    return [p[0] - fw[0] * back + rt[0] * side, h, p[1] - fw[1] * back + rt[1] * side]
+_a = math.radians(55)
+_d = (fw[0] * math.cos(_a) + rt[0] * math.sin(_a), fw[1] * math.cos(_a) + rt[1] * math.sin(_a))
+def osh(p, dist=5.0, h=1.5):
+    """halbnah schräg von vorn rechts (Kamera über dem Gleis): Dummy filmt, Blick aufs Handy"""
+    return [p[0] + _d[0] * dist, h, p[1] + _d[1] * dist]
 def oshl(p):
-    return [p[0] + fw[0] * 1.36 - rt[0] * 0.05, 1.2, p[1] + fw[1] * 1.36 - rt[1] * 0.05]
+    return [p[0], 0.9, p[1]]
 P3c = (P30[0] + (P31[0] - P30[0]) * 0.35, P30[1] + (P31[1] - P30[1]) * 0.35)
 exp3 = {
- 'camera': [cam(0, osh(P30), oshl(P30)), cam(r3(cut3 - 0.004), osh(P3c, 0.56), oshl(P3c)),
+ 'camera': [cam(0, osh(P30), oshl(P30)), cam(r3(cut3 - 0.004), osh(P3c, 4.8), oshl(P3c)),
             cam(cut3, [12.5, 3.7, 3.45], [-6.05, 0.24, -0.13]), cam(fz3, [12.0, 3.6, 3.3], [-6.05, 0.24, -0.13]), cam(1, [11.6, 3.52, 3.2], [-6.05, 0.26, -0.13])],
  'actors': {'dummy': dummy3, 'filmhandy': phone3, 'zug': train_keys(L3, NOSE3, fz3, V3), 'sog': sog3, 'becher': [cup()]},
  'freeze': r3(fz3),
@@ -176,7 +181,7 @@ tail_t = r3(pass_x0 + sec(L1, TRAIN_LEN / V1))
 cup_t = r3(pass_x0 + sec(L1, CUP[0] / V1 + 0.03))
 dummy1 = [K(0, DX, DZ_EDGE, 'edgelean', 0, wind=0, **DUMMY_LOOK), K(hb0, DX, DZ_EDGE, 'hurryback', 0), K(hb1, DX, DZ_SAFE, 'hurryback', 0),
           K(r3(hb1 + 0.002), DX, DZ_SAFE, 'brace', 0), K(r3(pass_x0 - sec(L1, 0.25)), DX, DZ_SAFE, 'brace', 0, wind=0, drift=0.8),
-          K(r3(pass_x0 + sec(L1, 0.25)), DX, DZ_SAFE, 'brace', 0, wind=0.38), K(tail_t, DX, DZ_SAFE, 'brace', 0, wind=0.32),
+          K(r3(pass_x0 + sec(L1, 0.25)), DX, DZ_SAFE, 'brace', 0, wind=0.5), K(tail_t, DX, DZ_SAFE, 'brace', 0, wind=0.45),
           K(r3(tail_t + sec(L1, 0.8)), DX, DZ_SAFE, 'brace', 0, wind=0), K(1, DX, DZ_SAFE, 'brace', 0)]
 # Kopf folgt dem Zug: "brace" dreht den Kopf 0,8–2,6 s nach Beginn von links nach rechts → Beginn so legen, dass die Nase in der Mitte ist
 sog1 = [K(0, DX + 0.8, 0.5, 'park', 0, wind=0, drift=0.85, size=0.3), K(r3(pass_x0 - sec(L1, 0.35)), DX + 0.8, 0.5, 'park', 0, wind=0),
@@ -184,9 +189,9 @@ sog1 = [K(0, DX + 0.8, 0.5, 'park', 0, wind=0, drift=0.85, size=0.3), K(r3(pass_
         K(r3(tail_t + sec(L1, 0.7)), DX + 0.8, 0.5, 'park', 0, wind=0), K(1, DX + 0.8, 0.5, 'park', 0, wind=0)]
 cup1 = [cup(0), cup(r3(cup_t - 0.002)),
         K(cup_t, CUP[0], CUP[1], 'toss', 0, y=0.0),
-        K(r3(cup_t + sec(L1, 0.15)), CUP[0] + 0.4, 0.07, 'toss', 0, y=0.9),
-        K(r3(cup_t + sec(L1, 0.4)), CUP[0] + 1.9, 0.04, 'toss', 0, y=2.0),
-        K(r3(cup_t + sec(L1, 0.9)), CUP[0] + 14.0, 0.03, 'toss', 0, y=2.7),
+        K(r3(cup_t + sec(L1, 0.15)), CUP[0] + 0.4, 0.07, 'toss', 0, y=1.1),
+        K(r3(cup_t + sec(L1, 0.4)), CUP[0] + 1.6, 0.04, 'toss', 0, y=2.3),
+        K(r3(cup_t + sec(L1, 0.9)), CUP[0] + 14.0, 0.03, 'toss', 0, y=2.8),
         K(r3(cup_t + sec(L1, 0.902)), CUP[0] + 20.0, 0.03, 'park', 0, y=HIDE), K(1, CUP[0] + 20.0, 0.03, 'park', 0, y=HIDE)]
 SIGN = (7.5, TZ)
 sign1 = [K(0, SIGN[0], SIGN[1], 'park', 0, y=HIDE), K(r3(c_ober - sec(L1, 0.15) - 0.002), SIGN[0], SIGN[1], 'park', 0, y=HIDE),

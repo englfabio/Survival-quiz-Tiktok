@@ -969,8 +969,8 @@ const StationScene = ({full, platform = false}: {full: boolean; platform?: boole
         <meshStandardMaterial color={C.edge} roughness={0.8} />
       </mesh>
       <mesh position={[0, 0.006, STATION.lineZ]}>
-        <boxGeometry args={[140, 0.012, platform ? 0.2 : 0.12]} />
-        <meshStandardMaterial color={C.line} emissive="#ffffff" emissiveIntensity={platform ? 0.55 : 0.15} />
+        <boxGeometry args={[140, 0.014, platform ? 0.25 : 0.12]} />
+        <meshStandardMaterial color={C.line} emissive="#ffffff" emissiveIntensity={platform ? 0.85 : 0.15} />
       </mesh>
       <mesh position={[0, -0.002, 1.15]}>
         <boxGeometry args={[140, 0.012, 0.3]} />
@@ -980,7 +980,7 @@ const StationScene = ({full, platform = false}: {full: boolean; platform?: boole
       {/* Fläche zwischen Kante und Fliesen */}
       <mesh position={[0, -0.012, 0.95]}>
         <boxGeometry args={[140, 0.02, 1.1]} />
-        <meshStandardMaterial color="#b9b7b0" roughness={0.95} />
+        <meshStandardMaterial color={platform ? '#9c9a94' : '#b9b7b0'} roughness={0.95} />
       </mesh>
       {/* Gleisbett */}
       <mesh position={[0, STATION.trackY, (STATION.farPlat[1] + 0) / 2]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>

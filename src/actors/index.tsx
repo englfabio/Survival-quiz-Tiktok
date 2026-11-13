@@ -441,7 +441,11 @@ export const Actor = ({
           <PlasticCup size={v.size} />
         </group>
       )}
-      {name === 'filmhandy' && <FilmPhone time={zt} />}
+      {name === 'filmhandy' && (
+        <group scale={1.5}>
+          <FilmPhone time={zt} />
+        </group>
+      )}
       {name === 'sog' && <SuctionWind time={zt} wind={v.wind} drift={v.drift} width={1.8 * (1 + v.size)} />}
       {name === 'kaenguru' && <Kangaroo pose={kangarooPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} />}
       {name === 'zahn' && (
