@@ -145,6 +145,14 @@ export type Motion =
   | 'handover' // Figur: reicht mit der rechten Hand etwas nach vorn (bis 0,6 s)
   | 'tapewalk' // Figur: geht und rollt mit rechts Absperrband ab (Rolle seitlich vor sich)
   | 'listen' // Figur: steht, hört zu, nickt leicht, Hände vor dem Bauch
+  // ---- Fundstück im Wald (Pistole) ----
+  | 'spotpoint' // Dummy: erschrocken stehen bleiben, mit rechts auf den Boden ca. 1 m vor sich zeigen
+  | 'pickup' // Dummy: hinknien, Gegenstand ca. 0,52 m vor sich aufheben (Griff 0,9 s), aufstehen, vor sich halten (bis 2 s)
+  | 'pocket' // Dummy: Gegenstand in die rechte Jackentasche stecken (Hand dort bei 0,7 s)
+  | 'fiddle' // Dummy: hält etwas mit beiden Händen vor dem Bauch und fummelt daran herum
+  | 'stepback' // Dummy: einen Schritt zurücktreten (Weg über Zeitpunkte), Hände vorsichtig gehoben
+  | 'markphone' // Dummy: Handy vor der Brust, tippt mit links (Standort markieren)
+  | 'stophand' // Figur: hebt die linke Hand nach vorn – "Stopp!"
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
@@ -293,12 +301,24 @@ export type ActorKey = {
   window2?: number;
   /** Koffer: Teleskopgriff 0 = eingefahren … 1 = ausgezogen */
   handle?: number;
+  /** Pistole: liegt auf der Seite 0 = aufrecht … 1 = auf der Seite */
+  side?: number;
+  /** Pistole: Laubblätter darauf 0 … 1 */
+  leaves?: number;
+  /** Karten-Handy: roter Pin fällt 0 … 1 (ab 1: "Fundort gespeichert") */
+  pin?: number;
+  /** Figur mit Dummy-Körper: gelbes Fragezeichen über dem Kopf 0 … 1 */
+  question?: number;
+  /** Polizeiauto: Blaulicht 1 = an */
+  blue?: number;
+  /** Hund: Leine zur rechten Hand der Figur in "holder" (Standard "nachbar") 1 = an */
+  leash?: number;
   /** Gegenstand mit "hand": in wessen rechter Hand (Figur mit Dummy-Körper, z. B. "kumpel", "bundespolizist"). Standard "dummy". Gilt ab diesem Zeitpunkt weiter */
   holder?: string;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

@@ -45,7 +45,8 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs',
   'wallpress', 'clench', 'bedsitdown', 'sitbreathe', 'uneasy', 'holdstrap', 'float', 'appear', 'shrink', 'spout',
   'magthrow', 'haul', 'startle', 'lowerset', 'unhook', 'holdgren', 'windup', 'placeseat',
-  'lookaround', 'bendopen', 'grabcase', 'pointtalk', 'sheepish', 'handover', 'listen'];
+  'lookaround', 'bendopen', 'grabcase', 'pointtalk', 'sheepish', 'handover', 'listen',
+  'spotpoint', 'pickup', 'pocket', 'fiddle', 'stepback', 'markphone', 'stophand'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -62,6 +63,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'wallpress', 'clench', 'bedsitdown', 'sitbreathe', 'uneasy', 'holdstrap',
   'magthrow', 'haul', 'startle', 'lowerset', 'unhook', 'holdgren', 'windup', 'placeseat',
   'lookaround', 'bendopen', 'grabcase', 'rollcase', 'pointtalk', 'sheepish', 'handover', 'tapewalk', 'listen',
+  'spotpoint', 'pickup', 'pocket', 'fiddle', 'stepback', 'markphone', 'stophand',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */

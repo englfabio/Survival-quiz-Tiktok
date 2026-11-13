@@ -34,6 +34,12 @@ export type ForestConfig = {
   Extras?: () => ReactElement | null;
   /** Bereiche ohne Gras/Büsche (z. B. unter dem Stein) */
   keepClear?: {x: number; z: number; r: number}[];
+  /** Eigene Bodenhöhe (z. B. flach unter einer Straße). Standard: leichte Bodenwellen abseits des Weges */
+  ground?: (x: number, z: number) => number;
+  /** Steine, Büsche, Gras nur dort, wo diese Funktion true liefert */
+  decoAllowed?: (x: number, z: number) => boolean;
+  /** Weg nur zwischen diesen z-Werten zeichnen (Standard: überall) */
+  pathRange?: [number, number];
 };
 
 const C = {
@@ -67,11 +73,12 @@ const makeIsFree = (cfg: ForestConfig) => (x: number, z: number, margin: number)
   if (Math.abs(x - pathX(z)) < cfg.pathHalf + margin) return false;
   for (const t of CLIMB_TREES) if (Math.hypot(x - t.x, z - t.z) < 2.2) return false;
   for (const k of cfg.keepClear ?? []) if (Math.hypot(x - k.x, z - k.z) < k.r + margin * 0.5) return false;
+  if (cfg.decoAllowed && !cfg.decoAllowed(x, z)) return false;
   return true;
 };
 
 /** Leichte Bodenwellen – flach in der Nähe des Weges */
-const groundHeight = (x: number, z: number) => {
+const baseGroundHeight = (x: number, z: number) => {
   const d = Math.abs(x - pathX(z));
   const k = Math.min(1, Math.max(0, (d - 3) / 10));
   return k * (Math.sin(x * 0.18) * Math.cos(z * 0.14) * 1.2 + Math.sin(x * 0.5 + z * 0.3) * 0.25);
@@ -103,7 +110,7 @@ export const Sky = ({c}: {c: Pick<ForestColors, 'skyTop' | 'skyHorizon'>}) => {
 };
 
 // ---------- Boden + Weg ----------
-const Ground = ({c}: {c: ForestColors}) => {
+const Ground = ({c, gh = baseGroundHeight}: {c: ForestColors; gh?: (x: number, z: number) => number}) => {
   const geo = useMemo(() => {
     const g = new THREE.PlaneGeometry(220, 220, 90, 90);
     g.rotateX(-Math.PI / 2);
@@ -115,7 +122,7 @@ const Ground = ({c}: {c: ForestColors}) => {
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i);
       const z = pos.getZ(i);
-      pos.setY(i, groundHeight(x, z) - 0.02);
+      pos.setY(i, gh(x, z) - 0.02);
       const c = a.clone().lerp(b, r() * 0.6);
       colors.push(c.r, c.g, c.b);
     }
@@ -123,7 +130,7 @@ const Ground = ({c}: {c: ForestColors}) => {
     const ng = g.toNonIndexed();
     ng.computeVertexNormals();
     return ng;
-  }, [c]);
+  }, [c, gh]);
   return (
     <mesh geometry={geo} receiveShadow>
       <meshStandardMaterial vertexColors flatShading roughness={1} />
@@ -131,7 +138,7 @@ const Ground = ({c}: {c: ForestColors}) => {
   );
 };
 
-const Path = ({c, half}: {c: ForestColors; half: number}) => {
+const Path = ({c, half, range}: {c: ForestColors; half: number; range?: [number, number]}) => {
   const geo = useMemo(() => {
     const r = rng(11);
     const verts: number[] = [];
@@ -139,7 +146,7 @@ const Path = ({c, half}: {c: ForestColors; half: number}) => {
     const ca = new THREE.Color(c.path);
     const cb = new THREE.Color(c.pathDark);
     const zs: number[] = [];
-    for (let z = -110; z <= 110; z += 1.2) zs.push(z);
+    for (let z = range?.[0] ?? -110; z <= (range?.[1] ?? 110); z += 1.2) zs.push(z);
     const rows = zs.map((z) => {
       const cx = pathX(z);
       const w = half + (r() - 0.5) * 0.35 * (half / PATH_HALF);
@@ -168,7 +175,7 @@ const Path = ({c, half}: {c: ForestColors; half: number}) => {
     g.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     g.computeVertexNormals();
     return g;
-  }, [c, half]);
+  }, [c, half, range]);
   return (
     <mesh geometry={geo} receiveShadow>
       <meshStandardMaterial vertexColors flatShading roughness={1} />
@@ -219,6 +226,7 @@ export const Instances = ({
 const useForestLayout = (cfg: ForestConfig) =>
   useMemo(() => {
     const C = cfg.colors;
+    const groundHeight = cfg.ground ?? baseGroundHeight;
     const isFree = makeIsFree(cfg);
     const r = rng(42);
     const pick = <T,>(arr: T[]) => arr[Math.floor(r() * arr.length)];
@@ -291,6 +299,7 @@ const useForestLayout = (cfg: ForestConfig) =>
       const x = pathX(z) + (r() - 0.5) * 50;
       if (Math.abs(x - pathX(z)) < cfg.pathHalf + 0.1) continue;
       if ((cfg.keepClear ?? []).some((k) => Math.hypot(x - k.x, z - k.z) < k.r)) continue;
+      if (cfg.decoAllowed && !cfg.decoAllowed(x, z)) continue;
       const s = G.minH + r() * (G.maxH - G.minH);
       grass.push({pos: [x, groundHeight(x, z), z], scale: [s * 0.5, s, s * 0.5], rotY: r() * 6, color: pick(G.colors)});
     }
@@ -317,6 +326,8 @@ const useForestLayout = (cfg: ForestConfig) =>
     }
     return {trunks, pineLayers, crowns, rocks, bushes, grass, heather};
   }, [cfg]);
+
+const groundHeight = baseGroundHeight;
 
 const ClimbTree = ({x, z, r, C}: {x: number; z: number; r: number; C: ForestColors}) => (
   <group position={[x, 0, z]}>
@@ -386,8 +397,8 @@ const ForestScene = ({cfg}: {cfg: ForestConfig}) => {
         shadow-bias={-0.0006}
         shadow-normalBias={0.03}
       />
-      <Ground c={C} />
-      <Path c={C} half={cfg.pathHalf} />
+      <Ground c={C} gh={cfg.ground} />
+      <Path c={C} half={cfg.pathHalf} range={cfg.pathRange} />
       <Instances geometry={geos.trunk} items={L.trunks} />
       <Instances geometry={geos.cone} items={L.pineLayers} />
       <Instances geometry={geos.crown} items={L.crowns} />
@@ -411,7 +422,7 @@ export const makeForestStage = (id: string, cfg: ForestConfig, ambience = 'wald-
     id,
     Component,
     climbTrees: cfg.showClimbTree ? CLIMB_TREES : [],
-    groundHeight,
+    groundHeight: cfg.ground ?? groundHeight,
     ambience,
   };
 };

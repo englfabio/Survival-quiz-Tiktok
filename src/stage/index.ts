@@ -9,6 +9,7 @@ import {dentalStage} from './Dental';
 import {bedroomStage, elevatorStage, trainStage} from './Bedroom';
 import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
+import {autumnForestStage, streetStage} from './AutumnForest';
 import {gardenStage} from './Garden';
 import {graveyardStage} from './Graveyard';
 import {lakeStage} from './Lake';
@@ -41,4 +42,6 @@ export const STAGES: Record<string, StageDef> = {
   kanal: canalStage,
   bahnhof: stationStage,
   'bahnhof-voll': stationFullStage,
+  waldherbst: autumnForestStage,
+  waldstrasse: streetStage,
 };

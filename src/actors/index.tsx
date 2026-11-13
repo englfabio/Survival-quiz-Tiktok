@@ -14,6 +14,7 @@ import {Basin} from './Basin';
 import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dummy';
 import {Grenade, Magnet} from './MagnetProps';
 import {Bill, CordonTape, Suitcase, TapeRoll} from './StationProps';
+import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
 import type {Uniform} from './Dummy';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
 import {Whale, whalePose} from './Whale';
@@ -110,6 +111,13 @@ export const ACTORS = {
   koffer: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
   absperrband: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
   rechnung: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Fundstück im Wald (Pistole) ----
+  pistole: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  kartenhandy: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  polizeiauto: {height: 0.9, climbOffset: 0.3, speedLineHeight: 0.7},
+  hund: {height: 0.5, climbOffset: 0, speedLineHeight: 0.4},
+  polizist: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  polizistin: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -125,13 +133,18 @@ const DOCTOR_COLOR = '#2fae9c';
 /** Körperfarbe des Kumpels (zweiter Crashtest-Dummy, orange – für alle Szenen, in denen man jemandem hilft) */
 const BUDDY_COLOR = '#f07a1e';
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin'];
 /** Bahnmitarbeiterin: Körper hellgrau-lila, Uniform weinrot/grau mit rotem Halstuch + Zopf (ohne Logo) */
 const STAFF_COLOR = '#b9a6d6';
 const STAFF_UNIFORM: Uniform = {jacket: '#7b1f35', dark: '#4e1222', collar: '#e9e6e1', pants: '#3c4048', cap: '#7b1f35', band: '#3c4048', scarf: '#d8b23a', hair: '#5a3622'};
 /** Bundespolizist: Körper hellgrau, stilisierte dunkelblaue Uniform (ohne echte Abzeichen) */
 const POLICE_COLOR = '#aeb8c4';
 const POLICE_UNIFORM: Uniform = {jacket: '#1e2b4a', dark: '#121a2e', collar: '#8fb0d6', pants: '#1a2440', cap: '#1e2b4a', band: '#8fb0d6', trim: '#2c3d63'};
+/** Polizistin: gleiche Uniform, Zopf */
+const POLICE_UNIFORM_W: Uniform = {...POLICE_UNIFORM, hair: '#6b4a2a'};
+/** Polizist/Polizistin (Streife): Körperfarben */
+const POLICE2_COLOR = '#b9c3cc';
+const POLICE3_COLOR = '#c9b8a8';
 
 /** Zahn: Drehung im Flug (rad/s) */
 const TOOTH_SPIN = 13;
@@ -145,7 +158,7 @@ const SNAKE_SCALE = 1.2;
 export type ActorName = keyof typeof ACTORS;
 
 /** Fertig berechnete Figur: Zustand + Lage in der Welt */
-export type ResolvedActor = {name: string; state: ActorState; matrix: THREE.Matrix4; pos: THREE.Vector3; text?: string; hand?: THREE.Vector3};
+export type ResolvedActor = {name: string; state: ActorState; matrix: THREE.Matrix4; pos: THREE.Vector3; text?: string; hand?: THREE.Vector3; leashTo?: THREE.Vector3};
 
 /** Position einer Figur (inkl. "am Baum kleben" beim Klettern und Bodenhöhe) */
 const placeOnStage = (name: string, s: ActorState, stage: StageDef) => {
@@ -294,7 +307,14 @@ export const resolveActors = (
     }
     let text: string | undefined;
     for (const k of keys) if (k.t <= t + 1e-6 && k.text !== undefined) text = k.text;
-    done.set(name, {name, state: s, matrix, pos, text, hand});
+    // Hund an der Leine: Ziel = rechte Hand der Figur in "holder" (Standard "nachbar")
+    let leashTo: THREE.Vector3 | undefined;
+    if (name === 'hund' && s.values.leash > 0.5) {
+      let lh = 'nachbar';
+      for (const k of keys) if (k.t <= t + 1e-6 && k.holder !== undefined) lh = k.holder;
+      leashTo = hands.get(lh);
+    }
+    done.set(name, {name, state: s, matrix, pos, text, hand, leashTo});
   }
   return entries.map(([name]) => done.get(name)!);
 };
@@ -335,6 +355,12 @@ export const Actor = ({
         <QuestionMark amount={Math.min(1, state.motionTime / 0.5)} />
       </group>
     )}
+    {DUMMY_LIKE.includes(name) && v.question > 0.01 && (
+      <group position={qPos} quaternion={billboard(qPos, camPos)}>
+        <QuestionMark amount={v.question} />
+      </group>
+    )}
+    {name === 'hund' && actor.leashTo && <Leash a={DOG_COLLAR.clone().applyMatrix4(matrix)} b={actor.leashTo} />}
     {name === 'dummy' && v.heart > 0.01 && (
       <group position={heartPos} quaternion={billboard(heartPos, camPos)}>
         <HeartBadge phase={state.heartPhase ?? 0} rate={v.heart} amount={clamp(v.heart / 0.3, 0, 1)} />
@@ -507,6 +533,20 @@ export const Actor = ({
         </>
       )}
       {name === 'koffer' && <Suitcase handle={v.handle} tilt={v.tilt} />}
+      {name === 'pistole' && <Pistol tilt={v.tilt} side={v.side} leaves={v.leaves} size={v.size} />}
+      {name === 'kartenhandy' && (
+        <group rotation={[deg(-v.tilt), 0, 0]}>
+          <MapPhone pin={v.pin} size={v.size} />
+        </group>
+      )}
+      {name === 'polizeiauto' && <PoliceCar pose={carPose(state.motion, state.motionTime, state.speed)} blue={v.blue} time={clock} />}
+      {name === 'hund' && <Dog pose={dogPose(state.motion, state.motionTime, state.speed)} />}
+      {name === 'polizist' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE2_COLOR} uniform={POLICE_UNIFORM} />
+      )}
+      {name === 'polizistin' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE3_COLOR} uniform={POLICE_UNIFORM_W} />
+      )}
       {name === 'absperrband' && <CordonTape fill={v.fill} size={v.size} />}
       {name === 'rechnung' && <Bill size={v.size} />}
       {name === 'zitteraal' && <ZitterAal motion={state.motion} time={state.motionTime} zap={v.zap} zt={zt} />}

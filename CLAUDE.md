@@ -61,6 +61,7 @@ Der Durchlauf-Modus gilt ab jetzt für **jedes** Video, auch wenn er im Prompt n
 Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber gewünscht).
 - magnetfischen-granate → 2. Push
 - herrenloser-koffer → 3.
+- pistole-wald → 1. Push
 
 ## Das Format (Ablauf eines Videos)
 

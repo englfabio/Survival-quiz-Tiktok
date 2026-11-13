@@ -1838,6 +1838,110 @@ const stationPose = (motion: Motion, time: number, speed: number): DummyPose | n
   return null;
 };
 
+// ---------- Fundstück im Wald (Pistole) ----------
+/**
+ * Bewegungen für das Pistolen-Video (wiederverwendbar für alle Fundstücke):
+ *  - spotpoint:  beim Gehen erschrocken stehen bleiben (Zusammenzucken 0–0,3 s), mit rechts auf den Boden ca. 1 m vor sich zeigen,
+ *                linke Hand erschrocken vor der Brust, Blick nach unten
+ *  - pickup:     hinknien (bis 0,5 s), rechte Hand greift etwas am Boden ca. 0,52 m vor ihm (PICK_SPOT, Griff bei 0,9 s),
+ *                aufstehen (1,0–2,0 s) und es vor sich halten (HOLD_SPOT)
+ *  - pocket:     steckt den Gegenstand aus HOLD_SPOT in die rechte Jackentasche (POCKET_SPOT, Hand dort bei 0,7 s), Arm sinkt bis 1,3 s
+ *  - fiddle:     steht, hält etwas mit beiden Händen vor dem Bauch (rechts Griff bei FIDDLE_SPOT, links 0,1 m weiter links) und
+ *                fummelt daran herum, Blick nach unten
+ *  - stepback:   einen Schritt zurücktreten (Weg über Zeitpunkte, Schritt 0–0,9 s), Hände vorsichtig leicht gehoben, dann ruhig stehen
+ *  - markphone:  hält ein Handy mit rechts vor der Brust (PHONE_SPOT), tippt mit links darauf, Blick aufs Handy
+ *  - stophand:   hebt die linke Hand nach vorn – "Stopp, nicht weitergehen!" (Handfläche nach vorn), Kopf nach vorn
+ */
+export const PICK_SPOT: P3 = [-0.08, 0.06, 0.52];
+export const HOLD_SPOT: P3 = [-0.1, 1.05, 0.34];
+export const POCKET_SPOT: P3 = [-0.21, 0.86, 0.1];
+export const FIDDLE_SPOT: P3 = [-0.05, 1.0, 0.33];
+export const PHONE_SPOT: P3 = [-0.04, 1.14, 0.3];
+const pistolPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'spotpoint': {
+      const p = startleBody(time);
+      const k = easeInOut(clamp((time - 0.15) / 0.45));
+      const tr = Math.sin(time * 27) * 0.006;
+      p.headX = 0.25 + 0.3 * k;
+      p.torsoX += 0.08 * k;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.13 + tr, 0.72, 0.66], k), 0.4, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.1, 1.28 + tr, 0.2], easeInOut(clamp(time / 0.3))), 0.33, [0.8, -0.6, -0.5]);
+      return p;
+    }
+    case 'pickup': {
+      const kneel = kneelPose();
+      const k0 = easeInOut(clamp(time / 0.5));
+      const up = easeInOut(clamp((time - 1.0) / 1.0));
+      kneel.torsoX = 0.75;
+      kneel.headX = 0.45;
+      const p = mix(mix(base(), kneel, k0), base(), up);
+      p.headX = lerpN(0.45 * k0, 0.42, up);
+      const g = easeInOut(clamp(time / 0.9));
+      const rest: P3 = [-0.2, 0.55, 0.3];
+      reachR(p, time < 0.95 ? lerp3t(rest, PICK_SPOT, g) : lerp3t(PICK_SPOT, HOLD_SPOT, up), 0.36);
+      reachL(p, lerp3t([0.24, 0.6, 0.25], [0.2, 0.95, 0.15], up), 0.33);
+      return p;
+    }
+    case 'pocket': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.7));
+      const back = easeInOut(clamp((time - 0.8) / 0.5));
+      p.headX = lerpN(0.42, 0.1, back);
+      p.torsoX = breathe + 0.04 * k * (1 - back);
+      reachR(p, lerp3t(lerp3t(HOLD_SPOT, POCKET_SPOT, k), [-0.24, 0.9, 0.06], back), 0.33, [0.6, -1, -0.6]);
+      return p;
+    }
+    case 'fiddle': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.4));
+      const a = Math.sin(time * 9) * 0.012;
+      const b = Math.sin(time * 12.5 + 1) * 0.014;
+      p.headX = 0.48;
+      p.headY = Math.sin(time * 1.3) * 0.05;
+      p.torsoX = 0.08 + breathe;
+      reachR(p, lerp3t(HOLD_SPOT, [FIDDLE_SPOT[0] + a * 0.3, FIDDLE_SPOT[1] + b * 0.3, FIDDLE_SPOT[2]], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.15], [FIDDLE_SPOT[0] + 0.12 + a, FIDDLE_SPOT[1] + 0.035 + b, FIDDLE_SPOT[2] + 0.02], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'stepback': {
+      const p = base();
+      const u = clamp(time / 0.9);
+      const st = Math.sin(Math.PI * u);
+      p.legR = L3(0.38 * st, -0.05, 0.35 * st);
+      p.legL = L3(-0.12 * st, 0.05, 0.1 * st);
+      p.hipY = 0.98 - 0.03 * st;
+      const k = easeInOut(clamp(time / 0.35)) * (1 - 0.6 * easeInOut(clamp((time - 1.1) / 0.6)));
+      p.torsoX = -0.06 * k + breathe;
+      p.headX = 0.35;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.2, 1.12, 0.32], k), 0.33);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.2, 1.12, 0.32], k), 0.33);
+      return p;
+    }
+    case 'markphone': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const tap = time > 0.8 ? Math.max(0, Math.sin((time - 0.8) * 7)) * 0.02 : 0;
+      p.headX = 0.1 + 0.45 * k;
+      p.torsoX = 0.04 * k + breathe;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], PHONE_SPOT, k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [PHONE_SPOT[0] + 0.07, PHONE_SPOT[1] + 0.02, PHONE_SPOT[2] + 0.06 - tap], k), 0.3, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'stophand': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      const w = time > 0.5 ? Math.sin((time - 0.5) * 5) * 0.025 : 0;
+      p.headX = 0.05;
+      p.torsoX = -0.03 * k + breathe;
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.16, 1.48 + w, 0.56], k), 0.36, [0.8, -1, -0.2]);
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Rechte Hand (Handmitte) im Dummy-System (Ursprung am Boden, +z = vorn) – für Gegenstände mit "hand" */
 export const rightHandLocal = (p: DummyPose) =>
   armPoint(p.armR, -1, p.foreZ, 0.33)
@@ -1866,7 +1970,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
