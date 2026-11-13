@@ -159,6 +159,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Gehweg (z 5 … 7), Straße mit Mittellinie (z 7 … 13), gegenüber Gehweg, Hecken, vier Häuser (ab z 18), Straßenlaternen; Boden flach.
   Wald-Baukasten (`makeForestStage`) kann jetzt: eigene Bodenhöhe (`ground`), Weg nur in einem Bereich (`pathRange`), Deko-Sperrzonen (`decoAllowed`).
   Reisende als Bühnen-Bauteil mit Gehbewegung + optionalem Rollkoffer: `Passenger` in `src/stage/Station.tsx`.
+  Stadtpark in der Abenddämmerung (`park`, `src/stage/Park.tsx`, Atmo = `outback-atmo` = Grillen + Abendwind): Kiesweg entlang x (z −1 … 1),
+  Parkbank (0, −1.65) Blick +z (Bauteil `ParkBench`), Platz „neben der Bank“ `PARK.beside` (1.3, −1.55), Laternen an (Bauteil `ParkLantern`) bei z −1.45
+  (x −3.4, 4.2), Mülleimer, Bäume, Büsche, Häuser mit erleuchteten Fenstern, Abendrot; vorn (|x| < 11, z < 24) frei für Kameras.
+  Polizeiwache (`polizeiwache`, `src/stage/PoliceStation.tsx`, Atmo = `uhr-ticken`): Wachraum W 6.4 × D 5.4, Tresen (Bauteil `ServiceCounter`) x −2.2 … 2.2,
+  Platte 1,05 m, Vorderkante z −0.45; Tafel „POLIZEI“ (ohne Logo), Pinnwand, Uhr, Aktenschrank, Schreibtisch mit Bildschirm, Klingel, Schild „ANMELDUNG“,
+  Fenster mit Abendhimmel, Tür rechts (Eingang ca. (2.75, 0.75)), Wartestühle, Pflanze. Besucher vor dem Tresen z ≈ −0.15 (face 0), Beamter dahinter (0.1, −1.68, face 180).
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -203,7 +209,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   erschrocken stehen bleiben + auf den Boden zeigen (`spotpoint`), hinknien + etwas aufheben + vor sich halten (`pickup`), in die rechte Jackentasche
   stecken (`pocket`), mit beiden Händen an etwas herumfummeln (`fiddle`), einen Schritt zurücktreten (`stepback`), Handy vor der Brust + tippen
   (`markphone`), Stopp-Hand heben (`stophand`) – auch für Polizist/Polizistin/Nachbar;
-  vorhanden und wiederverwendet: langsam rückwärts weggehen (`retreat`), andere warnen (`warn`), telefonieren (`call`)
+  vorhanden und wiederverwendet: langsam rückwärts weggehen (`retreat`), andere warnen (`warn`), telefonieren (`call`);
+  Geldkoffer: kniend Koffer umkippen + aufklappen + erstarren (`opencase`), kniend umschauen (`kneellook`), Deckel zudrücken (`closecase`),
+  Koffer greifen + unter den linken Arm klemmen (`tuckcase`), geduckt schleichen mit Koffer unterm Arm (`sneak`), Bündel aus dem Koffer in die Jacke
+  stecken (`grabwads`, alle 1,5 s), mit Koffer in der Hand gehen/stehen (`carrycase`/`holdcase`, Koffer `hand` 1 + `drop` 0.4), Koffer auf den Tresen
+  heben (`setcounter`), am Tresen Formular ausfüllen (`fillform`, Kugelschreiber automatisch), jubeln (`cheer`). Achtung: Auf der Wache face 0 (zum Tresen).
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -218,6 +228,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   beides `src/effects/BodyHint.tsx`, liegt immer sichtbar über dem Körper)
 - **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen
 - **Fragezeichen über jeder Figur mit Dummy-Körper:** Wert `question` 0 … 1 (z. B. verwunderte Polizisten).
+- **Augenbrauen** (Figuren mit Dummy-Körper): Wert `brow` – ab 0,01 sichtbar, 1 = rechte Braue hochgezogen („Hm?“).
+- **Geldbündel in der Jacke** (Dummy mit `jacket` 1): Wert `stash` 0 … 3 = so viele Bündel schauen vorn aus der Jacke.
 - **Weitere Figuren:** Braunbär (`bear`: stand, alert, sniff, walk, run, climb), Kreuzotter (`snake`: coil, slither,
   strike), Petermännchen (`petermaennchen`: buried, finup, swimaway) – gleicher Low-Poly-Look wie der Dummy;
   Nachbar (`nachbar`: gleiche Figur wie der Dummy, aber blau – kann alle Dummy-Bewegungen),
@@ -295,6 +307,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `scripts/pistole-wald-choreo.py` prüft das rechnerisch (check_muzzle). Smartphone mit Karte (`kartenhandy`: Wert `pin` 0 … 1 = roter Karten-Pin
   fällt, ab 1 „Fundort gespeichert“; `tilt` = nach hinten kippen; in der Hand mit `hand` 1), Polizeiauto (`polizeiauto`: silber-blau, Aufschrift
   „POLIZEI“, keine Wappen/Logos, Blaulicht mit Wert `blue` 1; Bewegungen wie `car`).
+- **Objekte (Geld, `src/actors/MoneyProps.tsx`):** NUR stilisiertes Geld (helle Bündel, graue Banderole mit „€“, keine echten Scheine/Motive/
+  Seriennummern – Vorgabe des Inhabers). Silberner Metall-Aktenkoffer (`geldkoffer`: Ursprung = Boden-Mitte stehend, `tilt` 0 = steht, 90 = liegt
+  (Griff +z, Scharnier −z), `lid` 0 … 1 = offen, `money` 0 … 1 = wie voll; 24 Bündel in 3 Lagen; unterm Arm `"attach": "dummy", x 0.3, y 0.86, z 0.02,
+  face 90, tilt 0`), einzelnes Geldbündel (`geldbuendel`; beim Dummy `grabwads` automatisch in der Hand), Formular „FUNDANZEIGE“ (`formular`, `fill` 0 … 1
+  = ausgefüllt, `pen` 1 = Kugelschreiber daneben, `size`), Taschenrechner (`taschenrechner`, Text Standard „30.010 €“, `fill` 0 … 1 zählt hoch, `tilt`),
+  Kalenderblatt (`kalenderblatt`, Text Standard „6 Monate“, `show` springt auf), rundes rotes §-Schild (`paragraf`, Text Standard „§ 246“, `show`) –
+  beide schauen immer zur Kamera.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -310,7 +329,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald)
+  fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million)
 
 ## Stimme (ElevenLabs)
 
@@ -368,6 +387,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (geprüft), Kontrolle scribe_v2 (Option 1 + Erklärung 1 mit „110“): korrekt. Choreografie: `python3 scripts/pistole-wald-choreo.py`. Kein Schuss,
   kein Mündungsfeuer, Lauf nie auf Personen/Kamera; falsche Optionen frieren nur ein. Standbilder in review/pistole-wald/phase1/.
   Finales Video: review/final/pistole-wald.mp4.
+- Geldkoffer-Million: 1212 neue Zeichen (countdown/reveal aus Cache, laut ElevenLabs 485 Credits), Sprechzeit 88,2 s, Video 97,1 s. Kontrolle scribe_v2
+  (Erklärung 1 + 3 + Outro mit „500“ und „30.000“): korrekt. Choreografie: `python3 scripts/geldkoffer-choreo.py`. Geld nur stilisiert, kein Gefängnis-Drama
+  (Option 1: „§ 246“-Schild). Standbilder in review/geldkoffer-million/phase1/. Finales Video: review/final/geldkoffer-million.mp4.
+  Kamera-Planung: `scripts/fitcam.py` (`fit(punkte, az, el, fov, bildbereich)` sucht Abstand + Blickpunkt, damit alles in einen Bildbereich passt –
+  bei der richtigen Option liegt links oben die Schrittliste, also Geschehen rechts halten).
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -394,7 +418,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `herzschlag`, `wal-schnaufen`, `wal-ruf`, `plopp`, `schrumpfen`, `aufzug-summen` (Bühne Aufzug, Schleife), `aufzug-ding`, `bahn-atmo` (Bühne Bahn, Schleife) (Wal-Panikattacke);
   `magnet-platsch`, `seil-ziehen`, `kopfsteinpflaster` (Magnetfischen-Granate; Kanal nutzt `see-atmo`);
   `bahnhof-atmo` (Bühne Bahnhof, Schleife), `koffer-rollen`, `schnallen-klick`, `absperrband` (Herrenloser Koffer);
-  `laub-rascheln`, `hund-bellen` (Pistole im Wald).
+  `laub-rascheln`, `hund-bellen` (Pistole im Wald); Geldkoffer nutzt nur vorhandene Effekte.
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -587,7 +611,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche;
                       Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer;
                       Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Variante volle Halle) + Passenger-Figuren;
-                      AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub)
+                      AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
+                      PoliceStation.tsx = Polizeiwache mit Tresen)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -597,7 +622,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Küchenpapier/Oberschrank/Warndreieck, Whale.tsx = Wal, PanicProps.tsx = Kaltes Wasser/Coolpack/
                       Herz-Symbol, MagnetProps.tsx = Magnet/Granate/Seil, StationProps.tsx = Koffer/
                       Absperrband/Rechnung/Absperrband-Rolle, PistolProps.tsx = Pistole/Karten-Handy/
-                      Polizeiauto/Hund/Leine) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      Polizeiauto/Hund/Leine, MoneyProps.tsx = Geldkoffer/Bündel/Formular/Taschenrechner/
+                      Kalenderblatt/§-Schild) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
