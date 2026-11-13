@@ -195,7 +195,7 @@ DESC = ("Du hast mal wieder einen Spülmaschinentab gegessen – was machst du j
         "Giftnotruf Berlin (Charité), Erste Maßnahmen: https://giftnotruf.charite.de/fileadmin/user_upload/microsites/ohne_AZ/m_cc05/giftnotruf/pdf/Giftnotruf-Berlin-Info.pdf\n"
         "ADAC, Erste Hilfe bei Vergiftung: https://www.adac.de/gesundheit/gesund-unterwegs/vorsorge/erste-hilfe-bei-vergiftung/\n\n"
         "Giftnotruf z. B. Berlin: 030 19240. Im Notfall: 112.\n\n"
-        "#waswürdestdutun #erstehilfe #vergiftung #giftnotruf #mythos #wusstestdu #survival #quiz")
+        "#waswürdestdutun #erstehilfe #vergiftung #giftnotruf #mythos #wusstestdu #survival #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.")
 scen = {
  'id': ID, 'category': 'erste-hilfe', 'stage': 'wohnkueche',
  'situation': {'speech': S['situation'], 'hook': S['hook'], 'warning': S['warning']},

@@ -237,7 +237,7 @@ DESC = ("Du hast mal wieder gegen ein Känguru gekämpft – und jetzt liegt dei
         "AOK, Zahnunfall richtig handeln: https://www.aok.de/pk/magazin/koerper-psyche/zaehne/zahnunfall-von-kindern-richtig-und-schnell-handeln/\n"
         "proDente, Magazin Zahnunfall: https://www.prodente.de/media/online_shop/files/Magazin_Zahnunfall.pdf\n\n"
         "Kein Ersatz für zahnärztliche Behandlung. Im Notfall: 112.\n\n"
-        "#waswürdestdutun #känguru #zahnunfall #erstehilfe #wusstestdu #boxen #survival #quiz")
+        "#waswürdestdutun #känguru #zahnunfall #erstehilfe #wusstestdu #boxen #survival #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.")
 scen = {
  'id': ID, 'category': 'erste-hilfe', 'stage': 'outback',
  'situation': {'speech': S['situation'], 'hook': S['hook']},

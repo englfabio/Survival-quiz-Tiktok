@@ -249,7 +249,7 @@ DESC = ("Ein Wal ist mal wieder in deinem Zimmer, und du bekommst Platzangst –
         "Deutsche Angst-Hilfe e.V., Was tun bei Panikattacken?: https://www.angstselbsthilfe.de/wissen/selbsthilfe-bei-angststoerungen/was-tun-bei-panikattacken/\n"
         "ARS MEDICI, Angst, Panik und Hyperventilation: https://www.rosenfluh.ch/media/arsmedici/2012/03/Angst_Panik_und_Hyperventilation.pdf\n\n"
         "Kein Ersatz für ärztliche oder psychotherapeutische Behandlung. Im Notfall: 112.\n\n"
-        "#waswürdestdutun #panikattacke #platzangst #angst #mentalhealth #wusstestdu #survival #quiz")
+        "#waswürdestdutun #panikattacke #platzangst #angst #mentalhealth #wusstestdu #survival #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.")
 scen = {
  'id': ID, 'category': 'psyche', 'stage': 'schlafzimmer',
  'situation': {'speech': S['situation']},

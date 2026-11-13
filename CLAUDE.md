@@ -15,8 +15,8 @@ Gebaut mit Remotion (React → Video) und @remotion/three (3D).
 5. **ElevenLabs-Audios zwischenspeichern und im Repository sichern** (Ordner `audio-cache/`).
    Dateiname = Hash aus Text + Stimme + Modell + Einstellungen. Existiert die Datei schon,
    wird NICHT neu bei ElevenLabs angefragt. So wird nie etwas doppelt bezahlt.
-6. **Reihenfolge immer:** 1. Standbilder zur Freigabe → 2. Stimme → 3. Video.
-   Nach jedem Schritt auf Freigabe warten. Seit dem Kreuzotter-Video (vom Inhaber so entschieden):
+6. **Reihenfolge immer:** 1. Standbilder → 2. Stimme → 3. Video. **Seit dem Herrenloser-Koffer-Video gilt
+   der Durchlauf-Modus als Standard (siehe unten) – keine Zwischenfreigaben mehr.** Seit dem Kreuzotter-Video (vom Inhaber so entschieden):
    Das Video wird nur EINMAL in voller Qualität gerendert; die Vorschau (halbe Größe) wird daraus
    per ffmpeg verkleinert. Freigabe der Vorschau = Video ist fertig zum Hochladen.
    Gibt es Änderungswünsche, wird nach der Änderung neu gerendert.
@@ -25,16 +25,22 @@ Gebaut mit Remotion (React → Video) und @remotion/three (3D).
 8. **Mindestlänge 61 Sekunden prüfen.** Ist ein Video kürzer: NICHT rendern, sondern
    dem Inhaber Bescheid geben.
 9. **Sichere Bereiche einhalten** (siehe unten).
-10. Arbeiten in **Phasen**; nach jeder Phase anhalten und berichten.
+10. Arbeiten in **Phasen**; nach jeder Phase Commit + Push und kurz berichten (angehalten wird nur bei echten Problemen, siehe Durchlauf-Modus).
 11. **Vorhandene Bausteine (Bühnen, Figuren, Objekte, Bewegungen, Kleidung) dürfen und sollen wiederverwendet
     werden, aber nur, wenn sie wirklich zur Szene passen. Wenn etwas Neues besser aussieht oder besser passt,
     wird es neu gebaut – keine Scheu vor Neuerstellung. Neue Bausteine werden immer wiederverwendbar in den
     Baukasten aufgenommen.** Die Liste unter „Vorhandene Bausteine“ wird bei jedem neuen Baustein aktualisiert.
+12. **Offene Videos zuerst:** Ist bei Beginn einer Sitzung ein früheres Szenario noch nicht fertig (kein finales Video
+    in `review/final/`), wird es zuerst im Durchlauf-Modus fertiggestellt, danach geht es mit dem neuen Video weiter.
+    Nicht anhalten, nur kurz Bescheid sagen.
+13. **KI-Hinweis:** Jede Videobeschreibung (`publishing.description`) endet nach den Hashtags mit einer Leerzeile und
+    genau diesem Satz: `Hinweis: Das gesamte Video ist KI-generiert.` (auch in `review/final/<id>-texte.txt`).
+    Steht der Satz nicht in der vom Inhaber gelieferten Beschreibung, wird er ergänzt.
 
-## Durchlauf-Modus (optional – nur wenn der Inhaber ihn im Prompt ausdrücklich verlangt)
+## Durchlauf-Modus (STANDARD für jedes Video – vom Inhaber so festgelegt)
 
-Ohne ausdrückliche Anweisung gilt immer die normale Reihenfolge aus Regel 6 (mit Freigaben).
-Verlangt der Inhaber den „Durchlauf-Modus“, gilt für dieses Video:
+Der Durchlauf-Modus gilt ab jetzt für **jedes** Video, auch wenn er im Prompt nicht erwähnt wird
+(„sofort rendern“: Bausteine bauen, Standbilder selbst prüfen, Stimme erzeugen, finales Video rendern, pushen):
 
 - Alle Schritte (Bausteine → Standbilder → Stimme → finales Video) werden **ohne Zwischenfreigabe in einem Rutsch** erledigt.
   Commit + Push nach jedem Schritt (Regel 3) gilt weiterhin.
@@ -44,15 +50,17 @@ Verlangt der Inhaber den „Durchlauf-Modus“, gilt für dieses Video:
   - bei der Selbstprüfung etwas nicht stimmt,
   - das Video kürzer als 61 Sekunden wäre,
   - bei der Stimme ein Fehler auftritt oder die ElevenLabs-Credits knapp werden,
-  - etwas an den fachlichen Texten geändert werden müsste.
+  - etwas an den fachlichen Texten geändert werden müsste,
+  - sonst ein Fehler auftritt, der sich nicht selbst beheben lässt.
 - Zwischengespeicherte Audios (`audio-cache/`) werden wie immer wiederverwendet.
 - Am Ende: fertiges Video + Standbilder zeigen und zusammenfassen, was wiederverwendet und was neu gebaut wurde.
-- **Ausnahme:** Ist noch KEIN einziges Video komplett mit Stimme fertig geworden, gilt der normale Ablauf mit Freigaben.
+- Nur wenn der Inhaber im Prompt ausdrücklich Freigaben verlangt, wird nach den einzelnen Schritten angehalten.
 
 ## Positionsplan (Reihenfolge der richtigen Antwort)
 
 Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber gewünscht).
 - magnetfischen-granate → 2. Push
+- herrenloser-koffer → 3.
 
 ## Das Format (Ablauf eines Videos)
 

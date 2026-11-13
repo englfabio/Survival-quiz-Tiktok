@@ -193,7 +193,7 @@ DESC = ("Ein Zitteraal hat sich mal wieder in deiner Steckdose eingenistet – w
         "Deutscher Feuerwehrverband, Erste-Hilfe kompakt: Stromunfall: https://download.kfv-oh.de/Sicherheit%20und%20Gesundheit/Publikationen/Gesundheit%20und%20Fitness/Erste-Hilfe-Kompakt-DFV/16-Stromunfall.pdf\n"
         "Apotheken Umschau, Stromschlag: https://www.apotheken-umschau.de/therapie/erste-hilfe/stromschlag-warum-ist-er-gefaehrlich-738493.html\n\n"
         "Kein Ersatz für einen Erste-Hilfe-Kurs. Im Notfall: 112.\n\n"
-        "#waswürdestdutun #stromunfall #erstehilfe #strom #wusstestdu #survival #notfall #quiz")
+        "#waswürdestdutun #stromunfall #erstehilfe #strom #wusstestdu #survival #notfall #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.")
 scen = {
  'id': ID, 'category': 'erste-hilfe', 'stage': 'kueche',
  'situation': {'speech': S['situation']},

@@ -235,7 +235,7 @@ DESC = ("Du hast mal wieder beim Magnetfischen eine Granate rausgezogen – was 
         "Land Schleswig-Holstein, Magnetangeln: https://www.schleswig-holstein.de/uxo/DE/Themen/Fachinhalte/magnetangeln/textMagnetangeln\n"
         "Polizeimeldung zum Granatenfund in der Saale (inFranken): https://www.infranken.de/lk/main-spessart/blaulicht/graefendorf-mann-findet-granate-in-der-saale-und-verstaendigt-polizei-art-6384556\n\n"
         "Im Notfall: 110.\n\n"
-        "#waswürdestdutun #magnetfischen #magnetangeln #granate #fundstücke #wusstestdu #survival #quiz")
+        "#waswürdestdutun #magnetfischen #magnetangeln #granate #fundstücke #wusstestdu #survival #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.")
 scen = {
  'id': ID, 'category': 'fundstuecke', 'stage': 'kanal',
  'situation': {'speech': S['situation'], 'hook': 'Du hast mal wieder eine Granate geangelt'},
