@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Strong gust of wind sucked past, rushing air whoosh with fabric jacket flapping, no voice, no music",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.55,
+  "createdAt": "2026-11-13T15:35:23.635Z"
+}

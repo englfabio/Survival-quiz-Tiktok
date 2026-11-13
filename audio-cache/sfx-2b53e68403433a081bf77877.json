@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "High speed train approaching from the distance on rails, rising rumble and rail hum getting louder, wind building up, no horn, no voice, no music",
+  "duration": 4,
+  "loop": false,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-13T15:35:17.646Z"
+}

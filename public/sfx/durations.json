@@ -69,5 +69,9 @@
   "schnallen-klick": 1.228,
   "absperrband": 2.508,
   "laub-rascheln": 3.03,
-  "hund-bellen": 1.515
+  "hund-bellen": 1.515,
+  "durchsage-gong": 2.508,
+  "zug-naht": 4.049,
+  "zug-durchfahrt": 5.042,
+  "wind-sog": 2.038
 }

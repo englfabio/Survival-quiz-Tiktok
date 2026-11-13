@@ -114,7 +114,7 @@ reveal = still([15.1, 4.18, 2.85], [14.9, 4.15, 2.78])
 L2 = 'explain2'
 V2 = 32.0
 fz2 = sec(L2, 4.2)
-NOSE2 = -17.0
+NOSE2 = -32.0
 sog2 = [K(0, DX, 0.55, 'park', 0, wind=0, drift=0.5), K(sec(L2, 1.6), DX, 0.55, 'park', 0, wind=0.0), K(fz2, DX, 0.55, 'park', 0, wind=0.95),
         K(1, DX, 0.55, 'park', 0, wind=0.95)]
 dummy2 = [K(0, DX, DZ_EDGE, 'edgelean', 0, wind=0, **DUMMY_LOOK), K(sec(L2, 1.8), DX, DZ_EDGE, 'edgelean', 0, wind=0, drift=0.5),
@@ -131,7 +131,7 @@ exp2 = {
 L3 = 'explain3'
 V3 = 30.0
 fz3 = sec(L3, 4.4)
-NOSE3 = -18.0
+NOSE3 = -32.0
 F3 = 318
 P30 = (0.35, 1.0)        # startet auf/an der weißen Linie
 P31 = (-0.2, 0.42)       # beim Einfrieren: ganz vorn, aber noch auf dem Bahnsteig
@@ -145,13 +145,13 @@ check_safe('Option 3', P31[1], NOSE3, P31[0])
 fw = (math.sin(math.radians(F3)), -math.cos(math.radians(F3)))
 rt = (math.cos(math.radians(F3)), math.sin(math.radians(F3)))   # rechts vom Dummy
 cut3 = r3(sec(L3, 2.3))
-def osh(p, back=0.62, side=0.34, h=1.97):
+def osh(p, back=0.5, side=0.62, h=1.78):
     return [p[0] - fw[0] * back + rt[0] * side, h, p[1] - fw[1] * back + rt[1] * side]
 def oshl(p):
-    return [p[0] + fw[0] * 0.36, 1.42, p[1] + fw[1] * 0.36]
+    return [p[0] + fw[0] * 1.36 - rt[0] * 0.05, 1.2, p[1] + fw[1] * 1.36 - rt[1] * 0.05]
 P3c = (P30[0] + (P31[0] - P30[0]) * 0.35, P30[1] + (P31[1] - P30[1]) * 0.35)
 exp3 = {
- 'camera': [cam(0, osh(P30), oshl(P30)), cam(r3(cut3 - 0.004), osh(P3c, 0.7), oshl(P3c)),
+ 'camera': [cam(0, osh(P30), oshl(P30)), cam(r3(cut3 - 0.004), osh(P3c, 0.56), oshl(P3c)),
             cam(cut3, [12.5, 3.7, 3.45], [-6.05, 0.24, -0.13]), cam(fz3, [12.0, 3.6, 3.3], [-6.05, 0.24, -0.13]), cam(1, [11.6, 3.52, 3.2], [-6.05, 0.26, -0.13])],
  'actors': {'dummy': dummy3, 'filmhandy': phone3, 'zug': train_keys(L3, NOSE3, fz3, V3), 'sog': sog3, 'becher': [cup()]},
  'freeze': r3(fz3),
@@ -188,16 +188,16 @@ cup1 = [cup(0), cup(r3(cup_t - 0.002)),
         K(r3(cup_t + sec(L1, 0.4)), CUP[0] + 1.9, 0.04, 'toss', 0, y=2.0),
         K(r3(cup_t + sec(L1, 0.9)), CUP[0] + 14.0, 0.03, 'toss', 0, y=2.7),
         K(r3(cup_t + sec(L1, 0.902)), CUP[0] + 20.0, 0.03, 'park', 0, y=HIDE), K(1, CUP[0] + 20.0, 0.03, 'park', 0, y=HIDE)]
-SIGN = (-2.6, TZ)
+SIGN = (7.5, TZ)
 sign1 = [K(0, SIGN[0], SIGN[1], 'park', 0, y=HIDE), K(r3(c_ober - sec(L1, 0.15) - 0.002), SIGN[0], SIGN[1], 'park', 0, y=HIDE),
-         K(r3(c_ober - sec(L1, 0.15)), SIGN[0], SIGN[1], 'show', 0, y=5.27, below=1, size=4.5, text='15.000 Volt'), K(1, SIGN[0], SIGN[1], 'show', 0)]
+         K(r3(c_ober - sec(L1, 0.15)), SIGN[0], SIGN[1], 'show', 0, y=5.27, below=1, size=4.5, text='15.000 Volt'), K(1, SIGN[0], SIGN[1], 'show', 0, y=5.27)]
 # Kamera: A = Zurückgehen + Durchfahrt (von der Hallenseite, rechts), B = flach über die weiße Linie, C = Blick hoch zur Oberleitung
 cutB = r3(max(tail_t + sec(L1, 1.2), c_genau - sec(L1, 0.2)))
 cutC = r3(c_ober - sec(L1, 0.25))
 exp1 = {
- 'camera': [cam(0, [6.9, 2.99, 12.47], [-0.98, 0.76, 1.53]), cam(r3(hb1), [6.75, 2.96, 12.2], [-0.98, 0.76, 1.53]), cam(r3(cutB - 0.004), [6.4, 2.9, 11.6], [-0.98, 0.78, 1.53]),
-            cam(cutB, [-1.8, 2.6, -5.6], [0.8, 0.2, 1.5]), cam(r3(cutC - 0.004), [-1.6, 2.5, -5.2], [0.8, 0.2, 1.5]),
-            cam(cutC, [-2.2, 1.3, 4.0], [-3.4, 4.0, -1.75]), cam(1, [-2.1, 1.3, 3.7], [-3.4, 4.05, -1.75])],
+ 'camera': [cam(0, [5.6, 3.05, 13.0], [-1.3, 0.7, 1.5]), cam(r3(hb1), [5.5, 3.02, 12.8], [-1.3, 0.7, 1.5]), cam(r3(cutB - 0.004), [5.25, 2.95, 12.3], [-1.3, 0.72, 1.5]),
+            cam(cutB, [-9.5, 6.37, -12.55], [0.65, -0.08, 0.4]), cam(r3(cutC - 0.004), [-8.9, 6.1, -11.9], [0.65, -0.06, 0.4]),
+            cam(cutC, [-3.2, 1.5, 1.3], [8.0, 3.9, -3.2]), cam(1, [-3.0, 1.48, 1.15], [8.0, 3.95, -3.2])],
  'actors': {'dummy': dummy1, 'zug': train_keys(L1, 0.0, pass_x0, V1), 'sog': sog1, 'becher': cup1, 'hinweis': sign1},
  'flash': r3(hb1),
  'sfx': [{'t': r3(pass_x0 - sec(L1, 1.6)), 'id': 'zug-durchfahrt', 'volume': 0.7}, {'t': r3(pass_x0 - sec(L1, 0.1)), 'id': 'wind-sog', 'volume': 0.4}],

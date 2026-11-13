@@ -498,6 +498,34 @@
       "duration": 1.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "durchsage-gong",
+      "prompt": "Train station public address chime before an announcement, three soft ascending bell tones ding dong ding, clean, slight hall reverb, no voice, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "zug-naht",
+      "prompt": "High speed train approaching from the distance on rails, rising rumble and rail hum getting louder, wind building up, no horn, no voice, no music",
+      "duration": 4,
+      "loop": false,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "zug-durchfahrt",
+      "prompt": "High speed train rushing through a station at full speed very close by, loud roaring whoosh of wind and wheels on rails passing, doppler, fading away, no horn, no voice, no music",
+      "duration": 5,
+      "loop": false,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "wind-sog",
+      "prompt": "Strong gust of wind sucked past, rushing air whoosh with fabric jacket flapping, no voice, no music",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.55
     }
   ]
 }

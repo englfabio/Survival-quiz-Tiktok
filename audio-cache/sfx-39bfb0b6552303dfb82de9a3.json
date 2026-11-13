@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Train station public address chime before an announcement, three soft ascending bell tones ding dong ding, clean, slight hall reverb, no voice, no music",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-13T15:35:14.728Z"
+}
