@@ -14,6 +14,7 @@ import {Basin} from './Basin';
 import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dummy';
 import {Grenade, Magnet} from './MagnetProps';
 import {Bill, CordonTape, Suitcase, TapeRoll} from './StationProps';
+import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, PaperForm} from './MoneyProps';
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
 import type {Uniform} from './Dummy';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
@@ -118,6 +119,13 @@ export const ACTORS = {
   hund: {height: 0.5, climbOffset: 0, speedLineHeight: 0.4},
   polizist: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   polizistin: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  // ---- Geldkoffer (Fundstücke) ----
+  geldkoffer: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
+  geldbuendel: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  formular: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  taschenrechner: {height: 0.08, climbOffset: 0, speedLineHeight: 0},
+  kalenderblatt: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  paragraf: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Bewegungen im Wasser: y bezieht sich auf die Wasseroberfläche der Bühne */
@@ -399,6 +407,8 @@ export const Actor = ({
           lunge={v.lunge}
           blut={v.blut}
           fxTime={zt}
+          stash={v.stash}
+          brow={v.brow}
         />
       )}
       {name === 'kaenguru' && <Kangaroo pose={kangarooPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} />}
@@ -514,6 +524,7 @@ export const Actor = ({
       {name === 'kumpel' && (
         <Dummy
           color={BUDDY_COLOR}
+          brow={v.brow}
           zap={v.zap}
           zapTime={zt}
           pose={zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 9)}
@@ -524,7 +535,7 @@ export const Actor = ({
       )}
       {name === 'bundespolizist' && (
         <>
-          <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE_COLOR} uniform={POLICE_UNIFORM} />
+          <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE_COLOR} uniform={POLICE_UNIFORM} brow={v.brow} />
           {state.motion === 'tapewalk' && (
             <group position={rightHandLocal(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev))}>
               <TapeRoll />
@@ -542,11 +553,21 @@ export const Actor = ({
       {name === 'polizeiauto' && <PoliceCar pose={carPose(state.motion, state.motionTime, state.speed)} blue={v.blue} time={clock} />}
       {name === 'hund' && <Dog pose={dogPose(state.motion, state.motionTime, state.speed)} />}
       {name === 'polizist' && (
-        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE2_COLOR} uniform={POLICE_UNIFORM} />
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE2_COLOR} uniform={POLICE_UNIFORM} brow={v.brow} />
       )}
       {name === 'polizistin' && (
-        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE3_COLOR} uniform={POLICE_UNIFORM_W} />
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE3_COLOR} uniform={POLICE_UNIFORM_W} brow={v.brow} />
       )}
+      {name === 'geldkoffer' && <MoneyCase tilt={v.tilt} lid={v.lid} money={state.values.money > 0 ? v.money : 1} />}
+      {name === 'geldbuendel' && (
+        <group scale={1 + v.size}>
+          <MoneyBundle />
+        </group>
+      )}
+      {name === 'formular' && <PaperForm fill={v.fill} pen={v.pen} size={v.size} />}
+      {name === 'taschenrechner' && <Calculator text={actor.text ?? '30.010 €'} fill={v.fill} tilt={v.tilt} size={v.size} />}
+      {name === 'kalenderblatt' && <CalendarSheet text={actor.text ?? '6 Monate'} time={state.motionTime} visible={state.motion === 'show'} size={v.size} />}
+      {name === 'paragraf' && <ParagraphBadge text={actor.text ?? '§ 246'} time={state.motionTime} visible={state.motion === 'show'} size={v.size} />}
       {name === 'absperrband' && <CordonTape fill={v.fill} size={v.size} />}
       {name === 'rechnung' && <Bill size={v.size} />}
       {name === 'zitteraal' && <ZitterAal motion={state.motion} time={state.motionTime} zap={v.zap} zt={zt} />}

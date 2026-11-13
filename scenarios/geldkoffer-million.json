@@ -1,0 +1,1816 @@
+{
+  "id": "geldkoffer-million",
+  "category": "fundstuecke",
+  "stage": "park",
+  "situation": {
+    "speech": "Du hast mal wieder einen Koffer mit einer Million Euro gefunden. Er stand einfach neben einer Parkbank. Was machst du jetzt?"
+  },
+  "options": [
+    {
+      "card": "Behalten, ist doch Glück",
+      "speech": "Eins: Behalten. Wer findet, darf auch behalten.",
+      "dummyAction": "Dummy klappt den Koffer zu, klemmt ihn unter den Arm und schleicht nach Hause. Über ihm erscheint \"§ 246\". Bild friert ein, rotes Aufleuchten.",
+      "explanation": "Klingt verlockend, ist aber strafbar. Wer fremdes Geld behält, begeht eine Unterschlagung. Darauf stehen Geldstrafe oder bis zu drei Jahre Gefängnis. Alles über zehn Euro musst du abgeben.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.7,
+              1.55,
+              2.2
+            ],
+            "look": [
+              1.2,
+              0.55,
+              -1.1
+            ]
+          },
+          {
+            "t": 0.1347,
+            "pos": [
+              2.5,
+              1.5,
+              1.95
+            ],
+            "look": [
+              1.1,
+              0.75,
+              -1.0
+            ]
+          },
+          {
+            "t": 0.1384,
+            "pos": [
+              2.7,
+              1.9,
+              4.6
+            ],
+            "look": [
+              0.1,
+              1.05,
+              -0.2
+            ]
+          },
+          {
+            "t": 0.4578,
+            "pos": [
+              0.7,
+              1.9,
+              4.4
+            ],
+            "look": [
+              -1.5,
+              1.2,
+              0.0
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.5,
+              1.88,
+              4.1
+            ],
+            "look": [
+              -1.5,
+              1.2,
+              0.0
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "kneellook",
+              "face": 0,
+              "jacket": 1
+            },
+            {
+              "t": 0.0095,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "kneellook",
+              "face": 0
+            },
+            {
+              "t": 0.0115,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "closecase",
+              "face": 0
+            },
+            {
+              "t": 0.0687,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "closecase",
+              "face": 0
+            },
+            {
+              "t": 0.0707,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "tuckcase",
+              "face": 0
+            },
+            {
+              "t": 0.1718,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "tuckcase",
+              "face": 0
+            },
+            {
+              "t": 0.1738,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "sneak",
+              "face": 215.8
+            },
+            {
+              "t": 0.3121,
+              "x": 0.4,
+              "z": 0.25,
+              "motion": "sneak",
+              "face": 270
+            },
+            {
+              "t": 1.4257,
+              "x": -12.0,
+              "z": 0.3,
+              "motion": "sneak",
+              "face": 270
+            }
+          ],
+          "geldkoffer": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1
+            },
+            {
+              "t": 0.0191,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1
+            },
+            {
+              "t": 0.0573,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 0
+            },
+            {
+              "t": 0.0974,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 0
+            },
+            {
+              "t": 0.0994,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 180,
+              "y": 0,
+              "tilt": 90,
+              "lid": 0,
+              "attach": "dummy"
+            },
+            {
+              "t": 0.1394,
+              "x": 0,
+              "z": 0.32,
+              "motion": "park",
+              "face": 180,
+              "y": 0.82,
+              "tilt": 90,
+              "lid": 0,
+              "attach": "dummy"
+            },
+            {
+              "t": 0.1699,
+              "x": 0.3,
+              "z": 0.02,
+              "motion": "park",
+              "face": 90,
+              "y": 0.86,
+              "tilt": 0,
+              "lid": 0,
+              "attach": "dummy"
+            },
+            {
+              "t": 1,
+              "x": 0.3,
+              "z": 0.02,
+              "motion": "park",
+              "face": 90,
+              "y": 0.86,
+              "tilt": 0,
+              "lid": 0,
+              "attach": "dummy"
+            }
+          ],
+          "paragraf": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 0,
+              "y": -30,
+              "attach": "dummy"
+            },
+            {
+              "t": 0.4017,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 0,
+              "y": -30,
+              "attach": "dummy"
+            },
+            {
+              "t": 0.4037,
+              "x": 0,
+              "z": 0,
+              "motion": "show",
+              "face": 0,
+              "y": 2.1,
+              "attach": "dummy",
+              "size": 0.25
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "z": 0,
+              "motion": "show",
+              "face": 0,
+              "y": 2.1,
+              "attach": "dummy"
+            }
+          ]
+        },
+        "freeze": 0.4648,
+        "sfx": [
+          {
+            "t": 0.0534,
+            "id": "schnallen-klick",
+            "volume": 0.55
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Zur Polizei, Kontaktdaten angeben",
+      "speech": "Zwei: Zur Polizei bringen und deine Kontaktdaten angeben.",
+      "dummyAction": "Dummy bringt den Koffer zur Polizeiwache, stellt ihn auf den Tresen und füllt ein Formular mit seinen Kontaktdaten aus. Der Polizist zeigt auf dem Taschenrechner \"30.010 €\". Grünes Aufleuchten. Kalenderblatt \"6 Monate\", Dummy freut sich.",
+      "explanation": "Bring den Koffer zur Polizei und gib deine Kontaktdaten an, denn wer anonym abgibt, bekommt keinen Finderlohn. Bei so viel Bargeld ist die Polizei die richtige Adresse, weil es auch aus einer Straftat stammen könnte. Und anders als bei Waffen ist Geld nicht gefährlich, das darfst du selbst hinbringen. Meldet sich der Besitzer nicht, kann ein Fund nach sechs Monaten sogar dir gehören.",
+      "steps": [
+        {
+          "text": "Nicht behalten",
+          "cue": "Bring den Koffer"
+        },
+        {
+          "text": "Nichts rausnehmen",
+          "cue": "Koffer zur Polizei"
+        },
+        {
+          "text": "Zur Polizei bringen",
+          "cue": "zur Polizei und"
+        },
+        {
+          "text": "Kontaktdaten angeben",
+          "cue": "gib deine Kontaktdaten"
+        },
+        {
+          "text": "Finderlohn: über 30.000 €",
+          "cue": "keinen Finderlohn"
+        }
+      ],
+      "choreography": {
+        "stage": [
+          {
+            "t": 0,
+            "stage": "park"
+          },
+          {
+            "t": 0.0382,
+            "stage": "polizeiwache"
+          }
+        ],
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.3,
+              1.5,
+              0.9
+            ],
+            "look": [
+              1.15,
+              0.45,
+              -1.3
+            ]
+          },
+          {
+            "t": 0.0232,
+            "pos": [
+              2.15,
+              1.45,
+              0.75
+            ],
+            "look": [
+              1.15,
+              0.5,
+              -1.3
+            ]
+          },
+          {
+            "t": 0.0261,
+            "pos": [
+              -1.6,
+              1.8,
+              2.9
+            ],
+            "look": [
+              1.2,
+              1.0,
+              -0.6
+            ]
+          },
+          {
+            "t": 0.1824,
+            "pos": [
+              -1.3,
+              1.75,
+              2.6
+            ],
+            "look": [
+              0.3,
+              1.05,
+              -0.6
+            ]
+          },
+          {
+            "t": 0.1864,
+            "pos": [
+              -1.25,
+              1.95,
+              0.45
+            ],
+            "look": [
+              -0.25,
+              1.05,
+              -0.65
+            ],
+            "fov": 32
+          },
+          {
+            "t": 0.2428,
+            "pos": [
+              -1.2,
+              1.92,
+              0.4
+            ],
+            "look": [
+              -0.25,
+              1.05,
+              -0.65
+            ],
+            "fov": 32
+          },
+          {
+            "t": 0.2471,
+            "pos": [
+              -0.25,
+              1.4,
+              0.75
+            ],
+            "look": [
+              0.0,
+              1.22,
+              -1.1
+            ],
+            "fov": 30
+          },
+          {
+            "t": 0.3857,
+            "pos": [
+              -0.22,
+              1.4,
+              0.65
+            ],
+            "look": [
+              0.0,
+              1.22,
+              -1.1
+            ],
+            "fov": 30
+          },
+          {
+            "t": 0.3904,
+            "pos": [
+              1.6,
+              1.85,
+              2.6
+            ],
+            "look": [
+              -0.1,
+              1.1,
+              -0.7
+            ]
+          },
+          {
+            "t": 0.7928,
+            "pos": [
+              1.45,
+              1.82,
+              2.4
+            ],
+            "look": [
+              -0.1,
+              1.1,
+              -0.7
+            ]
+          },
+          {
+            "t": 0.7969,
+            "pos": [
+              0.9,
+              1.75,
+              3.3
+            ],
+            "look": [
+              -0.15,
+              1.3,
+              -0.8
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.8,
+              1.72,
+              3.0
+            ],
+            "look": [
+              -0.15,
+              1.3,
+              -0.8
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "kneellook",
+              "face": 0,
+              "jacket": 1
+            },
+            {
+              "t": 0.002,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "kneellook",
+              "face": 0
+            },
+            {
+              "t": 0.004,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "closecase",
+              "face": 0
+            },
+            {
+              "t": 0.0352,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "closecase",
+              "face": 0
+            },
+            {
+              "t": 0.0382,
+              "x": 2.75,
+              "z": 0.75,
+              "motion": "carrycase",
+              "face": 290.6
+            },
+            {
+              "t": 0.1207,
+              "x": 0.35,
+              "z": -0.15,
+              "motion": "carrycase",
+              "face": 290.6
+            },
+            {
+              "t": 0.1227,
+              "x": 0.35,
+              "z": -0.15,
+              "motion": "setcounter",
+              "face": 0
+            },
+            {
+              "t": 0.177,
+              "x": 0.35,
+              "z": -0.15,
+              "motion": "setcounter",
+              "face": 0
+            },
+            {
+              "t": 0.179,
+              "x": 0.35,
+              "z": -0.15,
+              "motion": "walk",
+              "face": 270
+            },
+            {
+              "t": 0.2031,
+              "x": -0.3,
+              "z": -0.15,
+              "motion": "walk",
+              "face": 270
+            },
+            {
+              "t": 0.2071,
+              "x": -0.3,
+              "z": -0.15,
+              "motion": "fillform",
+              "face": 0
+            },
+            {
+              "t": 0.3277,
+              "x": -0.3,
+              "z": -0.15,
+              "motion": "fillform",
+              "face": 0
+            },
+            {
+              "t": 0.3297,
+              "x": -0.3,
+              "z": -0.15,
+              "motion": "listen",
+              "face": 0
+            },
+            {
+              "t": 0.9213,
+              "x": -0.3,
+              "z": -0.15,
+              "motion": "listen",
+              "face": 0
+            },
+            {
+              "t": 0.9233,
+              "x": -0.3,
+              "z": -0.15,
+              "motion": "cheer",
+              "face": 15
+            },
+            {
+              "t": 1,
+              "x": -0.3,
+              "z": -0.15,
+              "motion": "cheer",
+              "face": 15
+            }
+          ],
+          "geldkoffer": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1
+            },
+            {
+              "t": 0.008,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1
+            },
+            {
+              "t": 0.0282,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 0
+            },
+            {
+              "t": 0.0352,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 0
+            },
+            {
+              "t": 0.0382,
+              "x": 2.75,
+              "z": 0.75,
+              "motion": "park",
+              "face": 180,
+              "tilt": 0,
+              "lid": 0,
+              "hand": 1,
+              "drop": 0.4
+            },
+            {
+              "t": 0.1529,
+              "x": 0.45,
+              "z": -0.63,
+              "motion": "park",
+              "face": 180,
+              "y": 1.05,
+              "tilt": 0,
+              "hand": 1
+            },
+            {
+              "t": 0.1559,
+              "x": 0.45,
+              "z": -0.63,
+              "motion": "park",
+              "face": 180,
+              "y": 1.05,
+              "hand": 0
+            },
+            {
+              "t": 1,
+              "x": 0.45,
+              "z": -0.63,
+              "motion": "park",
+              "face": 180,
+              "y": 1.05,
+              "hand": 0
+            }
+          ],
+          "formular": [
+            {
+              "t": 0,
+              "x": -0.28,
+              "z": -0.65,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "fill": 0,
+              "pen": 1,
+              "size": 0.3
+            },
+            {
+              "t": 0.177,
+              "x": -0.28,
+              "z": -0.65,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.179,
+              "x": -0.28,
+              "z": -0.65,
+              "motion": "park",
+              "face": 180,
+              "y": 1.05
+            },
+            {
+              "t": 0.2272,
+              "x": -0.28,
+              "z": -0.65,
+              "motion": "park",
+              "face": 180,
+              "y": 1.05,
+              "fill": 0,
+              "pen": 0
+            },
+            {
+              "t": 0.3277,
+              "x": -0.28,
+              "z": -0.65,
+              "motion": "park",
+              "face": 180,
+              "y": 1.05,
+              "fill": 1
+            },
+            {
+              "t": 1,
+              "x": -0.28,
+              "z": -0.65,
+              "motion": "park",
+              "face": 180,
+              "y": 1.05,
+              "fill": 1
+            }
+          ],
+          "polizist": [
+            {
+              "t": 0,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "listen",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.0362,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "listen",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.0382,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "listen",
+              "face": 180,
+              "y": 0
+            },
+            {
+              "t": 0.2694,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "listen",
+              "face": 180
+            },
+            {
+              "t": 0.2714,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "handover",
+              "face": 180
+            },
+            {
+              "t": 0.7623,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "handover",
+              "face": 180
+            },
+            {
+              "t": 0.7631,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "pointtalk",
+              "face": 210
+            },
+            {
+              "t": 0.9233,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "pointtalk",
+              "face": 210
+            },
+            {
+              "t": 0.9253,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "listen",
+              "face": 200
+            },
+            {
+              "t": 1,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "listen",
+              "face": 200
+            }
+          ],
+          "taschenrechner": [
+            {
+              "t": 0,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "fill": 0,
+              "hand": 0,
+              "holder": "polizist",
+              "drop": -0.03,
+              "size": 0.9,
+              "tilt": 0
+            },
+            {
+              "t": 0.2774,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "hand": 0
+            },
+            {
+              "t": 0.2782,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "park",
+              "face": 180,
+              "y": 0,
+              "hand": 1,
+              "fill": 0
+            },
+            {
+              "t": 0.2996,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "park",
+              "face": 180,
+              "hand": 1,
+              "fill": 0
+            },
+            {
+              "t": 0.3438,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "park",
+              "face": 180,
+              "hand": 1,
+              "fill": 1
+            },
+            {
+              "t": 0.7623,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "park",
+              "face": 180,
+              "hand": 1
+            },
+            {
+              "t": 0.7631,
+              "x": 0.15,
+              "z": -0.82,
+              "motion": "park",
+              "face": 165,
+              "y": 1.05,
+              "hand": 0,
+              "tilt": 12
+            },
+            {
+              "t": 1,
+              "x": 0.15,
+              "z": -0.82,
+              "motion": "park",
+              "face": 165,
+              "y": 1.05,
+              "hand": 0,
+              "tilt": 12
+            }
+          ],
+          "kalenderblatt": [
+            {
+              "t": 0,
+              "x": -0.95,
+              "z": -0.95,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.7764,
+              "x": -0.95,
+              "z": -0.95,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.7784,
+              "x": -0.95,
+              "z": -0.95,
+              "motion": "show",
+              "face": 0,
+              "y": 1.45,
+              "size": 0.15
+            },
+            {
+              "t": 1,
+              "x": -0.95,
+              "z": -0.95,
+              "motion": "show",
+              "face": 0,
+              "y": 1.45
+            }
+          ]
+        },
+        "flash": 0.3438,
+        "sfx": [
+          {
+            "t": 0.0241,
+            "id": "schnallen-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.7784,
+            "id": "kalender-blaettern",
+            "volume": 0.35
+          },
+          {
+            "t": 0.9273,
+            "id": "plopp",
+            "volume": 0.3
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Finderlohn selbst rausnehmen",
+      "speech": "Drei: Dir den Finderlohn schon mal selbst rausnehmen und den Rest abgeben.",
+      "dummyAction": "Dummy nimmt ein paar Bündel aus dem Koffer und steckt sie in seine Jacke, gibt den Rest auf der Wache ab. Der Polizist sieht die Bündel aus der Jacke schauen und hebt die Augenbraue. Bild friert ein, rotes Aufleuchten.",
+      "explanation": "Auch das geht nicht. Den Finderlohn darfst du dir nicht selbst auszahlen. Du musst alles abgeben. Und das lohnt sich trotzdem: fünf Prozent auf die ersten 500 Euro, drei Prozent auf den Rest. Bei einer Million sind das über 30.000 Euro.",
+      "choreography": {
+        "stage": [
+          {
+            "t": 0,
+            "stage": "park"
+          },
+          {
+            "t": 0.3132,
+            "stage": "polizeiwache"
+          }
+        ],
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.25,
+              1.5,
+              0.75
+            ],
+            "look": [
+              1.15,
+              0.45,
+              -1.3
+            ]
+          },
+          {
+            "t": 0.2773,
+            "pos": [
+              2.1,
+              1.45,
+              0.6
+            ],
+            "look": [
+              1.15,
+              0.5,
+              -1.3
+            ]
+          },
+          {
+            "t": 0.2817,
+            "pos": [
+              0.75,
+              1.62,
+              -2.45
+            ],
+            "look": [
+              -0.12,
+              1.25,
+              -0.1
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.3372,
+            "pos": [
+              0.7,
+              1.6,
+              -2.35
+            ],
+            "look": [
+              -0.12,
+              1.25,
+              -0.1
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.3418,
+            "pos": [
+              -0.62,
+              1.72,
+              0.55
+            ],
+            "look": [
+              0.1,
+              1.72,
+              -1.68
+            ],
+            "fov": 30
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.58,
+              1.72,
+              0.45
+            ],
+            "look": [
+              0.1,
+              1.72,
+              -1.68
+            ],
+            "fov": 30
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "kneellook",
+              "face": 0,
+              "stash": 0,
+              "jacket": 1
+            },
+            {
+              "t": 0.0105,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "kneellook",
+              "face": 0
+            },
+            {
+              "t": 0.0125,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "grabwads",
+              "face": 0
+            },
+            {
+              "t": 0.0921,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "grabwads",
+              "face": 0,
+              "stash": 0
+            },
+            {
+              "t": 0.0971,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "grabwads",
+              "face": 0,
+              "stash": 1
+            },
+            {
+              "t": 0.186,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "grabwads",
+              "face": 0,
+              "stash": 1
+            },
+            {
+              "t": 0.191,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "grabwads",
+              "face": 0,
+              "stash": 2
+            },
+            {
+              "t": 0.28,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "grabwads",
+              "face": 0,
+              "stash": 2
+            },
+            {
+              "t": 0.285,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "grabwads",
+              "face": 0,
+              "stash": 3
+            },
+            {
+              "t": 0.3102,
+              "x": 1.3,
+              "z": -1.0,
+              "motion": "grabwads",
+              "face": 0
+            },
+            {
+              "t": 0.3132,
+              "x": -0.05,
+              "z": -0.12,
+              "motion": "handover",
+              "face": 0,
+              "stash": 3
+            },
+            {
+              "t": 1,
+              "x": -0.05,
+              "z": -0.12,
+              "motion": "handover",
+              "face": 0
+            }
+          ],
+          "geldkoffer": [
+            {
+              "t": 0,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1,
+              "money": 1
+            },
+            {
+              "t": 0.0658,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1,
+              "money": 1.0
+            },
+            {
+              "t": 0.067,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1,
+              "money": 0.938
+            },
+            {
+              "t": 0.1597,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1,
+              "money": 0.938
+            },
+            {
+              "t": 0.1609,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1,
+              "money": 0.875
+            },
+            {
+              "t": 0.2537,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1,
+              "money": 0.875
+            },
+            {
+              "t": 0.2549,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1,
+              "money": 0.812
+            },
+            {
+              "t": 0.3102,
+              "x": 1.3,
+              "z": -1.55,
+              "motion": "park",
+              "face": 180,
+              "tilt": 90,
+              "lid": 1
+            },
+            {
+              "t": 0.3132,
+              "x": -0.05,
+              "z": -0.75,
+              "motion": "park",
+              "face": 180,
+              "y": 1.05,
+              "tilt": 0,
+              "lid": 0
+            },
+            {
+              "t": 1,
+              "x": -0.05,
+              "z": -0.75,
+              "motion": "park",
+              "face": 180
+            }
+          ],
+          "polizist": [
+            {
+              "t": 0,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.3112,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.3132,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "listen",
+              "face": 180,
+              "y": 0,
+              "brow": 0.1
+            },
+            {
+              "t": 0.3738,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "listen",
+              "face": 180,
+              "brow": 0.1
+            },
+            {
+              "t": 0.3758,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "stand",
+              "face": 180,
+              "brow": 0.1
+            },
+            {
+              "t": 0.4071,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "stand",
+              "face": 180,
+              "brow": 1
+            },
+            {
+              "t": 1,
+              "x": 0.1,
+              "z": -1.68,
+              "motion": "stand",
+              "face": 180,
+              "brow": 1
+            }
+          ]
+        },
+        "freeze": 0.4322,
+        "sharpCuts": true
+      }
+    }
+  ],
+  "correctOption": 2,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer zwei.",
+    "screen": "Richtig ist Nummer 2"
+  },
+  "outro": {
+    "speech": "Ehrlich währt am längsten. Und bringt über 30.000 Euro. Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Ehrlich währt am längsten. Und bringt über 30.000 Euro. Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: § 965 und § 971 BGB · § 246 StGB",
+  "sources": [
+    {
+      "name": "Berliner Kurier, Geld gefunden – wann darf ich es behalten?",
+      "url": "https://www.berliner-kurier.de/article/geld-gefunden-wann-darf-ich-es-behalten-10345746"
+    },
+    {
+      "name": "Sparkasse, Geld gefunden – was nun?",
+      "url": "https://www.sparkasse.de/unsere-loesungen/privatkunden/bezahlverfahren/bargeld/geld-gefunden.html"
+    }
+  ],
+  "publishing": {
+    "description": "Du hast mal wieder einen Koffer mit einer Million Euro gefunden – was machst du jetzt? 💰🧳 Schreib 1, 2 oder 3 in die Kommentare!\n\nRechenbeispiel Finderlohn bei 1.000.000 €: 5 % von 500 € = 25 € plus 3 % von 999.500 € = 29.985 €. Zusammen: 30.010 €.\n\nQuellen:\n§ 965 BGB (Anzeigepflicht), § 971 BGB (Finderlohn), § 246 StGB (Unterschlagung)\nBerliner Kurier, Geld gefunden – wann darf ich es behalten?: https://www.berliner-kurier.de/article/geld-gefunden-wann-darf-ich-es-behalten-10345746\nSparkasse, Geld gefunden – was nun?: https://www.sparkasse.de/unsere-loesungen/privatkunden/bezahlverfahren/bargeld/geld-gefunden.html\n\nKeine Rechtsberatung.\n\n#waswürdestdutun #fundstücke #finderlohn #million #geldgefunden #wusstestdu #quiz #recht\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ehrlich: Wer hätte sich schon mal ein Bündel rausgenommen? 😏👇 Was soll der Dummy als Nächstes finden?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.4,
+            1.75,
+            5.0
+          ],
+          "look": [
+            -0.4,
+            0.95,
+            -0.9
+          ]
+        },
+        {
+          "t": 0.678,
+          "pos": [
+            3.1,
+            1.7,
+            4.4
+          ],
+          "look": [
+            0.6,
+            0.8,
+            -1.1
+          ]
+        },
+        {
+          "t": 0.6825,
+          "pos": [
+            2.05,
+            1.45,
+            0.35
+          ],
+          "look": [
+            1.25,
+            0.18,
+            -1.45
+          ]
+        },
+        {
+          "t": 0.8307,
+          "pos": [
+            1.95,
+            1.4,
+            0.2
+          ],
+          "look": [
+            1.25,
+            0.2,
+            -1.45
+          ]
+        },
+        {
+          "t": 0.8346,
+          "pos": [
+            3.3,
+            1.75,
+            3.7
+          ],
+          "look": [
+            0.9,
+            0.7,
+            -1.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.1,
+            1.7,
+            3.4
+          ],
+          "look": [
+            0.9,
+            0.7,
+            -1.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -2.9,
+            "z": 0.15,
+            "motion": "walk",
+            "face": 90,
+            "jacket": 1
+          },
+          {
+            "t": 0.3257,
+            "x": 0.65,
+            "z": 0.12,
+            "motion": "walk",
+            "face": 90
+          },
+          {
+            "t": 0.3277,
+            "x": 0.65,
+            "z": 0.12,
+            "motion": "spotpoint",
+            "face": 21.3
+          },
+          {
+            "t": 0.4035,
+            "x": 0.65,
+            "z": 0.12,
+            "motion": "spotpoint",
+            "face": 21.3
+          },
+          {
+            "t": 0.4055,
+            "x": 0.65,
+            "z": 0.12,
+            "motion": "walk",
+            "face": 30.1
+          },
+          {
+            "t": 0.5474,
+            "x": 1.3,
+            "z": -1.0,
+            "motion": "walk",
+            "face": 30.1
+          },
+          {
+            "t": 0.5494,
+            "x": 1.3,
+            "z": -1.0,
+            "motion": "opencase",
+            "face": 0
+          },
+          {
+            "t": 0.8363,
+            "x": 1.3,
+            "z": -1.0,
+            "motion": "opencase",
+            "face": 0
+          },
+          {
+            "t": 0.8383,
+            "x": 1.3,
+            "z": -1.0,
+            "motion": "kneellook",
+            "face": 0
+          },
+          {
+            "t": 1,
+            "x": 1.3,
+            "z": -1.0,
+            "motion": "kneellook",
+            "face": 0
+          }
+        ],
+        "geldkoffer": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 0,
+            "lid": 0
+          },
+          {
+            "t": 0.6161,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 0,
+            "lid": 0
+          },
+          {
+            "t": 0.6605,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 90,
+            "lid": 0
+          },
+          {
+            "t": 0.7216,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 90,
+            "lid": 0.62
+          },
+          {
+            "t": 0.7605,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 90,
+            "lid": 1
+          },
+          {
+            "t": 1,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 90,
+            "lid": 1
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.3479,
+          "id": "herzschlag",
+          "volume": 0.35
+        },
+        {
+          "t": 0.6494,
+          "id": "schnallen-klick",
+          "volume": 0.55
+        },
+        {
+          "t": 0.7605,
+          "id": "aufzug-ding",
+          "volume": 0.3
+        }
+      ],
+      "sharpCuts": true
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            6.4,
+            4.4,
+            8.6
+          ],
+          "look": [
+            1.0,
+            -0.55,
+            -1.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            6.2,
+            4.3,
+            8.3
+          ],
+          "look": [
+            1.0,
+            -0.55,
+            -1.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -1.0,
+            "motion": "kneellook",
+            "face": 0,
+            "jacket": 1
+          }
+        ],
+        "geldkoffer": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 90,
+            "lid": 1
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            6.2,
+            4.3,
+            8.3
+          ],
+          "look": [
+            1.0,
+            -0.55,
+            -1.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            6.0,
+            4.2,
+            8.05
+          ],
+          "look": [
+            1.0,
+            -0.55,
+            -1.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -1.0,
+            "motion": "kneellook",
+            "face": 0,
+            "jacket": 1
+          }
+        ],
+        "geldkoffer": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 90,
+            "lid": 1
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            6.0,
+            4.2,
+            8.05
+          ],
+          "look": [
+            1.0,
+            -0.55,
+            -1.2
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            5.9,
+            4.15,
+            7.9
+          ],
+          "look": [
+            1.0,
+            -0.55,
+            -1.2
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -1.0,
+            "motion": "kneellook",
+            "face": 0,
+            "jacket": 1
+          }
+        ],
+        "geldkoffer": [
+          {
+            "t": 0,
+            "x": 1.3,
+            "z": -1.55,
+            "motion": "park",
+            "face": 180,
+            "tilt": 90,
+            "lid": 1
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "stage": "polizeiwache",
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.0,
+            1.7,
+            3.1
+          ],
+          "look": [
+            -0.05,
+            1.3,
+            -0.8
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.9,
+            1.68,
+            2.8
+          ],
+          "look": [
+            -0.05,
+            1.3,
+            -0.8
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.3,
+            "z": -0.15,
+            "motion": "cheer",
+            "face": 20,
+            "jacket": 1
+          }
+        ],
+        "polizist": [
+          {
+            "t": 0,
+            "x": 0.1,
+            "z": -1.68,
+            "motion": "listen",
+            "face": 200
+          }
+        ],
+        "geldkoffer": [
+          {
+            "t": 0,
+            "x": 0.45,
+            "z": -0.63,
+            "motion": "park",
+            "face": 180,
+            "y": 1.05,
+            "tilt": 0
+          }
+        ],
+        "formular": [
+          {
+            "t": 0,
+            "x": -0.28,
+            "z": -0.65,
+            "motion": "park",
+            "face": 180,
+            "y": 1.05,
+            "fill": 1,
+            "size": 0.3
+          }
+        ],
+        "taschenrechner": [
+          {
+            "t": 0,
+            "x": 0.15,
+            "z": -0.82,
+            "motion": "park",
+            "face": 165,
+            "y": 1.05,
+            "fill": 1,
+            "size": 0.9,
+            "tilt": 12
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}

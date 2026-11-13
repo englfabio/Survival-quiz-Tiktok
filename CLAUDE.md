@@ -62,6 +62,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - magnetfischen-granate → 2. Push
 - herrenloser-koffer → 3.
 - pistole-wald → 1. Push
+- geldkoffer-million → 2. Push
 
 ## Das Format (Ablauf eines Videos)
 

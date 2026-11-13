@@ -11,6 +11,8 @@ import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
 import {autumnForestStage, streetStage} from './AutumnForest';
 import {gardenStage} from './Garden';
+import {parkStage} from './Park';
+import {policeStationStage} from './PoliceStation';
 import {graveyardStage} from './Graveyard';
 import {lakeStage} from './Lake';
 import {bathroomStage, livingRoomStage, praxisStage} from './Rooms';
@@ -44,4 +46,6 @@ export const STAGES: Record<string, StageDef> = {
   'bahnhof-voll': stationFullStage,
   waldherbst: autumnForestStage,
   waldstrasse: streetStage,
+  park: parkStage,
+  polizeiwache: policeStationStage,
 };

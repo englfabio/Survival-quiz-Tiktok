@@ -153,6 +153,18 @@ export type Motion =
   | 'stepback' // Dummy: einen Schritt zurücktreten (Weg über Zeitpunkte), Hände vorsichtig gehoben
   | 'markphone' // Dummy: Handy vor der Brust, tippt mit links (Standort markieren)
   | 'stophand' // Figur: hebt die linke Hand nach vorn – "Stopp!"
+  // ---- Geldkoffer (Fundstücke) ----
+  | 'opencase' // Dummy: kniet, kippt den Koffer 0,55 m vor sich um (0,6–1,0 s), klappt ihn auf (1,0–1,55 s), erstarrt ab 1,65 s
+  | 'kneellook' // Dummy: kniet aufrecht, schaut sich nach links und rechts um
+  | 'closecase' // Dummy: kniet, drückt den Deckel zu (0–0,6 s)
+  | 'tuckcase' // Dummy: greift den liegenden Koffer, steht auf, klemmt ihn unter den linken Arm (bis 1,3 s)
+  | 'sneak' // Dummy: schleicht geduckt auf Zehenspitzen (Weg über Zeitpunkte), Koffer unterm linken Arm, schaut sich um
+  | 'grabwads' // Dummy: kniet am offenen Koffer, nimmt alle 1,5 s ein Bündel und steckt es in die Jacke (ab 0,3 s)
+  | 'carrycase' // Dummy: geht, Koffer hängt in der rechten Hand (Koffer: hand 1, drop 0.37)
+  | 'holdcase' // Dummy: steht, Koffer hängt in der rechten Hand
+  | 'setcounter' // Dummy: hebt den Koffer am Griff auf den Tresen (Hand 1,45 m hoch, 0,48 m vor ihm bei 0,7 s, loslassen 0,75 s)
+  | 'fillform' // Dummy: steht am Tresen, schreibt mit dem Kugelschreiber auf ein Formular 0,5 m vor ihm (Tresen 1,05 m)
+  | 'cheer' // Dummy: jubelt – Fäuste hoch, kleine Hüpfer
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
@@ -313,12 +325,20 @@ export type ActorKey = {
   blue?: number;
   /** Hund: Leine zur rechten Hand der Figur in "holder" (Standard "nachbar") 1 = an */
   leash?: number;
+  /** Figur mit Dummy-Körper: Augenbrauen ab 0,01 sichtbar, 1 = rechte Braue hochgezogen */
+  brow?: number;
+  /** Dummy: Geldbündel, die vorn aus der Jacke schauen (0 … 3) */
+  stash?: number;
+  /** Geldkoffer: wie voll mit Bündeln (0 … 1, Standard 1) */
+  money?: number;
+  /** Formular: Kugelschreiber daneben 1 = ja */
+  pen?: number;
   /** Gegenstand mit "hand": in wessen rechter Hand (Figur mit Dummy-Körper, z. B. "kumpel", "bundespolizist"). Standard "dummy". Gilt ab diesem Zeitpunkt weiter */
   holder?: string;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

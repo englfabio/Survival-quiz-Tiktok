@@ -15,6 +15,7 @@ import {Foam} from '../effects/Foam';
 import {ColdWaterGlass, CoolPack} from './PanicProps';
 import {BodyHint} from '../effects/BodyHint';
 import {rng} from '../lib/anim';
+import {MoneyBundle, Pen} from './MoneyProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -65,7 +66,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen';
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
   cup: number;
   /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
@@ -1944,6 +1945,205 @@ const pistolPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+// ---------- Geldkoffer (Fundstücke) ----------
+/**
+ * Bewegungen für das Geldkoffer-Video (wiederverwendbar):
+ *  - opencase:   hinknien (0–0,5 s), Hände oben an den stehenden Koffer 0,55 m vor ihm, Koffer zu sich kippen (0,6–1,0 s),
+ *                Deckel aufklappen (1,0–1,55 s, Deckel-Wert "lid" am Koffer passend setzen), ab 1,65 s erstarrt: Hände fliegen hoch,
+ *                Blick starr auf den Inhalt, leichtes Zittern
+ *  - kneellook:  kniet aufrecht, Hände auf den Oberschenkeln, schaut sich nach links und rechts um (ertappt?)
+ *  - closecase:  kniet vorgebeugt, drückt den offenen Deckel mit beiden Händen zu (0–0,6 s)
+ *  - tuckcase:   greift den liegenden Koffer (bis 0,35 s), steht auf und hebt ihn vor die Brust (bis 0,9 s),
+ *                klemmt ihn unter den linken Arm (bis 1,3 s). Koffer: "attach": "dummy" (siehe Choreo-Skript)
+ *  - sneak:      schleicht geduckt auf Zehenspitzen (Weg über Zeitpunkte), Koffer unterm linken Arm, rechte Hand vorn, Kopf schaut hin und her
+ *  - grabwads:   kniet am offenen Koffer 0,55 m vor ihm; alle 1,5 s (ab 0,3 s) ein Bündel greifen und vorn in die Jacke stecken,
+ *                linke Hand hält die Jacke auf. Bündel ist zwischen 0,55 und 1,05 s im Takt in der Hand (Wert "stash" zählt die Bündel in der Jacke)
+ *  - carrycase / holdcase: gehen / stehen, Koffer hängt in der rechten Hand (Arm locker gestreckt)
+ *  - setcounter: hebt den Koffer am Griff auf einen Tresen (Hand bei 0,7 s 1,45 m hoch, 0,48 m vor ihm), lässt bei 0,75 s los, Arm zurück bis 1,4 s
+ *  - fillform:   steht am Tresen (Platte 1,05 m), vorgebeugt, schreibt mit dem Kugelschreiber auf ein Formular ca. 0,5 m vor ihm
+ *  - cheer:      jubelt: Fäuste hoch (0–0,35 s), kleine Hüpfer
+ */
+export const CASE_TOP: P3 = [0, 0.38, 0.55];
+export const FORM_SPOT: P3 = [-0.02, 1.08, 0.5];
+const kneelUp = (lean = 0.6): DummyPose => {
+  const p = kneelPose();
+  p.torsoX = lean;
+  p.headX = 0.4;
+  return p;
+};
+const caseArm = (p: DummyPose, swing = 0) => {
+  p.armR = L3(-0.06 + swing, -0.13, -0.04);
+  p.foreZ = 0;
+};
+const tuckArm = (p: DummyPose) => {
+  p.armL = L3(-0.05, 0.42, -1.25);
+  p.foreZL = -0.25;
+};
+const geldPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'opencase': {
+      const k0 = easeInOut(clamp(time / 0.5));
+      const p = mix(base(), kneelUp(0.55), k0);
+      const tip = easeInOut(clamp((time - 0.6) / 0.4));
+      const open = easeInOut(clamp((time - 1.0) / 0.55));
+      const st = clamp((time - 1.65) / 0.22);
+      const jolt = Math.sin(Math.PI * st) * 0.5 * (1 - st) + easeInOut(st);
+      const tr = time > 1.65 ? Math.sin(time * 29) * 0.006 + Math.sin(time * 21) * 0.004 : 0;
+      p.torsoX = lerpN(p.torsoX, 0.12, jolt) + tr;
+      p.headX = lerpN(0.4, 0.55, jolt) + tr;
+      const reachK = easeInOut(clamp((time - 0.25) / 0.35));
+      const hTop = (s: 1 | -1): P3 => [0.12 * s, 0.37, 0.55];
+      const hEdge = (s: 1 | -1): P3 => [0.15 * s, 0.15, 0.4];
+      const hLid = (s: 1 | -1): P3 => [0.15 * s, 0.36, 0.56];
+      const hUp = (s: 1 | -1): P3 => [0.3 * s, 1.08 + tr, 0.3];
+      const rest = (s: 1 | -1): P3 => [0.22 * s, 0.55, 0.25];
+      const hand = (s: 1 | -1) =>
+        lerp3t(lerp3t(lerp3t(lerp3t(rest(s), hTop(s), reachK), hEdge(s), tip), hLid(s), open), hUp(s), jolt);
+      reachR(p, hand(-1), 0.33, [0.6, -1, -0.3]);
+      reachL(p, hand(1), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'kneellook': {
+      const p = kneelUp(0.18);
+      const k = easeInOut(clamp(time / 0.4));
+      const look = Math.sin(time * 1.9) * 0.85 * k;
+      p.headY = look;
+      p.torsoY = look * 0.25;
+      p.headX = 0.12;
+      p.torsoX = 0.18 + breathe;
+      reachR(p, [-0.18, 0.62, 0.32], 0.33);
+      reachL(p, [0.18, 0.62, 0.32], 0.33);
+      return p;
+    }
+    case 'closecase': {
+      const p = kneelUp(0.62);
+      const k = easeInOut(clamp(time / 0.6));
+      const look = time > 0.7 ? Math.sin((time - 0.7) * 2.2) * 0.6 : 0;
+      p.headY = look;
+      p.headX = 0.45 - 0.25 * Math.abs(look);
+      const hand = (s: 1 | -1) => lerp3t([0.15 * s, 0.45, 0.62], [0.15 * s, 0.15, 0.42], k);
+      reachR(p, hand(-1), 0.33, [0.6, -1, -0.3]);
+      reachL(p, hand(1), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'tuckcase': {
+      const grab = easeInOut(clamp(time / 0.35));
+      const up = easeInOut(clamp((time - 0.35) / 0.55));
+      const tuck = easeInOut(clamp((time - 0.9) / 0.4));
+      const p = mix(kneelUp(0.62), base(), up);
+      p.headX = lerpN(0.45, 0.1, up);
+      const low = (s: 1 | -1): P3 => [0.2 * s, 0.1, 0.52];
+      const chest = (s: 1 | -1): P3 => [0.2 * s, 0.95, 0.3];
+      const r = lerp3t(lerp3t(lerp3t([-0.2, 0.5, 0.3], low(-1), grab), chest(-1), up), [-0.24, 0.92, 0.08], tuck);
+      reachR(p, r, 0.33, [0.6, -1, -0.3]);
+      const l = lerp3t(lerp3t([0.2, 0.5, 0.3], low(1), grab), chest(1), up);
+      reachL(p, l, 0.33, [0.6, -1, -0.3]);
+      if (tuck > 0) {
+        const q = {...p, armL: {...p.armL}};
+        tuckArm(q);
+        p.armL = {sx: lerpN(p.armL.sx, q.armL.sx, tuck), sz: lerpN(p.armL.sz, q.armL.sz, tuck), bend: lerpN(p.armL.bend, q.armL.bend, tuck)};
+        p.foreZL = lerpN(p.foreZL, q.foreZL, tuck);
+      }
+      return p;
+    }
+    case 'sneak': {
+      const ph = time * TAU * Math.max(0.9, speed * 1.1);
+      const s = Math.sin(ph);
+      const p = base();
+      p.hipY = 0.86 - 0.02 * Math.abs(Math.cos(ph));
+      p.legL = L3(-0.45 - 0.3 * s, 0.05, 0.75 + 0.35 * Math.max(0, Math.sin(ph + 1.2)));
+      p.legR = L3(-0.45 + 0.3 * s, -0.05, 0.75 + 0.35 * Math.max(0, Math.sin(ph + 1.2 + Math.PI)));
+      p.pitch = 0.05;
+      p.torsoX = 0.2;
+      p.torsoY = 0.05 * s;
+      p.headY = Math.sin(time * 1.6) * 0.7;
+      p.headX = -0.05;
+      reachR(p, [-0.16, 1.02 + 0.03 * s, 0.32], 0.33, [0.6, -1, -0.3]);
+      tuckArm(p);
+      return p;
+    }
+    case 'grabwads': {
+      const p = kneelUp(0.42);
+      const P = 1.5;
+      const tt = Math.max(0, time - 0.3);
+      const ph = tt % P;
+      const into: P3 = [-0.1 + 0.06 * Math.sin(Math.floor(tt / P) * 2.1), 0.14, 0.52];
+      const chestIn: P3 = [0.04, 0.86, 0.2];
+      const rest: P3 = [-0.18, 0.6, 0.32];
+      let r: P3;
+      if (time < 0.3) r = lerp3t(rest, into, easeInOut(time / 0.3) * 0.3);
+      else if (ph < 0.45) r = lerp3t(time < 0.75 ? rest : chestIn, into, easeInOut(ph / 0.45));
+      else if (ph < 0.6) r = into;
+      else if (ph < 1.05) r = lerp3t(into, chestIn, easeInOut((ph - 0.6) / 0.45));
+      else r = chestIn;
+      reachR(p, r, 0.33, [0.6, -1, -0.3]);
+      // linke Hand hält die Jacke vorn auf
+      reachL(p, [0.13, 0.86, 0.2], 0.33, [0.8, -0.6, -0.5]);
+      p.headX = ph > 0.6 && ph < 1.2 ? 0.25 : 0.45;
+      p.headY = ph > 1.05 ? Math.sin((ph - 1.05) / 0.45 * Math.PI) * 0.7 : 0;
+      p.item = time > 0.3 && ph > 0.55 && ph < 1.08 ? 'wad' : '';
+      return p;
+    }
+    case 'carrycase': {
+      const p = dummyPose('walk', time, speed);
+      const ph = time * TAU * Math.max(0.8, speed * 0.62);
+      caseArm(p, -0.08 * Math.sin(ph));
+      p.torsoZ = 0.04;
+      return p;
+    }
+    case 'holdcase': {
+      const p = base();
+      p.torsoX = 0.02 + breathe;
+      p.torsoZ = 0.04;
+      caseArm(p);
+      return p;
+    }
+    case 'setcounter': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.7));
+      const back = easeInOut(clamp((time - 0.85) / 0.55));
+      p.torsoX = 0.05 * k * (1 - back) + breathe;
+      p.headX = 0.2;
+      const hang: P3 = [-0.25, 0.84, 0.05];
+      const top: P3 = [-0.1, 1.45, 0.48];
+      reachR(p, lerp3t(lerp3t(hang, top, k), [-0.22, 0.95, 0.12], back), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.08, 1.3, 0.45], k * (1 - back)), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'fillform': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = 0.28 * k + breathe;
+      p.pitch = 0.04 * k;
+      p.headX = 0.1 + 0.4 * k;
+      const w = Math.max(0, time - 0.5);
+      const line = (w * 0.7) % 1;
+      const pen: P3 = [FORM_SPOT[0] + 0.06 - 0.12 * line, FORM_SPOT[1] + 0.006 * Math.sin(w * 26) + 0.01 * (1 - k), FORM_SPOT[2] + 0.03 * Math.floor(w * 0.7 % 3) * -1];
+      reachR(p, lerp3t([-0.22, 0.95, 0.12], pen, k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.12], [0.14, 1.07, 0.48], k), 0.33, [0.6, -1, -0.3]);
+      p.item = 'pen';
+      return p;
+    }
+    case 'cheer': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.35));
+      const hop = time > 0.35 ? Math.abs(Math.sin((time - 0.35) * 5.2)) : 0;
+      p.hipY = 0.98 + 0.07 * hop * k - 0.04 * (1 - hop) * k;
+      p.legL = L3(-0.15 * (1 - hop) * k, 0.06, 0.3 * (1 - hop) * k);
+      p.legR = L3(-0.15 * (1 - hop) * k, -0.06, 0.3 * (1 - hop) * k);
+      p.headX = -0.2 * k;
+      p.torsoX = -0.06 * k;
+      const pump = 0.06 * Math.sin(time * 10.4);
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.36, 1.95 + pump, 0.12], k), 0.33, [0.6, 0.2, -0.6]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.36, 1.95 - pump, 0.12], k), 0.33, [0.6, 0.2, -0.6]);
+      p.fists = true;
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Rechte Hand (Handmitte) im Dummy-System (Ursprung am Boden, +z = vorn) – für Gegenstände mit "hand" */
 export const rightHandLocal = (p: DummyPose) =>
   armPoint(p.armR, -1, p.foreZ, 0.33)
@@ -1972,7 +2172,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -3007,6 +3207,30 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
       </group>
     );
   }
+  if (pose.item === 'wad') {
+    // Geldbündel (stilisiert) zwischen den Fingern
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0, -0.02, 0.02]} rotation={[0.3, 0.4, 0.2]} scale={1.15}>
+          <MoneyBundle />
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'pen') {
+    // Kugelschreiber: Spitze nach unten vorn
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0, -0.02, 0.02]} rotation={[0.5, 0, 0]}>
+          <group rotation={[0, 0, -Math.PI / 2]}>
+            <Pen />
+          </group>
+        </group>
+      </group>
+    );
+  }
   if (pose.item === 'tab') {
     // angebissener Tab mit Bissstelle zur Kamera (comichaft vergrößert)
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
@@ -3221,6 +3445,18 @@ const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
   );
 };
 
+/** Augenbrauen vorn am Kopf (Figur sonst ohne Gesicht): raise 0 = gerade … 1 = rechte Braue weit hochgezogen */
+const Brows = ({m, raise}: {m: Mats; raise: number}) => (
+  <group>
+    <mesh material={m.joint} position={[0.048, 0.045, 0.118]} rotation={[-0.2, 0.35, -0.12 * raise]}>
+      <boxGeometry args={[0.055, 0.014, 0.014]} />
+    </mesh>
+    <mesh material={m.joint} position={[-0.048, 0.045 + 0.035 * raise, 0.116 - 0.006 * raise]} rotation={[-0.2 - 0.25 * raise, -0.35, -0.45 * raise]}>
+      <boxGeometry args={[0.055, 0.014, 0.014]} />
+    </mesh>
+  </group>
+);
+
 export const Dummy = ({
   pose,
   bite = false,
@@ -3249,7 +3485,13 @@ export const Dummy = ({
   blut = 0,
   fxTime = 0,
   heave = 0,
+  brow = 0,
+  stash = 0,
 }: {
+  /** Augenbrauen (für Figuren ohne Gesicht): ab 0,01 sichtbar, bis 1 = rechte Braue hochgezogen ("Hm?") */
+  brow?: number;
+  /** Geldbündel, die vorn aus der Jacke schauen (0 … 3, braucht jacket) */
+  stash?: number;
   /** Brustkorb hebt sich mit jedem Atemzug (Phase breathPhase), 0 … 1 */
   heave?: number;
   /** Schaumblasen am Mund 0 … 2 */
@@ -3345,6 +3587,13 @@ export const Dummy = ({
             <icosahedronGeometry args={[0.18, 1]} />
           </mesh>
           <JacketBody m={m} amount={jacket} chest={pose.chest} />
+          {jacket > 0.5 &&
+            stash > 0.05 &&
+            [0, 1, 2].slice(0, Math.ceil(stash)).map((i) => (
+              <group key={`st${i}`} position={[0.035 - i * 0.045, 0.44 - i * 0.025, 0.17 + 0.01 * i]} rotation={[-0.35, 0.25 * (i - 1), 0.25 + i * 0.25]}>
+                <MoneyBundle />
+              </group>
+            ))}
           {pose.bellyOn && (
             <mesh material={m.body} position={[0, 0.16, 0.05 + 0.02 * (pose.belly ?? 0)]} scale={[1.05, 0.78, 0.72 + 0.38 * (pose.belly ?? 0)]} castShadow>
               <icosahedronGeometry args={[0.14, 1]} />
@@ -3409,6 +3658,7 @@ export const Dummy = ({
             {pose.puffPhase !== undefined ? <BreathPuffs phase={pose.puffPhase} rate={1 / 6} life={3.2} /> : <BreathPuffs phase={breathPhase} rate={breath} />}
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
             {uniform && <UniformCap m={m} hair={!!uniform.hair} />}
+            {brow > 0.01 && <Brows m={m} raise={clamp((brow - 0.1) / 0.9)} />}
             <Foam amount={foam} time={fxTime} />
           </group>
           <BodyHint lunge={lunge} blut={blut} time={fxTime} />
