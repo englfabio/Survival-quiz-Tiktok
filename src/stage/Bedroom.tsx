@@ -94,7 +94,45 @@ const Lamp = ({h = 0.3, shade = '#fff1d0', light = 1.6}: {h?: number; shade?: st
   </group>
 );
 
-const BedroomScene = () => {
+/** Blick aus dem Fenster am Morgen: Rasen, Holzzaun, Nachbarhaus mit rotem Dach, Baum, Sonne. Flache Kulisse bei x (schaut nach +x) */
+const MorningView = ({x}: {x: number}) => {
+  const P = (z: number, y: number, w: number, h: number, color: string, d = 0) => (
+    <mesh position={[x - d, y, z]} rotation={[0, Math.PI / 2, 0]}>
+      <planeGeometry args={[w, h]} />
+      <meshBasicMaterial color={color} />
+    </mesh>
+  );
+  return (
+    <group>
+      {P(-0.4, 0.55, 4, 1.1, '#6fb04a', 0.03)}
+      {P(-0.4, 1.03, 4, 0.14, '#b48a5e', 0.0)}
+      {[-1.6, -1.2, -0.8, -0.4, 0, 0.4, 0.8].map((z) => (
+        <mesh key={z} position={[x + 0.01, 1.12, z]} rotation={[0, Math.PI / 2, 0]}>
+          <planeGeometry args={[0.07, 0.34]} />
+          <meshBasicMaterial color="#c49a6a" />
+        </mesh>
+      ))}
+      {P(-0.75, 1.62, 1.1, 0.95, '#f0e6d4', 0.06)}
+      <mesh position={[x - 0.06, 2.095, -0.75]} rotation={[0, Math.PI / 2, 0]}>
+        <shapeGeometry args={[new THREE.Shape([new THREE.Vector2(-0.68, 0), new THREE.Vector2(0.68, 0), new THREE.Vector2(0, 0.5)])]} />
+        <meshBasicMaterial color="#b5523a" />
+      </mesh>
+      {P(-0.95, 1.55, 0.22, 0.25, '#7aa3bd', 0.055)}
+      {P(-0.5, 1.55, 0.22, 0.25, '#7aa3bd', 0.055)}
+      <mesh position={[x - 0.04, 1.65, 0.25]} rotation={[0, Math.PI / 2, 0]}>
+        <circleGeometry args={[0.38, 9]} />
+        <meshBasicMaterial color="#4f9a3a" />
+      </mesh>
+      {P(0.25, 1.15, 0.07, 0.5, '#6b4a30', 0.045)}
+      <mesh position={[x - 0.08, 2.35, 0.55]} rotation={[0, Math.PI / 2, 0]}>
+        <circleGeometry args={[0.16, 16]} />
+        <meshBasicMaterial color="#fff3b8" />
+      </mesh>
+    </group>
+  );
+};
+
+const BedroomScene = ({morning = false}: {morning?: boolean}) => {
   const mats = useMemo(
     () => ({
       floor: new THREE.MeshStandardMaterial({map: plankTexture([2.5, 5]), roughness: 0.7}),
@@ -115,13 +153,15 @@ const BedroomScene = () => {
       wall={mats.wall}
       backWall={mats.back}
       ceiling="#f6efe4"
-      window={{side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: '#3b4f86'}}
-      light={{ambient: 0.48, hemi: 0.6, sun: 0.9, sunColor: '#c9d6ff', lamp: 3.6, lampColor: '#ffdcae'}}
-      sunPos={[-4, 3.5, 0.5]}
-      bg="#2b3558"
+      window={morning ? {side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: '#8fcdf4', open: true} : {side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: '#3b4f86'}}
+      light={morning ? {ambient: 0.62, hemi: 0.75, sun: 2.4, sunColor: '#fff0d2', lamp: 1.6, lampColor: '#fff1dc'} : {ambient: 0.48, hemi: 0.6, sun: 0.9, sunColor: '#c9d6ff', lamp: 3.6, lampColor: '#ffdcae'}}
+      sunPos={morning ? [-5.5, 3.4, -0.2] : [-4, 3.5, 0.5]}
+      bg={morning ? '#cfe6f5' : '#2b3558'}
     >
+      {/* Morgens: Blick nach draußen (Rasen, Zaun, Nachbarhaus, Baum) */}
+      {morning && <MorningView x={-W / 2 - 1.3} />}
       {/* Mond + Sterne hinter dem Fenster */}
-      <mesh position={[-W / 2 - 1.3, 2.05, -0.15]} rotation={[0, Math.PI / 2, 0]}>
+      {!morning && <><mesh position={[-W / 2 - 1.3, 2.05, -0.15]} rotation={[0, Math.PI / 2, 0]}>
         <circleGeometry args={[0.16, 16]} />
         <meshBasicMaterial color="#fff6d6" />
       </mesh>
@@ -136,7 +176,7 @@ const BedroomScene = () => {
           <circleGeometry args={[0.025, 5]} />
           <meshBasicMaterial color="#ffffff" />
         </mesh>
-      ))}
+      ))}</>}
       {/* Bett an der Rückwand rechts */}
       <group position={[0.85, 0, -D / 2 + 0.475]}>
         <Bed />
@@ -150,7 +190,7 @@ const BedroomScene = () => {
           <boxGeometry args={[0.34, 0.012, 0.005]} />
         </mesh>
         <group position={[0.05, nightstand.h, -0.05]}>
-          <Lamp h={0.22} light={1.4} />
+          <Lamp h={0.22} light={morning ? 0.3 : 1.4} />
         </group>
       </group>
       {/* Schreibtisch an der linken Wand (unter dem Fenster) */}
@@ -170,7 +210,7 @@ const BedroomScene = () => {
         ))}
         {/* Lampe, Bücher, Laptop, Tasse */}
         <group position={[-0.12, desk.h, -0.45]}>
-          <Lamp h={0.32} light={1.2} />
+          <Lamp h={0.32} light={morning ? 0.25 : 1.2} />
         </group>
         {[0, 1, 2].map((i) => (
           <mesh key={i} position={[-0.1, desk.h + 0.02 + i * 0.035, 0.42]} rotation={[0, 0.1 * i, 0]} castShadow>
@@ -490,6 +530,8 @@ const TrainScene = () => {
   );
 };
 
-export const bedroomStage: StageDef = {id: 'schlafzimmer', Component: BedroomScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+export const bedroomStage: StageDef = {id: 'schlafzimmer', Component: () => <BedroomScene />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+/** "schlafzimmer-morgen": dasselbe Schlafzimmer am Morgen – helles Sonnenlicht, Fenster offen (ohne Mittelsteg), draußen Rasen, Zaun, Nachbarhaus */
+export const bedroomMorningStage: StageDef = {id: 'schlafzimmer-morgen', Component: () => <BedroomScene morning />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 export const elevatorStage: StageDef = {id: 'aufzug', Component: ElevatorScene, climbTrees: [], groundHeight: () => 0, ambience: 'aufzug-summen'};
 export const trainStage: StageDef = {id: 'bahn', Component: TrainScene, climbTrees: [], groundHeight: () => 0, ambience: 'bahn-atmo'};

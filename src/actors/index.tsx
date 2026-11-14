@@ -35,6 +35,7 @@ import {AerialBomb, Smartphone, SmartphoneProp, SpadeProp, WarnStake, Wheelbarro
 import {Weever, weeverPose} from './Weever';
 import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
 import {Bucket, ChristmasTree, DoorLeaf, FireTruck, GiftPile} from './ChristmasProps';
+import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
 
 /**
@@ -143,6 +144,15 @@ export const ACTORS = {
   muell: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   nadel: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   ast: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Wecker-Spezial (verschlafen) ----
+  chef: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  wecker: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  digitaluhr: {height: 0.06, climbOffset: 0, speedLineHeight: 0},
+  abreisskalender: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  monatskalender: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  zahnraeder: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  konfetti: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  giesskanne: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Kinder-Dummys: klein (Maßstab 0,6), bunte Körperfarben, Kappe oder Zöpfe – freundlich, ohne Gesicht wie alle Dummys */
@@ -166,7 +176,10 @@ const DOCTOR_COLOR = '#2fae9c';
 /** Körperfarbe des Kumpels (zweiter Crashtest-Dummy, orange – für alle Szenen, in denen man jemandem hilft) */
 const BUDDY_COLOR = '#f07a1e';
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef'];
+/** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
+const BOSS_COLOR = '#9aa1a8';
+const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
 /** Bahnmitarbeiterin: Körper hellgrau-lila, Uniform weinrot/grau mit rotem Halstuch + Zopf (ohne Logo) */
 const STAFF_COLOR = '#b9a6d6';
 const STAFF_UNIFORM: Uniform = {jacket: '#7b1f35', dark: '#4e1222', collar: '#e9e6e1', pants: '#3c4048', cap: '#7b1f35', band: '#3c4048', scarf: '#d8b23a', hair: '#5a3622'};
@@ -451,6 +464,8 @@ export const Actor = ({
           brow={v.brow}
           wind={v.wind}
           windDir={windLocal(state.face, v.drift)}
+          partyhat={v.partyhat}
+          gardenhat={v.gardenhat}
         />
       )}
       {name === 'zug' && <Train speed={state.speed} time={zt} />}
@@ -538,7 +553,7 @@ export const Actor = ({
       {name === 'warnstab' && <WarnStake time={state.motionTime} plant={state.motion === 'plant'} />}
       {name === 'smartphone' &&
         (state.motion === 'lie' ? (
-          <group position={[0, 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={1.6}>
+          <group position={[Math.sin(zt * 63) * 0.006 * v.ring, 0.006, Math.cos(zt * 51) * 0.004 * v.ring]} rotation={[-Math.PI / 2, 0, Math.sin(zt * 47) * 0.12 * v.ring]} scale={1.6}>
             <Smartphone />
           </group>
         ) : (
@@ -579,6 +594,8 @@ export const Actor = ({
         <Dummy
           color={BUDDY_COLOR}
           brow={v.brow}
+          gardenhat={v.gardenhat}
+          partyhat={v.partyhat}
           zap={v.zap}
           zapTime={zt}
           pose={zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 9)}
@@ -654,6 +671,33 @@ export const Actor = ({
       {name === 'paragraf' && <ParagraphBadge text={actor.text ?? '§ 246'} time={state.motionTime} visible={state.motion === 'show'} size={v.size} />}
       {name === 'absperrband' && <CordonTape fill={v.fill} size={v.size} />}
       {name === 'rechnung' && <Bill size={v.size} />}
+      {name === 'chef' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BOSS_COLOR} uniform={BOSS_SUIT} brow={v.brow} />
+      )}
+      {name === 'wecker' && (
+        <group scale={1 + v.size} rotation={state.motion === 'arc' ? [zt * 5.5, zt * 2.2, zt * 1.3] : [deg(-v.tilt), 0, 0]}>
+          <AlarmClock ring={v.ring} broken={v.broken} time={zt} />
+        </group>
+      )}
+      {name === 'digitaluhr' && (
+        <group scale={1 + v.size}>
+          <DigitalClock text={actor.text ?? '8:47'} blink={v.blink} time={zt} />
+        </group>
+      )}
+      {name === 'abreisskalender' && (
+        <group rotation={[deg(-v.tilt), 0, 0]}>
+          <TearCalendar circle={v.circle} write={v.write} size={v.size} />
+        </group>
+      )}
+      {name === 'monatskalender' && <MonthCalendar />}
+      {name === 'zahnraeder' && state.motion === 'burst' && <GearBurst time={state.motionTime} hit2={v.mark > 0 ? v.mark : -1} floor={-(v.drop || 0.5)} />}
+      {name === 'konfetti' && state.motion === 'burst' && <ConfettiBurst time={state.motionTime} count={90} power={1 + v.size} />}
+      {name === 'giesskanne' && <WateringCan water={v.water} time={zt} />}
+      {name === 'smartphone' && v.ring > 0.01 && (
+        <group position={[0, 0.02, 0]}>
+          <RingLines amount={v.ring} time={zt} r={0.07} y={0.0} />
+        </group>
+      )}
       {name === 'zitteraal' && <ZitterAal motion={state.motion} time={state.motionTime} zap={v.zap} zt={zt} />}
       {name === 'handtuch' && <WetTowel time={state.motionTime} bend={0.05} />}
       {name === 'sicherungskasten' && <FuseBox lever={v.lever} />}

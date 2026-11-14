@@ -17,6 +17,7 @@ import {BodyHint} from '../effects/BodyHint';
 import {rng} from '../lib/anim';
 import {MoneyBundle, Pen} from './MoneyProps';
 import {Glint, NeedleCap, Syringe, SYRINGE_SCALE, SYRINGE_TIP} from './SyringeProps';
+import {ConfettiBurst, ConfettiCannon, GardenHat, Hammer, PartyHat} from './WeckerProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -87,6 +88,12 @@ export type DummyPose = {
   aim?: P3;
   /** Handy-Foto (item 'photo'): Blitz 0 … 1 */
   snap?: number;
+  /** Wecker-Video: Werkzeug in der rechten Hand als Verlängerung des Unterarms ('hammer' | 'cannon') */
+  tool?: '' | 'hammer' | 'cannon';
+  /** Konfetti: Sekunden seit dem Schuss der Konfetti-Kanone (0 = noch kein Schuss) */
+  confetti?: number;
+  /** Smartphone in der LINKEN Hand (z. B. im Bett telefonieren, wenn die linke Seite zur Kamera zeigt) */
+  phoneL?: boolean;
 };
 
 const base = (): DummyPose => ({
@@ -158,6 +165,9 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     puffPhase: k < 0.5 ? a.puffPhase : b.puffPhase,
     aim: k < 0.5 ? a.aim : b.aim,
     snap: L(a.snap ?? 0, b.snap ?? 0),
+    tool: k < 0.5 ? a.tool : b.tool,
+    confetti: k < 0.5 ? a.confetti : b.confetti,
+    phoneL: k < 0.5 ? a.phoneL : b.phoneL,
   };
 };
 
@@ -2403,6 +2413,327 @@ const spritzePose = (motion: Motion, time: number, speed: number): DummyPose | n
   return null;
 };
 
+// ---------- Wecker (Spezial: verschlafen) ----------
+/**
+ * Bewegungen für das Wecker-Spezial (wiederverwendbar). Bett-Haltungen: Dummy liegt/sitzt auf einer Matratze; Hüfte 0,56 m über dem
+ * Ursprung (Matratze ca. 0,45–0,5 m hoch), Beine gestreckt nach vorn (+z), Kopf zum Kissen (−z).
+ *  - bedsleep:   liegt im Kissen, schläft (ruhiges Atmen)
+ *  - bedwake:    schreckt hoch (0–0,3 s, Arme fliegen hoch), sitzt aufrecht und starrt nach vorn auf die Uhr (ab 0,9 s Hände an die Wangen)
+ *  - bedsit:     sitzt aufrecht im Bett, Hände auf der Decke
+ *  - bedflop:    lässt sich aus dem Sitzen zurück ins Kissen fallen (0,25–0,8 s, federt nach), Arme locker ausgebreitet
+ *  - bedwrite:   halb aufgerichtet im Kissen, schaut auf den Kalender auf dem Schoß (LAP_CAL); rechte Hand mit Stift zieht
+ *                0,3–1,4 s einen Kringel um die Zahl, schreibt 1,5–3,3 s "FEIERTAG" darunter (links → rechts)
+ *  - bedhat:     setzt mit beiden Händen ein Partyhütchen auf (Hände am Kopf 0,4–0,9 s) – Hütchen über den Wert "partyhat" (0 → 1)
+ *  - bedconfetti: hält die Konfetti-Kanone hoch (bis 0,5 s), Schuss bei 0,6 s, jubelt
+ *  - bedcall:    gemütlich halb liegend, Handy links am Ohr (phoneL), rechte Hand hinter dem Kopf, nickt beim Reden
+ *  - bedpoint:   Handy links am Ohr, zeigt mit rechts zufrieden auf den Kalender auf dem Schoß
+ *  - bedwave:    halb liegend, winkt mit links (zur Kamera), rechte Hand hinter dem Kopf
+ *  - throwclock: steht, holt mit rechts über dem Kopf aus (bis 0,5 s) und wirft (Abwurf bei 0,62 s), schaut hinterher
+ *  - hammer:     steht, schlägt mit dem Hammer zweimal von oben auf etwas ca. 0,8 m vor ihm auf 0,7 m Höhe (Treffer 0,6 s + 1,6 s),
+ *                ab 2,1 s richtet er sich auf, Hammer locker in der Hand
+ *  - watering:   steht, gießt mit der Gießkanne in der rechten Hand (vor ihm), schaut nach unten
+ *  - lookup:     richtet sich aus dem Gießen auf, Kopf hoch (schaut etwas in der Luft nach), Kanne sinkt
+ *  - calsearch:  steht, Handy rechts am Ohr, linker Zeigefinger fährt über einen Wandkalender ca. 0,5 m vor ihm (Reihe für Reihe)
+ *  - chefhm:     steht, Handy rechts am Ohr, linke Hand in die Hüfte, Kopf leicht schief ("Hm?") – mit Wert "brow"
+ */
+export const LAP_CAL = {x: -0.02, y: 0.6, z: 0.4, lean: 0.62};
+/** Punkt auf dem Kalenderblatt (u nach rechts aus Sicht des Betrachters, v nach oben, Meter ab Unterkante) → Dummy-System */
+export const lapCalPoint = (u: number, v: number, out = 0.014): P3 => {
+  const l = LAP_CAL.lean;
+  const y = v * Math.cos(l) + out * Math.sin(l);
+  const z = -v * Math.sin(l) + out * Math.cos(l);
+  // Kalender schaut zum Dummy (Drehung 180° um y)
+  return [LAP_CAL.x - u, LAP_CAL.y + y, LAP_CAL.z - z];
+};
+const BED_HIP = 0.56;
+const bedBody = (lean: number, time: number): DummyPose => {
+  const p = base();
+  p.hipY = BED_HIP;
+  p.legL = L3(-1.57, 0.06, 0.02);
+  p.legR = L3(-1.57, -0.06, 0.02);
+  p.torsoX = lean + Math.sin(time * 1.6) * 0.006;
+  p.headX = 0.1;
+  // Hände liegen auf der Decke neben den Oberschenkeln
+  p.armL = L3(-0.35 - lean * 0.75, 0.25, -0.5);
+  p.armR = L3(-0.35 - lean * 0.75, -0.25, -0.5);
+  return p;
+};
+const LIE = -1.3;
+const RECLINE = -0.62;
+const headTop = (lean: number, up = 0.88): P3 => [0, BED_HIP + 0.06 + up * Math.cos(lean), -up * Math.sin(lean)];
+const handsLap = (p: DummyPose, lean: number) => {
+  void lean;
+  reachR(p, [-0.17, 0.66, 0.3], 0.33, [0.6, -1, -0.4]);
+  reachL(p, [0.17, 0.66, 0.3], 0.33, [0.6, -1, -0.4]);
+};
+const behindHead = (p: DummyPose, lean: number, side: 1 | -1) => {
+  const h = headTop(lean, 0.74);
+  const t: P3 = [side * 0.13, h[1] - 0.02 * Math.cos(lean), h[2] - 0.06];
+  if (side < 0) reachR(p, t, 0.33, [1, 0.5, -0.5]);
+  else reachL(p, t, 0.33, [1, 0.5, -0.5]);
+};
+const phoneEarL = (p: DummyPose, lean: number, talk: number) => {
+  const h = headTop(lean, 0.74);
+  reachL(p, [0.15, h[1] - 0.02, h[2] + 0.04 + talk], 0.33, [0.8, -0.6, -0.3]);
+  p.phoneL = true;
+};
+const weckerPose = (motion: Motion, time: number): DummyPose | null => {
+  switch (motion) {
+    case 'bedsleep': {
+      const p = bedBody(LIE, time);
+      const b = Math.sin(time * 1.7);
+      p.chest = 0.25 + 0.25 * b;
+      p.headX = 0.3;
+      p.headY = -0.25;
+      p.armL = L3(-0.15, 0.35, -0.3);
+      p.armR = L3(-0.15, -0.35, -0.3);
+      return p;
+    }
+    case 'bedsit': {
+      const p = bedBody(-0.06, time);
+      p.headX = 0.12 + Math.sin(time * 0.9) * 0.03;
+      handsLap(p, -0.06);
+      return p;
+    }
+    case 'bedwake': {
+      const j = easeInOut(clamp(time / 0.28));
+      const settle = easeInOut(clamp((time - 0.28) / 0.4));
+      const lean = LIE + (0.14 - LIE) * j - 0.18 * settle;
+      const p = bedBody(lean, time);
+      const tr = time > 0.6 ? Math.sin(time * 31) * 0.006 + Math.sin(time * 23) * 0.004 : 0;
+      p.torsoX += tr;
+      p.headX = 0.3 - 0.2 * j + 0.12 * settle;
+      p.headY = 0;
+      const fling = Math.sin(clamp(time / 0.7) * Math.PI);
+      const cheeks = easeInOut(clamp((time - 0.9) / 0.4));
+      p.armL = L3(-0.6 - 1.6 * fling, 0.3 + 0.9 * fling, -0.4 - 0.6 * fling);
+      p.armR = L3(-0.6 - 1.6 * fling, -0.3 - 0.9 * fling, -0.4 - 0.6 * fling);
+      if (cheeks > 0.001) {
+        const q = {...p};
+        const h = headTop(lean, 0.74);
+        reachR(q, [-0.13, h[1] - 0.04, h[2] + 0.06], 0.33, [0.9, -0.8, -0.2]);
+        reachL(q, [0.13, h[1] - 0.04, h[2] + 0.06], 0.33, [0.9, -0.8, -0.2]);
+        p.armR = mixLimb(p.armR, q.armR, cheeks);
+        p.armL = mixLimb(p.armL, q.armL, cheeks);
+        p.foreZ = q.foreZ * cheeks;
+        p.foreZL = q.foreZL * cheeks;
+      }
+      p.chest = 0.4 * j;
+      return p;
+    }
+    case 'bedflop': {
+      const f = clamp((time - 0.25) / 0.55);
+      const fall = f * f;
+      const bounce = time > 0.8 ? Math.sin(clamp((time - 0.8) / 0.45) * Math.PI) * 0.07 * (1 - clamp((time - 0.8) / 0.45)) : 0;
+      const lean = -0.06 + (LIE - 0.06 + 0.06) * fall + bounce;
+      const p = bedBody(lean, time);
+      const spread = easeInOut(clamp((time - 0.3) / 0.6));
+      p.armL = L3(-0.6 + 0.5 * spread, 0.25 + 0.9 * spread, -0.5 + 0.2 * spread);
+      p.armR = L3(-0.6 + 0.5 * spread, -0.25 - 0.9 * spread, -0.5 + 0.2 * spread);
+      p.headX = 0.12 + 0.18 * fall;
+      p.chest = time > 0.8 ? 0.3 * Math.max(0, Math.sin((time - 0.8) * 2)) : 0;
+      return p;
+    }
+    case 'bedwrite': {
+      const p = bedBody(RECLINE, time);
+      p.headX = 0.62;
+      p.headY = -0.05;
+      // Stiftspitze auf dem Blatt: Kringel um die Zahl, dann Schrift
+      const {numY, writeY, w} = {numY: 0.155, writeY: 0.063, w: 0.18};
+      let u = 0.06;
+      let v = numY + 0.06;
+      let lift = 0.03;
+      if (time >= 0.3 && time < 1.4) {
+        const a = ((time - 0.3) / 1.1) * Math.PI * 2 * 1.08 + 0.3;
+        u = Math.sin(a) * 0.055;
+        v = numY + Math.cos(a) * 0.063;
+        lift = 0;
+      } else if (time >= 1.4 && time < 1.5) {
+        const k = (time - 1.4) / 0.1;
+        u = lerpN(Math.sin(Math.PI * 2 * 1.08 + 0.3) * 0.055, -w * 0.44, k);
+        v = lerpN(numY + Math.cos(Math.PI * 2 * 1.08 + 0.3) * 0.063, writeY, k);
+        lift = 0.02 * Math.sin(k * Math.PI);
+      } else if (time >= 1.5 && time < 3.3) {
+        const k = (time - 1.5) / 1.8;
+        u = -w * 0.44 + w * 0.88 * k;
+        v = writeY + Math.sin(time * 38) * 0.012;
+        lift = 0;
+      } else if (time >= 3.3) {
+        const k = easeInOut(clamp((time - 3.3) / 0.5));
+        u = w * 0.44 + 0.03 * k;
+        v = writeY + 0.08 * k;
+        lift = 0.05 * k;
+      }
+      const tip = lapCalPoint(u, v, 0.016 + lift);
+      // Hand sitzt über/hinter der Stiftspitze (Stift zeigt nach unten vorn)
+      reachR(p, [tip[0] - 0.01, tip[1] + 0.085, tip[2] - 0.05], 0.36, [0.6, -1, -0.5]);
+      // linke Hand hält den Kalender seitlich fest
+      const hold = lapCalPoint(-0.11, 0.12, 0.0);
+      reachL(p, hold, 0.33, [0.6, -1, -0.3]);
+      p.item = 'pen';
+      return p;
+    }
+    case 'bedhat': {
+      const p = bedBody(RECLINE, time);
+      const up = easeInOut(clamp(time / 0.4)) * (1 - easeInOut(clamp((time - 0.9) / 0.4)));
+      const h = headTop(RECLINE, 0.86);
+      const low: P3 = [0, 0.75, 0.25];
+      const q = {...p};
+      reachR(q, lerp3t([-0.12, low[1], low[2]], [-0.09, h[1], h[2] + 0.02], up), 0.33, [1, 0.3, -0.5]);
+      reachL(q, lerp3t([0.12, low[1], low[2]], [0.09, h[1], h[2] + 0.02], up), 0.33, [1, 0.3, -0.5]);
+      const base0 = bedBody(RECLINE, time);
+      handsLap(base0, RECLINE);
+      const k = easeInOut(clamp(time / 0.25));
+      p.armR = mixLimb(base0.armR, q.armR, k);
+      p.armL = mixLimb(base0.armL, q.armL, k);
+      p.foreZ = q.foreZ * k;
+      p.foreZL = q.foreZL * k;
+      p.headX = 0.15 - 0.1 * up;
+      return p;
+    }
+    case 'bedconfetti': {
+      const p = bedBody(RECLINE, time);
+      const up = easeInOut(clamp(time / 0.5));
+      p.armR = L3(-0.5 - 2.35 * up, -0.25 + 0.05 * up, -0.4 + 0.3 * up);
+      p.foreZ = 0;
+      const jolt = time > 0.6 ? Math.sin(clamp((time - 0.6) / 0.25) * Math.PI) : 0;
+      p.armR.sx += 0.12 * jolt;
+      p.armL = L3(-0.5 - 2.1 * easeInOut(clamp((time - 0.7) / 0.4)), 0.35, -0.6);
+      p.headX = -0.2 * up;
+      p.tool = 'cannon';
+      p.fists = false;
+      return p;
+    }
+    case 'bedcall': {
+      const lean = -0.78;
+      const p = bedBody(lean, time);
+      const talk = Math.sin(time * 5.5) * 0.004;
+      phoneEarL(p, lean, talk);
+      behindHead(p, lean, -1);
+      p.headX = 0.12 + Math.sin(time * 3.1) * 0.05;
+      p.headY = 0.1 + Math.sin(time * 1.3) * 0.06;
+      p.legR = L3(-1.45, -0.04, 0.35);
+      return p;
+    }
+    case 'bedpoint': {
+      const lean = RECLINE;
+      const p = bedBody(lean, time);
+      phoneEarL(p, lean, 0);
+      const k = easeInOut(clamp(time / 0.5));
+      const tgt = lapCalPoint(0.0, 0.24, 0.12);
+      const tap = Math.sin(time * 7) * 0.012 * k;
+      const q = {...p};
+      reachR(q, [tgt[0] - 0.02, tgt[1] + 0.06 + tap, tgt[2] - 0.12], 0.33, [0.6, -1, -0.5]);
+      const b0 = bedBody(lean, time);
+      handsLap(b0, lean);
+      p.armR = mixLimb(b0.armR, q.armR, k);
+      p.foreZ = q.foreZ * k;
+      p.headX = 0.25 + Math.sin(time * 2.4) * 0.06;
+      p.headY = 0.05;
+      return p;
+    }
+    case 'bedwave': {
+      const lean = -0.72;
+      const p = bedBody(lean, time);
+      behindHead(p, lean, -1);
+      const k = easeInOut(clamp(time / 0.5));
+      p.armL = L3(-0.6 - 1.2 * k, 0.3 + 1.2 * k, -0.4 - 1.0 * k);
+      p.foreZL = (0.3 + Math.sin(time * 8) * 0.45) * k;
+      p.headX = 0.05;
+      p.headY = 0.25;
+      return p;
+    }
+    case 'throwclock': {
+      const p = base();
+      const wind = easeInOut(clamp(time / 0.5));
+      const thr = easeInOut(clamp((time - 0.5) / 0.22));
+      const fol = easeInOut(clamp((time - 0.72) / 0.5));
+      p.torsoX = -0.18 * wind + 0.42 * thr - 0.2 * fol;
+      p.torsoY = -0.25 * wind + 0.35 * thr - 0.1 * fol;
+      p.legL = L3(-0.35 * wind, 0.08, 0.1);
+      p.legR = L3(0.3 * wind, -0.08, 0.15);
+      p.armR = L3(-0.3 - 2.5 * wind + 1.2 * thr + 0.6 * fol, -0.25 - 0.1 * wind, -0.2 - 1.6 * wind + 1.5 * thr);
+      p.armL = L3(-1.3 * wind + 0.6 * thr + 0.5 * fol, 0.25, -0.4);
+      p.headX = -0.12 - 0.15 * fol;
+      return p;
+    }
+    case 'hammer': {
+      const p = base();
+      // Ausholen/Schlag: Winkel des rechten Arms (Oberarm) über die Zeit
+      const hit = (t0: number, t1: number) => {
+        const up = easeInOut(clamp((time - t0) / 0.45));
+        const down = clamp((time - t0 - 0.45) / 0.15);
+        return {up: up * (1 - down), down};
+      };
+      const h1 = hit(0, 0.6);
+      const h2 = hit(1.0, 1.6);
+      const cur = time < 1.0 ? h1 : h2;
+      const lift = cur.up;
+      const impact = time < 1.0 ? (time > 0.6 ? 1 : 0) : time > 1.6 ? 1 : 0;
+      const relax = easeInOut(clamp((time - 2.1) / 0.6));
+      const bendFwd = 0.45 * (time < 0.25 ? easeInOut(time / 0.25) : 1) * (1 - relax);
+      p.torsoX = bendFwd - 0.1 * lift + (impact ? 0.04 : 0);
+      p.hipY = 0.98 - 0.05 * (1 - relax);
+      p.legL = L3(-0.25, 0.1, 0.2);
+      p.legR = L3(0.15, -0.1, 0.2);
+      const strikeSx = -0.25;
+      p.armR = L3(strikeSx - 2.4 * lift, -0.15, -0.1 - 1.4 * lift);
+      if (relax > 0) p.armR = mixLimb(p.armR, L3(-0.1, -0.12, -0.25), relax);
+      p.armL = L3(-0.5 * (1 - relax), 0.3, -0.5);
+      p.headX = 0.35 * (1 - relax);
+      p.tool = 'hammer';
+      return p;
+    }
+    case 'watering': {
+      const p = base();
+      p.torsoX = 0.12 + Math.sin(time * 2.2) * 0.01;
+      p.headX = 0.45;
+      p.armR = L3(-0.95, -0.12, -0.25);
+      p.armL = L3(-0.1, 0.12, -0.2);
+      return p;
+    }
+    case 'lookup': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = 0.12 * (1 - k) - 0.05 * k;
+      p.headX = 0.45 * (1 - k) - 0.15 * k;
+      p.headY = 0.15 * k;
+      p.armR = L3(-0.95 + 0.6 * k, -0.12, -0.25);
+      p.armL = L3(-0.1, 0.12, -0.2);
+      return p;
+    }
+    case 'calsearch': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      p.armR = L3(-2.0, 0.3, -2.3);
+      p.smartphone = true;
+      // Finger fährt Reihe für Reihe über den Kalender (Reihe alle 0,9 s)
+      const row = Math.floor(time / 0.9) % 5;
+      const ph = (time % 0.9) / 0.9;
+      const x = 0.42 - 0.42 * ph;
+      const y = 1.66 - row * 0.085;
+      const tgt: P3 = lerp3t([0.25, 1.0, 0.2], [x, y, 0.44], k);
+      reachL(p, tgt, 0.36, [0.6, -1, -0.2]);
+      p.headX = -0.05 + 0.1 * (row / 4);
+      p.headY = 0.25 * k + (x - 0.2) * 0.6 * k;
+      p.torsoX = 0.03;
+      return p;
+    }
+    case 'chefhm': {
+      const p = base();
+      p.armR = L3(-2.0, 0.3, -2.3);
+      p.smartphone = true;
+      p.armL = L3(0.15, 0.55, -1.5);
+      p.torsoZ = 0.03;
+      p.headX = 0.05;
+      p.headY = 0;
+      p.torsoX = Math.sin(time * 2.2) * 0.01;
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Rechte Hand (Handmitte) im Dummy-System (Ursprung am Boden, +z = vorn) – für Gegenstände mit "hand" */
 export const rightHandLocal = (p: DummyPose) =>
   armPoint(p.armR, -1, p.foreZ, 0.33)
@@ -2431,7 +2762,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -2891,7 +3222,7 @@ export const dummyPoseBlended = (
  * Uniform für Figuren mit Dummy-Körper (Bahnmitarbeiterin, Bundespolizist …): Farben für Jacke, Säume, Kragen, Hose,
  * Mütze (Schirmmütze) + Mützenband, optional Halstuch und Zopf. Ohne Logos und ohne echte Abzeichen.
  */
-export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string};
+export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; /** Krawatte (Farbe) */ tie?: string; /** ohne Schirmmütze (z. B. Anzug) */ nocap?: boolean};
 const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
   useMemo(
     () => ({
@@ -3461,6 +3792,33 @@ const armPoint = (limb: Limb, side: 1 | -1, foreZ: number, along: number, up = 0
     .applyEuler(new THREE.Euler(limb.sx, 0, limb.sz))
     .add(new THREE.Vector3(0.27 * side, 0.44, 0));
 
+/** Werkzeug als Verlängerung des rechten Unterarms (Hammer, Konfetti-Kanone) + Konfetti (im Oberkörper-System) */
+const ToolItem = ({pose}: {pose: DummyPose}) => {
+  if (!pose.tool) return null;
+  const level = new THREE.Quaternion()
+    .setFromEuler(new THREE.Euler(pose.torsoX, pose.torsoY, pose.torsoZ))
+    .invert()
+    .multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-pose.pitch, 0, 0)));
+  const tip = armPoint(pose.armR, -1, pose.foreZ, 0.3 + 0.33);
+  return (
+    <>
+      <group position={[-0.27, 0.44, 0]} rotation={[pose.armR.sx, 0, pose.armR.sz]}>
+        <group position={[0, -0.31, 0]} rotation={[pose.armR.bend, 0, pose.foreZ]}>
+          <group position={[0, -0.3, 0]}>
+            {pose.tool === 'hammer' && <Hammer />}
+            {pose.tool === 'cannon' && <ConfettiCannon />}
+          </group>
+        </group>
+      </group>
+      {pose.tool === 'cannon' && (pose.confetti ?? 0) > 0 && (
+        <group position={tip} quaternion={level}>
+          <ConfettiBurst time={pose.confetti ?? 0} />
+        </group>
+      )}
+    </>
+  );
+};
+
 /** Gegenstand in der rechten Hand (Pflaster, Spray, Kompresse, Impfpass) */
 const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; time: number; zap?: number; zapTime?: number; tooth?: ToothLook}) => {
   const hand = armPoint(pose.armR, -1, pose.foreZ, 0.33);
@@ -3873,7 +4231,13 @@ export const Dummy = ({
   wind = 0,
   windDir = 0,
   kid,
+  partyhat = 0,
+  gardenhat = 0,
 }: {
+  /** Partyhütchen 0 … 1 (bei < 1 schwebt es noch über dem Kopf = wird aufgesetzt) */
+  partyhat?: number;
+  /** Gartenhut 0/1 */
+  gardenhat?: number;
   /** Kinder-Dummy: größerer Kopf + Kappe oder Zöpfe in bunten Farben (Figur wird außen auf ca. 0,6 verkleinert) */
   kid?: Kid;
   /** Wind/Sog an der Jacke: 0 … 1 (Saum flattert), windDir = Richtung im Dummy-System (Bogenmaß, 0 = nach vorn) */
@@ -3992,7 +4356,8 @@ export const Dummy = ({
           )}
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
-          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} fist={pose.fists} />
+          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} smartphone={pose.phoneL} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} fist={pose.fists} />
+          <ToolItem pose={pose} />
           <HandItem pose={pose} time={time} zap={zap} zapTime={zapTime} tooth={tooth} />
           {zap > 0.01 && (
             <ZapAura
@@ -4049,11 +4414,36 @@ export const Dummy = ({
             <Marker m={m} r={0.05} position={[-0.118, 0.01, 0]} rotation={[0, -Math.PI / 2, 0]} />
             {pose.puffPhase !== undefined ? <BreathPuffs phase={pose.puffPhase} rate={1 / 6} life={3.2} /> : <BreathPuffs phase={breathPhase} rate={breath} />}
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
-            {uniform && <UniformCap m={m} hair={!!uniform.hair} />}
+            {uniform && !uniform.nocap && <UniformCap m={m} hair={!!uniform.hair} />}
+            {partyhat > 0.01 && (
+              <group position={[0.02, 0.12 + (1 - clamp(partyhat)) * 0.3, 0.01]} rotation={[-0.12, 0, -0.18]}>
+                <PartyHat />
+              </group>
+            )}
+            {gardenhat > 0.5 && (
+              <group position={[0, 0.1, 0]} rotation={[-0.1, 0, 0]}>
+                <GardenHat />
+              </group>
+            )}
             {brow > 0.01 && <Brows m={m} raise={clamp((brow - 0.1) / 0.9)} />}
             <Foam amount={foam} time={fxTime} />
           </group>
           <BodyHint lunge={lunge} blut={blut} time={fxTime} />
+          {uniform?.tie && (
+            <group position={[0, 0.47, 0.205]} rotation={[-0.25, 0, 0]}>
+              <mesh material={m.fur} position={[0, 0.03, -0.01]} rotation={[0, 0, Math.PI]}>
+                <circleGeometry args={[0.07, 3]} />
+              </mesh>
+              <mesh position={[0, 0.0, 0.004]}>
+                <boxGeometry args={[0.035, 0.03, 0.015]} />
+                <meshStandardMaterial color={uniform.tie} flatShading />
+              </mesh>
+              <mesh position={[0, -0.11, 0.008]} rotation={[0.08, 0, 0]} scale={[1, 1, 0.3]}>
+                <coneGeometry args={[0.035, 0.2, 4, 1]} />
+                <meshStandardMaterial color={uniform.tie} flatShading />
+              </mesh>
+            </group>
+          )}
           {uniform?.scarf && (
             <mesh material={m.scarf} position={[0, 0.5, 0.15]} rotation={[0.35, 0, Math.PI]}>
               <circleGeometry args={[0.085, 3]} />

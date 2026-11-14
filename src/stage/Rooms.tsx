@@ -67,7 +67,7 @@ type RoomCfg = {
   backWall?: THREE.Material;
   ceiling: string;
   /** Fenster in der linken (−x) oder rechten (+x) Wand: Mitte z, Breite, Unterkante, Höhe */
-  window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string};
+  window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string; /** offen: kein Mittelsteg, ein Flügel steht nach innen offen */ open?: boolean};
   light: {ambient: number; hemi: number; sun: number; sunColor: string; lamp: number; lampColor: string};
   children?: ReactNode;
   /** false = keine Standard-Wände (der Raum baut eigene Wände mit Öffnungen, siehe HoleWall) */
@@ -139,13 +139,41 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
               {[
                 [0, window.h / 2 + 0.03, window.w + 0.12, 0.08],
                 [0, -window.h / 2 - 0.03, window.w + 0.12, 0.08],
-                [0, 0, 0.06, window.h],
+                ...(window.open ? [] : [[0, 0, 0.06, window.h]]),
               ].map(([dz, dy, w, h], i) => (
                 <mesh key={i} position={[(s * W) / 2 - s * 0.03, window.y + window.h / 2 + dy, window.z + dz]} rotation={[0, -s * Math.PI / 2, 0]}>
                   <boxGeometry args={[w, h, 0.06]} />
                   <meshStandardMaterial color="#f7f7f5" />
                 </mesh>
               ))}
+              {window.open && (
+                <group position={[(s * W) / 2 - s * 0.03, window.y + window.h / 2, window.z + window.w / 2]} rotation={[0, -s * 1.9, 0]}>
+                  {/* offener Fensterflügel (Rahmen + Glas), steht nach innen */}
+                  <mesh position={[0, 0, -window.w / 4]}>
+                    <boxGeometry args={[0.05, window.h, window.w / 2]} />
+                    <meshStandardMaterial color="#f7f7f5" transparent opacity={0.0} />
+                  </mesh>
+                  {[
+                    [0, window.h / 2 - 0.03, 0.06, window.w / 2],
+                    [0, -window.h / 2 + 0.03, 0.06, window.w / 2],
+                  ].map(([, dy, hh, ww], i) => (
+                    <mesh key={i} position={[0, dy, -window.w / 4]}>
+                      <boxGeometry args={[0.05, hh, ww]} />
+                      <meshStandardMaterial color="#f7f7f5" />
+                    </mesh>
+                  ))}
+                  {[0.03, window.w / 2 - 0.03].map((dz) => (
+                    <mesh key={dz} position={[0, 0, -dz]}>
+                      <boxGeometry args={[0.05, window.h, 0.06]} />
+                      <meshStandardMaterial color="#f7f7f5" />
+                    </mesh>
+                  ))}
+                  <mesh position={[0, 0, -window.w / 4]}>
+                    <boxGeometry args={[0.008, window.h - 0.08, window.w / 2 - 0.08]} />
+                    <meshStandardMaterial color="#cfe8f7" transparent opacity={0.35} roughness={0.05} metalness={0.2} />
+                  </mesh>
+                </group>
+              )}
               {[-1, 1].map((k) => (
                 <mesh key={k} position={[(s * W) / 2 - s * 0.03, window.y + window.h / 2, window.z + (k * window.w) / 2]} rotation={[0, -s * Math.PI / 2, 0]}>
                   <boxGeometry args={[0.08, window.h + 0.12, 0.06]} />

@@ -375,7 +375,58 @@ const useLayout = () =>
     return {pickets, rails, posts, plants, leaves, flowers, hedges, trunks, crowns, clods, tufts};
   }, []);
 
-const GardenScene = ({cam}: {cam?: StageCam}) => {
+/**
+ * Perfekter Rasen des Nachbarn (Bühne "nachbarrasen"): leuchtend grüne Mähstreifen hinter dem Zaun
+ * (x −9 … 10, z −12.4 … −7.15), Blumenbeet vor dem Nachbarhaus, runde Buchskugeln. Mitte des Rasens ca. (1, −9.8).
+ */
+export const NEIGHBOR_LAWN = {x0: -9, x1: 10, z0: -12.4, z1: -7.15};
+const NeighborLawn = () => {
+  const {x0, x1, z0, z1} = NEIGHBOR_LAWN;
+  const stripes = useMemo(() => {
+    const out: {x: number; w: number; c: string}[] = [];
+    let i = 0;
+    for (let x = x0; x < x1 - 0.01; x += 0.9, i++) out.push({x: x + 0.45, w: 0.9, c: i % 2 ? '#47c43a' : '#5ad646'});
+    return out;
+  }, [x0, x1]);
+  const flowers = useMemo(() => {
+    const r = rng(311);
+    return Array.from({length: 90}, () => ({x: x0 + 0.5 + r() * (x1 - x0 - 1), z: z0 + 0.15 + r() * 0.45, c: ['#ff5a7a', '#ffd23a', '#ffffff', '#c86bff', '#ff8a3a'][Math.floor(r() * 5)], s: 0.05 + r() * 0.04}));
+  }, [x0, x1, z0]);
+  return (
+    <group>
+      {stripes.map((st, i) => (
+        <mesh key={i} position={[st.x, 0.012, (z0 + z1) / 2]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <planeGeometry args={[st.w, z1 - z0]} />
+          <meshStandardMaterial color={st.c} roughness={0.95} />
+        </mesh>
+      ))}
+      {/* Rasenkante */}
+      <mesh position={[(x0 + x1) / 2, 0.02, z0 + 0.05]} receiveShadow>
+        <boxGeometry args={[x1 - x0, 0.04, 0.1]} />
+        <meshStandardMaterial color="#d9d2c3" flatShading />
+      </mesh>
+      {/* Blumenbeet vor dem Haus */}
+      <mesh position={[(x0 + x1) / 2, 0.03, z0 - 0.25]} receiveShadow>
+        <boxGeometry args={[x1 - x0, 0.06, 0.5]} />
+        <meshStandardMaterial color="#4a3424" flatShading />
+      </mesh>
+      {flowers.map((f, i) => (
+        <mesh key={i} position={[f.x, 0.2 + f.s, f.z - 0.75]} castShadow>
+          <icosahedronGeometry args={[f.s, 0]} />
+          <meshStandardMaterial color={f.c} flatShading />
+        </mesh>
+      ))}
+      {[-6.5, 7.5].map((x) => (
+        <mesh key={x} position={[x, 0.38, -8.0]} castShadow>
+          <icosahedronGeometry args={[0.38, 1]} />
+          <meshStandardMaterial color="#2f7a2c" flatShading />
+        </mesh>
+      ))}
+    </group>
+  );
+};
+
+const GardenScene = ({cam, neighbor = false}: {cam?: StageCam; neighbor?: boolean}) => {
   void cam;
   const L = useLayout();
   const geos = useMemo(() => {
@@ -422,6 +473,7 @@ const GardenScene = ({cam}: {cam?: StageCam}) => {
       />
       <Lawn />
       <Bed />
+      {neighbor && <NeighborLawn />}
       <Shed x={-6} z={-4.4} rot={0.35} />
       <House x={3.5} z={-16} />
       {/* eigenes Wohnhaus vorne (+z), Rückseite mit Terrasse zum Garten */}
@@ -457,5 +509,14 @@ export const gardenStage: StageDef = {
   climbTrees: [],
   groundHeight,
   // Vogelgezwitscher + leichter Wind: passt auch in den Garten (vorhandener Effekt, kostet nichts neu)
+  ambience: 'wald-atmo',
+};
+
+/** Garten mit dem perfekten, leuchtend grünen Rasen des Nachbarn hinter dem Zaun (Wecker-Spezial) */
+export const neighborLawnStage: StageDef = {
+  id: 'nachbarrasen',
+  Component: ({cam}) => <GardenScene cam={cam} neighbor />,
+  climbTrees: [],
+  groundHeight,
   ambience: 'wald-atmo',
 };

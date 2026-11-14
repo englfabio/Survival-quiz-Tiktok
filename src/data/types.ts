@@ -214,6 +214,25 @@ export type Motion =
   | 'buriedbomb' // Fliegerbombe: Erdkrümel liegen drauf (halb in der Erde)
   | 'steam' // Schüssel ("schuessel"): heißes Wasser dampft
   | 'show' // Thermometer-Schild ("thermometer"): erscheint
+  // ---- Wecker-Spezial ----
+  | 'bedsleep' // Dummy: liegt im Bett im Kissen und schläft
+  | 'bedwake' // Dummy: schreckt im Bett hoch und starrt nach vorn auf die Uhr (ab 0,9 s Hände an den Wangen)
+  | 'bedsit' // Dummy: sitzt aufrecht im Bett
+  | 'bedflop' // Dummy: lässt sich zurück ins Kissen fallen
+  | 'bedwrite' // Dummy: halb liegend, schreibt auf den Kalender auf dem Schoß (Kringel 0,3–1,4 s, Schrift 1,5–3,3 s)
+  | 'bedhat' // Dummy: setzt im Bett ein Partyhütchen auf (Wert partyhat)
+  | 'bedconfetti' // Dummy: löst im Bett die Konfetti-Kanone aus (Schuss bei 0,6 s)
+  | 'bedcall' // Dummy: telefoniert gemütlich im Bett (Handy links, rechte Hand hinter dem Kopf)
+  | 'bedpoint' // Dummy: Handy links am Ohr, zeigt mit rechts auf den Kalender auf dem Schoß
+  | 'bedwave' // Dummy: halb liegend im Bett, winkt mit links
+  | 'throwclock' // Dummy: holt über dem Kopf aus und wirft (Abwurf bei 0,62 s)
+  | 'hammer' // Dummy: schlägt zweimal mit dem Hammer zu (Treffer 0,6 s + 1,6 s), ab 2,1 s aufrichten
+  | 'watering' // Figur: gießt mit der Gießkanne (rechte Hand)
+  | 'lookup' // Figur: richtet sich aus dem Gießen auf und schaut hoch
+  | 'calsearch' // Chef: Handy rechts am Ohr, linker Finger sucht Reihe für Reihe auf dem Wandkalender
+  | 'chefhm' // Chef: Handy am Ohr, linke Hand in der Hüfte, "Hm?" (mit Wert brow)
+  | 'arc' // Gegenstand fliegt im Bogen (Weg über Zeitpunkte, gleichmäßig), dreht sich dabei
+  | 'burst' // Effekt: Teile fliegen heraus (Zahnräder/Konfetti)
   // ---- Effekt ----
   | 'splash'; // Effekt "splash": Wasser spritzt auf (Ring + Tropfen)
 
@@ -360,10 +379,22 @@ export type ActorKey = {
   capon?: number;
   /** Gegenstand mit "hand": in wessen rechter Hand (Figur mit Dummy-Körper, z. B. "kumpel", "bundespolizist"). Standard "dummy". Gilt ab diesem Zeitpunkt weiter */
   holder?: string;
+  /** Figur mit Dummy-Körper: Partyhütchen 0 … 1 (wird von oben aufgesetzt) */
+  partyhat?: number;
+  /** Figur mit Dummy-Körper: Gartenhut 0/1 */
+  gardenhat?: number;
+  /** Wecker/Smartphone: klingelt 0 … 1 */
+  ring?: number;
+  /** Wecker: kaputt 0 … 1 */
+  broken?: number;
+  /** Abreißkalender: roter Kringel 0 … 1 */
+  circle?: number;
+  /** Abreißkalender: "FEIERTAG" geschrieben 0 … 1 */
+  write?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
