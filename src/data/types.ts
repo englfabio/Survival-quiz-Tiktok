@@ -254,6 +254,13 @@ export type Motion =
   | 'winegasp' // Museumsbesucher: staunen
   | 'winetoast' // Museumsbesucher: Glas heben + trinken
   | 'carrywalk' // Dummy: Schweres vor dem Bauch tragen und dabei gehen (Weg über Zeitpunkte)
+  // ---- Spezial Spüle (Details: spuelePose in Dummy.tsx, Dummy 0,55 m vor der Spülenmitte, Blick zur Spüle) ----
+  | 'sinkreach' // in die Spüle greifen (0–0,9 s), bei 1,15 s erstarren + zittern, ab 2,6 s Hand langsam herausheben
+  | 'pinchEat' // ein Bissen mit spitzen Fingern: greifen (0,75 s), betrachten (1,35 s), essen (1,8 s); Art = Wert mark 0/1/2
+  | 'chew' // ernst kauen, linke Hand in der Hüfte
+  | 'roundhouse' // Drehung (0,4–1,6 s) + hoher Roundhouse-Kick mit rechts zur rechten Seite (gestreckt ca. 2,2 s), Deckung ab 3,4 s
+  | 'spitarc' // zurücklehnen (0,5 s), in hohem Bogen nach vorn ausspucken (0,5–0,75 s), Mund abwischen (ab 1,2 s)
+  | 'hazwash' // im Schutzanzug vorsichtig abspülen: Teller links, Schwamm rechts in langsamen Kreisen
   | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
@@ -485,10 +492,12 @@ export type ActorKey = {
   lokcap?: number;
   /** Dummy: graue Jogginghose 0/1 */
   jogger?: number;
+  /** Dummy: weißer Ganzkörper-Schutzanzug mit Maske, Schutzbrille, Gummihandschuhen (0/1) */
+  hazmat?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

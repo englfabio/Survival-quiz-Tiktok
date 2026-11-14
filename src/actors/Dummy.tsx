@@ -23,6 +23,7 @@ import {Binder, Coin, Envelope, FatMarker, HeadSplat, ReadingGlasses, RubberStam
 import {FLAT_DOOR, flapCutPoint, Parcel, Saw} from './PaketProps';
 import {CoffeeMug, LocoCap, WristWatch} from './BahnProps';
 import {RaceHelmet, WineGlass} from './TruckProps';
+import {FoodBit, type FoodKind} from './SpueleProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -73,7 +74,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread' | 'saw' | 'letter' | 'parcelR' | 'stir' | 'mug' | 'wine';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread' | 'saw' | 'letter' | 'parcelR' | 'stir' | 'mug' | 'wine' | 'foodbit' | 'gunk' | 'washup';
   /** Beschriftung des Gegenstands in der Hand (z. B. Brief "1. Mahnung") */
   label?: string;
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
@@ -103,6 +104,8 @@ export type DummyPose = {
   phoneL?: boolean;
   /** Armbanduhr am linken Handgelenk zeigen */
   watchL?: boolean;
+  /** ganzer Körper um die Hochachse drehen (Bogenmaß, z. B. Drehung vor dem Roundhouse-Kick) */
+  yaw?: number;
 };
 
 const base = (): DummyPose => ({
@@ -179,6 +182,7 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     phoneL: k < 0.5 ? a.phoneL : b.phoneL,
     watchL: k < 0.5 ? a.watchL : b.watchL,
     label: k < 0.5 ? a.label : b.label,
+    yaw: L(a.yaw ?? 0, b.yaw ?? 0),
   };
 };
 
@@ -3973,8 +3977,140 @@ const truckPose = (motion: Motion, time: number, _speed: number): DummyPose | nu
   return null;
 };
 
+// ---------- Spezial "Spüle": Essensreste in der Spüle ----------
+/** Mitte der Essensreste in der Spüle im Dummy-System, wenn er 0,55 m vor der Spülenmitte steht (Blick zur Spüle) */
+export const SINK_FOOD: P3 = [-0.04, 1.0, 0.55];
+const spuelePose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  const hipL: P3 = [0.3, 1.0, -0.02];
+  switch (motion) {
+    case 'sinkreach': {
+      // in die Spüle greifen (0–0,9 s), kurz tasten, bei 1,15 s erstarren (zittern, Blick auf die Hand),
+      // ab 2,6 s die Hand ganz langsam mit gespreizten Fingern herausheben und weit von sich halten
+      const p = base();
+      const k = easeInOut(clamp(time / 0.9));
+      const fr = clamp((time - 1.15) / 0.2);
+      const jolt = Math.sin(Math.PI * fr) * (1 - fr);
+      const out = easeInOut(clamp((time - 2.6) / 1.0));
+      const tr = time > 1.15 ? Math.sin(time * 33) * 0.007 : 0;
+      p.torsoX = 0.4 * k - 0.08 * fr - 0.15 * out - 0.1 * jolt + tr;
+      p.headX = 0.3 * k + 0.2 * fr - 0.1 * out;
+      p.hipY = 0.98 + 0.015 * jolt;
+      p.legL = L3(-0.04 * fr, 0.08 + 0.04 * fr, 0.02);
+      p.legR = L3(0.03 * fr, -0.08 - 0.04 * fr, 0.02);
+      const above: P3 = [SINK_FOOD[0] - 0.01, 1.18, SINK_FOOD[2]];
+      const inSink: P3 = [SINK_FOOD[0] + 0.03 * Math.sin(time * 7) * (1 - fr), SINK_FOOD[1] - 0.02, SINK_FOOD[2] + 0.01];
+      const away: P3 = [-0.34, 1.3 + tr, 0.36];
+      let R: P3;
+      if (time < 0.55) R = lerp3t(rest, above, easeInOut(time / 0.55));
+      else if (time < 0.9) R = lerp3t(above, inSink, easeInOut((time - 0.55) / 0.35));
+      else R = lerp3t(inSink, away, out);
+      reachR(p, R, 0.33, [0.5, -1, -0.4]);
+      // linker Arm: beim Erstarren steif zur Seite gespreizt
+      reachL(p, lerp3t(restL, [0.42, 1.12 + tr, 0.12], easeInOut(fr)), 0.33, [0.7, -0.8, -0.2]);
+      p.item = time > 0.85 ? 'gunk' : '';
+      return p;
+    }
+    case 'pinchEat': {
+      // ein Bissen: mit spitzen Fingern ein Stück aus der Spüle (0–0,75 s), hochheben + ernst betrachten (bis 1,35 s),
+      // zum Mund (bis 1,8 s), abbeißen; danach kauen (wie "chew"). Art des Stücks = Dummy-Wert "mark" (0 Nudel, 1 Paprika, 2 Klumpen)
+      const p = base();
+      const lean = easeInOut(clamp(time / 0.45)) * (1 - easeInOut(clamp((time - 0.75) / 0.5)));
+      p.torsoX = 0.38 * lean + breathe;
+      p.headX = 0.3 * lean + 0.12 * clamp((time - 0.75) / 0.3) - 0.2 * easeInOut(clamp((time - 1.4) / 0.4)) * (1 - easeInOut(clamp((time - 1.9) / 0.3)));
+      const pick: P3 = [SINK_FOOD[0], SINK_FOOD[1] + 0.02, SINK_FOOD[2]];
+      const look: P3 = [-0.1, 1.5, 0.4];
+      const mouth: P3 = [-0.04, 1.68, 0.2];
+      let R: P3;
+      if (time < 0.6) R = lerp3t(rest, pick, easeInOut(time / 0.6));
+      else if (time < 0.75) R = pick;
+      else if (time < 1.35) R = lerp3t(pick, look, easeInOut((time - 0.75) / 0.6));
+      else if (time < 1.8) R = lerp3t(look, mouth, easeInOut((time - 1.35) / 0.45));
+      else R = lerp3t(mouth, [-0.2, 1.05, 0.18], easeInOut(clamp((time - 1.85) / 0.5)));
+      reachR(p, R, 0.36, [0.5, -1, -0.4]);
+      reachL(p, hipL, 0.33, [0.9, -0.6, -0.4]);
+      if (time > 1.9) {
+        const c = time - 1.9;
+        p.headX += Math.max(0, Math.sin(c * 11)) * 0.06 * clamp(c / 0.2);
+      }
+      p.item = time > 0.62 && time < 1.85 ? 'foodbit' : '';
+      return p;
+    }
+    case 'chew': {
+      // ernst kauen: aufrecht, linke Hand in der Hüfte, Kopf nickt im Kau-Takt
+      const p = base();
+      p.torsoX = 0.03 + breathe;
+      p.headX = 0.05 + Math.max(0, Math.sin(time * 11)) * 0.06;
+      reachL(p, hipL, 0.33, [0.9, -0.6, -0.4]);
+      reachR(p, [-0.2, 1.05, 0.18], 0.33);
+      return p;
+    }
+    case 'roundhouse': {
+      // Deckung (0–0,4 s) → volle Drehung um die Hochachse (0,4–1,6 s, rechtes Knie geht hoch) → Roundhouse-Kick mit rechts
+      // zur rechten Seite (1,6–2,8 s, ganz gestreckt bei ca. 2,2 s auf Kopfhöhe) → Bein zurück, wieder Deckung (bis 3,4 s)
+      const p = base();
+      const g = easeInOut(clamp(time / 0.4));
+      const spin = easeInOut(clamp((time - 0.4) / 1.2));
+      const cham = easeInOut(clamp((time - 1.0) / 0.6)) * (1 - easeInOut(clamp((time - 2.8) / 0.5)));
+      const lift = easeInOut(clamp((time - 1.5) / 0.6)) * (1 - easeInOut(clamp((time - 2.65) / 0.55)));
+      const ext = easeInOut(clamp((time - 1.75) / 0.45)) * (1 - easeInOut(clamp((time - 2.45) / 0.4)));
+      p.yaw = spin * Math.PI * 2;
+      p.hipY = 0.98 - 0.04 * g + 0.02 * lift;
+      p.torsoX = 0.05 * g;
+      p.torsoZ = -0.5 * lift;
+      p.headX = 0.05;
+      p.headY = -0.35 * lift; // Blick zur Kick-Seite
+      p.legL = L3(0, 0.06 + 0.08 * lift, 0.12 * g * (1 - lift));
+      p.legR = L3(-1.1 * cham * (1 - lift), -0.05 - 1.55 * lift, 1.9 * cham - 1.8 * ext);
+      p.fists = true;
+      const guardR: P3 = [-0.14, 1.52, 0.3];
+      const guardL: P3 = [0.13, 1.48, 0.33];
+      reachR(p, lerp3t(lerp3t(rest, guardR, g), [-0.42, 1.05, -0.12], lift), 0.33, [0.5, -0.6, -0.6]);
+      reachL(p, lerp3t(restL, guardL, g), 0.33, [0.5, -0.6, -0.6]);
+      return p;
+    }
+    case 'spitarc': {
+      // Backen voll: zurücklehnen (0–0,5 s), dann Kopf nach vorn und alles in hohem Bogen ausspucken (0,5–0,75 s),
+      // vorgebeugt bleiben, ab 1,2 s aufrichten und mit dem Handrücken den Mund abwischen
+      const p = base();
+      const back = easeInOut(clamp(time / 0.5));
+      const fw = easeInOut(clamp((time - 0.5) / 0.25));
+      const up = easeInOut(clamp((time - 1.2) / 0.5));
+      p.chest = 0.8 * back * (1 - fw);
+      p.torsoX = -0.15 * back + 0.5 * fw * (1 - up) + 0.05 * up;
+      p.headX = -0.35 * back + 0.75 * fw * (1 - up * 0.8);
+      p.hipY = 0.98 - 0.03 * fw * (1 - up);
+      const belly: P3 = [-0.12, 1.05, 0.2];
+      const bellyL: P3 = [0.12, 1.05, 0.2];
+      const flung: P3 = [-0.36, 0.95, -0.2];
+      const flungL: P3 = [0.36, 0.95, -0.2];
+      const wipe: P3 = [-0.06 + 0.07 * Math.sin(clamp((time - 1.5) / 0.4) * Math.PI), 1.66, 0.2];
+      reachR(p, time < 1.2 ? lerp3t(lerp3t(rest, belly, back), flung, fw) : lerp3t(flung, wipe, easeInOut(clamp((time - 1.2) / 0.3))), 0.33);
+      reachL(p, lerp3t(lerp3t(restL, bellyL, back), flungL, fw * (1 - up)), 0.33);
+      return p;
+    }
+    case 'hazwash': {
+      // im Schutzanzug ganz vorsichtig abspülen: links ein Teller über der Spüle, rechts der Schwamm in langsamen Kreisen
+      const p = base();
+      const k = easeInOut(clamp(time / 0.8));
+      p.torsoX = 0.3 * k + breathe * 0.5;
+      p.headX = 0.32 * k;
+      const a = time * (Math.PI * 2 / 2.6);
+      const plate: P3 = [0.08, 1.06, 0.48];
+      const scrub: P3 = [-0.02 + 0.05 * Math.cos(a), 1.1 + 0.01 * Math.sin(a * 2), 0.5 + 0.035 * Math.sin(a)];
+      reachL(p, lerp3t(restL, plate, k), 0.34, [0.7, -1, -0.3]);
+      reachR(p, lerp3t(rest, scrub, k), 0.36, [0.5, -1, -0.4]);
+      p.item = 'washup';
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -4521,8 +4657,11 @@ const Arm = ({
   wound,
   glove = false,
   fist = false,
+  rubber,
 }: {
   m: Mats;
+  /** Gummihandschuh (Farbe) mit Stulpe statt nackter Hand */
+  rubber?: string;
   /** geballte Faust (runder, Knöchel-Kante) */
   fist?: boolean;
   /** roter Boxhandschuh statt Hand */
@@ -4575,6 +4714,17 @@ const Arm = ({
           </mesh>
           <mesh material={m.joint} position={[0, -0.03, 0.045]} rotation={[0.5, 0, 0]}>
             <boxGeometry args={[0.11, 0.022, 0.03]} />
+          </mesh>
+        </group>
+      ) : rubber ? (
+        <group>
+          <mesh position={[0, -0.235, 0]} castShadow>
+            <cylinderGeometry args={[0.075, 0.062, 0.09, 8]} />
+            <meshStandardMaterial color={rubber} roughness={0.25} flatShading />
+          </mesh>
+          <mesh position={[0, -0.32, 0.0]} scale={[0.85, 1.15, 0.65]} castShadow>
+            <icosahedronGeometry args={[0.08, 0]} />
+            <meshStandardMaterial color={rubber} roughness={0.25} flatShading />
           </mesh>
         </group>
       ) : (
@@ -5150,6 +5300,7 @@ const WgHandItem = ({item, label, right, left, level}: {item: DummyPose['item'];
 };
 
 /** Gegenstand in der rechten Hand (Pflaster, Spray, Kompresse, Impfpass) */
+const FOOD_SEQ: FoodKind[] = ['noodle', 'paprika', 'blob'];
 const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; time: number; zap?: number; zapTime?: number; tooth?: ToothLook}) => {
   const hand = armPoint(pose.armR, -1, pose.foreZ, 0.33);
   if (!pose.item) return null;
@@ -5158,6 +5309,73 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
     .setFromEuler(new THREE.Euler(pose.torsoX, pose.torsoY, pose.torsoZ))
     .invert()
     .multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-pose.pitch, 0, 0)));
+  if (pose.item === 'foodbit') {
+    // Essensrest mit spitzen Fingern (Art über Dummy-Wert "mark": 0 Nudel, 1 Paprika, 2 grüner Klumpen)
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.38);
+    const kind = FOOD_SEQ[Math.max(0, Math.min(2, Math.round(tooth?.mark ?? 0)))];
+    return (
+      <group position={tip} quaternion={level}>
+        <FoodBit kind={kind} time={time} s={1.25} />
+      </group>
+    );
+  }
+  if (pose.item === 'gunk') {
+    // glitschige bunte Reste kleben an den Fingern
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.37);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0.01, -0.01, 0.02]}>
+          <FoodBit kind="noodle" s={0.8} />
+        </group>
+        <group position={[-0.03, 0.0, 0.0]}>
+          <FoodBit kind="blob" time={time} s={0.45} />
+        </group>
+        {[0, 1, 2].map((i) => (
+          <mesh key={i} position={[0.02 - 0.02 * i, -0.04 - 0.035 * ((time * 0.9 + i * 0.33) % 1), 0.01]} scale={0.8 - 0.2 * i}>
+            <sphereGeometry args={[0.01, 5, 4]} />
+            <meshStandardMaterial color="#9fd85a" roughness={0.2} flatShading />
+          </mesh>
+        ))}
+      </group>
+    );
+  }
+  if (pose.item === 'washup') {
+    // Teller in der linken Hand (leicht gekippt), Schwamm in der rechten
+    const palm = armPoint(pose.armL, 1, pose.foreZL, 0.36);
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
+    return (
+      <>
+        <group position={palm} quaternion={level}>
+          <group position={[-0.07, 0.0, 0.03]} rotation={[0.55, 0, 0.35]}>
+            <mesh castShadow>
+              <cylinderGeometry args={[0.11, 0.08, 0.015, 16]} />
+              <meshStandardMaterial color="#f8f6f0" roughness={0.25} flatShading />
+            </mesh>
+            <mesh position={[0, 0.009, 0]}>
+              <torusGeometry args={[0.105, 0.006, 4, 18]} />
+              <meshStandardMaterial color="#bcd7ee" roughness={0.3} flatShading />
+            </mesh>
+            {[0, 1, 2, 3].map((i) => (
+              <mesh key={i} position={[-0.04 + 0.03 * i, 0.016, 0.02 * Math.sin(i * 2)]} scale={0.8 + 0.3 * Math.sin(time * 3 + i)}>
+                <icosahedronGeometry args={[0.018, 0]} />
+                <meshStandardMaterial color="#ffffff" roughness={0.9} flatShading />
+              </mesh>
+            ))}
+          </group>
+        </group>
+        <group position={tip} quaternion={level}>
+          <mesh position={[0, -0.02, 0.02]} castShadow>
+            <boxGeometry args={[0.09, 0.04, 0.06]} />
+            <meshStandardMaterial color="#f5d23a" roughness={0.9} flatShading />
+          </mesh>
+          <mesh position={[0, -0.045, 0.02]}>
+            <boxGeometry args={[0.09, 0.012, 0.06]} />
+            <meshStandardMaterial color="#3fa34d" roughness={0.9} flatShading />
+          </mesh>
+        </group>
+      </>
+    );
+  }
   if (pose.item === 'tooth') {
     // Zahn mit spitzen Fingern an der Krone: Krone oben in der Hand, Wurzel zeigt nach unten
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
@@ -5648,6 +5866,58 @@ const Brows = ({m, raise}: {m: Mats; raise: number}) => (
   </group>
 );
 
+/** Schutzanzug (weiß, ohne Logo/Aufdruck): Uniform-Farben, Handschuh-Farbe, Kapuze + Maske + Schutzbrille */
+const HAZMAT_UNIFORM: Uniform = {jacket: '#f3f5f6', dark: '#cdd5db', collar: '#f3f5f6', pants: '#f3f5f6', cap: '#f3f5f6', band: '#f3f5f6', trim: '#e4e9ec', noCap: true, slippers: '#4aa3e0'};
+const HAZMAT_GLOVE = '#4aa3e0';
+const HazmatHood = () => {
+  const m = useMemo(
+    () => ({
+      suit: new THREE.MeshStandardMaterial({color: '#f3f5f6', roughness: 0.8, flatShading: true}),
+      seam: new THREE.MeshStandardMaterial({color: '#cdd5db', roughness: 0.8, flatShading: true}),
+      mask: new THREE.MeshStandardMaterial({color: '#4b5157', roughness: 0.5, flatShading: true}),
+      filter: new THREE.MeshStandardMaterial({color: '#e0a92a', roughness: 0.5, flatShading: true}),
+      strap: new THREE.MeshStandardMaterial({color: '#2b2f35', roughness: 0.6, flatShading: true}),
+      lens: new THREE.MeshStandardMaterial({color: '#9fd8f5', roughness: 0.05, metalness: 0.2, transparent: true, opacity: 0.75, flatShading: true}),
+      frame: new THREE.MeshStandardMaterial({color: '#e7eef3', roughness: 0.4, flatShading: true}),
+    }),
+    [],
+  );
+  return (
+    <group>
+      {/* Kapuze (offen vorn) */}
+      <mesh material={m.suit} scale={[1.05, 1.18, 1.06]} rotation={[-0.25, 0, 0]} castShadow>
+        <sphereGeometry args={[0.145, 12, 9, Math.PI * 0.18, Math.PI * 1.64]} />
+      </mesh>
+      <mesh material={m.seam} position={[0, -0.015, 0.06]} rotation={[0.15, 0, 0]}>
+        <torusGeometry args={[0.118, 0.012, 5, 14]} />
+      </mesh>
+      {/* Schutzbrille */}
+      <group position={[0, 0.03, 0.1]}>
+        <mesh material={m.frame}>
+          <boxGeometry args={[0.2, 0.065, 0.04]} />
+        </mesh>
+        <mesh material={m.lens} position={[0, 0.0, 0.022]}>
+          <boxGeometry args={[0.18, 0.05, 0.01]} />
+        </mesh>
+        <mesh material={m.strap} position={[0, 0, -0.1]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.13, 0.008, 4, 16]} />
+        </mesh>
+      </group>
+      {/* Atemschutzmaske mit zwei Filtern */}
+      <group position={[0, -0.05, 0.105]}>
+        <mesh material={m.mask} scale={[1.1, 0.85, 0.7]} castShadow>
+          <icosahedronGeometry args={[0.055, 1]} />
+        </mesh>
+        {[1, -1].map((sd) => (
+          <mesh key={sd} material={m.filter} position={[0.055 * sd, -0.01, 0.015]} rotation={[Math.PI / 2, 0, sd * 0.5]}>
+            <cylinderGeometry args={[0.03, 0.03, 0.03, 10]} />
+          </mesh>
+        ))}
+      </group>
+    </group>
+  );
+};
+
 export const Dummy = ({
   pose,
   bite = false,
@@ -5689,7 +5959,10 @@ export const Dummy = ({
   splat = 0,
   lokcap = 0,
   jogger = 0,
+  hazmat = 0,
 }: {
+  /** weißer Ganzkörper-Schutzanzug mit Kapuze, Atemschutzmaske, Schutzbrille, Gummihandschuhen + Überschuhen (0/1) */
+  hazmat?: number;
   /** Lokführermütze 0 … 1 (bei < 1 schwebt sie noch über dem Kopf = wird aufgesetzt) */
   lokcap?: number;
   /** graue Jogginghose 0/1 (statt nackter Beine; ersetzt die lange Hose) */
@@ -5765,7 +6038,9 @@ export const Dummy = ({
   /** Uniform (Bahnmitarbeiterin, Bundespolizist): Jacke + Hose + Schirmmütze in festen Farben */
   uniform?: Uniform;
 }) => {
+  if (hazmat > 0.5) uniform = HAZMAT_UNIFORM;
   const m = useMats(color, coat, uniform, jogger > 0.5 ? '#8d939b' : undefined);
+  const rubber = hazmat > 0.5 ? HAZMAT_GLOVE : undefined;
   if (jogger > 0.5) pants = 1;
   if (uniform) {
     jacket = 1;
@@ -5777,6 +6052,7 @@ export const Dummy = ({
   if (coat) jacket = 1;
   if (heave > 0.001) pose = {...pose, chest: pose.chest + 1.5 * heave * (0.5 - 0.5 * Math.cos(2 * Math.PI * breathPhase))};
   return (
+    <group rotation={[0, pose.yaw ?? 0, 0]}>
     <group rotation={[pose.pitch, 0, 0]}>
       <group position={[0, pose.hipY, 0]}>
         {/* Becken */}
@@ -5853,7 +6129,7 @@ export const Dummy = ({
           )}
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
-          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} smartphone={pose.phoneL} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} fist={pose.fists} />
+          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} smartphone={pose.phoneL} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} fist={pose.fists} rubber={rubber} />
           {pose.watchL && (
             <group position={[0.27, 0.44, 0]} rotation={[pose.armL.sx, 0, pose.armL.sz]}>
               <group position={[0, -0.31, 0]} rotation={[pose.armL.bend, 0, pose.foreZL]}>
@@ -5905,6 +6181,7 @@ export const Dummy = ({
             sleeve={clamp(jacket * 2)}
             glove={gloves > 0.5}
             fist={pose.fists}
+            rubber={rubber}
           />
           {pose.spade && <HeldSpade pose={pose} />}
           {/* Hals + Kopf (ohne Gesicht) */}
@@ -5922,6 +6199,7 @@ export const Dummy = ({
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
             {uniform && !uniform.nocap && !uniform.noCap && !uniform.helmet && <UniformCap m={m} hair={!!uniform.hair} />}
             {uniform?.helmet && <RaceHelmet color={uniform.helmet} />}
+            {hazmat > 0.5 && <HazmatHood />}
             {partyhat > 0.01 && (
               <group position={[0.02, 0.12 + (1 - clamp(partyhat)) * 0.3, 0.01]} rotation={[-0.12, 0, -0.18]}>
                 <PartyHat />
@@ -5966,6 +6244,7 @@ export const Dummy = ({
           )}
         </group>
       </group>
+    </group>
     </group>
   );
 };

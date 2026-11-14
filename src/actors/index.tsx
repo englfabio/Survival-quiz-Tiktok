@@ -40,6 +40,7 @@ import {AerialBomb, Smartphone, SmartphoneProp, SpadeProp, WarnStake, Wheelbarro
 import {Weever, weeverPose} from './Weever';
 import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
 import {Bucket, ChristmasTree, DoorLeaf, FireTruck, GiftPile} from './ChristmasProps';
+import {DishRack, FoodArc, KitchenClock, SinkMess} from './SpueleProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
 
@@ -213,6 +214,11 @@ export const ACTORS = {
   fahrgast1: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   fahrgast2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   fahrgast3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  // ---- Spezial: Spüle ----
+  spuele: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  abtropfgitter: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  spuckbogen: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
+  kuechenuhr: {height: 0, climbOffset: 0, speedLineHeight: 0},
   // ---- Spezial: Monstertruck ----
   monstertruck: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   monstertruck2: {height: 3.0, climbOffset: 0, speedLineHeight: 0},
@@ -588,6 +594,7 @@ export const Actor = ({
           splat={v.splat}
           lokcap={v.lokcap}
           jogger={v.jogger}
+          hazmat={v.hazmat}
         />
       )}
       {name === 'gartennachbar' && (
@@ -682,6 +689,10 @@ export const Actor = ({
         </group>
       )}
       {name === 'gartenstuhl' && <GardenChair />}
+      {name === 'spuele' && <SinkMess fill={v.fill} rumble={v.rumble} good={v.good} foam={v.mark} time={zt} />}
+      {name === 'abtropfgitter' && <DishRack fill={v.fill} />}
+      {name === 'spuckbogen' && <FoodArc time={state.motionTime} active={state.motion === 'show'} size={v.size} />}
+      {name === 'kuechenuhr' && <KitchenClock hours={v.fill > 0 ? v.fill : 18} moving={state.motion === 'spin'} time={zt} />}
       {name === 'laubhaufen' && <LeafPile size={v.size} />}
       {name === 'laubdecke' && <LeafCover fill={v.fill} />}
       {name === 'laubwurf' && <LeafThrow time={state.motionTime} active={state.motion === 'show'} />}
