@@ -410,7 +410,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Bahnsteigkante-Sog: 949 neue Zeichen (countdown/reveal/outro aus Cache, laut ElevenLabs 379 Credits), Sprechzeit 74,0 s, Video 82,9 s. Wort-Zeitstempel = Text
   (geprüft), Kontrolle scribe_v2 (Erklärung 1 mit „15.000 Volt“ + Option 3): korrekt. Choreografie: `python3 scripts/bahnsteigkante-choreo.py` (prüft mit
   check_safe, dass beim Einfrieren niemand im Gleis ist und der Zug noch ≥ 12 m entfernt ist – im Video ca. 32 m). Niemand fällt ins Gleis, niemand wird erfasst.
-  Standbilder in review/bahnsteigkante-sog/phase1/. Finales Video: review/final/bahnsteigkante-sog.mp4.
+  Standbilder in review/bahnsteigkante-sog/phase1/. Finales Video: review/final/bahnsteigkante-sog.mp4, vom Inhaber freigegeben.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
