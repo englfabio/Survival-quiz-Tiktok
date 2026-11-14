@@ -49,7 +49,8 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'spotpoint', 'pickup', 'pocket', 'fiddle', 'stepback', 'markphone', 'stophand',
   'opencase', 'kneellook', 'closecase', 'tuckcase', 'sneak', 'grabwads', 'carrycase', 'holdcase', 'setcounter', 'fillform', 'cheer',
   'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone', 'pass',
-  'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay'];
+  'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay',
+  'fridgeopen', 'aghast', 'pressbutton', 'writenote', 'sticknote', 'typedesk', 'slideletter', 'stamp', 'shelve', 'spoon', 'readnote', 'putback', 'openletters', 'countcoins', 'wipebrow'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -70,6 +71,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'opencase', 'kneellook', 'closecase', 'tuckcase', 'sneak', 'grabwads', 'carrycase', 'holdcase', 'setcounter', 'fillform', 'cheer',
   'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone',
   'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay',
+  'fridgeopen', 'aghast', 'pressbutton', 'writenote', 'sticknote', 'typedesk', 'slideletter', 'stamp', 'shelve', 'spoon', 'readnote', 'putback', 'openletters', 'countcoins', 'wipebrow',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */

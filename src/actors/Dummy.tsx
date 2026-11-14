@@ -17,6 +17,7 @@ import {BodyHint} from '../effects/BodyHint';
 import {rng} from '../lib/anim';
 import {MoneyBundle, Pen} from './MoneyProps';
 import {Glint, NeedleCap, Syringe, SYRINGE_SCALE, SYRINGE_TIP} from './SyringeProps';
+import {Binder, Coin, Envelope, FatMarker, HeadSplat, ReadingGlasses, RubberStamp, Spoon, YogurtCup} from './WgProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -67,7 +68,9 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread';
+  /** Beschriftung des Gegenstands in der Hand (z. B. Brief "1. Mahnung") */
+  label?: string;
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
   cup: number;
   /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
@@ -158,6 +161,7 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     puffPhase: k < 0.5 ? a.puffPhase : b.puffPhase,
     aim: k < 0.5 ? a.aim : b.aim,
     snap: L(a.snap ?? 0, b.snap ?? 0),
+    label: k < 0.5 ? a.label : b.label,
   };
 };
 
@@ -2403,6 +2407,268 @@ const spritzePose = (motion: Motion, time: number, speed: number): DummyPose | n
   return null;
 };
 
+// ---------- WG-Küche (Spezial: Mitbewohner-Joghurt) ----------
+/**
+ * Bewegungen für Dummy UND Mitbewohner (Kumpel) – alles comichaft:
+ *  - fridgeopen:  steht vor dem Kühlschrank (Dummy bei WG_FRIDGE_STAND, face 0): linke Hand greift den Griff (bis 0,4 s), zieht die Tür auf
+ *                 (0,4–1,2 s, Tür-Wert "door" 0 → 1 genau in dieser Zeit), beugt sich hinein (1,3–2,0 s), nimmt den Becher (Griff 2,0 s),
+ *                 richtet sich auf und hält den leeren Becher vor die Augen (bis 2,8 s) – Becher links (item 'emptycup')
+ *  - aghast:      entsetzt erstarren: zuckt zurück (0–0,25 s), leerer Becher links hoch, rechte Hand an den Kopf, zittert
+ *  - pressbutton: rechte Faust hoch (bis 0,6 s), knallt auf den großen Knopf 0,5 m vor ihm (Treffer 0,72 s), bleibt drauf
+ *  - writenote:   steht am Tisch (Platte 0,76 m), vorgebeugt, schreibt mit dickem Stift auf einen Zettel 0,42 m vor ihm (kritzelt)
+ *  - sticknote:   klebt den Zettel auf den Becher 0,4 m vor ihm (drücken bei 0,5 s, glattstreichen bis 1,0 s)
+ *  - typedesk:    sitzt (Stuhl 0,45 m) und tippt auf dem Laptop 0,45 m vor ihm (Hände abwechselnd), Kopf leicht gesenkt
+ *  - slideletter: kniet (0,6 s), schiebt mit rechts einen Brief über den Boden nach vorn (0,6–1,12 s), alle 1,3 s erneut
+ *  - stamp:       Stempel rechts hoch (bis 0,45 s), kräftig runter auf den Tisch 0,42 m vor ihm (Treffer 0,58 s), hoch ab 0,9 s
+ *  - shelve:      hebt den Ordner rechts ins Regal (Brett 1,55 m, 0,32 m vor ihm; oben bei 0,8 s), schiebt ihn hinein (bis 1,3 s),
+ *                 loslassen 1,35 s, dann Hände in die Hüften + zufrieden nicken
+ *  - spoon:       (Mitbewohner) verstohlen Joghurt löffeln: Becher links vor der Brust, Löffel rechts zum Mund (alle 1,4 s), Blick hin und her
+ *  - readnote:    hält den Becher mit Zettel rechts vor das Gesicht und liest (bis 1,2 s), dann erschrocken zurückzucken, Arm weit weg
+ *  - putback:     stellt den Becher ganz langsam 0,5 m vor sich auf 1,05 m ab (bis 2,2 s, loslassen 2,3 s), Hände vorsichtig gehoben
+ *  - openletters: öffnet Briefe mit beiden Händen (alle 1,8 s ein neuer: Rechnung → 1. Mahnung → 2. Mahnung), wird immer entsetzter
+ *  - countcoins:  sitzt am Tisch, legt mit rechts Münzen einzeln vom Häufchen (0,38 m vor ihm) nach rechts (alle 0,8 s eine)
+ *  - wipebrow:    wischt sich mit rechts Joghurt von der Stirn (0–0,9 s), probiert vom Finger (1,1–1,6 s), dann Daumen hoch (ab 2,1 s)
+ */
+export const WG_FRIDGE_STAND: P3 = [-1.55, 0, -1.05];
+const FRIDGE_HINGE: [number, number] = [0.93, 0.55]; // Scharnier im Dummy-System (x, z) bei WG_FRIDGE_STAND, face 0
+const doorAngleAt = (time: number) => 1.85 * easeInOut(clamp((time - 0.4) / 0.8));
+export const WG_LETTERS = ['Rechnung', '1. Mahnung', '2. Mahnung'];
+const wgPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  switch (motion) {
+    case 'fridgeopen': {
+      const p = base();
+      const lean = easeInOut(clamp((time - 1.25) / 0.7)) * (1 - easeInOut(clamp((time - 2.05) / 0.7)));
+      p.torsoX = 0.05 + 0.42 * lean + breathe;
+      p.headX = 0.1 + 0.25 * lean - 0.15 * easeInOut(clamp((time - 2.1) / 0.6));
+      p.torsoY = 0.18 * lean;
+      const a = doorAngleAt(time);
+      const handle: P3 = [FRIDGE_HINGE[0] - 0.64 * Math.cos(a), 1.17, FRIDGE_HINGE[1] - 0.64 * Math.sin(a)];
+      const shelf: P3 = [0.36, 1.08, 0.74];
+      const look: P3 = [0.12, 1.55, 0.34];
+      let L: P3;
+      if (time < 0.4) L = lerp3t(restL, handle, easeInOut(time / 0.4));
+      else if (a < 0.62) L = handle;
+      else if (time < 2.0) L = lerp3t(lerp3t(restL, handle, 0.4), shelf, easeInOut(clamp((time - 1.25) / 0.75)));
+      else L = lerp3t(shelf, look, easeInOut(clamp((time - 2.0) / 0.8)));
+      reachL(p, L, 0.33, [0.6, -1, -0.3]);
+      reachR(p, [-0.24, 0.93 + 0.02 * lean, 0.1 + 0.1 * lean], 0.33);
+      p.item = time >= 2.0 ? 'emptycup' : '';
+      return p;
+    }
+    case 'aghast': {
+      const p = base();
+      const jolt = Math.sin(Math.PI * clamp(time / 0.35)) * (1 - clamp(time / 0.35));
+      const k = easeInOut(clamp(time / 0.35));
+      const tr = time > 0.35 ? Math.sin(time * 31) * 0.008 : 0;
+      p.torsoX = -0.1 * k - 0.15 * jolt + tr;
+      p.headX = -0.05 * k - 0.2 * jolt;
+      p.hipY = 0.98 + 0.02 * jolt;
+      p.legL = L3(0.08 * k, 0.1, 0.05);
+      p.legR = L3(-0.05 * k, -0.1, 0.05);
+      reachL(p, lerp3t([0.12, 1.55, 0.34], [0.2, 1.72 + tr, 0.36], k), 0.33, [0.6, -1, -0.3]);
+      reachR(p, lerp3t(rest, [-0.17, 1.82 + tr, 0.05], k), 0.33, [0.4, -0.6, -0.8]);
+      p.item = 'emptycup';
+      return p;
+    }
+    case 'pressbutton': {
+      const p = base();
+      const up = easeInOut(clamp(time / 0.6));
+      const down = clamp((time - 0.6) / 0.12);
+      const hit = down * down;
+      p.torsoX = 0.05 - 0.08 * up + 0.32 * hit + breathe;
+      p.headX = 0.25 + 0.15 * hit;
+      const high: P3 = [-0.16, 1.85, 0.25];
+      const top: P3 = [-0.04, 1.03, 0.5];
+      reachR(p, time < 0.6 ? lerp3t(rest, high, up) : lerp3t(high, top, hit), 0.33, [0.5, -0.6, -0.6]);
+      reachL(p, lerp3t(restL, [0.25, 1.0, 0.18], up), 0.33);
+      p.fists = true;
+      return p;
+    }
+    case 'writenote': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = 0.45 * k + breathe;
+      p.headX = 0.35 * k;
+      p.hipY = 0.98 - 0.03 * k;
+      const s = Math.max(0, time - 0.5);
+      const scr: P3 = [-0.05 + 0.04 * Math.sin(s * 9), 0.81 + 0.012 * Math.abs(Math.sin(s * 18)), 0.42 + 0.02 * Math.sin(s * 4.5)];
+      reachR(p, lerp3t(rest, scr, k), 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.12, 0.79, 0.4], k), 0.33, [0.6, -1, -0.3]);
+      p.item = 'marker';
+      return p;
+    }
+    case 'sticknote': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const sw = easeInOut(clamp((time - 0.55) / 0.45));
+      const back = easeInOut(clamp((time - 1.1) / 0.5));
+      p.torsoX = 0.38 * k * (1 - 0.6 * back) + breathe;
+      p.headX = 0.3 * k;
+      const press: P3 = [-0.06 + 0.07 * sw, 0.83, 0.37];
+      reachR(p, lerp3t(lerp3t(rest, press, k), [-0.22, 1.0, 0.25], back), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.1, 0.86, 0.42], k * (1 - back)), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'typedesk': {
+      const p = chairSit(time);
+      p.torsoX = 0.12 + Math.sin(time * 2.2) * 0.008;
+      p.headX = 0.32 + 0.03 * Math.sin(time * 1.3);
+      p.headY = 0.06 * Math.sin(time * 0.7);
+      const tapR = Math.max(0, Math.sin(time * 15));
+      const tapL = Math.max(0, Math.sin(time * 15 + 2.1));
+      reachR(p, [-0.11 + 0.02 * Math.sin(time * 3.1), 0.8 + 0.03 * tapR, 0.43], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.11 + 0.02 * Math.sin(time * 2.3), 0.8 + 0.03 * tapL, 0.43], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'slideletter': {
+      const kn = kneelPose();
+      kn.torsoX = 0.75;
+      kn.headX = 0.2;
+      const k = easeInOut(clamp(time / 0.6));
+      const p = mix(base(), kn, k);
+      const c = time < 0.6 ? 0 : ((time - 0.6) % 1.3) / 1.3;
+      const push = easeInOut(clamp(c / 0.4));
+      const ret = easeInOut(clamp((c - 0.45) / 0.45));
+      const floor: P3 = [-0.06, 0.04, 0.42 + 0.33 * push];
+      const R = lerp3t(floor, [-0.12, 0.35, 0.35], ret);
+      reachR(p, time < 0.6 ? lerp3t([-0.2, 0.55, 0.3], [-0.06, 0.05, 0.42], k) : R, 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.2, 0.55, 0.3], [0.2, 0.12, 0.42], k), 0.33);
+      return p;
+    }
+    case 'stamp': {
+      const p = base();
+      const up = easeInOut(clamp(time / 0.45));
+      const down = clamp((time - 0.45) / 0.13);
+      const lift = easeInOut(clamp((time - 0.9) / 0.4));
+      p.torsoX = 0.2 + 0.18 * down * (1 - lift) + breathe;
+      p.headX = 0.35;
+      const high: P3 = [-0.12, 1.32, 0.33];
+      const hit: P3 = [-0.04, 0.9, 0.42];
+      const R = time < 0.45 ? lerp3t(rest, high, up) : lerp3t(lerp3t(high, hit, down * down), [-0.12, 1.12, 0.34], lift);
+      reachR(p, R, 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.17, 0.8, 0.4], up), 0.33, [0.6, -1, -0.3]);
+      p.item = 'stamp';
+      p.fists = true;
+      return p;
+    }
+    case 'shelve': {
+      const p = base();
+      const lift = easeInOut(clamp(time / 0.8));
+      const push = easeInOut(clamp((time - 0.8) / 0.5));
+      const done = easeInOut(clamp((time - 1.4) / 0.5));
+      p.torsoX = -0.06 * lift * (1 - done) + breathe;
+      p.headX = -0.25 * lift * (1 - done) + 0.08 * done * Math.sin(Math.max(0, time - 1.9) * 6);
+      const hold: P3 = [-0.12, 1.0, 0.3];
+      const at: P3 = [-0.02, 1.73, 0.27 + 0.1 * push];
+      const hip: P3 = [-0.25, 1.0, -0.02];
+      reachR(p, done > 0 ? lerp3t(at, hip, done) : lerp3t(hold, at, lift), 0.33, done > 0 ? [0.7, -0.2, -0.8] : [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.25, 1.0, -0.02], done), 0.33, [0.7, -0.2, -0.8]);
+      p.item = time < 1.35 ? 'folder' : '';
+      return p;
+    }
+    case 'spoon': {
+      const p = base();
+      const c = (time % 1.4) / 1.4;
+      const toMouth = Math.sin(Math.PI * clamp(c / 0.6));
+      p.hipY = 0.95;
+      p.legL = L3(-0.2, 0.08, 0.35);
+      p.legR = L3(-0.2, -0.08, 0.35);
+      p.torsoX = 0.18 + breathe;
+      p.headX = 0.12 + 0.1 * toMouth;
+      p.headY = 0.5 * Math.sin(time * 1.9) * (1 - toMouth * 0.7);
+      const cup: P3 = [0.06, 1.2, 0.3];
+      reachL(p, cup, 0.33, [0.6, -1, -0.3]);
+      reachR(p, lerp3t([-0.02, 1.25, 0.32], [-0.02, 1.62, 0.2], toMouth), 0.36, [0.6, -1, -0.3]);
+      p.item = 'spoon';
+      return p;
+    }
+    case 'readnote': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      const sh = clamp((time - 1.2) / 0.25);
+      const jolt = Math.sin(Math.PI * sh) * (1 - sh * 0.5);
+      const away = easeInOut(clamp((time - 1.2) / 0.4));
+      const tr = time > 1.4 ? Math.sin(time * 29) * 0.006 : 0;
+      p.torsoX = 0.08 * k * (1 - away) - 0.18 * away + breathe;
+      p.headX = 0.05 * k - 0.15 * jolt;
+      p.hipY = 0.98 + 0.02 * jolt;
+      reachR(p, lerp3t(lerp3t(rest, [-0.06, 1.55, 0.3], k), [-0.1, 1.5 + tr, 0.52], away), 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.22, 1.55, 0.25], away), 0.33, [0.5, -0.8, -0.6]);
+      p.item = 'cupnote';
+      return p;
+    }
+    case 'putback': {
+      const p = base();
+      const k = easeInOut(clamp(time / 2.2));
+      const back = easeInOut(clamp((time - 2.35) / 0.6));
+      p.torsoX = -0.15 + 0.3 * k * (1 - back) + breathe;
+      p.headX = -0.1 + 0.2 * k;
+      const tr = Math.sin(time * 29) * 0.004 * (1 - back);
+      const R = lerp3t(lerp3t([-0.1, 1.5, 0.52], [-0.02, 1.08 + tr, 0.55], k), [-0.24, 1.25, 0.25], back);
+      reachR(p, R, 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 1.55, 0.25], [0.24, 1.3, 0.25], back), 0.33, [0.5, -0.8, -0.6]);
+      p.item = time < 2.3 ? 'cupnote' : '';
+      return p;
+    }
+    case 'openletters': {
+      const p = base();
+      const n = Math.min(2, Math.floor(time / 1.8));
+      const c = (time % 1.8) / 1.8;
+      const tear = Math.sin(Math.PI * clamp(c / 0.3));
+      const horror = clamp(time / 5.4);
+      const shock = Math.sin(Math.PI * clamp((c - 0.35) / 0.3)) * (0.5 + horror);
+      const tr = Math.sin(time * 27) * 0.01 * horror;
+      p.torsoX = -0.04 - 0.16 * horror - 0.06 * shock + tr;
+      p.headX = 0.25 - 0.2 * horror - 0.08 * shock;
+      p.hipY = 0.98 - 0.02 * horror;
+      p.legL = L3(0.1 * horror, 0.1, 0.06);
+      p.legR = L3(-0.05 * horror, -0.1, 0.06);
+      reachR(p, [-0.09 - 0.05 * tear, 1.25 + tr, 0.3 + 0.05 * horror], 0.36, [0.6, -1, -0.3]);
+      reachL(p, [0.09 + 0.05 * tear, 1.25 - tr, 0.3 + 0.05 * horror], 0.36, [0.6, -1, -0.3]);
+      p.item = 'letterread';
+      p.label = WG_LETTERS[n];
+      return p;
+    }
+    case 'countcoins': {
+      const p = chairSit(time);
+      p.torsoX = 0.22 + Math.sin(time * 2.2) * 0.008;
+      const c = (time % 0.8) / 0.8;
+      const go = easeInOut(clamp((c - 0.1) / 0.5));
+      const lift = Math.sin(Math.PI * clamp((c - 0.1) / 0.5));
+      p.headX = 0.42 + 0.06 * Math.sin(Math.PI * clamp((c - 0.55) / 0.3));
+      reachR(p, [-0.02 - 0.2 * go, 0.8 + 0.06 * lift, 0.4], 0.36, [0.6, -1, -0.3]);
+      reachL(p, [0.14, 0.79, 0.36], 0.33, [0.6, -1, -0.3]);
+      p.item = c > 0.08 && c < 0.62 ? 'coin' : '';
+      return p;
+    }
+    case 'wipebrow': {
+      const p = base();
+      const a = easeInOut(clamp(time / 0.35));
+      const wipe = clamp((time - 0.3) / 0.6);
+      const toM = easeInOut(clamp((time - 1.0) / 0.35)) * (1 - easeInOut(clamp((time - 1.65) / 0.35)));
+      void speed;
+      const thumb = easeInOut(clamp((time - 2.0) / 0.4));
+      p.torsoX = -0.04 + breathe;
+      p.headX = -0.12 * a * (1 - thumb) + 0.08 * toM;
+      p.headY = 0.12 * Math.sin(Math.max(0, time - 2.4) * 3) * thumb;
+      const brow: P3 = [0.08 - 0.18 * wipe, 1.88, 0.2];
+      const mouth: P3 = [-0.01, 1.73, 0.22];
+      const up: P3 = [-0.3, 1.38, 0.3];
+      let R: P3 = time < 0.3 ? lerp3t(rest, [0.08, 1.88, 0.2], a) : brow;
+      if (time >= 0.95) R = lerp3t(brow, mouth, easeInOut(clamp((time - 1.0) / 0.35)));
+      if (time >= 1.65) R = lerp3t(mouth, up, thumb);
+      reachR(p, R, 0.33, [0.4, -0.6, -0.8]);
+      reachL(p, lerp3t(restL, [0.24, 0.95, 0.12], a), 0.33);
+      p.fists = thumb > 0.5;
+      return p;
+    }
+  }
+  return null;
+};
+
 /** Rechte Hand (Handmitte) im Dummy-System (Ursprung am Boden, +z = vorn) – für Gegenstände mit "hand" */
 export const rightHandLocal = (p: DummyPose) =>
   armPoint(p.armR, -1, p.foreZ, 0.33)
@@ -2431,7 +2697,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? wgPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -3461,6 +3727,90 @@ const armPoint = (limb: Limb, side: 1 | -1, foreZ: number, along: number, up = 0
     .applyEuler(new THREE.Euler(limb.sx, 0, limb.sz))
     .add(new THREE.Vector3(0.27 * side, 0.44, 0));
 
+const WG_ITEMS: DummyPose['item'][] = ['emptycup', 'spoon', 'marker', 'stamp', 'folder', 'cupnote', 'coin', 'letterread'];
+/** WG-Küche: Gegenstände in der Hand (Becher, Löffel, Stift, Stempel, Ordner, Münze, Brief) – bleiben in der Welt aufrecht */
+const WgHandItem = ({item, label, right, left, level}: {item: DummyPose['item']; label?: string; right: THREE.Vector3; left: THREE.Vector3; level: THREE.Quaternion}) => {
+  switch (item) {
+    case 'emptycup':
+      // leerer Becher links, Öffnung schräg zum Gesicht (er schaut hinein)
+      return (
+        <group position={left} quaternion={level}>
+          <group position={[0.0, -0.05, 0.02]} rotation={[-0.35, 0, 0]} scale={1.5}>
+            <group rotation={[0, Math.PI, 0]}>
+              <YogurtCup lid={1} fill={0} />
+            </group>
+          </group>
+        </group>
+      );
+    case 'spoon':
+      return (
+        <>
+          <group position={left} quaternion={level}>
+            <group position={[-0.02, -0.06, 0.03]} scale={1.3}>
+              <YogurtCup lid={1} fill={0.55} />
+            </group>
+          </group>
+          <group position={right} quaternion={level}>
+            <group position={[0, -0.03, 0.02]} rotation={[0.35, 0, 0.2]} scale={1.2}>
+              <Spoon />
+            </group>
+          </group>
+        </>
+      );
+    case 'cupnote':
+      return (
+        <group position={right} quaternion={level}>
+          <group position={[0.0, -0.08, 0.03]} rotation={[0, Math.PI, 0]} scale={1.6}>
+            <YogurtCup lid={0} fill={1} note="Probe fürs Gesundheitsamt" />
+          </group>
+        </group>
+      );
+    case 'marker':
+      return (
+        <group position={right} quaternion={level}>
+          <group position={[0, -0.02, 0.02]} rotation={[0.5, 0, 0.3]} scale={1.3}>
+            <FatMarker />
+          </group>
+        </group>
+      );
+    case 'stamp':
+      return (
+        <group position={right} quaternion={level}>
+          <group position={[0, -0.16, 0.02]} scale={1.3}>
+            <RubberStamp />
+          </group>
+        </group>
+      );
+    case 'folder':
+      return (
+        <group position={right} quaternion={level}>
+          <group position={[0.0, -0.17, 0.03]} rotation={[0, Math.PI, 0]}>
+            <Binder text={'Joghurt\n2026'} color="#ff7aa8" />
+          </group>
+        </group>
+      );
+    case 'coin':
+      return (
+        <group position={right} quaternion={level}>
+          <group position={[0, -0.02, 0.025]} rotation={[Math.PI / 2, 0, 0]} scale={1.4}>
+            <Coin />
+          </group>
+        </group>
+      );
+    case 'letterread': {
+      const mid = right.clone().add(left).multiplyScalar(0.5);
+      return (
+        <group position={mid} quaternion={level}>
+          <group position={[0, 0.07, 0.04]} rotation={[-0.25, Math.PI, 0]} scale={1.25}>
+            <Envelope text={label ?? 'Rechnung'} />
+          </group>
+        </group>
+      );
+    }
+  }
+  return null;
+};
+
 /** Gegenstand in der rechten Hand (Pflaster, Spray, Kompresse, Impfpass) */
 const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; time: number; zap?: number; zapTime?: number; tooth?: ToothLook}) => {
   const hand = armPoint(pose.armR, -1, pose.foreZ, 0.33);
@@ -3555,6 +3905,11 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
         </group>
       </>
     );
+  }
+  if (WG_ITEMS.includes(pose.item)) {
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
+    const tipL = armPoint(pose.armL, 1, pose.foreZL, 0.36);
+    return <WgHandItem item={pose.item} label={pose.label} right={tip} left={tipL} level={level} />;
   }
   if (pose.item === 'photo') {
     // Handy hochkant vor dem Gesicht, Bildschirm zum Dummy, Kamera nach vorn; Blitz bei "snap"
@@ -3873,7 +4228,13 @@ export const Dummy = ({
   wind = 0,
   windDir = 0,
   kid,
+  glasses = 0,
+  splat = 0,
 }: {
+  /** Lesebrille 0 … 1 (rutscht auf die Nase) */
+  glasses?: number;
+  /** Joghurt-Kleckse am Kopf 0 … 1 */
+  splat?: number;
   /** Kinder-Dummy: größerer Kopf + Kappe oder Zöpfe in bunten Farben (Figur wird außen auf ca. 0,6 verkleinert) */
   kid?: Kid;
   /** Wind/Sog an der Jacke: 0 … 1 (Saum flattert), windDir = Richtung im Dummy-System (Bogenmaß, 0 = nach vorn) */
@@ -4052,6 +4413,8 @@ export const Dummy = ({
             {uniform && <UniformCap m={m} hair={!!uniform.hair} />}
             {brow > 0.01 && <Brows m={m} raise={clamp((brow - 0.1) / 0.9)} />}
             <Foam amount={foam} time={fxTime} />
+            <ReadingGlasses amount={glasses} />
+            <HeadSplat amount={splat} />
           </group>
           <BodyHint lunge={lunge} blut={blut} time={fxTime} />
           {uniform?.scarf && (

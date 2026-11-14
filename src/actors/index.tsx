@@ -20,6 +20,7 @@ import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, Paper
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
 import type {Kid, Uniform} from './Dummy';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
+import {BigFridge, BigRedButton, Binder, CoinPile, Envelope, FatMarker, Laptop, RubberStamp, StickyNote, YogurtBlast, YogurtCup} from './WgProps';
 import {Whale, whalePose} from './Whale';
 import {Eel, eelAnchors, eelPose} from './Eel';
 import {Broom, FuseBox, WetTowel} from './ShockProps';
@@ -143,6 +144,21 @@ export const ACTORS = {
   muell: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   nadel: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   ast: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- WG-Küche (Spezial: Mitbewohner-Joghurt) ----
+  kuehlschrank: {height: 1.2, climbOffset: 0, speedLineHeight: 0},
+  joghurt: {height: 0.06, climbOffset: 0, speedLineHeight: 0},
+  klebezettel: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  knopf: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
+  joghurtwelle: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  brief: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  brief2: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  brief3: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  brief4: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  stempel: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  muenzen: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  ordner: {height: 0.16, climbOffset: 0, speedLineHeight: 0},
+  laptop: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  stift: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Kinder-Dummys: klein (Maßstab 0,6), bunte Körperfarben, Kappe oder Zöpfe – freundlich, ohne Gesicht wie alle Dummys */
@@ -451,8 +467,37 @@ export const Actor = ({
           brow={v.brow}
           wind={v.wind}
           windDir={windLocal(state.face, v.drift)}
+          glasses={v.glasses}
+          splat={v.splat}
         />
       )}
+      {name === 'kuehlschrank' && <BigFridge door={v.door} night={v.glow} wobble={v.rumble} time={zt} />}
+      {name === 'joghurt' && (
+        <group scale={1 + v.size}>
+          <YogurtCup lid={v.lid} fill={v.fill > 0 ? v.fill : 1} note={v.mark > 0.5 ? actor.text ?? 'Probe fürs Gesundheitsamt' : undefined} />
+        </group>
+      )}
+      {name === 'klebezettel' && (
+        <group rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.002, 0]}>
+          <StickyNote text={actor.text ?? 'Probe fürs Gesundheitsamt'} size={0.1 * (1 + v.size)} />
+        </group>
+      )}
+      {name === 'stift' && (
+        <group rotation={[0, 0, Math.PI / 2]} position={[0, 0.013, 0]}>
+          <FatMarker />
+        </group>
+      )}
+      {name === 'knopf' && <BigRedButton press={v.press} glow={v.glow} />}
+      {name === 'joghurtwelle' && <YogurtBlast time={state.motionTime} active={state.motion === 'splash'} fill={v.fill} />}
+      {(name === 'brief' || name === 'brief2' || name === 'brief3' || name === 'brief4') && (
+        <group rotation={v.tilt > 0 ? [-Math.PI / 2, 0, 0] : [0, 0, 0]} position={v.tilt > 0 ? [0, 0.003, 0] : [0, 0, 0]}>
+          <Envelope text={actor.text ?? 'Rechnung'} paid={v.mark > 0.5} size={v.size} />
+        </group>
+      )}
+      {name === 'stempel' && <RubberStamp />}
+      {name === 'muenzen' && <CoinPile fill={v.fill} />}
+      {name === 'ordner' && <Binder text={actor.text ?? 'Joghurt\n2026'} color="#ff7aa8" size={v.size} />}
+      {name === 'laptop' && <Laptop fill={v.fill} />}
       {name === 'zug' && <Train speed={state.speed} time={zt} />}
       {name === 'becher' && (
         <group rotation={state.motion === 'toss' ? [state.motionTime * 7.5, state.motionTime * 3, state.motionTime * 11] : [0, 0, 0]}>
@@ -579,6 +624,10 @@ export const Actor = ({
         <Dummy
           color={BUDDY_COLOR}
           brow={v.brow}
+          teeth={v.teeth}
+          splat={v.splat}
+          heave={v.heave}
+          breathPhase={state.breathPhase}
           zap={v.zap}
           zapTime={zt}
           pose={zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 9)}

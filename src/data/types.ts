@@ -182,6 +182,22 @@ export type Motion =
   | 'photo' // Dummy: hält das Handy mit beiden Händen vor sich und fotografiert (Blitz bei 1,0 s)
   | 'swingsit' // Kind: sitzt auf der Schaukel, hält die Ketten, baumelt fröhlich mit den Beinen
   | 'sandplay' // Kind: kniet im Sand und buddelt fröhlich (Schaufelbewegungen)
+  // ---- WG-Küche (Spezial: Mitbewohner-Joghurt) – Dummy + Kumpel ----
+  | 'fridgeopen' // Kühlschrank öffnen (linke Hand, Tür 0,4–1,2 s), hineinbeugen, leeren Becher herausnehmen (2,0 s) und hineinschauen
+  | 'aghast' // entsetzt erstarren: zurückzucken, leerer Becher links hoch, rechte Hand an den Kopf, zittern
+  | 'pressbutton' // großen roten Knopf 0,5 m vor ihm drücken (Faust hoch bis 0,6 s, Treffer 0,72 s)
+  | 'writenote' // am Tisch vorgebeugt mit dickem Stift einen Zettel beschriften
+  | 'sticknote' // Zettel auf den Becher 0,4 m vor ihm kleben (0,5 s) und glattstreichen
+  | 'typedesk' // sitzend am Laptop tippen
+  | 'slideletter' // kniend Briefe über den Boden nach vorn schieben (alle 1,3 s)
+  | 'stamp' // Stempel kräftig auf den Tisch 0,42 m vor ihm drücken (Treffer 0,58 s)
+  | 'shelve' // Ordner ins Regal stellen (oben 0,8 s, hinein bis 1,3 s), dann Hände in die Hüften
+  | 'spoon' // verstohlen Joghurt löffeln (Becher links, Löffel rechts, Blick hin und her)
+  | 'readnote' // Becher mit Zettel vor dem Gesicht lesen, bei 1,2 s erschrocken zurückzucken
+  | 'putback' // Becher ganz langsam vor sich abstellen (bis 2,2 s)
+  | 'openletters' // Briefe öffnen (alle 1,8 s ein neuer), wird immer entsetzter
+  | 'countcoins' // sitzend Münzen einzeln vom Häufchen nach rechts legen (alle 0,8 s)
+  | 'wipebrow' // Joghurt von der Stirn wischen, vom Finger probieren, Daumen hoch
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
@@ -360,10 +376,18 @@ export type ActorKey = {
   capon?: number;
   /** Gegenstand mit "hand": in wessen rechter Hand (Figur mit Dummy-Körper, z. B. "kumpel", "bundespolizist"). Standard "dummy". Gilt ab diesem Zeitpunkt weiter */
   holder?: string;
+  /** Dummy: Lesebrille 0 … 1 */
+  glasses?: number;
+  /** Figur mit Dummy-Körper: Joghurt-Kleckse am Kopf 0 … 1 */
+  splat?: number;
+  /** Großer roter Knopf: gedrückt 0 … 1 */
+  press?: number;
+  /** Leuchten (Knopf, Kühlschrank-Innenlicht nachts) 0 … 1 */
+  glow?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'glasses', 'splat', 'press', 'glow'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

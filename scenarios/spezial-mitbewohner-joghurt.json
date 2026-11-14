@@ -1,0 +1,2242 @@
+{
+  "id": "spezial-mitbewohner-joghurt",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "wg-kueche",
+  "situation": {
+    "speech": "Dein Mitbewohner hat mal wieder deinen Joghurt gegessen. Schon wieder. Dein Name stand sogar drauf. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Den Kühlschrank sprengen",
+      "speech": "A: Du sprengst den Kühlschrank.",
+      "dummyAction": "Dummy drückt einen großen roten Knopf, comichaftes PUFF (kein Feuer, kein Rauch), eine Joghurt-Welle färbt die Küche weiß. Der Mitbewohner kommt herein, wischt sich Joghurt von der Stirn, probiert und grinst.",
+      "explanation": "Wenn du keinen Joghurt hast, dann hat ihn keiner. Puff. Jetzt ist die ganze Küche Joghurt. Und dein Mitbewohner? Der findet das ziemlich lecker.",
+      "sceneExtra": 1.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              0.7,
+              1.55,
+              1.9
+            ],
+            "look": [
+              -0.95,
+              1.1,
+              -0.85
+            ]
+          },
+          {
+            "t": 0.4848,
+            "pos": [
+              0.55,
+              1.5,
+              1.6
+            ],
+            "look": [
+              -0.95,
+              1.1,
+              -0.85
+            ]
+          },
+          {
+            "t": 0.4873,
+            "pos": [
+              1.5,
+              1.9,
+              3.3
+            ],
+            "look": [
+              -1.05,
+              1.05,
+              -0.95
+            ]
+          },
+          {
+            "t": 0.5095,
+            "pos": [
+              1.45,
+              1.95,
+              3.7
+            ],
+            "look": [
+              -1.05,
+              1.05,
+              -0.95
+            ]
+          },
+          {
+            "t": 0.512,
+            "pos": [
+              0.9,
+              2.0,
+              4.4
+            ],
+            "look": [
+              -0.6,
+              0.95,
+              -0.9
+            ]
+          },
+          {
+            "t": 0.6373,
+            "pos": [
+              0.2,
+              1.95,
+              4.5
+            ],
+            "look": [
+              -0.5,
+              0.95,
+              -0.9
+            ]
+          },
+          {
+            "t": 0.6399,
+            "pos": [
+              -0.35,
+              1.6,
+              3.1
+            ],
+            "look": [
+              1.75,
+              1.15,
+              0.85
+            ]
+          },
+          {
+            "t": 0.7242,
+            "pos": [
+              -0.2,
+              1.62,
+              2.9
+            ],
+            "look": [
+              1.75,
+              1.15,
+              0.85
+            ]
+          },
+          {
+            "t": 0.7271,
+            "pos": [
+              0.45,
+              1.7,
+              2.75
+            ],
+            "look": [
+              1.55,
+              1.5,
+              1.05
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.6,
+              1.7,
+              2.5
+            ],
+            "look": [
+              1.55,
+              1.5,
+              1.05
+            ]
+          }
+        ],
+        "actors": {
+          "kuehlschrank": [
+            {
+              "t": 0,
+              "x": -2.13,
+              "z": -1.94,
+              "motion": "park",
+              "face": 180,
+              "door": 0,
+              "rumble": 0
+            },
+            {
+              "t": 0.4851,
+              "x": -2.13,
+              "z": -1.94,
+              "motion": "park",
+              "face": 180,
+              "door": 0,
+              "rumble": 0
+            },
+            {
+              "t": 0.4972,
+              "x": -2.13,
+              "z": -1.94,
+              "motion": "park",
+              "face": 180,
+              "door": 1,
+              "rumble": 1
+            },
+            {
+              "t": 0.566,
+              "x": -2.13,
+              "z": -1.94,
+              "motion": "park",
+              "face": 180,
+              "door": 0.92,
+              "rumble": 0
+            }
+          ],
+          "zimmertuer": [
+            {
+              "t": 0,
+              "x": 2.5,
+              "z": 0.75,
+              "motion": "park",
+              "face": 270,
+              "door": 0
+            },
+            {
+              "t": 0.6654,
+              "x": 2.5,
+              "z": 0.75,
+              "motion": "park",
+              "face": 270,
+              "door": 0
+            },
+            {
+              "t": 0.6991,
+              "x": 2.5,
+              "z": 0.75,
+              "motion": "park",
+              "face": 270,
+              "door": 1
+            }
+          ],
+          "laptop": [
+            {
+              "t": 0,
+              "x": 1.75,
+              "z": -1.88,
+              "motion": "park",
+              "face": 180,
+              "y": 0.74,
+              "fill": 0.0
+            }
+          ],
+          "kalender": [
+            {
+              "t": 0,
+              "x": 2.485,
+              "z": -0.45,
+              "motion": "park",
+              "face": 270,
+              "y": 1.45
+            }
+          ],
+          "ordner": [
+            {
+              "t": 0,
+              "x": 2.25,
+              "z": -2.045,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "text": "Joghurt\n2026"
+            }
+          ],
+          "joghurt": [
+            {
+              "t": 0,
+              "x": -1.95,
+              "z": -1.84,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "size": 0.35,
+              "mark": 0,
+              "lid": 0
+            }
+          ],
+          "knopf": [
+            {
+              "t": 0,
+              "x": -0.75,
+              "z": -0.55,
+              "motion": "park",
+              "face": 180,
+              "press": 0,
+              "glow": 0
+            },
+            {
+              "t": 0.4811,
+              "x": -0.75,
+              "z": -0.55,
+              "motion": "park",
+              "face": 180,
+              "press": 0,
+              "glow": 0
+            },
+            {
+              "t": 0.4851,
+              "x": -0.75,
+              "z": -0.55,
+              "motion": "park",
+              "face": 180,
+              "press": 1,
+              "glow": 1
+            },
+            {
+              "t": 0.5282,
+              "x": -0.75,
+              "z": -0.55,
+              "motion": "park",
+              "face": 180,
+              "glow": 0.3
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.75,
+              "z": -1.05,
+              "motion": "stand",
+              "face": 180,
+              "brow": 1
+            },
+            {
+              "t": 0.4339,
+              "x": -0.75,
+              "z": -1.05,
+              "motion": "pressbutton",
+              "face": 180
+            },
+            {
+              "t": 0.502,
+              "x": -0.75,
+              "z": -1.05,
+              "motion": "pressbutton",
+              "face": 180,
+              "splat": 0
+            },
+            {
+              "t": 0.5255,
+              "x": -0.75,
+              "z": -1.05,
+              "motion": "pressbutton",
+              "face": 180,
+              "splat": 1
+            }
+          ],
+          "joghurtwelle": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0
+            },
+            {
+              "t": 0.4851,
+              "x": 0,
+              "z": 0,
+              "motion": "splash",
+              "face": 180,
+              "fill": 0
+            },
+            {
+              "t": 0.5862,
+              "x": 0,
+              "z": 0,
+              "motion": "splash",
+              "face": 180,
+              "fill": 1
+            }
+          ],
+          "kumpel": [
+            {
+              "t": 0,
+              "x": 2.95,
+              "z": 1.2,
+              "motion": "stand",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.688,
+              "x": 2.95,
+              "z": 1.2,
+              "motion": "walk",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.689,
+              "x": 2.95,
+              "z": 1.2,
+              "motion": "walk",
+              "face": 270,
+              "splat": 1
+            },
+            {
+              "t": 0.7715,
+              "x": 1.55,
+              "z": 1.05,
+              "motion": "walk",
+              "face": 270
+            },
+            {
+              "t": 0.7621,
+              "x": 1.55,
+              "z": 1.05,
+              "motion": "stand",
+              "face": 222.8
+            },
+            {
+              "t": 0.7621,
+              "x": 1.55,
+              "z": 1.05,
+              "motion": "wipebrow",
+              "face": 222.8
+            },
+            {
+              "t": 0.7857,
+              "x": 1.55,
+              "z": 1.05,
+              "motion": "wipebrow",
+              "face": 222.8,
+              "splat": 1
+            },
+            {
+              "t": 0.8261,
+              "x": 1.55,
+              "z": 1.05,
+              "motion": "wipebrow",
+              "face": 222.8,
+              "splat": 0.35,
+              "teeth": 0
+            },
+            {
+              "t": 0.8666,
+              "x": 1.55,
+              "z": 1.05,
+              "motion": "wipebrow",
+              "face": 222.8,
+              "teeth": 1
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.4824,
+            "id": "knopf-druecken",
+            "volume": 0.8
+          },
+          {
+            "t": 0.4851,
+            "id": "puff",
+            "volume": 0.9
+          },
+          {
+            "t": 0.6688,
+            "id": "tuer-zu",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Zettel: Probe fürs Gesundheitsamt",
+      "speech": "B: Du beschriftest deinen Joghurt mit: Probe fürs Gesundheitsamt.",
+      "dummyAction": "Dummy schreibt einen Zettel \"Probe fürs Gesundheitsamt\" und klebt ihn auf seinen Joghurt. Nachts schleicht der Mitbewohner zum Kühlschrank, liest den Zettel, stellt den Becher ganz langsam zurück und weicht zurück.",
+      "explanation": "Ab jetzt steht auf deinem Joghurt: Probe fürs Gesundheitsamt. Nachts um drei steht er wieder am Kühlschrank. Er liest den Zettel. Er stellt den Becher ganz langsam zurück.",
+      "sceneExtra": 1.2,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              1.0,
+              1.95,
+              2.7
+            ],
+            "look": [
+              -0.25,
+              0.85,
+              0.72
+            ]
+          },
+          {
+            "t": 0.3157,
+            "pos": [
+              0.85,
+              1.85,
+              2.5
+            ],
+            "look": [
+              -0.25,
+              0.85,
+              0.72
+            ]
+          },
+          {
+            "t": 0.3184,
+            "pos": [
+              0.3,
+              1.08,
+              1.45
+            ],
+            "look": [
+              -0.42,
+              0.86,
+              0.74
+            ]
+          },
+          {
+            "t": 0.5253,
+            "pos": [
+              0.22,
+              1.05,
+              1.3
+            ],
+            "look": [
+              -0.42,
+              0.86,
+              0.74
+            ]
+          },
+          {
+            "t": 0.5278,
+            "pos": [
+              0.75,
+              1.5,
+              2.4
+            ],
+            "look": [
+              -1.25,
+              1.05,
+              -1.1
+            ]
+          },
+          {
+            "t": 0.7056,
+            "pos": [
+              0.55,
+              1.5,
+              2.1
+            ],
+            "look": [
+              -1.25,
+              1.05,
+              -1.1
+            ]
+          },
+          {
+            "t": 0.7084,
+            "pos": [
+              -1.12,
+              1.8,
+              -0.55
+            ],
+            "look": [
+              -1.5,
+              1.52,
+              -1.38
+            ]
+          },
+          {
+            "t": 0.7293,
+            "pos": [
+              -1.1,
+              1.78,
+              -0.5
+            ],
+            "look": [
+              -1.5,
+              1.52,
+              -1.38
+            ]
+          },
+          {
+            "t": 0.7321,
+            "pos": [
+              0.3,
+              1.6,
+              1.6
+            ],
+            "look": [
+              -1.6,
+              1.15,
+              -1.3
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.6,
+              1.6,
+              2.1
+            ],
+            "look": [
+              -1.4,
+              1.1,
+              -0.9
+            ]
+          }
+        ],
+        "actors": {
+          "kuehlschrank": [
+            {
+              "t": 0,
+              "x": -2.13,
+              "z": -1.94,
+              "motion": "park",
+              "face": 180,
+              "door": 0,
+              "glow": 1
+            },
+            {
+              "t": 0.6697,
+              "x": -2.13,
+              "z": -1.94,
+              "motion": "park",
+              "face": 180,
+              "door": 0
+            },
+            {
+              "t": 0.7125,
+              "x": -2.13,
+              "z": -1.94,
+              "motion": "park",
+              "face": 180,
+              "door": 1
+            }
+          ],
+          "zimmertuer": [
+            {
+              "t": 0,
+              "x": 2.5,
+              "z": 0.75,
+              "motion": "park",
+              "face": 270,
+              "door": 0.0
+            }
+          ],
+          "laptop": [
+            {
+              "t": 0,
+              "x": 1.75,
+              "z": -1.88,
+              "motion": "park",
+              "face": 180,
+              "y": 0.74,
+              "fill": 0.0
+            }
+          ],
+          "kalender": [
+            {
+              "t": 0,
+              "x": 2.485,
+              "z": -0.45,
+              "motion": "park",
+              "face": 270,
+              "y": 1.45
+            }
+          ],
+          "ordner": [
+            {
+              "t": 0,
+              "x": 2.25,
+              "z": -2.045,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "text": "Joghurt\n2026"
+            }
+          ],
+          "joghurt": [
+            {
+              "t": 0,
+              "x": -0.4,
+              "z": 0.72,
+              "motion": "park",
+              "face": 180,
+              "y": 0.76,
+              "size": 0.35,
+              "mark": 0,
+              "lid": 0
+            },
+            {
+              "t": 0.2741,
+              "x": -0.4,
+              "z": 0.72,
+              "motion": "park",
+              "face": 180,
+              "y": 0.76,
+              "mark": 0
+            },
+            {
+              "t": 0.2752,
+              "x": -0.4,
+              "z": 0.72,
+              "motion": "park",
+              "face": 180,
+              "y": 0.76,
+              "mark": 1
+            },
+            {
+              "t": 0.5313,
+              "x": -0.4,
+              "z": 0.72,
+              "motion": "park",
+              "face": 180,
+              "y": 0.76
+            },
+            {
+              "t": 0.5333,
+              "x": -1.95,
+              "z": -1.84,
+              "motion": "park",
+              "face": 180,
+              "y": 1.045
+            },
+            {
+              "t": 0.74,
+              "x": -1.95,
+              "z": -1.84,
+              "motion": "park",
+              "face": 180,
+              "y": 1.045
+            },
+            {
+              "t": 0.742,
+              "x": -1.95,
+              "z": -1.84,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.8887,
+              "x": -1.95,
+              "z": -1.84,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.8907,
+              "x": -1.95,
+              "z": -1.84,
+              "motion": "park",
+              "face": 180,
+              "y": 1.045
+            }
+          ],
+          "klebezettel": [
+            {
+              "t": 0,
+              "x": -0.15,
+              "z": 0.75,
+              "motion": "park",
+              "face": 180,
+              "y": 0.763,
+              "size": 0.6
+            },
+            {
+              "t": 0.2687,
+              "x": -0.15,
+              "z": 0.75,
+              "motion": "park",
+              "face": 180,
+              "y": 0.763
+            },
+            {
+              "t": 0.2698,
+              "x": -0.15,
+              "z": 0.75,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "stift": [
+            {
+              "t": 0,
+              "x": 0.05,
+              "z": 0.8,
+              "motion": "park",
+              "face": 30,
+              "y": -30
+            },
+            {
+              "t": 0.2212,
+              "x": 0.05,
+              "z": 0.8,
+              "motion": "park",
+              "face": 30,
+              "y": -30
+            },
+            {
+              "t": 0.2232,
+              "x": 0.07,
+              "z": 0.8,
+              "motion": "park",
+              "face": 30,
+              "y": 0.76
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.2,
+              "z": 1.17,
+              "motion": "writenote",
+              "face": 0
+            },
+            {
+              "t": 0.2232,
+              "x": -0.2,
+              "z": 1.17,
+              "motion": "walk",
+              "face": 0
+            },
+            {
+              "t": 0.2473,
+              "x": -0.4,
+              "z": 1.16,
+              "motion": "sticknote",
+              "face": 0
+            },
+            {
+              "t": 0.3357,
+              "x": -0.4,
+              "z": 1.16,
+              "motion": "sticknote",
+              "face": 0
+            },
+            {
+              "t": 0.3625,
+              "x": -0.45,
+              "z": 1.21,
+              "motion": "stand",
+              "face": 150
+            },
+            {
+              "t": 0.5313,
+              "x": -0.45,
+              "z": 1.21,
+              "motion": "stand",
+              "face": 150
+            },
+            {
+              "t": 0.5333,
+              "x": -0.4,
+              "z": 1.16,
+              "motion": "stand",
+              "face": 150,
+              "y": -30
+            }
+          ],
+          "kumpel": [
+            {
+              "t": 0,
+              "x": 0.25,
+              "z": -0.2,
+              "motion": "stand",
+              "face": 295.3,
+              "y": -30
+            },
+            {
+              "t": 0.5323,
+              "x": 0.25,
+              "z": -0.2,
+              "motion": "sneak",
+              "face": 295.3,
+              "y": -30
+            },
+            {
+              "t": 0.5333,
+              "x": 0.25,
+              "z": -0.2,
+              "motion": "sneak",
+              "face": 295.3
+            },
+            {
+              "t": 0.6456,
+              "x": -1.55,
+              "z": -1.05,
+              "motion": "sneak",
+              "face": 0
+            },
+            {
+              "t": 0.6482,
+              "x": -1.55,
+              "z": -1.05,
+              "motion": "fridgeopen",
+              "face": 0
+            },
+            {
+              "t": 0.742,
+              "x": -1.55,
+              "z": -1.05,
+              "motion": "readnote",
+              "face": 0
+            },
+            {
+              "t": 0.7675,
+              "x": -1.55,
+              "z": -1.05,
+              "motion": "putback",
+              "face": 0
+            },
+            {
+              "t": 0.9229,
+              "x": -1.55,
+              "z": -1.05,
+              "motion": "putback",
+              "face": 0
+            },
+            {
+              "t": 0.9239,
+              "x": -1.55,
+              "z": -1.05,
+              "motion": "recoil",
+              "face": 20
+            },
+            {
+              "t": 1,
+              "x": -1.1,
+              "z": 0.1,
+              "motion": "recoil",
+              "face": 20
+            }
+          ]
+        },
+        "stage": [
+          {
+            "t": 0,
+            "stage": "wg-kueche"
+          },
+          {
+            "t": 0.5333,
+            "stage": "wg-kueche-nacht"
+          }
+        ],
+        "sfx": [
+          {
+            "t": 0.02,
+            "id": "stift-kritzeln",
+            "volume": 0.6
+          },
+          {
+            "t": 0.2741,
+            "id": "pflaster",
+            "volume": 0.6
+          },
+          {
+            "t": 0.6697,
+            "id": "kuehlschrank-auf",
+            "volume": 0.6
+          },
+          {
+            "t": 0.8063,
+            "id": "herzschlag",
+            "volume": 0.5
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Rechnung: 1,29 € plus Mahngebühren",
+      "speech": "C: Du schickst ihm eine Rechnung über 1,29 Euro. Plus Mahngebühren. Wir sind ja schließlich in Deutschland.",
+      "dummyAction": "Dummy tippt mit Lesebrille eine Rechnung über 1,29 €, schiebt Rechnung, 1. und 2. Mahnung unter der Tür durch, der Kalender blättert drei Wochen weiter, der Mitbewohner zählt Münzen, der Dummy stempelt BEZAHLT und stellt den Ordner \"Joghurt 2026\" ins Regal.",
+      "explanation": "Erst kommt die Rechnung. Dann die erste Mahnung. Dann die zweite. Nach drei Wochen zahlt er endlich. In Münzen. Du stempelst: Bezahlt. Und legst alles ordentlich ab. Im Ordner Joghurt, Jahrgang 2026.",
+      "sceneExtra": 0.6,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.3,
+              1.55,
+              -0.45
+            ],
+            "look": [
+              1.72,
+              0.98,
+              -1.9
+            ]
+          },
+          {
+            "t": 0.2461,
+            "pos": [
+              2.2,
+              1.52,
+              -0.6
+            ],
+            "look": [
+              1.72,
+              0.98,
+              -1.9
+            ]
+          },
+          {
+            "t": 0.249,
+            "pos": [
+              0.95,
+              1.85,
+              0.9
+            ],
+            "look": [
+              1.75,
+              0.9,
+              -1.7
+            ]
+          },
+          {
+            "t": 0.4216,
+            "pos": [
+              1.05,
+              1.8,
+              0.7
+            ],
+            "look": [
+              1.75,
+              0.9,
+              -1.7
+            ]
+          },
+          {
+            "t": 0.4241,
+            "pos": [
+              0.15,
+              1.35,
+              2.3
+            ],
+            "look": [
+              2.15,
+              0.25,
+              1.15
+            ]
+          },
+          {
+            "t": 0.5551,
+            "pos": [
+              0.35,
+              1.25,
+              2.1
+            ],
+            "look": [
+              2.15,
+              0.25,
+              1.15
+            ]
+          },
+          {
+            "t": 0.5577,
+            "pos": [
+              0.45,
+              1.5,
+              1.75
+            ],
+            "look": [
+              2.05,
+              1.35,
+              -0.35
+            ]
+          },
+          {
+            "t": 0.6407,
+            "pos": [
+              0.6,
+              1.45,
+              1.55
+            ],
+            "look": [
+              2.05,
+              1.35,
+              -0.35
+            ]
+          },
+          {
+            "t": 0.6433,
+            "pos": [
+              0.15,
+              1.8,
+              2.45
+            ],
+            "look": [
+              -0.05,
+              0.85,
+              0.35
+            ]
+          },
+          {
+            "t": 0.7287,
+            "pos": [
+              0.05,
+              1.7,
+              2.2
+            ],
+            "look": [
+              -0.05,
+              0.85,
+              0.35
+            ]
+          },
+          {
+            "t": 0.7315,
+            "pos": [
+              1.35,
+              1.75,
+              -0.2
+            ],
+            "look": [
+              2.15,
+              1.5,
+              -1.95
+            ]
+          },
+          {
+            "t": 0.8167,
+            "pos": [
+              1.5,
+              1.72,
+              -0.45
+            ],
+            "look": [
+              2.15,
+              1.5,
+              -1.95
+            ]
+          },
+          {
+            "t": 0.8198,
+            "pos": [
+              1.95,
+              1.72,
+              -1.05
+            ],
+            "look": [
+              2.22,
+              1.68,
+              -2.05
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              2.05,
+              1.7,
+              -1.25
+            ],
+            "look": [
+              2.22,
+              1.68,
+              -2.05
+            ]
+          }
+        ],
+        "actors": {
+          "kuehlschrank": [
+            {
+              "t": 0,
+              "x": -2.13,
+              "z": -1.94,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 0.0
+            }
+          ],
+          "zimmertuer": [
+            {
+              "t": 0,
+              "x": 2.5,
+              "z": 0.75,
+              "motion": "park",
+              "face": 270,
+              "door": 0.0
+            }
+          ],
+          "laptop": [
+            {
+              "t": 0,
+              "x": 1.75,
+              "z": -1.88,
+              "motion": "park",
+              "face": 180,
+              "y": 0.74,
+              "fill": 0
+            },
+            {
+              "t": 0.036,
+              "x": 1.75,
+              "z": -1.88,
+              "motion": "park",
+              "face": 180,
+              "fill": 0
+            },
+            {
+              "t": 0.1552,
+              "x": 1.75,
+              "z": -1.88,
+              "motion": "park",
+              "face": 180,
+              "fill": 1
+            }
+          ],
+          "kalender": [
+            {
+              "t": 0,
+              "x": 2.485,
+              "z": -0.45,
+              "motion": "park",
+              "face": 270,
+              "y": 1.45
+            },
+            {
+              "t": 0.56,
+              "x": 2.485,
+              "z": -0.45,
+              "motion": "flip",
+              "face": 270,
+              "y": 1.45
+            },
+            {
+              "t": 0.6693,
+              "x": 2.485,
+              "z": -0.45,
+              "motion": "park",
+              "face": 270,
+              "y": 1.45
+            }
+          ],
+          "ordner": [
+            {
+              "t": 0,
+              "x": 2.25,
+              "z": -2.045,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "text": "Joghurt\n2026"
+            },
+            {
+              "t": 0.829,
+              "x": 2.25,
+              "z": -2.045,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.8299,
+              "x": 2.25,
+              "z": -2.045,
+              "motion": "park",
+              "face": 180,
+              "y": 1.565
+            }
+          ],
+          "joghurt": [
+            {
+              "t": 0,
+              "x": -1.95,
+              "z": -1.84,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "size": 0.35,
+              "mark": 0,
+              "lid": 0
+            }
+          ],
+          "brief": [
+            {
+              "t": 0,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30,
+              "tilt": 1,
+              "text": "Rechnung",
+              "size": 0.5
+            },
+            {
+              "t": 0.4175,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.4184,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.4463,
+              "x": 2.4,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.4589,
+              "x": 2.75,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.4598,
+              "x": 2.75,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30
+            }
+          ],
+          "brief2": [
+            {
+              "t": 0,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30,
+              "tilt": 1,
+              "text": "1. Mahnung",
+              "size": 0.5
+            },
+            {
+              "t": 0.4761,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.477,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.5049,
+              "x": 2.4,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.5175,
+              "x": 2.75,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.5184,
+              "x": 2.75,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30
+            }
+          ],
+          "brief3": [
+            {
+              "t": 0,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30,
+              "tilt": 1,
+              "text": "2. Mahnung",
+              "size": 0.5
+            },
+            {
+              "t": 0.5346,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.5355,
+              "x": 2.07,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.5634,
+              "x": 2.4,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.5761,
+              "x": 2.75,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.577,
+              "x": 2.75,
+              "z": 1.14,
+              "motion": "park",
+              "face": 270,
+              "y": -30
+            }
+          ],
+          "brief4": [
+            {
+              "t": 0,
+              "x": -0.34,
+              "z": 0.3,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "tilt": 1,
+              "text": "Rechnung",
+              "size": 0.25,
+              "mark": 0
+            },
+            {
+              "t": 0.6673,
+              "x": -0.34,
+              "z": 0.3,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.6693,
+              "x": -0.34,
+              "z": 0.3,
+              "motion": "park",
+              "face": 180,
+              "y": 0.762
+            },
+            {
+              "t": 0.7405,
+              "x": -0.34,
+              "z": 0.3,
+              "motion": "park",
+              "face": 180,
+              "mark": 0
+            },
+            {
+              "t": 0.741,
+              "x": -0.34,
+              "z": 0.3,
+              "motion": "park",
+              "face": 180,
+              "mark": 1
+            },
+            {
+              "t": 0.7648,
+              "x": -0.34,
+              "z": 0.3,
+              "motion": "park",
+              "face": 180
+            },
+            {
+              "t": 0.7668,
+              "x": -0.34,
+              "z": 0.3,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "kumpel": [
+            {
+              "t": 0,
+              "x": 1.95,
+              "z": -0.05,
+              "motion": "stand",
+              "face": 219.8,
+              "y": -30
+            },
+            {
+              "t": 0.4902,
+              "x": 1.95,
+              "z": -0.05,
+              "motion": "openletters",
+              "face": 219.8,
+              "y": -30
+            },
+            {
+              "t": 0.568,
+              "x": 1.95,
+              "z": -0.05,
+              "motion": "openletters",
+              "face": 219.8,
+              "y": -30
+            },
+            {
+              "t": 0.569,
+              "x": 1.95,
+              "z": -0.05,
+              "motion": "openletters",
+              "face": 219.8
+            },
+            {
+              "t": 0.6683,
+              "x": 1.95,
+              "z": -0.05,
+              "motion": "openletters",
+              "face": 219.8
+            },
+            {
+              "t": 0.6693,
+              "x": 0.58,
+              "z": 0.55,
+              "motion": "countcoins",
+              "face": 270
+            },
+            {
+              "t": 0.7658,
+              "x": 0.58,
+              "z": 0.55,
+              "motion": "countcoins",
+              "face": 270
+            },
+            {
+              "t": 0.7668,
+              "x": 0.58,
+              "z": 0.55,
+              "motion": "chairsit",
+              "face": 270
+            }
+          ],
+          "muenzen": [
+            {
+              "t": 0,
+              "x": 0.18,
+              "z": 0.57,
+              "motion": "park",
+              "face": 90,
+              "y": -30,
+              "fill": 0
+            },
+            {
+              "t": 0.6673,
+              "x": 0.18,
+              "z": 0.57,
+              "motion": "park",
+              "face": 90,
+              "y": -30
+            },
+            {
+              "t": 0.6693,
+              "x": 0.18,
+              "z": 0.57,
+              "motion": "park",
+              "face": 90,
+              "y": 0.76,
+              "fill": 0
+            },
+            {
+              "t": 0.6918,
+              "x": 0.18,
+              "z": 0.57,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.077
+            },
+            {
+              "t": 0.7279,
+              "x": 0.18,
+              "z": 0.57,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.154
+            },
+            {
+              "t": 0.7639,
+              "x": 0.18,
+              "z": 0.57,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.231
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.75,
+              "z": -1.3,
+              "motion": "typedesk",
+              "face": 0,
+              "glasses": 0
+            },
+            {
+              "t": 0.0315,
+              "x": 1.75,
+              "z": -1.3,
+              "motion": "typedesk",
+              "face": 0,
+              "glasses": 1
+            },
+            {
+              "t": 0.3939,
+              "x": 1.75,
+              "z": -1.3,
+              "motion": "typedesk",
+              "face": 0
+            },
+            {
+              "t": 0.3959,
+              "x": 1.62,
+              "z": 1.18,
+              "motion": "slideletter",
+              "face": 90
+            },
+            {
+              "t": 0.568,
+              "x": 1.62,
+              "z": 1.18,
+              "motion": "slideletter",
+              "face": 90
+            },
+            {
+              "t": 0.569,
+              "x": -0.3,
+              "z": -0.12,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.6683,
+              "x": -0.3,
+              "z": -0.12,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.6693,
+              "x": -0.3,
+              "z": -0.12,
+              "motion": "stand",
+              "face": 180
+            },
+            {
+              "t": 0.7149,
+              "x": -0.3,
+              "z": -0.12,
+              "motion": "stamp",
+              "face": 180
+            },
+            {
+              "t": 0.7658,
+              "x": -0.3,
+              "z": -0.12,
+              "motion": "stamp",
+              "face": 180
+            },
+            {
+              "t": 0.7668,
+              "x": 2.23,
+              "z": -1.645,
+              "motion": "shelve",
+              "face": 0
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.03,
+            "id": "tastatur",
+            "volume": 0.6
+          },
+          {
+            "t": 0.4229,
+            "id": "papier-schieben",
+            "volume": 0.7
+          },
+          {
+            "t": 0.4815,
+            "id": "papier-schieben",
+            "volume": 0.7
+          },
+          {
+            "t": 0.54,
+            "id": "papier-schieben",
+            "volume": 0.7
+          },
+          {
+            "t": 0.5645,
+            "id": "kalender-blaettern",
+            "volume": 0.6
+          },
+          {
+            "t": 0.6738,
+            "id": "muenzen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.741,
+            "id": "stempel",
+            "volume": 0.9
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du? Schreib A, B oder C in die Kommentare.",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Eine richtige Antwort gibt es diesmal nicht. Aber dein Mitbewohner sollte das Video unbedingt sehen. Schreib A, B oder C in die Kommentare und markier deinen Joghurt-Dieb. Und was soll der Dummy als Nächstes erleben?",
+    "screen": "Schreib A, B oder C in die Kommentare!"
+  },
+  "publishing": {
+    "description": "Dein Mitbewohner hat mal wieder deinen Joghurt gegessen – was machst du? 🥄 Schreib A, B oder C in die Kommentare!\n\nDiesmal ohne richtige Antwort, nur zum Spaß. Bitte nichts davon nachmachen. 😄\n\n#waswürdestdutun #wg #mitbewohner #wgleben #spezial #lustig #comedy #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team ___. Und du? 👇 Markier deinen Joghurt-Dieb!"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -0.25,
+            1.55,
+            2.0
+          ],
+          "look": [
+            -0.75,
+            1.3,
+            0.0
+          ]
+        },
+        {
+          "t": 0.4882,
+          "pos": [
+            -0.3,
+            1.5,
+            1.8
+          ],
+          "look": [
+            -0.75,
+            1.3,
+            0.0
+          ]
+        },
+        {
+          "t": 0.4907,
+          "pos": [
+            0.35,
+            1.65,
+            1.25
+          ],
+          "look": [
+            -1.75,
+            1.15,
+            -1.55
+          ]
+        },
+        {
+          "t": 0.6918,
+          "pos": [
+            0.25,
+            1.62,
+            1.15
+          ],
+          "look": [
+            -1.75,
+            1.15,
+            -1.55
+          ]
+        },
+        {
+          "t": 0.6946,
+          "pos": [
+            -1.15,
+            1.82,
+            -0.62
+          ],
+          "look": [
+            -1.66,
+            1.5,
+            -1.38
+          ]
+        },
+        {
+          "t": 0.7908,
+          "pos": [
+            -1.12,
+            1.8,
+            -0.58
+          ],
+          "look": [
+            -1.66,
+            1.5,
+            -1.38
+          ]
+        },
+        {
+          "t": 0.7939,
+          "pos": [
+            0.4,
+            1.55,
+            2.3
+          ],
+          "look": [
+            -1.45,
+            1.25,
+            -1.05
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.35,
+            1.5,
+            2.1
+          ],
+          "look": [
+            -1.45,
+            1.25,
+            -1.05
+          ]
+        }
+      ],
+      "actors": {
+        "kuehlschrank": [
+          {
+            "t": 0,
+            "x": -2.13,
+            "z": -1.94,
+            "motion": "park",
+            "face": 180,
+            "door": 0
+          },
+          {
+            "t": 0.5186,
+            "x": -2.13,
+            "z": -1.94,
+            "motion": "park",
+            "face": 180,
+            "door": 0
+          },
+          {
+            "t": 0.6138,
+            "x": -2.13,
+            "z": -1.94,
+            "motion": "park",
+            "face": 180,
+            "door": 1
+          }
+        ],
+        "zimmertuer": [
+          {
+            "t": 0,
+            "x": 2.5,
+            "z": 0.75,
+            "motion": "park",
+            "face": 270,
+            "door": 0.0
+          }
+        ],
+        "laptop": [
+          {
+            "t": 0,
+            "x": 1.75,
+            "z": -1.88,
+            "motion": "park",
+            "face": 180,
+            "y": 0.74,
+            "fill": 0.0
+          }
+        ],
+        "kalender": [
+          {
+            "t": 0,
+            "x": 2.485,
+            "z": -0.45,
+            "motion": "park",
+            "face": 270,
+            "y": 1.45
+          }
+        ],
+        "ordner": [
+          {
+            "t": 0,
+            "x": 2.25,
+            "z": -2.045,
+            "motion": "park",
+            "face": 180,
+            "y": -30,
+            "text": "Joghurt\n2026"
+          }
+        ],
+        "joghurt": [
+          {
+            "t": 0,
+            "x": -1.95,
+            "z": -1.84,
+            "motion": "park",
+            "face": 180,
+            "y": 1.045,
+            "size": 0.35,
+            "lid": 1,
+            "fill": 0.01
+          },
+          {
+            "t": 0.708,
+            "x": -1.95,
+            "z": -1.84,
+            "motion": "park",
+            "face": 180,
+            "y": 1.045
+          },
+          {
+            "t": 0.709,
+            "x": -1.95,
+            "z": -1.84,
+            "motion": "park",
+            "face": 180,
+            "y": -30
+          }
+        ],
+        "kumpel": [
+          {
+            "t": 0,
+            "x": -0.75,
+            "z": 0.05,
+            "motion": "spoon",
+            "face": 160
+          },
+          {
+            "t": 0.4868,
+            "x": -0.75,
+            "z": 0.05,
+            "motion": "spoon",
+            "face": 160
+          },
+          {
+            "t": 0.4888,
+            "x": -0.75,
+            "z": 0.05,
+            "motion": "spoon",
+            "face": 160,
+            "y": -30
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -1.55,
+            "z": -1.05,
+            "motion": "stand",
+            "face": 0
+          },
+          {
+            "t": 0.4709,
+            "x": -1.55,
+            "z": -1.05,
+            "motion": "fridgeopen",
+            "face": 0
+          },
+          {
+            "t": 0.8296,
+            "x": -1.55,
+            "z": -1.05,
+            "motion": "fridgeopen",
+            "face": 0
+          },
+          {
+            "t": 0.8306,
+            "x": -1.55,
+            "z": -1.05,
+            "motion": "aghast",
+            "face": 0
+          },
+          {
+            "t": 0.8663,
+            "x": -1.55,
+            "z": -1.05,
+            "motion": "aghast",
+            "face": 150
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.5186,
+          "id": "kuehlschrank-auf",
+          "volume": 0.6
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -0.15,
+            1.05,
+            4.6
+          ],
+          "look": [
+            -0.2,
+            1.75,
+            0.0
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -0.2,
+            1.05,
+            4.3
+          ],
+          "look": [
+            -0.2,
+            1.75,
+            0.0
+          ]
+        }
+      ],
+      "actors": {
+        "kuehlschrank": [
+          {
+            "t": 0,
+            "x": -2.13,
+            "z": -1.94,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 0.0
+          }
+        ],
+        "zimmertuer": [
+          {
+            "t": 0,
+            "x": 2.5,
+            "z": 0.75,
+            "motion": "park",
+            "face": 270,
+            "door": 0.0
+          }
+        ],
+        "laptop": [
+          {
+            "t": 0,
+            "x": 1.75,
+            "z": -1.88,
+            "motion": "park",
+            "face": 180,
+            "y": 0.74,
+            "fill": 0.0
+          }
+        ],
+        "kalender": [
+          {
+            "t": 0,
+            "x": 2.485,
+            "z": -0.45,
+            "motion": "park",
+            "face": 270,
+            "y": 1.45
+          }
+        ],
+        "ordner": [
+          {
+            "t": 0,
+            "x": 2.25,
+            "z": -2.045,
+            "motion": "park",
+            "face": 180,
+            "y": -30,
+            "text": "Joghurt\n2026"
+          }
+        ],
+        "joghurt": [
+          {
+            "t": 0,
+            "x": -0.2,
+            "z": 0.55,
+            "motion": "park",
+            "face": 180,
+            "y": 0.76,
+            "size": 0.5,
+            "lid": 0,
+            "fill": 1
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.75,
+            "z": -0.25,
+            "motion": "stand",
+            "face": 165,
+            "brow": 1
+          }
+        ],
+        "kumpel": [
+          {
+            "t": 0,
+            "x": 0.35,
+            "z": -0.25,
+            "motion": "sheepish",
+            "face": 195
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -0.2,
+            0.95,
+            4.4
+          ],
+          "look": [
+            -0.2,
+            1.5,
+            0.3
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -0.2,
+            0.95,
+            4.0
+          ],
+          "look": [
+            -0.2,
+            1.5,
+            0.3
+          ]
+        }
+      ],
+      "actors": {
+        "kuehlschrank": [
+          {
+            "t": 0,
+            "x": -2.13,
+            "z": -1.94,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 0.0
+          }
+        ],
+        "zimmertuer": [
+          {
+            "t": 0,
+            "x": 2.5,
+            "z": 0.75,
+            "motion": "park",
+            "face": 270,
+            "door": 0.0
+          }
+        ],
+        "laptop": [
+          {
+            "t": 0,
+            "x": 1.75,
+            "z": -1.88,
+            "motion": "park",
+            "face": 180,
+            "y": 0.74,
+            "fill": 0.0
+          }
+        ],
+        "kalender": [
+          {
+            "t": 0,
+            "x": 2.485,
+            "z": -0.45,
+            "motion": "park",
+            "face": 270,
+            "y": 1.45
+          }
+        ],
+        "ordner": [
+          {
+            "t": 0,
+            "x": 2.25,
+            "z": -2.045,
+            "motion": "park",
+            "face": 180,
+            "y": -30,
+            "text": "Joghurt\n2026"
+          }
+        ],
+        "joghurt": [
+          {
+            "t": 0,
+            "x": -0.2,
+            "z": 0.55,
+            "motion": "park",
+            "face": 180,
+            "y": 0.76,
+            "size": 0.6,
+            "lid": 0,
+            "fill": 1
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.98,
+            "z": 0.55,
+            "motion": "chairsit",
+            "face": 90,
+            "brow": 1
+          }
+        ],
+        "kumpel": [
+          {
+            "t": 0,
+            "x": 0.58,
+            "z": 0.55,
+            "motion": "chairsit",
+            "face": 270,
+            "brow": 1
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}
