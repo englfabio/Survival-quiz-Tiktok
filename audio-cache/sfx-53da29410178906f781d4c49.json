@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Classic friendly two-tone doorbell ding-dong, house door bell, clean, no music",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-14T03:40:54.352Z"
+}

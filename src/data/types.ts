@@ -182,6 +182,18 @@ export type Motion =
   | 'photo' // Dummy: hält das Handy mit beiden Händen vor sich und fotografiert (Blitz bei 1,0 s)
   | 'swingsit' // Kind: sitzt auf der Schaukel, hält die Ketten, baumelt fröhlich mit den Beinen
   | 'sandplay' // Kind: kniet im Sand und buddelt fröhlich (Schaufelbewegungen)
+  // ---- Spezial "Nachbars Rasen" ----
+  | 'envy' // Dummy: am niedrigen Zaun stehen, Hände auf der Latte, neidisch hinüberschauen (Zehenspitzen, Seufzer)
+  | 'tiptoe' // Dummy: übertrieben auf Zehenspitzen schleichen (Weg über Zeitpunkte)
+  | 'spraylawn' // Dummy: vorgebeugt mit der Sprühdose grüne Farbe auf den Rasen sprühen
+  | 'climbover' // Dummy: über einen niedrigen Zaun steigen (2,2 s, Weg über Zeitpunkte)
+  | 'mowsneak' // Dummy: geduckt schleichen und einen Rasenmäher schieben (Weg über Zeitpunkte)
+  | 'ringbell' // Dummy: Aktenkoffer rechts, mit links klingeln (0,5 s), dann stolz warten
+  | 'postletter' // Dummy: Brief in den Briefkasten-Schlitz 0,5 m vor ihm schieben (drin bei 0,75 s)
+  | 'armscross' // Dummy: triumphierend Arme verschränken, Brust raus, Kinn hoch
+  | 'snip' // Nachbar: kniet und schneidet mit der Nagelschere Halm für Halm
+  | 'waterplants' // Nachbar: steht und gießt (Gießkanne rechts vor sich), linke Hand in der Hüfte
+  | 'holdboard' // Nachbar: hält ein Klemmbrett mit beiden Händen vor sich
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
@@ -380,6 +392,12 @@ export type ActorKey = {
   blink?: number;
   /** Spritze: Kappe aufgesteckt 1 = ja */
   capon?: number;
+  /** Rasen ("rasen", "rasen2"): 0 = braun + fleckig … 1 = leuchtend grün + perfekt */
+  lush?: number;
+  /** Grüne Sprühfarbe 0 … 1: Rasen, Gartenzwerg, Hund, Schuhe des Dummys */
+  paint?: number;
+  /** Dummy im Anzug (dunkelgrau, weißes Hemd, rote Krawatte) 0/1 */
+  suit?: number;
   /** Gegenstand mit "hand": in wessen rechter Hand (Figur mit Dummy-Körper, z. B. "kumpel", "bundespolizist"). Standard "dummy". Gilt ab diesem Zeitpunkt weiter */
   holder?: string;
   /** Figur mit Dummy-Körper: Partyhütchen 0 … 1 (wird von oben aufgesetzt) */
@@ -397,7 +415,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

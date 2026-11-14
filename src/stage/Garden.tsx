@@ -160,7 +160,7 @@ const Bed = () => {
 
 // ---------- Gebäude ----------
 /** Einfaches Satteldach-Prisma (Dachfirst entlang x) */
-const roofGeo = (w: number, d: number, h: number) => {
+export const roofGeo = (w: number, d: number, h: number) => {
   const s = new THREE.Shape();
   s.moveTo(-d / 2, 0);
   s.lineTo(d / 2, 0);

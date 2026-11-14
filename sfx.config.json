@@ -575,6 +575,41 @@
       "duration": 2.5,
       "loop": false,
       "promptInfluence": 0.5
+    },
+    {
+      "id": "tuerklingel",
+      "prompt": "Classic friendly two-tone doorbell ding-dong, house door bell, clean, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "schere-schnipp",
+      "prompt": "Tiny nail scissors snipping blades of grass, quick repeated small snips, close up",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "briefkasten",
+      "prompt": "Letter pushed into a metal mailbox slot, flap clacks shut, close",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "schleichen",
+      "prompt": "Comedic cartoon sneaking tiptoe pizzicato plucks, playful, short",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "rasen-zauber",
+      "prompt": "Magical sparkling shimmer swoosh, fairy glitter transformation, whimsical",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

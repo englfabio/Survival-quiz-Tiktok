@@ -60,25 +60,25 @@ export const SprayBottle = () => {
 };
 
 /** Sprühnebel entlang +z (von 0 bis length), amount 0 … 1 */
-export const SprayMist = ({amount, length, time}: {amount: number; length: number; time: number}) => {
+export const SprayMist = ({amount, length, time, color = '#e8f6ff', spread = 0.05, grain = 1}: {amount: number; length: number; time: number; color?: string; spread?: number; grain?: number}) => {
   const seeds = useMemo(() => {
     const r = rng(77);
     return Array.from({length: 26}, () => ({u: r(), a: r() * Math.PI * 2, s: 0.5 + r() * 0.7, sp: 0.7 + r() * 0.6}));
   }, []);
   const mat = useMemo(
-    () => new THREE.MeshBasicMaterial({color: '#e8f6ff', transparent: true, depthWrite: false}),
-    [],
+    () => new THREE.MeshBasicMaterial({color, transparent: true, depthWrite: false}),
+    [color],
   );
   if (amount < 0.02) return null;
-  mat.opacity = 0.55 * amount;
+  mat.opacity = Math.min(0.9, 0.55 * amount);
   return (
     <group>
       {seeds.map((p, i) => {
         const u = (p.u + time * 2.2 * p.sp) % 1;
         const z = 0.04 + u * length;
-        const spread = 0.008 + u * 0.05;
+        const sp = 0.008 + u * spread;
         return (
-          <mesh key={i} material={mat} position={[Math.cos(p.a) * spread, Math.sin(p.a) * spread, z]} scale={(0.006 + u * 0.016) * p.s}>
+          <mesh key={i} material={mat} position={[Math.cos(p.a) * sp, Math.sin(p.a) * sp, z]} scale={(0.006 + u * 0.016) * p.s * grain}>
             <icosahedronGeometry args={[1, 0]} />
           </mesh>
         );

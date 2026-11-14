@@ -12,6 +12,7 @@ import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
 import {autumnForestStage, streetStage} from './AutumnForest';
 import {gardenStage, neighborLawnStage} from './Garden';
+import {neighborGardenNightStage, neighborGardenStage} from './NeighborGarden';
 import {parkStage} from './Park';
 import {playgroundStage} from './Playground';
 import {policeStationStage} from './PoliceStation';
@@ -55,4 +56,6 @@ export const STAGES: Record<string, StageDef> = {
   park: parkStage,
   polizeiwache: policeStationStage,
   spielplatz: playgroundStage,
+  nachbargarten: neighborGardenStage,
+  'nachbargarten-nacht': neighborGardenNightStage,
 };

@@ -15,6 +15,7 @@ import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dum
 import {Grenade, Magnet} from './MagnetProps';
 import {Bill, CordonTape, Suitcase, TapeRoll} from './StationProps';
 import {FilmPhone, PlasticCup, SoundWaves, SuctionWind, Train} from './TrainProps';
+import {Briefcase, Contract, Envelope, GardenGate, GardenGnome, LawnMower, LawnPatch, Mailbox, NailScissors, SoldSign, WateringCan as GardenWateringCan} from './NeighborProps';
 import {Branch, HiddenNeedle, LitterPile, NeedleCap, Syringe, SYRINGE_SCALE} from './SyringeProps';
 import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, PaperForm} from './MoneyProps';
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
@@ -153,6 +154,20 @@ export const ACTORS = {
   zahnraeder: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   konfetti: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   giesskanne: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  giesskanne2: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Nachbars Rasen ----
+  gartennachbar: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  rasen: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  rasen2: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  gartenzwerg: {height: 0.25, climbOffset: 0, speedLineHeight: 0},
+  rasenmaeher: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  aktenkoffer: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  kaufvertrag: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  kuendigung: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  briefkasten: {height: 1.1, climbOffset: 0, speedLineHeight: 0},
+  verkauft: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
+  nagelschere: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  gartentor: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Kinder-Dummys: klein (Maßstab 0,6), bunte Körperfarben, Kappe oder Zöpfe – freundlich, ohne Gesicht wie alle Dummys */
@@ -176,10 +191,12 @@ const DOCTOR_COLOR = '#2fae9c';
 /** Körperfarbe des Kumpels (zweiter Crashtest-Dummy, orange – für alle Szenen, in denen man jemandem hilft) */
 const BUDDY_COLOR = '#f07a1e';
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
+/** Dummy im Anzug: dunkelgrau, weißer Hemdkragen, rote Krawatte, ohne Mütze */
+const SUIT_UNIFORM: Uniform = {jacket: '#3a3f47', dark: '#262a30', collar: '#f4f4f2', pants: '#353a42', cap: '#3a3f47', band: '#3a3f47', noCap: true, tie: '#d0261c', trim: '#3a3f47'};
 /** Bahnmitarbeiterin: Körper hellgrau-lila, Uniform weinrot/grau mit rotem Halstuch + Zopf (ohne Logo) */
 const STAFF_COLOR = '#b9a6d6';
 const STAFF_UNIFORM: Uniform = {jacket: '#7b1f35', dark: '#4e1222', collar: '#e9e6e1', pants: '#3c4048', cap: '#7b1f35', band: '#3c4048', scarf: '#d8b23a', hair: '#5a3622'};
@@ -466,8 +483,34 @@ export const Actor = ({
           windDir={windLocal(state.face, v.drift)}
           partyhat={v.partyhat}
           gardenhat={v.gardenhat}
+          paint={v.paint}
+          uniform={v.suit > 0.5 ? SUIT_UNIFORM : undefined}
         />
       )}
+      {name === 'gartennachbar' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BUDDY_COLOR} hat brow={v.brow} />
+      )}
+      {(name === 'rasen' || name === 'rasen2') && <LawnPatch lush={v.lush} paint={v.paint} seed={name === 'rasen' ? 1 : 2} />}
+      {name === 'gartenzwerg' && (
+        <group scale={1.35 + v.size}>
+          <GardenGnome paint={v.paint} />
+        </group>
+      )}
+      {name === 'rasenmaeher' && (
+        <LawnMower
+          time={clock}
+          spin={state.motion === 'push' ? zt * 7 : 0}
+          camQ={new THREE.Quaternion().setFromRotationMatrix(matrix).invert().multiply(billboard(pos, camPos))}
+        />
+      )}
+      {name === 'aktenkoffer' && <Briefcase />}
+      {name === 'kaufvertrag' && <Contract fill={v.fill} tilt={v.tilt} />}
+      {name === 'kuendigung' && <Envelope text={actor.text ?? 'KÜNDIGUNG'} size={v.size} />}
+      {name === 'briefkasten' && <Mailbox flap={v.door} />}
+      {name === 'verkauft' && <SoldSign time={state.motionTime} visible={state.motion === 'show'} />}
+      {name === 'giesskanne2' && <GardenWateringCan tilt={v.tilt} water={v.water} time={clock} />}
+      {name === 'nagelschere' && <NailScissors time={clock} size={v.size} />}
+      {name === 'gartentor' && <GardenGate door={v.door} />}
       {name === 'zug' && <Train speed={state.speed} time={zt} />}
       {name === 'becher' && (
         <group rotation={state.motion === 'toss' ? [state.motionTime * 7.5, state.motionTime * 3, state.motionTime * 11] : [0, 0, 0]}>
@@ -622,7 +665,7 @@ export const Actor = ({
         </group>
       )}
       {name === 'polizeiauto' && <PoliceCar pose={carPose(state.motion, state.motionTime, state.speed)} blue={v.blue} time={clock} />}
-      {name === 'hund' && <Dog pose={dogPose(state.motion, state.motionTime, state.speed)} />}
+      {name === 'hund' && <Dog pose={dogPose(state.motion, state.motionTime, state.speed)} paint={v.paint} />}
       {name === 'polizist' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={POLICE2_COLOR} uniform={POLICE_UNIFORM} brow={v.brow} />
       )}
