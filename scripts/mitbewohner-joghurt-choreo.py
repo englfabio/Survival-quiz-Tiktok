@@ -20,7 +20,7 @@ countdown="Also, was machst du? Schreib A, B oder C in die Kommentare.",
 outro="Eine richtige Antwort gibt es diesmal nicht. Aber dein Mitbewohner sollte das Video unbedingt sehen. Schreib A, B oder C in die Kommentare und markier deinen Joghurt-Dieb. Und was soll der Dummy als Nächstes erleben?",
 )
 # visuelle Verlängerung der Szenen (Sekunden, ohne Text) – nur so viel, dass jede Pointe zu Ende gespielt ist
-EXTRA = {1: 1.0, 2: 1.2, 3: 0.6}
+EXTRA = {1: 0.6, 2: 0.8, 3: 0.0}
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'countdown': 0.1,
         'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'outro': 0.3}
 MINLEN = {'situation': 5, 'countdown': 5, 'explain1': 6, 'explain2': 6, 'explain3': 7, 'outro': 3}
@@ -73,6 +73,20 @@ def rot(face, lx, lz):
     th = math.radians(180 - face)
     return (lx * math.cos(th) + lz * math.sin(th), -lx * math.sin(th) + lz * math.cos(th))
 HIDE = -30
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fitcam import fit
+ANS = (70, 1000, 480, 1215)      # Bildbereich in den Antwort-Abschnitten (unter der Kopfzeile, über den Untertiteln)
+SIT = (70, 1000, 250, 1215)
+def F(points, az, el, box=ANS):
+    r = fit(points, az, el, box=box)
+    assert r, ('Kamera passt nicht', points, az, el)
+    return (r[0], r[1])
+def dolly(c, k=0.92):
+    pos, look = c
+    return ([look[i] + (pos[i] - look[i]) * k for i in range(3)], look)
+def body(x, z, top=1.98, w=0.32):
+    return [[x - w, top, z], [x + w, top, z], [x, 0.0, z]]
 
 # ---- feste Plätze: WG-Küche (src/stage/Kitchen.tsx, WG) ----
 FRIDGE = (-2.13, -1.94)
@@ -117,16 +131,18 @@ a['joghurt'] = [K(0, CUP_IN[0], CUP_IN[1], 'park', 180, y=CUP_IN[2], size=CUP_SI
                 K(grab, CUP_IN[0], CUP_IN[1], 'park', 180, y=HIDE)]
 SPOON_AT = (-0.75, 0.05)
 a['kumpel'] = [K(0, *SPOON_AT, 'spoon', 160), K(cS - 0.002, *SPOON_AT, 'spoon', 160), K(cS, *SPOON_AT, 'spoon', 160, y=HIDE)]
-a['dummy'] = [K(0, *STAND, 'stand', 0), K(f0, *STAND, 'fridgeopen', 0), K(cW - 0.001, *STAND, 'fridgeopen', 0),
-              K(cW, *STAND, 'aghast', 0), K(cW + sec(0.3), *STAND, 'aghast', 150)]
-CAM_K = ([-0.2, 1.5, 3.1], [-0.75, 1.2, 0.0])
-CAM_F = ([0.35, 1.65, 1.25], [-1.75, 1.15, -1.55])
-CAM_C = ([-0.85, 1.62, -0.72], [-1.67, 1.5, -1.39])
-CAM_W = ([0.4, 1.55, 2.3], [-1.45, 1.25, -1.05])
+a['dummy'] = [K(0, *STAND, 'stand', 0, y=HIDE), K(cS - 0.002, *STAND, 'stand', 0, y=HIDE), K(cS, *STAND, 'stand', 0, y=0), K(f0, *STAND, 'fridgeopen', 0),
+              K(closeup - sec(0.3), *STAND, 'fridgeopen', 0), K(closeup, *STAND, 'fridgeopen', 150), K(cW - 0.001, *STAND, 'fridgeopen', 150),
+              K(cW, *STAND, 'aghast', 150)]
+CAM_K = F(body(*SPOON_AT), 15, 8, SIT)
+CAM_F = F(body(*STAND) + [[-2.48, 2.02, -1.6], [-2.48, 0.4, -1.6]], 40, 8, SIT)
+CUPW = (STAND[0] + 0.27, STAND[1] + 0.23)
+CAM_C = F([[STAND[0], 1.98, STAND[1]], [CUPW[0], 1.4, CUPW[1]], [STAND[0], 1.15, STAND[1]], [CUPW[0] + 0.15, 1.7, CUPW[1]]], 30, 5, SIT)
+CAM_W = F(body(*STAND) + [[-2.48, 2.02, -1.6]], 25, 8, SIT)
 shots['situation'] = {
-    'camera': [cam(0, *CAM_K), cam(cS - 0.003, [-0.3, 1.45, 2.8], CAM_K[1]), cam(cS, *CAM_F)] +
-              [cam(closeup - 0.003, [0.25, 1.62, 1.15], CAM_F[1]), cam(closeup, *CAM_C), cam(cW - 0.003, [-0.9, 1.6, -0.62], CAM_C[1]),
-               cam(cW, *CAM_W), cam(1, [0.35, 1.5, 2.1], CAM_W[1])],
+    'camera': [cam(0, *CAM_K), cam(cS - 0.003, *dolly(CAM_K)), cam(cS, *CAM_F)] +
+              [cam(closeup - 0.003, *dolly(CAM_F)), cam(closeup, *CAM_C), cam(cW - 0.003, *dolly(CAM_C, 0.95)),
+               cam(cW, *CAM_W), cam(1, *dolly(CAM_W))],
     'actors': a,
     'sfx': [{'t': r3(f0 + sec(0.4)), 'id': 'kuehlschrank-auf', 'volume': 0.6}, {'t': r3(cW + sec(0.05)), 'id': 'falsch', 'volume': 0.0}],
 }
@@ -162,21 +178,21 @@ a['joghurtwelle'] = [K(0, 0, 0, 'park', 180, fill=0), K(tP, 0, 0, 'splash', 180,
 IN0 = (2.95, 1.2); IN1 = (1.55, 1.05)
 walk_t = sa(math.hypot(IN1[0] - IN0[0], IN1[1] - IN0[1]) / 1.15)
 k_in = tU + sa(0.35)
-CAM_U = ([-0.35, 1.6, 3.1], [1.75, 1.15, 0.85])
-FACE_K = face_to(IN1, (CAM_U[0][0], CAM_U[0][2]))
+CAM_U = F(body(*IN1) + [[2.5, 2.05, 0.75], [2.5, 0.0, 1.61]], -35, 8)
+FACE_K = 235
 a['zimmertuer'] = [K(0, *DOOR, 'park', 270, door=0), K(tU, *DOOR, 'park', 270, door=0), K(tU + sa(0.5), *DOOR, 'park', 270, door=1)]
-a['kumpel'] = [K(0, *IN0, 'stand', 270, y=HIDE), K(k_in - 0.001, *IN0, 'walk', 270, y=HIDE), K(k_in, *IN0, 'walk', 270, splat=1),
+a['kumpel'] = [K(0, *IN0, 'stand', 270, y=HIDE), K(k_in - 0.001, *IN0, 'walk', 270, y=HIDE), K(k_in, *IN0, 'walk', 270, y=0, splat=1),
                K(k_in + walk_t, *IN1, 'walk', 270), K(min(tF, k_in + walk_t + sa(0.3)), *IN1, 'stand', FACE_K),
                K(tF, *IN1, 'wipebrow', FACE_K), K(tF + sa(0.35), *IN1, 'wipebrow', FACE_K, splat=1),
                K(tF + sa(0.95), *IN1, 'wipebrow', FACE_K, splat=0.35, teeth=0), K(tF + sa(1.55), *IN1, 'wipebrow', FACE_K, teeth=1)]
-CAM_A0 = ([0.7, 1.55, 1.9], [-0.95, 1.1, -0.85])
-CAM_AP = ([1.5, 1.9, 3.3], [-1.05, 1.05, -0.95])
-CAM_AW = ([0.9, 2.0, 4.4], [-0.6, 0.95, -0.9])
-CAM_AF = ([0.45, 1.7, 2.75], [1.55, 1.5, 1.05])
+CAM_A0 = F(body(*BTN_D) + [[-1.8, 2.0, -1.6], [-1.8, 0.4, -1.6]], 20, 8)
+CAM_AP = F(body(*BTN_D) + [[-2.85, 2.0, -1.2], [-0.45, 2.0, -1.2], [-2.48, 0.3, -1.6]], 25, 8)
+CAM_AW = F([[-2.45, 2.2, -2.0], [-2.45, 0.0, -1.0], [0.5, 2.3, -2.3], [0.4, 0.0, 0.9]], 8, 14)
+CAM_AF = F([[IN1[0] - 0.35, 2.0, IN1[1]], [IN1[0] + 0.35, 2.0, IN1[1]], [IN1[0], 0.85, IN1[1]]], -55, 4)
 shots['option1'] = {
-    'camera': [cam(0, *CAM_A0), cam(tP - sa(0.05), [0.55, 1.5, 1.6], CAM_A0[1]), cam(tP - sa(0.05) + 0.003, *CAM_AP),
-               cam(tJ, [1.45, 1.95, 3.7], CAM_AP[1]), cam(tJ + 0.003, *CAM_AW), cam(tU - 0.003, [0.2, 1.95, 4.5], [-0.5, 0.95, -0.9]),
-               cam(tU, *CAM_U), cam(tF - 0.003, [-0.2, 1.62, 2.9], CAM_U[1]), cam(tF, *CAM_AF), cam(1, [0.6, 1.7, 2.5], CAM_AF[1])],
+    'camera': [cam(0, *CAM_A0), cam(tP - sa(0.05), *dolly(CAM_A0)), cam(tP - sa(0.05) + 0.003, *CAM_AP),
+               cam(tJ, *dolly(CAM_AP, 0.96)), cam(tJ + 0.003, *CAM_AW), cam(tU - 0.003, *dolly(CAM_AW, 0.93)),
+               cam(tU, *CAM_U), cam(tF - 0.003, *dolly(CAM_U)), cam(tF, *CAM_AF), cam(1, *dolly(CAM_AF, 0.95))],
     'actors': a,
     'sfx': [{'t': r3(press0 + sa(0.72)), 'id': 'knopf-druecken', 'volume': 0.8}, {'t': r3(tP), 'id': 'puff', 'volume': 0.9},
             {'t': r3(tU + sa(0.05)), 'id': 'tuer-zu', 'volume': 0.35}],
@@ -200,7 +216,7 @@ a['klebezettel'] = [K(0, *NOTE, 'park', 180, y=TABLE_Y + 0.003, size=0.6), K(sti
 a['stift'] = [K(0, NOTE[0] + 0.2, NOTE[1] + 0.05, 'park', 30, y=HIDE), K(side0 - 0.002, NOTE[0] + 0.2, NOTE[1] + 0.05, 'park', 30, y=HIDE),
               K(side0, NOTE[0] + 0.22, NOTE[1] + 0.05, 'park', 30, y=TABLE_Y)]
 a['dummy'] = [K(0, *WR, 'writenote', 0), K(side0, *WR, 'walk', 0), K(stick0, *ST, 'sticknote', 0), K(s0 + sb(0.9), *ST, 'sticknote', 0),
-              K(s0 + sb(1.4), ST[0] - 0.05, ST[1] + 0.05, 'stand', 150), K(tN - 0.002, ST[0] - 0.05, ST[1] + 0.05, 'stand', 150),
+              K(s0 + sb(0.25), ST[0], ST[1], 'walk', 140), K(s0 + sb(1.0), -0.95, 1.45, 'stand', 150), K(tN - 0.002, -0.95, 1.45, 'stand', 150),
               K(tN, ST[0], ST[1], 'stand', 150, y=HIDE)]
 # Nacht: Mitbewohner schleicht zum Kühlschrank, öffnet, liest, stellt zurück, weicht zurück
 SN0 = (0.25, -0.2)
@@ -214,19 +230,21 @@ a['kuehlschrank'] = [K(0, *FRIDGE, 'park', 180, door=0, glow=1), K(open0 + sb(0.
 a['joghurt'] += [K(read0 - 0.002, CUP_IN[0], CUP_IN[1], 'park', 180, y=CUP_IN[2]), K(read0, CUP_IN[0], CUP_IN[1], 'park', 180, y=HIDE),
                  K(put_end - 0.002, CUP_IN[0], CUP_IN[1], 'park', 180, y=HIDE), K(put_end, CUP_IN[0], CUP_IN[1], 'park', 180, y=CUP_IN[2])]
 FACE_SN = face_to(SN0, STAND)
-a['kumpel'] = [K(0, *SN0, 'stand', FACE_SN, y=HIDE), K(tN - 0.001, *SN0, 'sneak', FACE_SN, y=HIDE), K(tN, *SN0, 'sneak', FACE_SN),
+a['kumpel'] = [K(0, *SN0, 'stand', FACE_SN, y=HIDE), K(tN - 0.001, *SN0, 'sneak', FACE_SN, y=HIDE), K(tN, *SN0, 'sneak', FACE_SN, y=0),
                K(tN + sneak_t, *STAND, 'sneak', 0), K(open0, *STAND, 'fridgeopen', 0), K(read0, *STAND, 'readnote', 0),
                K(put0, *STAND, 'putback', 0), K(put_end + sb(0.6), *STAND, 'putback', 0),
                K(put_end + sb(0.62), *STAND, 'recoil', 20), K(1, *REC, 'recoil', 20)]
-CAM_B0 = ([1.0, 1.95, 2.7], [-0.25, 0.85, 0.72])
-CAM_BC = ([0.3, 1.08, 1.45], [-0.42, 0.86, 0.74])
-CAM_BN = ([0.75, 1.5, 2.4], [-1.25, 1.05, -1.1])
-CAM_BR = ([-1.12, 1.8, -0.55], [-1.5, 1.52, -1.38])
-CAM_BP = ([0.3, 1.6, 1.6], [-1.6, 1.15, -1.3])
+CAM_B0 = F(body(*WR) + [[NOTE[0], 0.76, NOTE[1]], [CUP_T[0], 0.95, CUP_T[1]]], 55, 22)
+CAM_BC = F([[CUP_T[0] - 0.13, 0.76, CUP_T[1]], [CUP_T[0] + 0.13, 0.76, CUP_T[1]], [CUP_T[0], 0.98, CUP_T[1]]], 12, 10)
+CAM_BN = F(body(*SN0) + body(*STAND) + [[-2.48, 2.02, -1.6]], 25, 8)
+HOLD = (STAND[0] + 0.22, STAND[1] - 0.32)
+CAM_BR = ([HOLD[0] + 0.3, 1.66, HOLD[1] + 0.66], [HOLD[0], 1.45, HOLD[1]])
+CAM_BP = F(body(*STAND) + [[-2.48, 2.02, -1.6], [-2.48, 0.4, -1.6]], 35, 8)
+CAM_BX = F(body(*STAND) + body(*REC) + [[-2.48, 2.02, -1.6]], 25, 8)
 shots['option2'] = {
-    'camera': [cam(0, *CAM_B0), cam(s0 - 0.003, [0.85, 1.85, 2.5], CAM_B0[1]), cam(s0, *CAM_BC), cam(tN - 0.003, [0.22, 1.05, 1.3], CAM_BC[1]),
-               cam(tN, *CAM_BN), cam(read0 - 0.003, [0.55, 1.5, 2.1], CAM_BN[1]), cam(read0, *CAM_BR), cam(put0 - 0.003, [-1.1, 1.78, -0.5], CAM_BR[1]),
-               cam(put0, *CAM_BP), cam(1, [0.6, 1.6, 2.1], [-1.4, 1.1, -0.9])],
+    'camera': [cam(0, *CAM_B0), cam(s0 - 0.003, *dolly(CAM_B0)), cam(s0, *CAM_BC), cam(tN - 0.003, *dolly(CAM_BC, 0.9)),
+               cam(tN, *CAM_BN), cam(read0 - 0.003, *dolly(CAM_BN)), cam(read0, *CAM_BR), cam(put0 - 0.003, *dolly(CAM_BR, 0.95)),
+               cam(put0, *CAM_BP), cam(put_end + sb(0.5), *dolly(CAM_BP, 0.97)), cam(put_end + sb(0.5) + 0.003, *CAM_BX), cam(1, *dolly(CAM_BX))],
     'actors': a,
     'stage': [{'t': 0, 'stage': 'wg-kueche'}, {'t': r3(tN), 'stage': 'wg-kueche-nacht'}],
     'sfx': [{'t': 0.02, 'id': 'stift-kritzeln', 'volume': 0.6}, {'t': r3(stick0 + sb(0.5)), 'id': 'pflaster', 'volume': 0.6},
@@ -249,7 +267,7 @@ LET = ['Rechnung', '1. Mahnung', '2. Mahnung']
 for i, name in enumerate(['brief', 'brief2', 'brief3']):
     p0 = slide0 + sc(0.6 + 1.3 * i)
     x0 = KN[0] + 0.45; x1 = KN[0] + 0.78; x2 = 2.75
-    a[name] = [K(0, x0, KN[1] - 0.04, 'park', 270, y=HIDE, tilt=1, text=LET[i], size=0.5), K(p0 - sc(0.12), x0, KN[1] - 0.04, 'park', 270, y=HIDE),
+    a[name] = [K(0, x0, KN[1] - 0.04, 'park', 270, y=HIDE, tilt=1, text=LET[i], size=0.8), K(p0 - sc(0.12), x0, KN[1] - 0.04, 'park', 270, y=HIDE),
                K(p0 - sc(0.1), x0, KN[1] - 0.04, 'park', 270, y=0), K(p0 + sc(0.52), x1, KN[1] - 0.04, 'park', 270, y=0),
                K(p0 + sc(0.8), x2, KN[1] - 0.04, 'park', 270, y=0), K(p0 + sc(0.82), x2, KN[1] - 0.04, 'park', 270, y=HIDE)]
 # bezahlter Brief auf dem Tisch (für den Stempel)
@@ -261,12 +279,12 @@ a['brief4'] = [K(0, *PAID, 'park', 180, y=HIDE, tilt=1, text='Rechnung', size=0.
                K(tO - 0.002, *PAID, 'park', 180), K(tO, *PAID, 'park', 180, y=HIDE)]
 # Mitbewohner: öffnet entsetzt die Briefe (Kalender blättert hinter ihm), dann zählt er am Tisch Münzen
 OL = (1.95, -0.05)
-CAM_W3 = ([0.45, 1.5, 1.75], [2.05, 1.35, -0.35])
-FACE_OL = face_to(OL, (CAM_W3[0][0], CAM_W3[0][2]))
+FACE_OL = 215
+CAM_W3 = F([[OL[0] - 0.32, 1.98, OL[1]], [OL[0] + 0.3, 1.98, OL[1]], [OL[0], 0.75, OL[1]], [CAL[0], CAL[2] + 0.28, CAL[1]], [CAL[0], CAL[2] - 0.3, CAL[1]]], -35, 4)
 ol0 = tW - sc(1.75)
 coin0 = tMz
 a['kumpel'] = [K(0, *OL, 'stand', FACE_OL, y=HIDE), K(ol0, *OL, 'openletters', FACE_OL, y=HIDE), K(tW - 0.001, *OL, 'openletters', FACE_OL, y=HIDE),
-               K(tW, *OL, 'openletters', FACE_OL), K(tMz - 0.001, *OL, 'openletters', FACE_OL), K(tMz, *CHAIR_R, 'countcoins', 270)]
+               K(tW, *OL, 'openletters', FACE_OL, y=0), K(tMz - 0.001, *OL, 'openletters', FACE_OL), K(tMz, *CHAIR_R, 'countcoins', 270)]
 PILE = (CHAIR_R[0] - 0.4, CHAIR_R[1] + 0.02)
 ncoin = lambda tt: max(0.0, (tt - coin0) * answer_len(3) / 0.8 + 0.4)
 a['muenzen'] = [K(0, *PILE, 'park', 90, y=HIDE, fill=0), K(tMz - 0.002, *PILE, 'park', 90, y=HIDE), K(tMz, *PILE, 'park', 90, y=TABLE_Y, fill=0)]
@@ -282,22 +300,22 @@ SH = (SLOT[0] - 0.02, SLOT[1] + 0.40)
 shelve0 = tO + sc(0.05)
 a['dummy'] = [K(0, *DESK_CHAIR, 'typedesk', 0, glasses=0), K(sc(0.7), *DESK_CHAIR, 'typedesk', 0, glasses=1), K(slide0 - 0.002, *DESK_CHAIR, 'typedesk', 0),
               K(slide0, *KN, 'slideletter', 90), K(tW - 0.001, *KN, 'slideletter', 90), K(tW, *STP, 'stand', 180, y=HIDE),
-              K(tMz - 0.001, *STP, 'stand', 180, y=HIDE), K(tMz, *STP, 'stand', 180), K(stamp0, *STP, 'stamp', 180),
+              K(tMz - 0.001, *STP, 'stand', 180, y=HIDE), K(tMz, *STP, 'stand', 180, y=0), K(stamp0, *STP, 'stamp', 180),
               K(tO - 0.001, *STP, 'stamp', 180), K(tO, *SH, 'shelve', 0)]
 a['ordner'] = [K(0, SLOT[0], SLOT[1], 'park', 180, y=HIDE, text='Joghurt\n2026'), K(shelve0 + sc(1.33), SLOT[0], SLOT[1], 'park', 180, y=HIDE),
                K(shelve0 + sc(1.35), SLOT[0], SLOT[1], 'park', 180, y=SLOT[2])]
-CAM_C0 = ([2.3, 1.55, -0.45], [1.72, 0.98, -1.9])
-CAM_C1 = ([0.95, 1.85, 0.9], [1.75, 0.9, -1.7])
-CAM_CL = ([0.15, 1.35, 2.3], [2.15, 0.25, 1.15])
-CAM_CC = ([0.15, 1.8, 2.45], [-0.05, 0.85, 0.35])
-CAM_CO = ([1.35, 1.75, -0.2], [2.15, 1.5, -1.95])
-CAM_CF = ([1.95, 1.72, -1.05], [2.22, 1.68, -2.05])
+CAM_C0 = ([2.38, 1.78, -0.95], [1.75, 0.9, -1.95])
+CAM_C1 = F(body(*DESK_CHAIR, top=1.6) + [[1.3, 1.9, -2.2], [2.45, 1.9, -2.2], [2.45, 0.0, -1.7]], 35, 12)
+CAM_CL = F([[KN[0], 1.45, KN[1]], [KN[0] - 0.3, 0.0, KN[1]], [2.5, 2.05, 0.75], [2.5, 0.0, 1.61], [2.4, 0.0, KN[1] - 0.25]], -55, 18)
+CAM_CC = F(body(*STP) + [[CHAIR_R[0], 1.45, CHAIR_R[1]], [CHAIR_R[0] + 0.25, 0.4, CHAIR_R[1]], [PILE[0], 0.76, PILE[1]], [PAID[0], 0.76, PAID[1]]], 12, 22)
+CAM_CO = F(body(*SH) + [[SLOT[0], 1.9, SLOT[1]], [1.45, 1.9, SLOT[1]]], -30, 10)
+CAM_CF = F([[SLOT[0] + 0.05, 1.9, SLOT[1]], [SLOT[0] - 0.55, 1.56, SLOT[1]], [SH[0], 1.98, SH[1]], [SH[0], 1.3, SH[1]]], -50, 12)
 tcard2 = ac(3, 'Wir sind', card=True)
 shots['option3'] = {
-    'camera': [cam(0, *CAM_C0), cam(tcard2 - 0.003, [2.2, 1.52, -0.6], CAM_C0[1]), cam(tcard2, *CAM_C1), cam(slide0 + sc(0.3) - 0.003, [1.05, 1.8, 0.7], CAM_C1[1]),
-               cam(slide0 + sc(0.3), *CAM_CL), cam(tW - 0.003, [0.35, 1.25, 2.1], CAM_CL[1]), cam(tW, *CAM_W3), cam(tMz - 0.003, [0.6, 1.45, 1.55], CAM_W3[1]),
-               cam(tMz, *CAM_CC), cam(tO - 0.003, [0.05, 1.7, 2.2], CAM_CC[1]), cam(tO, *CAM_CO), cam(tIO - 0.003, [1.5, 1.72, -0.45], CAM_CO[1]),
-               cam(tIO, *CAM_CF), cam(1, [2.05, 1.7, -1.25], CAM_CF[1])],
+    'camera': [cam(0, *CAM_C0), cam(tcard2 - 0.003, *dolly(CAM_C0, 0.95)), cam(tcard2, *CAM_C1), cam(slide0 + sc(0.3) - 0.003, *dolly(CAM_C1)),
+               cam(slide0 + sc(0.3), *CAM_CL), cam(tW - 0.003, *dolly(CAM_CL)), cam(tW, *CAM_W3), cam(tMz - 0.003, *dolly(CAM_W3, 0.95)),
+               cam(tMz, *CAM_CC), cam(tO - 0.003, *dolly(CAM_CC, 0.95)), cam(tO, *CAM_CO), cam(tIO - 0.003, *dolly(CAM_CO, 0.95)),
+               cam(tIO, *CAM_CF), cam(1, *dolly(CAM_CF, 0.93))],
     'actors': a,
     'sfx': [{'t': 0.03, 'id': 'tastatur', 'volume': 0.6}, {'t': r3(slide0 + sc(0.6)), 'id': 'papier-schieben', 'volume': 0.7},
             {'t': r3(slide0 + sc(1.9)), 'id': 'papier-schieben', 'volume': 0.7}, {'t': r3(slide0 + sc(3.2)), 'id': 'papier-schieben', 'volume': 0.7},
@@ -321,9 +339,16 @@ a = static()
 a['joghurt'] = [K(0, -0.2, 0.55, 'park', 180, y=TABLE_Y, size=CUP_SIZE + 0.25, lid=0, fill=1)]
 a['dummy'] = [K(0, *CHAIR_L, 'chairsit', 90, brow=1)]
 a['kumpel'] = [K(0, *CHAIR_R, 'chairsit', 270, brow=1)]
-shots['outro'] = {'camera': [cam(0, [-0.2, 0.95, 4.4], [-0.2, 1.5, 0.3]), cam(1, [-0.2, 0.95, 4.0], [-0.2, 1.5, 0.3])], 'actors': a}
+CAM_O = F([[CHAIR_L[0] - 0.25, 1.4, CHAIR_L[1]], [CHAIR_R[0] + 0.25, 1.4, CHAIR_R[1]], [-0.2, 0.76, 0.55]], 0, 10, (70, 1000, 900, 1225))
+shots['outro'] = {'camera': [cam(0, *CAM_O), cam(1, *dolly(CAM_O, 0.95))], 'actors': a}
 
-for sh in shots.values(): sh['sharpCuts'] = True
+for sh in shots.values():
+    sh['sharpCuts'] = True
+    for keys in sh['actors'].values():   # fehlendes y vom vorigen Zeitpunkt übernehmen (sonst fällt der Gegenstand auf y 0)
+        y = None
+        for k in keys:
+            if 'y' in k: y = k['y']
+            elif y is not None: k['y'] = y
 
 DESC = ("Dein Mitbewohner hat mal wieder deinen Joghurt gegessen – was machst du? 🥄 Schreib A, B oder C in die Kommentare!\n\n"
         "Diesmal ohne richtige Antwort, nur zum Spaß. Bitte nichts davon nachmachen. 😄\n\n"

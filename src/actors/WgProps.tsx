@@ -209,7 +209,8 @@ const noteTex = (text: string) =>
     g.fillStyle = 'rgba(0,0,0,0.06)';
     g.fillRect(0, 0, 400, 40);
     g.fillStyle = '#c3121b';
-    fitText(g, text, 200, 220, 360, 96, 800, 1.05);
+    const wrapped = text.replace(' fürs ', ' fürs\n').replace('Gesundheitsamt', 'Gesundheits-\namt');
+    fitText(g, wrapped, 200, 225, 360, 120, 800, 1.0);
   });
 
 /** Klebezettel (gelb, quadratisch) mit Text in Rot (dicker Stift). Ursprung = Mitte, zeigt nach +z */
@@ -302,7 +303,7 @@ export const YogurtCup = ({lid = 0, fill = 1, note, spoon = false}: {lid?: numbe
       )}
       {note && (
         <group position={[0, h * 0.5, rAt(h * 0.5) + 0.006]} rotation={[-0.09, 0, 0.06]}>
-          <StickyNote text={note} size={0.1} />
+          <StickyNote text={note} size={0.115} />
         </group>
       )}
     </group>

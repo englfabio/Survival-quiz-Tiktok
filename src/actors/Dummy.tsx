@@ -2595,7 +2595,7 @@ const wgPose = (motion: Motion, time: number, speed: number): DummyPose | null =
       p.torsoX = 0.08 * k * (1 - away) - 0.18 * away + breathe;
       p.headX = 0.05 * k - 0.15 * jolt;
       p.hipY = 0.98 + 0.02 * jolt;
-      reachR(p, lerp3t(lerp3t(rest, [-0.06, 1.55, 0.3], k), [-0.1, 1.5 + tr, 0.52], away), 0.36, [0.6, -1, -0.3]);
+      reachR(p, lerp3t(lerp3t(rest, [-0.22, 1.5, 0.32], k), [-0.24, 1.45 + tr, 0.5], away), 0.36, [0.6, -1, -0.3]);
       reachL(p, lerp3t(restL, [0.22, 1.55, 0.25], away), 0.33, [0.5, -0.8, -0.6]);
       p.item = 'cupnote';
       return p;
@@ -2607,7 +2607,7 @@ const wgPose = (motion: Motion, time: number, speed: number): DummyPose | null =
       p.torsoX = -0.15 + 0.3 * k * (1 - back) + breathe;
       p.headX = -0.1 + 0.2 * k;
       const tr = Math.sin(time * 29) * 0.004 * (1 - back);
-      const R = lerp3t(lerp3t([-0.1, 1.5, 0.52], [-0.02, 1.08 + tr, 0.55], k), [-0.24, 1.25, 0.25], back);
+      const R = lerp3t(lerp3t([-0.24, 1.45, 0.5], [-0.02, 1.08 + tr, 0.55], k), [-0.24, 1.25, 0.25], back);
       reachR(p, R, 0.36, [0.6, -1, -0.3]);
       reachL(p, lerp3t([0.22, 1.55, 0.25], [0.24, 1.3, 0.25], back), 0.33, [0.5, -0.8, -0.6]);
       p.item = time < 2.3 ? 'cupnote' : '';
@@ -3736,7 +3736,7 @@ const WgHandItem = ({item, label, right, left, level}: {item: DummyPose['item'];
       return (
         <group position={left} quaternion={level}>
           <group position={[0.0, -0.05, 0.02]} rotation={[-0.35, 0, 0]} scale={1.5}>
-            <group rotation={[0, Math.PI - 0.75, 0]}>
+            <group rotation={[0, 0.35, 0]}>
               <YogurtCup lid={1} fill={0} />
             </group>
           </group>
@@ -3801,7 +3801,7 @@ const WgHandItem = ({item, label, right, left, level}: {item: DummyPose['item'];
       const mid = right.clone().add(left).multiplyScalar(0.5);
       return (
         <group position={mid} quaternion={level}>
-          <group position={[0, 0.07, 0.04]} rotation={[-0.25, Math.PI, 0]} scale={1.25}>
+          <group position={[0, 0.07, 0.04]} rotation={[-0.15, 0, 0]} scale={1.25}>
             <Envelope text={label ?? 'Rechnung'} />
           </group>
         </group>
