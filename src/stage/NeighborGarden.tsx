@@ -391,12 +391,12 @@ const makeScene = (night: boolean) => {
         {night && <NightSky />}
         {night ? (
           <>
-            <hemisphereLight args={['#5b74b8', '#1d2a1c', 0.75]} />
-            <ambientLight intensity={0.22} color="#7d8fc9" />
+            <hemisphereLight args={['#6f88cc', '#24331f', 1.05]} />
+            <ambientLight intensity={0.38} color="#8597d4" />
             <directionalLight
               position={[-12, 22, -14]}
-              intensity={1.35}
-              color="#b9c8ff"
+              intensity={1.9}
+              color="#c3d0ff"
               castShadow
               shadow-mapSize-width={2048}
               shadow-mapSize-height={2048}

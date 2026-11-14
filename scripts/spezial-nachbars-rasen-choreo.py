@@ -3,7 +3,9 @@
 # Format: SPEZIAL (keine richtige Antwort, keine Auflösung, keine Quellenzeile).
 # Darstellung (Vorgabe Inhaber): alles comichaft + harmlos, kein Schaden für den Nachbarn, der Nachbar wirkt am Ende jeder
 # Szene eher verdutzt als verärgert (Fragezeichen + hochgezogene Braue, kratzt sich am Kopf).
-import json, os, math
+import json, os, math, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from fitcam_fast import fit
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ID = 'spezial-nachbars-rasen'
 S = dict(
@@ -18,7 +20,7 @@ vote="Also, was machst du? Schreib A, B oder C in die Kommentare.",
 outro="Eine richtige Antwort gibt es diesmal nicht. Aber dein Nachbar liest vielleicht mit. Schreib A, B oder C in die Kommentare und schick das Video dem Nachbarn mit dem grünsten Rasen.",
 )
 # Szenen rein visuell verlängern (Sekunden), falls das Video sonst unter 61 s bliebe – kein zusätzlicher Text
-EXTRA = {1: 0.0, 2: 0.0, 3: 0.0}
+EXTRA = {1: 0.8, 2: 0.0, 3: 0.0}
 
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'countdown': 0.1, 'outro': 0.3}
 MINLEN = {'situation': 5, 'explain1': 6, 'explain2': 6, 'explain3': 7, 'countdown': 5, 'outro': 3}
@@ -72,6 +74,24 @@ def cut(t, *keys):
     """harter Schnitt bei t: vorige Einstellung endet bei t−0.003"""
     return r3(t - 0.003), r3(t)
 HIDE = -30
+BOX_A = (100, 980, 470, 1225)      # Antwort-Abschnitte: unter der Kopfzeile, über dem Untertitel
+BOX_S = (100, 980, 300, 1225)      # Situation (nur Abzeichen oben)
+def body(x, z, h=1.85, w=0.3):
+    return [[x - w, 0, z], [x + w, 0, z], [x, h, z - w], [x, h, z + w]]
+_fits = {}
+def F(points, az, el, box=BOX_A, fov=38, push=0.05):
+    """Kamera so, dass alle Punkte in box liegen; liefert (Start, Ende) mit leichter Fahrt nach vorn"""
+    key = json.dumps([points, az, el, box, fov])
+    if key not in _fits:
+        r = fit(points, az, el, fov, box)
+        assert r, f'keine Kamera gefunden: {points}'
+        _fits[key] = r
+    c, l, _ = _fits[key]
+    c2 = [c[i] + (l[i] - c[i]) * push for i in range(3)]
+    return c, l, c2
+def camF(t0, t1, f, fov=None):
+    c, l, c2 = f
+    return [cam(t0, c, l, fov), cam(t1, c2, l, fov)]
 def face_to(a, b):
     return round(math.degrees(math.atan2(b[0] - a[0], -(b[1] - a[1]))) % 360, 1)
 
@@ -108,9 +128,9 @@ c_jeden = cue(L0, 'situation', 'Jeden Morgen')
 c_schlimm = cue(L0, 'situation', 'und jeden Morgen wird')
 c_was = cue(L0, 'situation', 'Was machst')
 situation = {
- 'camera': [cam(0, [0.2, 6.6, 17.0], [0.0, 0.4, -1.8]), cam(c_jeden - 0.003, [0.15, 5.4, 13.6], [0.0, 0.5, -1.6]),
-            cam(c_jeden, [-3.1, 1.75, 1.6], [2.6, 0.75, -1.7]), cam(c_was - 0.003, [-2.8, 1.72, 1.2], [2.6, 0.78, -1.7]),
-            cam(c_was, [2.35, 1.5, -0.35], [-0.42, 1.22, -0.6]), cam(1, [2.1, 1.48, -0.4], [-0.42, 1.24, -0.6])],
+ 'camera': [*camF(0, r3(c_jeden - 0.003), F(body(*FENCE_D) + body(*NB_WATER, 2.0) + [[MOWER0[0], 0, MOWER0[1]], [GNOME[0], 0, GNOME[1]]], 4, 24, BOX_S)),
+            *camF(c_jeden, r3(c_was - 0.003), F([[FENCE_D[0], 1.55, FENCE_D[1]], [FENCE_D[0] + 0.3, 0.8, FENCE_D[1]]] + body(*NB_WATER, 2.0), 252, 10)),
+            *camF(c_was, 1, F(body(*FENCE_D, 1.75) + [[0, 0.7, FENCE_D[1] - 0.8], [0, 0.7, FENCE_D[1] + 0.8]], 78, 8))],
  'actors': {**lawns(), **deco(),
             'dummy': [K(0, FENCE_D[0], FENCE_D[1], 'envy', 90, brow=0.0), K(c_schlimm, FENCE_D[0], FENCE_D[1], 'envy', 90, brow=0.0),
                       K(r3(c_schlimm + sec(L0, 0.6)), FENCE_D[0], FENCE_D[1], 'envy', 90, brow=1.0)],
@@ -141,19 +161,19 @@ dummyA = [K(0, TIP0[0], TIP0[1], 'tiptoe', face_to(TIP0, SPRAY), paint=0), K(spr
 lawnA = [K(0, LAWN_L[0], LAWN_L[1], 'park', 0, lush=0, paint=0), K(spray0 + sec(A, 0.5), LAWN_L[0], LAWN_L[1], 'park', 0, paint=0),
          K(r3(c_morgen - 0.003), LAWN_L[0], LAWN_L[1], 'park', 0, paint=0.45), K(c_morgen, LAWN_L[0], LAWN_L[1], 'park', 0, paint=1), K(1, LAWN_L[0], LAWN_L[1], 'park', 0, paint=1)]
 NB_PEEK = (0.45, 1.0)
-peekA = r3(min(c_schuh + sec(A, 1.6), endA_speech + sec(A, 0.1)))
+peekA = r3(c_schuh + sec(A, 0.9))
 nbA = [K(0, NB_PEEK[0], NB_PEEK[1], 'stand', 270, y=HIDE), K(r3(peekA - 0.003), NB_PEEK[0], NB_PEEK[1], 'stand', 270, y=HIDE),
        K(peekA, NB_PEEK[0], NB_PEEK[1], 'stand', 270, y=0, brow=1, question=0), K(r3(peekA + sec(A, 0.4)), NB_PEEK[0], NB_PEEK[1], 'sheepish', 270, question=1),
        K(1, NB_PEEK[0], NB_PEEK[1], 'sheepish', 270, question=1)]
 expA = {
  'stage': [{'t': 0, 'stage': 'nachbargarten-nacht'}, {'t': c_morgen, 'stage': 'nachbargarten'}],
- 'camera': [cam(0, [-7.6, 2.6, 9.6], [-5.0, 0.7, 2.4]), cam(r3(spray0), [-6.4, 2.3, 7.0], [-3.6, 0.6, 1.2]),
-            cam(r3(c_morgen - 0.003), [-5.4, 1.9, 4.6], [-3.4, 0.45, 0.9]),
-            cam(c_morgen, [-1.2, 5.2, 9.6], [-3.2, 0.3, 0.3]), cam(r3(c_zwerg - 0.003), [-1.4, 4.8, 8.8], [-3.0, 0.4, 0.4]),
-            cam(c_zwerg, [-1.2, 0.75, 4.1], [GNOME[0], 0.25, GNOME[1]], 34), cam(r3(c_hund - 0.003), [-1.3, 0.72, 3.95], [GNOME[0], 0.25, GNOME[1]], 34),
-            cam(c_hund, [-2.0, 0.95, 4.75], [DOG[0], 0.42, DOG[1]], 34), cam(r3(c_schuh - 0.003), [-2.1, 0.92, 4.6], [DOG[0], 0.42, DOG[1]], 34),
-            cam(c_schuh, [-2.55, 0.55, 2.35], [DAY_D[0], 0.1, DAY_D[1]], 34), cam(r3(peekA - 0.003), [-2.6, 0.58, 2.25], [DAY_D[0], 0.12, DAY_D[1]], 34),
-            cam(peekA, [-3.6, 2.4, 6.6], [-1.3, 0.8, 0.7]), cam(1, [-3.4, 2.3, 6.2], [-1.3, 0.85, 0.7])],
+ 'camera': [*camF(0, r3(spray0 - 0.003), F(body(*TIP0) + body(*SPRAY), 25, 16)),
+            *camF(spray0, r3(c_morgen - 0.003), F(body(*SPRAY) + [[SPRAY[0] - 0.5, 0, SPRAY[1] + 0.9], [SPRAY[0] + 0.5, 0, SPRAY[1] + 0.9]], 40, 22)),
+            *camF(c_morgen, r3(c_zwerg - 0.003), F(body(*DAY_D) + [[GNOME[0], 0, GNOME[1]], [DOG[0], 0, DOG[1]], [-0.2, 0.7, -1.0]], 12, 28)),
+            *camF(c_zwerg, r3(c_hund - 0.003), F([[GNOME[0] - 0.2, 0, GNOME[1]], [GNOME[0] + 0.2, 0, GNOME[1]], [GNOME[0], 0.48, GNOME[1]]], 345, 10, (300, 780, 600, 1120))),
+            *camF(c_hund, r3(c_schuh - 0.003), F([[DOG[0] - 0.3, 0, DOG[1]], [DOG[0] + 0.3, 0, DOG[1]], [DOG[0], 0.82, DOG[1]]], 335, 10, (260, 820, 560, 1130))),
+            *camF(c_schuh, r3(peekA - 0.003), F([[DAY_D[0] - 0.3, 0, DAY_D[1]], [DAY_D[0] + 0.3, 0, DAY_D[1]], [DAY_D[0], 0.6, DAY_D[1]]], 345, 14, (240, 840, 560, 1150))),
+            *camF(peekA, 1, F(body(*DAY_D) + body(*NB_PEEK, 2.0), 350, 14))],
  'actors': {'rasen': lawnA, 'rasen2': [K(0, LAWN_R[0], LAWN_R[1], 'park', 0, lush=1)],
             'dummy': dummyA,
             'gartenzwerg': [K(0, GNOME[0], GNOME[1], 'park', 160, paint=0), K(r3(c_morgen - 0.003), GNOME[0], GNOME[1], 'park', 160, paint=0), K(c_morgen, GNOME[0], GNOME[1], 'park', 160, paint=1)],
@@ -211,14 +231,13 @@ nbB = [K(0, SNIP[0], SNIP[1], 'stand', 0, y=HIDE), K(r3(c_tag - 0.003), SNIP[0],
        K(r3(c_immer + sec(B, 1.0)), SNIP[0], SNIP[1], 'snip', 235, brow=1, question=0), K(r3(c_immer + sec(B, 1.5)), SNIP[0], SNIP[1], 'snip', 235, question=1),
        K(1, SNIP[0], SNIP[1], 'snip', 235, question=1)]
 scB = [K(0, SNIP[0], SNIP[1], 'park', 0, y=HIDE), K(r3(c_tag - 0.003), SNIP[0], SNIP[1], 'park', 0, y=HIDE),
-       K(c_tag, SNIP[0], SNIP[1], 'park', 235, hand=1, holder='gartennachbar', drop=0.0, y=0)]
+       K(c_tag, SNIP[0], SNIP[1], 'park', 235, hand=1, holder='gartennachbar', drop=0.0, y=0, size=0.7)]
 expB = {
  'stage': [{'t': 0, 'stage': 'nachbargarten-nacht'}, {'t': c_tag, 'stage': 'nachbargarten'}],
- 'camera': [cam(0, [-2.6, 1.9, 5.6], [0.1, 0.65, 0.5]), cam(r3(climb_end), [-2.4, 1.85, 5.3], [0.4, 0.62, 0.6]),
-            cam(r3(grab - 0.003), [-1.4, 2.4, 7.0], [1.4, 0.6, 1.6]),
-            cam(grab, [-3.4, 3.1, 9.6], [0.5, 0.5, 2.6]), cam(r3(c_tag - 0.003), [-4.0, 3.0, 9.3], [-0.7, 0.5, 3.0]),
-            cam(c_tag, [4.75, 0.85, 2.05], [SNIP[0] - 0.3, 0.35, SNIP[1] + 0.3], 34), cam(r3(c_immer - 0.003), [4.6, 0.82, 1.9], [SNIP[0] - 0.3, 0.35, SNIP[1] + 0.3], 34),
-            cam(c_immer, [0.4, 4.3, 10.8], [0.6, 0.35, -0.4]), cam(1, [0.4, 4.1, 10.2], [0.6, 0.38, -0.4])],
+ 'camera': [*camF(0, r3(grab - 0.003), F(body(*CL0) + body(*CL1), 335, 8)),
+            *camF(grab, r3(c_tag - 0.003), F([[x, 0, z] for x, z in pts] + [[x, 1.5, z] for x, z in pts[1:4]], 20, 22)),
+            *camF(c_tag, r3(c_immer - 0.003), F([[SNIP[0] - 0.45, 0, SNIP[1]], [SNIP[0] + 0.45, 0, SNIP[1]], [SNIP[0], 1.45, SNIP[1]]], 352, 5, (200, 880, 520, 1180))),
+            *camF(c_immer, 1, F(body(*ENVY_B) + [[-1.25, 0, 0.15]] + [[SNIP[0], 0, SNIP[1]], [SNIP[0], 1.5, SNIP[1]]], 2, 20))],
  'actors': {**lawns(), 'dummy': dummyB, 'rasenmaeher': mowerB, 'gartentor': gateB, 'gartennachbar': nbB, 'nagelschere': scB,
             'gartenzwerg': [K(0, GNOME[0], GNOME[1], 'park', 160)], 'hund': [K(0, DOG[0], DOG[1], 'sit', 150)],
             'briefkasten': [K(0, MAILBOX[0], MAILBOX[1], 'park', 180)]},
@@ -294,12 +313,12 @@ lawnC_R = [K(0, LAWN_R[0], LAWN_R[1], 'park', 0, lush=1), K(swap0, LAWN_R[0], LA
 expC = {
  'camera': [cam(0, [6.2, 2.6, 4.4], [3.0, 0.9, -4.0]), cam(r3(walk_end), [5.6, 2.2, -1.6], [3.3, 1.1, -6.6]),
             cam(r3(sign0 - 0.003), [5.4, 2.1, -2.2], [3.3, 1.15, -6.8]),
-            cam(sign0, [1.5, 1.85, -4.6], [3.45, 1.12, -6.9]), cam(r3(sold_t - 0.003), [1.6, 1.82, -4.7], [3.45, 1.12, -6.9]),
-            cam(sold_t, [4.4, 2.5, 3.8], [4.6, 1.2, -5.6]), cam(r3(post0 - sec(C, 0.3)), [3.9, 2.3, 2.6], [3.3, 1.1, -6.0]),
-            cam(r3(post0 - sec(C, 0.3) + 0.003), [0.5, 1.6, -4.2], [2.2, 1.0, -6.6]), cam(r3(c_packt - 0.003), [0.55, 1.58, -4.3], [2.3, 1.0, -6.6]),
+            *camF(sign0, r3(sold_t - 0.003), F(body(*DOOR_SPOT) + body(NB_DOOR[0], NB_DOOR[1], 2.05), 72, 12)),
+            *camF(sold_t, r3(post0 - sec(C, 0.35)), F(body(SOLD[0], SOLD[1], 1.9, 0.7) + body(*DOOR_SPOT) + body(NB_DOOR[0], NB_DOOR[1], 2.05), 8, 12)),
+            *camF(r3(post0 - sec(C, 0.35) + 0.003), r3(c_packt - 0.003), F(body(*POST) + [[MAILBOX[0], 1.35, MAILBOX[1]], [MAILBOX[0], 0, MAILBOX[1]]], 45, 10)),
             cam(c_packt, [6.4, 2.3, 1.4], [2.8, 0.95, -5.6]), cam(r3(c_ploetz - 0.003), [6.0, 2.2, 1.0], [2.4, 0.9, -4.6]),
-            cam(c_ploetz, [0.2, 6.3, 15.5], [-0.1, 0.4, -0.8]), cam(r3(c_welcher - 0.003), [0.2, 5.9, 14.5], [-0.1, 0.45, -0.6]),
-            cam(c_welcher, [5.4, 2.0, 5.6], [2.0, 1.05, 0.0]), cam(1, [5.1, 1.95, 5.2], [2.0, 1.1, 0.0])],
+            *camF(c_ploetz, r3(c_welcher - 0.003), F(body(*ME_C) + body(*NB_LEFT, 2.0) + [[-3.5, 0, 2.5], [3.5, 0, 2.5]], 0, 18)),
+            *camF(c_welcher, 1, F(body(*ME_C, 2.3) + body(*NB_LEFT, 2.0), 300, 10))],
  'actors': {'rasen': lawnC_L, 'rasen2': lawnC_R, 'dummy': dummyC, 'aktenkoffer': caseC, 'kaufvertrag': contractC, 'kuendigung': envC,
             'briefkasten': mailC, 'verkauft': soldC, 'gartennachbar': nbC, 'giesskanne': canC,
             'gartenzwerg': [K(0, GNOME[0], GNOME[1], 'park', 160)], 'hund': [K(0, DOG[0], DOG[1], 'sit', 150)],
@@ -323,7 +342,7 @@ vote = {
 OUT_D = (-0.48, 1.4)
 OUT_N = (0.5, 1.4)
 outro = {
- 'camera': [cam(0, [0.05, 1.55, 6.9], [0.0, 0.45, 1.4]), cam(1, [0.05, 1.52, 6.5], [0.0, 0.45, 1.4])],
+ 'camera': camF(0, 1, F(body(*OUT_D, 2.1) + body(*OUT_N, 2.1), 0, 6, (160, 920, 860, 1240), push=0.04)),
  'actors': {**lawns(), **deco(),
             'dummy': [K(0, OUT_D[0], OUT_D[1], 'stand', 180, brow=0.0), K(0.35, OUT_D[0], OUT_D[1], 'wave', 180), K(1, OUT_D[0], OUT_D[1], 'wave', 180)],
             'gartennachbar': [K(0, OUT_N[0], OUT_N[1], 'stand', 180, brow=1.0), K(0.55, OUT_N[0], OUT_N[1], 'wave', 180), K(1, OUT_N[0], OUT_N[1], 'wave', 180)]},

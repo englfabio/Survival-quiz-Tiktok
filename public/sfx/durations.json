@@ -73,5 +73,10 @@
   "durchsage-gong": 2.508,
   "zug-naht": 4.049,
   "zug-durchfahrt": 5.042,
-  "wind-sog": 2.038
+  "wind-sog": 2.038,
+  "tuerklingel": 1.515,
+  "schere-schnipp": 2.038,
+  "briefkasten": 1.045,
+  "schleichen": 3.03,
+  "rasen-zauber": 2.038
 }
