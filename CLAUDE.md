@@ -66,7 +66,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -109,6 +109,16 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
 - Darstellung immer comichaft und harmlos.
 - Outro-Zusatz (optional): `outro.extra` = gelbe Zusatzzeile unter den Antworten (z. B. „Was soll der Dummy als Nächstes erleben?“),
   erscheint, wenn der Satz `outro.extraCue` gesprochen wird. Vom Inhaber gewünscht: am Ende offen lassen + fragen, was der Dummy als Nächstes erleben soll.
+- **DAUERHAFTE REGEL (vom Inhaber): Das fertige Video zu `scenarios/spezial-mitbewohner-joghurt.json` ist die Vorlage für ALLE
+  Spezial-Videos.** Bei jedem neuen Spezial-Video dessen Schema übernehmen: Aufbau, Reihenfolge, Tempo, Länge der einzelnen Szenen,
+  Kameraführung, Übergänge, Abstimmungs-Teil und Outro. **Vor dem Bau eines neuen Spezial-Videos die Szenario-Datei und den Code
+  (`scripts/mitbewohner-joghurt-choreo.py`) dieses Videos ansehen.** Konkret: Situation mit 3–4 harten Schnitten; jede Antwort =
+  Karte (eine ruhige Einstellung, während der Kartentext gesprochen wird) + Szene mit einem harten Schnitt pro Satz/Pointe und langsamem
+  Heranfahren (dolly ca. 0,92–0,95); `sharpCuts: true`; Abstimmung: alle Figuren stehen, Kamera tief und ruhig, Karten darüber;
+  Outro: ruhige Einstellung mit den Figuren unter dem Outro-Feld. Kameras mit `fitcam_fast.fit` eingepasst (Bildbereich ANS/SIT wie im
+  Joghurt-Skript). Vorlage für ein neues Skript: `scripts/spezial-bahn-verspaetung-choreo.py` (gleiches Schema, Helfer `shot()`).
+  Liefert der Inhaber Texte ausdrücklich „Buchstabe für Buchstabe“, gelten sie wortgenau – auch wenn sie länger sind als das Schema
+  (z. B. Outro mit „Eine richtige Antwort gibt es diesmal nicht …“ bei der Bahn-Verspätung).
 - **Schema für Spezial-Videos (vom Inhaber als Vorlage freigegeben, Vorbild: spezial-mitbewohner-joghurt, 66 s):**
   - Ziel-Länge knapp über 61 s (ca. 61–67 s), Texte knapp halten: Situation 1–3 kurze Sätze, Kartentext-Ansage ein Satz,
     jede Szene ca. 3–6 kurze Sätze (Pointe zuerst, keine Füllwörter, keine Wiederholung der Karte in der Szene).
@@ -236,6 +246,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Treppe nach unten rechts (x 0.1 … 1.4) ab z 0.9 nach +z, 13 Stufen (unten z 4.54, y −2.34; `groundHeight` folgt der Treppe), Treppenauge mit Geländer,
   Pflanze, Schuhregal. Hinter den Türen kleine Räume (beim Nachbarn dunkel mit Paketbergen – sichtbar durch Spalt/Klappe).
   Kamera-Trick: Seitenwände von außen unsichtbar → Kamera hinter die linke Wand (x < −1.4, z > −1.25) bzw. rechte Wand (x > 1.4, z < −1.2 oder z > 0.1).
+  Bahnsteig mit Verspätungs-Tafel (`bahnsteig-verspaetung`, `src/stage/Station.tsx`): wie `bahnsteig`, aber ohne die große Anzeigetafel – dafür das
+  Objekt `anzeigetafel` frei platzierbar. Bahnstrecke auf dem Land am Morgen (`bahnstrecke`, `src/stage/Railway.tsx`, `RAILWAY`, Atmo `wald-atmo`): eingleisig
+  entlang x bei z 0, Schienenoberkante y 0.3 (Fahrzeuge y 0.3, face 90 = nach +x), Schotterbett, Felder, Hecken, Bäume ab |z| > 7, Hügel, Strommasten,
+  Weidezäune (z −6.2 / 14), Platz für das Signal bei (30, 2.6), vorn frei für Kameras. Landstraße (`landstrasse`, gleiche Datei, `LANDSTRASSE`): Straße entlang x
+  bei z 0 (z −3.5 … 3.5, Mittellinie, Leitpfosten, Allee hinten), Wegweiser „Büro 12 km“, Bürogebäude mit Dachschild „BÜRO“ bei (74, −16), Parkplatz davor.
+  Wohnzimmer mit Homeoffice (`wohnzimmer-homeoffice`, `src/stage/Rooms.tsx`, `HOMEOFFICE`): `wohnzimmer` + gemütlicher Holz-Schreibtisch am Fenster (linke Wand,
+  Platte 0,74, x −2.5 … −1.9, z −1.05 … 0.25) mit Schreibtischlampe, rotem Stuhl (Dummy sitzend bei (−1.5, −0.4), face 270), runder Teppich; Laptop/Uhr/Tasse als Objekte.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -327,6 +344,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (`parcelletter`), nur Paket halten (`holdparcel`). Paketbote (Stapel automatisch in den Händen): gehen/stehen (`carrystack`), Treppe hoch mit hohen
   Schritten (`stairsup`), übertrieben vorsichtig über etwas steigen (`stepover`, Höhe über "y"), klingeln mit Stapel links (`botering`), Paket mit
   rechts 0,5 m vor sich abstellen (`setparcel`, loslassen 1,0 s). Briefe unter der Tür durchschieben = vorhandenes `slideletter`.
+  Bahn-Verspätung (Spezial, alle Figuren mit Dummy-Körper, Details in `bahnPose` in Dummy.tsx): genervt zur Anzeigetafel schauen + auf die Armbanduhr
+  tippen (`watchtap`, Zyklus 3,2 s, Uhr automatisch), auf die Uhr schauen + Kopf schütteln (`watchlook`, Chef), Mütze aufsetzen stehend/sitzend (`capon`/`seatcapon`,
+  Wert `lokcap` 0 → 1), in der Lok sitzen + Hupen-Schnur ziehen (`lokhorn`), ungeduldig aufs Lenkrad tippen (`wheeltap`), gemütlich sitzen + winken (`seatwave`,
+  z. B. im Bagger), Hose hochziehen (`pullpants`, Wert `jogger` 0 → 1), Laptop aufklappen (`laptopopen`, Deckel 0,45 m vor ihm, Laptop-Wert `lid` 0 → 1 bei
+  0,35–1,05 s), Kaffee trinken (`drinkcoffee`, Tasse automatisch), in die Videokonferenz winken (`deskwave`). In der Lok: `"attach": "lok", x 0, y 1.25, z −2.05,
+  face 0`; im Bagger: `"attach": "bagger", x −0.85, y 2.6, z 0.55, face 0` (beide sitzend, Sitz 0,45 m).
+- **Lokführermütze** (blau-weiß gestreift): Wert `lokcap` 0 … 1 (Dummy). **Jogginghose** (grau): Wert `jogger` 0/1 (Dummy).
+- **Fahrgast-Dummys** (`fahrgast1` türkis/blauer Mantel, `fahrgast2` lila/roter Mantel + gelber Schal, `fahrgast3` grün/brauner Mantel; `PASSENGERS` in index.tsx):
+  wartende Fahrgäste mit Dummy-Körper – können alle Dummy-Bewegungen, Augenbrauen, Fragezeichen.
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -481,6 +507,18 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Wohnungstür mit Spion, Griff, Namensschild (`treppentuer` graugrün / `treppentuer2` Holz: `door` = geht nach innen auf, `fill` = Klappe wird gesägt
   (Schnittlinie + Sägespäne), `lid` = Klappe schwingt auf, `side` 1 = gespiegelt, Feld `text` = Name). In der Hand: Paket, Paketstapel (beide Hände oder
   links), Brief (`letter`), Säge, Kochlöffel. Briefe „Rechnung“/„Gegenrechnung“ = vorhandene `brief`-Umschläge bzw. Brief in der Hand.
+- **Objekte (Bahn-Verspätung, `src/actors/BahnProps.tsx`, alle ohne Logos/Bahn-Designs/Baumaschinen-Marken):** kleine knallbunte stilisierte Lok
+  (`lok`: rot/türkis/gelb, lange Haube vorn +z, offenes Führerhaus hinten mit Sitz, kleinem Lenkrad, Hupe auf dem Dach + Zugschnur; Ursprung = Gleismitte auf
+  Schienenoberkante; Bewegung `drive` mit Weg = Räder + Kuppelstangen drehen, `ring` = Hupe tönt mit Schallringen, `blink` = Scheinwerfer an), riesiger
+  stilisierter Bagger (`bagger`: orange/dunkelgrau auf Ketten, Kabine hoch links, Ausleger + Schaufel rechts, Rundumleuchte; `drive` = Ketten laufen, `tilt` = Arm,
+  `smoke` = Abgas), Hauptsignal (`signal`: rot oben/grün unten, Mastschild, `good` 1 = grün; Lichter zeigen zur Bildseite +z ihres Systems), Tacho (`tacho`: Feld
+  `text` Standard „25 km/h“, `fill` = Nadel 0 … 1 = 0 … 100 km/h, `show` ploppt auf, schaut zur Kamera, `size`), Kaffeetasse mit Herz + Dampf (`kaffeetasse`,
+  `smoke`; in der Hand bei `drinkcoffee`), Autoschlange (`autoschlange`: bis 8 bunte Kleinwagen hintereinander nach −z, `fill` = Anzahl/8, `rumble`, `drive`),
+  Anzeigetafel mit Verspätung (`anzeigetafel`: „07:12 RE 7 Nordhafen“, Gleis 3, große gelbe Verspätung = Feld `text` Standard „+90 Min“, `blink` = leuchtet/pulsiert
+  beim Umspringen, `size`, beidseitig), Armbanduhr (automatisch bei `watchtap`/`watchlook`). **Erweitert:** Zug `zug` kann jetzt eine Anzeige hinter beiden
+  Stirnseiten zeigen (Feld `text`, z. B. „+90 Min“) und ohne Stromabnehmer fahren (`side` 1); Laptop `laptop`: `lid` 0 zu … 1 offen, `mark` 1 = Videokonferenz
+  mit Kacheln (Chef in Grau mit Krawatte, „Du“ in Gelb, Team), `glow` 1 = eigene Kachel grün umrandet; Tageskalender `tageskalender`: Feld `text` = eigene
+  Blätter getrennt mit „|“ (z. B. Wochentage „Mittwoch|…|Dienstag“), `size` = größer, `good` 1 = schaut immer zur Kamera.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -496,7 +534,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -587,6 +625,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   verlängert: A +3,6 s Nachbar zieht das Paket rein, B +1,2 s Winken, C +1,6 s Erstarren). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2
   (Option 3 + Szene C): korrekt. Choreografie: `python3 scripts/spezial-paket-nachbar-choreo.py`. Comichaft: Klappe wie Katzenklappe mit kleiner Säge,
   Paketbote ohne Logos in Blaugrau. Standbilder in review/spezial-paket-nachbar/phase1/. Finales Video: review/final/spezial-paket-nachbar.mp4.
+- Spezial Bahn-Verspätung: 983 neue Zeichen (394 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 74,5 s, Video 83,7 s (Texte vom Inhaber
+  Buchstabe für Buchstabe, daher länger als das Joghurt-Ziel). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 (Situation, Szene B „25“, Szene C „8:01“):
+  korrekt. Choreografie: `python3 scripts/spezial-bahn-verspaetung-choreo.py` (Schema wie Joghurt). Niemand betritt zu Fuß die Gleise (Dummy nur IN der Lok),
+  keine echten Logos. Standbilder in review/spezial-bahn-verspaetung/phase1/. Finales Video: review/final/spezial-bahn-verspaetung.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -621,6 +663,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `kuehlschrank-auf`, `knopf-druecken`, `puff` (comichaft, kein Knall), `stift-kritzeln` (geteilt mit Wecker), `tastatur`, `papier-schieben`, `muenzen`, `stempel` (Mitbewohner-Joghurt).
   `treppenhaus-atmo` (Bühne Treppenhaus, Schleife), `saegen`, `paket-abstellen`, `brief-reissen`, `schritte-treppe`, `tuer-knarren` (Paket beim Nachbarn;
   wiederverwendet: `tuerklingel`, `plopp`, `geschenk-rascheln`, `kalender-blaettern`, `schleichen`, `tuer-zu`, `papier-schieben`).
+  `lok-hupe`, `lok-fahrt`, `bremse`, `bagger-motor`, `auto-hupen`, `laptop-auf`, `videocall-ding`, `kaffee-schluerfen` (Bahn-Verspätung; Bühnen `bahnstrecke`/
+  `landstrasse` nutzen `wald-atmo`, `bahnsteig-verspaetung` `bahnhof-atmo`; wiederverwendet: `durchsage-gong`, `plopp`, `kalender-blaettern`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -817,7 +861,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Varianten volle Halle + Bahnsteig mit Oberleitung/Lautsprecher) + Passenger-Figuren;
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
                       PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz; Office.tsx = Chef-Büro;
-                      NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus)
+                      NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus;
+                      Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -832,7 +877,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       NeighborProps.tsx = Rasen/Gartenzwerg/Rasenmäher/Aktenkoffer/Kaufvertrag/Kündigung/Briefkasten/
                       VERKAUFT-Schild/Gießkanne/Nagelschere/Sprühdose/Gartentor/Glitzern,
                       PaketProps.tsx = Paket/Stapel/Zelt/Lichterkette/Kocher/Säge/Klingel/Tageskalender/Wohnungstür mit Klappe,
-                      WgProps.tsx = Kühlschrank/Joghurtbecher/Zettel/Knopf/Joghurt-Welle/Briefe/Stempel/Münzen/Ordner/Laptop/Lesebrille) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      WgProps.tsx = Kühlschrank/Joghurtbecher/Zettel/Knopf/Joghurt-Welle/Briefe/Stempel/Münzen/Ordner/Laptop/Lesebrille,
+                      BahnProps.tsx = Lok/Bagger/Signal/Tacho/Kaffeetasse/Autoschlange/Anzeigetafel/Lokführermütze/Armbanduhr) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,
