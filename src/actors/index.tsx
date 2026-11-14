@@ -522,7 +522,7 @@ export const Actor = ({
       )}
       {name === 'zombie' && <Zombie pose={zombiePoseBlended(state.motion, state.motionTime, state.speed, state.prev)} />}
       {name === 'waschbecken' && <Sink flow={state.motion === 'flow'} time={state.motionTime} />}
-      {name === 'kalender' && <WallCalendar flipTime={state.motion === 'flip' ? state.motionTime : 0} />}
+      {name === 'kalender' && <WallCalendar flipTime={state.motion === 'flip' ? state.motionTime : 0} startDay={actor.text ? parseInt(actor.text, 10) : undefined} />}
       {name === 'wanduhr' && <WallClock spinTime={state.motion === 'spin' ? state.motionTime : 0} time={state.motionTime} />}
       {name === 'impfpass' && <VaccinationPass open={state.motion === 'open' ? 1 : 0} />}
       {name === 'verbandskasten' && <FirstAidKit />}

@@ -78,7 +78,7 @@ export const AlarmClock = ({ring = 0, broken = 0, time = 0}: {ring?: number; bro
           <mesh material={m.body} rotation={[Math.PI / 2, 0, 0]} castShadow>
             <cylinderGeometry args={[R, R, 0.05, 20]} />
           </mesh>
-          <mesh material={m.chrome} position={[0, 0, 0.026]} rotation={[Math.PI / 2, 0, 0]}>
+          <mesh material={m.chrome} position={[0, 0, 0.026]}>
             <torusGeometry args={[R - 0.004, 0.006, 5, 20]} />
           </mesh>
           <group position={[0, 0, 0.027]} rotation={[0, 0, b * 0.6]}>
@@ -267,13 +267,13 @@ export const DigitalClock = ({text = '8:47', blink = 0, time = 0}: {text?: strin
       <mesh material={m.case} position={[0, 0.06, 0]} castShadow>
         <boxGeometry args={[0.2, 0.11, 0.07]} />
       </mesh>
-      <mesh material={m.case} position={[0, 0.06, -0.01]} rotation={[0.2, 0, 0]}>
-        <boxGeometry args={[0.19, 0.1, 0.06]} />
+      <mesh material={m.dark} position={[0, 0.005, -0.005]}>
+        <boxGeometry args={[0.18, 0.01, 0.06]} />
       </mesh>
       {tex && (
         <mesh position={[0, 0.063, 0.0365]}>
           <planeGeometry args={[0.17, 0.081]} />
-          <meshBasicMaterial map={tex} toneMapped={false} color={on ? '#ffffff' : '#552222'} />
+          <meshBasicMaterial map={tex} toneMapped={false} color={on ? '#ffffff' : '#7a4a4a'} />
         </mesh>
       )}
     </group>

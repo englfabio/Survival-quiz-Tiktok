@@ -1,0 +1,2605 @@
+{
+ "id": "spezial-wecker",
+ "format": "spezial",
+ "category": "spezial",
+ "stage": "schlafzimmer-morgen",
+ "situation": {
+  "speech": "Dein Wecker hat mal wieder nicht geklingelt. Es ist 8 Uhr 47, und um 8 hättest du bei der Arbeit sein müssen. Was machst du?",
+  "hook": "Du hast mal wieder verschlafen"
+ },
+ "options": [
+  {
+   "card": "Wecker zum Nachbarn werfen",
+   "speech": "A: Du wirfst den Wecker zu deinem Nachbarn rüber.",
+   "dummyAction": "wirft den Wecker aus dem Fenster über den Zaun auf den Rasen des Nachbarn",
+   "explanation": "Der Wecker fliegt in hohem Bogen über den Zaun. Er landet mitten auf dem grünsten Rasen der ganzen Straße. Und genau da fängt er an zu klingeln.",
+   "sceneExtra": 0.0,
+   "choreography": {
+    "camera": [
+     {
+      "t": 0.0,
+      "pos": [
+       -3.95,
+       1.72,
+       -1.42
+      ],
+      "look": [
+       0.63,
+       0.92,
+       -1.42
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.2598,
+      "pos": [
+       -3.263,
+       1.6,
+       -1.42
+      ],
+      "look": [
+       0.63,
+       0.92,
+       -1.42
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.262,
+      "pos": [
+       2.54,
+       2.24,
+       4.09
+      ],
+      "look": [
+       -1.33,
+       0.93,
+       -0.53
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.342,
+      "pos": [
+       2.308,
+       2.161,
+       3.813
+      ],
+      "look": [
+       -1.33,
+       0.93,
+       -0.53
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.3443,
+      "pos": [
+       0.0,
+       4.6,
+       -1.0
+      ],
+      "look": [
+       1.3,
+       0.5,
+       -10.2
+      ],
+      "fov": 36
+     },
+     {
+      "t": 0.8286,
+      "pos": [
+       0.078,
+       4.354,
+       -1.552
+      ],
+      "look": [
+       1.3,
+       0.5,
+       -10.2
+      ],
+      "fov": 36
+     },
+     {
+      "t": 0.8306,
+      "pos": [
+       -8.96,
+       3.27,
+       -8.63
+      ],
+      "look": [
+       1.65,
+       0.6,
+       -9.94
+      ],
+      "fov": 30
+     },
+     {
+      "t": 1.0,
+      "pos": [
+       -8.111,
+       3.056,
+       -8.735
+      ],
+      "look": [
+       1.65,
+       0.6,
+       -9.94
+      ],
+      "fov": 30
+     }
+    ],
+    "stage": [
+     {
+      "t": 0,
+      "stage": "schlafzimmer-morgen"
+     },
+     {
+      "t": 0.3685,
+      "stage": "nachbarrasen"
+     }
+    ],
+    "actors": {
+     "dummy": [
+      {
+       "t": 0,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwake",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.2933,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwake",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.2953,
+       "x": -0.95,
+       "z": -0.4,
+       "motion": "stand",
+       "face": 270,
+       "y": 0,
+       "cut": true
+      },
+      {
+       "t": 0.2987,
+       "x": -0.95,
+       "z": -0.4,
+       "motion": "throwclock",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.3665,
+       "x": -0.95,
+       "z": -0.4,
+       "motion": "throwclock",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.3685,
+       "x": -0.95,
+       "z": -0.4,
+       "motion": "throwclock",
+       "face": 270,
+       "y": -30,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": -0.95,
+       "z": -0.4,
+       "motion": "stand",
+       "face": 270,
+       "y": -30
+      }
+     ],
+     "wecker": [
+      {
+       "t": 0,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "face": 191,
+       "y": 0.52,
+       "hand": 0
+      },
+      {
+       "t": 0.2933,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "y": 0.52,
+       "hand": 0
+      },
+      {
+       "t": 0.2953,
+       "x": -0.95,
+       "z": -0.4,
+       "motion": "stand",
+       "face": 270,
+       "y": 1.0,
+       "hand": 1,
+       "drop": 0.02,
+       "cut": true
+      },
+      {
+       "t": 0.3403,
+       "x": -0.95,
+       "z": -0.4,
+       "motion": "stand",
+       "y": 1.0,
+       "hand": 1,
+       "drop": 0.02
+      },
+      {
+       "t": 0.3423,
+       "x": -1.3,
+       "z": -0.55,
+       "motion": "arc",
+       "face": 270,
+       "y": 1.85,
+       "hand": 0
+      },
+      {
+       "t": 0.3665,
+       "x": -2.6,
+       "z": -0.4,
+       "motion": "arc",
+       "y": 1.75
+      },
+      {
+       "t": 0.3685,
+       "x": 0.1,
+       "z": -3.2,
+       "motion": "arc",
+       "face": 0,
+       "y": 3.3,
+       "cut": true
+      },
+      {
+       "t": 0.384,
+       "x": 0.164,
+       "z": -3.686,
+       "motion": "arc",
+       "face": 0,
+       "y": 3.3827
+      },
+      {
+       "t": 0.3996,
+       "x": 0.229,
+       "z": -4.171,
+       "motion": "arc",
+       "face": 0,
+       "y": 3.4163
+      },
+      {
+       "t": 0.4151,
+       "x": 0.293,
+       "z": -4.657,
+       "motion": "arc",
+       "face": 0,
+       "y": 3.401
+      },
+      {
+       "t": 0.4306,
+       "x": 0.357,
+       "z": -5.143,
+       "motion": "arc",
+       "face": 0,
+       "y": 3.3367
+      },
+      {
+       "t": 0.4462,
+       "x": 0.421,
+       "z": -5.629,
+       "motion": "arc",
+       "face": 0,
+       "y": 3.2235
+      },
+      {
+       "t": 0.4617,
+       "x": 0.486,
+       "z": -6.114,
+       "motion": "arc",
+       "face": 0,
+       "y": 3.0612
+      },
+      {
+       "t": 0.4772,
+       "x": 0.55,
+       "z": -6.6,
+       "motion": "arc",
+       "face": 0,
+       "y": 2.85
+      },
+      {
+       "t": 0.4928,
+       "x": 0.614,
+       "z": -7.086,
+       "motion": "arc",
+       "face": 0,
+       "y": 2.5898
+      },
+      {
+       "t": 0.5083,
+       "x": 0.679,
+       "z": -7.571,
+       "motion": "arc",
+       "face": 0,
+       "y": 2.2806
+      },
+      {
+       "t": 0.5239,
+       "x": 0.743,
+       "z": -8.057,
+       "motion": "arc",
+       "face": 0,
+       "y": 1.9224
+      },
+      {
+       "t": 0.5394,
+       "x": 0.807,
+       "z": -8.543,
+       "motion": "arc",
+       "face": 0,
+       "y": 1.5153
+      },
+      {
+       "t": 0.5549,
+       "x": 0.871,
+       "z": -9.029,
+       "motion": "arc",
+       "face": 0,
+       "y": 1.0592
+      },
+      {
+       "t": 0.5705,
+       "x": 0.936,
+       "z": -9.514,
+       "motion": "arc",
+       "face": 0,
+       "y": 0.5541
+      },
+      {
+       "t": 0.586,
+       "x": 1.0,
+       "z": -10.0,
+       "motion": "arc",
+       "face": 0,
+       "y": 0.0
+      },
+      {
+       "t": 0.5941,
+       "x": 1.06,
+       "z": -10.04,
+       "motion": "arc",
+       "y": 0.08
+      },
+      {
+       "t": 0.6061,
+       "x": 1.1,
+       "z": -10.07,
+       "motion": "stand",
+       "face": 160,
+       "y": 0.0,
+       "tilt": 12
+      },
+      {
+       "t": 0.9199,
+       "x": 1.1,
+       "z": -10.07,
+       "motion": "stand",
+       "ring": 0,
+       "tilt": 12,
+       "y": 0.0
+      },
+      {
+       "t": 0.9333,
+       "x": 1.1,
+       "z": -10.07,
+       "motion": "stand",
+       "ring": 1,
+       "tilt": 12,
+       "y": 0.0
+      },
+      {
+       "t": 1,
+       "x": 1.1,
+       "z": -10.07,
+       "motion": "stand",
+       "ring": 1,
+       "tilt": 12,
+       "y": 0.0
+      }
+     ],
+     "kumpel": [
+      {
+       "t": 0,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "watering",
+       "face": 200,
+       "y": -30,
+       "gardenhat": 1
+      },
+      {
+       "t": 0.3665,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "watering",
+       "face": 200,
+       "y": -30
+      },
+      {
+       "t": 0.3685,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "watering",
+       "face": 200,
+       "y": 0,
+       "cut": true
+      },
+      {
+       "t": 0.9266,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "watering",
+       "face": 200,
+       "y": 0
+      },
+      {
+       "t": 0.9501,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "lookup",
+       "face": 200,
+       "y": 0
+      },
+      {
+       "t": 0.9937,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "lookup",
+       "face": 227,
+       "brow": 1,
+       "question": 1,
+       "y": 0
+      },
+      {
+       "t": 1,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "lookup",
+       "face": 227,
+       "brow": 1,
+       "question": 1,
+       "y": 0
+      }
+     ],
+     "giesskanne": [
+      {
+       "t": 0,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "stand",
+       "face": 200,
+       "y": -30,
+       "holder": "kumpel",
+       "hand": 0,
+       "water": 0
+      },
+      {
+       "t": 0.3665,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "stand",
+       "face": 200,
+       "y": -30
+      },
+      {
+       "t": 0.3685,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "stand",
+       "face": 200,
+       "y": 0.9,
+       "holder": "kumpel",
+       "hand": 1,
+       "drop": -0.02,
+       "water": 1,
+       "cut": true
+      },
+      {
+       "t": 0.9467,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "stand",
+       "face": 200,
+       "water": 1,
+       "y": 0.9
+      },
+      {
+       "t": 0.9669,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "stand",
+       "face": 200,
+       "water": 0,
+       "y": 0.9
+      },
+      {
+       "t": 1,
+       "x": 2.0,
+       "z": -10.9,
+       "motion": "stand",
+       "face": 200,
+       "water": 0,
+       "y": 0.9
+      }
+     ],
+     "digitaluhr": [
+      {
+       "t": 0,
+       "x": -0.17,
+       "z": -1.6,
+       "motion": "stand",
+       "face": 185,
+       "y": 0.52,
+       "blink": 0,
+       "text": "8:47"
+      },
+      {
+       "t": 0.3685,
+       "x": -0.17,
+       "z": -1.6,
+       "motion": "stand",
+       "y": -30
+      }
+     ],
+     "kalender": [
+      {
+       "t": 0,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "stand",
+       "face": 180,
+       "y": 1.32,
+       "text": "16"
+      },
+      {
+       "t": 0.3685,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "stand",
+       "y": -30
+      }
+     ],
+     "abreisskalender": [
+      {
+       "t": 0,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "face": 90,
+       "y": -30,
+       "tilt": 22.92
+      },
+      {
+       "t": 0.3685,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "y": -30
+      }
+     ],
+     "smartphone": [
+      {
+       "t": 0,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "face": 200,
+       "y": -30
+      },
+      {
+       "t": 0.3685,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "y": -30
+      }
+     ],
+     "chef": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "monatskalender": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "zahnraeder": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "konfetti": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ]
+    },
+    "sharpCuts": true,
+    "sfx": [
+     {
+      "t": 0.3403,
+      "id": "whoosh",
+      "volume": 0.6
+     },
+     {
+      "t": 0.586,
+      "id": "plopp",
+      "volume": 0.55
+     },
+     {
+      "t": 0.9266,
+      "id": "wecker-klingeln",
+      "volume": 0.55
+     }
+    ]
+   }
+  },
+  {
+   "card": "Mit dem Hammer zerschlagen",
+   "speech": "B: Du schlägst ihn mit einem Hammer kaputt.",
+   "dummyAction": "schlägt mit dem Hammer auf den Wecker, danach verschläft er jeden Tag",
+   "explanation": "Ein Schlag. Zwei Schläge. Der Wecker ist Geschichte. Problem gelöst. Zumindest bis morgen früh. Denn ohne Wecker verschläfst du jetzt jeden einzelnen Tag.",
+   "sceneExtra": 0.0,
+   "choreography": {
+    "camera": [
+     {
+      "t": 0.0,
+      "pos": [
+       1.65,
+       1.88,
+       4.69
+      ],
+      "look": [
+       -1.29,
+       0.68,
+       -1.18
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.2703,
+      "pos": [
+       1.297,
+       1.736,
+       3.986
+      ],
+      "look": [
+       -1.29,
+       0.68,
+       -1.18
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.7427,
+      "pos": [
+       1.062,
+       1.64,
+       3.516
+      ],
+      "look": [
+       -1.29,
+       0.68,
+       -1.18
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.7448,
+      "pos": [
+       1.27,
+       2.09,
+       3.02
+      ],
+      "look": [
+       0.7,
+       0.85,
+       -1.6
+      ],
+      "fov": 40
+     },
+     {
+      "t": 1.0,
+      "pos": [
+       1.224,
+       1.991,
+       2.65
+      ],
+      "look": [
+       0.7,
+       0.85,
+       -1.6
+      ],
+      "fov": 40
+     }
+    ],
+    "stage": "schlafzimmer-morgen",
+    "actors": {
+     "dummy": [
+      {
+       "t": 0,
+       "x": -1.12,
+       "z": -1.25,
+       "motion": "holdhammer",
+       "face": 45,
+       "y": 0
+      },
+      {
+       "t": 0.2831,
+       "x": -1.12,
+       "z": -1.25,
+       "motion": "hammer",
+       "face": 45,
+       "y": 0
+      },
+      {
+       "t": 0.4374,
+       "x": -1.12,
+       "z": -1.25,
+       "motion": "hammer",
+       "face": 45,
+       "y": 0
+      },
+      {
+       "t": 0.4381,
+       "x": -1.12,
+       "z": -1.25,
+       "motion": "cheer",
+       "face": 45,
+       "y": 0
+      },
+      {
+       "t": 0.709,
+       "x": -1.12,
+       "z": -1.25,
+       "motion": "cheer",
+       "face": 45,
+       "y": 0
+      },
+      {
+       "t": 0.711,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedsleep",
+       "face": 270,
+       "y": 0,
+       "cut": true
+      },
+      {
+       "t": 0.7407,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwake",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.7903,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedsleep",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.82,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwake",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.8696,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedsleep",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.8993,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwake",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.9489,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedsleep",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.9786,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwake",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 1,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwake",
+       "face": 270,
+       "y": 0
+      }
+     ],
+     "wecker": [
+      {
+       "t": 0,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "face": 191,
+       "y": 0.52,
+       "broken": 0
+      },
+      {
+       "t": 0.3207,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "broken": 0,
+       "y": 0.52
+      },
+      {
+       "t": 0.328,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "broken": 0.55,
+       "y": 0.52
+      },
+      {
+       "t": 0.3868,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "broken": 0.55,
+       "y": 0.52
+      },
+      {
+       "t": 0.3941,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "broken": 1,
+       "y": 0.52
+      },
+      {
+       "t": 0.709,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "broken": 1,
+       "y": 0.52
+      },
+      {
+       "t": 0.711,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "y": -30,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "y": -30
+      }
+     ],
+     "zahnraeder": [
+      {
+       "t": 0,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "face": 100,
+       "y": 0.6
+      },
+      {
+       "t": 0.3227,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "burst",
+       "face": 100,
+       "y": 0.6,
+       "mark": 1.0,
+       "drop": 0.55
+      },
+      {
+       "t": 0.709,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "burst",
+       "y": 0.6
+      },
+      {
+       "t": 0.711,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "y": -30,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "y": -30
+      }
+     ],
+     "kalender": [
+      {
+       "t": 0,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "stand",
+       "face": 180,
+       "y": 1.32,
+       "text": "16"
+      },
+      {
+       "t": 0.711,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "flip",
+       "face": 180,
+       "y": 1.32
+      },
+      {
+       "t": 1,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "flip",
+       "face": 180,
+       "y": 1.32
+      }
+     ],
+     "digitaluhr": [
+      {
+       "t": 0,
+       "x": -0.17,
+       "z": -1.6,
+       "motion": "stand",
+       "face": 185,
+       "y": 0.52,
+       "blink": 0,
+       "text": "8:47"
+      }
+     ],
+     "abreisskalender": [
+      {
+       "t": 0,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "face": 90,
+       "y": -30,
+       "tilt": 22.92
+      }
+     ],
+     "smartphone": [
+      {
+       "t": 0,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "face": 200,
+       "y": -30
+      }
+     ],
+     "kumpel": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "giesskanne": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "chef": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "monatskalender": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "konfetti": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ]
+    },
+    "sharpCuts": true,
+    "sfx": [
+     {
+      "t": 0.3227,
+      "id": "hammer-schlag",
+      "volume": 0.7
+     },
+     {
+      "t": 0.3888,
+      "id": "hammer-schlag",
+      "volume": 0.75
+     },
+     {
+      "t": 0.3888,
+      "id": "zahnraeder-klirren",
+      "volume": 0.5
+     },
+     {
+      "t": 0.711,
+      "id": "kalender-blaettern",
+      "volume": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "card": "Liegen bleiben, Feiertag erklären",
+   "speech": "C: Du bleibst liegen und erklärst den Tag zum persönlichen Feiertag.",
+   "dummyAction": "bleibt liegen, schreibt FEIERTAG in den Kalender, Partyhütchen, Konfetti, der Chef sucht vergeblich",
+   "explanation": "Zu spät ist zu spät. Also bleibst du liegen und erklärst heute zum Feiertag. Dein Chef ruft an. Er sucht den Feiertag in seinem Kalender. Er findet ihn nicht. Du schon.",
+   "sceneExtra": 0.0,
+   "choreography": {
+    "camera": [
+     {
+      "t": 0.0,
+      "pos": [
+       1.35,
+       1.91,
+       2.46
+      ],
+      "look": [
+       0.73,
+       0.82,
+       -1.45
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.2834,
+      "pos": [
+       1.3,
+       1.823,
+       2.147
+      ],
+      "look": [
+       0.73,
+       0.82,
+       -1.45
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.2857,
+      "pos": [
+       1.57,
+       1.9,
+       -0.71
+      ],
+      "look": [
+       0.51,
+       0.79,
+       -1.45
+      ],
+      "fov": 36
+     },
+     {
+      "t": 0.5319,
+      "pos": [
+       1.485,
+       1.811,
+       -0.769
+      ],
+      "look": [
+       0.51,
+       0.79,
+       -1.45
+      ],
+      "fov": 36
+     },
+     {
+      "t": 0.5343,
+      "pos": [
+       1.6,
+       2.31,
+       3.5
+      ],
+      "look": [
+       0.7,
+       1.11,
+       -1.45
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.73,
+      "pos": [
+       1.51,
+       2.19,
+       3.005
+      ],
+      "look": [
+       0.7,
+       1.11,
+       -1.45
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.7322,
+      "pos": [
+       -3.41,
+       2.1,
+       2.59
+      ],
+      "look": [
+       1.13,
+       0.7,
+       -1.95
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.8829,
+      "pos": [
+       -3.138,
+       2.016,
+       2.318
+      ],
+      "look": [
+       1.13,
+       0.7,
+       -1.95
+      ],
+      "fov": 40
+     },
+     {
+      "t": 0.8847,
+      "pos": [
+       -0.68,
+       1.93,
+       2.65
+      ],
+      "look": [
+       1.35,
+       1.3,
+       -1.71
+      ],
+      "fov": 36
+     },
+     {
+      "t": 0.9491,
+      "pos": [
+       -0.518,
+       1.88,
+       2.301
+      ],
+      "look": [
+       1.35,
+       1.3,
+       -1.71
+      ],
+      "fov": 36
+     },
+     {
+      "t": 0.9507,
+      "pos": [
+       1.288,
+       1.801,
+       2.069
+      ],
+      "look": [
+       0.73,
+       0.82,
+       -1.45
+      ],
+      "fov": 40
+     },
+     {
+      "t": 1.0,
+      "pos": [
+       1.251,
+       1.736,
+       1.834
+      ],
+      "look": [
+       0.73,
+       0.82,
+       -1.45
+      ],
+      "fov": 40
+     }
+    ],
+    "stage": [
+     {
+      "t": 0,
+      "stage": "schlafzimmer-morgen"
+     },
+     {
+      "t": 0.6994,
+      "stage": "buero"
+     },
+     {
+      "t": 0.9305,
+      "stage": "schlafzimmer-morgen"
+     }
+    ],
+    "actors": {
+     "dummy": [
+      {
+       "t": 0,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwake",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.0802,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedflop",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.3225,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedwrite",
+       "face": 270,
+       "partyhat": 0,
+       "y": 0
+      },
+      {
+       "t": 0.5286,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedhat",
+       "face": 270,
+       "partyhat": 0,
+       "y": 0
+      },
+      {
+       "t": 0.5486,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedhat",
+       "face": 270,
+       "partyhat": 0,
+       "y": 0
+      },
+      {
+       "t": 0.5744,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedhat",
+       "face": 270,
+       "partyhat": 1,
+       "y": 0
+      },
+      {
+       "t": 0.5916,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedconfetti",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.689,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedcall",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.6974,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedcall",
+       "face": 270,
+       "y": 0
+      },
+      {
+       "t": 0.6994,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedcall",
+       "face": 270,
+       "y": -30,
+       "cut": true
+      },
+      {
+       "t": 0.9285,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedcall",
+       "face": 270,
+       "y": -30
+      },
+      {
+       "t": 0.9305,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedpoint",
+       "face": 270,
+       "y": 0,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": 0.8,
+       "z": -1.425,
+       "motion": "bedpoint",
+       "face": 270,
+       "y": 0
+      }
+     ],
+     "abreisskalender": [
+      {
+       "t": 0,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "face": 90,
+       "y": -30,
+       "tilt": 22.92,
+       "circle": 0,
+       "write": 0
+      },
+      {
+       "t": 0.2939,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "face": 90,
+       "y": -30
+      },
+      {
+       "t": 0.2959,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "face": 90,
+       "y": 0.66,
+       "cut": true
+      },
+      {
+       "t": 0.3397,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 0,
+       "write": 0,
+       "y": 0.66
+      },
+      {
+       "t": 0.4027,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 1,
+       "write": 0,
+       "y": 0.66
+      },
+      {
+       "t": 0.4084,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 1,
+       "write": 0,
+       "y": 0.66
+      },
+      {
+       "t": 0.5114,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 1,
+       "write": 1,
+       "y": 0.66
+      },
+      {
+       "t": 0.6974,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 1,
+       "write": 1,
+       "y": 0.66
+      },
+      {
+       "t": 0.6994,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 1,
+       "write": 1,
+       "y": -30,
+       "cut": true
+      },
+      {
+       "t": 0.9285,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 1,
+       "write": 1,
+       "y": -30
+      },
+      {
+       "t": 0.9305,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 1,
+       "write": 1,
+       "y": 0.66,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": 0.4,
+       "z": -1.445,
+       "motion": "stand",
+       "circle": 1,
+       "write": 1,
+       "y": 0.66
+      }
+     ],
+     "smartphone": [
+      {
+       "t": 0,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "face": 200,
+       "y": 0.505,
+       "ring": 0
+      },
+      {
+       "t": 0.6469,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "ring": 0,
+       "y": 0.505
+      },
+      {
+       "t": 0.6489,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "ring": 1,
+       "y": 0.505
+      },
+      {
+       "t": 0.7033,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "ring": 1,
+       "y": 0.505
+      },
+      {
+       "t": 0.7053,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "y": -30,
+       "ring": 0,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": 0.45,
+       "z": -1.06,
+       "motion": "lie",
+       "y": -30
+      }
+     ],
+     "konfetti": [
+      {
+       "t": 0,
+       "x": 1.32,
+       "z": -1.66,
+       "motion": "stand",
+       "face": 0,
+       "y": 1.85,
+       "size": -0.45
+      },
+      {
+       "t": 0.626,
+       "x": 1.32,
+       "z": -1.66,
+       "motion": "burst",
+       "face": 0,
+       "y": 1.85
+      },
+      {
+       "t": 0.6974,
+       "x": 1.32,
+       "z": -1.66,
+       "motion": "burst",
+       "face": 0,
+       "y": 1.85
+      },
+      {
+       "t": 0.6994,
+       "x": 1.32,
+       "z": -1.66,
+       "motion": "burst",
+       "face": 0,
+       "y": -30,
+       "cut": true
+      },
+      {
+       "t": 0.9285,
+       "x": 1.32,
+       "z": -1.66,
+       "motion": "burst",
+       "face": 0,
+       "y": -30
+      },
+      {
+       "t": 0.9305,
+       "x": 1.32,
+       "z": -1.66,
+       "motion": "burst",
+       "face": 0,
+       "y": 1.85,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": 1.32,
+       "z": -1.66,
+       "motion": "burst",
+       "y": 1.85
+      }
+     ],
+     "wecker": [
+      {
+       "t": 0,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "face": 191,
+       "y": 0.52,
+       "ring": 0,
+       "broken": 0
+      },
+      {
+       "t": 0.6974,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "face": 191,
+       "y": 0.52,
+       "ring": 0,
+       "broken": 0
+      },
+      {
+       "t": 0.6994,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "face": 191,
+       "y": -30,
+       "ring": 0,
+       "broken": 0,
+       "cut": true
+      },
+      {
+       "t": 0.9285,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "face": 191,
+       "y": -30,
+       "ring": 0,
+       "broken": 0
+      },
+      {
+       "t": 0.9305,
+       "x": -0.4,
+       "z": -1.62,
+       "motion": "stand",
+       "face": 191,
+       "y": 0.52,
+       "ring": 0,
+       "broken": 0,
+       "cut": true
+      }
+     ],
+     "digitaluhr": [
+      {
+       "t": 0,
+       "x": -0.17,
+       "z": -1.6,
+       "motion": "stand",
+       "face": 185,
+       "y": 0.52,
+       "blink": 0,
+       "text": "8:47"
+      },
+      {
+       "t": 0.6974,
+       "x": -0.17,
+       "z": -1.6,
+       "motion": "stand",
+       "face": 185,
+       "y": 0.52,
+       "blink": 0,
+       "text": "8:47"
+      },
+      {
+       "t": 0.6994,
+       "x": -0.17,
+       "z": -1.6,
+       "motion": "stand",
+       "face": 185,
+       "y": -30,
+       "blink": 0,
+       "text": "8:47",
+       "cut": true
+      },
+      {
+       "t": 0.9285,
+       "x": -0.17,
+       "z": -1.6,
+       "motion": "stand",
+       "face": 185,
+       "y": -30,
+       "blink": 0,
+       "text": "8:47"
+      },
+      {
+       "t": 0.9305,
+       "x": -0.17,
+       "z": -1.6,
+       "motion": "stand",
+       "face": 185,
+       "y": 0.52,
+       "blink": 0,
+       "text": "8:47",
+       "cut": true
+      }
+     ],
+     "kalender": [
+      {
+       "t": 0,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "stand",
+       "face": 180,
+       "y": 1.32,
+       "text": "16"
+      },
+      {
+       "t": 0.6974,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "stand",
+       "face": 180,
+       "y": 1.32,
+       "text": "16"
+      },
+      {
+       "t": 0.6994,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "stand",
+       "face": 180,
+       "y": -30,
+       "text": "16",
+       "cut": true
+      },
+      {
+       "t": 0.9285,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "stand",
+       "face": 180,
+       "y": -30,
+       "text": "16"
+      },
+      {
+       "t": 0.9305,
+       "x": 0.02,
+       "z": -1.88,
+       "motion": "stand",
+       "face": 180,
+       "y": 1.32,
+       "text": "16",
+       "cut": true
+      }
+     ],
+     "chef": [
+      {
+       "t": 0,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "calsearch",
+       "face": 0,
+       "y": -30,
+       "brow": 0.02
+      },
+      {
+       "t": 0.6974,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "calsearch",
+       "face": 0,
+       "y": -30
+      },
+      {
+       "t": 0.6994,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "calsearch",
+       "face": 0,
+       "y": 0,
+       "cut": true
+      },
+      {
+       "t": 0.8514,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "calsearch",
+       "face": 0,
+       "brow": 0.02,
+       "y": 0
+      },
+      {
+       "t": 0.8657,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "chefhm",
+       "face": 205,
+       "brow": 0.02,
+       "y": 0
+      },
+      {
+       "t": 0.8886,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "chefhm",
+       "face": 205,
+       "brow": 1,
+       "question": 0.9,
+       "y": 0
+      },
+      {
+       "t": 0.9285,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "chefhm",
+       "face": 205,
+       "brow": 1,
+       "question": 0.9,
+       "y": 0
+      },
+      {
+       "t": 0.9305,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "chefhm",
+       "face": 205,
+       "y": -30,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": 1.36,
+       "z": -1.72,
+       "motion": "chefhm",
+       "face": 205,
+       "y": -30
+      }
+     ],
+     "monatskalender": [
+      {
+       "t": 0,
+       "x": 1.15,
+       "z": -2.19,
+       "motion": "stand",
+       "face": 180,
+       "y": -30
+      },
+      {
+       "t": 0.6974,
+       "x": 1.15,
+       "z": -2.19,
+       "motion": "stand",
+       "face": 180,
+       "y": -30
+      },
+      {
+       "t": 0.6994,
+       "x": 1.15,
+       "z": -2.19,
+       "motion": "stand",
+       "face": 180,
+       "y": 1.45,
+       "cut": true
+      },
+      {
+       "t": 0.9285,
+       "x": 1.15,
+       "z": -2.19,
+       "motion": "stand",
+       "face": 180,
+       "y": 1.45
+      },
+      {
+       "t": 0.9305,
+       "x": 1.15,
+       "z": -2.19,
+       "motion": "stand",
+       "face": 180,
+       "y": -30,
+       "cut": true
+      },
+      {
+       "t": 1,
+       "x": 1.15,
+       "z": -2.19,
+       "motion": "stand",
+       "face": 180,
+       "y": -30
+      }
+     ],
+     "kumpel": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "giesskanne": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ],
+     "zahnraeder": [
+      {
+       "t": 0,
+       "x": 0,
+       "z": 0,
+       "motion": "stand",
+       "face": 0,
+       "y": -30
+      }
+     ]
+    },
+    "sharpCuts": true,
+    "sfx": [
+     {
+      "t": 0.1088,
+      "id": "kissen-plumps",
+      "volume": 0.5
+     },
+     {
+      "t": 0.3397,
+      "id": "stift-kritzeln",
+      "volume": 0.45
+     },
+     {
+      "t": 0.626,
+      "id": "konfetti-knall",
+      "volume": 0.6
+     },
+     {
+      "t": 0.6489,
+      "id": "handy-klingeln",
+      "volume": 0.45
+     }
+    ]
+   }
+  }
+ ],
+ "countdown": {
+  "speech": "Also, was machst du? Schreib A, B oder C in die Kommentare.",
+  "screen": "Stimm ab!"
+ },
+ "outro": {
+  "speech": "Eine richtige Antwort gibt es diesmal nicht. Aber du kennst bestimmt jemanden, der jeden Morgen verschläft. Schreib A, B oder C in die Kommentare und markier ihn. Und schreib auch rein, was der Dummy als Nächstes erleben soll.",
+  "screen": "A, B oder C?",
+  "extra": "Was soll der Dummy als Nächstes erleben?",
+  "extraCue": "Und schreib auch"
+ },
+ "publishing": {
+  "description": "Dein Wecker hat mal wieder nicht geklingelt – was machst du? ⏰ Schreib A, B oder C in die Kommentare!\n\nDiesmal ohne richtige Antwort, nur zum Spaß. Bitte nichts davon nachmachen. 😄\n\n#waswürdestdutun #verschlafen #wecker #arbeit #montag #spezial #comedy #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.",
+  "pinnedComment": "Ich bin Team ___. Und du? 👇 Markier jemanden, der jeden Morgen verschläft!"
+ },
+ "shots": {
+  "situation": {
+   "camera": [
+    {
+     "t": 0.0,
+     "pos": [
+      -2.53,
+      1.83,
+      -1.51
+     ],
+     "look": [
+      0.21,
+      0.73,
+      -1.52
+     ],
+     "fov": 40
+    },
+    {
+     "t": 0.337,
+     "pos": [
+      -2.311,
+      1.742,
+      -1.511
+     ],
+     "look": [
+      0.21,
+      0.73,
+      -1.52
+     ],
+     "fov": 40
+    },
+    {
+     "t": 0.3393,
+     "pos": [
+      -0.58,
+      0.98,
+      -0.18
+     ],
+     "look": [
+      -0.33,
+      0.62,
+      -1.61
+     ],
+     "fov": 40
+    },
+    {
+     "t": 0.4418,
+     "pos": [
+      -0.55,
+      0.937,
+      -0.352
+     ],
+     "look": [
+      -0.33,
+      0.62,
+      -1.61
+     ],
+     "fov": 40
+    },
+    {
+     "t": 0.4537,
+     "pos": [
+      -3.95,
+      1.72,
+      -1.42
+     ],
+     "look": [
+      0.63,
+      0.92,
+      -1.42
+     ],
+     "fov": 40
+    },
+    {
+     "t": 0.8744,
+     "pos": [
+      -3.492,
+      1.64,
+      -1.42
+     ],
+     "look": [
+      0.63,
+      0.92,
+      -1.42
+     ],
+     "fov": 40
+    },
+    {
+     "t": 0.8763,
+     "pos": [
+      1.7,
+      1.97,
+      2.39
+     ],
+     "look": [
+      0.3,
+      0.87,
+      -1.47
+     ],
+     "fov": 40
+    },
+    {
+     "t": 1.0,
+     "pos": [
+      1.63,
+      1.915,
+      2.197
+     ],
+     "look": [
+      0.3,
+      0.87,
+      -1.47
+     ],
+     "fov": 40
+    }
+   ],
+   "actors": {
+    "dummy": [
+     {
+      "t": 0,
+      "x": 0.8,
+      "z": -1.425,
+      "motion": "bedsleep",
+      "face": 270,
+      "y": 0
+     },
+     {
+      "t": 0.4614,
+      "x": 0.8,
+      "z": -1.425,
+      "motion": "bedwake",
+      "face": 270,
+      "y": 0
+     },
+     {
+      "t": 1,
+      "x": 0.8,
+      "z": -1.425,
+      "motion": "bedwake",
+      "face": 270,
+      "y": 0
+     }
+    ],
+    "wecker": [
+     {
+      "t": 0,
+      "x": -0.4,
+      "z": -1.62,
+      "motion": "stand",
+      "face": 191,
+      "y": 0.52,
+      "ring": 0,
+      "broken": 0
+     }
+    ],
+    "digitaluhr": [
+     {
+      "t": 0,
+      "x": -0.17,
+      "z": -1.6,
+      "motion": "stand",
+      "face": 185,
+      "y": 0.52,
+      "blink": 0,
+      "text": "8:47"
+     }
+    ],
+    "kalender": [
+     {
+      "t": 0,
+      "x": 0.02,
+      "z": -1.88,
+      "motion": "stand",
+      "face": 180,
+      "y": 1.32,
+      "text": "16"
+     }
+    ],
+    "abreisskalender": [
+     {
+      "t": 0,
+      "x": 0.4,
+      "z": -1.445,
+      "motion": "stand",
+      "face": 90,
+      "y": -30,
+      "tilt": 22.92
+     }
+    ],
+    "smartphone": [
+     {
+      "t": 0,
+      "x": 0.45,
+      "z": -1.06,
+      "motion": "lie",
+      "face": 200,
+      "y": -30
+     }
+    ],
+    "kumpel": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "giesskanne": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "chef": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "monatskalender": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "zahnraeder": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "konfetti": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ]
+   },
+   "sharpCuts": true,
+   "sfx": [
+    {
+     "t": 0.4614,
+     "id": "plopp",
+     "volume": 0.5
+    }
+   ]
+  },
+  "countdown": {
+   "camera": [
+    {
+     "t": 0.0,
+     "pos": [
+      1.63,
+      2.37,
+      6.66
+     ],
+     "look": [
+      0.76,
+      1.95,
+      -1.6
+     ],
+     "fov": 40
+    },
+    {
+     "t": 1.0,
+     "pos": [
+      1.586,
+      2.349,
+      6.247
+     ],
+     "look": [
+      0.76,
+      1.95,
+      -1.6
+     ],
+     "fov": 40
+    }
+   ],
+   "actors": {
+    "dummy": [
+     {
+      "t": 0,
+      "x": 0.8,
+      "z": -1.425,
+      "motion": "bedsit",
+      "face": 270,
+      "y": 0
+     }
+    ],
+    "wecker": [
+     {
+      "t": 0,
+      "x": -0.4,
+      "z": -1.62,
+      "motion": "stand",
+      "face": 191,
+      "y": 0.52,
+      "ring": 0,
+      "broken": 0
+     }
+    ],
+    "digitaluhr": [
+     {
+      "t": 0,
+      "x": -0.17,
+      "z": -1.6,
+      "motion": "stand",
+      "face": 185,
+      "y": 0.52,
+      "blink": 0,
+      "text": "8:47"
+     }
+    ],
+    "kalender": [
+     {
+      "t": 0,
+      "x": 0.02,
+      "z": -1.88,
+      "motion": "stand",
+      "face": 180,
+      "y": 1.32,
+      "text": "16"
+     }
+    ],
+    "abreisskalender": [
+     {
+      "t": 0,
+      "x": 0.4,
+      "z": -1.445,
+      "motion": "stand",
+      "face": 90,
+      "y": -30,
+      "tilt": 22.92
+     }
+    ],
+    "smartphone": [
+     {
+      "t": 0,
+      "x": 0.45,
+      "z": -1.06,
+      "motion": "lie",
+      "face": 200,
+      "y": -30
+     }
+    ],
+    "kumpel": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "giesskanne": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "chef": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "monatskalender": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "zahnraeder": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "konfetti": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ]
+   },
+   "sharpCuts": true
+  },
+  "outro": {
+   "camera": [
+    {
+     "t": 0.0,
+     "pos": [
+      1.68,
+      2.65,
+      6.76
+     ],
+     "look": [
+      0.81,
+      2.02,
+      -1.56
+     ],
+     "fov": 40
+    },
+    {
+     "t": 1.0,
+     "pos": [
+      1.628,
+      2.612,
+      6.261
+     ],
+     "look": [
+      0.81,
+      2.02,
+      -1.56
+     ],
+     "fov": 40
+    }
+   ],
+   "actors": {
+    "dummy": [
+     {
+      "t": 0,
+      "x": 0.8,
+      "z": -1.425,
+      "motion": "bedwave",
+      "face": 270,
+      "partyhat": 1,
+      "y": 0
+     }
+    ],
+    "wecker": [
+     {
+      "t": 0,
+      "x": -0.4,
+      "z": -1.62,
+      "motion": "stand",
+      "face": 191,
+      "y": 0.52,
+      "ring": 0,
+      "broken": 0
+     }
+    ],
+    "digitaluhr": [
+     {
+      "t": 0,
+      "x": -0.17,
+      "z": -1.6,
+      "motion": "stand",
+      "face": 185,
+      "y": 0.52,
+      "blink": 0,
+      "text": "8:47"
+     }
+    ],
+    "kalender": [
+     {
+      "t": 0,
+      "x": 0.02,
+      "z": -1.88,
+      "motion": "stand",
+      "face": 180,
+      "y": 1.32,
+      "text": "16"
+     }
+    ],
+    "abreisskalender": [
+     {
+      "t": 0,
+      "x": 0.4,
+      "z": -1.445,
+      "motion": "stand",
+      "face": 90,
+      "y": 0.66,
+      "tilt": 22.92
+     }
+    ],
+    "smartphone": [
+     {
+      "t": 0,
+      "x": 0.45,
+      "z": -1.06,
+      "motion": "lie",
+      "face": 200,
+      "y": -30
+     }
+    ],
+    "kumpel": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "giesskanne": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "chef": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "monatskalender": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "zahnraeder": [
+     {
+      "t": 0,
+      "x": 0,
+      "z": 0,
+      "motion": "stand",
+      "face": 0,
+      "y": -30
+     }
+    ],
+    "konfetti": [
+     {
+      "t": 0,
+      "x": 0.9,
+      "z": -1.4,
+      "motion": "burst",
+      "face": 0,
+      "y": 2.0,
+      "size": -0.4
+     }
+    ]
+   },
+   "sharpCuts": true
+  }
+ }
+}

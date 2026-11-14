@@ -2436,7 +2436,7 @@ const spritzePose = (motion: Motion, time: number, speed: number): DummyPose | n
  *  - calsearch:  steht, Handy rechts am Ohr, linker Zeigefinger fährt über einen Wandkalender ca. 0,5 m vor ihm (Reihe für Reihe)
  *  - chefhm:     steht, Handy rechts am Ohr, linke Hand in die Hüfte, Kopf leicht schief ("Hm?") – mit Wert "brow"
  */
-export const LAP_CAL = {x: -0.02, y: 0.6, z: 0.4, lean: 0.62};
+export const LAP_CAL = {x: -0.02, y: 0.66, z: 0.4, lean: 0.62};
 /** Punkt auf dem Kalenderblatt (u nach rechts aus Sicht des Betrachters, v nach oben, Meter ab Unterkante) → Dummy-System */
 export const lapCalPoint = (u: number, v: number, out = 0.014): P3 => {
   const l = LAP_CAL.lean;
@@ -2460,7 +2460,7 @@ const bedBody = (lean: number, time: number): DummyPose => {
 };
 const LIE = -1.3;
 const RECLINE = -0.62;
-const headTop = (lean: number, up = 0.88): P3 => [0, BED_HIP + 0.06 + up * Math.cos(lean), -up * Math.sin(lean)];
+const headTop = (lean: number, up = 0.88): P3 => [0, BED_HIP + 0.06 + up * Math.cos(lean), up * Math.sin(lean)];
 const handsLap = (p: DummyPose, lean: number) => {
   void lean;
   reachR(p, [-0.17, 0.66, 0.3], 0.33, [0.6, -1, -0.4]);
@@ -2671,17 +2671,23 @@ const weckerPose = (motion: Motion, time: number): DummyPose | null => {
       const lift = cur.up;
       const impact = time < 1.0 ? (time > 0.6 ? 1 : 0) : time > 1.6 ? 1 : 0;
       const relax = easeInOut(clamp((time - 2.1) / 0.6));
-      const bendFwd = 0.45 * (time < 0.25 ? easeInOut(time / 0.25) : 1) * (1 - relax);
-      p.torsoX = bendFwd - 0.1 * lift + (impact ? 0.04 : 0);
+      const bendFwd = 0.4 * (time < 0.25 ? easeInOut(time / 0.25) : 1) * (1 - relax);
+      p.torsoX = bendFwd - 0.25 * lift + (impact ? 0.03 : 0);
       p.hipY = 0.98 - 0.05 * (1 - relax);
       p.legL = L3(-0.25, 0.1, 0.2);
       p.legR = L3(0.15, -0.1, 0.2);
-      const strikeSx = -0.25;
-      p.armR = L3(strikeSx - 2.4 * lift, -0.15, -0.1 - 1.4 * lift);
+      // Treffer: Arm + Hammer in einer Linie schräg nach unten (Kopf ca. 0,77 m vor ihm, 0,25 m rechts, 0,74 m hoch)
+      p.armR = L3(-1.1 - 1.8 * lift, -0.05 - 0.1 * lift, -0.05 - 1.45 * lift);
       if (relax > 0) p.armR = mixLimb(p.armR, L3(-0.1, -0.12, -0.25), relax);
       p.armL = L3(-0.5 * (1 - relax), 0.3, -0.5);
       p.headX = 0.35 * (1 - relax);
       p.tool = 'hammer';
+      return p;
+    }
+    case 'holdhammer': {
+      const p = weckerPose('hammer', 3.0 + time)!;
+      p.torsoX = Math.sin(time * 2.2) * 0.012;
+      p.headX = 0.15 + Math.sin(time * 0.8) * 0.04;
       return p;
     }
     case 'watering': {
@@ -2711,7 +2717,7 @@ const weckerPose = (motion: Motion, time: number): DummyPose | null => {
       const row = Math.floor(time / 0.9) % 5;
       const ph = (time % 0.9) / 0.9;
       const x = 0.42 - 0.42 * ph;
-      const y = 1.66 - row * 0.085;
+      const y = 1.56 - row * 0.084;
       const tgt: P3 = lerp3t([0.25, 1.0, 0.2], [x, y, 0.44], k);
       reachL(p, tgt, 0.36, [0.6, -1, -0.2]);
       p.headX = -0.05 + 0.1 * (row / 4);

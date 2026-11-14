@@ -26,6 +26,7 @@ import {
   SpezialBadge,
   SpezialOutroPanel,
   VoteCards,
+  ExtraLine,
   type CardState, WarnTag} from './ui/components';
 import {useFonts} from './ui/fonts';
 import {SafeZones} from './ui/SafeZones';
@@ -313,6 +314,10 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
         <>
           <SpezialOutroPanel text={s.outro.screen} frame={local} top={290} />
           <VoteCards cards={s.options.map((o) => o.card)} frame={local - 6} top={600} compact />
+          {s.outro.extra && (() => {
+            const cueT = s.outro.extraCue ? (timer(s.outro.speech)?.cueT(s.outro.extraCue) ?? 0.7) : 0.1;
+            return <ExtraLine text={s.outro.extra} frame={local - Math.round(cueT * sec.duration)} top={835} />;
+          })()}
           <Subtitle text={s.outro.speech} t={t} starts={timer(s.outro.speech)?.sentenceStarts} />
         </>
       )}

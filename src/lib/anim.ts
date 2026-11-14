@@ -50,7 +50,7 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'opencase', 'kneellook', 'closecase', 'tuckcase', 'sneak', 'grabwads', 'carrycase', 'holdcase', 'setcounter', 'fillform', 'cheer',
   'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone', 'pass',
   'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay',
-  'bedsleep', 'bedwake', 'bedsit', 'bedflop', 'bedwrite', 'bedhat', 'bedconfetti', 'bedcall', 'bedpoint', 'bedwave', 'throwclock', 'hammer', 'watering', 'lookup', 'calsearch', 'chefhm', 'arc', 'burst'];
+  'bedsleep', 'bedwake', 'bedsit', 'bedflop', 'bedwrite', 'bedhat', 'bedconfetti', 'bedcall', 'bedpoint', 'bedwave', 'throwclock', 'hammer', 'watering', 'lookup', 'calsearch', 'chefhm', 'arc', 'burst', 'holdhammer'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -71,7 +71,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'opencase', 'kneellook', 'closecase', 'tuckcase', 'sneak', 'grabwads', 'carrycase', 'holdcase', 'setcounter', 'fillform', 'cheer',
   'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone',
   'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay',
-  'bedsleep', 'bedwake', 'bedsit', 'bedflop', 'bedwrite', 'bedhat', 'bedconfetti', 'bedcall', 'bedpoint', 'bedwave', 'throwclock', 'hammer', 'watering', 'lookup', 'calsearch', 'chefhm',
+  'bedsleep', 'bedwake', 'bedsit', 'bedflop', 'bedwrite', 'bedhat', 'bedconfetti', 'bedcall', 'bedpoint', 'bedwave', 'throwclock', 'hammer', 'watering', 'lookup', 'calsearch', 'chefhm', 'holdhammer',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */
@@ -87,6 +87,8 @@ const prevOf = (keys: ActorKey[], i: number, sectionSeconds: number) => {
   let j = i;
   while (j > 0 && keys[j - 1].motion === keys[i].motion) j--;
   if (j === 0) return undefined;
+  // "cut": harter Schnitt – keine weiche Überblendung von der vorigen Bewegung
+  if (keys[j].cut) return undefined;
   const pm = keys[j - 1].motion;
   if (!BLEND_MOTIONS.includes(keys[i].motion) && !BLEND_MOTIONS.includes(pm)) return undefined;
   return {motion: pm, time: (keys[j].t - runStart(keys, j - 1)) * sectionSeconds};

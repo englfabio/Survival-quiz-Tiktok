@@ -954,3 +954,31 @@ export const SpezialOutroPanel = ({text, frame, top}: {text: string; frame: numb
     </div>
   );
 };
+
+/** Zusatzzeile im Spezial-Outro (z. B. "Was soll der Dummy als Nächstes erleben?"): gelbes Schild, springt auf */
+export const ExtraLine = ({text, frame, top}: {text: string; frame: number; top: number}) => {
+  const {fps} = useVideoConfig();
+  if (frame < 0) return null;
+  const s = spring({frame, fps, config: {damping: 11, stiffness: 160}});
+  return (
+    <div style={{position: 'absolute', left: T.left, width: T.rightBottom - T.left, top, display: 'flex', justifyContent: 'center', opacity: clamp(s * 1.5)}}>
+      <div
+        style={{
+          background: T.yellow,
+          color: T.black,
+          borderRadius: 16,
+          padding: '12px 26px 10px',
+          fontFamily: T.font,
+          fontWeight: 800,
+          fontSize: 54,
+          lineHeight: 1.05,
+          textAlign: 'center',
+          boxShadow: '0 12px 30px rgba(0,0,0,0.45)',
+          transform: `scale(${0.6 + 0.4 * s})`,
+        }}
+      >
+        {text}
+      </div>
+    </div>
+  );
+};

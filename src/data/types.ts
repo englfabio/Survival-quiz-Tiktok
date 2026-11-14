@@ -227,6 +227,7 @@ export type Motion =
   | 'bedwave' // Dummy: halb liegend im Bett, winkt mit links
   | 'throwclock' // Dummy: holt über dem Kopf aus und wirft (Abwurf bei 0,62 s)
   | 'hammer' // Dummy: schlägt zweimal mit dem Hammer zu (Treffer 0,6 s + 1,6 s), ab 2,1 s aufrichten
+  | 'holdhammer' // Dummy: steht ruhig, Hammer locker in der rechten Hand
   | 'watering' // Figur: gießt mit der Gießkanne (rechte Hand)
   | 'lookup' // Figur: richtet sich aus dem Gießen auf und schaut hoch
   | 'calsearch' // Chef: Handy rechts am Ohr, linker Finger sucht Reihe für Reihe auf dem Wandkalender
@@ -254,6 +255,8 @@ export type ActorKey = {
    * (Dummy sitzt im Auto und bewegt sich mit). Wechsel angehängt ↔ frei wird weich überblendet.
    */
   attach?: string;
+  /** harter Schnitt: die Bewegung ab diesem Zeitpunkt wird nicht von der vorigen weich überblendet */
+  cut?: boolean;
   /** Hinweisschild ("hinweis"): Text auf dem Schild (gilt ab diesem Zeitpunkt weiter) */
   text?: string;
   // ---- Zahlenwerte, die weich zum nächsten Zeitpunkt übergehen (gelten weiter, bis sie sich ändern) ----
@@ -479,7 +482,8 @@ export type Scenario = {
   countdown: {speech: string; screen: string};
   /** Quiz: Auflösung (fehlt beim Spezial-Format) */
   reveal?: {speech: string; screen: string};
-  outro: {speech: string; screen: string};
+  /** extra (nur Spezial, optional): zusätzliche Zeile unter den Antworten, erscheint mit dem Satz, der mit extraCue beginnt */
+  outro: {speech: string; screen: string; extra?: string; extraCue?: string};
   /** Quiz: Quellenzeile im Video (fehlt beim Spezial-Format) */
   sourceLine?: string;
   sources?: {name: string; url: string}[];

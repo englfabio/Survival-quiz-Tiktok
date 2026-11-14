@@ -526,6 +526,55 @@
       "duration": 2,
       "loop": false,
       "promptInfluence": 0.55
+    },
+    {
+      "id": "wecker-klingeln",
+      "prompt": "Old mechanical twin bell alarm clock ringing loudly, fast metallic bell rattling, comedic, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "hammer-schlag",
+      "prompt": "Cartoon hammer bonk hitting a small metal alarm clock, comedic clang with tiny springs boing, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "zahnraeder-klirren",
+      "prompt": "Small metal gears, springs and screws scattering and tinkling on a wooden floor, comedic, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "kissen-plumps",
+      "prompt": "Soft body flopping back onto a fluffy pillow and mattress, cozy thump, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "stift-kritzeln",
+      "prompt": "Felt pen scribbling quickly on paper, short, no music",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "konfetti-knall",
+      "prompt": "Party popper confetti cannon pop with paper confetti rustling, festive, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "handy-klingeln",
+      "prompt": "Cheerful generic smartphone ringtone melody, short, no brand, no music beyond the ringtone",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.5
     }
   ]
 }
