@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Envelope sliding across a wooden floor under a door, paper swish",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-14T03:47:38.129Z"
+}

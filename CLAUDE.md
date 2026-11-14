@@ -66,7 +66,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -215,6 +215,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (0,7 m) bei x = 0 mit Lücke fürs Gartentor (z 3 … 4, Figur `gartentor`), links Garten des Dummys mit Hundehütte (−8.3, −5.6) + welken Büschen,
   rechts Garten des Nachbarn mit Blumenbeeten, Rosenbüschen, Kugel-Buchs, Haustür (x 3.4) mit Stufe, Klingel + Türlampe; Platz vor der Tür (3.4, −6.42),
   Nachbar auf der Stufe (3.4, −7.42, y 0.16). Die Rasenflächen sind Figuren (`rasen` bei (−5.2, 0.6), `rasen2` bei (5.2, 0.6)), Koordinaten in `NG`.
+  WG-Küche (`wg-kueche`, Nacht-Variante `wg-kueche-nacht` mit Mond, dunklem Licht, Wanduhr auf 3 Uhr; `src/stage/Kitchen.tsx`, Plätze in `WG`,
+  Atmo = `uhr-ticken`): Küche wie `kueche`, aber großer Kühlschrank als Objekt (`kuehlschrank` bei (−2.13, −1.94), face 180), Küchentisch (−0.2, 0.55,
+  Platte 0,76) mit zwei Stühlen (links (−0.98, 0.55) Blick +x = face 90, rechts (0.58, 0.55) Blick −x = face 270), Schreibtisch hinten rechts (Platte 0,74)
+  mit Stuhl (1.75, −1.3, face 0) + Laptop-Objekt (`laptop` bei (1.75, y 0.74, −1.88)), Wandregal (Brett 1,55 m) mit Ordnern Steuer/Miete/Strom/WG-Kasse und
+  freiem Platz (2.25, y 1.565, −2.045), Putzplan an der Rückwand, Zimmertür des Mitbewohners rechts (`zimmertuer` bei (2.5, 0.75), face 270, dahinter dunkle
+  Öffnung), Wandkalender rechts (`kalender` bei (2.485, y 1.45, −0.45), face 270). Kein Besen.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -287,6 +293,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   werfen (`postletter`, Schlitz 0,5 m vor ihm auf 1,08 m), triumphierend Arme verschränken (`armscross`); Nachbar: kniend mit der Nagelschere schneiden
   (`snip`), gießen mit linker Hand in der Hüfte (`waterplants`), Klemmbrett mit beiden Händen halten (`holdboard`). Wiederverwendet: Vertrag unterschreiben =
   `fillform` (Klemmbrett 0,5 m vor ihm), verwirrt umschauen = `lookaround` + `question`, verdutzt am Kopf kratzen = `sheepish`, winken, gehen, `notice`.
+  WG-Küche (Dummy UND Kumpel/Mitbewohner, Details in `wgPose` in Dummy.tsx): Kühlschrank öffnen + leeren Becher entdecken (`fridgeopen`, Dummy bei
+  `WG_FRIDGE_STAND` (−1.55, −1.05) face 0, Tür-Wert `door` 0 → 1 genau von 0,4 bis 1,2 s nach Bewegungsbeginn, Becher ab 2,0 s links in der Hand), entsetzt
+  erstarren (`aghast`), großen roten Knopf drücken (`pressbutton`, Knopf 0,5 m vor ihm, Treffer 0,72 s), Zettel schreiben (`writenote`, Tisch 0,42 m vor ihm) +
+  auf den Becher kleben (`sticknote`, 0,5 s), am Laptop tippen (`typedesk`, sitzend), kniend Briefe unter der Tür durchschieben (`slideletter`, alle 1,3 s,
+  Schub 0,6–1,12 s), Stempel kräftig aufdrücken (`stamp`, Treffer 0,58 s), Ordner ins Regal stellen (`shelve`, loslassen 1,35 s, dann Hände in die Hüften);
+  verstohlen Joghurt löffeln (`spoon`), Becher mit Zettel lesen + erschrocken zurückzucken (`readnote`, 1,2 s), Becher ganz langsam abstellen (`putback`, 2,2 s),
+  Briefe mit wachsendem Entsetzen öffnen (`openletters`, alle 1,8 s: Rechnung → 1. Mahnung → 2. Mahnung, Schrift zur Kamera), sitzend Münzen einzeln zählen
+  (`countcoins`, alle 0,8 s), Joghurt von der Stirn wischen + probieren + Daumen hoch (`wipebrow`). Werte: `glasses` (Lesebrille), `splat` (Joghurt am Kopf),
+  `teeth` 1 beim Kumpel = Grinsen.
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -418,9 +433,18 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   glänzender roter Rasenmäher mit Chrom-Griff + Glitzern (`rasenmaeher`, vorn +z, Griff hinten), brauner Aktenkoffer (`aktenkoffer`, Ursprung = Griff, `hand` 1),
   Klemmbrett „KAUFVERTRAG“ (`kaufvertrag`, `fill` 0 … 1 = Unterschrift wird geschrieben, `tilt`), Briefumschlag mit rotem Stempel „KÜNDIGUNG“ (`kuendigung`,
   Feld `text`, `size`), Briefkasten auf Pfosten (`briefkasten`, `door` = Klappe), großes rotes Schild „VERKAUFT“ auf Pfosten (`verkauft`, `show` = ploppt aus
-  dem Boden), grüne Gießkanne (`giesskanne`, Ursprung = Griff, `tilt` ≈ 38 zum Gießen, `water` 1 = Wasserstrahl), Nagelschere (`nagelschere`, schnippt, `size`),
+  dem Boden), grüne Gießkanne (`giesskanne2`, Ursprung = Griff, `tilt` ≈ 38 zum Gießen, `water` 1 = Wasserstrahl), Nagelschere (`nagelschere`, schnippt, `size`),
   weißes Gartentor (`gartentor`, `door` 0 … 1), Sprühdose mit grüner Farbe (bei `spraylawn`/`SprayCan`), Glitzern (`Sparkle`). `SprayMist` kann jetzt
   Farbe, Breite (`spread`) und Tröpfchengröße (`grain`).
+- **Objekte (WG-Küche, `src/actors/WgProps.tsx`):** großer Kühlschrank (`kuehlschrank`: Tür links angeschlagen `door` 0 … 1, Innenlicht, `glow` 1 = nachts
+  helles Innenlicht, `rumble` = Tür wackelt; Joghurt-Fach `FRIDGE_SHELF`), Joghurtbecher mit Etikett „DUMMY“ (`joghurt`: `lid` 0 zu … 1 offen, `fill` (0,01 = leer),
+  `mark` 1 = Klebezettel mit Text `text`, `size`), Klebezettel flach (`klebezettel`, Text), dicker Stift (`stift`), großer roter Knopf auf Sockel mit Warnstreifen
+  (`knopf`: `press`, `glow`), Joghurt-Welle (`joghurtwelle` bei (0, 0): Bewegung `splash` = weiße Joghurt-Wolke mit Schriftzug „PUFF!“ + rollende Joghurt-Kugeln,
+  `fill` 0 … 1 = Kleckse auf Boden, Wänden, Schränken, Decke, Tisch – KEIN Feuer, KEIN Rauch, Koordinaten für `wg-kueche`), Briefumschläge (`brief`, `brief2`,
+  `brief3`, `brief4`: Text, `tilt` 1 = liegt flach, `mark` 1 = grüner Stempel „BEZAHLT“, `size`), Stempel (in der Hand bei `stamp`), Münz-Häufchen (`muenzen`,
+  `fill` = Anteil schon aufgereiht), Aktenordner mit Rückenschild (`ordner`, Text), Laptop mit Rechnung auf dem Bildschirm (`laptop`, `fill` = getippt).
+  In der Hand automatisch: leerer Becher (`fridgeopen`/`aghast`), Becher + Löffel (`spoon`), Becher mit Zettel (`readnote`/`putback`), Stift, Stempel,
+  Ordner, Münze, Brief. Lesebrille + Joghurt-Kleckse über die Dummy-Werte `glasses` / `splat`.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -436,7 +460,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-nachbars-rasen),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -517,6 +541,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `python3 scripts/spezial-nachbars-rasen-choreo.py` (Kameras rechnet `scripts/fitcam_fast.py` = schnelle Variante von fitcam). Alles comichaft: kein Schaden
   für den Nachbarn, er schaut am Ende jeder Szene verdutzt (Fragezeichen). Standbilder in review/spezial-nachbars-rasen/phase1/.
   Finales Video: review/final/spezial-nachbars-rasen.mp4, vom Inhaber freigegeben.
+- Spezial Mitbewohner-Joghurt: 1106 neue Zeichen (ElevenLabs: 443 Credits), Sprechzeit 81,3 s, Video 90,4 s. Wort-Zeitstempel = Text
+  (geprüft), Kontrolle scribe_v2 (Option 3 „1,29 Euro“ + Szene C „2026“): korrekt. Choreografie: `python3 scripts/mitbewohner-joghurt-choreo.py` (dauert ca. 3 min,
+  Kameras werden mit `fitcam` automatisch eingepasst). Outro-Satz „Und was soll der Dummy als Nächstes erleben?“ auf Wunsch des Inhabers ergänzt.
+  Standbilder in review/spezial-mitbewohner-joghurt/phase1/. Finales Video: review/final/spezial-mitbewohner-joghurt.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -548,6 +576,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `wecker-klingeln`, `hammer-schlag`, `zahnraeder-klirren`, `kissen-plumps`, `stift-kritzeln`, `konfetti-knall`, `handy-klingeln` (Wecker-Spezial).
   `tuerklingel`, `schere-schnipp`, `briefkasten`, `schleichen` (Comic-Zehenspitzen), `rasen-zauber` (Glitzer-Verwandlung) (Spezial Nachbars Rasen;
   Bühne `nachbargarten` nutzt `wald-atmo`, `nachbargarten-nacht` nutzt `nacht-atmo`; wiederverwendet: `spruehen`, `plopp`, `hund-bellen`).
+  `kuehlschrank-auf`, `knopf-druecken`, `puff` (comichaft, kein Knall), `stift-kritzeln` (geteilt mit Wecker), `tastatur`, `papier-schieben`, `muenzen`, `stempel` (Mitbewohner-Joghurt).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -739,7 +768,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg, Graveyard.tsx = Friedhof,
                       Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
                       Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche;
-                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche;
+                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche + WG-Küche (Tag/Nacht);
                       Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer;
                       Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Varianten volle Halle + Bahnsteig mit Oberleitung/Lautsprecher) + Passenger-Figuren;
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
@@ -757,7 +786,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Polizeiauto/Hund/Leine, MoneyProps.tsx = Geldkoffer/Bündel/Formular/Taschenrechner/
                       Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien, SyringeProps.tsx = Spritze/Kappe/Müll/versteckte Nadel/Ast/Glitzer,
                       NeighborProps.tsx = Rasen/Gartenzwerg/Rasenmäher/Aktenkoffer/Kaufvertrag/Kündigung/Briefkasten/
-                      VERKAUFT-Schild/Gießkanne/Nagelschere/Sprühdose/Gartentor/Glitzern) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      VERKAUFT-Schild/Gießkanne/Nagelschere/Sprühdose/Gartentor/Glitzern,
+                      WgProps.tsx = Kühlschrank/Joghurtbecher/Zettel/Knopf/Joghurt-Welle/Briefe/Stempel/Münzen/Ordner/Laptop/Lesebrille) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,
