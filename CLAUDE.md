@@ -498,12 +498,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Finales Video: review/final/spritze-spielplatz.mp4.
 - Spezial „Nachbars Rasen“ – Überarbeitung (vom Inhaber gewünscht): Antworten A = Fliegerbombe in seinen Garten legen und warten (KEINE
   Explosion/Auflösung, Zeitraffer-Uhr), B = nachts Laub auf seine Grünfläche werfen, C = Haus kaufen + ihn kündigen; Szenentexte ohne Wiederholung,
-  Outro mit Freund markieren + folgen. 644 neue Zeichen (257 Credits), Video 65,6 s, Kontrolle scribe_v2 korrekt. Neu gerendert: review/final/spezial-nachbars-rasen.mp4.
+  Outro mit Freund markieren + folgen. 644 neue Zeichen (257 Credits), Video 65,6 s, Kontrolle scribe_v2 korrekt. Neu gerendert: review/final/spezial-nachbars-rasen.mp4, vom Inhaber freigegeben.
   Frühere Fassung: 967 neue Zeichen (387 Credits laut ElevenLabs), Sprechzeit 67,4 s, Video 75,7 s (Szene A rein visuell
   +0,8 s für die Reaktion des Nachbarn). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 („A:“, „B.“, „C:“ + Abstimmung): korrekt. Choreografie:
   `python3 scripts/spezial-nachbars-rasen-choreo.py` (Kameras rechnet `scripts/fitcam_fast.py` = schnelle Variante von fitcam). Alles comichaft: kein Schaden
   für den Nachbarn, er schaut am Ende jeder Szene verdutzt (Fragezeichen). Standbilder in review/spezial-nachbars-rasen/phase1/.
-  Finales Video: review/final/spezial-nachbars-rasen.mp4, vom Inhaber freigegeben.
+  (Diese frühere Fassung ist durch die Überarbeitung ersetzt.)
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
