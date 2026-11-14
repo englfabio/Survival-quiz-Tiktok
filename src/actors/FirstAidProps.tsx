@@ -70,7 +70,7 @@ export const SprayMist = ({amount, length, time, color = '#e8f6ff', spread = 0.0
     [color],
   );
   if (amount < 0.02) return null;
-  mat.opacity = 0.55 * amount;
+  mat.opacity = Math.min(0.9, 0.55 * amount);
   return (
     <group>
       {seeds.map((p, i) => {

@@ -285,8 +285,8 @@ contractC = [K(0, BOARD[0], BOARD[1], 'park', 180, y=HIDE), K(r3(sign0 - 0.003),
              K(sign0, BOARD[0], BOARD[1], 'park', 180, y=1.17, fill=0, tilt=-18), K(r3(sign0 + sec(C, 0.35)), BOARD[0], BOARD[1], 'park', 180, fill=0),
              K(r3(post_walk - 0.002), BOARD[0], BOARD[1], 'park', 180, fill=1), K(post_walk, BOARD[0], BOARD[1], 'park', 180, y=HIDE)]
 envC = [K(0, POST[0], POST[1], 'park', 0, y=HIDE), K(r3(post_walk - 0.003), POST[0], POST[1], 'park', 0, y=HIDE),
-        K(post_walk, POST[0], POST[1], 'park', 180, hand=1, drop=-0.04, y=0), K(r3(post0 + sec(C, 0.72)), POST[0], POST[1], 'park', 180, hand=1),
-        K(r3(post0 + sec(C, 0.75)), POST[0], POST[1], 'park', 180, hand=0, y=HIDE)]
+        K(post_walk, POST[0], POST[1], 'park', 90, hand=1, drop=-0.06, y=0, size=0.35), K(r3(post0 + sec(C, 0.72)), POST[0], POST[1], 'park', 90, hand=1),
+        K(r3(post0 + sec(C, 0.75)), POST[0], POST[1], 'park', 90, hand=0, y=HIDE)]
 mailC = [K(0, MAILBOX[0], MAILBOX[1], 'park', 180, door=0), K(r3(post0 + sec(C, 0.45)), MAILBOX[0], MAILBOX[1], 'park', 180, door=0),
          K(r3(post0 + sec(C, 0.65)), MAILBOX[0], MAILBOX[1], 'park', 180, door=1), K(r3(post0 + sec(C, 0.9)), MAILBOX[0], MAILBOX[1], 'park', 180, door=0)]
 soldC = [K(0, SOLD[0], SOLD[1], 'park', 180), K(sold_t, SOLD[0], SOLD[1], 'show', 180), K(1, SOLD[0], SOLD[1], 'show', 180)]
@@ -315,7 +315,7 @@ expC = {
             cam(r3(sign0 - 0.003), [5.4, 2.1, -2.2], [3.3, 1.15, -6.8]),
             *camF(sign0, r3(sold_t - 0.003), F(body(*DOOR_SPOT) + body(NB_DOOR[0], NB_DOOR[1], 2.05), 72, 12)),
             *camF(sold_t, r3(post0 - sec(C, 0.35)), F(body(SOLD[0], SOLD[1], 1.9, 0.7) + body(*DOOR_SPOT) + body(NB_DOOR[0], NB_DOOR[1], 2.05), 8, 12)),
-            *camF(r3(post0 - sec(C, 0.35) + 0.003), r3(c_packt - 0.003), F(body(*POST) + [[MAILBOX[0], 1.35, MAILBOX[1]], [MAILBOX[0], 0, MAILBOX[1]]], 45, 10)),
+            *camF(r3(post0 - sec(C, 0.35) + 0.003), r3(c_packt - 0.003), F(body(*POST) + [[MAILBOX[0], 1.35, MAILBOX[1]], [MAILBOX[0], 0, MAILBOX[1]]], 95, 8)),
             cam(c_packt, [6.4, 2.3, 1.4], [2.8, 0.95, -5.6]), cam(r3(c_ploetz - 0.003), [6.0, 2.2, 1.0], [2.4, 0.9, -4.6]),
             *camF(c_ploetz, r3(c_welcher - 0.003), F(body(*ME_C) + body(*NB_LEFT, 2.0) + [[-3.5, 0, 2.5], [3.5, 0, 2.5]], 0, 18)),
             *camF(c_welcher, 1, F(body(*ME_C, 2.3) + body(*NB_LEFT, 2.0), 300, 10))],

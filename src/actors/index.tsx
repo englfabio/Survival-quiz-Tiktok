@@ -476,7 +476,11 @@ export const Actor = ({
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BUDDY_COLOR} hat brow={v.brow} />
       )}
       {(name === 'rasen' || name === 'rasen2') && <LawnPatch lush={v.lush} paint={v.paint} seed={name === 'rasen' ? 1 : 2} />}
-      {name === 'gartenzwerg' && <GardenGnome paint={v.paint} />}
+      {name === 'gartenzwerg' && (
+        <group scale={1.35 + v.size}>
+          <GardenGnome paint={v.paint} />
+        </group>
+      )}
       {name === 'rasenmaeher' && (
         <LawnMower
           time={clock}

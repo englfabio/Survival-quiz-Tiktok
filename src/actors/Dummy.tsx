@@ -3104,7 +3104,8 @@ const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
       visor: new THREE.MeshStandardMaterial({color: '#15171a', roughness: 0.3, flatShading: true}),
       scarf: new THREE.MeshStandardMaterial({color: uni?.scarf ?? '#c8102e', roughness: 0.8, flatShading: true, side: THREE.DoubleSide}),
       hair: new THREE.MeshStandardMaterial({color: uni?.hair ?? '#4a2f1f', roughness: 0.9, flatShading: true}),
-      paintShoe: new THREE.MeshStandardMaterial({color: '#36f04a', roughness: 0.3, flatShading: true}),
+      paintShoe: new THREE.MeshStandardMaterial({color: '#0e9a2a', roughness: 0.25, metalness: 0.1, flatShading: true}),
+      paintDrip: new THREE.MeshStandardMaterial({color: '#2fe04a', roughness: 0.25, flatShading: true}),
     }),
     [color, coat, uni],
   );
@@ -3425,11 +3426,19 @@ const Leg = ({
           <mesh material={paint > 0.5 ? m.paintShoe : m.joint} position={[0, -0.46, 0.06]} castShadow>
             <boxGeometry args={[0.13, 0.08, 0.27]} />
           </mesh>
-          {paint > 0.5 && (
-            <mesh material={m.paintShoe} position={[0.02 * side, -0.38, 0.05]} scale={[0.06, 0.035, 0.05]}>
-              <icosahedronGeometry args={[1, 0]} />
-            </mesh>
-          )}
+          {paint > 0.5 &&
+            (
+              [
+                [0.03, -0.36, 0.07, 0.035],
+                [-0.04, -0.27, 0.075, 0.028],
+                [0.05, -0.18, 0.06, 0.022],
+                [-0.02, -0.42, 0.13, 0.04],
+              ] as [number, number, number, number][]
+            ).map(([x, y, z, r], i) => (
+              <mesh key={i} material={m.paintDrip} position={[x * side, y, z]} scale={[r, r * 0.8, r * 0.5]}>
+                <icosahedronGeometry args={[1, 0]} />
+              </mesh>
+            ))}
         </>
       )}
       {pain > 0.01 && (
@@ -3877,7 +3886,7 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
           <SprayCan />
         </group>
         <group position={[0, 0.02, 0.03]}>
-          <SprayMist amount={pose.mist} length={0.55} time={time} color={PAINT_GREEN} spread={0.16} grain={2.2} />
+          <SprayMist amount={pose.mist * 1.6} length={0.6} time={time} color={PAINT_GREEN} spread={0.18} grain={3} />
         </group>
       </group>
     );
