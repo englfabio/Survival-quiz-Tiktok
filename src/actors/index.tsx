@@ -15,7 +15,7 @@ import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dum
 import {Grenade, Magnet} from './MagnetProps';
 import {Bill, CordonTape, Suitcase, TapeRoll} from './StationProps';
 import {FilmPhone, PlasticCup, SoundWaves, SuctionWind, Train} from './TrainProps';
-import {Briefcase, Contract, Envelope, GardenGate, GardenGnome, LawnMower, LawnPatch, Mailbox, NailScissors, SoldSign, WateringCan} from './NeighborProps';
+import {Briefcase, Contract, Envelope, GardenChair, GardenGate, GardenGnome, LawnMower, LawnPatch, LeafCover, LeafPile, LeafThrow, Mailbox, NailScissors, SoldSign, WateringCan} from './NeighborProps';
 import {Branch, HiddenNeedle, LitterPile, NeedleCap, Syringe, SYRINGE_SCALE} from './SyringeProps';
 import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, PaperForm} from './MoneyProps';
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
@@ -158,6 +158,10 @@ export const ACTORS = {
   giesskanne: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   nagelschere: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   gartentor: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
+  gartenstuhl: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  laubhaufen: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  laubdecke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  laubwurf: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Kinder-Dummys: klein (Maßstab 0,6), bunte Körperfarben, Kappe oder Zöpfe – freundlich, ohne Gesicht wie alle Dummys */
@@ -496,6 +500,10 @@ export const Actor = ({
       {name === 'giesskanne' && <WateringCan tilt={v.tilt} water={v.water} time={clock} />}
       {name === 'nagelschere' && <NailScissors time={clock} size={v.size} />}
       {name === 'gartentor' && <GardenGate door={v.door} />}
+      {name === 'gartenstuhl' && <GardenChair />}
+      {name === 'laubhaufen' && <LeafPile size={v.size} />}
+      {name === 'laubdecke' && <LeafCover fill={v.fill} />}
+      {name === 'laubwurf' && <LeafThrow time={state.motionTime} active={state.motion === 'show'} />}
       {name === 'zug' && <Train speed={state.speed} time={zt} />}
       {name === 'becher' && (
         <group rotation={state.motion === 'toss' ? [state.motionTime * 7.5, state.motionTime * 3, state.motionTime * 11] : [0, 0, 0]}>

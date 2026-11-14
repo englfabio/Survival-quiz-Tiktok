@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import {rng} from '../lib/anim';
 import {Instances, Sky, type Inst} from './Forest';
 import {roofGeo} from './Garden';
+import {HoleWall} from './Christmas';
 import type {StageCam, StageDef} from './types';
 
 /**
@@ -34,6 +35,8 @@ export const NG = {
   bell: [3.98, 1.36, -7.76] as [number, number, number],
   doorSpot: {x: 3.4, z: -6.75},
   mailbox: {x: 2.2, z: -6.9},
+  /** offenes Fenster im Erdgeschoss des Nachbarhauses (Mitte x 7.9, Brüstung 0,93 m, oben 2,08 m); Figur dahinter bei (7.9, −8.0), face 180 */
+  window: {x: 7.9, z: -7.8, spot: {x: 7.9, z: -8.02}},
   lawnL: {x: -5.2, z: 0.6},
   lawnR: {x: 5.2, z: 0.6},
 };
@@ -72,7 +75,10 @@ const HouseBlock = ({
   night,
   door,
   windowsLit = [],
+  openWin,
 }: {
+  /** Fenster (lokales x) offen: Wand davor hat ein Loch, dahinter ein 0,4 m tiefer dunkler Raum, in dem eine Figur stehen kann */
+  openWin?: number;
   x: number;
   z: number;
   wall: string;
@@ -107,12 +113,61 @@ const HouseBlock = ({
   const doorLocal = door ? door.x - x : null;
   return (
     <group position={[x, 0, z]}>
-      <mesh material={m.wall} position={[0, 2.75, 0]} castShadow receiveShadow>
-        <boxGeometry args={[8.4, 5.5, 7]} />
-      </mesh>
+      {openWin === undefined ? (
+        <mesh material={m.wall} position={[0, 2.75, 0]} castShadow receiveShadow>
+          <boxGeometry args={[8.4, 5.5, 7]} />
+        </mesh>
+      ) : (
+        <>
+          <mesh material={m.wall} position={[0, 2.75, -0.2]} castShadow receiveShadow>
+            <boxGeometry args={[8.4, 5.5, 6.6]} />
+          </mesh>
+          <group position={[0, 0, 3.5]}>
+            <HoleWall len={8.4} H={5.5} holes={[{c: openWin, w: 1.05, y0: 0.93, h: 1.15}]} material={m.wall} />
+          </group>
+          {/* Seitenwände + Boden/Decke der Fensterlaibung, dunkler Raum dahinter */}
+          {[-1, 1].map((sd) => (
+            <mesh key={sd} material={m.wall} position={[openWin + sd * 0.525, 1.505, 3.3]} rotation={[0, sd * -Math.PI / 2, 0]}>
+              <planeGeometry args={[0.4, 1.15]} />
+            </mesh>
+          ))}
+          <mesh material={m.trim} position={[openWin, 0.93, 3.42]}>
+            <boxGeometry args={[1.25, 0.05, 0.3]} />
+          </mesh>
+          <mesh position={[openWin, 1.505, 3.105]}>
+            <planeGeometry args={[1.05, 1.15]} />
+            <meshStandardMaterial color={night ? '#6b4a2a' : '#4a3a30'} emissive={night ? '#ffb85a' : '#000000'} emissiveIntensity={night ? 0.4 : 0} />
+          </mesh>
+          {/* Gardinen links + rechts */}
+          {[-1, 1].map((sd) => (
+            <mesh key={`g${sd}`} position={[openWin + sd * 0.42, 1.5, 3.2]}>
+              <boxGeometry args={[0.2, 1.1, 0.03]} />
+              <meshStandardMaterial color="#f2e6c9" roughness={0.9} />
+            </mesh>
+          ))}
+        </>
+      )}
       <mesh material={m.roof} position={[0, 5.5, 0]} geometry={roofG} castShadow />
       {windows.map(([wx, wy], i) => {
         if (doorLocal !== null && Math.abs(wx - doorLocal) < 1.1 && wy < 3) return null;
+        const open = openWin !== undefined && Math.abs(wx - openWin) < 0.01 && wy < 3;
+        if (open)
+          return (
+            <group key={i} position={[wx, wy, 3.51]}>
+              {[
+                [0, 0.64, 1.25, 0.08],
+                [-0.6, 0, 0.08, 1.35],
+                [0.6, 0, 0.08, 1.35],
+              ].map(([x, y, w, h], j) => (
+                <mesh key={j} material={m.trim} position={[x, y, 0]}>
+                  <boxGeometry args={[w, h, 0.05]} />
+                </mesh>
+              ))}
+              <mesh material={m.roof} position={[0, -0.75, 0.12]}>
+                <boxGeometry args={[1.1, 0.16, 0.2]} />
+              </mesh>
+            </group>
+          );
         return (
           <group key={i} position={[wx, wy, 3.51]}>
             <mesh material={m.trim}>
@@ -441,7 +496,7 @@ const makeScene = (night: boolean) => {
           <meshStandardMaterial color={night ? '#4a4d55' : '#c8c3b8'} roughness={0.95} />
         </mesh>
         <HouseBlock x={-5.2} z={NG.houseZ} wall="#e7dccb" roof="#6a5b55" trim="#ffffff" night={night} windowsLit={[0, 4]} />
-        <HouseBlock x={5.2} z={NG.houseZ} wall="#f6f1e6" roof="#b5523a" trim="#ffffff" night={night} door={{x: NG.door.x, color: '#2f6f4f'}} windowsLit={[2, 3, 5]} />
+        <HouseBlock x={5.2} z={NG.houseZ} wall="#f6f1e6" roof="#b5523a" trim="#ffffff" night={night} door={{x: NG.door.x, color: '#2f6f4f'}} windowsLit={[2, 3, 5]} openWin={NG.window.x - 5.2} />
         {/* Trennwand zwischen den Häusern (Doppelhaus) */}
         <mesh position={[0, 2.6, NG.houseZ]} castShadow>
           <boxGeometry args={[2.2, 5.2, 6.8]} />

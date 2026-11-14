@@ -272,7 +272,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
 
       {/* Stoppuhr (optional, aus der Szenario-Datei: "timer") */}
       {shot.timer && (
-        <Stopwatch t={t} timer={shot.timer} sectionFrames={sec.duration} fps={fps} top={sec.kind === 'explain' ? 525 : 300} left={T.rightTop - 215} />
+        <Stopwatch t={t} timer={shot.timer} sectionFrames={sec.duration} fps={fps} top={sec.kind === 'explain' ? 525 : sec.kind === 'answer' ? 450 : 300} left={T.rightTop - 215} />
       )}
 
       {sec.kind === 'outro' && !spezial && <OutroPanel text={s.outro.screen} frame={local} />}

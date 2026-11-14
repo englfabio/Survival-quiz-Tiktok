@@ -194,6 +194,8 @@ export type Motion =
   | 'snip' // Nachbar: kniet und schneidet mit der Nagelschere Halm für Halm
   | 'waterplants' // Nachbar: steht und gießt (Gießkanne rechts vor sich), linke Hand in der Hüfte
   | 'holdboard' // Nachbar: hält ein Klemmbrett mit beiden Händen vor sich
+  | 'carrywalk' // Dummy: Schweres vor dem Bauch tragen und dabei gehen (Weg über Zeitpunkte)
+  | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln

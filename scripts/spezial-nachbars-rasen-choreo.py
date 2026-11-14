@@ -10,17 +10,17 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ID = 'spezial-nachbars-rasen'
 S = dict(
 situation="Der Rasen deines Nachbarn ist mal wieder grüner als deiner. Jeden Morgen schaust du über den Zaun, und jeden Morgen wird es schlimmer. Was machst du?",
-o1c="Rasen grün ansprühen", o1s="A: Du sprühst deinen Rasen nachts heimlich mit grüner Farbe an.",
-o2c="Seinen Rasenmäher klauen", o2s="B: Du klaust seinen Rasenmäher.",
-o3c="Sein Haus kaufen, Kündigung schicken", o3s="C: Du kaufst sein Haus und schickst ihm eine Kündigung.",
-e1="Gesagt, getan. Am nächsten Morgen ist dein Rasen tatsächlich grün. Dein Gartenzwerg leider auch. Und dein Hund. Und deine Schuhe.",
-e2="Ohne Rasenmäher hat er keine Chance, denkst du. Am nächsten Tag kniet er mit einer Nagelschere im Garten. Und sein Rasen ist immer noch grüner.",
-e3="Du kaufst sein Haus und schickst ihm die Kündigung. Er packt seine Gießkanne und geht. Und plötzlich weißt du nicht mehr, welcher Rasen eigentlich deiner ist.",
+o1c="Fliegerbombe in seinen Garten legen", o1s="A: Du legst eine Fliegerbombe in seinen Garten und wartest, bis diese abgeht.",
+o2c="Nachts dein Laub in seinen Garten werfen", o2s="B: Du schmeißt nachts all dein Laub auf seine Grünfläche, sodass es bei ihm untergeht.",
+o3c="Sein Haus kaufen und ihn kündigen", o3s="C: Du kaufst sein Haus und kündigst ihn.",
+e1="Dann setzt du dich auf deinen Gartenstuhl und wartest. Und wartest. Und wartest.",
+e2="Am nächsten Morgen ist von seinem grünen Rasen nichts mehr zu sehen. Er schaut verdutzt aus dem Fenster.",
+e3="Er packt seine Gießkanne und geht. Und plötzlich weißt du nicht mehr, welcher Rasen eigentlich deiner ist.",
 vote="Also, was machst du? Schreib A, B oder C in die Kommentare.",
-outro="Eine richtige Antwort gibt es diesmal nicht. Aber dein Nachbar liest vielleicht mit. Schreib A, B oder C in die Kommentare und schick das Video dem Nachbarn mit dem grünsten Rasen.",
+outro="Eine richtige Antwort gibt es diesmal nicht. Aber ihr habt doch bestimmt auch einen Freund, dem das ständig passiert. Markiert ihn und folgt uns gerne.",
 )
 # Szenen rein visuell verlängern (Sekunden), falls das Video sonst unter 61 s bliebe – kein zusätzlicher Text
-EXTRA = {1: 0.8, 2: 0.0, 3: 0.0}
+EXTRA = {1: 0.0, 2: 0.0, 3: 0.0}
 
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'countdown': 0.1, 'outro': 0.3}
 MINLEN = {'situation': 5, 'explain1': 6, 'explain2': 6, 'explain3': 7, 'countdown': 5, 'outro': 3}
@@ -138,135 +138,99 @@ situation = {
             'giesskanne': [K(0, NB_WATER[0], NB_WATER[1], 'park', 215, hand=1, holder='gartennachbar', drop=0.0, tilt=38, water=1)]},
 }
 
-# ================= Antwort A: nachts grün ansprühen =================
+# ================= Antwort A: Fliegerbombe in seinen Garten legen und warten (keine Auflösung!) =================
+# Vorgabe Inhaber: NICHT auflösen, dass sie hochgeht – nur warten. Keine Explosion, kein Rauch, kein Knall.
 A = 'answer1'
 cardA, sceneA, TA = answer_parts(1)
 tA_scene = r3(cardA / TA)
-c_gesagt = cue(A, 'explain1', 'Gesagt')
-c_morgen = cue(A, 'explain1', 'Am nächsten Morgen')
-c_zwerg = cue(A, 'explain1', 'Dein Gartenzwerg')
-c_hund = cue(A, 'explain1', 'Und dein Hund')
-c_schuh = cue(A, 'explain1', 'Und deine Schuhe')
-endA_speech = r3((cardA + LEAD['explain1'] + dur.get('explain1', 0.84 + 0.0594 * len(S['e1']))) / TA)
-TIP0 = (-6.4, 4.6)
-SPRAY = (-3.4, 1.0)
-spray0 = r3(max(tA_scene - sec(A, 0.6), sec(A, 2.6)))
-DAY_D = (-3.0, 0.7)
-dummyA = [K(0, TIP0[0], TIP0[1], 'tiptoe', face_to(TIP0, SPRAY), paint=0), K(spray0, SPRAY[0], SPRAY[1], 'tiptoe', face_to(TIP0, SPRAY)),
-          K(r3(spray0 + 0.002), SPRAY[0], SPRAY[1], 'spraylawn', 230),
-          K(r3(c_morgen - 0.003), SPRAY[0], SPRAY[1], 'spraylawn', 250, paint=0),
-          K(c_morgen, DAY_D[0], DAY_D[1], 'armscross', 165, paint=1),
-          K(r3(c_schuh - 0.003), DAY_D[0], DAY_D[1], 'armscross', 165),
-          K(c_schuh, DAY_D[0], DAY_D[1], 'notice', 165), K(1, DAY_D[0], DAY_D[1], 'notice', 165)]
-lawnA = [K(0, LAWN_L[0], LAWN_L[1], 'park', 0, lush=0, paint=0), K(spray0 + sec(A, 0.5), LAWN_L[0], LAWN_L[1], 'park', 0, paint=0),
-         K(r3(c_morgen - 0.003), LAWN_L[0], LAWN_L[1], 'park', 0, paint=0.45), K(c_morgen, LAWN_L[0], LAWN_L[1], 'park', 0, paint=1), K(1, LAWN_L[0], LAWN_L[1], 'park', 0, paint=1)]
-NB_PEEK = (0.45, 1.0)
-peekA = r3(c_schuh + sec(A, 0.9))
-nbA = [K(0, NB_PEEK[0], NB_PEEK[1], 'stand', 270, y=HIDE), K(r3(peekA - 0.003), NB_PEEK[0], NB_PEEK[1], 'stand', 270, y=HIDE),
-       K(peekA, NB_PEEK[0], NB_PEEK[1], 'stand', 270, y=0, brow=1, question=0), K(r3(peekA + sec(A, 0.4)), NB_PEEK[0], NB_PEEK[1], 'sheepish', 270, question=1),
-       K(1, NB_PEEK[0], NB_PEEK[1], 'sheepish', 270, question=1)]
+c_w1 = cue(A, 'explain1', 'Und wartest. Und')
+
+_e1 = S['e1']; _i2 = _e1.rindex('Und wartest.')
+c_w2 = r3((cardA + LEAD['explain1'] + (ali['explain1']['character_start_times_seconds'][_i2] if 'explain1' in ali else (0.84 + 0.0594 * len(_e1)) * _i2 / len(_e1))) / TA)
+D0 = (-1.7, 3.5)
+PA = [D0, (0.9, 3.5), (2.5, 2.6)]
+fA = face_to(PA[1], PA[2])
+walkA_end = r3(min(sec(A, 3.2), tA_scene - sec(A, 1.3)))
+lowerA = r3(walkA_end + 0.002)
+_fw = (math.sin(math.radians(fA)), -math.cos(math.radians(fA)))
+BOMB = (round(PA[2][0] + _fw[0] * 0.6, 3), round(PA[2][1] + _fw[1] * 0.6, 3))
+CH = (-2.7, 1.5)            # Gartenstuhl des Dummys, Blick nach rechts (zum Nachbargarten)
+NB_A = (4.6, 0.2)
+dummyA = [K(0, PA[0][0], PA[0][1], 'carrywalk', 90), K(sec(A, 1.5), PA[1][0], PA[1][1], 'carrywalk', 90),
+          K(walkA_end, PA[2][0], PA[2][1], 'carrywalk', fA), K(lowerA, PA[2][0], PA[2][1], 'lower', fA),
+          K(r3(tA_scene - 0.003), PA[2][0], PA[2][1], 'lower', fA),
+          K(tA_scene, CH[0], CH[1], 'couchwait', 90), K(1, CH[0], CH[1], 'couchwait', 90)]
+bombA = [{**K(0, 0, 0.4, 'park', -90), 'attach': 'dummy', 'y': 0.95}, {**K(lowerA, 0, 0.4, 'park', -90), 'attach': 'dummy', 'y': 0.95},
+         K(r3(lowerA + sec(A, 0.9)), BOMB[0], BOMB[1], 'park', round((fA + 90) % 360, 1), y=0.16, tilt=0),
+         K(1, BOMB[0], BOMB[1], 'park', round((fA + 90) % 360, 1), y=0.16, tilt=0)]
+gateA = [K(0, GATE[0], GATE[1], 'park', 0, door=1)]
+nbA = [K(0, NB_A[0], NB_A[1], 'waterplants', 240, brow=0, question=0), K(r3(c_w2 + sec(A, 0.3)), NB_A[0], NB_A[1], 'waterplants', 240, brow=1, question=0),
+       K(r3(c_w2 + sec(A, 0.8)), NB_A[0], NB_A[1], 'waterplants', 240, brow=1, question=1), K(1, NB_A[0], NB_A[1], 'waterplants', 240, question=1)]
+canA = [K(0, NB_A[0], NB_A[1], 'park', 240, hand=1, holder='gartennachbar', drop=0.0, tilt=38, water=1)]
 expA = {
- 'stage': [{'t': 0, 'stage': 'nachbargarten-nacht'}, {'t': c_morgen, 'stage': 'nachbargarten'}],
- 'camera': [*camF(0, r3(spray0 - 0.003), F(body(*TIP0) + body(*SPRAY), 25, 16)),
-            *camF(spray0, r3(c_morgen - 0.003), F(body(*SPRAY) + [[SPRAY[0] - 0.5, 0, SPRAY[1] + 0.9], [SPRAY[0] + 0.5, 0, SPRAY[1] + 0.9]], 40, 22)),
-            *camF(c_morgen, r3(c_zwerg - 0.003), F(body(*DAY_D) + [[GNOME[0], 0, GNOME[1]], [DOG[0], 0, DOG[1]], [-0.2, 0.7, -1.0]], 12, 28)),
-            *camF(c_zwerg, r3(c_hund - 0.003), F([[GNOME[0] - 0.2, 0, GNOME[1]], [GNOME[0] + 0.2, 0, GNOME[1]], [GNOME[0], 0.48, GNOME[1]]], 345, 10, (300, 780, 600, 1120))),
-            *camF(c_hund, r3(c_schuh - 0.003), F([[DOG[0] - 0.3, 0, DOG[1]], [DOG[0] + 0.3, 0, DOG[1]], [DOG[0], 0.82, DOG[1]]], 335, 10, (260, 820, 560, 1130))),
-            *camF(c_schuh, r3(peekA - 0.003), F([[DAY_D[0] - 0.3, 0, DAY_D[1]], [DAY_D[0] + 0.3, 0, DAY_D[1]], [DAY_D[0], 0.6, DAY_D[1]]], 345, 14, (240, 840, 560, 1150))),
-            *camF(peekA, 1, F(body(*DAY_D) + body(*NB_PEEK, 2.0), 350, 14))],
- 'actors': {'rasen': lawnA, 'rasen2': [K(0, LAWN_R[0], LAWN_R[1], 'park', 0, lush=1)],
-            'dummy': dummyA,
-            'gartenzwerg': [K(0, GNOME[0], GNOME[1], 'park', 160, paint=0), K(r3(c_morgen - 0.003), GNOME[0], GNOME[1], 'park', 160, paint=0), K(c_morgen, GNOME[0], GNOME[1], 'park', 160, paint=1)],
-            'hund': [K(0, DOG[0], DOG[1], 'sit', 150, paint=0), K(r3(c_morgen - 0.003), DOG[0], DOG[1], 'sit', 150, paint=0), K(c_morgen, DOG[0], DOG[1], 'sit', 150, paint=1)],
-            'gartennachbar': nbA,
-            'rasenmaeher': [K(0, MOWER0[0], MOWER0[1], 'park', 200)], 'briefkasten': [K(0, MAILBOX[0], MAILBOX[1], 'park', 180)], 'gartentor': gate()},
- 'sfx': [{'t': r3(sec(A, 0.3)), 'id': 'schleichen', 'volume': 0.45}, {'t': r3(spray0 + sec(A, 0.3)), 'id': 'spruehen', 'volume': 0.5},
-         {'t': r3(spray0 + sec(A, 1.6)), 'id': 'spruehen', 'volume': 0.45}, {'t': c_morgen, 'id': 'rasen-zauber', 'volume': 0.35},
-         {'t': r3(c_hund + sec(A, 0.3)), 'id': 'hund-bellen', 'volume': 0.3}],
+ 'camera': [*camF(0, r3(tA_scene - 0.003), F(body(*PA[0], 1.6) + body(*PA[2], 1.6) + [[BOMB[0], 0, BOMB[1]]] + body(*NB_A, 2.0), 15, 20)),
+            *camF(tA_scene, r3(c_w1 - 0.003), F(body(*CH, 1.5) + [[BOMB[0], 0.2, BOMB[1]]] + body(*NB_A, 2.0), 300, 14)),
+            *camF(c_w1, r3(c_w2 - 0.003), F(body(*CH, 1.45, 0.4), 60, 8, (200, 880, 600, 1220))),
+            *camF(c_w2, 1, F([[BOMB[0] - 0.7, 0, BOMB[1]], [BOMB[0] + 0.7, 0, BOMB[1]]] + body(*NB_A, 2.1), 330, 8))],
+ 'timer': [r3(tA_scene + sec(A, 0.4)), 1.25, 5400],
+ 'actors': {**lawns(), 'dummy': dummyA, 'fliegerbombe': bombA, 'gartentor': gateA, 'gartenstuhl': [K(0, CH[0], CH[1], 'park', 90)],
+            'gartennachbar': nbA, 'giesskanne': canA,
+            'gartenzwerg': [K(0, GNOME[0], GNOME[1], 'park', 160)], 'hund': [K(0, DOG[0], DOG[1], 'sit', 150)],
+            'rasenmaeher': [K(0, MOWER0[0], MOWER0[1], 'park', 200)], 'briefkasten': [K(0, MAILBOX[0], MAILBOX[1], 'park', 180)]},
+ 'sfx': [{'t': r3(lowerA + sec(A, 0.6)), 'id': 'spaten-klonk', 'volume': 0.3}, {'t': r3(tA_scene + sec(A, 0.5)), 'id': 'uhr-ticken', 'volume': 0.35}],
 }
 
-# ================= Antwort B: Rasenmäher klauen =================
+# ================= Antwort B: nachts all dein Laub auf seine Grünfläche werfen =================
 B = 'answer2'
 cardB, sceneB, TB = answer_parts(2)
 tB_scene = r3(cardB / TB)
-c_ohne = cue(B, 'explain2', 'Ohne Rasenmäher')
-c_denkst = cue(B, 'explain2', 'denkst du')
-c_tag = cue(B, 'explain2', 'Am nächsten Tag')
-c_immer = cue(B, 'explain2', 'Und sein Rasen')
-endB_speech = r3((cardB + LEAD['explain2'] + dur.get('explain2', 0.84 + 0.0594 * len(S['e2']))) / TB)
-CL0 = (-0.55, 0.6)
-CL1 = (0.62, 0.6)
-climb0 = r3(sec(B, 0.2))
-climb_end = r3(climb0 + sec(B, 2.2))
-# Mäher-Diebstahl: Dummy stellt sich hinter den Mäher (Mäher zeigt mit face 200 Richtung Tor), schiebt ihn durchs Tor nach links
-MF = 200
-_md = (math.sin(math.radians(MF)), -math.cos(math.radians(MF)))
-M_A = (round(MOWER0[0] - 0.88 * _md[0], 3), round(MOWER0[1] - 0.88 * _md[1], 3))
-pts = [M_A, (1.4, 3.1), (0.9, 3.5), (-0.9, 3.5), (-2.4, 2.7)]
-grab = r3(max(climb_end + sec(B, 0.9), tB_scene - sec(B, 0.2)))
-seg_end = r3(min(grab + sec(B, 4.2), c_tag - 0.01))
-_L = [math.dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1)]
-seg = [grab]
-for l in _L:
-    seg.append(r3(seg[-1] + (seg_end - grab) * l / sum(_L)))
-dummyB = [K(0, CL0[0], CL0[1], 'stand', 90, paint=0), K(climb0, CL0[0], CL0[1], 'climbover', 90),
-          K(r3(climb0 + sec(B, 0.9)), -0.15, CL0[1], 'climbover', 90), K(r3(climb0 + sec(B, 1.35)), 0.38, CL0[1], 'climbover', 90),
-          K(climb_end, CL1[0], CL1[1], 'climbover', 90), K(r3(climb_end + 0.002), CL1[0], CL1[1], 'tiptoe', face_to(CL1, M_A)),
-          K(r3(grab - 0.006), M_A[0], M_A[1], 'tiptoe', face_to(CL1, M_A)), K(r3(grab - 0.003), M_A[0], M_A[1], 'mowsneak', MF)]
-for i in range(len(pts)):
-    f = MF if i == 0 else face_to(pts[i - 1], pts[i]) if i == len(pts) - 1 else face_to(pts[i], pts[i + 1])
-    dummyB.append(K(seg[i], pts[i][0], pts[i][1], 'mowsneak', f))
-# Tag: Dummy hat den Mäher bei sich und schaut wieder über den Zaun
-ENVY_B = (-0.42, -0.9)
-dummyB += [K(r3(c_tag), ENVY_B[0], ENVY_B[1], 'envy', 90), K(1, ENVY_B[0], ENVY_B[1], 'envy', 90, brow=0.5)]
-# Mäher: erst geparkt, beim Greifen am Dummy angehängt, am Tag neben dem Dummy
-mowerB = [K(0, MOWER0[0], MOWER0[1], 'park', MF), K(r3(grab - 0.003), MOWER0[0], MOWER0[1], 'park', MF),
-          {**K(grab, 0, 0.88, 'push', 0), 'attach': 'dummy', 'y': 0}, {**K(r3(c_tag - 0.003), 0, 0.88, 'push', 0), 'attach': 'dummy', 'y': 0},
-          K(c_tag, -1.25, 0.15, 'park', 120), K(1, -1.25, 0.15, 'park', 120)]
-gateB = [K(0, GATE[0], GATE[1], 'park', 0, door=0), K(r3(grab + sec(B, 0.5)), GATE[0], GATE[1], 'park', 0, door=0), K(r3(grab + sec(B, 1.1)), GATE[0], GATE[1], 'park', 0, door=1),
-         K(r3(c_tag - 0.003), GATE[0], GATE[1], 'park', 0, door=1), K(c_tag, GATE[0], GATE[1], 'park', 0, door=0)]
-SNIP = (3.0, 0.2)
-nbB = [K(0, SNIP[0], SNIP[1], 'stand', 0, y=HIDE), K(r3(c_tag - 0.003), SNIP[0], SNIP[1], 'stand', 0, y=HIDE),
-       K(c_tag, SNIP[0], SNIP[1], 'snip', 235, y=0, brow=0, question=0),
-       K(r3(c_immer + sec(B, 1.0)), SNIP[0], SNIP[1], 'snip', 235, brow=1, question=0), K(r3(c_immer + sec(B, 1.5)), SNIP[0], SNIP[1], 'snip', 235, question=1),
-       K(1, SNIP[0], SNIP[1], 'snip', 235, question=1)]
-scB = [K(0, SNIP[0], SNIP[1], 'park', 0, y=HIDE), K(r3(c_tag - 0.003), SNIP[0], SNIP[1], 'park', 0, y=HIDE),
-       K(c_tag, SNIP[0], SNIP[1], 'park', 235, hand=1, holder='gartennachbar', drop=0.0, y=0, size=0.7)]
+c_morgenB = cue(B, 'explain2', 'Am nächsten Morgen')
+c_er = cue(B, 'explain2', 'Er schaut')
+TOSS = (-1.15, 0.5)
+PILE = (-0.62, 0.5)
+dummyB = [K(0, TOSS[0], TOSS[1], 'leaftoss', 90), K(r3(tB_scene - 0.003), TOSS[0], TOSS[1], 'leaftoss', 90),
+          K(tB_scene, -2.4, 1.2, 'armscross', 120), K(1, -2.4, 1.2, 'armscross', 120)]
+pileB = [K(0, PILE[0], PILE[1], 'park', 0, size=-0.35), K(r3(tB_scene - 0.003), PILE[0], PILE[1], 'park', 0, size=-0.7),
+         K(tB_scene, PILE[0], PILE[1], 'park', 0, size=-1)]
+throwB = [K(0, TOSS[0], TOSS[1], 'show', 90), K(r3(tB_scene - 0.003), TOSS[0], TOSS[1], 'show', 90), K(tB_scene, TOSS[0], TOSS[1], 'park', 90)]
+coverB = [K(0, LAWN_R[0], LAWN_R[1], 'park', 0, fill=0.08), K(r3(tB_scene - 0.003), LAWN_R[0], LAWN_R[1], 'park', 0, fill=0.4),
+          K(tB_scene, LAWN_R[0], LAWN_R[1], 'park', 0, fill=1), K(1, LAWN_R[0], LAWN_R[1], 'park', 0, fill=1)]
+WIN = (7.9, -8.02)
+nbB = [K(0, WIN[0], WIN[1], 'stand', 180, y=HIDE), K(r3(c_er - 0.003), WIN[0], WIN[1], 'stand', 180, y=HIDE),
+       K(c_er, WIN[0], WIN[1], 'stand', 180, y=0, brow=1, question=0), K(r3(c_er + sec(B, 0.5)), WIN[0], WIN[1], 'sheepish', 180, question=1),
+       K(1, WIN[0], WIN[1], 'sheepish', 180, question=1)]
 expB = {
- 'stage': [{'t': 0, 'stage': 'nachbargarten-nacht'}, {'t': c_tag, 'stage': 'nachbargarten'}],
- 'camera': [*camF(0, r3(grab - 0.003), F(body(*CL0) + body(*CL1), 335, 8)),
-            *camF(grab, r3(c_tag - 0.003), F([[x, 0, z] for x, z in pts] + [[x, 1.5, z] for x, z in pts[1:4]], 20, 22)),
-            *camF(c_tag, r3(c_immer - 0.003), F([[SNIP[0] - 0.45, 0, SNIP[1]], [SNIP[0] + 0.45, 0, SNIP[1]], [SNIP[0], 1.45, SNIP[1]]], 352, 5, (200, 880, 520, 1180))),
-            *camF(c_immer, 1, F(body(*ENVY_B) + [[-1.25, 0, 0.15]] + [[SNIP[0], 0, SNIP[1]], [SNIP[0], 1.5, SNIP[1]]], 2, 20))],
- 'actors': {**lawns(), 'dummy': dummyB, 'rasenmaeher': mowerB, 'gartentor': gateB, 'gartennachbar': nbB, 'nagelschere': scB,
+ 'stage': [{'t': 0, 'stage': 'nachbargarten-nacht'}, {'t': tB_scene, 'stage': 'nachbargarten'}],
+ 'camera': [*camF(0, r3(sec(B, 2.6)), F(body(*TOSS, 1.9) + [[2.6, 0, 0.5], [0, 0.7, 1.5]], 350, 14)),
+            *camF(r3(sec(B, 2.6) + 0.003), r3(tB_scene - 0.003), F(body(*TOSS, 1.9) + [[2.2, 0, 0.0], [2.2, 0, 1.2]], 105, 12)),
+            *camF(tB_scene, r3(c_er - 0.003), F([[1.0, 0, -5], [9.5, 0, -5], [1.0, 0, 6], [9.5, 0, 6]] + body(-2.4, 1.2), 10, 26)),
+            *camF(c_er, 1, F([[WIN[0], 0.9, -7.8], [WIN[0], 2.3, -7.8], [WIN[0] - 1.2, 0, -5.8], [WIN[0] + 1.0, 0, -5.8]], 352, 8))],
+ 'actors': {**lawns(), 'laubdecke': coverB, 'laubhaufen': pileB, 'laubwurf': throwB, 'dummy': dummyB, 'gartennachbar': nbB,
             'gartenzwerg': [K(0, GNOME[0], GNOME[1], 'park', 160)], 'hund': [K(0, DOG[0], DOG[1], 'sit', 150)],
-            'briefkasten': [K(0, MAILBOX[0], MAILBOX[1], 'park', 180)]},
- 'sfx': [{'t': r3(grab + sec(B, 0.1)), 'id': 'schleichen', 'volume': 0.45}, {'t': r3(c_tag + sec(B, 0.4)), 'id': 'schere-schnipp', 'volume': 0.55},
-         {'t': r3(c_immer + sec(B, 0.3)), 'id': 'schere-schnipp', 'volume': 0.4}],
+            'briefkasten': [K(0, MAILBOX[0], MAILBOX[1], 'park', 180)], 'gartentor': gate()},
+ 'sfx': [{'t': r3(sec(B, 0.2)), 'id': 'schleichen', 'volume': 0.4}, {'t': r3(sec(B, 1.0)), 'id': 'laub-rascheln', 'volume': 0.5},
+         {'t': r3(sec(B, 3.4)), 'id': 'laub-rascheln', 'volume': 0.45}],
 }
 
-# ================= Antwort C: Haus kaufen, Kündigung =================
+# ================= Antwort C: Haus kaufen und ihn kündigen =================
 C = 'answer3'
 cardC, sceneC, TC = answer_parts(3)
 tC_scene = r3(cardC / TC)
-c_du = cue(C, 'explain3', 'Du kaufst')
-c_schick = cue(C, 'explain3', 'und schickst')
 c_packt = cue(C, 'explain3', 'Er packt')
 c_ploetz = cue(C, 'explain3', 'Und plötzlich')
 c_welcher = cue(C, 'explain3', 'welcher Rasen')
-endC_speech = r3((cardC + LEAD['explain3'] + dur.get('explain3', 0.84 + 0.0594 * len(S['e3']))) / TC)
-W0 = (2.6, -2.2)
-walk_end = r3(sec(C, 2.3))
+W0 = (3.15, -4.6)
+walk_end = r3(sec(C, 0.8))
 bell0 = walk_end
-sign0 = r3(c_du + sec(C, 0.15))                       # unterschreiben
-sold_t = r3(c_schick - sec(C, 0.15))                  # VERKAUFT-Schild ploppt
+sign0 = r3(min(sec(C, 2.0), tC_scene - sec(C, 1.2)))
+sold_t = r3(max(tC_scene - sec(C, 0.25), sign0 + sec(C, 0.9)))   # VERKAUFT-Schild ploppt
 POST = (MAILBOX[0] - 0.05, MAILBOX[1] + 0.6)
-post_walk = r3(sold_t + sec(C, 0.25))
-post0 = r3(post_walk + sec(C, 0.85))
+post_walk = r3(sold_t + sec(C, 0.2))
+post0 = r3(post_walk + sec(C, 0.75))
 swap0 = r3(c_ploetz + sec(C, 0.2))
 swap1 = r3(swap0 + sec(C, 2.2))
 SUIT = dict(suit=1)
-ME_C = (2.4, 0.4)   # Dummy im neuen (gekauften) Garten
+ME_C = (2.4, 0.4)
 dummyC = [K(0, W0[0], W0[1], 'walk', face_to(W0, DOOR_SPOT), **SUIT, paint=0), K(walk_end, DOOR_SPOT[0], DOOR_SPOT[1], 'walk', 0),
           K(r3(walk_end + 0.002), DOOR_SPOT[0], DOOR_SPOT[1], 'ringbell', 0),
           K(r3(sign0 - 0.003), DOOR_SPOT[0], DOOR_SPOT[1], 'ringbell', 0), K(sign0, DOOR_SPOT[0], DOOR_SPOT[1], 'fillform', 0),
@@ -276,13 +240,12 @@ dummyC = [K(0, W0[0], W0[1], 'walk', face_to(W0, DOOR_SPOT), **SUIT, paint=0), K
           K(r3(c_ploetz - 0.003), POST[0], POST[1], 'armscross', 20),
           K(c_ploetz, ME_C[0], ME_C[1], 'stand', 255), K(r3(c_welcher - sec(C, 0.6)), ME_C[0], ME_C[1], 'lookaround', 255, question=0),
           K(r3(c_welcher + sec(C, 0.6)), ME_C[0], ME_C[1], 'lookaround', 255, question=1), K(1, ME_C[0], ME_C[1], 'lookaround', 255, question=1)]
-# Aktenkoffer: in der Hand, beim Unterschreiben abgestellt, dann wieder weg (bleibt an der Tür stehen)
 CASE_DOWN = (DOOR_SPOT[0] - 0.45, DOOR_SPOT[1] + 0.1)
 caseC = [K(0, W0[0], W0[1], 'park', face_to(W0, DOOR_SPOT), hand=1, drop=0.0), K(r3(sign0 - 0.003), W0[0], W0[1], 'park', 0, hand=1),
          K(sign0, CASE_DOWN[0], CASE_DOWN[1], 'park', 300, hand=0, y=0.32), K(1, CASE_DOWN[0], CASE_DOWN[1], 'park', 300, hand=0, y=0.32)]
 BOARD = (NB_DOOR[0], NB_DOOR[1] + 0.47)
 contractC = [K(0, BOARD[0], BOARD[1], 'park', 180, y=HIDE), K(r3(sign0 - 0.003), BOARD[0], BOARD[1], 'park', 180, y=HIDE),
-             K(sign0, BOARD[0], BOARD[1], 'park', 180, y=1.17, fill=0, tilt=-18), K(r3(sign0 + sec(C, 0.35)), BOARD[0], BOARD[1], 'park', 180, fill=0),
+             K(sign0, BOARD[0], BOARD[1], 'park', 180, y=1.17, fill=0, tilt=-18), K(r3(sign0 + sec(C, 0.25)), BOARD[0], BOARD[1], 'park', 180, fill=0),
              K(r3(post_walk - 0.002), BOARD[0], BOARD[1], 'park', 180, fill=1), K(post_walk, BOARD[0], BOARD[1], 'park', 180, y=HIDE)]
 envC = [K(0, POST[0], POST[1], 'park', 0, y=HIDE), K(r3(post_walk - 0.003), POST[0], POST[1], 'park', 0, y=HIDE),
         K(post_walk, POST[0], POST[1], 'park', 90, hand=1, drop=-0.06, y=0, size=0.35), K(r3(post0 + sec(C, 0.72)), POST[0], POST[1], 'park', 90, hand=1),
@@ -290,12 +253,11 @@ envC = [K(0, POST[0], POST[1], 'park', 0, y=HIDE), K(r3(post_walk - 0.003), POST
 mailC = [K(0, MAILBOX[0], MAILBOX[1], 'park', 180, door=0), K(r3(post0 + sec(C, 0.45)), MAILBOX[0], MAILBOX[1], 'park', 180, door=0),
          K(r3(post0 + sec(C, 0.65)), MAILBOX[0], MAILBOX[1], 'park', 180, door=1), K(r3(post0 + sec(C, 0.9)), MAILBOX[0], MAILBOX[1], 'park', 180, door=0)]
 soldC = [K(0, SOLD[0], SOLD[1], 'park', 180), K(sold_t, SOLD[0], SOLD[1], 'show', 180), K(1, SOLD[0], SOLD[1], 'show', 180)]
-# Nachbar: öffnet die Tür (steht auf der Stufe), hält den Vertrag, packt die Gießkanne und geht – im linken Garten gießt er
 NB_LEFT = (-3.2, 0.4)
-nb_walk0 = r3(c_packt + sec(C, 0.3))
+nb_walk0 = r3(max(c_packt + sec(C, 0.3), post_walk + sec(C, 0.2)))
 GOAWAY = [(NB_DOOR[0], NB_DOOR[1] + 0.6), (1.6, -3.5)]
-nbC = [K(0, NB_DOOR[0], NB_DOOR[1], 'stand', 180, y=HIDE), K(r3(bell0 + sec(C, 0.9)), NB_DOOR[0], NB_DOOR[1], 'stand', 180, y=HIDE),
-       K(r3(bell0 + sec(C, 0.95)), NB_DOOR[0], NB_DOOR[1], 'stand', 180, y=0.16, brow=1, question=1),
+nbC = [K(0, NB_DOOR[0], NB_DOOR[1], 'stand', 180, y=HIDE), K(r3(bell0 + sec(C, 0.85)), NB_DOOR[0], NB_DOOR[1], 'stand', 180, y=HIDE),
+       K(r3(bell0 + sec(C, 0.9)), NB_DOOR[0], NB_DOOR[1], 'stand', 180, y=0.16, brow=1, question=1),
        K(r3(sign0 - 0.003), NB_DOOR[0], NB_DOOR[1], 'stand', 180, y=0.16, question=1),
        K(sign0, NB_DOOR[0], NB_DOOR[1], 'holdboard', 180, y=0.16, question=0, brow=0.6),
        K(r3(post_walk - 0.002), NB_DOOR[0], NB_DOOR[1], 'holdboard', 180, y=0.16),
@@ -311,12 +273,11 @@ canC = [K(0, NB_DOOR[0], NB_DOOR[1], 'park', 0, y=HIDE), K(r3(nb_walk0 - 0.003),
 lawnC_L = [K(0, LAWN_L[0], LAWN_L[1], 'park', 0, lush=0), K(swap0, LAWN_L[0], LAWN_L[1], 'park', 0, lush=0), K(swap1, LAWN_L[0], LAWN_L[1], 'park', 0, lush=1)]
 lawnC_R = [K(0, LAWN_R[0], LAWN_R[1], 'park', 0, lush=1), K(swap0, LAWN_R[0], LAWN_R[1], 'park', 0, lush=1), K(swap1, LAWN_R[0], LAWN_R[1], 'park', 0, lush=0)]
 expC = {
- 'camera': [cam(0, [6.2, 2.6, 4.4], [3.0, 0.9, -4.0]), cam(r3(walk_end), [5.6, 2.2, -1.6], [3.3, 1.1, -6.6]),
-            cam(r3(sign0 - 0.003), [5.4, 2.1, -2.2], [3.3, 1.15, -6.8]),
+ 'camera': [cam(0, [5.6, 2.2, -1.6], [3.3, 1.1, -6.6]), cam(r3(sign0 - 0.003), [5.4, 2.1, -2.2], [3.3, 1.15, -6.8]),
             *camF(sign0, r3(sold_t - 0.003), F(body(*DOOR_SPOT) + body(NB_DOOR[0], NB_DOOR[1], 2.05), 72, 12)),
             *camF(sold_t, r3(post0 - sec(C, 0.35)), F(body(SOLD[0], SOLD[1], 1.9, 0.7) + body(*DOOR_SPOT) + body(NB_DOOR[0], NB_DOOR[1], 2.05), 8, 12)),
-            *camF(r3(post0 - sec(C, 0.35) + 0.003), r3(c_packt - 0.003), F(body(*POST) + [[MAILBOX[0], 1.35, MAILBOX[1]], [MAILBOX[0], 0, MAILBOX[1]]], 95, 8)),
-            cam(c_packt, [6.4, 2.3, 1.4], [2.8, 0.95, -5.6]), cam(r3(c_ploetz - 0.003), [6.0, 2.2, 1.0], [2.4, 0.9, -4.6]),
+            *camF(r3(post0 - sec(C, 0.35) + 0.003), r3(max(c_packt, post0 + sec(C, 1.1)) - 0.003), F(body(*POST) + [[MAILBOX[0], 1.35, MAILBOX[1]], [MAILBOX[0], 0, MAILBOX[1]]], 95, 8)),
+            cam(max(c_packt, r3(post0 + sec(C, 1.1))), [6.4, 2.3, 1.4], [2.8, 0.95, -5.6]), cam(r3(c_ploetz - 0.003), [6.0, 2.2, 1.0], [2.4, 0.9, -4.6]),
             *camF(c_ploetz, r3(c_welcher - 0.003), F(body(*ME_C) + body(*NB_LEFT, 2.0) + [[-3.5, 0, 2.5], [3.5, 0, 2.5]], 0, 18)),
             *camF(c_welcher, 1, F(body(*ME_C, 2.3) + body(*NB_LEFT, 2.0), 300, 10))],
  'actors': {'rasen': lawnC_L, 'rasen2': lawnC_R, 'dummy': dummyC, 'aktenkoffer': caseC, 'kaufvertrag': contractC, 'kuendigung': envC,
@@ -356,8 +317,8 @@ scen = {
  'id': ID, 'format': 'spezial', 'category': 'spezial', 'stage': 'nachbargarten',
  'situation': {'speech': S['situation']},
  'options': [
-  {'card': S['o1c'], 'speech': S['o1s'], 'dummyAction': 'Nachts schleicht der Dummy auf Zehenspitzen durch seinen Garten und sprüht den Rasen grün an. Am Morgen: Rasen neon-grün, Gartenzwerg, Hund und seine Schuhe auch. Der Nachbar schaut verdutzt über den Zaun.', 'explanation': S['e1'], 'sceneExtra': EXTRA[1], 'choreography': expA},
-  {'card': S['o2c'], 'speech': S['o2s'], 'dummyAction': 'Nachts steigt der Dummy über den Zaun und schleicht mit dem glänzenden Rasenmäher durchs Gartentor davon. Am nächsten Tag kniet der Nachbar mit einer Nagelschere im Garten – sein Rasen ist trotzdem grüner. Nachbar verdutzt.', 'explanation': S['e2'], 'sceneExtra': EXTRA[2], 'choreography': expB},
+  {'card': S['o1c'], 'speech': S['o1s'], 'dummyAction': 'Der Dummy trägt die rostige Fliegerbombe durchs Gartentor in den Nachbargarten und legt sie dort ins Gras. Dann sitzt er auf seinem Gartenstuhl und wartet, eine Stoppuhr läuft im Zeitraffer. Keine Explosion, keine Auflösung – nur warten. Der Nachbar gießt ahnungslos und schaut am Ende verdutzt.', 'explanation': S['e1'], 'sceneExtra': EXTRA[1], 'choreography': expA},
+  {'card': S['o2c'], 'speech': S['o2s'], 'dummyAction': 'Nachts wirft der Dummy Arm um Arm Laub über den Zaun. Am nächsten Morgen ist der grüne Rasen des Nachbarn komplett unter Laub verschwunden, der Dummy verschränkt zufrieden die Arme. Der Nachbar schaut verdutzt aus dem Fenster.', 'explanation': S['e2'], 'sceneExtra': EXTRA[2], 'choreography': expB},
   {'card': S['o3c'], 'speech': S['o3s'], 'dummyAction': 'Dummy im Anzug mit Aktenkoffer klingelt, unterschreibt den Kaufvertrag, VERKAUFT-Schild ploppt auf, Brief „Kündigung“ in den Briefkasten. Der Nachbar zieht mit seiner Gießkanne nach nebenan – plötzlich wird der gekaufte Rasen braun und der alte grün. Dummy verwirrt.', 'explanation': S['e3'], 'sceneExtra': EXTRA[3], 'choreography': expC},
  ],
  'countdown': {'speech': S['vote'], 'screen': 'Stimm ab!'},
@@ -373,6 +334,6 @@ for _sh in [situation, vote, outro, expA, expB, expC]:
 json.dump(scen, open(f'{ROOT}/scenarios/{ID}.json', 'w'), ensure_ascii=False, indent=2)
 total = seclen('situation') + TA + TB + TC + seclen('countdown') + seclen('outro')
 print('Länge', round(total, 1), 's', 'audio' if dur else 'geschätzt', {'situation': seclen('situation'), 'A': (cardA, sceneA), 'B': (cardB, sceneB), 'C': (cardC, sceneC), 'vote': seclen('countdown'), 'outro': seclen('outro')})
-print('cues A', dict(scene=tA_scene, spray0=spray0, morgen=c_morgen, zwerg=c_zwerg, hund=c_hund, schuh=c_schuh, peek=peekA, end=endA_speech))
-print('cues B', dict(scene=tB_scene, climb=(climb0, climb_end), grab=grab, seg=seg, tag=c_tag, immer=c_immer, end=endB_speech))
-print('cues C', dict(scene=tC_scene, walk_end=walk_end, sign=sign0, sold=sold_t, post=(post_walk, post0), packt=c_packt, ploetz=c_ploetz, swap=(swap0, swap1), welcher=c_welcher, end=endC_speech))
+print('cues A', dict(scene=tA_scene, walk_end=walkA_end, w1=c_w1, w2=c_w2))
+print('cues B', dict(scene=tB_scene, morgen=c_morgenB, er=c_er))
+print('cues C', dict(scene=tC_scene, walk_end=walk_end, sign=sign0, sold=sold_t, post=(post_walk, post0), packt=c_packt, ploetz=c_ploetz, swap=(swap0, swap1), welcher=c_welcher))

@@ -8,598 +8,122 @@
   },
   "options": [
     {
-      "card": "Rasen grün ansprühen",
-      "speech": "A: Du sprühst deinen Rasen nachts heimlich mit grüner Farbe an.",
-      "dummyAction": "Nachts schleicht der Dummy auf Zehenspitzen durch seinen Garten und sprüht den Rasen grün an. Am Morgen: Rasen neon-grün, Gartenzwerg, Hund und seine Schuhe auch. Der Nachbar schaut verdutzt über den Zaun.",
-      "explanation": "Gesagt, getan. Am nächsten Morgen ist dein Rasen tatsächlich grün. Dein Gartenzwerg leider auch. Und dein Hund. Und deine Schuhe.",
-      "sceneExtra": 0.8,
-      "choreography": {
-        "stage": [
-          {
-            "t": 0,
-            "stage": "nachbargarten-nacht"
-          },
-          {
-            "t": 0.4519,
-            "stage": "nachbargarten"
-          }
-        ],
-        "camera": [
-          {
-            "t": 0.0,
-            "pos": [
-              1.5,
-              5.27,
-              16.52
-            ],
-            "look": [
-              -4.85,
-              0.55,
-              2.9
-            ]
-          },
-          {
-            "t": 0.2534,
-            "pos": [
-              1.183,
-              5.034,
-              15.839
-            ],
-            "look": [
-              -4.85,
-              0.55,
-              2.9
-            ]
-          },
-          {
-            "t": 0.2567,
-            "pos": [
-              1.7,
-              3.82,
-              7.37
-            ],
-            "look": [
-              -4.0,
-              0.42,
-              1.91
-            ]
-          },
-          {
-            "t": 0.4388,
-            "pos": [
-              1.415,
-              3.65,
-              7.097
-            ],
-            "look": [
-              -4.0,
-              0.42,
-              1.91
-            ]
-          },
-          {
-            "t": 0.4424,
-            "pos": [
-              -0.35,
-              5.82,
-              10.52
-            ],
-            "look": [
-              -1.78,
-              0.14,
-              1.12
-            ]
-          },
-          {
-            "t": 0.6687,
-            "pos": [
-              -0.421,
-              5.536,
-              10.05
-            ],
-            "look": [
-              -1.78,
-              0.14,
-              1.12
-            ]
-          },
-          {
-            "t": 0.6722,
-            "pos": [
-              -2.45,
-              0.67,
-              5.11
-            ],
-            "look": [
-              -1.7,
-              0.16,
-              2.3
-            ]
-          },
-          {
-            "t": 0.8088,
-            "pos": [
-              -2.413,
-              0.645,
-              4.97
-            ],
-            "look": [
-              -1.7,
-              0.16,
-              2.3
-            ]
-          },
-          {
-            "t": 0.8118,
-            "pos": [
-              -4.71,
-              1.09,
-              6.94
-            ],
-            "look": [
-              -2.76,
-              0.16,
-              2.77
-            ]
-          },
-          {
-            "t": 0.8796,
-            "pos": [
-              -4.612,
-              1.044,
-              6.732
-            ],
-            "look": [
-              -2.76,
-              0.16,
-              2.77
-            ]
-          },
-          {
-            "t": 0.8823,
-            "pos": [
-              -3.8,
-              0.97,
-              3.7
-            ],
-            "look": [
-              -3.0,
-              0.2,
-              0.7
-            ]
-          },
-          {
-            "t": 0.9245,
-            "pos": [
-              -3.76,
-              0.931,
-              3.55
-            ],
-            "look": [
-              -3.0,
-              0.2,
-              0.7
-            ]
-          },
-          {
-            "t": 0.927,
-            "pos": [
-              -3.42,
-              4.05,
-              13.03
-            ],
-            "look": [
-              -1.29,
-              0.65,
-              0.93
-            ]
-          },
-          {
-            "t": 1.0,
-            "pos": [
-              -3.313,
-              3.88,
-              12.425
-            ],
-            "look": [
-              -1.29,
-              0.65,
-              0.93
-            ]
-          }
-        ],
-        "actors": {
-          "rasen": [
-            {
-              "t": 0,
-              "x": -5.2,
-              "z": 0.6,
-              "motion": "park",
-              "face": 0,
-              "lush": 0,
-              "paint": 0
-            },
-            {
-              "t": 0.3192,
-              "x": -5.2,
-              "z": 0.6,
-              "motion": "park",
-              "face": 0,
-              "paint": 0
-            },
-            {
-              "t": 0.4489,
-              "x": -5.2,
-              "z": 0.6,
-              "motion": "park",
-              "face": 0,
-              "paint": 0.45
-            },
-            {
-              "t": 0.4519,
-              "x": -5.2,
-              "z": 0.6,
-              "motion": "park",
-              "face": 0,
-              "paint": 1
-            },
-            {
-              "t": 1,
-              "x": -5.2,
-              "z": 0.6,
-              "motion": "park",
-              "face": 0,
-              "paint": 1
-            }
-          ],
-          "rasen2": [
-            {
-              "t": 0,
-              "x": 5.2,
-              "z": 0.6,
-              "motion": "park",
-              "face": 0,
-              "lush": 1
-            }
-          ],
-          "dummy": [
-            {
-              "t": 0,
-              "x": -6.4,
-              "z": 4.6,
-              "motion": "tiptoe",
-              "face": 39.8,
-              "paint": 0
-            },
-            {
-              "t": 0.2904,
-              "x": -3.4,
-              "z": 1.0,
-              "motion": "tiptoe",
-              "face": 39.8
-            },
-            {
-              "t": 0.2924,
-              "x": -3.4,
-              "z": 1.0,
-              "motion": "spraylawn",
-              "face": 230
-            },
-            {
-              "t": 0.4489,
-              "x": -3.4,
-              "z": 1.0,
-              "motion": "spraylawn",
-              "face": 250,
-              "paint": 0
-            },
-            {
-              "t": 0.4519,
-              "x": -3.0,
-              "z": 0.7,
-              "motion": "armscross",
-              "face": 165,
-              "paint": 1
-            },
-            {
-              "t": 0.8458,
-              "x": -3.0,
-              "z": 0.7,
-              "motion": "armscross",
-              "face": 165
-            },
-            {
-              "t": 0.8488,
-              "x": -3.0,
-              "z": 0.7,
-              "motion": "notice",
-              "face": 165
-            },
-            {
-              "t": 1,
-              "x": -3.0,
-              "z": 0.7,
-              "motion": "notice",
-              "face": 165
-            }
-          ],
-          "gartenzwerg": [
-            {
-              "t": 0,
-              "x": -1.7,
-              "z": 2.3,
-              "motion": "park",
-              "face": 160,
-              "paint": 0
-            },
-            {
-              "t": 0.4489,
-              "x": -1.7,
-              "z": 2.3,
-              "motion": "park",
-              "face": 160,
-              "paint": 0
-            },
-            {
-              "t": 0.4519,
-              "x": -1.7,
-              "z": 2.3,
-              "motion": "park",
-              "face": 160,
-              "paint": 1
-            }
-          ],
-          "hund": [
-            {
-              "t": 0,
-              "x": -2.75,
-              "z": 2.75,
-              "motion": "sit",
-              "face": 150,
-              "paint": 0
-            },
-            {
-              "t": 0.4489,
-              "x": -2.75,
-              "z": 2.75,
-              "motion": "sit",
-              "face": 150,
-              "paint": 0
-            },
-            {
-              "t": 0.4519,
-              "x": -2.75,
-              "z": 2.75,
-              "motion": "sit",
-              "face": 150,
-              "paint": 1
-            }
-          ],
-          "gartennachbar": [
-            {
-              "t": 0,
-              "x": 0.45,
-              "z": 1.0,
-              "motion": "stand",
-              "face": 270,
-              "y": -30
-            },
-            {
-              "t": 0.8977,
-              "x": 0.45,
-              "z": 1.0,
-              "motion": "stand",
-              "face": 270,
-              "y": -30
-            },
-            {
-              "t": 0.9007,
-              "x": 0.45,
-              "z": 1.0,
-              "motion": "stand",
-              "face": 270,
-              "y": 0,
-              "brow": 1,
-              "question": 0
-            },
-            {
-              "t": 0.9238,
-              "x": 0.45,
-              "z": 1.0,
-              "motion": "sheepish",
-              "face": 270,
-              "question": 1
-            },
-            {
-              "t": 1,
-              "x": 0.45,
-              "z": 1.0,
-              "motion": "sheepish",
-              "face": 270,
-              "question": 1
-            }
-          ],
-          "rasenmaeher": [
-            {
-              "t": 0,
-              "x": 1.9,
-              "z": 1.6,
-              "motion": "park",
-              "face": 200
-            }
-          ],
-          "briefkasten": [
-            {
-              "t": 0,
-              "x": 2.2,
-              "z": -6.9,
-              "motion": "park",
-              "face": 180
-            }
-          ],
-          "gartentor": [
-            {
-              "t": 0,
-              "x": 0.0,
-              "z": 3.0,
-              "motion": "park",
-              "face": 0,
-              "door": 0.0
-            }
-          ]
-        },
-        "sfx": [
-          {
-            "t": 0.0173,
-            "id": "schleichen",
-            "volume": 0.45
-          },
-          {
-            "t": 0.3077,
-            "id": "spruehen",
-            "volume": 0.5
-          },
-          {
-            "t": 0.3827,
-            "id": "spruehen",
-            "volume": 0.45
-          },
-          {
-            "t": 0.4519,
-            "id": "rasen-zauber",
-            "volume": 0.35
-          },
-          {
-            "t": 0.7923,
-            "id": "hund-bellen",
-            "volume": 0.3
-          }
-        ],
-        "sharpCuts": true
-      }
-    },
-    {
-      "card": "Seinen Rasenmäher klauen",
-      "speech": "B: Du klaust seinen Rasenmäher.",
-      "dummyAction": "Nachts steigt der Dummy über den Zaun und schleicht mit dem glänzenden Rasenmäher durchs Gartentor davon. Am nächsten Tag kniet der Nachbar mit einer Nagelschere im Garten – sein Rasen ist trotzdem grüner. Nachbar verdutzt.",
-      "explanation": "Ohne Rasenmäher hat er keine Chance, denkst du. Am nächsten Tag kniet er mit einer Nagelschere im Garten. Und sein Rasen ist immer noch grüner.",
+      "card": "Fliegerbombe in seinen Garten legen",
+      "speech": "A: Du legst eine Fliegerbombe in seinen Garten und wartest, bis diese abgeht.",
+      "dummyAction": "Der Dummy trägt die rostige Fliegerbombe durchs Gartentor in den Nachbargarten und legt sie dort ins Gras. Dann sitzt er auf seinem Gartenstuhl und wartet, eine Stoppuhr läuft im Zeitraffer. Keine Explosion, keine Auflösung – nur warten. Der Nachbar gießt ahnungslos und schaut am Ende verdutzt.",
+      "explanation": "Dann setzt du dich auf deinen Gartenstuhl und wartest. Und wartest. Und wartest.",
       "sceneExtra": 0.0,
       "choreography": {
-        "stage": [
-          {
-            "t": 0,
-            "stage": "nachbargarten-nacht"
-          },
-          {
-            "t": 0.5346,
-            "stage": "nachbargarten"
-          }
-        ],
         "camera": [
           {
             "t": 0.0,
             "pos": [
-              -3.12,
-              1.98,
-              7.38
+              8.25,
+              9.74,
+              25.85
             ],
             "look": [
-              0.01,
-              0.55,
-              0.65
+              1.95,
+              0.19,
+              2.33
             ]
           },
           {
-            "t": 0.2113,
+            "t": 0.3091,
             "pos": [
-              -2.964,
-              1.909,
-              7.043
+              7.935,
+              9.262,
+              24.674
             ],
             "look": [
-              0.01,
-              0.55,
-              0.65
+              1.95,
+              0.19,
+              2.33
             ]
           },
           {
-            "t": 0.2144,
+            "t": 0.3125,
             "pos": [
-              4.89,
-              5.96,
-              15.51
+              -11.68,
+              4.5,
+              8.43
             ],
             "look": [
-              0.37,
-              0.23,
-              3.09
-            ]
-          },
-          {
-            "t": 0.5379,
-            "pos": [
-              4.664,
-              5.673,
-              14.889
-            ],
-            "look": [
-              0.37,
-              0.23,
-              3.09
-            ]
-          },
-          {
-            "t": 0.5415,
-            "pos": [
-              2.14,
               1.02,
-              6.32
-            ],
-            "look": [
-              3.0,
-              0.48,
-              0.2
+              0.06,
+              1.1
             ]
           },
           {
-            "t": 0.83,
+            "t": 0.6227,
             "pos": [
-              2.183,
-              0.993,
-              6.014
+              -11.045,
+              4.278,
+              8.063
             ],
             "look": [
-              3.0,
-              0.48,
-              0.2
+              1.02,
+              0.06,
+              1.1
             ]
           },
           {
-            "t": 0.833,
+            "t": 0.6262,
             "pos": [
-              0.96,
-              6.23,
-              14.64
+              3.39,
+              1.71,
+              5.02
             ],
             "look": [
-              1.24,
-              1.12,
-              -0.6
+              -2.68,
+              0.55,
+              1.51
+            ]
+          },
+          {
+            "t": 0.7068,
+            "pos": [
+              3.087,
+              1.652,
+              4.845
+            ],
+            "look": [
+              -2.68,
+              0.55,
+              1.51
+            ]
+          },
+          {
+            "t": 0.7101,
+            "pos": [
+              -0.93,
+              2.11,
+              9.56
+            ],
+            "look": [
+              3.62,
+              0.45,
+              0.68
             ]
           },
           {
             "t": 1.0,
             "pos": [
-              0.974,
-              5.975,
-              13.878
+              -0.703,
+              2.027,
+              9.116
             ],
             "look": [
-              1.24,
-              1.12,
-              -0.6
+              3.62,
+              0.45,
+              0.68
             ]
           }
+        ],
+        "timer": [
+          0.3649,
+          1.25,
+          5400
         ],
         "actors": {
           "rasen": [
@@ -627,158 +151,90 @@
           "dummy": [
             {
               "t": 0,
-              "x": -0.55,
-              "z": 0.6,
-              "motion": "stand",
-              "face": 90,
-              "paint": 0
-            },
-            {
-              "t": 0.0139,
-              "x": -0.55,
-              "z": 0.6,
-              "motion": "climbover",
+              "x": -1.7,
+              "z": 3.5,
+              "motion": "carrywalk",
               "face": 90
             },
             {
-              "t": 0.0765,
-              "x": -0.15,
-              "z": 0.6,
-              "motion": "climbover",
-              "face": 90
-            },
-            {
-              "t": 0.1079,
-              "x": 0.38,
-              "z": 0.6,
-              "motion": "climbover",
-              "face": 90
-            },
-            {
-              "t": 0.167,
-              "x": 0.62,
-              "z": 0.6,
-              "motion": "climbover",
-              "face": 90
-            },
-            {
-              "t": 0.169,
-              "x": 0.62,
-              "z": 0.6,
-              "motion": "tiptoe",
-              "face": 96.2
-            },
-            {
-              "t": 0.2446,
-              "x": 2.201,
-              "z": 0.773,
-              "motion": "tiptoe",
-              "face": 96.2
-            },
-            {
-              "t": 0.2476,
-              "x": 2.201,
-              "z": 0.773,
-              "motion": "mowsneak",
-              "face": 200
-            },
-            {
-              "t": 0.2506,
-              "x": 2.201,
-              "z": 0.773,
-              "motion": "mowsneak",
-              "face": 200
-            },
-            {
-              "t": 0.3527,
-              "x": 1.4,
-              "z": 3.1,
-              "motion": "mowsneak",
-              "face": 231.3
-            },
-            {
-              "t": 0.3793,
+              "t": 0.0907,
               "x": 0.9,
               "z": 3.5,
-              "motion": "mowsneak",
-              "face": 270.0
+              "motion": "carrywalk",
+              "face": 90
             },
             {
-              "t": 0.454,
-              "x": -0.9,
-              "z": 3.5,
-              "motion": "mowsneak",
-              "face": 298.1
+              "t": 0.1935,
+              "x": 2.5,
+              "z": 2.6,
+              "motion": "carrywalk",
+              "face": 60.6
             },
             {
-              "t": 0.5246,
-              "x": -2.4,
-              "z": 2.7,
-              "motion": "mowsneak",
-              "face": 298.1
+              "t": 0.1955,
+              "x": 2.5,
+              "z": 2.6,
+              "motion": "lower",
+              "face": 60.6
             },
             {
-              "t": 0.5346,
-              "x": -0.42,
-              "z": -0.9,
-              "motion": "envy",
+              "t": 0.3377,
+              "x": 2.5,
+              "z": 2.6,
+              "motion": "lower",
+              "face": 60.6
+            },
+            {
+              "t": 0.3407,
+              "x": -2.7,
+              "z": 1.5,
+              "motion": "couchwait",
               "face": 90
             },
             {
               "t": 1,
-              "x": -0.42,
-              "z": -0.9,
-              "motion": "envy",
-              "face": 90,
-              "brow": 0.5
+              "x": -2.7,
+              "z": 1.5,
+              "motion": "couchwait",
+              "face": 90
             }
           ],
-          "rasenmaeher": [
+          "fliegerbombe": [
             {
               "t": 0,
-              "x": 1.9,
-              "z": 1.6,
-              "motion": "park",
-              "face": 200
-            },
-            {
-              "t": 0.2476,
-              "x": 1.9,
-              "z": 1.6,
-              "motion": "park",
-              "face": 200
-            },
-            {
-              "t": 0.2506,
               "x": 0,
-              "z": 0.88,
-              "motion": "push",
-              "face": 0,
-              "attach": "dummy",
-              "y": 0
-            },
-            {
-              "t": 0.5316,
-              "x": 0,
-              "z": 0.88,
-              "motion": "push",
-              "face": 0,
-              "attach": "dummy",
-              "y": 0
-            },
-            {
-              "t": 0.5346,
-              "x": -1.25,
-              "z": 0.15,
+              "z": 0.4,
               "motion": "park",
-              "face": 120
+              "face": -90,
+              "attach": "dummy",
+              "y": 0.95
+            },
+            {
+              "t": 0.1955,
+              "x": 0,
+              "z": 0.4,
+              "motion": "park",
+              "face": -90,
+              "attach": "dummy",
+              "y": 0.95
+            },
+            {
+              "t": 0.2499,
+              "x": 3.023,
+              "z": 2.305,
+              "motion": "park",
+              "face": 150.6,
+              "y": 0.16,
+              "tilt": 0
             },
             {
               "t": 1,
-              "x": -1.25,
-              "z": 0.15,
+              "x": 3.023,
+              "z": 2.305,
               "motion": "park",
-              "face": 120
+              "face": 150.6,
+              "y": 0.16,
+              "tilt": 0
             }
           ],
           "gartentor": [
@@ -788,122 +244,422 @@
               "z": 3.0,
               "motion": "park",
               "face": 0,
-              "door": 0
-            },
-            {
-              "t": 0.2854,
-              "x": 0.0,
-              "z": 3.0,
-              "motion": "park",
-              "face": 0,
-              "door": 0
-            },
-            {
-              "t": 0.3272,
-              "x": 0.0,
-              "z": 3.0,
-              "motion": "park",
-              "face": 0,
               "door": 1
-            },
+            }
+          ],
+          "gartenstuhl": [
             {
-              "t": 0.5316,
-              "x": 0.0,
-              "z": 3.0,
+              "t": 0,
+              "x": -2.7,
+              "z": 1.5,
               "motion": "park",
-              "face": 0,
-              "door": 1
-            },
-            {
-              "t": 0.5346,
-              "x": 0.0,
-              "z": 3.0,
-              "motion": "park",
-              "face": 0,
-              "door": 0
+              "face": 90
             }
           ],
           "gartennachbar": [
             {
               "t": 0,
-              "x": 3.0,
+              "x": 4.6,
               "z": 0.2,
-              "motion": "stand",
-              "face": 0,
-              "y": -30
-            },
-            {
-              "t": 0.5316,
-              "x": 3.0,
-              "z": 0.2,
-              "motion": "stand",
-              "face": 0,
-              "y": -30
-            },
-            {
-              "t": 0.5346,
-              "x": 3.0,
-              "z": 0.2,
-              "motion": "snip",
-              "face": 235,
-              "y": 0,
+              "motion": "waterplants",
+              "face": 240,
               "brow": 0,
               "question": 0
             },
             {
-              "t": 0.8659,
-              "x": 3.0,
+              "t": 0.6975,
+              "x": 4.6,
               "z": 0.2,
-              "motion": "snip",
-              "face": 235,
+              "motion": "waterplants",
+              "face": 240,
               "brow": 1,
               "question": 0
             },
             {
-              "t": 0.9007,
-              "x": 3.0,
+              "t": 0.7278,
+              "x": 4.6,
               "z": 0.2,
-              "motion": "snip",
-              "face": 235,
+              "motion": "waterplants",
+              "face": 240,
+              "brow": 1,
               "question": 1
             },
             {
               "t": 1,
-              "x": 3.0,
+              "x": 4.6,
               "z": 0.2,
-              "motion": "snip",
-              "face": 235,
+              "motion": "waterplants",
+              "face": 240,
               "question": 1
             }
           ],
-          "nagelschere": [
+          "giesskanne": [
             {
               "t": 0,
-              "x": 3.0,
+              "x": 4.6,
               "z": 0.2,
               "motion": "park",
-              "face": 0,
-              "y": -30
-            },
-            {
-              "t": 0.5316,
-              "x": 3.0,
-              "z": 0.2,
-              "motion": "park",
-              "face": 0,
-              "y": -30
-            },
-            {
-              "t": 0.5346,
-              "x": 3.0,
-              "z": 0.2,
-              "motion": "park",
-              "face": 235,
+              "face": 240,
               "hand": 1,
               "holder": "gartennachbar",
               "drop": 0.0,
+              "tilt": 38,
+              "water": 1
+            }
+          ],
+          "gartenzwerg": [
+            {
+              "t": 0,
+              "x": -1.7,
+              "z": 2.3,
+              "motion": "park",
+              "face": 160
+            }
+          ],
+          "hund": [
+            {
+              "t": 0,
+              "x": -2.75,
+              "z": 2.75,
+              "motion": "sit",
+              "face": 150
+            }
+          ],
+          "rasenmaeher": [
+            {
+              "t": 0,
+              "x": 1.9,
+              "z": 1.6,
+              "motion": "park",
+              "face": 200
+            }
+          ],
+          "briefkasten": [
+            {
+              "t": 0,
+              "x": 2.2,
+              "z": -6.9,
+              "motion": "park",
+              "face": 180
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.2318,
+            "id": "spaten-klonk",
+            "volume": 0.3
+          },
+          {
+            "t": 0.3709,
+            "id": "uhr-ticken",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Nachts dein Laub in seinen Garten werfen",
+      "speech": "B: Du schmeißt nachts all dein Laub auf seine Grünfläche, sodass es bei ihm untergeht.",
+      "dummyAction": "Nachts wirft der Dummy Arm um Arm Laub über den Zaun. Am nächsten Morgen ist der grüne Rasen des Nachbarn komplett unter Laub verschwunden, der Dummy verschränkt zufrieden die Arme. Der Nachbar schaut verdutzt aus dem Fenster.",
+      "explanation": "Am nächsten Morgen ist von seinem grünen Rasen nichts mehr zu sehen. Er schaut verdutzt aus dem Fenster.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "stage": [
+          {
+            "t": 0,
+            "stage": "nachbargarten-nacht"
+          },
+          {
+            "t": 0.2645,
+            "stage": "nachbargarten"
+          }
+        ],
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -2.49,
+              3.85,
+              12.9
+            ],
+            "look": [
+              0.26,
+              -0.18,
+              1.01
+            ]
+          },
+          {
+            "t": 0.1452,
+            "pos": [
+              -2.353,
+              3.649,
+              12.306
+            ],
+            "look": [
+              0.26,
+              -0.18,
+              1.01
+            ]
+          },
+          {
+            "t": 0.148,
+            "pos": [
+              10.36,
+              2.92,
+              -2.25
+            ],
+            "look": [
+              0.22,
+              0.1,
+              1.03
+            ]
+          },
+          {
+            "t": 0.2258,
+            "pos": [
+              9.853,
+              2.779,
+              -2.086
+            ],
+            "look": [
+              0.22,
+              0.1,
+              1.03
+            ]
+          },
+          {
+            "t": 0.2289,
+            "pos": [
+              7.54,
+              17.65,
+              35.55
+            ],
+            "look": [
+              3.65,
+              -3.06,
+              2.2
+            ]
+          },
+          {
+            "t": 0.6496,
+            "pos": [
+              7.346,
+              16.614,
+              33.883
+            ],
+            "look": [
+              3.65,
+              -3.06,
+              2.2
+            ]
+          },
+          {
+            "t": 0.6531,
+            "pos": [
+              6.46,
+              2.2,
+              3.06
+            ],
+            "look": [
+              7.85,
+              0.55,
+              -6.77
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              6.529,
+              2.118,
+              2.569
+            ],
+            "look": [
+              7.85,
+              0.55,
+              -6.77
+            ]
+          }
+        ],
+        "actors": {
+          "rasen": [
+            {
+              "t": 0,
+              "x": -5.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "lush": 0.0,
+              "paint": 0.0
+            }
+          ],
+          "rasen2": [
+            {
+              "t": 0,
+              "x": 5.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "lush": 1.0,
+              "paint": 0.0
+            }
+          ],
+          "laubdecke": [
+            {
+              "t": 0,
+              "x": 5.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.08
+            },
+            {
+              "t": 0.2615,
+              "x": 5.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.4
+            },
+            {
+              "t": 0.2645,
+              "x": 5.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "fill": 1
+            },
+            {
+              "t": 1,
+              "x": 5.2,
+              "z": 0.6,
+              "motion": "park",
+              "face": 0,
+              "fill": 1
+            }
+          ],
+          "laubhaufen": [
+            {
+              "t": 0,
+              "x": -0.62,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": -0.35
+            },
+            {
+              "t": 0.2615,
+              "x": -0.62,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": -0.7
+            },
+            {
+              "t": 0.2645,
+              "x": -0.62,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": -1
+            }
+          ],
+          "laubwurf": [
+            {
+              "t": 0,
+              "x": -1.15,
+              "z": 0.5,
+              "motion": "show",
+              "face": 90
+            },
+            {
+              "t": 0.2615,
+              "x": -1.15,
+              "z": 0.5,
+              "motion": "show",
+              "face": 90
+            },
+            {
+              "t": 0.2645,
+              "x": -1.15,
+              "z": 0.5,
+              "motion": "park",
+              "face": 90
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -1.15,
+              "z": 0.5,
+              "motion": "leaftoss",
+              "face": 90
+            },
+            {
+              "t": 0.2615,
+              "x": -1.15,
+              "z": 0.5,
+              "motion": "leaftoss",
+              "face": 90
+            },
+            {
+              "t": 0.2645,
+              "x": -2.4,
+              "z": 1.2,
+              "motion": "armscross",
+              "face": 120
+            },
+            {
+              "t": 1,
+              "x": -2.4,
+              "z": 1.2,
+              "motion": "armscross",
+              "face": 120
+            }
+          ],
+          "gartennachbar": [
+            {
+              "t": 0,
+              "x": 7.9,
+              "z": -8.02,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.6262,
+              "x": 7.9,
+              "z": -8.02,
+              "motion": "stand",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.6292,
+              "x": 7.9,
+              "z": -8.02,
+              "motion": "stand",
+              "face": 180,
               "y": 0,
-              "size": 0.7
+              "brow": 1,
+              "question": 0
+            },
+            {
+              "t": 0.664,
+              "x": 7.9,
+              "z": -8.02,
+              "motion": "sheepish",
+              "face": 180,
+              "question": 1
+            },
+            {
+              "t": 1,
+              "x": 7.9,
+              "z": -8.02,
+              "motion": "sheepish",
+              "face": 180,
+              "question": 1
             }
           ],
           "gartenzwerg": [
@@ -932,51 +688,48 @@
               "motion": "park",
               "face": 180
             }
+          ],
+          "gartentor": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": 3.0,
+              "motion": "park",
+              "face": 0,
+              "door": 0.0
+            }
           ]
         },
         "sfx": [
           {
-            "t": 0.2576,
+            "t": 0.0139,
             "id": "schleichen",
-            "volume": 0.45
-          },
-          {
-            "t": 0.5624,
-            "id": "schere-schnipp",
-            "volume": 0.55
-          },
-          {
-            "t": 0.8172,
-            "id": "schere-schnipp",
             "volume": 0.4
+          },
+          {
+            "t": 0.0696,
+            "id": "laub-rascheln",
+            "volume": 0.5
+          },
+          {
+            "t": 0.2367,
+            "id": "laub-rascheln",
+            "volume": 0.45
           }
         ],
         "sharpCuts": true
       }
     },
     {
-      "card": "Sein Haus kaufen, Kündigung schicken",
-      "speech": "C: Du kaufst sein Haus und schickst ihm eine Kündigung.",
+      "card": "Sein Haus kaufen und ihn kündigen",
+      "speech": "C: Du kaufst sein Haus und kündigst ihn.",
       "dummyAction": "Dummy im Anzug mit Aktenkoffer klingelt, unterschreibt den Kaufvertrag, VERKAUFT-Schild ploppt auf, Brief „Kündigung“ in den Briefkasten. Der Nachbar zieht mit seiner Gießkanne nach nebenan – plötzlich wird der gekaufte Rasen braun und der alte grün. Dummy verwirrt.",
-      "explanation": "Du kaufst sein Haus und schickst ihm die Kündigung. Er packt seine Gießkanne und geht. Und plötzlich weißt du nicht mehr, welcher Rasen eigentlich deiner ist.",
+      "explanation": "Er packt seine Gießkanne und geht. Und plötzlich weißt du nicht mehr, welcher Rasen eigentlich deiner ist.",
       "sceneExtra": 0.0,
       "choreography": {
         "camera": [
           {
             "t": 0.0,
-            "pos": [
-              6.2,
-              2.6,
-              4.4
-            ],
-            "look": [
-              3.0,
-              0.9,
-              -4.0
-            ]
-          },
-          {
-            "t": 0.1175,
             "pos": [
               5.6,
               2.2,
@@ -989,7 +742,7 @@
             ]
           },
           {
-            "t": 0.3135,
+            "t": 0.0974,
             "pos": [
               5.4,
               2.1,
@@ -1002,7 +755,7 @@
             ]
           },
           {
-            "t": 0.3169,
+            "t": 0.1,
             "pos": [
               11.59,
               2.8,
@@ -1015,7 +768,7 @@
             ]
           },
           {
-            "t": 0.388,
+            "t": 0.2412,
             "pos": [
               11.178,
               2.687,
@@ -1028,7 +781,7 @@
             ]
           },
           {
-            "t": 0.3915,
+            "t": 0.2444,
             "pos": [
               6.37,
               3.87,
@@ -1041,7 +794,7 @@
             ]
           },
           {
-            "t": 0.4499,
+            "t": 0.2873,
             "pos": [
               6.311,
               3.674,
@@ -1054,7 +807,7 @@
             ]
           },
           {
-            "t": 0.4535,
+            "t": 0.2907,
             "pos": [
               9.47,
               1.87,
@@ -1067,7 +820,7 @@
             ]
           },
           {
-            "t": 0.5439,
+            "t": 0.3933,
             "pos": [
               9.106,
               1.81,
@@ -1080,7 +833,7 @@
             ]
           },
           {
-            "t": 0.5475,
+            "t": 0.3968,
             "pos": [
               6.4,
               2.3,
@@ -1093,7 +846,7 @@
             ]
           },
           {
-            "t": 0.7294,
+            "t": 0.4432,
             "pos": [
               6.0,
               2.2,
@@ -1106,7 +859,7 @@
             ]
           },
           {
-            "t": 0.7326,
+            "t": 0.4468,
             "pos": [
               -0.32,
               8.67,
@@ -1119,7 +872,7 @@
             ]
           },
           {
-            "t": 0.8509,
+            "t": 0.6125,
             "pos": [
               -0.32,
               8.214,
@@ -1132,7 +885,7 @@
             ]
           },
           {
-            "t": 0.8538,
+            "t": 0.616,
             "pos": [
               -11.49,
               3.33,
@@ -1169,7 +922,7 @@
               "lush": 0
             },
             {
-              "t": 0.7129,
+              "t": 0.4687,
               "x": -5.2,
               "z": 0.6,
               "motion": "park",
@@ -1177,7 +930,7 @@
               "lush": 0
             },
             {
-              "t": 0.8573,
+              "t": 0.6131,
               "x": -5.2,
               "z": 0.6,
               "motion": "park",
@@ -1195,7 +948,7 @@
               "lush": 1
             },
             {
-              "t": 0.7129,
+              "t": 0.4687,
               "x": 5.2,
               "z": 0.6,
               "motion": "park",
@@ -1203,7 +956,7 @@
               "lush": 1
             },
             {
-              "t": 0.8573,
+              "t": 0.6131,
               "x": 5.2,
               "z": 0.6,
               "motion": "park",
@@ -1214,92 +967,92 @@
           "dummy": [
             {
               "t": 0,
-              "x": 2.6,
-              "z": -2.2,
+              "x": 3.15,
+              "z": -4.6,
               "motion": "walk",
-              "face": 10.7,
+              "face": 7.8,
               "suit": 1,
               "paint": 0
             },
             {
-              "t": 0.151,
+              "t": 0.0525,
               "x": 3.4,
               "z": -6.42,
               "motion": "walk",
               "face": 0
             },
             {
-              "t": 0.153,
+              "t": 0.0545,
               "x": 3.4,
               "z": -6.42,
               "motion": "ringbell",
               "face": 0
             },
             {
-              "t": 0.3416,
+              "t": 0.1283,
               "x": 3.4,
               "z": -6.42,
               "motion": "ringbell",
               "face": 0
             },
             {
-              "t": 0.3446,
+              "t": 0.1313,
               "x": 3.4,
               "z": -6.42,
               "motion": "fillform",
               "face": 0
             },
             {
-              "t": 0.4254,
+              "t": 0.2921,
               "x": 3.4,
               "z": -6.42,
               "motion": "fillform",
               "face": 0
             },
             {
-              "t": 0.4274,
+              "t": 0.2941,
               "x": 3.4,
               "z": -6.42,
               "motion": "walk",
               "face": 264.5
             },
             {
-              "t": 0.4772,
+              "t": 0.3373,
               "x": 2.15,
               "z": -6.3,
               "motion": "walk",
               "face": 264.5
             },
             {
-              "t": 0.4812,
+              "t": 0.3413,
               "x": 2.15,
               "z": -6.3,
               "motion": "postletter",
               "face": 0
             },
             {
-              "t": 0.5731,
+              "t": 0.4332,
               "x": 2.15,
               "z": -6.3,
               "motion": "armscross",
               "face": 0
             },
             {
-              "t": 0.6968,
+              "t": 0.4526,
               "x": 2.15,
               "z": -6.3,
               "motion": "armscross",
               "face": 20
             },
             {
-              "t": 0.6998,
+              "t": 0.4556,
               "x": 2.4,
               "z": 0.4,
               "motion": "stand",
               "face": 255
             },
             {
-              "t": 0.7785,
+              "t": 0.558,
               "x": 2.4,
               "z": 0.4,
               "motion": "lookaround",
@@ -1307,7 +1060,7 @@
               "question": 0
             },
             {
-              "t": 0.8573,
+              "t": 0.6368,
               "x": 2.4,
               "z": 0.4,
               "motion": "lookaround",
@@ -1326,23 +1079,23 @@
           "aktenkoffer": [
             {
               "t": 0,
-              "x": 2.6,
-              "z": -2.2,
+              "x": 3.15,
+              "z": -4.6,
               "motion": "park",
-              "face": 10.7,
+              "face": 7.8,
               "hand": 1,
               "drop": 0.0
             },
             {
-              "t": 0.3416,
-              "x": 2.6,
-              "z": -2.2,
+              "t": 0.1283,
+              "x": 3.15,
+              "z": -4.6,
               "motion": "park",
               "face": 0,
               "hand": 1
             },
             {
-              "t": 0.3446,
+              "t": 0.1313,
               "x": 2.95,
               "z": -6.32,
               "motion": "park",
@@ -1370,7 +1123,7 @@
               "y": -30
             },
             {
-              "t": 0.3416,
+              "t": 0.1283,
               "x": 3.4,
               "z": -6.95,
               "motion": "park",
@@ -1378,7 +1131,7 @@
               "y": -30
             },
             {
-              "t": 0.3446,
+              "t": 0.1313,
               "x": 3.4,
               "z": -6.95,
               "motion": "park",
@@ -1388,7 +1141,7 @@
               "tilt": -18
             },
             {
-              "t": 0.3676,
+              "t": 0.1477,
               "x": 3.4,
               "z": -6.95,
               "motion": "park",
@@ -1396,7 +1149,7 @@
               "fill": 0
             },
             {
-              "t": 0.4234,
+              "t": 0.2901,
               "x": 3.4,
               "z": -6.95,
               "motion": "park",
@@ -1404,7 +1157,7 @@
               "fill": 1
             },
             {
-              "t": 0.4254,
+              "t": 0.2921,
               "x": 3.4,
               "z": -6.95,
               "motion": "park",
@@ -1422,7 +1175,7 @@
               "y": -30
             },
             {
-              "t": 0.4224,
+              "t": 0.2891,
               "x": 2.15,
               "z": -6.3,
               "motion": "park",
@@ -1430,7 +1183,7 @@
               "y": -30
             },
             {
-              "t": 0.4254,
+              "t": 0.2921,
               "x": 2.15,
               "z": -6.3,
               "motion": "park",
@@ -1441,7 +1194,7 @@
               "size": 0.35
             },
             {
-              "t": 0.5285,
+              "t": 0.3886,
               "x": 2.15,
               "z": -6.3,
               "motion": "park",
@@ -1449,7 +1202,7 @@
               "hand": 1
             },
             {
-              "t": 0.5304,
+              "t": 0.3905,
               "x": 2.15,
               "z": -6.3,
               "motion": "park",
@@ -1468,7 +1221,7 @@
               "door": 0
             },
             {
-              "t": 0.5107,
+              "t": 0.3708,
               "x": 2.2,
               "z": -6.9,
               "motion": "park",
@@ -1476,7 +1229,7 @@
               "door": 0
             },
             {
-              "t": 0.5239,
+              "t": 0.384,
               "x": 2.2,
               "z": -6.9,
               "motion": "park",
@@ -1484,7 +1237,7 @@
               "door": 1
             },
             {
-              "t": 0.5403,
+              "t": 0.4004,
               "x": 2.2,
               "z": -6.9,
               "motion": "park",
@@ -1501,7 +1254,7 @@
               "face": 180
             },
             {
-              "t": 0.409,
+              "t": 0.279,
               "x": 6.6,
               "z": -5.0,
               "motion": "show",
@@ -1525,7 +1278,7 @@
               "y": -30
             },
             {
-              "t": 0.2101,
+              "t": 0.1083,
               "x": 3.4,
               "z": -7.42,
               "motion": "stand",
@@ -1533,7 +1286,7 @@
               "y": -30
             },
             {
-              "t": 0.2134,
+              "t": 0.1116,
               "x": 3.4,
               "z": -7.42,
               "motion": "stand",
@@ -1543,7 +1296,7 @@
               "question": 1
             },
             {
-              "t": 0.3416,
+              "t": 0.1283,
               "x": 3.4,
               "z": -7.42,
               "motion": "stand",
@@ -1552,7 +1305,7 @@
               "question": 1
             },
             {
-              "t": 0.3446,
+              "t": 0.1313,
               "x": 3.4,
               "z": -7.42,
               "motion": "holdboard",
@@ -1562,7 +1315,7 @@
               "brow": 0.6
             },
             {
-              "t": 0.4234,
+              "t": 0.2901,
               "x": 3.4,
               "z": -7.42,
               "motion": "holdboard",
@@ -1570,7 +1323,7 @@
               "y": 0.16
             },
             {
-              "t": 0.4254,
+              "t": 0.2921,
               "x": 3.4,
               "z": -7.42,
               "motion": "stand",
@@ -1578,7 +1331,7 @@
               "y": 0.16
             },
             {
-              "t": 0.5563,
+              "t": 0.3515,
               "x": 3.4,
               "z": -7.42,
               "motion": "stand",
@@ -1586,7 +1339,7 @@
               "y": 0.16
             },
             {
-              "t": 0.5593,
+              "t": 0.3545,
               "x": 3.4,
               "z": -6.82,
               "motion": "walk",
@@ -1594,7 +1347,7 @@
               "y": 0
             },
             {
-              "t": 0.6968,
+              "t": 0.4526,
               "x": 1.6,
               "z": -3.5,
               "motion": "walk",
@@ -1602,7 +1355,7 @@
               "y": 0
             },
             {
-              "t": 0.6998,
+              "t": 0.4556,
               "x": -3.2,
               "z": 0.4,
               "motion": "waterplants",
@@ -1628,7 +1381,7 @@
               "y": -30
             },
             {
-              "t": 0.5563,
+              "t": 0.3515,
               "x": 3.4,
               "z": -7.42,
               "motion": "park",
@@ -1636,7 +1389,7 @@
               "y": -30
             },
             {
-              "t": 0.5593,
+              "t": 0.3545,
               "x": 3.4,
               "z": -7.42,
               "motion": "park",
@@ -1649,7 +1402,7 @@
               "water": 0
             },
             {
-              "t": 0.6968,
+              "t": 0.4526,
               "x": 3.4,
               "z": -7.42,
               "motion": "park",
@@ -1659,7 +1412,7 @@
               "water": 0
             },
             {
-              "t": 0.6998,
+              "t": 0.4556,
               "x": -3.2,
               "z": 0.4,
               "motion": "park",
@@ -1709,22 +1462,22 @@
         },
         "sfx": [
           {
-            "t": 0.1838,
+            "t": 0.0853,
             "id": "tuerklingel",
             "volume": 0.55
           },
           {
-            "t": 0.409,
+            "t": 0.279,
             "id": "plopp",
             "volume": 0.6
           },
           {
-            "t": 0.5272,
+            "t": 0.3873,
             "id": "briefkasten",
             "volume": 0.55
           },
           {
-            "t": 0.7129,
+            "t": 0.4687,
             "id": "rasen-zauber",
             "volume": 0.5
           }
@@ -1738,7 +1491,7 @@
     "screen": "Stimm ab!"
   },
   "outro": {
-    "speech": "Eine richtige Antwort gibt es diesmal nicht. Aber dein Nachbar liest vielleicht mit. Schreib A, B oder C in die Kommentare und schick das Video dem Nachbarn mit dem grünsten Rasen.",
+    "speech": "Eine richtige Antwort gibt es diesmal nicht. Aber ihr habt doch bestimmt auch einen Freund, dem das ständig passiert. Markiert ihn und folgt uns gerne.",
     "screen": "Schreib A, B oder C in die Kommentare"
   },
   "publishing": {

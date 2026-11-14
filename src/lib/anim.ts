@@ -25,7 +25,7 @@ export const rng = (seed: number) => {
 };
 
 const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway',
-  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger', 'toss', 'rollcase', 'tapewalk', 'sneak', 'carrycase', 'hurryback', 'filmphone', 'pass', 'pinchcarry', 'tiptoe', 'mowsneak'];
+  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger', 'toss', 'rollcase', 'tapewalk', 'sneak', 'carrycase', 'hurryback', 'filmphone', 'pass', 'pinchcarry', 'tiptoe', 'mowsneak', 'carrywalk'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
@@ -50,7 +50,7 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'opencase', 'kneellook', 'closecase', 'tuckcase', 'sneak', 'grabwads', 'carrycase', 'holdcase', 'setcounter', 'fillform', 'cheer',
   'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone', 'pass',
   'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay',
-  'envy', 'tiptoe', 'spraylawn', 'climbover', 'mowsneak', 'ringbell', 'postletter', 'armscross', 'snip', 'waterplants', 'holdboard'];
+  'envy', 'tiptoe', 'spraylawn', 'climbover', 'mowsneak', 'ringbell', 'postletter', 'armscross', 'snip', 'waterplants', 'holdboard', 'carrywalk', 'leaftoss'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -71,7 +71,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'opencase', 'kneellook', 'closecase', 'tuckcase', 'sneak', 'grabwads', 'carrycase', 'holdcase', 'setcounter', 'fillform', 'cheer',
   'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone',
   'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay',
-  'envy', 'tiptoe', 'spraylawn', 'climbover', 'mowsneak', 'ringbell', 'postletter', 'armscross', 'snip', 'waterplants', 'holdboard',
+  'envy', 'tiptoe', 'spraylawn', 'climbover', 'mowsneak', 'ringbell', 'postletter', 'armscross', 'snip', 'waterplants', 'holdboard', 'carrywalk', 'leaftoss',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */
