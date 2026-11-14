@@ -64,6 +64,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - pistole-wald → 1. Push
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
+- spritze-spielplatz → 3. Push
 
 ## Das Format (Ablauf eines Videos)
 
@@ -169,6 +170,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Polizeiwache (`polizeiwache`, `src/stage/PoliceStation.tsx`, Atmo = `uhr-ticken`): Wachraum W 6.4 × D 5.4, Tresen (Bauteil `ServiceCounter`) x −2.2 … 2.2,
   Platte 1,05 m, Vorderkante z −0.45; Tafel „POLIZEI“ (ohne Logo), Pinnwand, Uhr, Aktenschrank, Schreibtisch mit Bildschirm, Klingel, Schild „ANMELDUNG“,
   Fenster mit Abendhimmel, Tür rechts (Eingang ca. (2.75, 0.75)), Wartestühle, Pflanze. Besucher vor dem Tresen z ≈ −0.15 (face 0), Beamter dahinter (0.1, −1.68, face 180).
+  Spielplatz an einem sonnigen Tag (`spielplatz`, `src/stage/Playground.tsx`, Atmo = `wald-atmo`): Sandkasten mit Holzrand (Sand x −1.6 … 1.6,
+  z −2.0 … 0.7, 3 cm hoch, Sandspielzeug hinten links), Rutsche (Plattform (−3.8, −3.6)), Doppelschaukel (Sitze `PLAYGROUND.swings` (2.85 / 3.95, −3.4),
+  Sitzhöhe 0,42; linker Sitz schwingt leicht, rechter hängt still für ein Kind), Bank (−3.4, 1.0, Blick +x), Mülleimer (2.6, 1.7), Büsche innen am Zaun,
+  Zaun x ±7.5 / z −7 … 5.5 mit Eingang rechts (z 0.6 … 2.0), Schild am Eingang (`PlaygroundSign`, (7.3, 2.6), Tafel zeigt nach −x, „SPIELPLATZ“ +
+  Telefon-Symbol ohne echte Nummer), Fallschutzmatten, Häuser in der Ferne (Tag). Vorn (z > 2.5, |x| < 6) frei für Kameras.
+  Aus dem Park jetzt exportiert und wiederverwendbar: `TrashBin`, `FarHouses` (mit `day` = Tagesansicht).
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -222,6 +229,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   ab 2,2 s Blick das Gleis entlang (`perkup`), zügig rückwärts gehen mit Blick zum Gleis (`hurryback`, Weg über Zeitpunkte), sicher stehen und dem
   vorbeifahrenden Zug mit dem Kopf folgen (0,8–2,6 s links → rechts, `brace`), an der Kante stehen + leicht vorneigen, Blick nach links (`edgelean`),
   Handy quer mit beiden Händen vors Gesicht + filmen, mit Weg = Schlurf-Schritte (`filmphone`, Handy-Objekt `filmhandy` mit `hand` 1, `drop` −0.05).
+  Spritze: im Sand etwas entdecken + stehen bleiben (`notice`), in die Hocke + mit spitzen Fingern greifen + weit von sich halten (`pinchpick`, Ziel 0,55 m vor ihm,
+  Griff bei 0,9 s), damit gehen/stehen (`pinchcarry`), Kappe auf die Nadel stecken wollen – Nadel rutscht ab Richtung Finger (`recap`, ab 1,45 s; bei ca. 1,65 s
+  einfrieren = vor der Berührung), Arme freundlich ausbreiten + Kinder wegschicken (`shoo`), Handy mit beiden Händen hoch + fotografieren (`photo`, Blitz bei 1 s);
+  vorhanden und wiederverwendet: telefonieren (`call`), aufheben (`pickup`, für den Ast), Stelle markieren (`mark`, mit Ast `plant`), erklären (`pointtalk`).
+  Kinder: auf der Schaukel sitzen + Beine baumeln (`swingsit`, y 0.15), im Sand buddeln (`sandplay`), dazu `run`, `wave`, `cheer`, `listen`, `stand`.
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -260,6 +272,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Streifenpolizist + Streifenpolizistin (`polizist`, `polizistin`: gleiche dunkelblaue Uniform ohne Abzeichen, Polizistin mit Zopf),
   Hund (`hund`, `src/actors/PistolProps.tsx`: freundlicher brauner Low-Poly-Hund, wedelt; `walk`, `stand`, `sit`; Wert `leash` 1 = rote Leine zur
   rechten Hand der Figur in `holder`, Standard `nachbar` = Spaziergänger)
+- **Kinder-Dummys** (`kind1` rosa mit Zöpfen, `kind2` hellblau mit gelber Kappe, `kind3` grün mit roter Kappe; `KIDS` in `src/actors/index.tsx`):
+  Dummy-Körper auf 0,6 verkleinert, größerer Kopf, bunt, ohne Gesicht – immer freundlich zeigen. Können alle Dummy-Bewegungen.
+- **Objekte (Spritze, `src/actors/SyringeProps.tsx`):** stilisierte Einwegspritze mit offener Nadel (`spritze`: Ursprung = Kolbenmitte, Nadel +z, `tilt` negativ =
+  Nadel schaut aus dem Sand, `blink` = Nadel blitzt, `capon` 1 = Kappe drauf, `size`; in der Hand automatisch bei `pinchpick`/`pinchcarry`/`recap`), orange Kappe
+  (`kappe`), Verpackungsmüll (`muell`, `mark` = andere Mischung, `size`), Müllhaufen mit versteckter Nadel (`nadel`, `blink` 1 = Glitzern + roter Warnring), Ast
+  (`ast`: senkrecht, `tilt` 90 = liegt, `plant` = in den Sand drücken; in der Hand mit `hand` 1 + `drop` 0.45), Glitzer-Stern `Glint`. Kein Blut, kein Drogenkonsum.
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
 - **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
@@ -344,7 +362,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million)
+  (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
 
@@ -411,6 +429,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (geprüft), Kontrolle scribe_v2 (Erklärung 1 mit „15.000 Volt“ + Option 3): korrekt. Choreografie: `python3 scripts/bahnsteigkante-choreo.py` (prüft mit
   check_safe, dass beim Einfrieren niemand im Gleis ist und der Zug noch ≥ 12 m entfernt ist – im Video ca. 32 m). Niemand fällt ins Gleis, niemand wird erfasst.
   Standbilder in review/bahnsteigkante-sog/phase1/. Finales Video: review/final/bahnsteigkante-sog.mp4.
+- Spritze auf dem Spielplatz: 1180 neue Zeichen (countdown/reveal aus Cache), Sprechzeit 83,3 s, Video 92,2 s. Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2
+  (Erklärung 2 + 3): korrekt. Choreografie: `python3 scripts/spritze-spielplatz-choreo.py`. Kein Drogenkonsum/Blut, Kinder nur als bunte Kinder-Dummys;
+  falsche Optionen frieren ein (Option 2 bevor die Nadel den Finger berührt). Standbilder in review/spritze-spielplatz/phase1/.
+  Finales Video: review/final/spritze-spielplatz.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -632,7 +654,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer;
                       Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Varianten volle Halle + Bahnsteig mit Oberleitung/Lautsprecher) + Passenger-Figuren;
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
-                      PoliceStation.tsx = Polizeiwache mit Tresen)
+                      PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -643,7 +665,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Herz-Symbol, MagnetProps.tsx = Magnet/Granate/Seil, StationProps.tsx = Koffer/
                       Absperrband/Rechnung/Absperrband-Rolle, PistolProps.tsx = Pistole/Karten-Handy/
                       Polizeiauto/Hund/Leine, MoneyProps.tsx = Geldkoffer/Bündel/Formular/Taschenrechner/
-                      Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien, SyringeProps.tsx = Spritze/Kappe/Müll/versteckte Nadel/Ast/Glitzer) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche

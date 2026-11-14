@@ -25,7 +25,7 @@ export const rng = (seed: number) => {
 };
 
 const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway',
-  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger', 'toss', 'rollcase', 'tapewalk', 'sneak', 'carrycase', 'hurryback', 'filmphone', 'pass'];
+  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger', 'toss', 'rollcase', 'tapewalk', 'sneak', 'carrycase', 'hurryback', 'filmphone', 'pass', 'pinchcarry'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
@@ -48,7 +48,8 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'lookaround', 'bendopen', 'grabcase', 'pointtalk', 'sheepish', 'handover', 'listen',
   'spotpoint', 'pickup', 'pocket', 'fiddle', 'stepback', 'markphone', 'stophand',
   'opencase', 'kneellook', 'closecase', 'tuckcase', 'sneak', 'grabwads', 'carrycase', 'holdcase', 'setcounter', 'fillform', 'cheer',
-  'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone', 'pass'];
+  'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone', 'pass',
+  'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay'];
 
 /** Neue Bewegungen (Strand), bei denen der Wechsel von der vorigen Bewegung weich überblendet wird */
 export const BLEND_MOTIONS: Motion[] = [
@@ -68,6 +69,7 @@ export const BLEND_MOTIONS: Motion[] = [
   'spotpoint', 'pickup', 'pocket', 'fiddle', 'stepback', 'markphone', 'stophand',
   'opencase', 'kneellook', 'closecase', 'tuckcase', 'sneak', 'grabwads', 'carrycase', 'holdcase', 'setcounter', 'fillform', 'cheer',
   'pant', 'perkup', 'hurryback', 'brace', 'edgelean', 'filmphone',
+  'notice', 'pinchpick', 'pinchcarry', 'recap', 'shoo', 'photo', 'swingsit', 'sandplay',
 ];
 
 /** Ab welchem Zeitpunkt läuft die Bewegung von Zeitpunkt i schon? */

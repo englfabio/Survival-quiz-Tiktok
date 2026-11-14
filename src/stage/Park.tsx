@@ -157,7 +157,8 @@ export const ParkLantern = ({light = true}: {light?: boolean}) => (
   </group>
 );
 
-const TrashBin = () => (
+/** Mülleimer (grün, rund), Ursprung = Fuß. Öffnung oben bei ca. 0,85 m */
+export const TrashBin = () => (
   <group>
     <mesh position={[0, 0.42, 0]} castShadow>
       <cylinderGeometry args={[0.24, 0.22, 0.75, 10]} />
@@ -174,8 +175,8 @@ const TrashBin = () => (
   </group>
 );
 
-/** Häuser in der Ferne mit erleuchteten Fenstern */
-const FarHouses = ({z, face, seed}: {z: number; face: 1 | -1; seed: number}) => {
+/** Häuser in der Ferne mit erleuchteten Fenstern (day = am Tag: Fenster dunkel spiegelnd, hellere Fassaden) */
+export const FarHouses = ({z, face, seed, day = false}: {z: number; face: 1 | -1; seed: number; day?: boolean}) => {
   const items = useMemo(() => {
     const r = rng(seed);
     const out: {x: number; w: number; h: number; color: string; roof: string; lit: [number, number, boolean][]}[] = [];
@@ -187,13 +188,15 @@ const FarHouses = ({z, face, seed}: {z: number; face: 1 | -1; seed: number}) => 
       const cols = Math.floor(w / 2);
       const rows = Math.floor((h - 1) / 2.6);
       for (let rr = 0; rr < rows; rr++) for (let cc = 0; cc < cols; cc++) lit.push([(cc - (cols - 1) / 2) * (w / cols), 1.7 + rr * 2.6, r() < 0.45]);
-      out.push({x: x + w / 2, w, h, color: C.house[Math.floor(r() * C.house.length)], roof: C.roof[Math.floor(r() * C.roof.length)], lit});
+      const houseCols = day ? ['#e8dccb', '#d9c7b0', '#f0e6d6', '#cdd6dc', '#e6d2c0'] : C.house;
+      const roofCols = day ? ['#9c4a35', '#7d4436', '#5d5f66'] : C.roof;
+      out.push({x: x + w / 2, w, h, color: houseCols[Math.floor(r() * houseCols.length)], roof: roofCols[Math.floor(r() * roofCols.length)], lit: day ? lit.map(([a, b]) => [a, b, false] as [number, number, boolean]) : lit});
       x += w + 0.2;
     }
     return out;
-  }, [seed]);
+  }, [seed, day]);
   const lit = useMemo(() => new THREE.MeshStandardMaterial({color: '#ffd38a', emissive: '#ffbf63', emissiveIntensity: 1.4}), []);
-  const dark = useMemo(() => new THREE.MeshStandardMaterial({color: '#2c3140', roughness: 0.4}), []);
+  const dark = useMemo(() => new THREE.MeshStandardMaterial({color: day ? '#5b7a96' : '#2c3140', roughness: 0.3, metalness: day ? 0.3 : 0}), [day]);
   return (
     <group position={[0, 0, z]}>
       {items.map((h, i) => (

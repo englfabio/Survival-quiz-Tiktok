@@ -173,6 +173,15 @@ export type Motion =
   | 'edgelean' // Dummy: steht an der Kante, neigt sich leicht nach vorn, Blick nach links das Gleis entlang
   | 'filmphone' // Dummy: hält ein Handy quer mit beiden Händen vors Gesicht und filmt (mit Weg = Schlurf-Schritte)
   | 'pass' // Zug ("zug"): fährt (Weg über Zeitpunkte), Bewegungsunschärfe + Windlinien je nach Tempo
+  // ---- Spritze auf dem Spielplatz (Fundstücke) ----
+  | 'notice' // Dummy: bleibt stehen, entdeckt etwas im Sand ca. 0,6–1 m vor sich (kurzes Zusammenzucken, Blick nach unten, Hände vorsichtig gehoben)
+  | 'pinchpick' // Dummy: geht in die Hocke, greift etwas 0,55 m vor sich mit spitzen Fingern (Griff bei 0,9 s), steht auf, hält es weit vor sich (bis 2 s)
+  | 'pinchcarry' // Dummy: geht und hält etwas mit spitzen Fingern weit vor sich (Spritze in der rechten Hand)
+  | 'recap' // Dummy: Spritze rechts, Kappe links vor der Brust; schiebt die Nadel Richtung Kappe (bis 1,4 s), ab 1,5 s rutscht sie ab Richtung linke Finger
+  | 'shoo' // Dummy: breitet freundlich die Arme aus und schickt Kinder weg (Hände winken sanft)
+  | 'photo' // Dummy: hält das Handy mit beiden Händen vor sich und fotografiert (Blitz bei 1,0 s)
+  | 'swingsit' // Kind: sitzt auf der Schaukel, hält die Ketten, baumelt fröhlich mit den Beinen
+  | 'sandplay' // Kind: kniet im Sand und buddelt fröhlich (Schaufelbewegungen)
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
@@ -345,12 +354,16 @@ export type ActorKey = {
   wind?: number;
   /** "sog": seitliches Mitziehen der Windlinien (−1 … 1, + = Richtung +x der Welt, mit dem Zug) */
   drift?: number;
+  /** Spritze/Nadel: Aufblinken (Warnung) 0 … 1 */
+  blink?: number;
+  /** Spritze: Kappe aufgesteckt 1 = ja */
+  capon?: number;
   /** Gegenstand mit "hand": in wessen rechter Hand (Figur mit Dummy-Körper, z. B. "kumpel", "bundespolizist"). Standard "dummy". Gilt ab diesem Zeitpunkt weiter */
   holder?: string;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

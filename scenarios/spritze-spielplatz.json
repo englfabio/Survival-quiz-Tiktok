@@ -1,0 +1,2013 @@
+{
+  "id": "spritze-spielplatz",
+  "category": "fundstuecke",
+  "stage": "spielplatz",
+  "situation": {
+    "speech": "Du hast mal wieder eine Spritze auf dem Spielplatz gefunden. Sie liegt halb im Sand, die Nadel ist offen. Was machst du jetzt?"
+  },
+  "options": [
+    {
+      "card": "Aufheben, in den Müll",
+      "speech": "Eins: Vorsichtig aufheben und in den Mülleimer werfen.",
+      "dummyAction": "Dummy greift die Spritze mit bloßen Fingern und geht zum Mülleimer. Im Müllhaufen daneben blinkt eine zweite versteckte Nadel auf. Bild friert ein, rotes Aufleuchten.",
+      "explanation": "Bloß nicht. Gefährlich ist nicht die Spritze, sondern die Nadel, und ein Stich reicht. Vorsicht auch beim Müll daneben: Darunter kann noch eine weitere Nadel versteckt sein. Also auch das nicht mit bloßen Händen anfassen.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -3.48,
+              3.11,
+              6.19
+            ],
+            "look": [
+              0.41,
+              0.56,
+              0.62
+            ]
+          },
+          {
+            "t": 0.1095,
+            "pos": [
+              -3.2,
+              2.95,
+              5.8
+            ],
+            "look": [
+              0.41,
+              0.56,
+              0.62
+            ]
+          },
+          {
+            "t": 0.1131,
+            "pos": [
+              3.9,
+              2.9,
+              7.4
+            ],
+            "look": [
+              2.2,
+              0.5,
+              1.6
+            ]
+          },
+          {
+            "t": 0.7078,
+            "pos": [
+              3.5,
+              3.0,
+              5.9
+            ],
+            "look": [
+              2.3,
+              0.4,
+              1.85
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              3.45,
+              2.95,
+              5.7
+            ],
+            "look": [
+              2.3,
+              0.4,
+              1.85
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "notice",
+              "face": 0
+            },
+            {
+              "t": 0.0065,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "walk",
+              "face": 0
+            },
+            {
+              "t": 0.0292,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "walk",
+              "face": 0
+            },
+            {
+              "t": 0.0312,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "pinchpick",
+              "face": 0
+            },
+            {
+              "t": 0.1591,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "pinchpick",
+              "face": 0
+            },
+            {
+              "t": 0.1611,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "pinchcarry",
+              "face": 118.8
+            },
+            {
+              "t": 0.3794,
+              "x": 1.25,
+              "z": 1.55,
+              "motion": "pinchcarry",
+              "face": 118.8
+            },
+            {
+              "t": 0.3804,
+              "x": 1.25,
+              "z": 1.55,
+              "motion": "pinchcarry",
+              "face": 103.1
+            },
+            {
+              "t": 0.535,
+              "x": 1.98,
+              "z": 1.72,
+              "motion": "pinchcarry",
+              "face": 103.1
+            },
+            {
+              "t": 0.537,
+              "x": 1.98,
+              "z": 1.72,
+              "motion": "pinchcarry",
+              "face": 90
+            },
+            {
+              "t": 1,
+              "x": 1.98,
+              "z": 1.72,
+              "motion": "pinchcarry",
+              "face": 90
+            }
+          ],
+          "spritze": [
+            {
+              "t": 0,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": 0.03,
+              "tilt": -16,
+              "size": 0.4
+            },
+            {
+              "t": 0.0856,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": 0.03
+            },
+            {
+              "t": 0.0876,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": -30
+            },
+            {
+              "t": 1,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": -30
+            }
+          ],
+          "kappe": [
+            {
+              "t": 0,
+              "x": 0.74,
+              "z": 0.43,
+              "motion": "park",
+              "face": 40,
+              "y": 0.03
+            }
+          ],
+          "muell": [
+            {
+              "t": 0,
+              "x": 0.02,
+              "z": 0.38,
+              "motion": "park",
+              "face": 10,
+              "y": 0.03,
+              "size": -0.2,
+              "mark": 0
+            }
+          ],
+          "ast": [
+            {
+              "t": 0,
+              "x": 0.71,
+              "z": 1.77,
+              "motion": "park",
+              "face": 200,
+              "y": 0.02,
+              "tilt": 90
+            }
+          ],
+          "nadel": [
+            {
+              "t": 0,
+              "x": 2.36,
+              "z": 2.16,
+              "motion": "park",
+              "face": 200,
+              "blink": 0,
+              "size": 0.4
+            },
+            {
+              "t": 0.6286,
+              "x": 2.36,
+              "z": 2.16,
+              "motion": "park",
+              "face": 200,
+              "blink": 0
+            },
+            {
+              "t": 0.6481,
+              "x": 2.36,
+              "z": 2.16,
+              "motion": "park",
+              "face": 200,
+              "blink": 1
+            },
+            {
+              "t": 1,
+              "x": 2.36,
+              "z": 2.16,
+              "motion": "park",
+              "face": 200,
+              "blink": 1
+            }
+          ],
+          "kind1": [
+            {
+              "t": 0,
+              "x": 3.95,
+              "z": -3.4,
+              "motion": "swingsit",
+              "face": 180,
+              "y": 0.15
+            }
+          ],
+          "kind2": [
+            {
+              "t": 0,
+              "x": -1.25,
+              "z": -3.05,
+              "motion": "cheer",
+              "face": 150
+            }
+          ],
+          "kind3": [
+            {
+              "t": 0,
+              "x": 3.15,
+              "z": -2.55,
+              "motion": "wave",
+              "face": 290
+            }
+          ]
+        },
+        "freeze": 0.6773,
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Kappe drauf, mitnehmen",
+      "speech": "Zwei: Die Kappe wieder draufstecken und die Spritze mitnehmen.",
+      "dummyAction": "Dummy versucht, die Kappe auf die Nadel zu stecken, die Nadel rutscht Richtung Finger. Bild friert ein, BEVOR die Nadel den Finger berührt, rotes Aufleuchten.",
+      "explanation": "Klingt vernünftig, ist aber genau der Moment, in dem sich viele stechen. Die Kappe solltest du niemals wieder auf die Nadel stecken, denn dabei besteht Stichgefahr.",
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -3.48,
+              3.11,
+              6.19
+            ],
+            "look": [
+              0.41,
+              0.56,
+              0.62
+            ]
+          },
+          {
+            "t": 0.2046,
+            "pos": [
+              -3.2,
+              2.95,
+              5.8
+            ],
+            "look": [
+              0.41,
+              0.56,
+              0.62
+            ]
+          },
+          {
+            "t": 0.2087,
+            "pos": [
+              0.09,
+              1.42,
+              -0.4
+            ],
+            "look": [
+              0.37,
+              1.08,
+              0.68
+            ],
+            "fov": 30
+          },
+          {
+            "t": 0.3792,
+            "pos": [
+              0.11,
+              1.4,
+              -0.284
+            ],
+            "look": [
+              0.37,
+              1.09,
+              0.68
+            ],
+            "fov": 30
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.115,
+              1.4,
+              -0.255
+            ],
+            "look": [
+              0.37,
+              1.09,
+              0.68
+            ],
+            "fov": 30
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "notice",
+              "face": 0
+            },
+            {
+              "t": 0.0046,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "walk",
+              "face": 0
+            },
+            {
+              "t": 0.0319,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "walk",
+              "face": 0
+            },
+            {
+              "t": 0.0339,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "pinchpick",
+              "face": 0
+            },
+            {
+              "t": 0.2431,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "pinchpick",
+              "face": 0
+            },
+            {
+              "t": 0.2471,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "recap",
+              "face": 0
+            },
+            {
+              "t": 1,
+              "x": 0.34,
+              "z": 1.05,
+              "motion": "recap",
+              "face": 0
+            }
+          ],
+          "spritze": [
+            {
+              "t": 0,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": 0.03,
+              "tilt": -16,
+              "size": 0.4
+            },
+            {
+              "t": 0.112,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": 0.03
+            },
+            {
+              "t": 0.114,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": -30
+            },
+            {
+              "t": 1,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": -30
+            }
+          ],
+          "kappe": [
+            {
+              "t": 0,
+              "x": 0.74,
+              "z": 0.43,
+              "motion": "park",
+              "face": 40,
+              "y": 0.03
+            },
+            {
+              "t": 0.2431,
+              "x": 0.74,
+              "z": 0.43,
+              "motion": "park",
+              "face": 40,
+              "y": 0.03
+            },
+            {
+              "t": 0.2451,
+              "x": 0.74,
+              "z": 0.43,
+              "motion": "park",
+              "face": 40,
+              "y": -30
+            },
+            {
+              "t": 1,
+              "x": 0.74,
+              "z": 0.43,
+              "motion": "park",
+              "face": 40,
+              "y": -30
+            }
+          ],
+          "muell": [
+            {
+              "t": 0,
+              "x": 0.02,
+              "z": 0.38,
+              "motion": "park",
+              "face": 10,
+              "y": 0.03,
+              "size": -0.2,
+              "mark": 0
+            }
+          ],
+          "ast": [
+            {
+              "t": 0,
+              "x": 0.71,
+              "z": 1.77,
+              "motion": "park",
+              "face": 200,
+              "y": 0.02,
+              "tilt": 90
+            }
+          ],
+          "nadel": [
+            {
+              "t": 0,
+              "x": 2.36,
+              "z": 2.16,
+              "motion": "park",
+              "face": 200,
+              "blink": 0.0,
+              "size": 0.4
+            }
+          ],
+          "kind1": [
+            {
+              "t": 0,
+              "x": 3.95,
+              "z": -3.4,
+              "motion": "swingsit",
+              "face": 180,
+              "y": 0.15
+            }
+          ],
+          "kind2": [
+            {
+              "t": 0,
+              "x": -1.25,
+              "z": -3.05,
+              "motion": "cheer",
+              "face": 150
+            }
+          ],
+          "kind3": [
+            {
+              "t": 0,
+              "x": 3.15,
+              "z": -2.55,
+              "motion": "wave",
+              "face": 290
+            }
+          ]
+        },
+        "freeze": 0.3985,
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Nicht anfassen, Kinder weg, melden",
+      "speech": "Drei: Nicht anfassen, Kinder fernhalten und den Fund melden.",
+      "dummyAction": "Dummy bleibt stehen, schickt die Kinder freundlich weg, markiert die Stelle mit einem Ast im Sand, fotografiert das Schild am Eingang und telefoniert. Grünes Aufleuchten.",
+      "explanation": "Fass nichts an, halt Kinder fern und merk dir die Stelle. Dann melde den Fund bei deiner Stadt, zum Beispiel beim Ordnungsamt, oder bei der Polizei. Die entsorgen das sicher. Und erklär Kindern: Spritzen sind kein Spielzeug, sofort einen Erwachsenen holen. Hat sich jemand gestochen, ruhig bleiben und zum Arzt. Eine HIV-Infektion durch eine Spritze vom Spielplatz ist übrigens noch nie festgestellt worden.",
+      "steps": [
+        {
+          "text": "Nicht anfassen",
+          "cue": "Fass nichts an"
+        },
+        {
+          "text": "Kinder fernhalten",
+          "cue": "halt Kinder fern"
+        },
+        {
+          "text": "Stelle merken",
+          "cue": "merk dir die Stelle"
+        },
+        {
+          "text": "Bei der Stadt oder Polizei melden",
+          "cue": "Dann melde den Fund"
+        },
+        {
+          "text": "Gestochen: zum Arzt",
+          "cue": "Hat sich jemand gestochen"
+        }
+      ],
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.6,
+              4.6,
+              9.4
+            ],
+            "look": [
+              0.6,
+              0.55,
+              0.4
+            ]
+          },
+          {
+            "t": 0.1026,
+            "pos": [
+              2.4,
+              4.3,
+              8.8
+            ],
+            "look": [
+              0.7,
+              0.5,
+              0.6
+            ]
+          },
+          {
+            "t": 0.233,
+            "pos": [
+              2.3,
+              4.0,
+              8.0
+            ],
+            "look": [
+              0.75,
+              0.5,
+              0.8
+            ]
+          },
+          {
+            "t": 0.2372,
+            "pos": [
+              0.65,
+              2.74,
+              7.89
+            ],
+            "look": [
+              6.6,
+              0.67,
+              2.35
+            ]
+          },
+          {
+            "t": 0.4098,
+            "pos": [
+              1.2,
+              2.7,
+              7.4
+            ],
+            "look": [
+              6.6,
+              0.67,
+              2.35
+            ]
+          },
+          {
+            "t": 0.4145,
+            "pos": [
+              7.35,
+              1.96,
+              -0.06
+            ],
+            "look": [
+              3.2,
+              0.85,
+              -1.74
+            ]
+          },
+          {
+            "t": 0.6469,
+            "pos": [
+              7.15,
+              1.92,
+              -0.15
+            ],
+            "look": [
+              3.2,
+              0.85,
+              -1.74
+            ]
+          },
+          {
+            "t": 0.6516,
+            "pos": [
+              6.19,
+              9.77,
+              13.16
+            ],
+            "look": [
+              1.78,
+              -0.89,
+              0.06
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              5.9,
+              9.3,
+              12.5
+            ],
+            "look": [
+              1.78,
+              -0.89,
+              0.06
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "notice",
+              "face": 0
+            },
+            {
+              "t": 0.0642,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "notice",
+              "face": 0
+            },
+            {
+              "t": 0.0662,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "shoo",
+              "face": 180
+            },
+            {
+              "t": 0.1056,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "shoo",
+              "face": 180
+            },
+            {
+              "t": 0.1076,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "stand",
+              "face": 180
+            },
+            {
+              "t": 0.1074,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "pickup",
+              "face": 180
+            },
+            {
+              "t": 0.179,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "pickup",
+              "face": 180
+            },
+            {
+              "t": 0.181,
+              "x": 0.34,
+              "z": 1.25,
+              "motion": "walk",
+              "face": 64.6
+            },
+            {
+              "t": 0.2094,
+              "x": 0.95,
+              "z": 0.96,
+              "motion": "walk",
+              "face": 64.6
+            },
+            {
+              "t": 0.2114,
+              "x": 0.95,
+              "z": 0.96,
+              "motion": "mark",
+              "face": 0
+            },
+            {
+              "t": 0.2703,
+              "x": 0.95,
+              "z": 0.96,
+              "motion": "mark",
+              "face": 0
+            },
+            {
+              "t": 0.2723,
+              "x": 6.25,
+              "z": 2.6,
+              "motion": "photo",
+              "face": 90
+            },
+            {
+              "t": 0.3491,
+              "x": 6.25,
+              "z": 2.6,
+              "motion": "photo",
+              "face": 90
+            },
+            {
+              "t": 0.3511,
+              "x": 6.25,
+              "z": 2.6,
+              "motion": "call",
+              "face": 90
+            },
+            {
+              "t": 0.4265,
+              "x": 6.25,
+              "z": 2.6,
+              "motion": "call",
+              "face": 90
+            },
+            {
+              "t": 0.4285,
+              "x": 3.3,
+              "z": -1.45,
+              "motion": "pointtalk",
+              "face": 0
+            },
+            {
+              "t": 0.6259,
+              "x": 3.3,
+              "z": -1.45,
+              "motion": "pointtalk",
+              "face": 0
+            },
+            {
+              "t": 0.6279,
+              "x": 3.3,
+              "z": -1.45,
+              "motion": "listen",
+              "face": 0
+            },
+            {
+              "t": 1,
+              "x": 3.3,
+              "z": -1.45,
+              "motion": "listen",
+              "face": 0
+            }
+          ],
+          "spritze": [
+            {
+              "t": 0,
+              "x": 0.4,
+              "z": 0.5,
+              "motion": "park",
+              "face": 120,
+              "y": 0.03,
+              "tilt": -16,
+              "blink": 0.0,
+              "size": 0.4
+            }
+          ],
+          "kappe": [
+            {
+              "t": 0,
+              "x": 0.74,
+              "z": 0.43,
+              "motion": "park",
+              "face": 40,
+              "y": 0.03
+            }
+          ],
+          "muell": [
+            {
+              "t": 0,
+              "x": 0.02,
+              "z": 0.38,
+              "motion": "park",
+              "face": 10,
+              "y": 0.03,
+              "size": -0.2,
+              "mark": 0
+            }
+          ],
+          "ast": [
+            {
+              "t": 0,
+              "x": 0.71,
+              "z": 1.77,
+              "motion": "park",
+              "face": 200,
+              "y": 0.02,
+              "tilt": 90,
+              "hand": 0,
+              "drop": 0.45
+            },
+            {
+              "t": 0.1376,
+              "x": 0.71,
+              "z": 1.77,
+              "motion": "park",
+              "face": 200,
+              "y": 0.02,
+              "tilt": 90,
+              "hand": 0
+            },
+            {
+              "t": 0.1396,
+              "x": 0.71,
+              "z": 1.77,
+              "motion": "park",
+              "face": 200,
+              "tilt": 90,
+              "hand": 1
+            },
+            {
+              "t": 0.179,
+              "x": 0.71,
+              "z": 1.77,
+              "motion": "park",
+              "face": 200,
+              "tilt": 20,
+              "hand": 1
+            },
+            {
+              "t": 0.2071,
+              "x": 0.71,
+              "z": 1.77,
+              "motion": "park",
+              "face": 180,
+              "tilt": 0,
+              "hand": 1
+            },
+            {
+              "t": 0.2114,
+              "x": 0.95,
+              "z": 0.52,
+              "motion": "plant",
+              "face": 180,
+              "y": 0,
+              "tilt": 0,
+              "hand": 0
+            },
+            {
+              "t": 1,
+              "x": 0.95,
+              "z": 0.52,
+              "motion": "plant",
+              "face": 180,
+              "y": 0,
+              "tilt": 0,
+              "hand": 0
+            }
+          ],
+          "nadel": [
+            {
+              "t": 0,
+              "x": 2.36,
+              "z": 2.16,
+              "motion": "park",
+              "face": 200,
+              "blink": 0.0,
+              "size": 0.4
+            }
+          ],
+          "kind1": [
+            {
+              "t": 0,
+              "x": 3.95,
+              "z": -3.4,
+              "motion": "swingsit",
+              "face": 180,
+              "y": 0.15
+            }
+          ],
+          "kind2": [
+            {
+              "t": 0.0,
+              "x": -2.35,
+              "z": -0.55,
+              "motion": "run",
+              "face": 166.4
+            },
+            {
+              "t": 0.0276,
+              "x": -1.95,
+              "z": 1.1,
+              "motion": "run",
+              "face": 166.4
+            },
+            {
+              "t": 0.0286,
+              "x": -1.95,
+              "z": 1.1,
+              "motion": "run",
+              "face": 129.8
+            },
+            {
+              "t": 0.0594,
+              "x": -0.45,
+              "z": 2.35,
+              "motion": "run",
+              "face": 129.8
+            },
+            {
+              "t": 0.0614,
+              "x": -0.45,
+              "z": 2.35,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.1,
+              "x": -0.45,
+              "z": 2.35,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.102,
+              "x": -0.45,
+              "z": 2.35,
+              "motion": "run",
+              "face": 98.3
+            },
+            {
+              "t": 0.1472,
+              "x": 2.3,
+              "z": 2.75,
+              "motion": "run",
+              "face": 98.3
+            },
+            {
+              "t": 0.1482,
+              "x": 2.3,
+              "z": 2.75,
+              "motion": "run",
+              "face": 28.8
+            },
+            {
+              "t": 0.1945,
+              "x": 3.7,
+              "z": 0.2,
+              "motion": "run",
+              "face": 28.8
+            },
+            {
+              "t": 0.1955,
+              "x": 3.7,
+              "z": 0.2,
+              "motion": "run",
+              "face": 340.9
+            },
+            {
+              "t": 0.2418,
+              "x": 2.75,
+              "z": -2.55,
+              "motion": "run",
+              "face": 340.9
+            },
+            {
+              "t": 0.2438,
+              "x": 2.75,
+              "z": -2.55,
+              "motion": "cheer",
+              "face": 160
+            },
+            {
+              "t": 0.4265,
+              "x": 2.75,
+              "z": -2.55,
+              "motion": "cheer",
+              "face": 160
+            },
+            {
+              "t": 0.4285,
+              "x": 2.95,
+              "z": -2.45,
+              "motion": "listen",
+              "face": 170
+            },
+            {
+              "t": 1,
+              "x": 2.95,
+              "z": -2.45,
+              "motion": "listen",
+              "face": 170
+            }
+          ],
+          "kind3": [
+            {
+              "t": 0,
+              "x": 2.45,
+              "z": -0.35,
+              "motion": "run",
+              "face": 197.8
+            },
+            {
+              "t": 0.0036,
+              "x": 2.45,
+              "z": -0.35,
+              "motion": "run",
+              "face": 197.8
+            },
+            {
+              "t": 0.0275,
+              "x": 2.0,
+              "z": 1.05,
+              "motion": "run",
+              "face": 197.8
+            },
+            {
+              "t": 0.0285,
+              "x": 2.0,
+              "z": 1.05,
+              "motion": "run",
+              "face": 213.2
+            },
+            {
+              "t": 0.0528,
+              "x": 1.15,
+              "z": 2.35,
+              "motion": "run",
+              "face": 213.2
+            },
+            {
+              "t": 0.0548,
+              "x": 1.15,
+              "z": 2.35,
+              "motion": "stand",
+              "face": 345
+            },
+            {
+              "t": 0.1054,
+              "x": 1.15,
+              "z": 2.35,
+              "motion": "stand",
+              "face": 345
+            },
+            {
+              "t": 0.1074,
+              "x": 1.15,
+              "z": 2.35,
+              "motion": "run",
+              "face": 99.8
+            },
+            {
+              "t": 0.1313,
+              "x": 2.6,
+              "z": 2.6,
+              "motion": "run",
+              "face": 99.8
+            },
+            {
+              "t": 0.1323,
+              "x": 2.6,
+              "z": 2.6,
+              "motion": "run",
+              "face": 28.3
+            },
+            {
+              "t": 0.1794,
+              "x": 4.0,
+              "z": 0.0,
+              "motion": "run",
+              "face": 28.3
+            },
+            {
+              "t": 0.1804,
+              "x": 4.0,
+              "z": 0.0,
+              "motion": "run",
+              "face": 349.4
+            },
+            {
+              "t": 0.2191,
+              "x": 3.55,
+              "z": -2.4,
+              "motion": "run",
+              "face": 349.4
+            },
+            {
+              "t": 0.2211,
+              "x": 3.55,
+              "z": -2.4,
+              "motion": "cheer",
+              "face": 200
+            },
+            {
+              "t": 0.4265,
+              "x": 3.55,
+              "z": -2.4,
+              "motion": "cheer",
+              "face": 200
+            },
+            {
+              "t": 0.4285,
+              "x": 3.65,
+              "z": -2.35,
+              "motion": "listen",
+              "face": 195
+            },
+            {
+              "t": 1,
+              "x": 3.65,
+              "z": -2.35,
+              "motion": "listen",
+              "face": 195
+            }
+          ]
+        },
+        "flash": 0.3511,
+        "sfx": [
+          {
+            "t": 0.3153,
+            "id": "sicherung-klick",
+            "volume": 0.3
+          },
+          {
+            "t": 0.3583,
+            "id": "handy-waehlen",
+            "volume": 0.45
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "correctOption": 3,
+  "countdown": {
+    "speech": "Schreib eins, zwei oder drei in die Kommentare.",
+    "screen": "Schreib 1, 2 oder 3 in die Kommentare"
+  },
+  "reveal": {
+    "speech": "Richtig ist Nummer drei.",
+    "screen": "Richtig ist Nummer 3"
+  },
+  "outro": {
+    "speech": "Teil das mit allen Eltern, die du kennst. Wusstest du es? Schreib's in die Kommentare.",
+    "screen": "Teil das mit allen Eltern, die du kennst. Wusstest du es? Schreib's in die Kommentare."
+  },
+  "sourceLine": "Quellen: Stadt Köln · Bezirksamt Friedrichshain-Kreuzberg",
+  "sources": [
+    {
+      "name": "Stadt Köln, Drogenkonsum im öffentlichen Raum – was tun?",
+      "url": "https://www.stadt-koeln.de/leben-in-koeln/gesundheit/suchthilfe/drogenkonsum-im-oeffentlichen-raum-was-tun-fragen-antworten"
+    },
+    {
+      "name": "Bezirksamt Friedrichshain-Kreuzberg, Broschüre \"Umsicht – Vorsicht\"",
+      "url": "https://berlin.de/ba-friedrichshain-kreuzberg/politik-und-verwaltung/service-und-organisationseinheiten/bezirkliche-planung-und-koordinierung/planungs-und-koordinierungsstelle-gesundheit/arbeitsgebiete/umsicht-vorsicht-fixpunkt_ev_-broschuere_2023_09_fuer_website.pdf"
+    }
+  ],
+  "publishing": {
+    "description": "Du hast mal wieder eine Spritze auf dem Spielplatz gefunden – was machst du jetzt? 🛝 Schreib 1, 2 oder 3 in die Kommentare!\n\nWo du meldest, ist je nach Stadt unterschiedlich: Ordnungsamt, Grünflächenamt oder Gesundheitsamt. Oft steht eine Nummer am Spielplatzschild. Im Zweifel: Polizei.\n\nQuellen:\nStadt Köln, Drogenkonsum im öffentlichen Raum – was tun?: https://www.stadt-koeln.de/leben-in-koeln/gesundheit/suchthilfe/drogenkonsum-im-oeffentlichen-raum-was-tun-fragen-antworten\nBezirksamt Friedrichshain-Kreuzberg, Broschüre \"Umsicht – Vorsicht\": https://berlin.de/ba-friedrichshain-kreuzberg/politik-und-verwaltung/service-und-organisationseinheiten/bezirkliche-planung-und-koordinierung/planungs-und-koordinierungsstelle-gesundheit/arbeitsgebiete/umsicht-vorsicht-fixpunkt_ev_-broschuere_2023_09_fuer_website.pdf\n\nIm Notfall: 112.\n\n#waswürdestdutun #fundstücke #spielplatz #eltern #kindersicherheit #wusstestdu #quiz #sicherheit\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ehrlich: Wer hätte die Kappe wieder draufgesteckt? 👇 Was soll der Dummy als Nächstes finden?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            4.4,
+            6.59,
+            12.87
+          ],
+          "look": [
+            1.5,
+            -0.02,
+            -0.74
+          ]
+        },
+        {
+          "t": 0.4487,
+          "pos": [
+            3.9,
+            6.0,
+            11.6
+          ],
+          "look": [
+            1.3,
+            0.05,
+            -0.6
+          ]
+        },
+        {
+          "t": 0.4535,
+          "pos": [
+            -0.3,
+            1.15,
+            -0.05
+          ],
+          "look": [
+            0.45,
+            0.04,
+            0.55
+          ],
+          "fov": 32
+        },
+        {
+          "t": 0.8311,
+          "pos": [
+            -0.25,
+            1.1,
+            0.0
+          ],
+          "look": [
+            0.45,
+            0.04,
+            0.55
+          ],
+          "fov": 32
+        },
+        {
+          "t": 0.835,
+          "pos": [
+            -2.7,
+            4.8,
+            7.6
+          ],
+          "look": [
+            -0.66,
+            -0.45,
+            1.02
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -2.91,
+            5.05,
+            8.0
+          ],
+          "look": [
+            -0.66,
+            -0.45,
+            1.02
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 3.7,
+            "z": 1.7,
+            "motion": "walk",
+            "face": 277.6
+          },
+          {
+            "t": 0.3523,
+            "x": 0.34,
+            "z": 1.25,
+            "motion": "walk",
+            "face": 277.6
+          },
+          {
+            "t": 0.3543,
+            "x": 0.34,
+            "z": 1.25,
+            "motion": "notice",
+            "face": 0
+          },
+          {
+            "t": 1,
+            "x": 0.34,
+            "z": 1.25,
+            "motion": "notice",
+            "face": 0
+          }
+        ],
+        "spritze": [
+          {
+            "t": 0,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "y": 0.03,
+            "tilt": -16,
+            "blink": 0,
+            "size": 0.4
+          },
+          {
+            "t": 0.4612,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "blink": 0
+          },
+          {
+            "t": 0.5217,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "blink": 0.45
+          },
+          {
+            "t": 0.7884,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "blink": 0.45
+          },
+          {
+            "t": 0.7984,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "blink": 0
+          },
+          {
+            "t": 1,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "blink": 0
+          }
+        ],
+        "kappe": [
+          {
+            "t": 0,
+            "x": 0.74,
+            "z": 0.43,
+            "motion": "park",
+            "face": 40,
+            "y": 0.03
+          }
+        ],
+        "muell": [
+          {
+            "t": 0,
+            "x": 0.02,
+            "z": 0.38,
+            "motion": "park",
+            "face": 10,
+            "y": 0.03,
+            "size": -0.2,
+            "mark": 0
+          }
+        ],
+        "ast": [
+          {
+            "t": 0,
+            "x": 0.71,
+            "z": 1.77,
+            "motion": "park",
+            "face": 200,
+            "y": 0.02,
+            "tilt": 90
+          }
+        ],
+        "nadel": [
+          {
+            "t": 0,
+            "x": 2.36,
+            "z": 2.16,
+            "motion": "park",
+            "face": 200,
+            "blink": 0.0,
+            "size": 0.4
+          }
+        ],
+        "kind1": [
+          {
+            "t": 0,
+            "x": 3.95,
+            "z": -3.4,
+            "motion": "swingsit",
+            "face": 180,
+            "y": 0.15
+          }
+        ],
+        "kind2": [
+          {
+            "t": 0,
+            "x": -1.25,
+            "z": -3.05,
+            "motion": "cheer",
+            "face": 150
+          }
+        ],
+        "kind3": [
+          {
+            "t": 0,
+            "x": 3.15,
+            "z": -2.55,
+            "motion": "wave",
+            "face": 290
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.3523,
+          "id": "herzschlag",
+          "volume": 0.35
+        }
+      ],
+      "sharpCuts": true
+    },
+    "options": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -2.91,
+            5.05,
+            8.0
+          ],
+          "look": [
+            -0.66,
+            -0.45,
+            1.02
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -2.843,
+            4.885,
+            7.791
+          ],
+          "look": [
+            -0.66,
+            -0.45,
+            1.02
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.34,
+            "z": 1.25,
+            "motion": "notice",
+            "face": 0
+          }
+        ],
+        "spritze": [
+          {
+            "t": 0,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "y": 0.03,
+            "tilt": -16,
+            "blink": 0.35,
+            "size": 0.4
+          }
+        ],
+        "kappe": [
+          {
+            "t": 0,
+            "x": 0.74,
+            "z": 0.43,
+            "motion": "park",
+            "face": 40,
+            "y": 0.03
+          }
+        ],
+        "muell": [
+          {
+            "t": 0,
+            "x": 0.02,
+            "z": 0.38,
+            "motion": "park",
+            "face": 10,
+            "y": 0.03,
+            "size": -0.2,
+            "mark": 0
+          }
+        ],
+        "ast": [
+          {
+            "t": 0,
+            "x": 0.71,
+            "z": 1.77,
+            "motion": "park",
+            "face": 200,
+            "y": 0.02,
+            "tilt": 90
+          }
+        ],
+        "nadel": [
+          {
+            "t": 0,
+            "x": 2.36,
+            "z": 2.16,
+            "motion": "park",
+            "face": 200,
+            "blink": 0.0,
+            "size": 0.4
+          }
+        ],
+        "kind1": [
+          {
+            "t": 0,
+            "x": 3.95,
+            "z": -3.4,
+            "motion": "swingsit",
+            "face": 180,
+            "y": 0.15
+          }
+        ],
+        "kind2": [
+          {
+            "t": 0,
+            "x": -1.25,
+            "z": -3.05,
+            "motion": "cheer",
+            "face": 150
+          }
+        ],
+        "kind3": [
+          {
+            "t": 0,
+            "x": 3.15,
+            "z": -2.55,
+            "motion": "wave",
+            "face": 290
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -2.843,
+            4.885,
+            7.791
+          ],
+          "look": [
+            -0.66,
+            -0.45,
+            1.02
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -2.786,
+            4.747,
+            7.616
+          ],
+          "look": [
+            -0.66,
+            -0.45,
+            1.02
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.34,
+            "z": 1.25,
+            "motion": "notice",
+            "face": 0
+          }
+        ],
+        "spritze": [
+          {
+            "t": 0,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "y": 0.03,
+            "tilt": -16,
+            "blink": 0.35,
+            "size": 0.4
+          }
+        ],
+        "kappe": [
+          {
+            "t": 0,
+            "x": 0.74,
+            "z": 0.43,
+            "motion": "park",
+            "face": 40,
+            "y": 0.03
+          }
+        ],
+        "muell": [
+          {
+            "t": 0,
+            "x": 0.02,
+            "z": 0.38,
+            "motion": "park",
+            "face": 10,
+            "y": 0.03,
+            "size": -0.2,
+            "mark": 0
+          }
+        ],
+        "ast": [
+          {
+            "t": 0,
+            "x": 0.71,
+            "z": 1.77,
+            "motion": "park",
+            "face": 200,
+            "y": 0.02,
+            "tilt": 90
+          }
+        ],
+        "nadel": [
+          {
+            "t": 0,
+            "x": 2.36,
+            "z": 2.16,
+            "motion": "park",
+            "face": 200,
+            "blink": 0.0,
+            "size": 0.4
+          }
+        ],
+        "kind1": [
+          {
+            "t": 0,
+            "x": 3.95,
+            "z": -3.4,
+            "motion": "swingsit",
+            "face": 180,
+            "y": 0.15
+          }
+        ],
+        "kind2": [
+          {
+            "t": 0,
+            "x": -1.25,
+            "z": -3.05,
+            "motion": "cheer",
+            "face": 150
+          }
+        ],
+        "kind3": [
+          {
+            "t": 0,
+            "x": 3.15,
+            "z": -2.55,
+            "motion": "wave",
+            "face": 290
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "reveal": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -2.786,
+            4.747,
+            7.616
+          ],
+          "look": [
+            -0.66,
+            -0.45,
+            1.02
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -2.752,
+            4.665,
+            7.511
+          ],
+          "look": [
+            -0.66,
+            -0.45,
+            1.02
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.34,
+            "z": 1.25,
+            "motion": "notice",
+            "face": 0
+          }
+        ],
+        "spritze": [
+          {
+            "t": 0,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "y": 0.03,
+            "tilt": -16,
+            "blink": 0.35,
+            "size": 0.4
+          }
+        ],
+        "kappe": [
+          {
+            "t": 0,
+            "x": 0.74,
+            "z": 0.43,
+            "motion": "park",
+            "face": 40,
+            "y": 0.03
+          }
+        ],
+        "muell": [
+          {
+            "t": 0,
+            "x": 0.02,
+            "z": 0.38,
+            "motion": "park",
+            "face": 10,
+            "y": 0.03,
+            "size": -0.2,
+            "mark": 0
+          }
+        ],
+        "ast": [
+          {
+            "t": 0,
+            "x": 0.71,
+            "z": 1.77,
+            "motion": "park",
+            "face": 200,
+            "y": 0.02,
+            "tilt": 90
+          }
+        ],
+        "nadel": [
+          {
+            "t": 0,
+            "x": 2.36,
+            "z": 2.16,
+            "motion": "park",
+            "face": 200,
+            "blink": 0.0,
+            "size": 0.4
+          }
+        ],
+        "kind1": [
+          {
+            "t": 0,
+            "x": 3.95,
+            "z": -3.4,
+            "motion": "swingsit",
+            "face": 180,
+            "y": 0.15
+          }
+        ],
+        "kind2": [
+          {
+            "t": 0,
+            "x": -1.25,
+            "z": -3.05,
+            "motion": "cheer",
+            "face": 150
+          }
+        ],
+        "kind3": [
+          {
+            "t": 0,
+            "x": 3.15,
+            "z": -2.55,
+            "motion": "wave",
+            "face": 290
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            6.6,
+            2.4,
+            4.6
+          ],
+          "look": [
+            3.35,
+            0.7,
+            -2.0
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            6.45,
+            2.35,
+            4.3
+          ],
+          "look": [
+            3.35,
+            0.7,
+            -2.0
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 3.3,
+            "z": -1.3,
+            "motion": "wave",
+            "face": 175
+          }
+        ],
+        "kind1": [
+          {
+            "t": 0,
+            "x": 3.95,
+            "z": -3.4,
+            "motion": "swingsit",
+            "face": 180,
+            "y": 0.15
+          }
+        ],
+        "kind2": [
+          {
+            "t": 0,
+            "x": 2.85,
+            "z": -2.2,
+            "motion": "wave",
+            "face": 175
+          }
+        ],
+        "kind3": [
+          {
+            "t": 0,
+            "x": 3.75,
+            "z": -1.95,
+            "motion": "cheer",
+            "face": 190
+          }
+        ],
+        "spritze": [
+          {
+            "t": 0,
+            "x": 0.4,
+            "z": 0.5,
+            "motion": "park",
+            "face": 120,
+            "y": 0.03,
+            "tilt": -16,
+            "blink": 0.0,
+            "size": 0.4
+          }
+        ],
+        "kappe": [
+          {
+            "t": 0,
+            "x": 0.74,
+            "z": 0.43,
+            "motion": "park",
+            "face": 40,
+            "y": 0.03
+          }
+        ],
+        "muell": [
+          {
+            "t": 0,
+            "x": 0.02,
+            "z": 0.38,
+            "motion": "park",
+            "face": 10,
+            "y": 0.03,
+            "size": -0.2,
+            "mark": 0
+          }
+        ],
+        "ast": [
+          {
+            "t": 0,
+            "x": 0.95,
+            "z": 0.52,
+            "motion": "park",
+            "face": 180,
+            "y": -0.15,
+            "tilt": 0
+          }
+        ],
+        "nadel": [
+          {
+            "t": 0,
+            "x": 2.36,
+            "z": 2.16,
+            "motion": "park",
+            "face": 200,
+            "blink": 0.0,
+            "size": 0.4
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}
