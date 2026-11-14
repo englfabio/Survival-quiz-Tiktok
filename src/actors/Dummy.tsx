@@ -3577,6 +3577,7 @@ const paketPose = (motion: Motion, time: number, speed: number): DummyPose | nul
  *                 auf die Uhr (Takt 0,25 s), Kopf wechselt Tafel ↔ Uhr, Seufzer (Zyklus 3,2 s). Armbanduhr automatisch.
  *  - watchlook:   Chef: linkes Handgelenk hoch, auf die Uhr schauen, Kopf schütteln (Zyklus 2,6 s). Armbanduhr automatisch.
  *  - capon:       mit beiden Händen etwas auf den Kopf setzen (Hände am Kopf 0,35–0,9 s; Wert "lokcap" passend 0 → 1).
+ *  - seatcapon:   wie capon, aber sitzend (z. B. in der Lok), danach Hände zurück ans Lenkrad.
  *  - lokhorn:     sitzt (Sitz 0,45 m), links am Lenkrad (0,47 m vor ihm, 1,0 m hoch), rechts zieht die Hupen-Schnur
  *                 (0,28 m vor / 0,18 m rechts, 1,36 m hoch → zieht 0,45–1,1 s nach unten), stolz, Zyklus 2,0 s.
  *  - wheeltap:    sitzt, beide Hände am Lenkrad, Finger tippen ungeduldig, Kopf geneigt + Seufzer.
@@ -3631,17 +3632,27 @@ const bahnPose = (motion: Motion, time: number, _speed: number): DummyPose | nul
       p.torsoX = 0.06 + breathe;
       return p;
     }
+    case 'seatcapon':
     case 'capon': {
-      const p = base();
+      const seat = motion === 'seatcapon';
+      const p = seat ? chairSit(time) : base();
+      const top = seat ? 1.56 : 1.98;
       const up = easeInOut(clamp(time / 0.35));
       const down = easeInOut(clamp((time - 0.9) / 0.4));
       const k = up * (1 - down);
       const pull = easeInOut(clamp((time - 0.35) / 0.5));
-      reachL(p, lerp3t(restL, [0.13, 1.98 - 0.08 * pull, 0.02], k), 0.33, [0.8, -0.3, -0.6]);
-      reachR(p, lerp3t(rest, [-0.13, 1.98 - 0.08 * pull, 0.02], k), 0.33, [0.8, -0.3, -0.6]);
+      const rL: P3 = seat ? [0.2, 0.7, 0.3] : restL;
+      const rR: P3 = seat ? [-0.2, 0.7, 0.3] : rest;
+      reachL(p, lerp3t(rL, [0.13, top - 0.08 * pull, 0.02], k), 0.33, [0.8, -0.3, -0.6]);
+      reachR(p, lerp3t(rR, [-0.13, top - 0.08 * pull, 0.02], k), 0.33, [0.8, -0.3, -0.6]);
       p.headX = 0.08 * k;
       p.torsoX = -0.03 * k + breathe;
-      if (down > 0) {
+      if (down > 0 && seat) {
+        // sitzend: Hände zurück aufs Lenkrad
+        reachL(p, lerp3t([0.13, top - 0.08, 0.02], [0.14, 1.03, 0.44], down), 0.33, [0.6, -1, -0.3]);
+        reachR(p, lerp3t([-0.13, top - 0.08, 0.02], [-0.14, 1.03, 0.44], down), 0.33, [0.6, -1, -0.3]);
+        p.chest = 0.4 * down;
+      } else if (down > 0) {
         // danach stolz: Hände in die Hüften
         reachL(p, lerp3t([0.13, 1.9, 0.02], [0.24, 1.0, -0.02], down), 0.33, [0.8, -0.2, -0.8]);
         reachR(p, lerp3t([-0.13, 1.9, 0.02], [-0.24, 1.0, -0.02], down), 0.33, [0.8, -0.2, -0.8]);

@@ -233,6 +233,7 @@ export type Motion =
   | 'watchtap' // genervt: Blick zur Anzeigetafel, auf die Armbanduhr tippen
   | 'watchlook' // auf die Armbanduhr schauen + Kopf schütteln (Chef)
   | 'capon' // mit beiden Händen eine Mütze aufsetzen (Wert lokcap)
+  | 'seatcapon' // dasselbe sitzend
   | 'lokhorn' // sitzt in der Lok, zieht die Hupen-Schnur
   | 'wheeltap' // sitzt, tippt ungeduldig aufs Lenkrad
   | 'seatwave' // sitzt gemütlich (Bagger) und winkt
