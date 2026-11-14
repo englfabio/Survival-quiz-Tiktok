@@ -133,7 +133,7 @@ while ring_times[-1] + sec(L0, 3.4) < 1:
 situation = {
  'camera': [*camF(0, r3(c_du - 0.003), F(body(*RING_D) + [[1.4, 0, -1.0], [1.4, 2.1, 0.0], [-1.4, 0, -2.4], [-1.4, 2.1, -1.4]], 2, 10, BOX_S)),
             *camF(c_du, r3(c_was - 0.003), F(body(*RING_D) + [[1.4, 0, -0.98], [1.4, 2.1, 0.0], [BELL_R[0], BELL_R[1], BELL_R[2]]], 282, 6)),
-            *camF(c_was, 1, F([[RING_D[0], 0.9, RING_D[1] - 0.3], [RING_D[0], 1.95, RING_D[1] + 0.3], [BELL_R[0], BELL_R[1] + 0.15, BELL_R[2]], [1.4, 1.0, -0.6]], 32, 6))],
+            cam(c_was, [3.0, 1.55, -2.3], [0.95, 1.1, -1.42], 58), cam(1, [2.8, 1.52, -2.2], [0.95, 1.1, -1.42], 58)],
  'actors': {**doors(), **bells(press_r=bellkeys(BELL_R, 270, [(t, L0) for t in ring_times])),
             'tageskalender': calendar([(0, 1), (r3(c_drei - 0.003), 1), (r3(c_drei + sec(L0, 0.5)), 2), (r3(c_drei + sec(L0, 1.0)), 3), (1, 3)]),
             'dummy': [K(0, RING_D[0], RING_D[1], 'ringwait', 90, brow=0.3), K(c_was, RING_D[0], RING_D[1], 'ringwait', 90, brow=1.0)]},
@@ -215,9 +215,9 @@ parcelA = [K(0, PARCEL_A[0], PARCEL_A[1], 'park', 230, y=HIDE), K(r3(setA + sec(
 # Kameras
 camA = [*camF(0, r3(c_t1 - 0.003), F(body(*PITCH, 1.85) + [[TENT[0] - 0.62, 0, TENT[1] - 0.7], [TENT[0] + 0.62, 0.9, TENT[1] - 0.7], [1.4, 2.1, -0.9]], 345, 12)),
         *camF(c_t1, r3(up0 - 0.003), F([[TENT[0] - 0.65, 0, TENT[1] - 0.7], [TENT[0] + 0.65, 0, TENT[1] + 0.75], [TENT[0], 0.95, TENT[1]], [CAL[0], CAL[1] + 0.22, CAL[2]], [STOVE[0], 0, STOVE[1] + 0.1]], 350, 9)),
-        *camF(up0, r3(over0 - 0.003), F(body(UP1[0], 2.6, 1.9, 0.3, -1.5) + body(*UP1) + [[TENT[0], 0.9, TENT[1]], [TENT[0], 0, TENT[1] + 0.7]], 182, 24)),
-        *camF(over0, r3(gapA - 0.003), F(body(*SIT, 1.0) + [[TENT[0], 0, TENT[1] - 0.75], [TENT[0], 0, TENT[1] + 0.75], [0.8, 2.4, -0.25], [RING_D[0], 1.9, RING_D[1]]], 255, 10)),
-        *camF(gapA, 1, F(body(*RING_D) + [[1.4, 2.05, -0.97], [1.4, 0, -0.97], [PARCEL_A[0], 0, PARCEL_A[1]], [SIT[0], 1.0, SIT[1]]], 248, 10))]
+        cam(up0, [-1.05, 2.5, -2.55], [0.75, -0.3, 2.0], 62), cam(r3(over0 - 0.003), [-1.0, 2.45, -2.45], [0.75, -0.1, 1.5], 62),
+        cam(over0, [-8.05, 2.4, 0.55], [0.85, 1.35, -0.65]), cam(r3(gapA - 0.003), [-7.6, 2.35, 0.5], [0.85, 1.35, -0.65]),
+        cam(gapA, [-7.85, 2.4, 0.0], [1.05, 1.3, -0.95]), cam(1, [-7.4, 2.35, -0.02], [1.05, 1.3, -0.95])]
 expA = {
  'camera': camA,
  'actors': {**doors(), 'treppentuer': doorA, **bells(press_r=bellkeys(BELL_R, 270, [(ringA, A)])),
@@ -252,14 +252,14 @@ while grab0 + sec(B, 1.45) + sec(B, CYC) * n_cycles < c_morgenB - sec(B, 0.05) a
     cyc.append(r3(grab0 + sec(B, CYC) * n_cycles)); n_cycles += 1
 grab_end = r3(c_morgenB - 0.003)
 STACK_B = (round(KNEEL[0] + 0.24, 3), round(KNEEL[1] - 0.5, 3))
-MORN_D = (0.5, -0.15)
+MORN_D = (0.55, -1.3)
 dummyB = [K(0, KNEEL[0] - 0.45, KNEEL[1] + 0.15, 'stand', 90, brow=1.0), K(r3(saw0 - 0.003), KNEEL[0], KNEEL[1], 'stand', 90),
           K(saw0, KNEEL[0], KNEEL[1], 'sawflap', 90, brow=0.3), K(r3(grab0 - 0.003), KNEEL[0], KNEEL[1], 'sawflap', 90),
           K(grab0, KNEEL[0], KNEEL[1], 'flapgrab', 90), K(grab_end, KNEEL[0], KNEEL[1], 'flapgrab', 90),
-          K(c_morgenB, MORN_D[0], MORN_D[1], 'stand', 120, brow=0.0),
-          K(r3(c_kopf + sec(B, 0.3)), MORN_D[0], MORN_D[1], 'stepback', 120, brow=1.0),
-          K(r3(c_hallo + sec(B, 0.6)), MORN_D[0] - 0.25, MORN_D[1] + 0.12, 'wave', 115),
-          K(r3(c_hallo + sec(B, 2.4)), MORN_D[0] - 0.25, MORN_D[1] + 0.12, 'wave', 115, question=1), K(1, MORN_D[0] - 0.25, MORN_D[1] + 0.12, 'wave', 115, question=1)]
+          K(c_morgenB, MORN_D[0], MORN_D[1], 'stand', 70, brow=0.0),
+          K(r3(c_kopf + sec(B, 0.3)), MORN_D[0], MORN_D[1], 'stepback', 70, brow=1.0),
+          K(r3(c_hallo + sec(B, 0.6)), MORN_D[0] - 0.2, MORN_D[1] - 0.15, 'wave', 70),
+          K(r3(c_hallo + sec(B, 2.4)), MORN_D[0] - 0.2, MORN_D[1] - 0.15, 'wave', 70, question=1), K(1, MORN_D[0] - 0.2, MORN_D[1] - 0.15, 'wave', 70, question=1)]
 # Klappe: beim Greifen offen (Hände drin), sonst fällt sie zu
 lidB = [K(0, DOOR_R[0], DOOR_R[1], 'park', 270, side=1, fill=0, lid=0), K(cut0, DOOR_R[0], DOOR_R[1], 'park', 270, side=1, fill=0, lid=0),
         K(cut1, DOOR_R[0], DOOR_R[1], 'park', 270, side=1, fill=1, lid=0),
@@ -282,11 +282,11 @@ NB_FLAP = (round(1.27 + 0.79, 3), FLAP[2])
 nbB = [K(0, NB_FLAP[0], NB_FLAP[1], 'flappeek', 270, y=HIDE), K(r3(c_kopf - 0.003), NB_FLAP[0], NB_FLAP[1], 'flappeek', 270, y=HIDE),
        K(c_kopf, NB_FLAP[0] + 0.35, NB_FLAP[1], 'flappeek', 270, y=0), K(r3(c_kopf + sec(B, 0.35)), NB_FLAP[0], NB_FLAP[1], 'flappeek', 270, y=0),
        K(c_hallo, NB_FLAP[0], NB_FLAP[1], 'flappeek', 270, brow=0.6), K(1, NB_FLAP[0], NB_FLAP[1], 'flappeek', 270, brow=0.6)]
-camB = [*camF(0, r3(saw0 - 0.003), F(body(KNEEL[0] - 0.45, KNEEL[1] + 0.15) + [[1.4, 0.05, -0.98], [1.4, 2.1, -0.02]], 25, 10)),
-        *camF(saw0, r3(cut1 - 0.003), F(body(*KNEEL, 1.3) + [[1.4, 0.05, -0.8], [1.4, 0.7, -0.2], [1.4, 1.5, -0.5]], 22, 12)),
-        *camF(cut1, r3(c_morgenB - 0.003), F(body(*KNEEL, 1.3) + [[STACK_B[0], 0.9, STACK_B[1]], [1.4, 0.05, -0.8], [1.4, 0.7, -0.2]], 30, 16)),
-        *camF(c_morgenB, r3(c_hallo - 0.003), F([[FLAP[0], 0.05, -0.8], [FLAP[0], 0.7, -0.2], [FLAP[0] - 0.1, 0.5, FLAP[2]]] + body(*MORN_D), 35, 6)),
-        *camF(c_hallo, 1, F([[FLAP[0], 0.08, -0.78], [FLAP[0], 0.66, -0.22], [MORN_D[0] - 0.25, 2.15, MORN_D[1] + 0.12], [MORN_D[0] - 0.25, 0, MORN_D[1] + 0.12]], 22, 4))]
+camB = [cam(0, [-0.95, 1.5, 0.7], [0.9, 0.95, -0.6], 60), cam(r3(saw0 - 0.003), [-0.9, 1.48, 0.68], [0.9, 0.95, -0.6], 60),
+        cam(saw0, [-0.9, 1.3, 0.65], [1.2, 0.5, -0.55], 60), cam(r3(cut1 - 0.003), [-0.8, 1.25, 0.6], [1.2, 0.5, -0.55], 58),
+        cam(cut1, [-0.95, 1.4, 0.7], [1.05, 0.55, -0.7], 62), cam(r3(c_morgenB - 0.003), [-0.85, 1.35, 0.65], [1.05, 0.55, -0.7], 60),
+        cam(c_morgenB, [-0.95, 0.95, 0.75], [0.95, 0.8, -0.95], 66), cam(r3(c_hallo - 0.003), [-0.85, 0.92, 0.7], [0.95, 0.8, -0.95], 64),
+        cam(c_hallo, [-0.8, 0.8, 0.6], [1.05, 0.75, -0.9], 62), cam(1, [-0.7, 0.78, 0.55], [1.05, 0.75, -0.9], 60)]
 expB = {
  'camera': camB,
  'actors': {**doors(), 'treppentuer': lidB, **bells(), 'tageskalender': calendar([(0, 1)]),
@@ -337,17 +337,17 @@ nbC = [K(0, AT_L[0], AT_L[1], 'stand', 270, y=HIDE), K(r3(c_woche - 0.003), AT_L
        K(c_woche, -0.97, -1.52, 'ringwait', 270, y=0), K(r3(open_l - 0.003), -0.97, -1.52, 'ringwait', 270),
        K(open_l, AT_L[0], AT_L[1], 'holdparcel', NBF, teeth=1), K(r3(offer - 0.003), AT_L[0], AT_L[1], 'holdparcel', NBF),
        K(offer, AT_L[0], AT_L[1], 'parcelletter', NBF), K(r3(take - 0.003), AT_L[0], AT_L[1], 'parcelletter', NBF),
-       K(take, AT_L[0], AT_L[1], 'holdparcel', NBF), K(1, AT_L[0], AT_L[1], 'holdparcel', NBF)]
+       K(take, -0.3, -2.5, 'holdparcel', 290), K(1, -0.3, -2.5, 'holdparcel', 290)]
 doorLC = [K(0, DOOR_L[0], DOOR_L[1], 'park', 90, door=0), K(open_l, DOOR_L[0], DOOR_L[1], 'park', 90, door=0),
           K(r3(open_l + sec(C, 0.6)), DOOR_L[0], DOOR_L[1], 'park', 90, door=0.85), K(1, DOOR_L[0], DOOR_L[1], 'park', 90, door=0.85)]
 SIGN = (1.0, -0.5)
-signC = [{**K(0, SIGN[0], SIGN[1], 'park', 270, size=0.5), 'y': 2.2, 'text': '5 € / Tag'}, {**K(r3(c_fuenf - 0.003), SIGN[0], SIGN[1], 'park', 270), 'y': 2.2},
-         {**K(c_fuenf, SIGN[0], SIGN[1], 'show', 270), 'y': 2.2}, {**K(r3(c_woche - 0.003), SIGN[0], SIGN[1], 'show', 270), 'y': 2.2}, {**K(c_woche, SIGN[0], SIGN[1], 'park', 270), 'y': HIDE}]
+signC = [{**K(0, SIGN[0], SIGN[1], 'park', 270, size=3.0), 'y': 1.955, 'text': '5 € / Tag'}, {**K(r3(c_fuenf - 0.003), SIGN[0], SIGN[1], 'park', 270), 'y': 1.95},
+         {**K(c_fuenf, SIGN[0], SIGN[1], 'show', 270), 'y': 1.95}, {**K(r3(c_woche - 0.003), SIGN[0], SIGN[1], 'show', 270), 'y': 1.95}, {**K(c_woche, SIGN[0], SIGN[1], 'park', 270), 'y': HIDE}]
 camC = [*camF(0, r3(slide0 - 0.003), F(body(*SHOW) + [[1.4, 0, -0.98], [1.4, 2.1, 0.0]], 340, 8)),
-        *camF(slide0, r3(c_woche - 0.003), F(body(*SLIDE, 1.2) + [[1.4, 0, -0.98], [1.4, 0, -0.02], [SIGN[0], 2.7, SIGN[1]], [EN1[0], 0, EN1[1]]], 300, 10)),
+        cam(slide0, [-0.95, 1.35, 0.7], [1.05, 0.95, -0.55], 66), cam(r3(c_woche - 0.003), [-0.85, 1.32, 0.65], [1.05, 0.95, -0.55], 64),
         *camF(c_woche, r3(c_mit - 0.003), F(body(*AT_L) + body(*ME_L) + [[CAL[0], CAL[1] + 0.2, CAL[2]], [-1.4, 2.1, -2.38]], 10, 6)),
         *camF(c_mit, r3(take - 0.003), F(body(*AT_L) + body(*ME_L), 20, 6)),
-        *camF(take, 1, F([[ME_L[0], 0.85, ME_L[1] - 0.3], [ME_L[0], 2.25, ME_L[1] + 0.3], [ME_L[0] + 0.35, 1.3, ME_L[1]], [AT_L[0], 1.6, AT_L[1]]], 52, 6))]
+        cam(take, [1.1, 1.55, -0.85], [-1.2, 1.25, -1.85], 56), cam(1, [0.95, 1.53, -0.92], [-1.2, 1.25, -1.85], 54)]
 expC = {
  'camera': camC,
  'actors': {**doors(), 'treppentuer2': doorLC, **bells(press_l=bellkeys(BELL_L, 90, [(ring_nb, C)])),
@@ -362,7 +362,7 @@ expC = {
 V = 'countdown'
 vring = [0.0, r3(sec(V, 3.4))]
 vote = {
- 'camera': [*camF(0, 1, F(body(*RING_D) + [[1.4, 0, -0.98], [1.4, 2.1, 0.0], [BELL_R[0], BELL_R[1], BELL_R[2]]], 18, 8, (260, 900, 1050, 1340), push=0.03))],
+ 'camera': [cam(0, [-0.4, 1.9, 3.0], [0.75, 2.15, -1.4], 55), cam(1, [-0.35, 1.9, 2.8], [0.75, 2.15, -1.4], 55)],
  'actors': {**doors(), **bells(press_r=bellkeys(BELL_R, 270, [(t, V) for t in vring])), 'tageskalender': calendar([(0, 3)]),
             'dummy': [K(0, RING_D[0], RING_D[1], 'ringwait', 90, brow=0.6)]},
 }
