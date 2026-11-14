@@ -21,6 +21,7 @@ import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, Paper
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
 import type {DummyPose, Kid, Uniform} from './Dummy';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
+import {FlatCar, MonsterTruck, PictureFrame, PriceTag, Unimog} from './TruckProps';
 import {CarQueue, CoffeeMug, DelayBoard, Excavator, Loco, RailSignal, Speedo} from './BahnProps';
 import {CampStove, DayCalendar, Doorbell, FairyLights, FlatDoor, Parcel, ParcelStack, Saw, Tent} from './PaketProps';
 import {BigFridge, BigRedButton, Binder, CoinPile, Envelope as WgEnvelope, FatMarker, Laptop, RubberStamp, StickyNote, YogurtBlast, YogurtCup} from './WgProps';
@@ -212,7 +213,29 @@ export const ACTORS = {
   fahrgast1: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   fahrgast2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   fahrgast3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  // ---- Spezial: Monstertruck ----
+  monstertruck: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
+  monstertruck2: {height: 3.0, climbOffset: 0, speedLineHeight: 0},
+  unimog1: {height: 1.8, climbOffset: 0, speedLineHeight: 0},
+  unimog2: {height: 1.8, climbOffset: 0, speedLineHeight: 0},
+  unimog3: {height: 1.8, climbOffset: 0, speedLineHeight: 0},
+  bilderrahmen: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  preisschild: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  truckfahrer: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  besucher1: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  besucher2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  besucher3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
 } as const;
+
+/** Monstertruck-Fahrer: Dummy-Körper hellgrau, roter Rennanzug mit weißen Streifen, roter Rennhelm (kein Logo) */
+const TRUCKER_COLOR = '#b7bec6';
+const TRUCKER_UNIFORM: Uniform = {jacket: '#d8392b', dark: '#9e2a20', collar: '#f4f4f2', pants: '#d8392b', cap: '#d8392b', band: '#d8392b', trim: '#f4f4f2', helmet: '#d8392b'};
+/** Museumsbesucher mit Weinglas (Dummy-Körper, elegante Kleidung, ohne Mütze): 1 = Museumsdirektor im Anzug */
+const MUSEUM_GUESTS: Record<string, {color: string; uniform: Uniform}> = {
+  besucher1: {color: '#9aa1a8', uniform: {jacket: '#2f3440', dark: '#1f232b', collar: '#f4f6f8', pants: '#2b2f38', cap: '#2f3440', band: '#2f3440', trim: '#2f3440', tie: '#c9a24a', nocap: true}},
+  besucher2: {color: '#c9a3d9', uniform: {jacket: '#2f6b5a', dark: '#1f4a3e', collar: '#f2e6d6', pants: '#2a2f36', cap: '#2f6b5a', band: '#2f6b5a', trim: '#2f6b5a', nocap: true, scarf: '#e86a8f', hair: '#3a2618'}},
+  besucher3: {color: '#f0c27a', uniform: {jacket: '#7a2f45', dark: '#552030', collar: '#efe0d2', pants: '#33363d', cap: '#7a2f45', band: '#7a2f45', trim: '#7a2f45', nocap: true}},
+};
 
 /** Wartende Fahrgast-Dummys (Bahnsteig): Dummy-Körper in Pastellfarben, Mantel/Jacke + Hose, ohne Mütze – können alle Dummy-Bewegungen */
 const PASSENGERS: Record<string, {color: string; uniform: Uniform}> = {
@@ -248,7 +271,7 @@ const ROBE: Uniform = {jacket: '#9c4a5a', dark: '#7a3343', collar: '#efe0d2', pa
 const COURIER_COLOR = '#c4d0bf';
 const COURIER_UNIFORM: Uniform = {jacket: '#5b7389', dark: '#3e5164', collar: '#dfe6ec', pants: '#3a434d', cap: '#5b7389', band: '#3e5164', trim: '#8fa5b8'};
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
@@ -581,7 +604,11 @@ export const Actor = ({
       {name === 'kaufvertrag' && <Contract fill={v.fill} tilt={v.tilt} />}
       {name === 'kuendigung' && <Envelope text={actor.text ?? 'KÜNDIGUNG'} size={v.size} />}
       {name === 'briefkasten' && <Mailbox flap={v.door} />}
-      {name === 'verkauft' && <SoldSign time={state.motionTime} visible={state.motion === 'show'} />}
+      {name === 'verkauft' && (
+        <group scale={1 + v.size}>
+          <SoldSign time={state.motionTime} visible={state.motion === 'show'} />
+        </group>
+      )}
       {name === 'giesskanne2' && <GardenWateringCan tilt={v.tilt} water={v.water} time={clock} />}
       {name === 'nagelschere' && <NailScissors time={clock} size={v.size} />}
       {name === 'gartentor' && <GardenGate door={v.door} />}
@@ -751,7 +778,8 @@ export const Actor = ({
         </group>
       )}
       {name === 'bear' && <Bear pose={bearPose(state.motion, state.motionTime, state.speed)} />}
-      {name === 'car' && (
+      {name === 'car' && v.squish > 0.001 && <FlatCar flat={v.squish} pose={carPose(state.motion, state.motionTime, state.speed)} />}
+      {name === 'car' && v.squish <= 0.001 && (
         <Car
           pose={carPose(state.motion, state.motionTime, state.speed)}
           windowOpen={v.window}
@@ -857,6 +885,24 @@ export const Actor = ({
       {name === 'chef' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BOSS_COLOR} uniform={BOSS_SUIT} brow={v.brow} />
       )}
+      {MUSEUM_GUESTS[name] && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={MUSEUM_GUESTS[name].color} uniform={MUSEUM_GUESTS[name].uniform} brow={v.brow} />
+      )}
+      {name === 'truckfahrer' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={TRUCKER_COLOR} uniform={TRUCKER_UNIFORM} brow={v.brow} />
+      )}
+      {(name === 'monstertruck' || name === 'monstertruck2') && (
+        <group rotation={[deg(v.tilt), 0, 0]}>
+          <MonsterTruck big={name === 'monstertruck2'} dist={pos.x * Math.sin(deg(state.face)) - pos.z * Math.cos(deg(state.face))} time={zt} squish={v.squish} smoke={v.smoke} spray={v.spray} mud={v.splat} rumble={v.rumble} />
+        </group>
+      )}
+      {(name === 'unimog1' || name === 'unimog2' || name === 'unimog3') && (
+        <group rotation={[deg(v.tilt), 0, 0]}>
+          <Unimog dist={pos.x * Math.sin(deg(state.face)) - pos.z * Math.cos(deg(state.face))} time={clock} blue={v.blue} spray={v.spray} mud={v.splat} rumble={v.rumble} seed={Number(name.slice(-1))} />
+        </group>
+      )}
+      {name === 'bilderrahmen' && <PictureFrame fill={v.side > 0.5 ? 0 : 1} />}
+      {name === 'preisschild' && <PriceTag text={actor.text ?? '2.000.000 €'} time={state.motionTime} visible={state.motion === 'show'} />}
       {PASSENGERS[name] && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={PASSENGERS[name].color} uniform={PASSENGERS[name].uniform} brow={v.brow} />
       )}

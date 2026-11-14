@@ -241,6 +241,18 @@ export type Motion =
   | 'laptopopen' // sitzend den Laptop aufklappen
   | 'drinkcoffee' // sitzend Kaffee trinken
   | 'deskwave' // sitzend in die Videokonferenz winken
+  // ---- Spezial Monstertruck (Figuren mit Dummy-Körper, Details: truckPose in Dummy.tsx) ----
+  | 'carshock' // fassungslos vor dem platten Auto (Hände auf dem Kopf)
+  | 'truckclimb' // an einem riesigen Monstertruck hochklettern (Höhe über y)
+  | 'seattriumph' // triumphierend am Steuer, Faust pumpt
+  | 'seatdrive' // am Steuer sitzen und lenken
+  | 'hangframe' // etwas Großes über dem Kopf an die Wand hängen
+  | 'proud' // stolz, Hände in den Hüften
+  | 'handshake' // Hände schütteln
+  | 'callpoint' // telefonieren + mit links nach vorn zeigen
+  | 'wineadmire' // Museumsbesucher: Weinglas, Hand am Kinn
+  | 'winegasp' // Museumsbesucher: staunen
+  | 'winetoast' // Museumsbesucher: Glas heben + trinken
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
