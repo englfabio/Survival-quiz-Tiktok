@@ -624,7 +624,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Spezial Paket beim Nachbarn: 1008 neue Zeichen (402 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 74,0 s, Video 88,0 s (Szenen rein visuell
   verlängert: A +3,6 s Nachbar zieht das Paket rein, B +1,2 s Winken, C +1,6 s Erstarren). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2
   (Option 3 + Szene C): korrekt. Choreografie: `python3 scripts/spezial-paket-nachbar-choreo.py`. Comichaft: Klappe wie Katzenklappe mit kleiner Säge,
-  Paketbote ohne Logos in Blaugrau. Standbilder in review/spezial-paket-nachbar/phase1/. Finales Video: review/final/spezial-paket-nachbar.mp4.
+  Paketbote ohne Logos in Blaugrau. Standbilder in review/spezial-paket-nachbar/phase1/. Finales Video: review/final/spezial-paket-nachbar.mp4, vom Inhaber freigegeben.
 - Spezial Bahn-Verspätung: 983 neue Zeichen (394 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 74,5 s, Video 83,7 s (Texte vom Inhaber
   Buchstabe für Buchstabe, daher länger als das Joghurt-Ziel). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 (Situation, Szene B „25“, Szene C „8:01“):
   korrekt. Choreografie: `python3 scripts/spezial-bahn-verspaetung-choreo.py` (Schema wie Joghurt). Niemand betritt zu Fuß die Gleise (Dummy nur IN der Lok),
