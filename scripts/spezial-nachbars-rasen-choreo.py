@@ -168,7 +168,7 @@ nbA = [K(0, NB_A[0], NB_A[1], 'waterplants', 240, brow=0, question=0), K(r3(c_w2
        K(r3(c_w2 + sec(A, 0.8)), NB_A[0], NB_A[1], 'waterplants', 240, brow=1, question=1), K(1, NB_A[0], NB_A[1], 'waterplants', 240, question=1)]
 canA = [K(0, NB_A[0], NB_A[1], 'park', 240, hand=1, holder='gartennachbar', drop=0.0, tilt=38, water=1)]
 expA = {
- 'camera': [*camF(0, r3(tA_scene - 0.003), F(body(*PA[0], 1.6) + body(*PA[2], 1.6) + [[BOMB[0], 0, BOMB[1]]] + body(*NB_A, 2.0), 15, 20)),
+ 'camera': [*camF(0, r3(tA_scene - 0.003), F(body(*PA[1], 1.7) + body(*PA[2], 1.7) + [[BOMB[0], 0, BOMB[1]]], 20, 14)),
             *camF(tA_scene, r3(c_w1 - 0.003), F(body(*CH, 1.5) + [[BOMB[0], 0.2, BOMB[1]]] + body(*NB_A, 2.0), 300, 14)),
             *camF(c_w1, r3(c_w2 - 0.003), F(body(*CH, 1.45, 0.4), 60, 8, (200, 880, 600, 1220))),
             *camF(c_w2, 1, F([[BOMB[0] - 0.7, 0, BOMB[1]], [BOMB[0] + 0.7, 0, BOMB[1]]] + body(*NB_A, 2.1), 330, 8))],
@@ -322,7 +322,7 @@ scen = {
   {'card': S['o3c'], 'speech': S['o3s'], 'dummyAction': 'Dummy im Anzug mit Aktenkoffer klingelt, unterschreibt den Kaufvertrag, VERKAUFT-Schild ploppt auf, Brief „Kündigung“ in den Briefkasten. Der Nachbar zieht mit seiner Gießkanne nach nebenan – plötzlich wird der gekaufte Rasen braun und der alte grün. Dummy verwirrt.', 'explanation': S['e3'], 'sceneExtra': EXTRA[3], 'choreography': expC},
  ],
  'countdown': {'speech': S['vote'], 'screen': 'Stimm ab!'},
- 'outro': {'speech': S['outro'], 'screen': 'Schreib A, B oder C in die Kommentare'},
+ 'outro': {'speech': S['outro'], 'screen': 'Freund markieren & folgen!'},
  'publishing': {
   'description': DESC,
   'pinnedComment': "Ich bin Team ___. Und du? 👇 Und welches Nachbar-Problem sollen wir als Nächstes lösen?",

@@ -18,27 +18,27 @@
           {
             "t": 0.0,
             "pos": [
-              8.25,
-              9.74,
-              25.85
+              4.65,
+              2.8,
+              10.67
             ],
             "look": [
-              1.95,
-              0.19,
-              2.33
+              1.88,
+              0.35,
+              3.06
             ]
           },
           {
             "t": 0.4318,
             "pos": [
-              7.935,
-              9.262,
-              24.674
+              4.512,
+              2.677,
+              10.29
             ],
             "look": [
-              1.95,
-              0.19,
-              2.33
+              1.88,
+              0.35,
+              3.06
             ]
           },
           {
@@ -1492,7 +1492,7 @@
   },
   "outro": {
     "speech": "Eine richtige Antwort gibt es diesmal nicht. Aber ihr habt doch bestimmt auch einen Freund, dem das ständig passiert. Markiert ihn und folgt uns gerne.",
-    "screen": "Schreib A, B oder C in die Kommentare"
+    "screen": "Freund markieren & folgen!"
   },
   "publishing": {
     "description": "Der Rasen deines Nachbarn ist mal wieder grüner als deiner – was machst du? 🌱 Schreib A, B oder C in die Kommentare!\n\nDiesmal ohne richtige Antwort, nur zum Spaß. Bitte nichts davon nachmachen. 😄\n\n#waswürdestdutun #nachbarn #rasen #garten #spezial #lustig #comedy #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.",
