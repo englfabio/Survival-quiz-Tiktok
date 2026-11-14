@@ -133,8 +133,8 @@ const StairwellScene = () => {
         }
         segs.push([cur, len / 2]);
         return segs.map(([a, b], i) => (
-          <mesh key={i} position={[(a + b) / 2, LOW, 0.006]}>
-            <boxGeometry args={[b - a, 0.03, 0.012]} />
+          <mesh key={i} position={[(a + b) / 2, LOW, 0.004]}>
+            <planeGeometry args={[b - a, 0.035]} />
             <meshStandardMaterial color="#7f9a93" />
           </mesh>
         ));

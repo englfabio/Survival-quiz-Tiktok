@@ -66,7 +66,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -221,6 +221,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   mit Stuhl (1.75, −1.3, face 0) + Laptop-Objekt (`laptop` bei (1.75, y 0.74, −1.88)), Wandregal (Brett 1,55 m) mit Ordnern Steuer/Miete/Strom/WG-Kasse und
   freiem Platz (2.25, y 1.565, −2.045), Putzplan an der Rückwand, Zimmertür des Mitbewohners rechts (`zimmertuer` bei (2.5, 0.75), face 270, dahinter dunkle
   Öffnung), Wandkalender rechts (`kalender` bei (2.485, y 1.45, −0.45), face 270). Kein Besen.
+  Treppenhaus (`treppenhaus`, `src/stage/Stairwell.tsx`, Plätze in `TH`, Atmo = `treppenhaus-atmo`): Podest in einem Mehrfamilienhaus am Tag
+  (x −1.4 … 1.4, Rückwand z −2.8 mit großem Treppenhausfenster + Fensterbank + Heizkörper, Blick auf Nachbarhaus/Baum, Decke 2.75 mit Leuchte),
+  Ölsockel graugrün bis 1,1 m, Fliesenboden, zwei gegenüberliegende Wohnungstüren (Türblätter = Objekte): links Tür des Dummys (`treppentuer2` bei
+  (−1.4, −1.43), face 90, Holz), rechts Tür des Nachbarn (`treppentuer` bei (1.4, −0.03), face 270, `side` 1 = gespiegelt → Spalt öffnet hinten
+  Richtung Klingel); Fußmatten, Klingeln als Objekte (`klingel` bei (1.392, y 1.38, −1.18) face 270, `klingel2` bei (−1.392, y 1.38, −1.22) face 90),
+  Treppe nach unten rechts (x 0.1 … 1.4) ab z 0.9 nach +z, 13 Stufen (unten z 4.54, y −2.34; `groundHeight` folgt der Treppe), Treppenauge mit Geländer,
+  Pflanze, Schuhregal. Hinter den Türen kleine Räume (beim Nachbarn dunkel mit Paketbergen – sichtbar durch Spalt/Klappe).
+  Kamera-Trick: Seitenwände von außen unsichtbar → Kamera hinter die linke Wand (x < −1.4, z > −1.25) bzw. rechte Wand (x > 1.4, z < −1.2 oder z > 0.1).
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -302,6 +310,16 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Briefe mit wachsendem Entsetzen öffnen (`openletters`, alle 1,8 s: Rechnung → 1. Mahnung → 2. Mahnung, Schrift zur Kamera), sitzend Münzen einzeln zählen
   (`countcoins`, alle 0,8 s), Joghurt von der Stirn wischen + probieren + Daumen hoch (`wipebrow`). Werte: `glasses` (Lesebrille), `splat` (Joghurt am Kopf),
   `teeth` 1 beim Kumpel = Grinsen.
+  Paket beim Nachbarn (Spezial, Details in `paketPose` in Dummy.tsx): Dummy klingelt + wartet genervt mit verschränkten Armen + Fußtippen, alle 3,4 s
+  erneut (`ringwait`, Klingel 0,42 m vor ihm, 0,3 m rechts, 1,38 m hoch), Zelt aufbauen (`pitchtent`, Packsack 0,45 m vor ihm, Arme hoch bei 1,2–2,0 s),
+  auf dem Boden sitzen (`tentsit`, Knie hoch), im Topf rühren (`tentcook`, Topf 0,45 m vor ihm), zusammengesunken dösen (`tentslump`), kniend mit der
+  kleinen Säge eine Katzenklappe aussägen (`sawflap`, Tür 0,6 m vor ihm, Schnitt 0,55–2,75 s = Tür-Wert `fill`, Klappe aufdrücken 2,85 s), durch die
+  Klappe greifen + Paket links abstellen (`flapgrab`, alle 1,7 s, abgestellt bei 1,36 s), Brief öffnen + erstarren (`letterfreeze`, Zucken bei 1,6 s),
+  Brief zur Kamera zeigen (`showletter`); Aufschrift des Briefs = Feld `text` der Figur. Paket-Nachbar: im Türspalt lugen (`doorpeek`), Kopf durch die
+  Klappe + winken (`flappeek`, Kopf 0,8 m vor der Hüfte auf 0,38 m → Hüfte 0,79 m hinter der Klappe), Paket auf dem Arm + Brief überreichen
+  (`parcelletter`), nur Paket halten (`holdparcel`). Paketbote (Stapel automatisch in den Händen): gehen/stehen (`carrystack`), Treppe hoch mit hohen
+  Schritten (`stairsup`), übertrieben vorsichtig über etwas steigen (`stepover`, Höhe über "y"), klingeln mit Stapel links (`botering`), Paket mit
+  rechts 0,5 m vor sich abstellen (`setparcel`, loslassen 1,0 s). Briefe unter der Tür durchschieben = vorhandenes `slideletter`.
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -345,6 +363,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   rechten Hand der Figur in `holder`, Standard `nachbar` = Spaziergänger; Wert `paint` 1 = mit grüner Farbe angesprüht),
   Garten-Nachbar (`gartennachbar`: Kumpel-Dummy in Orange mit Strohhut – kann alle Dummy-Bewegungen, Augenbrauen + Fragezeichen; Gegenstände in seiner
   Hand mit `"holder": "gartennachbar"`; seine Gießkanne heißt `giesskanne2`, die Wecker-Gießkanne `giesskanne`)
+- **Paket-Nachbar** (`paketnachbar`): Dummy-Körper blaugrau, weinroter Bademantel (Uniform-Feld `robe`) mit hellem Gürtel + Schalkragen, flauschige
+  Hausschuhe (Uniform-Feld `slippers` = Farbe) – kann alle Dummy-Bewegungen, Augenbrauen, Fragezeichen, `teeth` 1 = Grinsen.
+- **Paketbote** (`paketbote`): Dummy-Körper hell salbeigrün, neutrale blaugraue Uniform + Mütze, KEIN Logo, keine Paketdienst-Farben (Vorgabe Inhaber).
 - **Chef** (`chef`): Dummy-Figur grau mit dunkelgrauem Anzug, weißem Hemd, roter Krawatte, ohne Mütze (Uniform-Felder `tie`, `nocap` – wiederverwendbar).
 - **Hütchen** für alle Figuren mit Dummy-Körper: `partyhat` (Partyhütchen, 0 … 1 wird von oben aufgesetzt), `gardenhat` (Strohhut mit grünem Band, z. B. Nachbar = `kumpel` + `gardenhat` 1).
 - **Kinder-Dummys** (`kind1` rosa mit Zöpfen, `kind2` hellblau mit gelber Kappe, `kind3` grün mit roter Kappe; `KIDS` in `src/actors/index.tsx`):
@@ -445,6 +466,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `fill` = Anteil schon aufgereiht), Aktenordner mit Rückenschild (`ordner`, Text), Laptop mit Rechnung auf dem Bildschirm (`laptop`, `fill` = getippt).
   In der Hand automatisch: leerer Becher (`fridgeopen`/`aghast`), Becher + Löffel (`spoon`), Becher mit Zettel (`readnote`/`putback`), Stift, Stempel,
   Ordner, Münze, Brief. Lesebrille + Joghurt-Kleckse über die Dummy-Werte `glasses` / `splat`.
+- **Objekte (Paket beim Nachbarn, `src/actors/PaketProps.tsx`, alle ohne Logos):** Karton mit Klebeband + neutralem Etikett (`paket`, `paket2`, `size`),
+  Paketstapel bis 7 Kartons (`pakete`, `fill` 0 … 1 = wie viele), kleines Kuppelzelt grün mit orangen Stangen, Eingang vorn offen (`zelt`: `fill` 0 = Packsack
+  … 1 = ploppt auf, `squish` = Dach eingedrückt), bunte Lichterkette (`lichterkette`, `glow`, `size` = breiter, y = Aufhängehöhe), Campingkocher mit Topf
+  (`kocher`, `fire` = kleine blaue Flamme, `smoke` = Dampf), kleine Säge (`saege`, liegt; in der Hand bei `sawflap`), Klingelknopf mit Namensschild
+  (`klingel`/`klingel2`, Feld `text`, `press` = gedrückt + leuchtet), Wandkalender „TAG n“ (`tageskalender`, `fill` = Tag, blättert beim Wechsel),
+  Wohnungstür mit Spion, Griff, Namensschild (`treppentuer` graugrün / `treppentuer2` Holz: `door` = geht nach innen auf, `fill` = Klappe wird gesägt
+  (Schnittlinie + Sägespäne), `lid` = Klappe schwingt auf, `side` 1 = gespiegelt, Feld `text` = Name). In der Hand: Paket, Paketstapel (beide Hände oder
+  links), Brief (`letter`), Säge, Kochlöffel. Briefe „Rechnung“/„Gegenrechnung“ = vorhandene `brief`-Umschläge bzw. Brief in der Hand.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -460,7 +489,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -545,6 +574,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (geprüft), Kontrolle scribe_v2 (Option 3 „1,29 Euro“ + Szene C „2026“): korrekt. Choreografie: `python3 scripts/mitbewohner-joghurt-choreo.py` (dauert ca. 3 min,
   Kameras werden mit `fitcam` automatisch eingepasst). Outro-Satz „Und was soll der Dummy als Nächstes erleben?“ auf Wunsch des Inhabers ergänzt.
   Standbilder in review/spezial-mitbewohner-joghurt/phase1/. Finales Video: review/final/spezial-mitbewohner-joghurt.mp4.
+- Spezial Paket beim Nachbarn: 1008 neue Zeichen (402 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 74,0 s, Video 88,0 s (Szenen rein visuell
+  verlängert: A +3,6 s Nachbar zieht das Paket rein, B +1,2 s Winken, C +1,6 s Erstarren). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2
+  (Option 3 + Szene C): korrekt. Choreografie: `python3 scripts/spezial-paket-nachbar-choreo.py`. Comichaft: Klappe wie Katzenklappe mit kleiner Säge,
+  Paketbote ohne Logos in Blaugrau. Standbilder in review/spezial-paket-nachbar/phase1/. Finales Video: review/final/spezial-paket-nachbar.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -577,6 +610,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `tuerklingel`, `schere-schnipp`, `briefkasten`, `schleichen` (Comic-Zehenspitzen), `rasen-zauber` (Glitzer-Verwandlung) (Spezial Nachbars Rasen;
   Bühne `nachbargarten` nutzt `wald-atmo`, `nachbargarten-nacht` nutzt `nacht-atmo`; wiederverwendet: `spruehen`, `plopp`, `hund-bellen`).
   `kuehlschrank-auf`, `knopf-druecken`, `puff` (comichaft, kein Knall), `stift-kritzeln` (geteilt mit Wecker), `tastatur`, `papier-schieben`, `muenzen`, `stempel` (Mitbewohner-Joghurt).
+  `treppenhaus-atmo` (Bühne Treppenhaus, Schleife), `saegen`, `paket-abstellen`, `brief-reissen`, `schritte-treppe`, `tuer-knarren` (Paket beim Nachbarn;
+  wiederverwendet: `tuerklingel`, `plopp`, `geschenk-rascheln`, `kalender-blaettern`, `schleichen`, `tuer-zu`, `papier-schieben`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -773,7 +808,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Varianten volle Halle + Bahnsteig mit Oberleitung/Lautsprecher) + Passenger-Figuren;
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
                       PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz; Office.tsx = Chef-Büro;
-                      NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht)
+                      NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -787,6 +822,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien, SyringeProps.tsx = Spritze/Kappe/Müll/versteckte Nadel/Ast/Glitzer,
                       NeighborProps.tsx = Rasen/Gartenzwerg/Rasenmäher/Aktenkoffer/Kaufvertrag/Kündigung/Briefkasten/
                       VERKAUFT-Schild/Gießkanne/Nagelschere/Sprühdose/Gartentor/Glitzern,
+                      PaketProps.tsx = Paket/Stapel/Zelt/Lichterkette/Kocher/Säge/Klingel/Tageskalender/Wohnungstür mit Klappe,
                       WgProps.tsx = Kühlschrank/Joghurtbecher/Zettel/Knopf/Joghurt-Welle/Briefe/Stempel/Münzen/Ordner/Laptop/Lesebrille) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
