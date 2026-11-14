@@ -590,6 +590,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   in Stunden, z. B. 18 → 21 springt „18:00“ → „21:00“, Bewegung `spin` = Zeiger drehen + rote Zeitraffer-Striche, `size`; in `kueche` bei (1.45, y 2.05, −2.28), face 180).
   In der Hand automatisch: Essensrest (`pinchEat`), glitschige Reste an den Fingern (`sinkreach`), Teller + Schwamm (`hazwash`). Einzelteil `FoodBit`.
 - **Szenario-Feld `padAfter`** (Sekunden, Standard 0,5): Pause nach jedem Sprach-Clip – zum Kürzen auf höchstens 66 s (Spezial-Regel 1), Texte bleiben gleich.
+- **Szenario-Felder `noVote` / `outroMin`** (nur Spezial): `noVote: true` = Abstimmungs-Abschnitt ganz weglassen (das Outro fordert selbst zu
+  „A, B oder C in die Kommentare“ auf → keine Dopplung direkt hintereinander), `outroMin` = Outro mindestens so viele Sekunden (Bild klingt aus,
+  dazu Shot-Feld `fade` im Outro), z. B. damit das Video trotzdem ≥ 61 s bleibt.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -713,6 +716,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Option 2 „Chuck Norris“, Szenen A–C, Outro): korrekt. Choreografie: `python3 scripts/spezial-spuele-choreo.py` (Schema wie Joghurt). Bühne `kueche` statt
   `wg-kueche`, weil der WG-Tisch die Spüle verdeckt. Nur der Dummy kickt (keine Figur, die einer echten Person ähnelt), keine Logos.
   Standbilder in review/spezial-spuele/phase1/. Finales Video: review/final/spezial-spuele.mp4.
+  **Änderung vom Inhaber:** „Schreib A, B oder C in die Kommentare“ kam direkt zweimal (Abstimmung + Outro) → Abstimmung herausgeschnitten
+  (`noVote`), Outro klingt auf 6,9 s aus (`outroMin`, Abblenden) → Video 61,3 s. Neu gerendert, Kontrolle scribe_v2: Satz nur noch einmal.
+  **Für künftige Spezial-Videos beachten:** Abstimmung + Outro dürfen nicht beide „Schreib A, B oder C …“ sagen – entweder Abstimmung weglassen
+  (`noVote`) oder beim Inhaber nachfragen.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).

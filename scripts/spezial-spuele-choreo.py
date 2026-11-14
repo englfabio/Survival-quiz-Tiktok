@@ -26,6 +26,10 @@ outro="Schreib A, B oder C in die Kommentare und folg gerne für mehr.",
 EXTRA = {1: 0.0, 2: 0.0, 3: 0.0}
 # Pausen nach jedem Clip (Sekunden) – zum Kürzen, falls das Video über 66 s käme (Standard wie Joghurt: 0,5)
 TAIL = 0.45
+# Wunsch Inhaber: Abstimmung ganz herausschneiden (sonst kommt „Schreib A, B oder C …“ zweimal direkt hintereinander);
+# dafür klingt das Outro länger aus, damit das Video mindestens 61 s lang bleibt
+NO_VOTE = True
+OUTRO_MIN = 6.9
 
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'countdown': 0.1, 'outro': 0.3}
 MINLEN = {'situation': 5, 'explain1': 6, 'explain2': 6, 'explain3': 7, 'countdown': 5, 'outro': 3}
@@ -49,7 +53,7 @@ def seclen(sec):
     if sec == 'countdown':
         return max(cliplen('countdown'), round(5.6 * 30) / 30)
     if sec == 'outro':
-        return max(cliplen('outro'), 4.0)
+        return max(cliplen('outro'), OUTRO_MIN)
     return cliplen(sec)
 def st_of(c, phrase, last=False):
     txt = TEXT[c]; i = txt.rindex(phrase) if last else txt.index(phrase)
@@ -290,14 +294,14 @@ OUT_D = (-0.2, -0.05)
 aO = static()
 aO['dummy'] = [K(0, *OUT_D, 'stand', 180, brow=0.05), K(0.3, *OUT_D, 'wave', 180), K(1, *OUT_D, 'wave', 180)]
 outro = {'camera': shot(0, 1, F(body(*OUT_D, 2.15, 0.45), 0, 3, (70, 1000, 900, 1225), push=0.05)),
-         'actors': aO}
+         'actors': aO, 'fade': [round(1 - 1.6 / OUTRO_MIN, 3), 0.99, 0.85]}
 
 DESC = ("Du hast mal wieder Essensreste in der Spüle angefasst – was machst du? 🍝 Schreib A, B oder C in die Kommentare!\n\n"
         "Nur zum Spaß. 😄\n\n"
         "#waswürdestdutun #küche #spüle #abwasch #wg #spezial #comedy #quiz\n\n"
         "Hinweis: Das gesamte Video ist KI-generiert.")
 scen = {
- 'id': ID, 'format': 'spezial', 'category': 'spezial', 'stage': 'kueche', 'padAfter': TAIL,
+ 'id': ID, 'format': 'spezial', 'category': 'spezial', 'stage': 'kueche', 'padAfter': TAIL, 'noVote': NO_VOTE, 'outroMin': OUTRO_MIN,
  'situation': {'speech': S['situation']},
  'options': [
   {'card': S['o1c'], 'speech': S['o1s'], 'dummyAction': 'Der Dummy isst die bunten, stilisierten Essensreste aus der Spüle Stück für Stück mit spitzen Fingern und ernstem Blick: Nudel, Paprika, grüner Klumpen. Am Ende ist die Spüle leer und er steht stolz da.', 'explanation': S['e1'], 'sceneExtra': EXTRA[1], 'choreography': expA},
@@ -317,7 +321,7 @@ for _sh in [situation, vote, outro, expA, expB, expC]:
             if 'y' in k: y = k['y']
             elif y is not None: k['y'] = y
 json.dump(scen, open(f'{ROOT}/scenarios/{ID}.json', 'w'), ensure_ascii=False, indent=2)
-total = seclen('situation') + TA + TB + TC + seclen('countdown') + seclen('outro')
+total = seclen('situation') + TA + TB + TC + (0 if NO_VOTE else seclen('countdown')) + seclen('outro')
 print('Länge', round(total, 1), 's', 'audio' if dur else 'geschätzt', {'situation': seclen('situation'), 'A': (cardA, sceneA), 'B': (cardB, sceneB), 'C': (cardC, sceneC), 'vote': seclen('countdown'), 'outro': seclen('outro')})
 print('Situation', dict(reach0=reach0, kalt=c_kalt, gl=c_gl, was=c_was, freeze_s=round((reach0) * seclen(L0) + 1.15, 2), kalt_s=round(c_kalt * seclen(L0), 2)))
 print('A bites', [(round(t * TA, 2), k) for t, k in bites], 'nix', round(c_nix * TA, 2))

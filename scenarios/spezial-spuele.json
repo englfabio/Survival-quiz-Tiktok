@@ -4,6 +4,8 @@
   "category": "spezial",
   "stage": "kueche",
   "padAfter": 0.45,
+  "noVote": true,
+  "outroMin": 6.9,
   "situation": {
     "speech": "Du hast mal wieder Essensreste in der Spüle angefasst. Kalt. Glitschig. Undefinierbar. Was machst du?"
   },
@@ -1463,6 +1465,11 @@
           }
         ]
       },
+      "fade": [
+        0.768,
+        0.99,
+        0.85
+      ],
       "sharpCuts": true
     }
   }
