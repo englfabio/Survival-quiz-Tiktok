@@ -398,18 +398,20 @@ export const dogPose = (motion: string, time: number, speed: number): DogPose =>
 /** Halsband in Hund-Koordinaten (für die Leine) */
 export const DOG_COLLAR = new THREE.Vector3(0, 0.6, 0.33);
 
-export const Dog = ({pose}: {pose: DogPose}) => {
+/** paint ab 0,5 = Fell mit grüner Sprühfarbe (Spezial "Nachbars Rasen") */
+export const Dog = ({pose, paint = 0}: {pose: DogPose; paint?: number}) => {
+  const p = paint > 0.5;
   const m = useMemo(
     () => ({
-      fur: std('#b8783c'),
-      light: std('#f1e3c8'),
-      dark: std('#5b3a22'),
+      fur: std(p ? '#36f04a' : '#b8783c', p ? {roughness: 0.35} : {}),
+      light: std(p ? '#7dff8a' : '#f1e3c8', p ? {roughness: 0.35} : {}),
+      dark: std(p ? '#22b836' : '#5b3a22'),
       nose: std('#1b1b1b', {roughness: 0.4}),
       eye: std('#141414', {roughness: 0.2}),
       collar: std('#d6352b'),
       tongue: std('#e97b8a'),
     }),
-    [],
+    [p],
   );
   const legPos: [number, number][] = [
     [0.1, 0.22],

@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import type {Motion} from '../data/types';
 import {clamp, easeInOut} from '../lib/anim';
 import {CompressPad, PlasterStrip, SprayBottle, SprayMist, VaccinationPass} from './FirstAidProps';
+import {PAINT_GREEN, SprayCan} from './NeighborProps';
 import {Smartphone, Spade} from './GardenProps';
 import {Bucket, Gift} from './ChristmasProps';
 import {Broom, towelPoints, WetTowel} from './ShockProps';
@@ -67,7 +68,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan';
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
   cup: number;
   /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
@@ -2404,6 +2405,189 @@ const spritzePose = (motion: Motion, time: number, speed: number): DummyPose | n
 };
 
 /** Rechte Hand (Handmitte) im Dummy-System (Ursprung am Boden, +z = vorn) – für Gegenstände mit "hand" */
+// ---------- Spezial "Nachbars Rasen" ----------
+/**
+ * Bewegungen für das Spezial-Video "Nachbars Rasen" (wiederverwendbar, alles comichaft):
+ *  - envy:       steht am niedrigen Zaun (0,7 m), Hände auf der oberen Latte (0,3 m vor ihm), reckt sich auf die Zehenspitzen
+ *                und schaut neidisch hinüber (Kopf wiegt langsam hin und her, Seufzer alle ca. 2,5 s)
+ *  - tiptoe:     schleicht übertrieben auf Zehenspitzen (hohe Knie, Hände angewinkelt vor der Brust), Kopf schaut sich um (Weg über Zeitpunkte)
+ *  - spraylawn:  vorgebeugt, sprüht mit der Sprühdose (rechte Hand, automatisch) hin und her auf den Rasen 0,6 m vor ihm, grüner Nebel
+ *  - climbover:  steigt über einen niedrigen Zaun (2,2 s): Hände auf den Zaun, rechtes Bein hoch drüber (0,2–0,9 s), Körper nach vorn
+ *                (Weg über Zeitpunkte: ca. 0,9–1,3 s über die Zaunlinie), linkes Bein nachziehen (1,3–1,9 s), aufrichten
+ *  - mowsneak:   geduckt schleichen und dabei mit beiden Händen einen Rasenmäher schieben (Griff 0,36 m vor ihm auf 0,84 m),
+ *                schaut sich ständig um (Weg über Zeitpunkte)
+ *  - ringbell:   rechte Hand trägt den Aktenkoffer, linke Hand drückt die Klingel 0,42 m vor ihm (0,12 m links) auf 1,38 m
+ *                (Druck bei 0,5–0,75 s), danach stolz warten (Kinn hoch, wippen)
+ *  - postletter: rechte Hand schiebt einen Brief in einen Briefkasten-Schlitz 0,5 m vor ihm auf 1,08 m (drin bei 0,75 s), zurück bis 1,3 s
+ *  - armscross:  triumphierend: Arme verschränkt, Brust raus, Kinn hoch, wippt zufrieden
+ *  - snip:       (Nachbar) kniet und schneidet mit der Nagelschere (rechte Hand am Boden, 0,5 m vor ihm) Halm für Halm, rückt langsam weiter
+ *  - waterplants: (Nachbar) steht und gießt: rechte Hand hält die Gießkanne vor sich (0,4 m, 0,95 m hoch), linke Hand in der Hüfte, summt (wippt)
+ *  - holdboard:  hält mit beiden Händen ein Klemmbrett vor sich (0,42 m vor ihm auf 1,02 m) und schaut darauf
+ */
+export const BELL_SPOT: P3 = [0.12, 1.38, 0.42];
+export const SLOT_SPOT: P3 = [-0.05, 1.08, 0.5];
+export const BOARD_SPOT: P3 = [0, 1.02, 0.42];
+export const MOWER_GRIP: P3 = [0, 0.84, 0.36];
+const nachbarPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'envy': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      const sigh = Math.pow(Math.max(0, Math.sin(time * 2.5)), 6);
+      p.hipY = 0.98 + 0.05 * k + 0.01 * Math.sin(time * 1.3);
+      p.legL = L3(0.06 * k, 0.04, 0.02);
+      p.legR = L3(0.06 * k, -0.04, 0.02);
+      p.torsoX = 0.2 * k + breathe - 0.05 * sigh;
+      p.chest = 0.6 * sigh;
+      p.headX = -0.05 * k + 0.1 * sigh;
+      p.headY = Math.sin(time * 0.9) * 0.28 * k;
+      p.headX += 0;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.2, 0.74, 0.34], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.2, 0.74, 0.34], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'tiptoe': {
+      const ph = time * TAU * Math.max(0.75, speed * 0.75);
+      const s = Math.sin(ph);
+      const p = base();
+      p.hipY = 1.0 + 0.04 * Math.abs(s);
+      p.legL = L3(-0.85 * Math.max(0, s) + 0.12, 0.04, 1.35 * Math.max(0, s) + 0.05);
+      p.legR = L3(-0.85 * Math.max(0, -s) + 0.12, -0.04, 1.35 * Math.max(0, -s) + 0.05);
+      p.torsoX = 0.22;
+      p.torsoY = 0.08 * s;
+      p.headX = -0.05;
+      p.headY = Math.sin(time * 1.4) * 0.6;
+      reachR(p, [-0.24, 1.22 + 0.06 * s, 0.26], 0.33, [0.7, -0.6, -0.5]);
+      reachL(p, [0.24, 1.22 - 0.06 * s, 0.26], 0.33, [0.7, -0.6, -0.5]);
+      return p;
+    }
+    case 'spraylawn': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.hipY = 0.98 - 0.1 * k;
+      p.legL = L3(-0.3 * k, 0.08, 0.45 * k);
+      p.legR = L3(-0.3 * k, -0.08, 0.45 * k);
+      p.pitch = 0.04 * k;
+      p.torsoX = 0.5 * k + breathe;
+      p.headX = 0.35 * k;
+      const sw = Math.sin(time * 2.6);
+      p.torsoY = 0.12 * sw * k;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.12 + 0.22 * sw, 0.5, 0.5], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.16, 0.58, 0.28], k), 0.33, [0.6, -1, -0.3]);
+      p.item = 'spraycan';
+      p.mist = time > 0.4 ? 1 : 0;
+      return p;
+    }
+    case 'climbover': {
+      const p = base();
+      const t = time;
+      const handsK = easeInOut(clamp(t / 0.3)) * (1 - easeInOut(clamp((t - 1.9) / 0.3)));
+      const r1 = easeInOut(clamp((t - 0.2) / 0.5)) * (1 - easeInOut(clamp((t - 0.95) / 0.45)));
+      const l1 = easeInOut(clamp((t - 1.2) / 0.4)) * (1 - easeInOut(clamp((t - 1.65) / 0.4)));
+      p.hipY = 0.98 + 0.05 * Math.max(r1, l1);
+      p.legR = L3(-1.55 * r1, -0.12 * r1, 1.5 * r1);
+      // linkes Bein wird nach hinten oben nachgezogen
+      p.legL = L3(0.9 * l1, 0.18 * l1, 1.6 * l1);
+      p.torsoX = 0.25 * handsK + 0.1 * r1 - 0.08 * l1;
+      p.torsoZ = 0.1 * r1 - 0.1 * l1;
+      p.headX = 0.2 * handsK;
+      p.headY = Math.sin(t * 3) * 0.25 * handsK;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.22, 0.74, 0.18], handsK), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.22, 0.74, 0.18], handsK), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'mowsneak': {
+      const ph = time * TAU * Math.max(0.8, speed * 1.0);
+      const s = Math.sin(ph);
+      const p = base();
+      p.hipY = 0.86 - 0.02 * Math.abs(Math.cos(ph));
+      p.legL = L3(-0.45 - 0.3 * s, 0.05, 0.75 + 0.35 * Math.max(0, Math.sin(ph + 1.2)));
+      p.legR = L3(-0.45 + 0.3 * s, -0.05, 0.75 + 0.35 * Math.max(0, Math.sin(ph + 1.2 + Math.PI)));
+      p.pitch = 0.05;
+      p.torsoX = 0.3;
+      p.headY = Math.sin(time * 1.5) * 0.85;
+      p.headX = -0.05;
+      reachR(p, [-0.2, MOWER_GRIP[1], MOWER_GRIP[2]], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.2, MOWER_GRIP[1], MOWER_GRIP[2]], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'ringbell': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      const back = easeInOut(clamp((time - 0.8) / 0.4));
+      const press = time > 0.45 && time < 0.8 ? Math.sin(((time - 0.45) / 0.35) * Math.PI) * 0.03 : 0;
+      p.torsoX = 0.04 * k * (1 - back) + breathe;
+      p.headX = -0.1 * back;
+      p.hipY = 0.98 + (time > 1.2 ? 0.012 * Math.sin(time * 5) : 0);
+      p.chest = 0.4 * back;
+      caseArm(p);
+      const bell: P3 = [BELL_SPOT[0], BELL_SPOT[1], BELL_SPOT[2] + press];
+      reachL(p, lerp3t(lerp3t([0.22, 0.95, 0.1], bell, k), [0.22, 0.95, 0.1], back), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'postletter': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const push = easeInOut(clamp((time - 0.5) / 0.25));
+      const back = easeInOut(clamp((time - 0.85) / 0.45));
+      p.torsoX = (0.08 * k + 0.06 * push) * (1 - back) + breathe;
+      p.headX = 0.15 * (1 - back);
+      const pre: P3 = [SLOT_SPOT[0], SLOT_SPOT[1] + 0.02, SLOT_SPOT[2] - 0.12];
+      reachR(p, lerp3t(lerp3t(lerp3t([-0.22, 0.95, 0.1], pre, k), SLOT_SPOT, push), [-0.22, 0.95, 0.1], back), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'armscross': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const bob = Math.sin(time * 3.2) * 0.012 * k;
+      p.hipY = 0.98 + bob;
+      p.chest = 0.7 * k;
+      p.torsoX = -0.06 * k + breathe;
+      p.headX = -0.2 * k + Math.max(0, Math.sin(time * 3.2)) * 0.06 * k;
+      p.headY = 0.12 * Math.sin(time * 0.8) * k;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [0.12, 1.06, 0.22], k), 0.33, [0.5, -1, 0.2]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [-0.12, 1.1, 0.24], k), 0.33, [0.5, -1, 0.2]);
+      p.legL.sz = 0.07;
+      p.legR.sz = -0.07;
+      return p;
+    }
+    case 'snip': {
+      const p = kneelUp(0.62);
+      const sn = Math.sin(time * 14) * 0.012;
+      const shift = Math.sin(time * 0.7) * 0.08;
+      p.headX = 0.5;
+      p.headY = shift * 1.5;
+      reachR(p, [-0.08 + shift, 0.14 + sn, 0.5], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.16, 0.1, 0.42], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'waterplants': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = 0.06 * k + breathe;
+      p.torsoZ = 0.03 * Math.sin(time * 2.4);
+      p.headX = 0.25 * k;
+      p.headY = 0.1 * Math.sin(time * 2.4);
+      p.hipY = 0.98 + 0.01 * Math.sin(time * 4.8);
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.16, 0.98, 0.4], k), 0.33, [0.6, -1, -0.3]);
+      // linke Hand in die Hüfte
+      reachL(p, [0.24, 0.98, 0.0], 0.33, [1, 0.2, -0.2]);
+      return p;
+    }
+    case 'holdboard': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = 0.06 * k + breathe;
+      p.headX = 0.32 * k;
+      reachR(p, lerp3t([-0.22, 0.95, 0.1], [-0.13, BOARD_SPOT[1], BOARD_SPOT[2]], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.95, 0.1], [0.13, BOARD_SPOT[1], BOARD_SPOT[2]], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+  }
+  return null;
+};
+
 export const rightHandLocal = (p: DummyPose) =>
   armPoint(p.armR, -1, p.foreZ, 0.33)
     .applyEuler(new THREE.Euler(p.torsoX, p.torsoY, p.torsoZ))
@@ -2431,7 +2615,7 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? nachbarPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -2891,7 +3075,7 @@ export const dummyPoseBlended = (
  * Uniform für Figuren mit Dummy-Körper (Bahnmitarbeiterin, Bundespolizist …): Farben für Jacke, Säume, Kragen, Hose,
  * Mütze (Schirmmütze) + Mützenband, optional Halstuch und Zopf. Ohne Logos und ohne echte Abzeichen.
  */
-export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string};
+export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; noCap?: boolean; tie?: string};
 const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
   useMemo(
     () => ({
@@ -2920,6 +3104,7 @@ const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
       visor: new THREE.MeshStandardMaterial({color: '#15171a', roughness: 0.3, flatShading: true}),
       scarf: new THREE.MeshStandardMaterial({color: uni?.scarf ?? '#c8102e', roughness: 0.8, flatShading: true, side: THREE.DoubleSide}),
       hair: new THREE.MeshStandardMaterial({color: uni?.hair ?? '#4a2f1f', roughness: 0.9, flatShading: true}),
+      paintShoe: new THREE.MeshStandardMaterial({color: '#36f04a', roughness: 0.3, flatShading: true}),
     }),
     [color, coat, uni],
   );
@@ -3187,7 +3372,10 @@ const Leg = ({
   barefoot = false,
   time = 0,
   pants = 0,
+  paint = 0,
 }: {
+  /** Schuhe mit grüner Farbe 0 … 1 */
+  paint?: number;
   m: Mats;
   limb: Limb;
   side: 1 | -1;
@@ -3233,9 +3421,16 @@ const Leg = ({
           )}
         </group>
       ) : (
-        <mesh material={m.joint} position={[0, -0.46, 0.06]} castShadow>
-          <boxGeometry args={[0.13, 0.08, 0.27]} />
-        </mesh>
+        <>
+          <mesh material={paint > 0.5 ? m.paintShoe : m.joint} position={[0, -0.46, 0.06]} castShadow>
+            <boxGeometry args={[0.13, 0.08, 0.27]} />
+          </mesh>
+          {paint > 0.5 && (
+            <mesh material={m.paintShoe} position={[0.02 * side, -0.38, 0.05]} scale={[0.06, 0.035, 0.05]}>
+              <icosahedronGeometry args={[1, 0]} />
+            </mesh>
+          )}
+        </>
       )}
       {pain > 0.01 && (
         <group position={[0, -0.47, 0.07]}>
@@ -3672,6 +3867,21 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
       </group>
     );
   }
+  if (pose.item === 'spraycan') {
+    // Sprühdose mit grüner Farbe: Sprühkopf zeigt nach vorn unten auf den Rasen (Richtung in der Welt, Oberkörper ausgeglichen)
+    const dir = new THREE.Vector3(0, -1, 0.55).normalize().applyQuaternion(level);
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
+    return (
+      <group position={hand} quaternion={q}>
+        <group position={[0, 0.02, -0.03]}>
+          <SprayCan />
+        </group>
+        <group position={[0, 0.02, 0.03]}>
+          <SprayMist amount={pose.mist} length={0.55} time={time} color={PAINT_GREEN} spread={0.16} grain={2.2} />
+        </group>
+      </group>
+    );
+  }
   if (pose.item === 'spray') {
     // Sprühflasche zeigt zur Bissstelle am linken Unterarm
     const target = armPoint(pose.armL, 1, 0, 0.15, 0.07);
@@ -3829,6 +4039,27 @@ const KidHead = ({kid}: {kid: Kid}) => {
 };
 
 /** Augenbrauen vorn am Kopf (Figur sonst ohne Gesicht): raise 0 = gerade … 1 = rechte Braue weit hochgezogen */
+/** Strohhut (Gartenhut) mit grünem Band – sitzt auf dem Kopf */
+const StrawHat = () => {
+  const mats = useMemo(
+    () => ({straw: new THREE.MeshStandardMaterial({color: '#e8c977', roughness: 0.9, flatShading: true}), band: new THREE.MeshStandardMaterial({color: '#3c8f4a', roughness: 0.7, flatShading: true})}),
+    [],
+  );
+  return (
+    <group position={[0, 0.1, -0.005]} rotation={[-0.06, 0, 0]}>
+      <mesh material={mats.straw} castShadow>
+        <cylinderGeometry args={[0.27, 0.29, 0.02, 14]} />
+      </mesh>
+      <mesh material={mats.straw} position={[0, 0.06, 0]} castShadow>
+        <cylinderGeometry args={[0.1, 0.125, 0.12, 12]} />
+      </mesh>
+      <mesh material={mats.band} position={[0, 0.03, 0]}>
+        <cylinderGeometry args={[0.128, 0.128, 0.035, 12]} />
+      </mesh>
+    </group>
+  );
+};
+
 const Brows = ({m, raise}: {m: Mats; raise: number}) => (
   <group>
     <mesh material={m.joint} position={[0.058, 0.035, 0.113]} rotation={[-0.2, 0.45, -0.08 * raise]}>
@@ -3873,7 +4104,13 @@ export const Dummy = ({
   wind = 0,
   windDir = 0,
   kid,
+  hat = false,
+  paint = 0,
 }: {
+  /** Strohhut (Gartenhut) */
+  hat?: boolean;
+  /** grüne Farbe auf den Schuhen (0 … 1, ab 0,5 neon-grün) */
+  paint?: number;
   /** Kinder-Dummy: größerer Kopf + Kappe oder Zöpfe in bunten Farben (Figur wird außen auf ca. 0,6 verkleinert) */
   kid?: Kid;
   /** Wind/Sog an der Jacke: 0 … 1 (Saum flattert), windDir = Richtung im Dummy-System (Bogenmaß, 0 = nach vorn) */
@@ -3962,8 +4199,8 @@ export const Dummy = ({
             <icosahedronGeometry args={[0.15, 1]} />
           </mesh>
         )}
-        <Leg m={m} limb={pose.legL} side={1} barefoot={barefoot} pants={pants} />
-        <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} sting={sting} pain={pain} barefoot={barefoot} time={time} pants={pants} />
+        <Leg m={m} limb={pose.legL} side={1} barefoot={barefoot} pants={pants} paint={paint} />
+        <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} sting={sting} pain={pain} barefoot={barefoot} time={time} pants={pants} paint={paint} />
         {/* Oberkörper */}
         <group position={[0, 0.06, 0]} rotation={[pose.torsoX, pose.torsoY, pose.torsoZ]}>
           <mesh material={m.joint} position={[0, 0.08, 0]} castShadow>
@@ -4049,11 +4286,24 @@ export const Dummy = ({
             <Marker m={m} r={0.05} position={[-0.118, 0.01, 0]} rotation={[0, -Math.PI / 2, 0]} />
             {pose.puffPhase !== undefined ? <BreathPuffs phase={pose.puffPhase} rate={1 / 6} life={3.2} /> : <BreathPuffs phase={breathPhase} rate={breath} />}
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
-            {uniform && <UniformCap m={m} hair={!!uniform.hair} />}
+            {uniform && !uniform.noCap && <UniformCap m={m} hair={!!uniform.hair} />}
+            {hat && <StrawHat />}
             {brow > 0.01 && <Brows m={m} raise={clamp((brow - 0.1) / 0.9)} />}
             <Foam amount={foam} time={fxTime} />
           </group>
           <BodyHint lunge={lunge} blut={blut} time={fxTime} />
+          {uniform?.tie && (
+            <group position={[0, 0.42, 0.16]} rotation={[0.28, 0, 0]}>
+              <mesh position={[0, 0.07, 0]}>
+                <boxGeometry args={[0.05, 0.04, 0.03]} />
+                <meshStandardMaterial color={uniform.tie} roughness={0.5} flatShading />
+              </mesh>
+              <mesh position={[0, -0.04, 0]} rotation={[0, 0, Math.PI]}>
+                <coneGeometry args={[0.045, 0.2, 4]} />
+                <meshStandardMaterial color={uniform.tie} roughness={0.5} flatShading />
+              </mesh>
+            </group>
+          )}
           {uniform?.scarf && (
             <mesh material={m.scarf} position={[0, 0.5, 0.15]} rotation={[0.35, 0, Math.PI]}>
               <circleGeometry args={[0.085, 3]} />
