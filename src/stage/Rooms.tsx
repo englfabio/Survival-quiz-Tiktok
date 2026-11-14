@@ -418,8 +418,11 @@ const BathroomScene = () => {
  * (Bilderrahmen hängt links bei x −1.0.)
  */
 export const LIVING = {W: 5, D: 4.6};
+/** Variante "wohnzimmer-homeoffice": gemütlicher Schreibtisch am Fenster (linke Wand). Platte 0,74 m, x −2.5 … −1.9, z −1.05 … 0.25.
+ *  Stuhl/Dummy sitzend bei HOMEOFFICE.chair (Blick zum Fenster = face 270), Laptop-Platz HOMEOFFICE.laptop, Uhr/Tasse daneben. */
+export const HOMEOFFICE = {deskH: 0.74, chair: [-1.5, -0.4] as [number, number], laptop: [-2.12, 0.74, -0.4] as [number, number, number], clock: [-2.32, 0.74, -0.88] as [number, number, number], mug: [-2.08, 0.74, 0.02] as [number, number, number]};
 
-const LivingScene = () => {
+const LivingScene = ({homeOffice = false}: {homeOffice?: boolean; cam?: unknown}) => {
   const mats = useMemo(
     () => ({
       floor: new THREE.MeshStandardMaterial({map: plankTexture([3, 6]), roughness: 0.7}),
@@ -521,6 +524,48 @@ const LivingScene = () => {
         <planeGeometry args={[0.58, 0.14]} />
         <meshStandardMaterial color="#6e9b58" />
       </mesh>
+      {homeOffice && (
+        <group>
+          {/* Schreibtisch am Fenster (Holz), Stuhl, Schreibtischlampe, Kissen, Teppich, kleine Pflanze */}
+          <group position={[-2.2, 0, -0.4]}>
+            <mesh position={[0, HOMEOFFICE.deskH - 0.02, 0]} castShadow receiveShadow>
+              <boxGeometry args={[0.62, 0.04, 1.3]} />
+              <meshStandardMaterial color="#b98552" flatShading />
+            </mesh>
+            {[-0.58, 0.58].map((z) => (
+              <mesh key={z} position={[0, (HOMEOFFICE.deskH - 0.04) / 2, z]} castShadow>
+                <boxGeometry args={[0.56, HOMEOFFICE.deskH - 0.04, 0.05]} />
+                <meshStandardMaterial color="#9a6a3e" flatShading />
+              </mesh>
+            ))}
+            <group position={[-0.12, HOMEOFFICE.deskH, 0.5]}>
+              <mesh position={[0, 0.01, 0]}>
+                <cylinderGeometry args={[0.07, 0.08, 0.02, 10]} />
+                <meshStandardMaterial color="#2f3338" />
+              </mesh>
+              <mesh position={[0.04, 0.2, 0]} rotation={[0, 0, -0.3]}>
+                <cylinderGeometry args={[0.012, 0.012, 0.4, 6]} />
+                <meshStandardMaterial color="#2f3338" />
+              </mesh>
+              <mesh position={[0.15, 0.36, 0]} rotation={[0, 0, -1.0]}>
+                <coneGeometry args={[0.08, 0.12, 10, 1, true]} />
+                <meshStandardMaterial color="#e3b94b" emissive="#ffd27a" emissiveIntensity={0.4} side={THREE.DoubleSide} />
+              </mesh>
+              <pointLight position={[0.18, 0.3, 0]} intensity={1.2} color="#ffd9a0" distance={2.5} decay={1.6} />
+            </group>
+            <group position={[-0.15, HOMEOFFICE.deskH, -0.5]} scale={0.45}>
+              <Plant s={1} />
+            </group>
+          </group>
+          <group position={[HOMEOFFICE.chair[0] + 0.02, 0, HOMEOFFICE.chair[1]]} rotation={[0, -Math.PI / 2, 0]}>
+            <Chair color="#c9573c" legs="#6e482c" />
+          </group>
+          <mesh position={[-1.6, 0.007, -0.4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+            <circleGeometry args={[0.95, 24]} />
+            <meshStandardMaterial color="#e6c9a3" />
+          </mesh>
+        </group>
+      )}
     </Room>
   );
 };
@@ -660,4 +705,6 @@ const PraxisScene = () => {
 
 export const bathroomStage: StageDef = {id: 'badezimmer', Component: BathroomScene, climbTrees: [], groundHeight: () => 0};
 export const livingRoomStage: StageDef = {id: 'wohnzimmer', Component: LivingScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+const HomeOfficeScene = () => <LivingScene homeOffice />;
+export const homeOfficeStage: StageDef = {id: 'wohnzimmer-homeoffice', Component: HomeOfficeScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 export const praxisStage: StageDef = {id: 'arztpraxis', Component: PraxisScene, climbTrees: [], groundHeight: () => 0};

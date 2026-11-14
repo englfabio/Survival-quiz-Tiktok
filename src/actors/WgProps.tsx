@@ -723,11 +723,85 @@ const screenTex = (n: number) =>
   });
 export const LAPTOP_CHARS = 'RECHNUNG\nJoghurt (Erdbeer)\n1,29 €\nzahlbar sofort'.length;
 const Screen = ({n}: {n: number}) => <TextPlane draw={screenTex(n)} k={`Laptop ${n}`} w={0.3} h={0.19} glow={0.85} />;
-/** Laptop (aufgeklappt). Ursprung = Mitte unten, Bildschirm hinten, zeigt nach +z. fill 0 … 1 = getippter Text "RECHNUNG … 1,29 €" */
-export const Laptop = ({fill = 0}: {fill?: number}) => {
+/** Videokonferenz auf dem Bildschirm: 4 Kacheln mit Dummy-Köpfen (Chef in Grau mit Krawatte, "Du" in Gelb, Kollegen) */
+const callTex = (hi: number) =>
+  canvasTex(480, 300, (g) => {
+    g.fillStyle = '#1f2633';
+    g.fillRect(0, 0, 480, 300);
+    g.fillStyle = '#2c3a52';
+    g.fillRect(0, 0, 480, 30);
+    g.fillStyle = '#ffffff';
+    g.font = `700 20px ${T.font}`;
+    g.textAlign = 'left';
+    g.textBaseline = 'middle';
+    g.fillText('Meeting · 8:01', 12, 16);
+    g.fillStyle = '#ff4a3a';
+    g.beginPath();
+    g.arc(452, 15, 7, 0, Math.PI * 2);
+    g.fill();
+    const tiles: [string, string, string, boolean][] = [
+      ['Chef', '#9aa1a8', '#4a5058', true],
+      ['Du', '#f3bf12', '#2a2a2c', false],
+      ['Team', '#3f8fd6', '#2a4d8f', false],
+      ['Team', '#f07a1e', '#7a3a10', false],
+    ];
+    tiles.forEach(([name, head, body, tie], i) => {
+      const x = 8 + (i % 2) * 236;
+      const y = 38 + Math.floor(i / 2) * 130;
+      g.fillStyle = i === 1 && hi > 0.5 ? '#3a5a3a' : '#33405a';
+      g.fillRect(x, y, 228, 124);
+      if (i === 1 && hi > 0.5) {
+        g.strokeStyle = '#5ee07a';
+        g.lineWidth = 5;
+        g.strokeRect(x + 2, y + 2, 224, 120);
+      }
+      // Schultern + Kopf
+      g.fillStyle = body;
+      g.beginPath();
+      g.ellipse(x + 114, y + 124, 64, 40, 0, Math.PI, 0);
+      g.fill();
+      g.fillStyle = head;
+      g.beginPath();
+      g.ellipse(x + 114, y + 58, 30, 36, 0, 0, Math.PI * 2);
+      g.fill();
+      // Crashtest-Markierung seitlich
+      for (let q = 0; q < 4; q++) {
+        g.fillStyle = q % 2 ? '#151515' : '#ffd21a';
+        g.beginPath();
+        g.moveTo(x + 140, y + 58);
+        g.arc(x + 140, y + 58, 9, (q * Math.PI) / 2, ((q + 1) * Math.PI) / 2);
+        g.fill();
+      }
+      if (tie) {
+        g.fillStyle = '#ffffff';
+        g.beginPath();
+        g.moveTo(x + 98, y + 92);
+        g.lineTo(x + 130, y + 92);
+        g.lineTo(x + 114, y + 112);
+        g.fill();
+        g.fillStyle = '#c8102e';
+        g.fillRect(x + 110, y + 96, 8, 26);
+      }
+      g.fillStyle = 'rgba(0,0,0,0.55)';
+      g.fillRect(x + 4, y + 98, 58, 22);
+      g.fillStyle = '#ffffff';
+      g.font = `700 17px ${T.font}`;
+      g.fillText(name, x + 10, y + 110);
+    });
+  });
+const CallScreen = ({hi}: {hi: number}) => <TextPlane draw={callTex(hi)} k={`Call ${hi}`} w={0.3} h={0.19} glow={0.85} />;
+/**
+ * Laptop. Ursprung = Mitte unten, Bildschirm hinten, zeigt nach +z. fill 0 … 1 = getippter Text "RECHNUNG … 1,29 €".
+ * lid 0 = zugeklappt … 1 = offen (Standard offen). call 1 = Videokonferenz statt Rechnung (Kacheln mit Chef + "Du"),
+ * hi 1 = eigene Kachel grün umrandet (man spricht/winkt).
+ */
+export const Laptop = ({fill = 0, lid = 1, call = 0, hi = 0}: {fill?: number; lid?: number; call?: number; hi?: number}) => {
   const n = Math.round(clamp(fill) * LAPTOP_CHARS);
   // nur in Schritten neu zeichnen (jede Textur kostet)
   const step = Math.min(LAPTOP_CHARS, Math.ceil(n / 3) * 3);
+  const open = clamp(lid);
+  // Deckel: zu = flach auf der Tastatur (+90°) … offen = leicht nach hinten geneigt (−0,28 rad)
+  const rot = Math.PI / 2 - 0.02 + (-0.28 - Math.PI / 2 + 0.02) * open;
   return (
     <group>
       <mesh position={[0, 0.008, 0]} castShadow>
@@ -738,13 +812,15 @@ export const Laptop = ({fill = 0}: {fill?: number}) => {
         <boxGeometry args={[0.29, 0.002, 0.11]} />
         <meshStandardMaterial color="#2a2e33" />
       </mesh>
-      <group position={[0, 0.016, -0.115]} rotation={[-0.28, 0, 0]}>
-        <mesh position={[0, 0.11, -0.006]} castShadow>
-          <boxGeometry args={[0.34, 0.22, 0.012]} />
-          <meshStandardMaterial color="#9aa3ad" metalness={0.5} roughness={0.35} />
-        </mesh>
-        <group position={[0, 0.11, 0.0005]}>
-          <Screen n={step} />
+      <group position={[0, 0.016, -0.115]} rotation={[rot, 0, 0]}>
+        <group>
+          <mesh position={[0, 0.11, -0.006]} castShadow>
+            <boxGeometry args={[0.34, 0.22, 0.012]} />
+            <meshStandardMaterial color="#9aa3ad" metalness={0.5} roughness={0.35} />
+          </mesh>
+          {open > 0.35 && (
+            <group position={[0, 0.11, 0.0005]}>{call > 0.5 ? <CallScreen hi={hi > 0.5 ? 1 : 0} /> : <Screen n={step} />}</group>
+          )}
         </group>
       </group>
     </group>

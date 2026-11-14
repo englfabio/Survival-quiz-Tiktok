@@ -2,6 +2,7 @@ import {useMemo} from 'react';
 import * as THREE from 'three';
 import {clamp, rng} from '../lib/anim';
 import {T} from '../ui/theme';
+import {canvasTex, fitText, TextPlane} from './WgProps';
 
 /**
  * Objekte für das Bahnsteig-Video "Sog an der Bahnsteigkante" (wiederverwendbar für alle Gleis-Szenen):
@@ -80,7 +81,7 @@ const carGeometry = (nose: 1 | -1 | 0) => {
 };
 
 /** Ein Wagen (oder Triebkopf/Steuerwagen) – Ursprung = vorderes Ende unten Mitte (z 0), reicht bis z −car */
-const Car = ({nose, m, geo, pantograph}: {nose: 1 | -1 | 0; m: ReturnType<typeof useTrainMats>; geo: THREE.BufferGeometry; pantograph?: boolean}) => {
+const Car = ({nose, m, geo, pantograph, display}: {nose: 1 | -1 | 0; m: ReturnType<typeof useTrainMats>; geo: THREE.BufferGeometry; pantograph?: boolean; display?: string}) => {
   const L = TRAIN.car;
   const hw = TRAIN.width / 2;
   const winFrom = nose === 1 ? -3.0 : -0.9;
@@ -132,14 +133,22 @@ const Car = ({nose, m, geo, pantograph}: {nose: 1 | -1 | 0; m: ReturnType<typeof
       <mesh material={m.roofBox} position={[0, TRAIN.roof + 0.12, -L / 2]}>
         <boxGeometry args={[1.5, 0.22, nose ? L - 6 : L - 3]} />
       </mesh>
-      {nose !== 0 && <NoseDetails m={m} dir={nose} L={L} />}
+      {nose !== 0 && <NoseDetails m={m} dir={nose} L={L} display={display} />}
       {pantograph && <Pantograph m={m} z={-6.5} />}
     </group>
   );
 };
 
 /** Scheibe, Scheinwerfer und Streifen an der Nase */
-const NoseDetails = ({m, dir, L}: {m: ReturnType<typeof useTrainMats>; dir: 1 | -1; L: number}) => {
+/** Zugzielanzeige hinter der Frontscheibe (orange LED-Schrift auf Schwarz), z. B. "+90 Min" */
+const displayTex = (text: string) =>
+  canvasTex(768, 192, (g) => {
+    g.fillStyle = '#0b0b0c';
+    g.fillRect(0, 0, 768, 192);
+    g.fillStyle = '#ffb21a';
+    fitText(g, text, 384, 100, 720, 150, 800);
+  });
+const NoseDetails = ({m, dir, L, display}: {m: ReturnType<typeof useTrainMats>; dir: 1 | -1; L: number; display?: string}) => {
   const z0 = dir === 1 ? 0 : -L;
   const f = TRAIN.floor;
   // schräge Frontscheibe zwischen (z0 − 0.45, f + 1.75) und (z0 − 2.0, roof − 0.15)
@@ -154,6 +163,13 @@ const NoseDetails = ({m, dir, L}: {m: ReturnType<typeof useTrainMats>; dir: 1 | 
       <mesh material={m.glass} position={[0, (ya + yb) / 2 + 0.03, (za + zb) / 2 + dir * 0.02]} rotation={[dir === 1 ? -(Math.PI / 2 - ang) : -(Math.PI / 2 + ang), 0, 0]}>
         <planeGeometry args={[TRAIN.width - 0.55, len * 0.92]} />
       </mesh>
+      {display && (
+        <group position={[0, ya + (yb - ya) * 0.72, za + (zb - za) * 0.72 + dir * 0.06]} rotation={[dir === 1 ? -(Math.PI / 2 - ang) : -(Math.PI / 2 + ang), 0, 0]}>
+          <group rotation={[0, dir === 1 ? 0 : Math.PI, 0]} scale={[1, dir === 1 ? 1 : -1, 1]}>
+            <TextPlane draw={displayTex(display)} k={`Zuganzeige ${display}`} w={2.1} h={0.52} glow={1.2} />
+          </group>
+        </group>
+      )}
       {/* Stirn: oranger Streifen + Scheinwerfer + Rücklicht */}
       <mesh material={m.stripe} position={[0, f + 0.75, z0 + dir * 0.16]} rotation={[0, dir === 1 ? 0 : Math.PI, 0]}>
         <planeGeometry args={[TRAIN.width - 0.3, 0.22]} />
@@ -238,7 +254,7 @@ const STREAKS = (() => {
   });
 })();
 
-export const Train = ({speed = 0, time = 0}: {speed?: number; time?: number}) => {
+export const Train = ({speed = 0, time = 0, display, pantograph = true}: {speed?: number; time?: number; /** Anzeige hinter beiden Frontscheiben, z. B. "+90 Min" */ display?: string; /** Stromabnehmer zeigen (ohne Oberleitung: false) */ pantograph?: boolean}) => {
   const m = useTrainMats();
   const geos = useMemo(() => ({front: carGeometry(1), mid: carGeometry(0), back: carGeometry(-1)}), []);
   const blur = clamp((speed - 8) / 22);
@@ -249,7 +265,7 @@ export const Train = ({speed = 0, time = 0}: {speed?: number; time?: number}) =>
         const nose = i === 0 ? 1 : i === TRAIN.cars - 1 ? -1 : 0;
         return (
           <group key={i} position={[0, 0, -i * span]}>
-            <Car nose={nose} m={m} geo={nose === 1 ? geos.front : nose === -1 ? geos.back : geos.mid} pantograph={i === 0} />
+            <Car nose={nose} m={m} geo={nose === 1 ? geos.front : nose === -1 ? geos.back : geos.mid} pantograph={pantograph && i === 0} display={display} />
             {/* Übergang zwischen den Wagen */}
             {i < TRAIN.cars - 1 && (
               <mesh material={m.under} position={[0, 2.5, -TRAIN.car - TRAIN.gap / 2]}>

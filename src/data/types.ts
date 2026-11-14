@@ -229,6 +229,17 @@ export type Motion =
   | 'stepover'
   | 'botering'
   | 'setparcel'
+  // ---- Spezial Bahn-Verspätung (Figuren mit Dummy-Körper) ----
+  | 'watchtap' // genervt: Blick zur Anzeigetafel, auf die Armbanduhr tippen
+  | 'watchlook' // auf die Armbanduhr schauen + Kopf schütteln (Chef)
+  | 'capon' // mit beiden Händen eine Mütze aufsetzen (Wert lokcap)
+  | 'lokhorn' // sitzt in der Lok, zieht die Hupen-Schnur
+  | 'wheeltap' // sitzt, tippt ungeduldig aufs Lenkrad
+  | 'seatwave' // sitzt gemütlich (Bagger) und winkt
+  | 'pullpants' // Hose hochziehen (Wert jogger)
+  | 'laptopopen' // sitzend den Laptop aufklappen
+  | 'drinkcoffee' // sitzend Kaffee trinken
+  | 'deskwave' // sitzend in die Videokonferenz winken
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln
@@ -455,10 +466,14 @@ export type ActorKey = {
   press?: number;
   /** Leuchten (Knopf, Kühlschrank-Innenlicht nachts) 0 … 1 */
   glow?: number;
+  /** Figur mit Dummy-Körper: Lokführermütze 0 … 1 (wird von oben aufgesetzt) */
+  lokcap?: number;
+  /** Dummy: graue Jogginghose 0/1 */
+  jogger?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

@@ -21,6 +21,7 @@ import {Glint, NeedleCap, Syringe, SYRINGE_SCALE, SYRINGE_TIP} from './SyringePr
 import {ConfettiBurst, ConfettiCannon, GardenHat, Hammer, PartyHat} from './WeckerProps';
 import {Binder, Coin, Envelope, FatMarker, HeadSplat, ReadingGlasses, RubberStamp, Spoon, YogurtCup} from './WgProps';
 import {FLAT_DOOR, flapCutPoint, Parcel, Saw} from './PaketProps';
+import {CoffeeMug, LocoCap, WristWatch} from './BahnProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -71,7 +72,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread' | 'saw' | 'letter' | 'parcelR' | 'stir';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread' | 'saw' | 'letter' | 'parcelR' | 'stir' | 'mug';
   /** Beschriftung des Gegenstands in der Hand (z. B. Brief "1. Mahnung") */
   label?: string;
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
@@ -99,6 +100,8 @@ export type DummyPose = {
   confetti?: number;
   /** Smartphone in der LINKEN Hand (z. B. im Bett telefonieren, wenn die linke Seite zur Kamera zeigt) */
   phoneL?: boolean;
+  /** Armbanduhr am linken Handgelenk zeigen */
+  watchL?: boolean;
 };
 
 const base = (): DummyPose => ({
@@ -173,6 +176,7 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     tool: k < 0.5 ? a.tool : b.tool,
     confetti: k < 0.5 ? a.confetti : b.confetti,
     phoneL: k < 0.5 ? a.phoneL : b.phoneL,
+    watchL: k < 0.5 ? a.watchL : b.watchL,
     label: k < 0.5 ? a.label : b.label,
   };
 };
@@ -3566,8 +3570,189 @@ const paketPose = (motion: Motion, time: number, speed: number): DummyPose | nul
   return null;
 };
 
+
+/**
+ * Spezial "Bahn-Verspätung" (Dummy, Chef, Fahrgäste – alle Figuren mit Dummy-Körper):
+ *  - watchtap:    genervt am Bahnsteig: Blick hoch zur Anzeigetafel, linkes Handgelenk mit Uhr vor die Brust, rechter Zeigefinger tippt
+ *                 auf die Uhr (Takt 0,25 s), Kopf wechselt Tafel ↔ Uhr, Seufzer (Zyklus 3,2 s). Armbanduhr automatisch.
+ *  - watchlook:   Chef: linkes Handgelenk hoch, auf die Uhr schauen, Kopf schütteln (Zyklus 2,6 s). Armbanduhr automatisch.
+ *  - capon:       mit beiden Händen etwas auf den Kopf setzen (Hände am Kopf 0,35–0,9 s; Wert "lokcap" passend 0 → 1).
+ *  - lokhorn:     sitzt (Sitz 0,45 m), links am Lenkrad (0,47 m vor ihm, 1,0 m hoch), rechts zieht die Hupen-Schnur
+ *                 (0,28 m vor / 0,18 m rechts, 1,36 m hoch → zieht 0,45–1,1 s nach unten), stolz, Zyklus 2,0 s.
+ *  - wheeltap:    sitzt, beide Hände am Lenkrad, Finger tippen ungeduldig, Kopf geneigt + Seufzer.
+ *  - seatwave:    sitzt gemütlich zurückgelehnt (z. B. im Bagger), winkt mit rechts, links locker auf dem Hebel.
+ *  - pullpants:   vorgebeugt eine Hose von den Knien zur Hüfte ziehen (0,2–1,3 s), dann aufrichten (Wert "jogger" passend 0 → 1).
+ *  - laptopopen:  sitzt am Schreibtisch, klappt mit beiden Händen den Laptop auf (Deckelkante 0,45 m vor ihm, hoch 0,35–1,0 s).
+ *  - drinkcoffee: sitzt, Tasse rechts zum Mund (bis 0,8 s), trinkt (0,8–1,8 s), Tasse wieder runter (bis 2,4 s), zufrieden.
+ *  - deskwave:    sitzt am Schreibtisch, beugt sich leicht zum Laptop und winkt mit rechts, links hält die Tasse auf dem Tisch.
+ */
+const bahnPose = (motion: Motion, time: number, _speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  const watchAt = (p: DummyPose, up: number, tap: number) => {
+    const W: P3 = [0.04, 1.2, 0.3];
+    reachL(p, lerp3t(restL, W, up), 0.3, [0.7, -1, -0.2]);
+    const F: P3 = [0.03, 1.24 + 0.035 * tap, 0.33];
+    reachR(p, lerp3t(rest, F, up), 0.36, [0.6, -1, -0.3]);
+    p.watchL = true;
+  };
+  const seatedHands = (p: DummyPose, L: P3, R: P3) => {
+    reachL(p, L, 0.33, [0.6, -1, -0.3]);
+    reachR(p, R, 0.33, [0.6, -1, -0.3]);
+  };
+  const WHEEL: P3 = [0, 1.0, 0.47];
+  switch (motion) {
+    case 'watchtap': {
+      const p = base();
+      const c = time % 3.2;
+      const up = easeInOut(clamp(time / 0.5));
+      const tapOn = clamp((c - 0.9) / 0.15) * (1 - clamp((c - 2.4) / 0.2));
+      const tap = Math.max(0, Math.sin(time * 25)) * tapOn;
+      watchAt(p, up, tap);
+      // Blick: 0–0.8 s hoch zur Tafel, 0.9–2.4 s auf die Uhr, dann wieder hoch + Seufzer
+      const toWatch = easeInOut(clamp((c - 0.75) / 0.25)) * (1 - easeInOut(clamp((c - 2.4) / 0.3)));
+      p.headX = -0.42 * (1 - toWatch) + 0.45 * toWatch;
+      p.headY = 0.12 * (1 - toWatch) + 0.05 * Math.sin(time * 1.1);
+      const sigh = Math.sin(Math.PI * clamp((c - 2.5) / 0.7));
+      p.chest = 0.7 * Math.max(0, sigh);
+      p.torsoX = 0.03 - 0.05 * Math.max(0, sigh) + breathe;
+      p.legR = L3(-0.08 * Math.max(0, Math.sin(time * 9)) * (1 - toWatch), -0.05, 0.12 * Math.max(0, Math.sin(time * 9)) * (1 - toWatch));
+      return p;
+    }
+    case 'watchlook': {
+      const p = base();
+      const c = time % 2.6;
+      const up = easeInOut(clamp(time / 0.45));
+      const tap = Math.max(0, Math.sin(time * 18)) * clamp((c - 0.8) / 0.1) * (1 - clamp((c - 1.6) / 0.1));
+      watchAt(p, up, tap);
+      p.headX = 0.42 * up;
+      p.headY = 0.12 * Math.sin(time * 6) * clamp((c - 1.7) / 0.2) * (1 - clamp((c - 2.4) / 0.2));
+      p.torsoX = 0.06 + breathe;
+      return p;
+    }
+    case 'capon': {
+      const p = base();
+      const up = easeInOut(clamp(time / 0.35));
+      const down = easeInOut(clamp((time - 0.9) / 0.4));
+      const k = up * (1 - down);
+      const pull = easeInOut(clamp((time - 0.35) / 0.5));
+      reachL(p, lerp3t(restL, [0.13, 1.98 - 0.08 * pull, 0.02], k), 0.33, [0.8, -0.3, -0.6]);
+      reachR(p, lerp3t(rest, [-0.13, 1.98 - 0.08 * pull, 0.02], k), 0.33, [0.8, -0.3, -0.6]);
+      p.headX = 0.08 * k;
+      p.torsoX = -0.03 * k + breathe;
+      if (down > 0) {
+        // danach stolz: Hände in die Hüften
+        reachL(p, lerp3t([0.13, 1.9, 0.02], [0.24, 1.0, -0.02], down), 0.33, [0.8, -0.2, -0.8]);
+        reachR(p, lerp3t([-0.13, 1.9, 0.02], [-0.24, 1.0, -0.02], down), 0.33, [0.8, -0.2, -0.8]);
+        p.chest = 0.4 * down;
+      }
+      return p;
+    }
+    case 'lokhorn': {
+      const p = chairSit(time);
+      p.torsoX = -0.06 + breathe;
+      const c = time % 2.0;
+      const reachUp = easeInOut(clamp(c / 0.4)) * (1 - easeInOut(clamp((c - 1.5) / 0.4)));
+      const pull = easeInOut(clamp((c - 0.45) / 0.2)) * (1 - easeInOut(clamp((c - 1.1) / 0.3)));
+      const cord: P3 = [-0.18, 1.36 - 0.16 * pull, 0.28];
+      reachL(p, [0.12, WHEEL[1] + 0.02, WHEEL[2] - 0.02], 0.33, [0.6, -1, -0.3]);
+      reachR(p, lerp3t([-0.2, 0.75, 0.25], cord, reachUp), 0.33, [0.7, -0.6, -0.5]);
+      p.headX = -0.2 * pull + 0.05;
+      p.headY = -0.15 * reachUp;
+      p.chest = 0.5 * pull;
+      return p;
+    }
+    case 'wheeltap': {
+      const p = chairSit(time);
+      p.torsoX = 0.08 + breathe;
+      const tl = Math.max(0, Math.sin(time * 14)) * 0.03;
+      const tr = Math.max(0, Math.sin(time * 14 + 1.6)) * 0.03;
+      seatedHands(p, [0.14, WHEEL[1] + 0.03 + tl, WHEEL[2] - 0.03], [-0.14, WHEEL[1] + 0.03 + tr, WHEEL[2] - 0.03]);
+      const sigh = Math.max(0, Math.sin(Math.PI * clamp(((time % 3.0) - 1.6) / 0.9)));
+      p.headX = 0.12 - 0.15 * sigh;
+      p.headY = 0.0;
+      p.torsoZ = 0.04 * Math.sin(time * 0.8);
+      p.chest = 0.7 * sigh;
+      return p;
+    }
+    case 'seatwave': {
+      const p = chairSit(time);
+      p.torsoX = -0.18 + breathe;
+      p.headX = -0.05;
+      p.headY = 0.12 * Math.sin(time * 0.7);
+      reachL(p, [0.2, 0.86, 0.32], 0.33, [0.6, -1, -0.3]);
+      const k = easeInOut(clamp(time / 0.5));
+      p.armR = L3(-0.3 * k, -0.1 - 2.3 * k, -0.2 - 0.3 * k);
+      p.foreZ = (-0.4 + Math.sin(time * 8) * 0.45) * k;
+      return p;
+    }
+    case 'pullpants': {
+      const p = base();
+      const bend = easeInOut(clamp(time / 0.25)) * (1 - easeInOut(clamp((time - 1.25) / 0.45)));
+      const pull = easeInOut(clamp((time - 0.2) / 1.1));
+      p.torsoX = 0.85 * bend * (1 - 0.6 * pull) + breathe;
+      p.hipY = 0.98 - 0.08 * bend;
+      p.legL = L3(-0.25 * bend, 0.08, 0.5 * bend);
+      p.legR = L3(-0.25 * bend, -0.08, 0.5 * bend);
+      p.headX = 0.3 * bend;
+      const yH = 0.45 + 0.5 * pull;
+      reachL(p, lerp3t(restL, [0.2, yH, 0.12], bend), 0.33, [0.6, -1, -0.3]);
+      reachR(p, lerp3t(rest, [-0.2, yH, 0.12], bend), 0.33, [0.6, -1, -0.3]);
+      p.fists = bend > 0.3;
+      return p;
+    }
+    case 'laptopopen': {
+      const p = chairSit(time);
+      p.torsoX = 0.14 + breathe;
+      p.headX = 0.3;
+      const go = easeInOut(clamp(time / 0.3));
+      const lift = easeInOut(clamp((time - 0.3) / 0.7));
+      const back = easeInOut(clamp((time - 1.1) / 0.5));
+      // Deckelkante: zu (0.45 vor ihm, y 0.79) → offen (0.29 vor ihm, y 0.98)
+      const edge = (s: number): P3 => [s * 0.12, 0.79 + 0.19 * lift, 0.47 - 0.17 * lift];
+      const lapR: P3 = [-0.12, 0.66, 0.3];
+      const lapL: P3 = [0.12, 0.66, 0.3];
+      reachL(p, lerp3t(lerp3t(lapL, edge(1), go), lapL, back), 0.33, [0.6, -1, -0.3]);
+      reachR(p, lerp3t(lerp3t(lapR, edge(-1), go), lapR, back), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'drinkcoffee': {
+      const p = chairSit(time);
+      const up = easeInOut(clamp(time / 0.8)) * (1 - easeInOut(clamp((time - 1.8) / 0.6)));
+      const tilt = easeInOut(clamp((time - 0.8) / 0.4)) * (1 - easeInOut(clamp((time - 1.6) / 0.3)));
+      p.torsoX = -0.05 - 0.05 * tilt + breathe;
+      p.headX = 0.1 * (1 - up) - 0.35 * tilt;
+      const low: P3 = [-0.14, 0.86, 0.36];
+      const mouth: P3 = [-0.04, 1.36 + 0.03 * tilt, 0.24 - 0.02 * tilt];
+      reachR(p, lerp3t(low, mouth, up), 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.14, 0.8, 0.36], 0.33, [0.6, -1, -0.3]);
+      p.item = 'mug';
+      p.cup = tilt * 0.8;
+      // zufrieden: nach dem Trinken Kopf leicht zur Seite + Seufzer
+      const happy = easeInOut(clamp((time - 1.9) / 0.4));
+      p.headY = -0.12 * happy;
+      p.chest = 0.5 * Math.max(0, Math.sin(Math.PI * clamp((time - 1.9) / 0.9)));
+      return p;
+    }
+    case 'deskwave': {
+      const p = chairSit(time);
+      p.torsoX = 0.1 + breathe;
+      p.headX = 0.18;
+      p.headY = 0.06 * Math.sin(time * 1.2);
+      reachL(p, [0.16, 0.8, 0.38], 0.33, [0.6, -1, -0.3]);
+      const k = easeInOut(clamp(time / 0.45));
+      p.armR = L3(-0.55 * k, -0.15 - 2.0 * k, -0.25 - 0.4 * k);
+      p.foreZ = (-0.4 + Math.sin(time * 9) * 0.45) * k;
+      p.torsoZ = 0.03 * k;
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -4028,7 +4213,7 @@ export const dummyPoseBlended = (
  * Mütze (Schirmmütze) + Mützenband, optional Halstuch und Zopf. Ohne Logos und ohne echte Abzeichen.
  */
 export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; /** Krawatte (Farbe) */ tie?: string; /** ohne Schirmmütze (z. B. Anzug) */ nocap?: boolean; noCap?: boolean; /** Bademantel: Jacke wird zum Mantel bis übers Knie, Gürtel in Kragenfarbe, keine Hose */ robe?: boolean; /** Hausschuhe (Farbe) statt Schuhen */ slippers?: string};
-const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
+const useMats = (color = YELLOW, coat = false, uni?: Uniform, pantsColor?: string) =>
   useMemo(
     () => ({
       body: new THREE.MeshStandardMaterial({color, roughness: 0.45, metalness: 0.05, flatShading: true}),
@@ -4049,7 +4234,7 @@ const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
       jacket: new THREE.MeshStandardMaterial({color: uni ? uni.jacket : coat ? '#f4f6f8' : JACKET, roughness: 0.75, flatShading: true}),
       jacketDark: new THREE.MeshStandardMaterial({color: uni ? uni.dark : coat ? '#dfe5ea' : '#7e2219', roughness: 0.8, flatShading: true}),
       fur: new THREE.MeshStandardMaterial({color: uni ? uni.collar : coat ? '#f4f6f8' : '#e9e1d2', roughness: 1, flatShading: true}),
-      pants: new THREE.MeshStandardMaterial({color: uni ? uni.pants : PANTS, roughness: 0.85, flatShading: true}),
+      pants: new THREE.MeshStandardMaterial({color: pantsColor ?? (uni ? uni.pants : PANTS), roughness: 0.95, flatShading: true}),
       reflect: new THREE.MeshStandardMaterial({color: uni ? (uni.trim ?? uni.jacket) : coat ? '#f4f6f8' : '#dfe6ea', roughness: 0.3, metalness: 0.2, flatShading: true}),
       cap: new THREE.MeshStandardMaterial({color: uni?.cap ?? '#222', roughness: 0.6, flatShading: true}),
       capBand: new THREE.MeshStandardMaterial({color: uni?.band ?? '#222', roughness: 0.5, flatShading: true}),
@@ -4059,7 +4244,7 @@ const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
       paintShoe: new THREE.MeshStandardMaterial({color: '#0e9a2a', roughness: 0.25, metalness: 0.1, flatShading: true}),
       paintDrip: new THREE.MeshStandardMaterial({color: '#2fe04a', roughness: 0.25, flatShading: true}),
     }),
-    [color, coat, uni],
+    [color, coat, uni, pantsColor],
   );
 
 type Mats = ReturnType<typeof useMats>;
@@ -4901,6 +5086,16 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
       </group>
     );
   }
+  if (pose.item === 'mug') {
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.33);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0.0, -0.05, 0.05]} rotation={[-pose.cup * 0.95, Math.PI / 2, 0]} scale={1.5}>
+          <CoffeeMug smoke={1 - pose.cup} time={time} />
+        </group>
+      </group>
+    );
+  }
   if (pose.item === 'milk') {
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.33);
     return (
@@ -5260,7 +5455,13 @@ export const Dummy = ({
   paint = 0,
   glasses = 0,
   splat = 0,
+  lokcap = 0,
+  jogger = 0,
 }: {
+  /** Lokführermütze 0 … 1 (bei < 1 schwebt sie noch über dem Kopf = wird aufgesetzt) */
+  lokcap?: number;
+  /** graue Jogginghose 0/1 (statt nackter Beine; ersetzt die lange Hose) */
+  jogger?: number;
   /** Strohhut (Gartenhut) */
   hat?: boolean;
   /** grüne Farbe auf den Schuhen (0 … 1, ab 0,5 neon-grün) */
@@ -5332,7 +5533,8 @@ export const Dummy = ({
   /** Uniform (Bahnmitarbeiterin, Bundespolizist): Jacke + Hose + Schirmmütze in festen Farben */
   uniform?: Uniform;
 }) => {
-  const m = useMats(color, coat, uniform);
+  const m = useMats(color, coat, uniform, jogger > 0.5 ? '#8d939b' : undefined);
+  if (jogger > 0.5) pants = 1;
   if (uniform) {
     jacket = 1;
     pants = uniform.robe ? 0 : 1;
@@ -5420,6 +5622,15 @@ export const Dummy = ({
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
           <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} smartphone={pose.phoneL} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} fist={pose.fists} />
+          {pose.watchL && (
+            <group position={[0.27, 0.44, 0]} rotation={[pose.armL.sx, 0, pose.armL.sz]}>
+              <group position={[0, -0.31, 0]} rotation={[pose.armL.bend, 0, pose.foreZL]}>
+                <group position={[0, -0.24, 0]} rotation={[0, -Math.PI / 2, 0]}>
+                  <WristWatch />
+                </group>
+              </group>
+            </group>
+          )}
           <ToolItem pose={pose} />
           <HandItem pose={pose} time={time} zap={zap} zapTime={zapTime} tooth={tooth} />
           {zap > 0.01 && (
@@ -5484,6 +5695,11 @@ export const Dummy = ({
               </group>
             )}
             {hat && <StrawHat />}
+            {lokcap > 0.01 && (
+              <group position={[0, (1 - clamp(lokcap)) * 0.3, 0]}>
+                <LocoCap />
+              </group>
+            )}
             {gardenhat > 0.5 && (
               <group position={[0, 0.1, 0]} rotation={[-0.1, 0, 0]}>
                 <GardenHat />

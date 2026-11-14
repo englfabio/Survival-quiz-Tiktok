@@ -21,6 +21,7 @@ import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, Paper
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
 import type {DummyPose, Kid, Uniform} from './Dummy';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
+import {CarQueue, CoffeeMug, DelayBoard, Excavator, Loco, RailSignal, Speedo} from './BahnProps';
 import {CampStove, DayCalendar, Doorbell, FairyLights, FlatDoor, Parcel, ParcelStack, Saw, Tent} from './PaketProps';
 import {BigFridge, BigRedButton, Binder, CoinPile, Envelope as WgEnvelope, FatMarker, Laptop, RubberStamp, StickyNote, YogurtBlast, YogurtCup} from './WgProps';
 import {Whale, whalePose} from './Whale';
@@ -200,7 +201,25 @@ export const ACTORS = {
   tageskalender: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   treppentuer: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
   treppentuer2: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Bahn-Verspätung ----
+  lok: {height: 2.2, climbOffset: 0, speedLineHeight: 0},
+  bagger: {height: 3.5, climbOffset: 0, speedLineHeight: 0},
+  signal: {height: 4.2, climbOffset: 0, speedLineHeight: 0},
+  tacho: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  kaffeetasse: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
+  autoschlange: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
+  anzeigetafel: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  fahrgast1: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  fahrgast2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  fahrgast3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
 } as const;
+
+/** Wartende Fahrgast-Dummys (Bahnsteig): Dummy-Körper in Pastellfarben, Mantel/Jacke + Hose, ohne Mütze – können alle Dummy-Bewegungen */
+const PASSENGERS: Record<string, {color: string; uniform: Uniform}> = {
+  fahrgast1: {color: '#7fc8b8', uniform: {jacket: '#3d6b8f', dark: '#2a4d6b', collar: '#e9e6e1', pants: '#2f3542', cap: '#3d6b8f', band: '#3d6b8f', trim: '#3d6b8f', nocap: true}},
+  fahrgast2: {color: '#c9a3d9', uniform: {jacket: '#b5473a', dark: '#82322a', collar: '#f2e6d6', pants: '#3a3f46', cap: '#b5473a', band: '#b5473a', trim: '#b5473a', nocap: true, scarf: '#ffd21a'}},
+  fahrgast3: {color: '#9fd17a', uniform: {jacket: '#6b5a48', dark: '#4a3d30', collar: '#e9e1d2', pants: '#2c3e5a', cap: '#6b5a48', band: '#6b5a48', trim: '#6b5a48', nocap: true}},
+};
 
 /** Kinder-Dummys: klein (Maßstab 0,6), bunte Körperfarben, Kappe oder Zöpfe – freundlich, ohne Gesicht wie alle Dummys */
 export const KIDS: Record<string, {color: string; kid: Kid}> = {
@@ -229,7 +248,7 @@ const ROBE: Uniform = {jacket: '#9c4a5a', dark: '#7a3343', collar: '#efe0d2', pa
 const COURIER_COLOR = '#c4d0bf';
 const COURIER_UNIFORM: Uniform = {jacket: '#5b7389', dark: '#3e5164', collar: '#dfe6ec', pants: '#3a434d', cap: '#5b7389', band: '#3e5164', trim: '#8fa5b8'};
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
@@ -479,6 +498,11 @@ export const Actor = ({
         <SoundWaves time={state.motionTime} visible={state.motion === 'show'} left={v.side > 0.5} size={v.size} />
       </group>
     )}
+    {name === 'tacho' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <Speedo text={actor.text ?? '25 km/h'} value={v.fill > 0 ? v.fill * 100 : 25} time={state.motionTime} visible={state.motion === 'show'} size={v.size} />
+      </group>
+    )}
     {name === 'hund' && actor.leashTo && <Leash a={DOG_COLLAR.clone().applyMatrix4(matrix)} b={actor.leashTo} />}
     {name === 'dummy' && v.heart > 0.01 && (
       <group position={heartPos} quaternion={billboard(heartPos, camPos)}>
@@ -528,6 +552,8 @@ export const Actor = ({
           uniform={v.suit > 0.5 ? SUIT_UNIFORM : undefined}
           glasses={v.glasses}
           splat={v.splat}
+          lokcap={v.lokcap}
+          jogger={v.jogger}
         />
       )}
       {name === 'gartennachbar' && (
@@ -571,7 +597,7 @@ export const Actor = ({
         </group>
       )}
       {(name === 'klingel' || name === 'klingel2') && <Doorbell text={actor.text ?? (name === 'klingel' ? 'NACHBAR' : 'DUMMY')} press={v.press} />}
-      {name === 'tageskalender' && <DayCalendar day={Math.max(1, v.fill)} />}
+      {name === 'tageskalender' && <DayCalendar day={Math.max(1, v.fill)} labels={actor.text ? actor.text.split('|') : undefined} />}
       {(name === 'treppentuer' || name === 'treppentuer2') && (
         <FlatDoor open={v.door} cut={v.fill} lid={v.lid} text={actor.text ?? (name === 'treppentuer' ? 'NACHBAR' : 'DUMMY')} wood={name === 'treppentuer2'} time={zt} mirror={v.side > 0.5} />
       )}
@@ -601,8 +627,14 @@ export const Actor = ({
       {name === 'stempel' && <RubberStamp />}
       {name === 'muenzen' && <CoinPile fill={v.fill} />}
       {name === 'ordner' && <Binder text={actor.text ?? 'Joghurt\n2026'} color="#ff7aa8" size={v.size} />}
-      {name === 'laptop' && <Laptop fill={v.fill} />}
-      {name === 'zug' && <Train speed={state.speed} time={zt} />}
+      {name === 'laptop' && <Laptop fill={v.fill} lid={state.values.lid > 0 || v.mark > 0 ? v.lid : 1} call={v.mark} hi={v.glow} />}
+      {name === 'zug' && <Train speed={state.speed} time={zt} display={actor.text} pantograph={v.side < 0.5} />}
+      {name === 'lok' && <Loco dist={pos.x + pos.z} ring={v.ring} time={zt} lights={v.blink} />}
+      {name === 'bagger' && <Excavator dist={pos.x + pos.z} arm={v.tilt} smoke={v.smoke} time={zt} />}
+      {name === 'signal' && <RailSignal green={v.good} time={clock} />}
+      {name === 'kaffeetasse' && <CoffeeMug smoke={v.smoke} time={clock} />}
+      {name === 'autoschlange' && <CarQueue count={v.fill > 0 ? v.fill * 8 : 6} dist={pos.x + pos.z} time={zt} rumble={v.rumble} />}
+      {name === 'anzeigetafel' && <DelayBoard text={actor.text ?? '+90 Min'} blink={v.blink} />}
       {name === 'becher' && (
         <group rotation={state.motion === 'toss' ? [state.motionTime * 7.5, state.motionTime * 3, state.motionTime * 11] : [0, 0, 0]}>
           <PlasticCup size={v.size} />
@@ -811,6 +843,9 @@ export const Actor = ({
       {name === 'rechnung' && <Bill size={v.size} />}
       {name === 'chef' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BOSS_COLOR} uniform={BOSS_SUIT} brow={v.brow} />
+      )}
+      {PASSENGERS[name] && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={PASSENGERS[name].color} uniform={PASSENGERS[name].uniform} brow={v.brow} />
       )}
       {name === 'wecker' && (
         <group scale={1 + v.size} rotation={state.motion === 'arc' ? [zt * 5.5, zt * 2.2, zt * 1.3] : [deg(-v.tilt), 0, 0]}>

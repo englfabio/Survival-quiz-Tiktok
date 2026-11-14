@@ -916,7 +916,7 @@ export const SpeakerMast = () => {
 };
 
 // ---------- Szene ----------
-const StationScene = ({full, platform = false}: {full: boolean; platform?: boolean; cam?: StageCam}) => {
+const StationScene = ({full, platform = false, noBoard = false}: {full: boolean; platform?: boolean; /** große Anzeigetafel weglassen (wird als Objekt "anzeigetafel" gesetzt) */ noBoard?: boolean; cam?: StageCam}) => {
   const L = useTrackLayout();
   const tiles = useMemo(() => {
     const r = rng(9);
@@ -1015,9 +1015,11 @@ const StationScene = ({full, platform = false}: {full: boolean; platform?: boole
       <group position={[6.4, 0, 7.6]}>
         <TrashBin />
       </group>
-      <group position={STATION.board}>
-        <DepartureBoard />
-      </group>
+      {!noBoard && (
+        <group position={STATION.board}>
+          <DepartureBoard />
+        </group>
+      )}
       <group position={[-20, 3.1, 5.0]}>
         <DepartureBoard />
       </group>
@@ -1050,6 +1052,15 @@ const PlatformStation = (p: {cam?: StageCam}) => <StationScene full={false} plat
 export const stationPlatformStage: StageDef = {
   id: 'bahnsteig',
   Component: PlatformStation,
+  climbTrees: [],
+  groundHeight,
+  ambience: 'bahnhof-atmo',
+};
+const DelayStation = (p: {cam?: StageCam}) => <StationScene full={false} platform noBoard {...p} />;
+/** Variante "bahnsteig-verspaetung": wie "bahnsteig", aber ohne die große Anzeigetafel – dort hängt das Objekt "anzeigetafel" (Verspätung) */
+export const stationDelayStage: StageDef = {
+  id: 'bahnsteig-verspaetung',
+  Component: DelayStation,
   climbTrees: [],
   groundHeight,
   ambience: 'bahnhof-atmo',

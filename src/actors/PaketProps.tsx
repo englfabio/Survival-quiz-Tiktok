@@ -341,8 +341,28 @@ const dayTex = (n: number) =>
     g.fillStyle = '#20232a';
     fitText(g, String(n), 150, 232, 250, 230, 800);
   });
-const DaySheet = ({n}: {n: number}) => <TextPlane draw={dayTex(n)} k={`Tag ${n}`} w={0.3} h={0.36} glow={0.3} />;
-export const DayCalendar = ({day = 1}: {day?: number}) => {
+/** Blatt mit eigener Beschriftung (z. B. Wochentag): oben rote Kopfzeile, groß der Text */
+const labelTex = (head: string, big: string) =>
+  canvasTex(300, 360, (g) => {
+    g.fillStyle = '#fbfaf6';
+    g.fillRect(0, 0, 300, 360);
+    g.fillStyle = '#c62f2a';
+    g.fillRect(0, 0, 300, 92);
+    g.fillStyle = '#ffffff';
+    fitText(g, head, 150, 50, 260, 70, 800);
+    g.fillStyle = '#20232a';
+    fitText(g, big, 150, 226, 270, 130, 800, 1.05);
+  });
+const DaySheet = ({n, labels}: {n: number; labels?: string[]}) => {
+  if (labels && labels.length) {
+    const raw = labels[Math.min(labels.length, n) - 1];
+    const [head, big] = raw.includes('/') ? raw.split('/') : ['NOVEMBER', raw];
+    return <TextPlane draw={labelTex(head, big)} k={`Blatt ${head} ${big}`} w={0.3} h={0.36} glow={0.3} />;
+  }
+  return <TextPlane draw={dayTex(n)} k={`Tag ${n}`} w={0.3} h={0.36} glow={0.3} />;
+};
+/** labels: eigene Blätter statt "TAG n" (Blatt n = labels[n−1], "KOPF/Text" oder nur Text) – z. B. Wochentage */
+export const DayCalendar = ({day = 1, labels}: {day?: number; labels?: string[]}) => {
   const n = Math.max(1, Math.floor(day + 1e-4));
   const frac = day - n;
   const flip = frac > 0.002 ? frac : 0;
@@ -357,12 +377,12 @@ export const DayCalendar = ({day = 1}: {day?: number}) => {
         <meshStandardMaterial color="#2c2f35" metalness={0.5} roughness={0.4} />
       </mesh>
       <group position={[0, -0.01, 0.0]}>
-        <DaySheet n={flip > 0 ? n + 1 : n} />
+        <DaySheet n={flip > 0 ? n + 1 : n} labels={labels} />
       </group>
       {flip > 0 && (
         <group position={[0, 0.17, 0.004]} rotation={[-flip * 2.9, 0, 0]}>
           <group position={[0, -0.18, 0]}>
-            <DaySheet n={n} />
+            <DaySheet n={n} labels={labels} />
           </group>
         </group>
       )}

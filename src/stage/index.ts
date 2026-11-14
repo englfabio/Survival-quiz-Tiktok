@@ -1,6 +1,7 @@
 import {beachStage} from './Beach';
 import {canalStage} from './Canal';
-import {stationFullStage, stationPlatformStage, stationStage} from './Station';
+import {stationDelayStage, stationFullStage, stationPlatformStage, stationStage} from './Station';
+import {railwayStage, roadStage} from './Railway';
 import {castleStage} from './Castle';
 import {christmasRoomStage, hallStage, outsideStage, plainHallStage} from './Christmas';
 import {diningKitchenStage, kitchenStage, wgKitchenNightStage, wgKitchenStage} from './Kitchen';
@@ -19,7 +20,7 @@ import {playgroundStage} from './Playground';
 import {policeStationStage} from './PoliceStation';
 import {graveyardStage} from './Graveyard';
 import {lakeStage} from './Lake';
-import {bathroomStage, livingRoomStage, praxisStage} from './Rooms';
+import {bathroomStage, homeOfficeStage, livingRoomStage, praxisStage} from './Rooms';
 import type {StageDef} from './types';
 
 /** Alle Bühnen. Neue Bühne = neue Datei + hier eintragen. */
@@ -62,4 +63,8 @@ export const STAGES: Record<string, StageDef> = {
   'wg-kueche': wgKitchenStage,
   'wg-kueche-nacht': wgKitchenNightStage,
   treppenhaus: stairwellStage,
+  'bahnsteig-verspaetung': stationDelayStage,
+  bahnstrecke: railwayStage,
+  landstrasse: roadStage,
+  'wohnzimmer-homeoffice': homeOfficeStage,
 };
