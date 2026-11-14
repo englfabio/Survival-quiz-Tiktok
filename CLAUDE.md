@@ -662,7 +662,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   A +1,6 s Fahrer fassungslos, B +1,0 s Besucher prosten, C +1,8 s längere Verfolgungsjagd; Texte Buchstabe für Buchstabe vom Inhaber). Wort-Zeitstempel = Text
   (geprüft), Kontrolle scribe_v2 (Situation, Option 3, Szene C „Unimogs“): korrekt. Choreografie: `python3 scripts/spezial-monstertruck-choreo.py` (Schema wie
   Joghurt/Bahn). Comichaft: niemand sitzt im überfahrenen Auto/Truck, Jagd ohne Unfälle. Keine Logos (Selbstprüfung: kein Stern am Unimog). Standbilder in
-  review/spezial-monstertruck/phase1/. Finales Video: review/final/spezial-monstertruck.mp4.
+  review/spezial-monstertruck/phase1/. Finales Video: review/final/spezial-monstertruck.mp4 (85,2 s), vom Inhaber freigegeben.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
