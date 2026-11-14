@@ -8,19 +8,19 @@ import json, os, math
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ID = 'spezial-mitbewohner-joghurt'
 S = dict(
-situation="Dein Mitbewohner hat mal wieder deinen Joghurt gegessen. Schon wieder. Dein Name stand sogar drauf. Was machst du?",
+situation="Dein Mitbewohner hat mal wieder deinen Joghurt gegessen. Dein Name stand sogar drauf. Was machst du?",
 o1c="Den Kühlschrank sprengen", o1s="A: Du sprengst den Kühlschrank.",
-o2c="Zettel: Probe fürs Gesundheitsamt", o2s="B: Du beschriftest deinen Joghurt mit: Probe fürs Gesundheitsamt.",
-o3c="Rechnung: 1,29 € plus Mahngebühren", o3s="C: Du schickst ihm eine Rechnung über 1,29 Euro. Plus Mahngebühren. Wir sind ja schließlich in Deutschland.",
-e1="Wenn du keinen Joghurt hast, dann hat ihn keiner. Puff. Jetzt ist die ganze Küche Joghurt. Und dein Mitbewohner? Der findet das ziemlich lecker.",
-e2="Ab jetzt steht auf deinem Joghurt: Probe fürs Gesundheitsamt. Nachts um drei steht er wieder am Kühlschrank. Er liest den Zettel. Er stellt den Becher ganz langsam zurück.",
-e3="Erst kommt die Rechnung. Dann die erste Mahnung. Dann die zweite. Nach drei Wochen zahlt er endlich. In Münzen. Du stempelst: Bezahlt. Und legst alles ordentlich ab. Im Ordner Joghurt, Jahrgang 2026.",
+o2c="Zettel: Probe fürs Gesundheitsamt", o2s="B: Du schreibst drauf: Probe fürs Gesundheitsamt.",
+o3c="Rechnung: 1,29 € plus Mahngebühren", o3s="C: Du schreibst ihm eine Rechnung: 1,29 Euro plus Mahngebühren. Wir sind ja in Deutschland.",
+e1="Wenn du keinen Joghurt hast, hat ihn keiner. Puff. Die ganze Küche ist Joghurt. Und dein Mitbewohner? Findet's lecker.",
+e2="Nachts um drei steht er wieder am Kühlschrank. Er liest den Zettel. Und stellt den Becher ganz langsam zurück.",
+e3="Rechnung. Erste Mahnung. Zweite Mahnung. Nach drei Wochen zahlt er. In Münzen. Du stempelst: Bezahlt. Ab in den Ordner Joghurt 2026.",
 countdown="Also, was machst du? Schreib A, B oder C in die Kommentare.",
-# Outro: Text des Inhabers wortgenau + auf Wunsch des Inhabers ein Satz dazu (was der Dummy als Nächstes erleben soll)
-outro="Eine richtige Antwort gibt es diesmal nicht. Aber dein Mitbewohner sollte das Video unbedingt sehen. Schreib A, B oder C in die Kommentare und markier deinen Joghurt-Dieb. Und was soll der Dummy als Nächstes erleben?",
+# Texte vom Inhaber gekürzt freigegeben (Ziel: knapp über 61 s); Outro kurz: Joghurt-Dieb markieren + was der Dummy als Nächstes erleben soll
+outro="Markier deinen Joghurt-Dieb! Was soll der Dummy als Nächstes erleben?",
 )
 # visuelle Verlängerung der Szenen (Sekunden, ohne Text) – nur so viel, dass jede Pointe zu Ende gespielt ist
-EXTRA = {1: 0.6, 2: 0.8, 3: 0.0}
+EXTRA = {1: 0.0, 2: 0.3, 3: 0.2}
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'countdown': 0.1,
         'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'outro': 0.3}
 MINLEN = {'situation': 5, 'countdown': 5, 'explain1': 6, 'explain2': 6, 'explain3': 7, 'outro': 3}
@@ -122,10 +122,11 @@ shots = {}
 # =========================================================================================================
 c = 'situation'; L = seclen(c)
 sec = lambda s, c=c: s / seclen(c)
-cS = cue(c, 'Schon wieder'); cN = cue(c, 'Dein Name'); cD = cue(c, 'drauf'); cW = cue(c, 'Was machst')
+cS = cue(c, 'gegessen'); cN = cue(c, 'Dein Name'); cD = cue(c, 'drauf'); cW = cue(c, 'Was machst')
 f0 = cS - sec(0.15)                      # Dummy beginnt die Tür zu öffnen
 grab = f0 + sec(2.0)
 closeup = max(cN + sec(0.4), f0 + sec(2.15))
+cW = max(cW, closeup + sec(0.6))           # Entsetzen erst, wenn der Becher gezeigt wurde
 a = static(cup=False)
 a['kuehlschrank'] = [K(0, *FRIDGE, 'park', 180, door=0), K(f0 + sec(0.4), *FRIDGE, 'park', 180, door=0), K(f0 + sec(1.2), *FRIDGE, 'park', 180, door=1)]
 a['joghurt'] = [K(0, CUP_IN[0], CUP_IN[1], 'park', 180, y=CUP_IN[2], size=CUP_SIZE, lid=1, fill=0.01), K(grab - 0.001, CUP_IN[0], CUP_IN[1], 'park', 180, y=CUP_IN[2]),
@@ -162,7 +163,7 @@ def scene0(n): return r3(seclen(f'option{n}') / answer_len(n))
 
 # ---------- A: großer roter Knopf → PUFF → Küche voller Joghurt → Mitbewohner probiert und grinst ----------
 n = 1; L = answer_len(n); sa = lambda s: s / answer_len(1)
-s0 = scene0(1); tP = ac(1, 'Puff'); tJ = ac(1, 'Jetzt ist'); tU = ac(1, 'Und dein'); tF = ac(1, 'Der findet')
+s0 = scene0(1); tP = ac(1, 'Puff'); tJ = ac(1, 'Die ganze'); tU = ac(1, 'Und dein'); tF = ac(1, 'Findet')
 BTN_D = (-0.75, -1.05)                       # Dummy hinter dem Knopf, Blick zur Kamera
 BTN = (BTN_D[0], BTN_D[1] + 0.5)
 press0 = tP - sa(0.76)
@@ -201,7 +202,7 @@ shots['option1'] = {
 
 # ---------- B: Zettel "Probe fürs Gesundheitsamt" → nachts liest der Mitbewohner und stellt den Becher zurück ----------
 n = 2; L = answer_len(n); sb = lambda s: s / answer_len(2)
-s0 = scene0(2); tN = ac(2, 'Nachts'); tL = ac(2, 'Er liest'); tS = ac(2, 'Er stellt')
+s0 = scene0(2); tN = ac(2, 'Nachts'); tL = ac(2, 'Er liest'); tS = ac(2, 'Und stellt')
 WR = (-0.2, 1.17)                     # Dummy vor dem Tisch, Blick −z
 NOTE = (WR[0] + 0.05, WR[1] - 0.42)   # Zettel auf dem Tisch unter der rechten Hand
 CUP_T = (-0.4, 0.72)                  # Becher auf dem Tisch, Etikett zum Dummy (+z)
@@ -217,7 +218,7 @@ a['klebezettel'] = [K(0, *NOTE, 'park', 180, y=TABLE_Y + 0.003, size=0.6), K(sti
 a['stift'] = [K(0, NOTE[0] + 0.2, NOTE[1] + 0.05, 'park', 30, y=HIDE), K(side0 - 0.002, NOTE[0] + 0.2, NOTE[1] + 0.05, 'park', 30, y=HIDE),
               K(side0, NOTE[0] + 0.22, NOTE[1] + 0.05, 'park', 30, y=TABLE_Y)]
 a['dummy'] = [K(0, *WR, 'writenote', 0), K(side0, *WR, 'walk', 0), K(stick0, *ST, 'sticknote', 0), K(s0 - sb(0.27), *ST, 'sticknote', 0),
-              K(s0 - sb(0.25), ST[0], ST[1], 'walk', 140), K(s0 + sb(0.55), -0.95, 1.45, 'stand', 150), K(tN - 0.002, -0.95, 1.45, 'stand', 150),
+              K(s0 - sb(0.25), ST[0], ST[1], 'walk', 140), K(min(s0 + sb(0.45), tN - sb(0.1)), -0.95, 1.45, 'stand', 150), K(tN - 0.002, -0.95, 1.45, 'stand', 150),
               K(tN, ST[0], ST[1], 'stand', 150, y=HIDE)]
 # Nacht: Mitbewohner schleicht zum Kühlschrank, öffnet, liest, stellt zurück, weicht zurück
 SN0 = (0.25, -0.2)
@@ -243,7 +244,7 @@ CAM_BR = F([[STAND[0] - 0.25, 1.98, STAND[1]], [STAND[0], 1.0, STAND[1]], [HOLD[
 CAM_BP = F(body(*STAND) + [[-2.48, 2.02, -1.6], [-2.48, 0.4, -1.6]], 35, 8)
 CAM_BX = F(body(*STAND) + body(*REC) + [[-2.48, 2.02, -1.6]], 25, 8)
 shots['option2'] = {
-    'camera': [cam(0, *CAM_B0), cam(s0 + sb(0.6) - 0.003, *dolly(CAM_B0)), cam(s0 + sb(0.6), *CAM_BC), cam(tN - 0.003, *dolly(CAM_BC, 0.9)),
+    'camera': [cam(0, *CAM_B0), cam(stick0 + sb(0.6) - 0.003, *dolly(CAM_B0)), cam(stick0 + sb(0.6), *CAM_BC), cam(tN - 0.003, *dolly(CAM_BC, 0.9)),
                cam(tN, *CAM_BN), cam(read0 - 0.003, *dolly(CAM_BN)), cam(read0, *CAM_BR), cam(put0 - 0.003, *dolly(CAM_BR, 0.95)),
                cam(put0, *CAM_BP), cam(put_end + sb(0.5), *dolly(CAM_BP, 0.97)), cam(put_end + sb(0.5) + 0.003, *CAM_BX), cam(1, *dolly(CAM_BX))],
     'actors': a,
@@ -255,18 +256,18 @@ shots['option2'] = {
 # ---------- C: Rechnung tippen → Briefe unter der Tür durch → 3 Wochen → Münzen → BEZAHLT → Ordner ins Regal ----------
 n = 3; L = answer_len(n); sc = lambda s: s / answer_len(3)
 s0 = scene0(3)
-tR = ac(3, 'Rechnung.'); tM1 = ac(3, 'erste Mahnung'); tM2 = ac(3, 'zweite'); tW = ac(3, 'Nach drei'); tMz = ac(3, 'In Münzen')
-tSt = ac(3, 'Du stempelst'); tB = ac(3, 'Bezahlt'); tO = ac(3, 'Und legst'); tIO = ac(3, 'Im Ordner')
+tR = ac(3, 'Rechnung.'); tM1 = ac(3, 'Erste Mahnung'); tM2 = ac(3, 'Zweite'); tW = ac(3, 'Nach drei'); tMz = ac(3, 'In Münzen')
+tSt = ac(3, 'Du stempelst'); tB = ac(3, 'Bezahlt'); tO = ac(3, 'Ab in'); tIO = ac(3, 'Joghurt 2026')
 a = static(laptop=0)
 a['laptop'] = [K(0, LAPTOP[0], LAPTOP[1], 'park', 180, y=LAPTOP[2], fill=0), K(sc(0.8), LAPTOP[0], LAPTOP[1], 'park', 180, fill=0),
-               K(ac(3, 'Plus', card=True), LAPTOP[0], LAPTOP[1], 'park', 180, fill=1)]
+               K(ac(3, 'plus', card=True), LAPTOP[0], LAPTOP[1], 'park', 180, fill=1)]
 a['joghurt'][0]['y'] = HIDE
 # Briefe unter der Tür durchschieben (Dummy kniet vor der Tür, Blick +x)
 KN = (1.62, 1.18)
 slide0 = tR - sc(0.6)
 LET = ['Rechnung', '1. Mahnung', '2. Mahnung']
 for i, name in enumerate(['brief', 'brief2', 'brief3']):
-    p0 = slide0 + sc(0.6 + 1.3 * i)
+    p0 = slide0 + sc(0.6 + 1.0 * i)
     x0 = KN[0] + 0.45; x1 = KN[0] + 0.78; x2 = 2.75
     a[name] = [K(0, x0, KN[1] - 0.04, 'park', 270, y=HIDE, tilt=1, text=LET[i], size=1.4), K(p0 - sc(0.12), x0, KN[1] - 0.04, 'park', 270, y=HIDE),
                K(p0 - sc(0.1), x0, KN[1] - 0.04, 'park', 270, y=0), K(p0 + sc(0.52), x1, KN[1] - 0.04, 'park', 270, y=0),
@@ -319,7 +320,7 @@ shots['option3'] = {
                cam(tIO, *CAM_CF), cam(1, *dolly(CAM_CF, 0.93))],
     'actors': a,
     'sfx': [{'t': 0.03, 'id': 'tastatur', 'volume': 0.6}, {'t': r3(slide0 + sc(0.6)), 'id': 'papier-schieben', 'volume': 0.7},
-            {'t': r3(slide0 + sc(1.9)), 'id': 'papier-schieben', 'volume': 0.7}, {'t': r3(slide0 + sc(3.2)), 'id': 'papier-schieben', 'volume': 0.7},
+            {'t': r3(slide0 + sc(1.6)), 'id': 'papier-schieben', 'volume': 0.7}, {'t': r3(slide0 + sc(2.6)), 'id': 'papier-schieben', 'volume': 0.7},
             {'t': r3(tW - sc(0.1)), 'id': 'kalender-blaettern', 'volume': 0.6}, {'t': r3(tMz + sc(0.1)), 'id': 'muenzen', 'volume': 0.7},
             {'t': r3(stamp0 + sc(0.58)), 'id': 'stempel', 'volume': 0.9}],
 }

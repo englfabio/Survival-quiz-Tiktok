@@ -2757,7 +2757,7 @@ const weckerPose = (motion: Motion, time: number): DummyPose | null => {
  *  - writenote:   steht am Tisch (Platte 0,76 m), vorgebeugt, schreibt mit dickem Stift auf einen Zettel 0,42 m vor ihm (kritzelt)
  *  - sticknote:   klebt den Zettel auf den Becher 0,4 m vor ihm (drücken bei 0,5 s, glattstreichen bis 1,0 s)
  *  - typedesk:    sitzt (Stuhl 0,45 m) und tippt auf dem Laptop 0,45 m vor ihm (Hände abwechselnd), Kopf leicht gesenkt
- *  - slideletter: kniet (0,6 s), schiebt mit rechts einen Brief über den Boden nach vorn (0,6–1,12 s), alle 1,3 s erneut
+ *  - slideletter: kniet (0,6 s), schiebt mit rechts einen Brief über den Boden nach vorn (0,6–1,0 s), alle 1,0 s erneut
  *  - stamp:       Stempel rechts hoch (bis 0,45 s), kräftig runter auf den Tisch 0,42 m vor ihm (Treffer 0,58 s), hoch ab 0,9 s
  *  - shelve:      hebt den Ordner rechts ins Regal (Brett 1,55 m, 0,32 m vor ihm; oben bei 0,8 s), schiebt ihn hinein (bis 1,3 s),
  *                 loslassen 1,35 s, dann Hände in die Hüften + zufrieden nicken
@@ -2868,7 +2868,7 @@ const wgPose = (motion: Motion, time: number, speed: number): DummyPose | null =
       kn.headX = 0.2;
       const k = easeInOut(clamp(time / 0.6));
       const p = mix(base(), kn, k);
-      const c = time < 0.6 ? 0 : ((time - 0.6) % 1.3) / 1.3;
+      const c = time < 0.6 ? 0 : ((time - 0.6) % 1.0) / 1.0;
       const push = easeInOut(clamp(c / 0.4));
       const ret = easeInOut(clamp((c - 0.45) / 0.45));
       const floor: P3 = [-0.06, 0.04, 0.42 + 0.33 * push];
