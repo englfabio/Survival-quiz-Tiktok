@@ -106,6 +106,13 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
 - Kein Rot/Grün, kein Richtig-/Falsch-Ton; beim Erscheinen jeder Antwort ein „Pop“, bei der Abstimmung Ticks + Spannung.
 - Spezial-Videos werden im Positionsplan nicht gezählt.
 - Darstellung immer comichaft und harmlos.
+- **Schema für Spezial-Videos (vom Inhaber als Vorlage freigegeben, Vorbild: spezial-mitbewohner-joghurt, 66 s):**
+  - Ziel-Länge knapp über 61 s (ca. 61–67 s), Texte knapp halten: Situation 1–3 kurze Sätze, Kartentext-Ansage ein Satz,
+    jede Szene ca. 3–6 kurze Sätze (Pointe zuerst, keine Füllwörter, keine Wiederholung der Karte in der Szene).
+  - Abstimmung: „Also, was machst du? Schreib A, B oder C in die Kommentare.“ + Schild „Stimm ab!“.
+  - Danach NICHTS mehr wiederholen (kein „Eine richtige Antwort gibt es diesmal nicht“, kein zweites „Schreib A, B oder C …“).
+    Outro nur ein kurzer Schluss, z. B. „Markier deinen …! Was soll der Dummy als Nächstes erleben?“
+  - Ist ein gelieferter Text deutlich zu lang für dieses Schema: dem Inhaber eine gekürzte Fassung vorschlagen (Regel 7 gilt weiter).
 
 - Abschnittslängen richten sich (sobald es Sprachaufnahmen gibt) automatisch nach der
   Länge der Audios. Bis dahin wird die Sprechdauer aus der Textlänge geschätzt
