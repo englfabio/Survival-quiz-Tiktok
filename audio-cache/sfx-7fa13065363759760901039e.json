@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Fast typing on a laptop keyboard, plastic keys, close, office",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-14T03:47:35.941Z"
+}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Rubber stamp slammed hard onto paper on a wooden table, single firm thump",
+  "duration": 0.6,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-14T03:47:42.555Z"
+}

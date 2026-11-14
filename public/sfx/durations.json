@@ -73,5 +73,13 @@
   "durchsage-gong": 2.508,
   "zug-naht": 4.049,
   "zug-durchfahrt": 5.042,
-  "wind-sog": 2.038
+  "wind-sog": 2.038,
+  "kuehlschrank-auf": 1.515,
+  "knopf-druecken": 0.836,
+  "puff": 1.802,
+  "stift-kritzeln": 2.038,
+  "tastatur": 3.03,
+  "papier-schieben": 0.836,
+  "muenzen": 2.038,
+  "stempel": 0.627
 }

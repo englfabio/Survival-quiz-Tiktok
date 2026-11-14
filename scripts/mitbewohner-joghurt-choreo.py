@@ -119,13 +119,13 @@ SPOON_AT = (-0.75, 0.05)
 a['kumpel'] = [K(0, *SPOON_AT, 'spoon', 160), K(cS - 0.002, *SPOON_AT, 'spoon', 160), K(cS, *SPOON_AT, 'spoon', 160, y=HIDE)]
 a['dummy'] = [K(0, *STAND, 'stand', 0), K(f0, *STAND, 'fridgeopen', 0), K(cW - 0.001, *STAND, 'fridgeopen', 0),
               K(cW, *STAND, 'aghast', 0), K(cW + sec(0.3), *STAND, 'aghast', 150)]
-CAM_K = ([-0.25, 1.55, 2.0], [-0.75, 1.3, 0.0])
+CAM_K = ([-0.2, 1.5, 3.1], [-0.75, 1.2, 0.0])
 CAM_F = ([0.35, 1.65, 1.25], [-1.75, 1.15, -1.55])
-CAM_C = ([-1.15, 1.82, -0.62], [-1.66, 1.5, -1.38])
+CAM_C = ([-0.85, 1.62, -0.72], [-1.67, 1.5, -1.39])
 CAM_W = ([0.4, 1.55, 2.3], [-1.45, 1.25, -1.05])
 shots['situation'] = {
-    'camera': [cam(0, *CAM_K), cam(cS - 0.003, [-0.3, 1.5, 1.8], CAM_K[1]), cam(cS, *CAM_F)] +
-              [cam(closeup - 0.003, [0.25, 1.62, 1.15], CAM_F[1]), cam(closeup, *CAM_C), cam(cW - 0.003, [-1.12, 1.8, -0.58], CAM_C[1]),
+    'camera': [cam(0, *CAM_K), cam(cS - 0.003, [-0.3, 1.45, 2.8], CAM_K[1]), cam(cS, *CAM_F)] +
+              [cam(closeup - 0.003, [0.25, 1.62, 1.15], CAM_F[1]), cam(closeup, *CAM_C), cam(cW - 0.003, [-0.9, 1.6, -0.62], CAM_C[1]),
                cam(cW, *CAM_W), cam(1, [0.35, 1.5, 2.1], CAM_W[1])],
     'actors': a,
     'sfx': [{'t': r3(f0 + sec(0.4)), 'id': 'kuehlschrank-auf', 'volume': 0.6}, {'t': r3(cW + sec(0.05)), 'id': 'falsch', 'volume': 0.0}],

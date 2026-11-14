@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon comedy poof with a big wet creamy splat and squelch, like a giant yogurt splash, funny, no explosion, no fire, no bang",
+  "duration": 1.8,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T03:47:30.675Z"
+}

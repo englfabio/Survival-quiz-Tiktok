@@ -526,6 +526,62 @@
       "duration": 2,
       "loop": false,
       "promptInfluence": 0.55
+    },
+    {
+      "id": "kuehlschrank-auf",
+      "prompt": "Refrigerator door opening with a soft rubber seal pop and quiet fridge hum, kitchen, close",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "knopf-druecken",
+      "prompt": "Big plastic arcade button being slammed, chunky satisfying click clunk, cartoon",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "puff",
+      "prompt": "Cartoon comedy poof with a big wet creamy splat and squelch, like a giant yogurt splash, funny, no explosion, no fire, no bang",
+      "duration": 1.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "stift-kritzeln",
+      "prompt": "Thick felt marker scribbling quickly on a sticky note, close",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "tastatur",
+      "prompt": "Fast typing on a laptop keyboard, plastic keys, close, office",
+      "duration": 3.0,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "papier-schieben",
+      "prompt": "Envelope sliding across a wooden floor under a door, paper swish",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "muenzen",
+      "prompt": "Several coins being placed one by one on a wooden table, small metallic clinks",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "stempel",
+      "prompt": "Rubber stamp slammed hard onto paper on a wooden table, single firm thump",
+      "duration": 0.6,
+      "loop": false,
+      "promptInfluence": 0.7
     }
   ]
 }

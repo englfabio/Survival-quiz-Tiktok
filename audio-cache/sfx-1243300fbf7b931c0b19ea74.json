@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Big plastic arcade button being slammed, chunky satisfying click clunk, cartoon",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-14T03:47:28.195Z"
+}

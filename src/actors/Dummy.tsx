@@ -3736,7 +3736,7 @@ const WgHandItem = ({item, label, right, left, level}: {item: DummyPose['item'];
       return (
         <group position={left} quaternion={level}>
           <group position={[0.0, -0.05, 0.02]} rotation={[-0.35, 0, 0]} scale={1.5}>
-            <group rotation={[0, Math.PI, 0]}>
+            <group rotation={[0, Math.PI - 0.75, 0]}>
               <YogurtCup lid={1} fill={0} />
             </group>
           </group>
