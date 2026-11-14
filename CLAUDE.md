@@ -657,7 +657,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Spezial Bahn-Verspätung: 983 neue Zeichen (394 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 74,5 s, Video 83,7 s (Texte vom Inhaber
   Buchstabe für Buchstabe, daher länger als das Joghurt-Ziel). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 (Situation, Szene B „25“, Szene C „8:01“):
   korrekt. Choreografie: `python3 scripts/spezial-bahn-verspaetung-choreo.py` (Schema wie Joghurt). Niemand betritt zu Fuß die Gleise (Dummy nur IN der Lok),
-  keine echten Logos. Standbilder in review/spezial-bahn-verspaetung/phase1/. Finales Video: review/final/spezial-bahn-verspaetung.mp4 (83,7 s, gerendert zu Beginn der Monstertruck-Sitzung).
+  keine echten Logos. Standbilder in review/spezial-bahn-verspaetung/phase1/. Finales Video: review/final/spezial-bahn-verspaetung.mp4 (83,7 s, gerendert zu Beginn der Monstertruck-Sitzung), vom Inhaber freigegeben.
 - Spezial Monstertruck: 968 neue Zeichen (387 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 73,2 s, Video 85,2 s (Szenen rein visuell verlängert:
   A +1,6 s Fahrer fassungslos, B +1,0 s Besucher prosten, C +1,8 s längere Verfolgungsjagd; Texte Buchstabe für Buchstabe vom Inhaber). Wort-Zeitstempel = Text
   (geprüft), Kontrolle scribe_v2 (Situation, Option 3, Szene C „Unimogs“): korrekt. Choreografie: `python3 scripts/spezial-monstertruck-choreo.py` (Schema wie
