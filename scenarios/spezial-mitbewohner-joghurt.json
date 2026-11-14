@@ -4,15 +4,15 @@
   "category": "spezial",
   "stage": "wg-kueche",
   "situation": {
-    "speech": "Dein Mitbewohner hat mal wieder deinen Joghurt gegessen. Schon wieder. Dein Name stand sogar drauf. Was machst du?"
+    "speech": "Dein Mitbewohner hat mal wieder deinen Joghurt gegessen. Dein Name stand sogar drauf. Was machst du?"
   },
   "options": [
     {
       "card": "Den Kühlschrank sprengen",
       "speech": "A: Du sprengst den Kühlschrank.",
       "dummyAction": "Dummy drückt einen großen roten Knopf, comichaftes PUFF (kein Feuer, kein Rauch), eine Joghurt-Welle färbt die Küche weiß. Der Mitbewohner kommt herein, wischt sich Joghurt von der Stirn, probiert und grinst.",
-      "explanation": "Wenn du keinen Joghurt hast, dann hat ihn keiner. Puff. Jetzt ist die ganze Küche Joghurt. Und dein Mitbewohner? Der findet das ziemlich lecker.",
-      "sceneExtra": 0.6,
+      "explanation": "Wenn du keinen Joghurt hast, hat ihn keiner. Puff. Die ganze Küche ist Joghurt. Und dein Mitbewohner? Findet's lecker.",
+      "sceneExtra": 0.0,
       "choreography": {
         "camera": [
           {
@@ -29,7 +29,7 @@
             ]
           },
           {
-            "t": 0.4734,
+            "t": 0.5384,
             "pos": [
               1.326,
               2.253,
@@ -42,7 +42,7 @@
             ]
           },
           {
-            "t": 0.477,
+            "t": 0.542,
             "pos": [
               2.28,
               2.58,
@@ -55,7 +55,7 @@
             ]
           },
           {
-            "t": 0.5427,
+            "t": 0.6093,
             "pos": [
               2.137,
               2.506,
@@ -68,7 +68,7 @@
             ]
           },
           {
-            "t": 0.5463,
+            "t": 0.6129,
             "pos": [
               0.78,
               4.31,
@@ -81,7 +81,7 @@
             ]
           },
           {
-            "t": 0.7343,
+            "t": 0.8053,
             "pos": [
               0.702,
               4.043,
@@ -94,7 +94,7 @@
             ]
           },
           {
-            "t": 0.7376,
+            "t": 0.8084,
             "pos": [
               -2.93,
               2.39,
@@ -107,7 +107,7 @@
             ]
           },
           {
-            "t": 0.8332,
+            "t": 0.9046,
             "pos": [
               -2.544,
               2.261,
@@ -120,7 +120,7 @@
             ]
           },
           {
-            "t": 0.8361,
+            "t": 0.9071,
             "pos": [
               -2.17,
               1.93,
@@ -158,7 +158,7 @@
               "rumble": 0
             },
             {
-              "t": 0.4812,
+              "t": 0.5359,
               "x": -2.13,
               "z": -1.94,
               "motion": "park",
@@ -167,7 +167,7 @@
               "rumble": 0
             },
             {
-              "t": 0.4934,
+              "t": 0.5499,
               "x": -2.13,
               "z": -1.94,
               "motion": "park",
@@ -176,7 +176,7 @@
               "rumble": 1
             },
             {
-              "t": 0.5628,
+              "t": 0.6289,
               "x": -2.13,
               "z": -1.94,
               "motion": "park",
@@ -195,7 +195,7 @@
               "door": 0
             },
             {
-              "t": 0.7043,
+              "t": 0.7716,
               "x": 2.5,
               "z": 0.75,
               "motion": "park",
@@ -203,7 +203,7 @@
               "door": 0
             },
             {
-              "t": 0.7383,
+              "t": 0.8104,
               "x": 2.5,
               "z": 0.75,
               "motion": "park",
@@ -267,7 +267,7 @@
               "glow": 0
             },
             {
-              "t": 0.4771,
+              "t": 0.5312,
               "x": -0.75,
               "z": -0.55,
               "motion": "park",
@@ -276,7 +276,7 @@
               "glow": 0
             },
             {
-              "t": 0.4812,
+              "t": 0.5359,
               "x": -0.75,
               "z": -0.55,
               "motion": "park",
@@ -285,7 +285,7 @@
               "glow": 1
             },
             {
-              "t": 0.5247,
+              "t": 0.5855,
               "x": -0.75,
               "z": -0.55,
               "motion": "park",
@@ -303,14 +303,14 @@
               "brow": 1
             },
             {
-              "t": 0.4295,
+              "t": 0.477,
               "x": -0.75,
               "z": -1.05,
               "motion": "pressbutton",
               "face": 180
             },
             {
-              "t": 0.4982,
+              "t": 0.5553,
               "x": -0.75,
               "z": -1.05,
               "motion": "pressbutton",
@@ -318,7 +318,7 @@
               "splat": 0
             },
             {
-              "t": 0.522,
+              "t": 0.5824,
               "x": -0.75,
               "z": -1.05,
               "motion": "pressbutton",
@@ -336,7 +336,7 @@
               "fill": 0
             },
             {
-              "t": 0.4812,
+              "t": 0.5359,
               "x": 0,
               "z": 0,
               "motion": "splash",
@@ -344,7 +344,7 @@
               "fill": 0
             },
             {
-              "t": 0.5832,
+              "t": 0.6522,
               "x": 0,
               "z": 0,
               "motion": "splash",
@@ -362,7 +362,7 @@
               "y": -30
             },
             {
-              "t": 0.7135,
+              "t": 0.7822,
               "x": 2.95,
               "z": 1.2,
               "motion": "walk",
@@ -370,7 +370,7 @@
               "y": -30
             },
             {
-              "t": 0.7145,
+              "t": 0.7832,
               "x": 2.95,
               "z": 1.2,
               "motion": "walk",
@@ -379,7 +379,7 @@
               "splat": 1
             },
             {
-              "t": 0.7825,
+              "t": 0.8576,
               "x": 1.55,
               "z": 1.05,
               "motion": "walk",
@@ -387,7 +387,7 @@
               "y": 0
             },
             {
-              "t": 0.7975,
+              "t": 0.875,
               "x": 1.55,
               "z": 1.05,
               "motion": "stand",
@@ -395,7 +395,7 @@
               "y": 0
             },
             {
-              "t": 0.7995,
+              "t": 0.877,
               "x": 1.55,
               "z": 1.05,
               "motion": "wipebrow",
@@ -403,7 +403,7 @@
               "y": 0
             },
             {
-              "t": 0.8233,
+              "t": 0.9041,
               "x": 1.55,
               "z": 1.05,
               "motion": "wipebrow",
@@ -412,7 +412,7 @@
               "y": 0
             },
             {
-              "t": 0.8641,
+              "t": 0.9506,
               "x": 1.55,
               "z": 1.05,
               "motion": "wipebrow",
@@ -422,7 +422,7 @@
               "y": 0
             },
             {
-              "t": 0.9049,
+              "t": 0.9972,
               "x": 1.55,
               "z": 1.05,
               "motion": "wipebrow",
@@ -434,17 +434,17 @@
         },
         "sfx": [
           {
-            "t": 0.4785,
+            "t": 0.5328,
             "id": "knopf-druecken",
             "volume": 0.8
           },
           {
-            "t": 0.4812,
+            "t": 0.5359,
             "id": "puff",
             "volume": 0.9
           },
           {
-            "t": 0.7077,
+            "t": 0.7755,
             "id": "tuer-zu",
             "volume": 0.35
           }
@@ -454,10 +454,10 @@
     },
     {
       "card": "Zettel: Probe fürs Gesundheitsamt",
-      "speech": "B: Du beschriftest deinen Joghurt mit: Probe fürs Gesundheitsamt.",
+      "speech": "B: Du schreibst drauf: Probe fürs Gesundheitsamt.",
       "dummyAction": "Dummy schreibt einen Zettel \"Probe fürs Gesundheitsamt\" und klebt ihn auf seinen Joghurt. Nachts schleicht der Mitbewohner zum Kühlschrank, liest den Zettel, stellt den Becher ganz langsam zurück und weicht zurück.",
-      "explanation": "Ab jetzt steht auf deinem Joghurt: Probe fürs Gesundheitsamt. Nachts um drei steht er wieder am Kühlschrank. Er liest den Zettel. Er stellt den Becher ganz langsam zurück.",
-      "sceneExtra": 0.8,
+      "explanation": "Nachts um drei steht er wieder am Kühlschrank. Er liest den Zettel. Und stellt den Becher ganz langsam zurück.",
+      "sceneExtra": 0.3,
       "choreography": {
         "camera": [
           {
@@ -474,7 +474,7 @@
             ]
           },
           {
-            "t": 0.2947,
+            "t": 0.3128,
             "pos": [
               4.986,
               3.67,
@@ -487,7 +487,7 @@
             ]
           },
           {
-            "t": 0.2981,
+            "t": 0.3162,
             "pos": [
               -0.22,
               0.99,
@@ -500,7 +500,7 @@
             ]
           },
           {
-            "t": 0.5823,
+            "t": 0.3741,
             "pos": [
               -0.238,
               0.974,
@@ -513,7 +513,7 @@
             ]
           },
           {
-            "t": 0.5858,
+            "t": 0.3776,
             "pos": [
               3.15,
               2.77,
@@ -526,7 +526,7 @@
             ]
           },
           {
-            "t": 0.797,
+            "t": 0.7001,
             "pos": [
               2.865,
               2.585,
@@ -539,7 +539,7 @@
             ]
           },
           {
-            "t": 0.8,
+            "t": 0.7035,
             "pos": [
               2.31,
               1.84,
@@ -552,7 +552,7 @@
             ]
           },
           {
-            "t": 0.822,
+            "t": 0.758,
             "pos": [
               2.115,
               1.812,
@@ -565,7 +565,7 @@
             ]
           },
           {
-            "t": 0.825,
+            "t": 0.7612,
             "pos": [
               2.68,
               2.4,
@@ -578,7 +578,7 @@
             ]
           },
           {
-            "t": 0.9471,
+            "t": 0.9462,
             "pos": [
               2.544,
               2.348,
@@ -591,7 +591,7 @@
             ]
           },
           {
-            "t": 0.9494,
+            "t": 0.9486,
             "pos": [
               2.46,
               2.74,
@@ -629,7 +629,7 @@
               "glow": 1
             },
             {
-              "t": 0.697,
+              "t": 0.5777,
               "x": -2.13,
               "z": -1.94,
               "motion": "park",
@@ -637,7 +637,7 @@
               "door": 0
             },
             {
-              "t": 0.7363,
+              "t": 0.6345,
               "x": -2.13,
               "z": -1.94,
               "motion": "park",
@@ -700,7 +700,7 @@
               "lid": 0
             },
             {
-              "t": 0.2861,
+              "t": 0.3369,
               "x": -0.4,
               "z": 0.72,
               "motion": "park",
@@ -709,7 +709,7 @@
               "mark": 0
             },
             {
-              "t": 0.2871,
+              "t": 0.3383,
               "x": -0.4,
               "z": 0.72,
               "motion": "park",
@@ -718,7 +718,7 @@
               "mark": 1
             },
             {
-              "t": 0.5698,
+              "t": 0.3952,
               "x": -0.4,
               "z": 0.72,
               "motion": "park",
@@ -726,7 +726,7 @@
               "y": 0.76
             },
             {
-              "t": 0.5718,
+              "t": 0.3972,
               "x": -1.95,
               "z": -1.84,
               "motion": "park",
@@ -734,7 +734,7 @@
               "y": 1.045
             },
             {
-              "t": 0.7614,
+              "t": 0.6715,
               "x": -1.95,
               "z": -1.84,
               "motion": "park",
@@ -742,7 +742,7 @@
               "y": 1.045
             },
             {
-              "t": 0.7634,
+              "t": 0.6735,
               "x": -1.95,
               "z": -1.84,
               "motion": "park",
@@ -750,7 +750,7 @@
               "y": -30
             },
             {
-              "t": 0.8993,
+              "t": 0.8873,
               "x": -1.95,
               "z": -1.84,
               "motion": "park",
@@ -758,7 +758,7 @@
               "y": -30
             },
             {
-              "t": 0.9013,
+              "t": 0.8893,
               "x": -1.95,
               "z": -1.84,
               "motion": "park",
@@ -777,7 +777,7 @@
               "size": 0.6
             },
             {
-              "t": 0.2812,
+              "t": 0.3298,
               "x": -0.15,
               "z": 0.75,
               "motion": "park",
@@ -785,7 +785,7 @@
               "y": 0.763
             },
             {
-              "t": 0.2822,
+              "t": 0.3312,
               "x": -0.15,
               "z": 0.75,
               "motion": "park",
@@ -803,7 +803,7 @@
               "y": -30
             },
             {
-              "t": 0.2374,
+              "t": 0.2675,
               "x": 0.05,
               "z": 0.8,
               "motion": "park",
@@ -811,7 +811,7 @@
               "y": -30
             },
             {
-              "t": 0.2394,
+              "t": 0.2695,
               "x": 0.07,
               "z": 0.8,
               "motion": "park",
@@ -828,49 +828,49 @@
               "face": 0
             },
             {
-              "t": 0.2394,
+              "t": 0.2695,
               "x": -0.2,
               "z": 1.17,
               "motion": "walk",
               "face": 0
             },
             {
-              "t": 0.2615,
+              "t": 0.3014,
               "x": -0.4,
               "z": 1.16,
               "motion": "sticknote",
               "face": 0
             },
             {
-              "t": 0.2851,
+              "t": 0.3355,
               "x": -0.4,
               "z": 1.16,
               "motion": "sticknote",
               "face": 0
             },
             {
-              "t": 0.2861,
+              "t": 0.3369,
               "x": -0.4,
               "z": 1.16,
               "motion": "walk",
               "face": 140
             },
             {
-              "t": 0.3254,
+              "t": 0.3865,
               "x": -0.95,
               "z": 1.45,
               "motion": "stand",
               "face": 150
             },
             {
-              "t": 0.5698,
+              "t": 0.3952,
               "x": -0.95,
               "z": 1.45,
               "motion": "stand",
               "face": 150
             },
             {
-              "t": 0.5718,
+              "t": 0.3972,
               "x": -0.4,
               "z": 1.16,
               "motion": "stand",
@@ -888,7 +888,7 @@
               "y": -30
             },
             {
-              "t": 0.5708,
+              "t": 0.3962,
               "x": 0.25,
               "z": -0.2,
               "motion": "sneak",
@@ -896,7 +896,7 @@
               "y": -30
             },
             {
-              "t": 0.5718,
+              "t": 0.3972,
               "x": 0.25,
               "z": -0.2,
               "motion": "sneak",
@@ -904,7 +904,7 @@
               "y": 0
             },
             {
-              "t": 0.6749,
+              "t": 0.5458,
               "x": -1.55,
               "z": -1.05,
               "motion": "sneak",
@@ -912,7 +912,7 @@
               "y": 0
             },
             {
-              "t": 0.6773,
+              "t": 0.5494,
               "x": -1.55,
               "z": -1.05,
               "motion": "fridgeopen",
@@ -920,7 +920,7 @@
               "y": 0
             },
             {
-              "t": 0.7634,
+              "t": 0.6735,
               "x": -1.55,
               "z": -1.05,
               "motion": "readnote",
@@ -928,7 +928,7 @@
               "y": 0
             },
             {
-              "t": 0.7882,
+              "t": 0.7262,
               "x": -1.55,
               "z": -1.05,
               "motion": "putback",
@@ -936,7 +936,7 @@
               "y": 0
             },
             {
-              "t": 0.9308,
+              "t": 0.9319,
               "x": -1.55,
               "z": -1.05,
               "motion": "putback",
@@ -944,7 +944,7 @@
               "y": 0
             },
             {
-              "t": 0.9318,
+              "t": 0.9333,
               "x": -1.55,
               "z": -1.05,
               "motion": "recoil",
@@ -967,7 +967,7 @@
             "stage": "wg-kueche"
           },
           {
-            "t": 0.5718,
+            "t": 0.3972,
             "stage": "wg-kueche-nacht"
           }
         ],
@@ -978,17 +978,17 @@
             "volume": 0.6
           },
           {
-            "t": 0.2861,
+            "t": 0.3369,
             "id": "pflaster",
             "volume": 0.6
           },
           {
-            "t": 0.697,
+            "t": 0.5777,
             "id": "kuehlschrank-auf",
             "volume": 0.6
           },
           {
-            "t": 0.8224,
+            "t": 0.7586,
             "id": "herzschlag",
             "volume": 0.5
           }
@@ -998,10 +998,10 @@
     },
     {
       "card": "Rechnung: 1,29 € plus Mahngebühren",
-      "speech": "C: Du schickst ihm eine Rechnung über 1,29 Euro. Plus Mahngebühren. Wir sind ja schließlich in Deutschland.",
+      "speech": "C: Du schreibst ihm eine Rechnung: 1,29 Euro plus Mahngebühren. Wir sind ja in Deutschland.",
       "dummyAction": "Dummy tippt mit Lesebrille eine Rechnung über 1,29 €, schiebt Rechnung, 1. und 2. Mahnung unter der Tür durch, der Kalender blättert drei Wochen weiter, der Mitbewohner zählt Münzen, der Dummy stempelt BEZAHLT und stellt den Ordner \"Joghurt 2026\" ins Regal.",
-      "explanation": "Erst kommt die Rechnung. Dann die erste Mahnung. Dann die zweite. Nach drei Wochen zahlt er endlich. In Münzen. Du stempelst: Bezahlt. Und legst alles ordentlich ab. Im Ordner Joghurt, Jahrgang 2026.",
-      "sceneExtra": 0.0,
+      "explanation": "Rechnung. Erste Mahnung. Zweite Mahnung. Nach drei Wochen zahlt er. In Münzen. Du stempelst: Bezahlt. Ab in den Ordner Joghurt 2026.",
+      "sceneExtra": 0.2,
       "choreography": {
         "camera": [
           {
@@ -1018,7 +1018,7 @@
             ]
           },
           {
-            "t": 0.1984,
+            "t": 0.2396,
             "pos": [
               2.349,
               1.736,
@@ -1031,7 +1031,7 @@
             ]
           },
           {
-            "t": 0.2015,
+            "t": 0.2428,
             "pos": [
               6.68,
               2.93,
@@ -1044,7 +1044,7 @@
             ]
           },
           {
-            "t": 0.3394,
+            "t": 0.3508,
             "pos": [
               6.302,
               2.756,
@@ -1057,7 +1057,7 @@
             ]
           },
           {
-            "t": 0.3429,
+            "t": 0.3542,
             "pos": [
               0.29,
               2.62,
@@ -1070,7 +1070,7 @@
             ]
           },
           {
-            "t": 0.5535,
+            "t": 0.573,
             "pos": [
               0.431,
               2.442,
@@ -1083,7 +1083,7 @@
             ]
           },
           {
-            "t": 0.5571,
+            "t": 0.5765,
             "pos": [
               -0.67,
               1.86,
@@ -1096,7 +1096,7 @@
             ]
           },
           {
-            "t": 0.66,
+            "t": 0.674,
             "pos": [
               -0.529,
               1.825,
@@ -1109,7 +1109,7 @@
             ]
           },
           {
-            "t": 0.6634,
+            "t": 0.6774,
             "pos": [
               1.39,
               3.65,
@@ -1122,7 +1122,7 @@
             ]
           },
           {
-            "t": 0.7894,
+            "t": 0.8342,
             "pos": [
               1.341,
               3.512,
@@ -1135,7 +1135,7 @@
             ]
           },
           {
-            "t": 0.7925,
+            "t": 0.8372,
             "pos": [
               -1.76,
               2.91,
@@ -1148,7 +1148,7 @@
             ]
           },
           {
-            "t": 0.8665,
+            "t": 0.887,
             "pos": [
               -1.571,
               2.803,
@@ -1161,7 +1161,7 @@
             ]
           },
           {
-            "t": 0.8693,
+            "t": 0.8897,
             "pos": [
               0.09,
               2.25,
@@ -1220,7 +1220,7 @@
               "fill": 0
             },
             {
-              "t": 0.0302,
+              "t": 0.0376,
               "x": 1.75,
               "z": -1.88,
               "motion": "park",
@@ -1229,7 +1229,7 @@
               "y": 0.74
             },
             {
-              "t": 0.1868,
+              "t": 0.2061,
               "x": 1.75,
               "z": -1.88,
               "motion": "park",
@@ -1248,7 +1248,7 @@
               "y": 1.45
             },
             {
-              "t": 0.5402,
+              "t": 0.5546,
               "x": 2.485,
               "z": -0.45,
               "motion": "flip",
@@ -1256,7 +1256,7 @@
               "y": 1.45
             },
             {
-              "t": 0.6382,
+              "t": 0.6504,
               "x": 2.485,
               "z": -0.45,
               "motion": "park",
@@ -1275,7 +1275,7 @@
               "text": "Joghurt\n2026"
             },
             {
-              "t": 0.8081,
+              "t": 0.8654,
               "x": 2.25,
               "z": -2.045,
               "motion": "park",
@@ -1283,7 +1283,7 @@
               "y": -30
             },
             {
-              "t": 0.8088,
+              "t": 0.8663,
               "x": 2.25,
               "z": -2.045,
               "motion": "park",
@@ -1317,7 +1317,7 @@
               "size": 1.4
             },
             {
-              "t": 0.3741,
+              "t": 0.3856,
               "x": 2.07,
               "z": 1.14,
               "motion": "park",
@@ -1325,7 +1325,7 @@
               "y": -30
             },
             {
-              "t": 0.3748,
+              "t": 0.3865,
               "x": 2.07,
               "z": 1.14,
               "motion": "park",
@@ -1333,7 +1333,7 @@
               "y": 0
             },
             {
-              "t": 0.3982,
+              "t": 0.4156,
               "x": 2.4,
               "z": 1.14,
               "motion": "park",
@@ -1341,7 +1341,7 @@
               "y": 0
             },
             {
-              "t": 0.4088,
+              "t": 0.4288,
               "x": 2.75,
               "z": 1.14,
               "motion": "park",
@@ -1349,7 +1349,7 @@
               "y": 0
             },
             {
-              "t": 0.4095,
+              "t": 0.4297,
               "x": 2.75,
               "z": 1.14,
               "motion": "park",
@@ -1370,7 +1370,7 @@
               "size": 1.4
             },
             {
-              "t": 0.4231,
+              "t": 0.4325,
               "x": 2.07,
               "z": 1.14,
               "motion": "park",
@@ -1378,7 +1378,7 @@
               "y": -30
             },
             {
-              "t": 0.4239,
+              "t": 0.4335,
               "x": 2.07,
               "z": 1.14,
               "motion": "park",
@@ -1386,7 +1386,7 @@
               "y": 0
             },
             {
-              "t": 0.4473,
+              "t": 0.4626,
               "x": 2.4,
               "z": 1.14,
               "motion": "park",
@@ -1394,7 +1394,7 @@
               "y": 0
             },
             {
-              "t": 0.4578,
+              "t": 0.4757,
               "x": 2.75,
               "z": 1.14,
               "motion": "park",
@@ -1402,7 +1402,7 @@
               "y": 0
             },
             {
-              "t": 0.4586,
+              "t": 0.4766,
               "x": 2.75,
               "z": 1.14,
               "motion": "park",
@@ -1423,7 +1423,7 @@
               "size": 1.4
             },
             {
-              "t": 0.4722,
+              "t": 0.4795,
               "x": 2.07,
               "z": 1.14,
               "motion": "park",
@@ -1431,7 +1431,7 @@
               "y": -30
             },
             {
-              "t": 0.4729,
+              "t": 0.4804,
               "x": 2.07,
               "z": 1.14,
               "motion": "park",
@@ -1439,7 +1439,7 @@
               "y": 0
             },
             {
-              "t": 0.4963,
+              "t": 0.5095,
               "x": 2.4,
               "z": 1.14,
               "motion": "park",
@@ -1447,7 +1447,7 @@
               "y": 0
             },
             {
-              "t": 0.5069,
+              "t": 0.5227,
               "x": 2.75,
               "z": 1.14,
               "motion": "park",
@@ -1455,7 +1455,7 @@
               "y": 0
             },
             {
-              "t": 0.5077,
+              "t": 0.5236,
               "x": 2.75,
               "z": 1.14,
               "motion": "park",
@@ -1477,7 +1477,7 @@
               "mark": 0
             },
             {
-              "t": 0.6362,
+              "t": 0.6484,
               "x": -0.34,
               "z": 0.3,
               "motion": "park",
@@ -1485,7 +1485,7 @@
               "y": -30
             },
             {
-              "t": 0.6382,
+              "t": 0.6504,
               "x": -0.34,
               "z": 0.3,
               "motion": "park",
@@ -1493,7 +1493,7 @@
               "y": 0.762
             },
             {
-              "t": 0.7224,
+              "t": 0.7551,
               "x": -0.34,
               "z": 0.3,
               "motion": "park",
@@ -1502,7 +1502,7 @@
               "y": 0.762
             },
             {
-              "t": 0.7228,
+              "t": 0.7556,
               "x": -0.34,
               "z": 0.3,
               "motion": "park",
@@ -1511,7 +1511,7 @@
               "y": 0.762
             },
             {
-              "t": 0.754,
+              "t": 0.7986,
               "x": -0.34,
               "z": 0.3,
               "motion": "park",
@@ -1519,7 +1519,7 @@
               "y": 0.762
             },
             {
-              "t": 0.756,
+              "t": 0.8006,
               "x": -0.34,
               "z": 0.3,
               "motion": "park",
@@ -1537,7 +1537,7 @@
               "y": -30
             },
             {
-              "t": 0.4817,
+              "t": 0.4818,
               "x": 1.95,
               "z": -0.05,
               "motion": "openletters",
@@ -1545,7 +1545,7 @@
               "y": -30
             },
             {
-              "t": 0.5467,
+              "t": 0.563,
               "x": 1.95,
               "z": -0.05,
               "motion": "openletters",
@@ -1553,7 +1553,7 @@
               "y": -30
             },
             {
-              "t": 0.5477,
+              "t": 0.564,
               "x": 1.95,
               "z": -0.05,
               "motion": "openletters",
@@ -1561,7 +1561,7 @@
               "y": 0
             },
             {
-              "t": 0.6372,
+              "t": 0.6494,
               "x": 1.95,
               "z": -0.05,
               "motion": "openletters",
@@ -1569,7 +1569,7 @@
               "y": 0
             },
             {
-              "t": 0.6382,
+              "t": 0.6504,
               "x": 0.58,
               "z": 0.55,
               "motion": "countcoins",
@@ -1577,7 +1577,7 @@
               "y": 0
             },
             {
-              "t": 0.755,
+              "t": 0.7996,
               "x": 0.58,
               "z": 0.55,
               "motion": "countcoins",
@@ -1585,7 +1585,7 @@
               "y": 0
             },
             {
-              "t": 0.756,
+              "t": 0.8006,
               "x": 0.58,
               "z": 0.55,
               "motion": "chairsit",
@@ -1604,7 +1604,7 @@
               "fill": 0
             },
             {
-              "t": 0.6362,
+              "t": 0.6484,
               "x": 0.18,
               "z": 0.57,
               "motion": "park",
@@ -1612,7 +1612,7 @@
               "y": -30
             },
             {
-              "t": 0.6382,
+              "t": 0.6504,
               "x": 0.18,
               "z": 0.57,
               "motion": "park",
@@ -1621,7 +1621,7 @@
               "fill": 0
             },
             {
-              "t": 0.6571,
+              "t": 0.6739,
               "x": 0.18,
               "z": 0.57,
               "motion": "park",
@@ -1630,7 +1630,7 @@
               "y": 0.76
             },
             {
-              "t": 0.6873,
+              "t": 0.7114,
               "x": 0.18,
               "z": 0.57,
               "motion": "park",
@@ -1639,7 +1639,7 @@
               "y": 0.76
             },
             {
-              "t": 0.7174,
+              "t": 0.749,
               "x": 0.18,
               "z": 0.57,
               "motion": "park",
@@ -1648,7 +1648,7 @@
               "y": 0.76
             },
             {
-              "t": 0.7476,
+              "t": 0.7866,
               "x": 0.18,
               "z": 0.57,
               "motion": "park",
@@ -1667,7 +1667,7 @@
               "glasses": 0
             },
             {
-              "t": 0.0264,
+              "t": 0.0329,
               "x": 1.75,
               "z": -1.3,
               "motion": "typedesk",
@@ -1675,28 +1675,28 @@
               "glasses": 1
             },
             {
-              "t": 0.354,
+              "t": 0.361,
               "x": 1.75,
               "z": -1.3,
               "motion": "typedesk",
               "face": 0
             },
             {
-              "t": 0.356,
+              "t": 0.363,
               "x": 1.62,
               "z": 1.18,
               "motion": "slideletter",
               "face": 90
             },
             {
-              "t": 0.5467,
+              "t": 0.563,
               "x": 1.62,
               "z": 1.18,
               "motion": "slideletter",
               "face": 90
             },
             {
-              "t": 0.5477,
+              "t": 0.564,
               "x": -0.3,
               "z": -0.12,
               "motion": "stand",
@@ -1704,7 +1704,7 @@
               "y": -30
             },
             {
-              "t": 0.6372,
+              "t": 0.6494,
               "x": -0.3,
               "z": -0.12,
               "motion": "stand",
@@ -1712,7 +1712,7 @@
               "y": -30
             },
             {
-              "t": 0.6382,
+              "t": 0.6504,
               "x": -0.3,
               "z": -0.12,
               "motion": "stand",
@@ -1720,7 +1720,7 @@
               "y": 0
             },
             {
-              "t": 0.7009,
+              "t": 0.7284,
               "x": -0.3,
               "z": -0.12,
               "motion": "stamp",
@@ -1728,7 +1728,7 @@
               "y": 0
             },
             {
-              "t": 0.755,
+              "t": 0.7996,
               "x": -0.3,
               "z": -0.12,
               "motion": "stamp",
@@ -1736,7 +1736,7 @@
               "y": 0
             },
             {
-              "t": 0.756,
+              "t": 0.8006,
               "x": 2.23,
               "z": -1.645,
               "motion": "shelve",
@@ -1752,32 +1752,32 @@
             "volume": 0.6
           },
           {
-            "t": 0.3786,
+            "t": 0.3912,
             "id": "papier-schieben",
             "volume": 0.7
           },
           {
-            "t": 0.4277,
+            "t": 0.4381,
             "id": "papier-schieben",
             "volume": 0.7
           },
           {
-            "t": 0.4767,
+            "t": 0.4851,
             "id": "papier-schieben",
             "volume": 0.7
           },
           {
-            "t": 0.5439,
+            "t": 0.5593,
             "id": "kalender-blaettern",
             "volume": 0.6
           },
           {
-            "t": 0.642,
+            "t": 0.6551,
             "id": "muenzen",
             "volume": 0.7
           },
           {
-            "t": 0.7228,
+            "t": 0.7556,
             "id": "stempel",
             "volume": 0.9
           }
@@ -1791,7 +1791,7 @@
     "screen": "Stimm ab!"
   },
   "outro": {
-    "speech": "Eine richtige Antwort gibt es diesmal nicht. Aber dein Mitbewohner sollte das Video unbedingt sehen. Schreib A, B oder C in die Kommentare und markier deinen Joghurt-Dieb. Und was soll der Dummy als Nächstes erleben?",
+    "speech": "Markier deinen Joghurt-Dieb! Was soll der Dummy als Nächstes erleben?",
     "screen": "Schreib A, B oder C in die Kommentare!"
   },
   "publishing": {
@@ -1815,7 +1815,7 @@
           ]
         },
         {
-          "t": 0.4106,
+          "t": 0.3344,
           "pos": [
             0.623,
             2.008,
@@ -1828,7 +1828,7 @@
           ]
         },
         {
-          "t": 0.4142,
+          "t": 0.3378,
           "pos": [
             2.09,
             2.15,
@@ -1841,7 +1841,7 @@
           ]
         },
         {
-          "t": 0.7126,
+          "t": 0.6719,
           "pos": [
             1.775,
             2.018,
@@ -1854,7 +1854,7 @@
           ]
         },
         {
-          "t": 0.7159,
+          "t": 0.6754,
           "pos": [
             -0.21,
             1.76,
@@ -1867,7 +1867,7 @@
           ]
         },
         {
-          "t": 0.8311,
+          "t": 0.8195,
           "pos": [
             -0.268,
             1.741,
@@ -1880,7 +1880,7 @@
           ]
         },
         {
-          "t": 0.834,
+          "t": 0.8225,
           "pos": [
             0.81,
             2.36,
@@ -1917,7 +1917,7 @@
             "door": 0
           },
           {
-            "t": 0.4603,
+            "t": 0.3986,
             "x": -2.13,
             "z": -1.94,
             "motion": "park",
@@ -1925,7 +1925,7 @@
             "door": 0
           },
           {
-            "t": 0.5628,
+            "t": 0.5129,
             "x": -2.13,
             "z": -1.94,
             "motion": "park",
@@ -1988,7 +1988,7 @@
             "fill": 0.01
           },
           {
-            "t": 0.6644,
+            "t": 0.6262,
             "x": -1.95,
             "z": -1.84,
             "motion": "park",
@@ -1996,7 +1996,7 @@
             "y": 1.045
           },
           {
-            "t": 0.6654,
+            "t": 0.6272,
             "x": -1.95,
             "z": -1.84,
             "motion": "park",
@@ -2013,14 +2013,14 @@
             "face": 160
           },
           {
-            "t": 0.4262,
+            "t": 0.3609,
             "x": -0.75,
             "z": 0.05,
             "motion": "spoon",
             "face": 160
           },
           {
-            "t": 0.4282,
+            "t": 0.3629,
             "x": -0.75,
             "z": 0.05,
             "motion": "spoon",
@@ -2038,7 +2038,7 @@
             "y": -30
           },
           {
-            "t": 0.407,
+            "t": 0.3395,
             "x": -1.55,
             "z": -1.05,
             "motion": "stand",
@@ -2046,7 +2046,7 @@
             "y": -30
           },
           {
-            "t": 0.409,
+            "t": 0.3415,
             "x": -1.55,
             "z": -1.05,
             "motion": "fridgeopen",
@@ -2054,7 +2054,7 @@
             "y": 0
           },
           {
-            "t": 0.6461,
+            "t": 0.6058,
             "x": -1.55,
             "z": -1.05,
             "motion": "fridgeopen",
@@ -2062,7 +2062,7 @@
             "y": 0
           },
           {
-            "t": 0.6846,
+            "t": 0.6486,
             "x": -1.55,
             "z": -1.05,
             "motion": "fridgeopen",
@@ -2070,7 +2070,7 @@
             "y": 0
           },
           {
-            "t": 0.7964,
+            "t": 0.7847,
             "x": -1.55,
             "z": -1.05,
             "motion": "fridgeopen",
@@ -2078,7 +2078,7 @@
             "y": 0
           },
           {
-            "t": 0.7974,
+            "t": 0.7857,
             "x": -1.55,
             "z": -1.05,
             "motion": "aghast",
@@ -2089,7 +2089,7 @@
       },
       "sfx": [
         {
-          "t": 0.4603,
+          "t": 0.3986,
           "id": "kuehlschrank-auf",
           "volume": 0.6
         }
