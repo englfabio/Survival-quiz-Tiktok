@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Soft body flopping back onto a fluffy pillow and mattress, cozy thump, no music",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T04:07:22.303Z"
+}

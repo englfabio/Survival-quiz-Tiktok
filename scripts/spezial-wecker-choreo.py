@@ -103,12 +103,12 @@ def finish(shot):
 # Schlafzimmer (src/stage/Bedroom.tsx): Bett x −0.05 … 1.75, z −1.9 … −0.95, Kissen rechts (x ≈ 1.47); Nachttisch (−0.3, −1.7), Platte 0,52.
 HX, BZ, BF = 0.8, -1.425, 270           # Dummy im Bett: Hüfte bei x 0.8, schaut nach −x (zum Fußende/Nachttisch)
 NS_H = 0.52
-WECKER = (-0.4, -1.62)                 # Wecker auf dem Nachttisch (Zifferblatt zum Bett)
-DIGI = (-0.17, -1.6)                   # Digitaluhr "8:47"
+WECKER = (-0.22, -1.6)                 # Wecker auf dem Nachttisch (Zifferblatt zum Bett)
+DIGI = (-0.44, -1.62)                   # Digitaluhr "8:47"
 WALLCAL = (0.02, 1.32, -1.88)         # Abreiß-Wandkalender (blättert) an der Rückwand
 PHONE = (0.45, -1.06)                  # Handy liegt auf der Decke (Kameraseite)
 WIN_STAND = (-0.95, -0.4)              # vor dem offenen Fenster (linke Wand x −1.8, Mitte z −0.4)
-HAMMER_STAND = (-1.12, -1.25)           # schräg vor dem Nachttisch (face 45), Wecker 0,77 m vor ihm, 0,25 m rechts
+HAMMER_STAND = (-0.94, -1.23)           # schräg vor dem Nachttisch (face 45), Wecker 0,77 m vor ihm, 0,25 m rechts
 def lap_world(lx, ly, lz):
     """Dummy-System (im Bett, face 270) → Welt"""
     return (HX - lz, ly, BZ + lx)
@@ -200,7 +200,7 @@ def arc_keys(t0, t1, p0, p1, apex, n=14):
         x = p0[0] + (p1[0] - p0[0]) * u
         z = p0[2] + (p1[2] - p0[2]) * u
         y = p0[1] + (p1[1] - p0[1]) * u + apex * 4 * u * (1 - u)
-        out.append(K(t0 + (t1 - t0) * u, x, z, 'arc', 0, y=y))
+        out.append(K(t0 + (t1 - t0) * u, x, z, 'arc', 0, y=y, size=0.6))
     return out
 G0 = (0.1, 3.3, -3.2)
 G1 = (LAND[0], 0.0, LAND[1])
@@ -373,7 +373,7 @@ def bed_hidden_in_office(keys):
     return before + [a, b, c, d] + rest
 cam_c = [cam(0, *CAM_PILLOW, 40), cam(r3(s3 - EPS), *near(CAM_PILLOW, 0.08), 40),
          # über die Schulter auf den Kalender (Kringel + "FEIERTAG")
-         cam(r3(s3), *CAM_WRITE, 36), cam(r3(t_hat - EPS), *near(CAM_WRITE, 0.08), 36),
+         cam(r3(s3), *near(CAM_WRITE, -0.3), 38), cam(r3(t_hat - EPS), *near(CAM_WRITE, -0.22), 38),
          # Hütchen, Konfetti, Handy klingelt
          cam(r3(t_hat), *CAM_PARTY, 40), cam(r3(t_office - EPS), *near(CAM_PARTY, 0.1), 40),
          # Büro: Chef sucht im Kalender

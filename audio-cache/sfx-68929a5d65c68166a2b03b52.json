@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Small metal gears, springs and screws scattering and tinkling on a wooden floor, comedic, no music",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T04:07:20.260Z"
+}

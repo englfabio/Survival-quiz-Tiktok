@@ -73,5 +73,12 @@
   "durchsage-gong": 2.508,
   "zug-naht": 4.049,
   "zug-durchfahrt": 5.042,
-  "wind-sog": 2.038
+  "wind-sog": 2.038,
+  "wecker-klingeln": 3.03,
+  "hammer-schlag": 0.836,
+  "zahnraeder-klirren": 1.515,
+  "kissen-plumps": 0.836,
+  "stift-kritzeln": 2.038,
+  "konfetti-knall": 1.515,
+  "handy-klingeln": 2.508
 }
