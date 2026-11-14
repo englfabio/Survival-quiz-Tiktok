@@ -66,7 +66,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -253,6 +253,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   bei z 0 (z −3.5 … 3.5, Mittellinie, Leitpfosten, Allee hinten), Wegweiser „Büro 12 km“, Bürogebäude mit Dachschild „BÜRO“ bei (74, −16), Parkplatz davor.
   Wohnzimmer mit Homeoffice (`wohnzimmer-homeoffice`, `src/stage/Rooms.tsx`, `HOMEOFFICE`): `wohnzimmer` + gemütlicher Holz-Schreibtisch am Fenster (linke Wand,
   Platte 0,74, x −2.5 … −1.9, z −1.05 … 0.25) mit Schreibtischlampe, rotem Stuhl (Dummy sitzend bei (−1.5, −0.4), face 270), runder Teppich; Laptop/Uhr/Tasse als Objekte.
+  Monstertruck-Bühnen (`src/stage/Monstertruck.tsx`): Wohnstraße am Tag (`wohnstrasse`, `WOHNSTRASSE`, Atmo `wald-atmo`): Fahrbahn entlang x bei z 0
+  (z −3.2 … 3.2), hinten Parkstreifen mit Buchten (z −3.2 … −5.6, Parkplatz des Dummy-Autos (0, −4.4), face 90), Bordstein, Gehweg z −5.6 … −8.2 (0,12 hoch,
+  `groundHeight` = 0,12 → Figuren dort einfach mit y 0), Vorgärten + Hecken, Reihenhäuser in Pastell ab z −13, Laternen, Parkschild; vorn schmaler Gehweg
+  z 3.2 … 5.4 + Wiese (Kamera frei). Museumshalle (`museum`, `MUSEUM`, Atmo `museum-atmo`): weiße Wände, heller Holzboden, Rückwand z −5 (x ±7), Seitenwände
+  x ±7 von außen unsichtbar, Höhe 5,2; Platz fürs große Kunstwerk `MUSEUM.frame` (0, 2.75, −4.98) mit zwei Scheinwerfern an der Deckenschiene, Kordel-Absperrung
+  (z −3.45, x −2.6 … 2.6), Fantasie-Bilder an den Seitenwänden, Skulptur auf Sockel, Bank. Acker am Stadtrand (`acker`, `ACKER`, Atmo `wald-atmo`): matschiger
+  Acker mit Furchen, Matschpfützen, Hügeln (Bodenhöhe `ackerHeight`, gleiche Formel `acker_h` im Choreo-Skript; Fahrzeug-Neigung `tilt` daraus berechnen),
+  Häuser + Hochhäuser im Hintergrund; Verfolgungsweg entlang +x bei z ≈ 0 (x −40 … 70), vorn flach.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -350,6 +358,17 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   z. B. im Bagger), Hose hochziehen (`pullpants`, Wert `jogger` 0 → 1), Laptop aufklappen (`laptopopen`, Deckel 0,45 m vor ihm, Laptop-Wert `lid` 0 → 1 bei
   0,35–1,05 s), Kaffee trinken (`drinkcoffee`, Tasse automatisch), in die Videokonferenz winken (`deskwave`). In der Lok: `"attach": "lok", x 0, y 1.25, z −2.05,
   face 0`; im Bagger: `"attach": "bagger", x −0.85, y 2.6, z 0.55, face 0` (beide sitzend, Sitz 0,45 m).
+  Monstertruck (Spezial, alle Figuren mit Dummy-Körper, Details in `truckPose` in Dummy.tsx): fassungslos vor dem platten Auto, Hände auf dem Kopf,
+  Kopf schütteln (`carshock`), an einem riesigen Monstertruck hochklettern (`truckclimb`, Höhe über y der Zeitpunkte), triumphierend am Steuer, Faust pumpt
+  (`seattriumph`), am Steuer lenken (`seatdrive`, auch Polizisten im Unimog), etwas Großes über dem Kopf an die Wand hängen (`hangframe`, Hände 0,32 m vor ihm
+  auf 1,62 → 1,82 m, loslassen 1,1 s, dann Hände abklopfen), stolz mit Händen in den Hüften (`proud`), Hände schütteln (`handshake`, Hand 0,5 m vor ihm auf 1,02 m,
+  Partner ca. 0,95 m gegenüber), telefonieren + mit links zur Straße zeigen (`callpoint`); Museumsbesucher mit Weinglas (automatisch): anerkennend nicken
+  (`wineadmire`), staunen (`winegasp`), prosten + trinken (`winetoast`). Im Monstertruck: `"attach": "monstertruck", x 0, y 1.78, z 0.05, face 0`; im großen
+  `monstertruck2`: `x 0, y 3.29, z 0.075` (= Sitz × 1,5 + 0,62); im Unimog (Fahrer links): `"attach": "unimog1", x 0.42, y 1.32, z 0.62, face 0`.
+- **Monstertruck-Fahrer** (`truckfahrer`): Dummy-Körper hellgrau, roter Rennanzug, roter Rennhelm mit weißem Streifen + dunklem Visier (Uniform-Feld `helmet` =
+  Helmfarbe, für jede Dummy-Figur nutzbar), ohne Logo – kann alle Dummy-Bewegungen. **Museumsbesucher** (`besucher1` Direktor im dunklen Anzug mit goldener
+  Krawatte, `besucher2` grüne Jacke + rosa Schal + Haarknoten, `besucher3` weinrote Jacke; `MUSEUM_GUESTS` in index.tsx) – alle Dummy-Bewegungen.
+  Polizisten: vorhandene `polizist`, `polizistin`, `bundespolizist` (stilisierte dunkelblaue Uniform) wiederverwendet.
 - **Lokführermütze** (blau-weiß gestreift): Wert `lokcap` 0 … 1 (Dummy). **Jogginghose** (grau): Wert `jogger` 0/1 (Dummy).
 - **Fahrgast-Dummys** (`fahrgast1` türkis/blauer Mantel, `fahrgast2` lila/roter Mantel + gelber Schal, `fahrgast3` grün/brauner Mantel; `PASSENGERS` in index.tsx):
   wartende Fahrgäste mit Dummy-Körper – können alle Dummy-Bewegungen, Augenbrauen, Fragezeichen.
@@ -519,6 +538,16 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Stirnseiten zeigen (Feld `text`, z. B. „+90 Min“) und ohne Stromabnehmer fahren (`side` 1); Laptop `laptop`: `lid` 0 zu … 1 offen, `mark` 1 = Videokonferenz
   mit Kacheln (Chef in Grau mit Krawatte, „Du“ in Gelb, Team), `glow` 1 = eigene Kachel grün umrandet; Tageskalender `tageskalender`: Feld `text` = eigene
   Blätter getrennt mit „|“ (z. B. Wochentage „Mittwoch|…|Dienstag“), `size` = größer, `good` 1 = schaut immer zur Kamera.
+- **Objekte (Monstertruck, `src/actors/TruckProps.tsx`, alle OHNE echte Logos/Marken/bekannte Monstertruck-Designs, kein Mercedes-Stern):** Monstertruck
+  (`monstertruck`: rot mit gelben Blitz-Streifen, Pickup-Aufbau auf riesigen Stollenreifen, Federbeine, Auspuffrohre, offenes Fahrerhaus; noch größerer
+  `monstertruck2` = Maßstab 1,5, gelb mit schwarzen Streifen; Werte: `squish` 0 … 1 = plattgedrückt, `smoke` = Abgas, `spray` = Schlamm spritzt hinter den Rädern,
+  `splat` = Schlamm-Kleckse auf der Karosserie, `rumble` = Motor rüttelt, `tilt` = Nase runter (+)/hoch (−), Bewegung `drive` = Räder drehen), stilisierte Polizei-Unimogs
+  (`unimog1`/`unimog2`/`unimog3`: typische Form mit kurzer schräger Haube, kantigem Fahrerhaus mit zweiteiliger Frontscheibe, runden Kotflügeln, gleich großen hohen
+  Rädern, Pritsche; silber/blau, Blaulicht-Balken (`blue` 1, blinken versetzt), Schriftzug „POLIZEI“ an Türen, Haube und Pritsche, Grill nur mit Querstreben;
+  `spray`, `splat`, `rumble`, `tilt` wie beim Truck). Auto `car` erweitert: `squish` 0 … 1 = platt wie eine Pizza (Räder stehen seitlich heraus), `mark` 1 =
+  himmelblau (Auto des Dummys im Monstertruck-Video). Goldener Bilderrahmen 4,7 × 2,7 m (`bilderrahmen`, mit dem platten Auto darin, `mark` 1 = blaues Auto,
+  `side` 1 = leer; an der Wand face 180), Preisschild an einer Schnur (`preisschild`, Feld `text` Standard „2.000.000 €“, `show` ploppt auf, face 180 an der Wand),
+  Weinglas mit Rotwein (in der Hand bei `wineadmire`/`winegasp`/`winetoast`), Schlamm-Spritzer `MudSpray`. VERKAUFT-Schild `verkauft` jetzt mit `size`.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -534,7 +563,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -628,7 +657,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Spezial Bahn-Verspätung: 983 neue Zeichen (394 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 74,5 s, Video 83,7 s (Texte vom Inhaber
   Buchstabe für Buchstabe, daher länger als das Joghurt-Ziel). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 (Situation, Szene B „25“, Szene C „8:01“):
   korrekt. Choreografie: `python3 scripts/spezial-bahn-verspaetung-choreo.py` (Schema wie Joghurt). Niemand betritt zu Fuß die Gleise (Dummy nur IN der Lok),
-  keine echten Logos. Standbilder in review/spezial-bahn-verspaetung/phase1/. Finales Video: review/final/spezial-bahn-verspaetung.mp4.
+  keine echten Logos. Standbilder in review/spezial-bahn-verspaetung/phase1/. Finales Video: review/final/spezial-bahn-verspaetung.mp4 (83,7 s, gerendert zu Beginn der Monstertruck-Sitzung).
+- Spezial Monstertruck: 968 neue Zeichen (387 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 73,2 s, Video 85,2 s (Szenen rein visuell verlängert:
+  A +1,6 s Fahrer fassungslos, B +1,0 s Besucher prosten, C +1,8 s längere Verfolgungsjagd; Texte Buchstabe für Buchstabe vom Inhaber). Wort-Zeitstempel = Text
+  (geprüft), Kontrolle scribe_v2 (Situation, Option 3, Szene C „Unimogs“): korrekt. Choreografie: `python3 scripts/spezial-monstertruck-choreo.py` (Schema wie
+  Joghurt/Bahn). Comichaft: niemand sitzt im überfahrenen Auto/Truck, Jagd ohne Unfälle. Keine Logos (Selbstprüfung: kein Stern am Unimog). Standbilder in
+  review/spezial-monstertruck/phase1/. Finales Video: review/final/spezial-monstertruck.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -665,6 +699,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   wiederverwendet: `tuerklingel`, `plopp`, `geschenk-rascheln`, `kalender-blaettern`, `schleichen`, `tuer-zu`, `papier-schieben`).
   `lok-hupe`, `lok-fahrt`, `bremse`, `bagger-motor`, `auto-hupen`, `laptop-auf`, `videocall-ding`, `kaffee-schluerfen` (Bahn-Verspätung; Bühnen `bahnstrecke`/
   `landstrasse` nutzen `wald-atmo`, `bahnsteig-verspaetung` `bahnhof-atmo`; wiederverwendet: `durchsage-gong`, `plopp`, `kalender-blaettern`).
+  `monstertruck-motor`, `blech-knautschen` (comichaft, keine Explosion), `museum-atmo` (Bühne Museum, Schleife), `staunen`, `glaeser-klirren`, `bild-aufhaengen`,
+  `matsch-spritzen` (Monstertruck; wiederverwendet: `sirene` (Polizei), `handy-waehlen`, `plopp`; `wohnstrasse`/`acker` nutzen `wald-atmo`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -862,7 +898,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
                       PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz; Office.tsx = Chef-Büro;
                       NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus;
-                      Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude)
+                      Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude; Monstertruck.tsx = Wohnstraße, Museumshalle, Acker am Stadtrand)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -878,7 +914,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       VERKAUFT-Schild/Gießkanne/Nagelschere/Sprühdose/Gartentor/Glitzern,
                       PaketProps.tsx = Paket/Stapel/Zelt/Lichterkette/Kocher/Säge/Klingel/Tageskalender/Wohnungstür mit Klappe,
                       WgProps.tsx = Kühlschrank/Joghurtbecher/Zettel/Knopf/Joghurt-Welle/Briefe/Stempel/Münzen/Ordner/Laptop/Lesebrille,
-                      BahnProps.tsx = Lok/Bagger/Signal/Tacho/Kaffeetasse/Autoschlange/Anzeigetafel/Lokführermütze/Armbanduhr) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      BahnProps.tsx = Lok/Bagger/Signal/Tacho/Kaffeetasse/Autoschlange/Anzeigetafel/Lokführermütze/Armbanduhr,
+                      TruckProps.tsx = Monstertruck/Polizei-Unimog/plattes Auto/Bilderrahmen/Preisschild/Weinglas/Rennhelm/Schlamm-Spritzer) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,
