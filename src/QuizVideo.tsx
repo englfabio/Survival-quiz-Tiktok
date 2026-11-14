@@ -20,6 +20,12 @@ import {
   StepList,
   Stopwatch,
   Subtitle,
+  AnswerHeader,
+  LETTERS,
+  SignBoard,
+  SpezialBadge,
+  SpezialOutroPanel,
+  VoteCards,
   type CardState, WarnTag} from './ui/components';
 import {useFonts} from './ui/fonts';
 import {SafeZones} from './ui/SafeZones';
@@ -36,9 +42,12 @@ export type QuizProps = {
 const shotFor = (s: Scenario, sec: Section): Shot => {
   switch (sec.kind) {
     case 'explain':
+    case 'answer':
       return s.options[(sec.option ?? 1) - 1].choreography;
+    case 'vote':
+      return s.shots.countdown;
     default:
-      return s.shots[sec.kind];
+      return s.shots[sec.kind]!;
   }
 };
 
@@ -95,6 +104,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
   const local = frame - sec.from;
   const t = Math.min(1, local / sec.duration);
   const isCorrect = sec.kind === 'explain' && sec.option === s.correctOption;
+  const spezial = s.format === 'spezial';
 
   // Zeitstempel der Stimme für den aktuellen Abschnitt
   const voice0 = sec.voice[0];
@@ -181,9 +191,12 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
       />
       <AbsoluteFill style={{backgroundColor: 'black', opacity: cutFade}} />
 
+      {/* Spezial: Abzeichen "SPEZIAL" im ganzen Video */}
+      {spezial && <SpezialBadge frame={frame} />}
+
       {sec.kind === 'situation' && (
         <>
-          <CategoryBadge category={s.category} frame={local} />
+          {!spezial && <CategoryBadge category={s.category} frame={local} />}
           {s.situation.hook && <Headline text={s.situation.hook} frame={local - 4} top={300} size={78} />}
           {s.situation.warning && <WarnTag text={s.situation.warning} frame={local} until={3 * fps} />}
           <Subtitle text={s.situation.speech} t={t} starts={timer(s.situation.speech)?.sentenceStarts} />
@@ -213,7 +226,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
         <>
           <Flash color="green" frame={local} hold={0.2} />
           <Banner color={T.green} frame={local} top={400}>
-            {s.reveal.screen}
+            {s.reveal?.screen}
           </Banner>
           <Cards s={s} sec={sec} local={local} />
         </>
@@ -228,7 +241,7 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
             t={t}
             starts={timer(s.options[sec.option - 1].explanation)?.sentenceStarts}
           />
-          {isCorrect && <SourceLine text={s.sourceLine} frame={local - 10} top={440} />}
+          {isCorrect && s.sourceLine && <SourceLine text={s.sourceLine} frame={local - 10} top={440} />}
           {s.options[sec.option - 1].steps?.length ? (
             <StepList
               steps={s.options[sec.option - 1].steps!}
@@ -262,7 +275,47 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
         <Stopwatch t={t} timer={shot.timer} sectionFrames={sec.duration} fps={fps} top={sec.kind === 'explain' ? 525 : 300} left={T.rightTop - 215} />
       )}
 
-      {sec.kind === 'outro' && <OutroPanel text={s.outro.screen} frame={local} />}
+      {sec.kind === 'outro' && !spezial && <OutroPanel text={s.outro.screen} frame={local} />}
+
+      {/* ---------- Spezial: Antwort (Karte vorlesen, dann kleine Szene) ---------- */}
+      {sec.kind === 'answer' && sec.option && (() => {
+        const o = s.options[sec.option - 1];
+        const sceneAt = sec.sceneStart ?? 0;
+        const inScene = local >= sceneAt;
+        const v0 = sec.voice[0];
+        const v1 = sec.voice[1];
+        const subT = inScene ? (local - sceneAt) / Math.max(1, sec.duration - sceneAt) : local / Math.max(1, sceneAt);
+        const tm = inScene
+          ? speechTimer(o.explanation, v1 && alignment?.[v1.clip], (v1?.at ?? sceneAt) - sceneAt, sec.duration - sceneAt, fps)
+          : speechTimer(o.speech, v0 && alignment?.[v0.clip], v0?.at ?? 0, sceneAt, fps);
+        return (
+          <>
+            <AnswerHeader letter={LETTERS[sec.option - 1]} text={o.card} frame={local} top={300} />
+            <Subtitle text={inScene ? o.explanation : o.speech} t={subT} starts={tm?.sentenceStarts} />
+          </>
+        );
+      })()}
+
+      {/* ---------- Spezial: Abstimmung ---------- */}
+      {sec.kind === 'vote' && (
+        <>
+          <div style={{position: 'absolute', left: 0, width: 1080, top: 300, display: 'flex', justifyContent: 'center'}}>
+            <CountdownRing frame={local - 6} seconds={5} size={210} />
+          </div>
+          <SignBoard text={s.countdown.screen} frame={local - 2} top={540} />
+          <VoteCards cards={s.options.map((o) => o.card)} frame={local - 8} top={720} />
+          <Subtitle text={s.countdown.speech} t={t} starts={timer(s.countdown.speech)?.sentenceStarts} />
+        </>
+      )}
+
+      {/* ---------- Spezial: Outro (Antworten + Aufforderung zum Kommentieren) ---------- */}
+      {sec.kind === 'outro' && spezial && (
+        <>
+          <SpezialOutroPanel text={s.outro.screen} frame={local} top={290} />
+          <VoteCards cards={s.options.map((o) => o.card)} frame={local - 6} top={600} compact />
+          <Subtitle text={s.outro.speech} t={t} starts={timer(s.outro.speech)?.sentenceStarts} />
+        </>
+      )}
 
       <AudioLayer
         s={s}

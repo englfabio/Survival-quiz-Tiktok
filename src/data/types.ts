@@ -425,28 +425,40 @@ export type Option = {
   explanation: string;
   /** Optionale Kurzschritte zum Einblenden. cue = Stelle im Erklärtext, an der der Schritt erscheint */
   steps?: {text: string; cue: string}[];
+  /** Nur Spezial: Szene um so viele Sekunden rein visuell verlängern (ohne zusätzlichen Text) */
+  sceneExtra?: number;
   choreography: Shot;
 };
 
 export type Scenario = {
   id: string;
+  /**
+   * "quiz" (Standard) oder "spezial": keine richtige Antwort, keine Auflösung, keine Quellenzeile.
+   * Spezial-Ablauf: Situation → je Antwort Karte + kleine Szene → Abstimmung (Countdown, "Stimm ab!") → Outro.
+   */
+  format?: 'quiz' | 'spezial';
   category: string;
   stage: string;
   /** hook (optional) = große Überschrift oben während der Situation (nur eingeblendet, nicht gesprochen) */
   situation: {speech: string; hook?: string; warning?: string};
   options: [Option, Option, Option];
-  correctOption: 1 | 2 | 3;
+  /** Quiz: Nummer der richtigen Option (fehlt beim Spezial-Format) */
+  correctOption?: 1 | 2 | 3;
+  /** Quiz: Countdown; Spezial: Abstimmung (speech = Ansage, screen = Schild, z. B. "Stimm ab!") */
   countdown: {speech: string; screen: string};
-  reveal: {speech: string; screen: string};
+  /** Quiz: Auflösung (fehlt beim Spezial-Format) */
+  reveal?: {speech: string; screen: string};
   outro: {speech: string; screen: string};
-  sourceLine: string;
-  sources: {name: string; url: string}[];
+  /** Quiz: Quellenzeile im Video (fehlt beim Spezial-Format) */
+  sourceLine?: string;
+  sources?: {name: string; url: string}[];
   publishing: {description: string; pinnedComment: string};
+  /** Spezial: "options" und "reveal" werden nicht gebraucht, "countdown" = Abstimmung */
   shots: {
     situation: Shot;
-    options: Shot;
+    options?: Shot;
     countdown: Shot;
-    reveal: Shot;
+    reveal?: Shot;
     outro: Shot;
   };
 };

@@ -4,6 +4,7 @@
 import {copyFileSync, mkdirSync, readFileSync, readdirSync, writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import type {Scenario} from '../src/data/types.ts';
+import {clipTexts} from '../src/data/timeline.ts';
 import {API, audioSeconds, authHeaders, cacheKey, cachePaths, isCached, readMeta, writeCache} from './elevenlabs.ts';
 
 type Alignment = {
@@ -17,19 +18,9 @@ const args = process.argv.slice(2);
 const dry = args.includes('--dry');
 const only = args.find((a) => !a.startsWith('--'));
 
-/** Die Sprech-Clips eines Videos – Texte 1:1 aus der Szenario-Datei */
-export const clipsOf = (s: Scenario): Record<string, string> => ({
-  situation: s.situation.speech,
-  option1: s.options[0].speech,
-  option2: s.options[1].speech,
-  option3: s.options[2].speech,
-  countdown: s.countdown.speech,
-  reveal: s.reveal.speech,
-  explain1: s.options[0].explanation,
-  explain2: s.options[1].explanation,
-  explain3: s.options[2].explanation,
-  outro: s.outro.speech,
-});
+/** Die Sprech-Clips eines Videos – Texte 1:1 aus der Szenario-Datei (Spezial: ohne "reveal") */
+export const clipsOf = (s: Scenario): Record<string, string> =>
+  Object.fromEntries(Object.entries(clipTexts(s)).filter(([, v]) => typeof v === 'string')) as Record<string, string>;
 
 const requestFor = (text: string) => ({
   endpoint: 'text-to-speech/with-timestamps',

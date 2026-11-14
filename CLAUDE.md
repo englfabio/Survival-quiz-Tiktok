@@ -59,6 +59,7 @@ Der Durchlauf-Modus gilt ab jetzt für **jedes** Video, auch wenn er im Prompt n
 ## Positionsplan (Reihenfolge der richtigen Antwort)
 
 Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber gewünscht).
+**Spezial-Videos werden hier NICHT gezählt** (sie haben keine richtige Antwort).
 - magnetfischen-granate → 2. Push
 - herrenloser-koffer → 3.
 - pistole-wald → 1. Push
@@ -83,6 +84,29 @@ genau eine richtig.
 | 8 | Outro | 3–4 s |
 
 - Gesamtlänge **mindestens 61 s**.
+
+### Sonderformat „Spezial“ (vom Inhaber eingeführt, `"format": "spezial"`)
+
+Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine Auflösung, keine Quellenzeile.**
+
+| # | Abschnitt | Inhalt |
+|---|-----------|--------|
+| 1 | Situation | wie beim Quiz (Untertitel, optional `hook`) |
+| 2–4 | Antwort A, B, C (`answer`) | je ein Abschnitt: Karte mit Buchstabe oben (`AnswerHeader`), Kartentext wird vorgelesen (`options[n].speech`), danach die **kleine Szene** mit eigenem Sprechtext (`options[n].explanation`) und eigener Choreografie (`options[n].choreography`) |
+| 5 | Abstimmung (`vote`) | alle drei Karten nebeneinander (`VoteCards`), Countdown-Ring 5 s, großes Schild `countdown.screen` (z. B. „Stimm ab!“), Ansage `countdown.speech`; Kamera/Figuren aus `shots.countdown` |
+| 6 | Outro | Kommentar-Symbol + `outro.screen`, darunter die drei Antworten (kompakt), Untertitel `outro.speech` |
+
+- Oben links steht das ganze Video über das Abzeichen **„SPEZIAL“** im Warnschild-Stil (`SpezialBadge`, Warndreieck mit
+  Grinsegesicht) statt des Kategorie-Abzeichens. Kategorie in der Datei: `spezial`.
+- Mindestlänge **61 s** gilt auch hier (`npm run check`). Zu kurz → Szenen rein visuell verlängern über `options[n].sceneExtra`
+  (Sekunden, ohne neuen Text), z. B. längere Kamerafahrten oder Reaktionen.
+- Szenario-Datei: `correctOption`, `reveal`, `sourceLine` **weglassen** (die Prüfung meldet sonst einen Fehler), `sources` optional.
+  `shots` braucht nur `situation`, `countdown` (= Abstimmung) und `outro`. Sprach-Clips: situation, option1–3, explain1–3,
+  countdown, outro (kein reveal).
+- Kein Rot/Grün, kein Richtig-/Falsch-Ton; beim Erscheinen jeder Antwort ein „Pop“, bei der Abstimmung Ticks + Spannung.
+- Spezial-Videos werden im Positionsplan nicht gezählt.
+- Darstellung immer comichaft und harmlos.
+
 - Abschnittslängen richten sich (sobald es Sprachaufnahmen gibt) automatisch nach der
   Länge der Audios. Bis dahin wird die Sprechdauer aus der Textlänge geschätzt
   (gemessen an der Pilot-Stimme: ca. 0,84 s + 0,059 s pro Zeichen).
@@ -478,12 +502,14 @@ Beschreibung und angepinnter Kommentar.
 | Feld | Bedeutung |
 |------|-----------|
 | `id` | Name des Videos (nur a–z, 0–9, `-`) |
+| `format` | optional: `quiz` (Standard) oder `spezial` (Sonderformat, siehe oben) |
 | `category` | z. B. `wildtiere`, `verkehr` (Symbol + Name in `src/ui/icons.tsx`) |
 | `stage` | Bühne, z. B. `wald` (`src/stage/`) |
 | `situation.speech` | Sprechtext Einstieg (auch Untertitel) |
 | `options[]` | genau 3: `card` (Kartentext), `speech` (Sprechtext), `dummyAction` (Beschreibung), `explanation` (Erklärtext), `choreography` (Bewegungen + Kamera der Erklärszene) |
 | `options[].steps` | optional: Kurzschritte zum Einblenden, `{text, cue}` – `cue` ist die Stelle im Erklärtext, bei der der Schritt erscheint (synchron zur Sprache) |
-| `correctOption` | 1, 2 oder 3 |
+| `correctOption` | 1, 2 oder 3 (nicht bei Spezial) |
+| `options[].sceneExtra` | nur Spezial: Szene um so viele Sekunden rein visuell verlängern |
 | `countdown` / `reveal` / `outro` | `speech` (gesprochen) + `screen` (eingeblendet) |
 | `sourceLine` | Quellenzeile im Video |
 | `sources[]` | Name + Link für die Beschreibung |

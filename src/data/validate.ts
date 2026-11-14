@@ -23,14 +23,28 @@ export const validateScenario = (s: Scenario, file: string): string[] => {
       ),
     );
   });
-  need([1, 2, 3].includes(s.correctOption), 'correctOption muss 1, 2 oder 3 sein');
+  const spezial = s.format === 'spezial';
+  need(s.format === undefined || s.format === 'quiz' || spezial, 'format muss "quiz" oder "spezial" sein');
+  if (spezial) {
+    // Spezial: keine richtige Antwort, keine Auflösung, keine Quellenzeile
+    need(s.correctOption === undefined, 'Spezial: correctOption darf es nicht geben (keine richtige Antwort)');
+    need(s.reveal === undefined, 'Spezial: reveal darf es nicht geben (keine Auflösung)');
+    need(s.sourceLine === undefined, 'Spezial: sourceLine darf es nicht geben (keine Quellenzeile)');
+  } else {
+    need([1, 2, 3].includes(s.correctOption as number), 'correctOption muss 1, 2 oder 3 sein');
+    need(s.reveal?.speech && s.reveal?.screen, 'reveal.speech/screen fehlt');
+    need(s.sourceLine, 'sourceLine fehlt');
+    need(s.sources?.length, 'sources fehlt');
+  }
   need(s.countdown?.speech && s.countdown?.screen, 'countdown.speech/screen fehlt');
-  need(s.reveal?.speech && s.reveal?.screen, 'reveal.speech/screen fehlt');
   need(s.outro?.speech && s.outro?.screen, 'outro.speech/screen fehlt');
-  need(s.sourceLine, 'sourceLine fehlt');
-  need(s.sources?.length, 'sources fehlt');
   need(s.publishing?.description && s.publishing?.pinnedComment, 'publishing.description/pinnedComment fehlt');
-  for (const k of ['situation', 'options', 'countdown', 'reveal', 'outro'] as const) {
+  need(
+    s.publishing?.description?.trimEnd().endsWith('Hinweis: Das gesamte Video ist KI-generiert.'),
+    'publishing.description muss mit "Hinweis: Das gesamte Video ist KI-generiert." enden',
+  );
+  const shotKeys = spezial ? (['situation', 'countdown', 'outro'] as const) : (['situation', 'options', 'countdown', 'reveal', 'outro'] as const);
+  for (const k of shotKeys) {
     need(s.shots?.[k]?.camera?.length, `shots.${k}.camera fehlt`);
   }
   return errors;

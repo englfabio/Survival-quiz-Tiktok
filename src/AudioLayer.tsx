@@ -56,6 +56,12 @@ export const AudioLayer = ({
     if (sec.kind === 'options') {
       sec.cardStarts?.forEach((c, j) => items.push(<Sfx key={`p-${j}`} id="karte-pop" from={sec.from + c} volume={VOLUME.pop} />));
     }
+    if (sec.kind === 'answer') items.push(<Sfx key={`a-${i}`} id="karte-pop" from={sec.from + 2} volume={VOLUME.pop} />);
+    if (sec.kind === 'vote') {
+      items.push(<Sfx key="vote-pop" id="karte-pop" from={sec.from + 8} volume={VOLUME.pop} />);
+      items.push(<Sfx key="tension" id="spannung" from={sec.from + 6} volume={VOLUME.tension} />);
+      for (let k = 0; k < 5; k++) items.push(<Sfx key={`t-${k}`} id="tick" from={sec.from + 6 + k * fps} volume={VOLUME.tick} />);
+    }
     if (sec.kind === 'countdown') {
       items.push(<Sfx key="tension" id="spannung" from={sec.from} volume={VOLUME.tension} />);
       for (let k = 0; k < 5; k++) items.push(<Sfx key={`t-${k}`} id="tick" from={sec.from + k * fps} volume={VOLUME.tick} />);

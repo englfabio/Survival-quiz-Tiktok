@@ -1,7 +1,7 @@
 import type {CSSProperties, ReactNode} from 'react';
 import {interpolate, spring, useVideoConfig} from 'remotion';
 import {clamp} from '../lib/anim';
-import {categoryInfo, CommentIcon} from './icons';
+import {categoryInfo, CommentIcon, Grin} from './icons';
 import {hazardStripes, T} from './theme';
 
 const textShadow = '0 3px 10px rgba(0,0,0,0.55)';
@@ -744,6 +744,212 @@ export const BreathGuide = ({sec, appear, top, left = T.left, width = 520}: {sec
             boxShadow: '0 0 12px 4px rgba(255,255,255,0.8)',
           }}
         />
+      </div>
+    </div>
+  );
+};
+
+// ================= Spezial-Format =================
+
+/**
+ * Abzeichen "SPEZIAL" oben links im Warnschild-Stil (gelb mit schwarz-gelbem Streifenrahmen + Warndreieck mit Grinsegesicht).
+ * Steht im ganzen Spezial-Video, damit man sofort sieht: Hier geht es um Spaß.
+ */
+export const SpezialBadge = ({frame}: {frame: number}) => {
+  const {fps} = useVideoConfig();
+  const s = spring({frame, fps, config: {damping: 13}});
+  const wob = Math.sin(frame / 9) * 1.2;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: T.left,
+        top: T.top,
+        padding: 7,
+        borderRadius: 16,
+        background: hazardStripes(11),
+        boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+        transform: `translateX(${(1 - s) * -60}px) rotate(${-2 + wob}deg)`,
+        opacity: s,
+      }}
+    >
+      <div style={{display: 'flex', alignItems: 'center', gap: 12, background: T.yellow, borderRadius: 10, padding: '4px 22px 4px 10px'}}>
+        <Grin size={56} color={T.yellow} />
+        <span style={{fontFamily: T.font, fontWeight: 800, fontSize: 52, color: T.black, letterSpacing: 4, lineHeight: 1.05}}>SPEZIAL</span>
+      </div>
+    </div>
+  );
+};
+
+export const LETTERS = ['A', 'B', 'C'];
+
+/** Kopfzeile einer Spezial-Antwort: gelber Buchstabe + Kartentext (neutral, keine richtig/falsch-Farbe) */
+export const AnswerHeader = ({letter, text, frame, top}: {letter: string; text: string; frame: number; top: number}) => {
+  const {fps} = useVideoConfig();
+  const s = spring({frame, fps, config: {damping: 13, stiffness: 150}});
+  return (
+    <div style={{position: 'absolute', left: T.left, top, width: T.rightTop - T.left, opacity: s, transform: `translateX(${(1 - s) * 120}px)`}}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 22,
+          background: T.anthracite,
+          border: `5px solid ${T.yellow}`,
+          borderRadius: 20,
+          padding: '14px 24px 14px 16px',
+          boxShadow: '0 12px 30px rgba(0,0,0,0.4)',
+        }}
+      >
+        <div
+          style={{
+            flex: '0 0 auto',
+            width: 98,
+            height: 98,
+            borderRadius: '50%',
+            background: T.yellow,
+            color: T.black,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: T.font,
+            fontWeight: 800,
+            fontSize: 72,
+          }}
+        >
+          {letter}
+        </div>
+        <div style={{fontFamily: T.font, fontWeight: 700, fontSize: text.length > 30 ? 54 : 64, lineHeight: 1.05, color: T.white}}>{text}</div>
+      </div>
+    </div>
+  );
+};
+
+/** Drei Antwortkarten nebeneinander (Abstimmung / Outro). compact = flacher (Outro) */
+export const VoteCards = ({
+  cards,
+  frame,
+  top,
+  compact = false,
+  stagger = 4,
+}: {
+  cards: string[];
+  frame: number;
+  top: number;
+  compact?: boolean;
+  stagger?: number;
+}) => {
+  const {fps} = useVideoConfig();
+  // Untere Bildhälfte: rechts 140 px Sperrzone → Breite bis T.rightBottom
+  const width = T.rightBottom - T.left;
+  const gap = 18;
+  const w = (width - 2 * gap) / 3;
+  return (
+    <div style={{position: 'absolute', left: T.left, top, width, display: 'flex', gap, alignItems: 'stretch'}}>
+      {cards.map((c, i) => {
+        const s = spring({frame: frame - i * stagger, fps, config: {damping: 13, stiffness: 150}});
+        // sanftes "Wippen" nacheinander, damit die Karten zum Abstimmen einladen
+        const bob = compact ? 0 : Math.max(0, Math.sin((frame - i * 10) / 9)) * 6;
+        return (
+          <div
+            key={i}
+            style={{
+              width: w,
+              minHeight: compact ? 190 : 330,
+              background: T.anthracite,
+              border: `5px solid ${T.yellow}`,
+              borderRadius: 20,
+              padding: compact ? '12px 10px 14px' : '18px 12px 20px',
+              boxShadow: '0 12px 30px rgba(0,0,0,0.45)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: compact ? 8 : 14,
+              opacity: s,
+              transform: `translateY(${(1 - s) * 80 - bob}px) scale(${0.85 + 0.15 * s})`,
+            }}
+          >
+            <div
+              style={{
+                width: compact ? 74 : 96,
+                height: compact ? 74 : 96,
+                borderRadius: '50%',
+                background: T.yellow,
+                color: T.black,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: T.font,
+                fontWeight: 800,
+                fontSize: compact ? 56 : 72,
+                flex: '0 0 auto',
+              }}
+            >
+              {LETTERS[i]}
+            </div>
+            <div style={{fontFamily: T.font, fontWeight: 700, fontSize: compact ? 36 : 46, lineHeight: 1.05, color: T.white, textAlign: 'center'}}>{c}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/** Großes Schild im Warnschild-Stil (z. B. "Stimm ab!"), wackelt leicht */
+export const SignBoard = ({text, frame, top}: {text: string; frame: number; top: number}) => {
+  const {fps} = useVideoConfig();
+  const s = spring({frame, fps, config: {damping: 9, stiffness: 170}});
+  const wob = Math.sin(frame / 6) * 2.5;
+  return (
+    <div style={{position: 'absolute', left: T.left, width: T.rightTop - T.left, top, display: 'flex', justifyContent: 'center', opacity: clamp(s * 1.4)}}>
+      <div style={{padding: 9, borderRadius: 18, background: hazardStripes(13), transform: `scale(${0.5 + 0.5 * s}) rotate(${wob}deg)`, boxShadow: '0 14px 40px rgba(0,0,0,0.45)'}}>
+        <div
+          style={{
+            background: T.yellow,
+            color: T.black,
+            borderRadius: 11,
+            padding: '10px 34px 6px',
+            fontFamily: T.font,
+            fontWeight: 800,
+            fontSize: 96,
+            lineHeight: 1,
+            textTransform: 'uppercase',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 18,
+          }}
+        >
+          <CommentIcon size={80} color={T.black} />
+          {text}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/** Outro im Spezial-Format: Kommentar-Symbol + Aufforderung (screen-Text) */
+export const SpezialOutroPanel = ({text, frame, top}: {text: string; frame: number; top: number}) => {
+  const {fps} = useVideoConfig();
+  const s = spring({frame, fps, config: {damping: 13}});
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: T.left,
+        width: T.rightTop - T.left,
+        top,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 14,
+        transform: `scale(${0.8 + 0.2 * s})`,
+        opacity: s,
+      }}
+    >
+      <CommentIcon size={110} color={T.yellow} />
+      <div style={{height: 14, width: '70%', backgroundImage: hazardStripes(13), borderRadius: 6}} />
+      <div style={{fontFamily: T.font, fontWeight: 800, fontSize: 84, lineHeight: 1, color: T.yellow, textTransform: 'uppercase', textAlign: 'center', textShadow}}>
+        {text}
       </div>
     </div>
   );

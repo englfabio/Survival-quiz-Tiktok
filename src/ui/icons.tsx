@@ -87,6 +87,16 @@ const Finds = ({size, color}: {size: number; color: string}) => (
   </svg>
 );
 
+/** Spezial: Warndreieck mit Grinsegesicht (nur zum Spaß) */
+export const Grin = ({size, color}: {size: number; color: string}) => (
+  <svg width={size} height={size} viewBox="0 0 100 100">
+    <path d="M50 6 L95 88 L5 88 Z" fill={color} stroke="#111" strokeWidth="7" strokeLinejoin="round" />
+    <circle cx="38" cy="52" r="5.5" fill="#111" />
+    <path d="M57 52 Q63 46 69 52" fill="none" stroke="#111" strokeWidth="5" strokeLinecap="round" />
+    <path d="M32 64 Q50 82 68 64" fill="none" stroke="#111" strokeWidth="6" strokeLinecap="round" />
+  </svg>
+);
+
 const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   wildtiere: {label: 'Wildtiere', Icon: Paw},
   verkehr: {label: 'Verkehr', Icon: Car},
@@ -96,6 +106,7 @@ const CATEGORIES: Record<string, {label: string; Icon: typeof Paw}> = {
   feuer: {label: 'Feuer', Icon: Fire},
   psyche: {label: 'Psyche', Icon: Psyche},
   fundstuecke: {label: 'Fundstücke', Icon: Finds},
+  spezial: {label: 'Spezial', Icon: Grin},
 };
 
 export const categoryInfo = (id: string) => CATEGORIES[id] ?? {label: id, Icon: Warning};
