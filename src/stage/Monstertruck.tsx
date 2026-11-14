@@ -358,7 +358,7 @@ const MuseumScene = (_: {cam?: StageCam}) => {
       {/* Scheinwerfer auf das Kunstwerk */}
       <primitive object={target} />
       {[-2.2, 2.2].map((x) => (
-        <spotLight key={x} position={[x, H - 0.4, Z + 3.2]} target={target} angle={0.42} penumbra={0.55} intensity={38} distance={14} decay={1.6} color="#fff1d0" />
+        <spotLight key={x} position={[x, H - 0.4, Z + 3.2]} target={target} angle={0.42} penumbra={0.55} intensity={13} distance={14} decay={1.6} color="#fff1d0" />
       ))}
       {/* Boden mit Dielen */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, Z + D / 2]} material={m.floor} receiveShadow>
@@ -428,7 +428,7 @@ const MuseumScene = (_: {cam?: StageCam}) => {
         </group>
       ))}
       {[-1.735, 0, 1.735].map((x) => (
-        <mesh key={x} material={m.rope} position={[x, 0.82, Z + 1.55]} rotation={[0, 0, Math.PI / 2]}>
+        <mesh key={x} material={m.rope} position={[x, 0.93, Z + 1.55]} rotation={[0, 0, Math.PI]} scale={[1, 0.3, 1]}>
           <torusGeometry args={[0.87, 0.025, 5, 16, Math.PI]} />
         </mesh>
       ))}

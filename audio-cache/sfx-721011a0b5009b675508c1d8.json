@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Big off-road tires splashing through thick mud, wet splattering and squelching, engine in background, outdoors",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T16:43:18.002Z"
+}

@@ -316,17 +316,6 @@ export const MonsterTruck = ({
           <mesh material={m.seat} position={[0, 0.78, 0.82]}>
             <boxGeometry args={[1.8, 0.18, 0.3]} />
           </mesh>
-          <group position={[0, MONSTER.seat[1] - bodyY + 1.0, MONSTER.seat[2] + 0.5]} rotation={[-0.5, 0, 0]}>
-            <mesh material={m.seat}>
-              <torusGeometry args={[0.17, 0.025, 5, 14]} />
-            </mesh>
-          </group>
-          <mesh material={m.seat} position={[0, MONSTER.seat[1] - bodyY + 0.39, MONSTER.seat[2] - 0.05]}>
-            <boxGeometry args={[0.6, 0.12, 0.5]} />
-          </mesh>
-          <mesh material={m.seat} position={[0, MONSTER.seat[1] - bodyY + 0.78, MONSTER.seat[2] - 0.35]} rotation={[-0.15, 0, 0]}>
-            <boxGeometry args={[0.6, 0.75, 0.12]} />
-          </mesh>
           {/* Auspuffrohre hinter dem Fahrerhaus */}
           {[0.75, -0.75].map((x) => (
             <mesh key={x} material={m.chrome} position={[x, 1.55, -0.62]}>
@@ -347,6 +336,25 @@ export const MonsterTruck = ({
           <MudSplats amount={mud} w={2.1} len={4.2} y0={0.0} h={0.8} seed={big ? 11 : 7} />
         </group>
         <MudSplats amount={mud} w={track * 2 + W - 0.1} len={axle * 2 + 1.2} y0={R * 0.3} h={R * 1.1} seed={big ? 13 : 9} />
+      </group>
+      {/* Sitz + Lenkrad in Original-Größe (auch im großen Truck passt der Dummy genau): Sitz bei MONSTER.seat × Maßstab */}
+      <group scale={1 / s} position={[0, shake, 0]}>
+        <group position={[MONSTER.seat[0] * s, MONSTER.seat[1] * s * (1 - 0.55 * sq), MONSTER.seat[2] * s]}>
+          <group position={[0, 1.0, 0.5]} rotation={[-0.5, 0, 0]}>
+            <mesh material={m.seat}>
+              <torusGeometry args={[0.17, 0.025, 5, 14]} />
+            </mesh>
+          </group>
+          <mesh material={m.seat} position={[0, 0.39, -0.05]}>
+            <boxGeometry args={[0.6, 0.12, 0.5]} />
+          </mesh>
+          <mesh material={m.seat} position={[0, 0.78, -0.35]} rotation={[-0.15, 0, 0]}>
+            <boxGeometry args={[0.6, 0.75, 0.12]} />
+          </mesh>
+          <mesh material={m.seat} position={[0, 0.2, 0]}>
+            <boxGeometry args={[0.4, 0.4 * (s - 0.3), 0.4]} />
+          </mesh>
+        </group>
       </group>
       {spray > 0.01 &&
         [1, -1].map((x) => (
@@ -700,7 +708,7 @@ export const PictureFrame = ({fill = 1}: {fill?: number}) => {
     () => ({
       gold: std('#d2a43a', {roughness: 0.3, metalness: 0.65}),
       goldDark: std('#9c7424', {roughness: 0.35, metalness: 0.6}),
-      mat: std('#f6f2e8', {roughness: 0.95}),
+      mat: std('#1f2a44', {roughness: 0.95}),
     }),
     [],
   );

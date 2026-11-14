@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoonish metal car crunch, sheet metal being squashed flat by a giant tire, comedic crumple with a short squeak, no explosion",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T16:43:03.418Z"
+}

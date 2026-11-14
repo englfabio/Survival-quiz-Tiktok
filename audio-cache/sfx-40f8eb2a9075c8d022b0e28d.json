@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Heavy picture frame being hung on a wall hook, soft wooden knock and click",
+  "duration": 1,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T16:43:14.559Z"
+}

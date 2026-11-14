@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Huge monster truck V8 engine revving loudly and rumbling, deep aggressive exhaust roar, outdoors, no music",
+  "duration": 4,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T16:43:00.626Z"
+}

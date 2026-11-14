@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Small group of people saying impressed oooh and aaah in amazement, polite art gallery audience, indoors",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T16:43:10.066Z"
+}

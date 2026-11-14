@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Quiet art museum gallery ambience, soft distant murmuring voices, gentle footsteps echoing in a large bright hall, no music",
+  "duration": 20,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-14T16:43:07.397Z"
+}

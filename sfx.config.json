@@ -757,6 +757,55 @@
       "duration": 1.8,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "monstertruck-motor",
+      "prompt": "Huge monster truck V8 engine revving loudly and rumbling, deep aggressive exhaust roar, outdoors, no music",
+      "duration": 4,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "blech-knautschen",
+      "prompt": "Cartoonish metal car crunch, sheet metal being squashed flat by a giant tire, comedic crumple with a short squeak, no explosion",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "museum-atmo",
+      "prompt": "Quiet art museum gallery ambience, soft distant murmuring voices, gentle footsteps echoing in a large bright hall, no music",
+      "duration": 20,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "staunen",
+      "prompt": "Small group of people saying impressed oooh and aaah in amazement, polite art gallery audience, indoors",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "glaeser-klirren",
+      "prompt": "Two wine glasses clinking together for a toast, bright crystal clink, indoors",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "bild-aufhaengen",
+      "prompt": "Heavy picture frame being hung on a wall hook, soft wooden knock and click",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "matsch-spritzen",
+      "prompt": "Big off-road tires splashing through thick mud, wet splattering and squelching, engine in background, outdoors",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }
