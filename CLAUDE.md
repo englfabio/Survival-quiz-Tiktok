@@ -485,7 +485,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - Spezial Wecker (erstes Spezial-Video): 1035 neue Zeichen (laut ElevenLabs 415 Credits), Sprechzeit 72,5 s, Video 80,1 s (Texte wortgenau, kürzer ging
   nicht; Outro mit vom Inhaber gewünschtem Zusatzsatz „Und schreib auch rein, was der Dummy als Nächstes erleben soll.“). Wort-Zeitstempel = Text (geprüft),
   Kontrolle scribe_v2 (Situation mit „8 Uhr 47“ + Outro): korrekt. Choreografie: `python3 scripts/spezial-wecker-choreo.py`. Comichaft: Wecker trifft niemanden.
-  Standbilder in review/spezial-wecker/phase1/. Finales Video: review/final/spezial-wecker.mp4.
+  Standbilder in review/spezial-wecker/phase1/. Finales Video: review/final/spezial-wecker.mp4, vom Inhaber freigegeben.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
