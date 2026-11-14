@@ -200,6 +200,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Zaun x ±7.5 / z −7 … 5.5 mit Eingang rechts (z 0.6 … 2.0), Schild am Eingang (`PlaygroundSign`, (7.3, 2.6), Tafel zeigt nach −x, „SPIELPLATZ“ +
   Telefon-Symbol ohne echte Nummer), Fallschutzmatten, Häuser in der Ferne (Tag). Vorn (z > 2.5, |x| < 6) frei für Kameras.
   Aus dem Park jetzt exportiert und wiederverwendbar: `TrashBin`, `FarHouses` (mit `day` = Tagesansicht).
+  WG-Küche (`wg-kueche`, Nacht-Variante `wg-kueche-nacht` mit Mond, dunklem Licht, Wanduhr auf 3 Uhr; `src/stage/Kitchen.tsx`, Plätze in `WG`,
+  Atmo = `uhr-ticken`): Küche wie `kueche`, aber großer Kühlschrank als Objekt (`kuehlschrank` bei (−2.13, −1.94), face 180), Küchentisch (−0.2, 0.55,
+  Platte 0,76) mit zwei Stühlen (links (−0.98, 0.55) Blick +x = face 90, rechts (0.58, 0.55) Blick −x = face 270), Schreibtisch hinten rechts (Platte 0,74)
+  mit Stuhl (1.75, −1.3, face 0) + Laptop-Objekt (`laptop` bei (1.75, y 0.74, −1.88)), Wandregal (Brett 1,55 m) mit Ordnern Steuer/Miete/Strom/WG-Kasse und
+  freiem Platz (2.25, y 1.565, −2.045), Putzplan an der Rückwand, Zimmertür des Mitbewohners rechts (`zimmertuer` bei (2.5, 0.75), face 270, dahinter dunkle
+  Öffnung), Wandkalender rechts (`kalender` bei (2.485, y 1.45, −0.45), face 270). Kein Besen.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -258,6 +264,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   einfrieren = vor der Berührung), Arme freundlich ausbreiten + Kinder wegschicken (`shoo`), Handy mit beiden Händen hoch + fotografieren (`photo`, Blitz bei 1 s);
   vorhanden und wiederverwendet: telefonieren (`call`), aufheben (`pickup`, für den Ast), Stelle markieren (`mark`, mit Ast `plant`), erklären (`pointtalk`).
   Kinder: auf der Schaukel sitzen + Beine baumeln (`swingsit`, y 0.15), im Sand buddeln (`sandplay`), dazu `run`, `wave`, `cheer`, `listen`, `stand`.
+  WG-Küche (Dummy UND Kumpel/Mitbewohner, Details in `wgPose` in Dummy.tsx): Kühlschrank öffnen + leeren Becher entdecken (`fridgeopen`, Dummy bei
+  `WG_FRIDGE_STAND` (−1.55, −1.05) face 0, Tür-Wert `door` 0 → 1 genau von 0,4 bis 1,2 s nach Bewegungsbeginn, Becher ab 2,0 s links in der Hand), entsetzt
+  erstarren (`aghast`), großen roten Knopf drücken (`pressbutton`, Knopf 0,5 m vor ihm, Treffer 0,72 s), Zettel schreiben (`writenote`, Tisch 0,42 m vor ihm) +
+  auf den Becher kleben (`sticknote`, 0,5 s), am Laptop tippen (`typedesk`, sitzend), kniend Briefe unter der Tür durchschieben (`slideletter`, alle 1,3 s,
+  Schub 0,6–1,12 s), Stempel kräftig aufdrücken (`stamp`, Treffer 0,58 s), Ordner ins Regal stellen (`shelve`, loslassen 1,35 s, dann Hände in die Hüften);
+  verstohlen Joghurt löffeln (`spoon`), Becher mit Zettel lesen + erschrocken zurückzucken (`readnote`, 1,2 s), Becher ganz langsam abstellen (`putback`, 2,2 s),
+  Briefe mit wachsendem Entsetzen öffnen (`openletters`, alle 1,8 s: Rechnung → 1. Mahnung → 2. Mahnung, Schrift zur Kamera), sitzend Münzen einzeln zählen
+  (`countcoins`, alle 0,8 s), Joghurt von der Stirn wischen + probieren + Daumen hoch (`wipebrow`). Werte: `glasses` (Lesebrille), `splat` (Joghurt am Kopf),
+  `teeth` 1 beim Kumpel = Grinsen.
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -371,6 +386,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Kaffeebecher (`becher`, `toss` = wirbelt durch die Luft, `size`), gelbe Schallwellen „)))“ für Durchsagen (`durchsage`, `show`, schaut zur Kamera, `side` 1 = nach
   links, `size`), Handy quer zum Filmen mit blauer Hülle + Display mit Zug und rotem Aufnahme-Punkt (`filmhandy`, Display zeigt zum Dummy: face Dummy + 180),
   Sog-Windlinien vom Bahnsteig zum Gleis (`sog`, face 0, Werte `wind` 0 … 1, `drift`, `size` = breiter).
+- **Objekte (WG-Küche, `src/actors/WgProps.tsx`):** großer Kühlschrank (`kuehlschrank`: Tür links angeschlagen `door` 0 … 1, Innenlicht, `glow` 1 = nachts
+  helles Innenlicht, `rumble` = Tür wackelt; Joghurt-Fach `FRIDGE_SHELF`), Joghurtbecher mit Etikett „DUMMY“ (`joghurt`: `lid` 0 zu … 1 offen, `fill` (0,01 = leer),
+  `mark` 1 = Klebezettel mit Text `text`, `size`), Klebezettel flach (`klebezettel`, Text), dicker Stift (`stift`), großer roter Knopf auf Sockel mit Warnstreifen
+  (`knopf`: `press`, `glow`), Joghurt-Welle (`joghurtwelle` bei (0, 0): Bewegung `splash` = weiße Joghurt-Wolke mit Schriftzug „PUFF!“ + rollende Joghurt-Kugeln,
+  `fill` 0 … 1 = Kleckse auf Boden, Wänden, Schränken, Decke, Tisch – KEIN Feuer, KEIN Rauch, Koordinaten für `wg-kueche`), Briefumschläge (`brief`, `brief2`,
+  `brief3`, `brief4`: Text, `tilt` 1 = liegt flach, `mark` 1 = grüner Stempel „BEZAHLT“, `size`), Stempel (in der Hand bei `stamp`), Münz-Häufchen (`muenzen`,
+  `fill` = Anteil schon aufgereiht), Aktenordner mit Rückenschild (`ordner`, Text), Laptop mit Rechnung auf dem Bildschirm (`laptop`, `fill` = getippt).
+  In der Hand automatisch: leerer Becher (`fridgeopen`/`aghast`), Becher + Löffel (`spoon`), Becher mit Zettel (`readnote`/`putback`), Stift, Stempel,
+  Ordner, Münze, Brief. Lesebrille + Joghurt-Kleckse über die Dummy-Werte `glasses` / `splat`.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -385,7 +409,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Bühnenwechsel:** Shot-Feld `"stage"` – andere Bühne für einen Abschnitt (`"stage": "wohnzimmer"`) oder Schnitt mitten
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
-- **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
+- **Kategorien:** spezial (nur Spezial-Format: Abzeichen „SPEZIAL“; Videos: spezial-mitbewohner-joghurt), wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -457,6 +481,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Erklärung 2 + 3): korrekt. Choreografie: `python3 scripts/spritze-spielplatz-choreo.py`. Kein Drogenkonsum/Blut, Kinder nur als bunte Kinder-Dummys;
   falsche Optionen frieren ein (Option 2 bevor die Nadel den Finger berührt). Standbilder in review/spritze-spielplatz/phase1/.
   Finales Video: review/final/spritze-spielplatz.mp4.
+- Spezial Mitbewohner-Joghurt (erstes Video im Spezial-Format): 1106 neue Zeichen (ElevenLabs: 443 Credits), Sprechzeit 81,3 s, Video 90,4 s. Wort-Zeitstempel = Text
+  (geprüft), Kontrolle scribe_v2 (Option 3 „1,29 Euro“ + Szene C „2026“): korrekt. Choreografie: `python3 scripts/mitbewohner-joghurt-choreo.py` (dauert ca. 3 min,
+  Kameras werden mit `fitcam` automatisch eingepasst). Outro-Satz „Und was soll der Dummy als Nächstes erleben?“ auf Wunsch des Inhabers ergänzt.
+  Standbilder in review/spezial-mitbewohner-joghurt/phase1/. Finales Video: review/final/spezial-mitbewohner-joghurt.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -484,7 +512,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `magnet-platsch`, `seil-ziehen`, `kopfsteinpflaster` (Magnetfischen-Granate; Kanal nutzt `see-atmo`);
   `bahnhof-atmo` (Bühne Bahnhof, Schleife), `koffer-rollen`, `schnallen-klick`, `absperrband` (Herrenloser Koffer);
   `laub-rascheln`, `hund-bellen` (Pistole im Wald); Geldkoffer nutzt nur vorhandene Effekte;
-  `durchsage-gong`, `zug-naht`, `zug-durchfahrt`, `wind-sog` (Bahnsteigkante-Sog; Bühne `bahnsteig` nutzt `bahnhof-atmo`).
+  `durchsage-gong`, `zug-naht`, `zug-durchfahrt`, `wind-sog` (Bahnsteigkante-Sog; Bühne `bahnsteig` nutzt `bahnhof-atmo`);
+  `kuehlschrank-auf`, `knopf-druecken`, `puff` (comichaft, kein Knall), `stift-kritzeln`, `tastatur`, `papier-schieben`, `muenzen`, `stempel` (Mitbewohner-Joghurt).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -676,7 +705,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Beach.tsx = Meeresstrand, Garden.tsx = Garten, Castle.tsx = Burg, Graveyard.tsx = Friedhof,
                       Rooms.tsx = Innenraum-Baukasten: Badezimmer, Wohnzimmer, Arztpraxis;
                       Christmas.tsx = Weihnachtszimmer, Flur, Hausflur, Hauseingang; Kitchen.tsx = Küche;
-                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche;
+                      Outback.tsx = Boxring im Outback; Dental.tsx = Zahnarztpraxis; Kitchen.tsx auch Wohnküche + WG-Küche (Tag/Nacht);
                       Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer;
                       Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Varianten volle Halle + Bahnsteig mit Oberleitung/Lautsprecher) + Passenger-Figuren;
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
@@ -691,7 +720,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Herz-Symbol, MagnetProps.tsx = Magnet/Granate/Seil, StationProps.tsx = Koffer/
                       Absperrband/Rechnung/Absperrband-Rolle, PistolProps.tsx = Pistole/Karten-Handy/
                       Polizeiauto/Hund/Leine, MoneyProps.tsx = Geldkoffer/Bündel/Formular/Taschenrechner/
-                      Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien, SyringeProps.tsx = Spritze/Kappe/Müll/versteckte Nadel/Ast/Glitzer) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien, SyringeProps.tsx = Spritze/Kappe/Müll/versteckte Nadel/Ast/Glitzer, WgProps.tsx = Kühlschrank/Joghurtbecher/Zettel/Knopf/Joghurt-Welle/Briefe/Stempel/Münzen/Ordner/Laptop/Lesebrille) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche

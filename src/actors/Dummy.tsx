@@ -3760,7 +3760,7 @@ const WgHandItem = ({item, label, right, left, level}: {item: DummyPose['item'];
     case 'cupnote':
       return (
         <group position={right} quaternion={level}>
-          <group position={[0.0, -0.08, 0.03]} rotation={[0, Math.PI, 0]} scale={1.6}>
+          <group position={[0.0, -0.08, 0.03]} rotation={[0, -1.92, 0]} scale={1.6}>
             <YogurtCup lid={0} fill={1} note="Probe fürs Gesundheitsamt" />
           </group>
         </group>
