@@ -66,6 +66,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
+- (spezial-wecker: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -106,6 +107,8 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
 - Kein Rot/Grün, kein Richtig-/Falsch-Ton; beim Erscheinen jeder Antwort ein „Pop“, bei der Abstimmung Ticks + Spannung.
 - Spezial-Videos werden im Positionsplan nicht gezählt.
 - Darstellung immer comichaft und harmlos.
+- Outro-Zusatz (optional): `outro.extra` = gelbe Zusatzzeile unter den Antworten (z. B. „Was soll der Dummy als Nächstes erleben?“),
+  erscheint, wenn der Satz `outro.extraCue` gesprochen wird. Vom Inhaber gewünscht: am Ende offen lassen + fragen, was der Dummy als Nächstes erleben soll.
 
 - Abschnittslängen richten sich (sobald es Sprachaufnahmen gibt) automatisch nach der
   Länge der Audios. Bis dahin wird die Sprechdauer aus der Textlänge geschätzt
@@ -199,6 +202,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Sitzhöhe 0,42; linker Sitz schwingt leicht, rechter hängt still für ein Kind), Bank (−3.4, 1.0, Blick +x), Mülleimer (2.6, 1.7), Büsche innen am Zaun,
   Zaun x ±7.5 / z −7 … 5.5 mit Eingang rechts (z 0.6 … 2.0), Schild am Eingang (`PlaygroundSign`, (7.3, 2.6), Tafel zeigt nach −x, „SPIELPLATZ“ +
   Telefon-Symbol ohne echte Nummer), Fallschutzmatten, Häuser in der Ferne (Tag). Vorn (z > 2.5, |x| < 6) frei für Kameras.
+  Schlafzimmer am Morgen (`schlafzimmer-morgen`, `src/stage/Bedroom.tsx`): wie `schlafzimmer`, aber helles Morgenlicht, Fenster offen (ohne Mittelsteg,
+  Flügel nach innen), draußen Rasen, Zaun, Nachbarhaus, Baum, Sonne (flache Kulisse). Bett: Kissen rechts (x ≈ 1.47), Dummy im Bett Hüfte (0.8, −1.425), face 270.
+  Nachbarrasen (`nachbarrasen`, `src/stage/Garden.tsx`): Garten wie `garten`, dazu hinter dem Zaun der perfekte, leuchtend grüne Mährasen des Nachbarn
+  (`NEIGHBOR_LAWN` x −9 … 10, z −12.4 … −7.15), Blumenbeet vor dem Nachbarhaus, Buchskugeln. Kamera z. B. hoch über dem eigenen Rasen über den Zaun.
+  Chef-Büro (`buero`, `src/stage/Office.tsx`, Atmo `uhr-ticken`): W 4.4, D 4.4, Chef-Schreibtisch mit Bildschirm/Tischtelefon/Akten, Chefsessel, Aktenregal,
+  Fenster mit Hochhäusern; Platz für den Wandkalender `OFFICE.calendar` (1.15, 1.45, −2.19), Chef davor (1.36, −1.72) face 0.
+  Kamera-Trick: Wände sind von außen unsichtbar → Kamera darf hinter die linke Schlafzimmerwand (x < −1.8, aber z außerhalb des Fensters).
   Aus dem Park jetzt exportiert und wiederverwendbar: `TrashBin`, `FarHouses` (mit `day` = Tagesansicht).
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
@@ -257,6 +267,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Griff bei 0,9 s), damit gehen/stehen (`pinchcarry`), Kappe auf die Nadel stecken wollen – Nadel rutscht ab Richtung Finger (`recap`, ab 1,45 s; bei ca. 1,65 s
   einfrieren = vor der Berührung), Arme freundlich ausbreiten + Kinder wegschicken (`shoo`), Handy mit beiden Händen hoch + fotografieren (`photo`, Blitz bei 1 s);
   vorhanden und wiederverwendet: telefonieren (`call`), aufheben (`pickup`, für den Ast), Stelle markieren (`mark`, mit Ast `plant`), erklären (`pointtalk`).
+  Wecker-Spezial (verschlafen): im Bett liegen/schlafen (`bedsleep`), hochschrecken + auf die Uhr starren, ab 0,9 s Hände an den Wangen (`bedwake`), aufrecht
+  sitzen (`bedsit`), zurück ins Kissen fallen lassen (`bedflop`), halb liegend auf den Kalender auf dem Schoß schreiben (`bedwrite`, `LAP_CAL`: Kringel 0,3–1,4 s,
+  Schrift 1,5–3,3 s), Partyhütchen aufsetzen (`bedhat` + Wert `partyhat` 0 → 1), Konfetti-Kanone hoch + Schuss bei 0,6 s (`bedconfetti`, Konfetti als Figur
+  `konfetti`), gemütlich telefonieren (`bedcall`, Handy links), zufrieden auf den Kalender zeigen (`bedpoint`), im Bett winken (`bedwave`), Wecker über dem Kopf
+  werfen (`throwclock`, Abwurf 0,62 s), zweimal mit dem Hammer schlagen (`hammer`, Treffer 0,6 + 1,6 s, Kopf 0,77 m vor / 0,25 m rechts / 0,74 m hoch),
+  Hammer locker halten (`holdhammer`), gießen (`watering`), vom Gießen aufschauen (`lookup`). Chef: Handy am Ohr + Finger sucht auf dem Wandkalender
+  (`calsearch`), „Hm?“ mit Hand in der Hüfte (`chefhm`, mit `brow`/`question`). Schlüsselwert `cut: true` = harter Schnitt ohne Überblendung.
   Kinder: auf der Schaukel sitzen + Beine baumeln (`swingsit`, y 0.15), im Sand buddeln (`sandplay`), dazu `run`, `wave`, `cheer`, `listen`, `stand`.
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
@@ -296,12 +313,20 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Streifenpolizist + Streifenpolizistin (`polizist`, `polizistin`: gleiche dunkelblaue Uniform ohne Abzeichen, Polizistin mit Zopf),
   Hund (`hund`, `src/actors/PistolProps.tsx`: freundlicher brauner Low-Poly-Hund, wedelt; `walk`, `stand`, `sit`; Wert `leash` 1 = rote Leine zur
   rechten Hand der Figur in `holder`, Standard `nachbar` = Spaziergänger)
+- **Chef** (`chef`): Dummy-Figur grau mit dunkelgrauem Anzug, weißem Hemd, roter Krawatte, ohne Mütze (Uniform-Felder `tie`, `nocap` – wiederverwendbar).
+- **Hütchen** für alle Figuren mit Dummy-Körper: `partyhat` (Partyhütchen, 0 … 1 wird von oben aufgesetzt), `gardenhat` (Strohhut mit grünem Band, z. B. Nachbar = `kumpel` + `gardenhat` 1).
 - **Kinder-Dummys** (`kind1` rosa mit Zöpfen, `kind2` hellblau mit gelber Kappe, `kind3` grün mit roter Kappe; `KIDS` in `src/actors/index.tsx`):
   Dummy-Körper auf 0,6 verkleinert, größerer Kopf, bunt, ohne Gesicht – immer freundlich zeigen. Können alle Dummy-Bewegungen.
 - **Objekte (Spritze, `src/actors/SyringeProps.tsx`):** stilisierte Einwegspritze mit offener Nadel (`spritze`: Ursprung = Kolbenmitte, Nadel +z, `tilt` negativ =
   Nadel schaut aus dem Sand, `blink` = Nadel blitzt, `capon` 1 = Kappe drauf, `size`; in der Hand automatisch bei `pinchpick`/`pinchcarry`/`recap`), orange Kappe
   (`kappe`), Verpackungsmüll (`muell`, `mark` = andere Mischung, `size`), Müllhaufen mit versteckter Nadel (`nadel`, `blink` 1 = Glitzern + roter Warnring), Ast
   (`ast`: senkrecht, `tilt` 90 = liegt, `plant` = in den Sand drücken; in der Hand mit `hand` 1 + `drop` 0.45), Glitzer-Stern `Glint`. Kein Blut, kein Drogenkonsum.
+- **Objekte (Wecker-Spezial, `src/actors/WeckerProps.tsx`):** altmodischer Wecker mit zwei Glocken, zeigt 8:47 (`wecker`: `ring` 0 … 1 klingelt + Klingel-Linien,
+  `broken` 0 … 1 kaputt, `size`, Bewegung `arc` = fliegt dreht sich, Weg über Zeitpunkte), Radiowecker mit roten Ziffern (`digitaluhr`, Feld `text`, Standard „8:47“),
+  Hammer + Konfetti-Kanone (in der Hand bei `hammer`/`bedconfetti`), Konfetti (`konfetti`, Bewegung `burst`, `size` −0.5 = kleiner), Zahnräder/Federn fliegen
+  heraus (`zahnraeder`, `burst`, `mark` = Sekunden bis zum zweiten Schwung, `drop` = Fallhöhe), Abreißkalender NOVEMBER/16/MONTAG (`abreisskalender`: `circle`
+  roter Kringel, `write` „FEIERTAG“ in Rot, `tilt` = nach hinten lehnen), Monats-Wandkalender ohne Feiertage (`monatskalender`), Gießkanne (`giesskanne`, `water`,
+  in der Hand mit `holder`), klingelndes Handy (`smartphone` `lie` + `ring`). Wandkalender `kalender`: Feld `text` = Start-Tageszahl.
 - **Objekte:** Auto (Kleinwagen, `car`): fahren, rollen, treiben, sinken + abkippen; Fahrerfenster, Fahrertür,
   Wasser im Innenraum, Wasserdruck-Pfeile. Für weitere Videos nutzbar (Straße, Gewitter …)
 - **Objekte (Strand):** Zinkschüssel mit dampfendem Wasser (`schuessel`), Thermometer-Schild „ca. 45 °C“
@@ -457,6 +482,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Erklärung 2 + 3): korrekt. Choreografie: `python3 scripts/spritze-spielplatz-choreo.py`. Kein Drogenkonsum/Blut, Kinder nur als bunte Kinder-Dummys;
   falsche Optionen frieren ein (Option 2 bevor die Nadel den Finger berührt). Standbilder in review/spritze-spielplatz/phase1/.
   Finales Video: review/final/spritze-spielplatz.mp4.
+- Spezial Wecker (erstes Spezial-Video): 1035 neue Zeichen (laut ElevenLabs 415 Credits), Sprechzeit 72,5 s, Video 80,1 s (Texte wortgenau, kürzer ging
+  nicht; Outro mit vom Inhaber gewünschtem Zusatzsatz „Und schreib auch rein, was der Dummy als Nächstes erleben soll.“). Wort-Zeitstempel = Text (geprüft),
+  Kontrolle scribe_v2 (Situation mit „8 Uhr 47“ + Outro): korrekt. Choreografie: `python3 scripts/spezial-wecker-choreo.py`. Comichaft: Wecker trifft niemanden.
+  Standbilder in review/spezial-wecker/phase1/. Finales Video: review/final/spezial-wecker.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -484,7 +513,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `magnet-platsch`, `seil-ziehen`, `kopfsteinpflaster` (Magnetfischen-Granate; Kanal nutzt `see-atmo`);
   `bahnhof-atmo` (Bühne Bahnhof, Schleife), `koffer-rollen`, `schnallen-klick`, `absperrband` (Herrenloser Koffer);
   `laub-rascheln`, `hund-bellen` (Pistole im Wald); Geldkoffer nutzt nur vorhandene Effekte;
-  `durchsage-gong`, `zug-naht`, `zug-durchfahrt`, `wind-sog` (Bahnsteigkante-Sog; Bühne `bahnsteig` nutzt `bahnhof-atmo`).
+  `durchsage-gong`, `zug-naht`, `zug-durchfahrt`, `wind-sog` (Bahnsteigkante-Sog; Bühne `bahnsteig` nutzt `bahnhof-atmo`);
+  `wecker-klingeln`, `hammer-schlag`, `zahnraeder-klirren`, `kissen-plumps`, `stift-kritzeln`, `konfetti-knall`, `handy-klingeln` (Wecker-Spezial).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -680,7 +710,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer;
                       Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Varianten volle Halle + Bahnsteig mit Oberleitung/Lautsprecher) + Passenger-Figuren;
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
-                      PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz)
+                      PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz; Office.tsx = Chef-Büro)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
