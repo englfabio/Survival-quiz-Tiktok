@@ -806,6 +806,62 @@
       "duration": 3,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "glitsch",
+      "prompt": "Comedic wet squelch, hand touching cold slimy leftovers in a kitchen sink, short, cartoon",
+      "duration": 1.2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schmatzen",
+      "prompt": "Cartoon chewing and munching sounds, one person eating slowly, comedic, close, no voice",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.55
+    },
+    {
+      "id": "kick-whoosh",
+      "prompt": "Big slow motion martial arts spinning kick whoosh, deep cinematic air swoosh, comedic",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "teller-klirren",
+      "prompt": "Stack of ceramic plates and cutlery rattling and clinking in a sink, short, no breaking",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "ausspucken",
+      "prompt": "Cartoon spit take, comedic pfft spray sound from a mouth, short",
+      "duration": 1.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "reste-platsch",
+      "prompt": "Several small wet food plops landing in a kitchen sink, comedic splats, short",
+      "duration": 1.2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schrubben",
+      "prompt": "Slow careful dish washing, sponge scrubbing a plate with soapy water, running tap in background",
+      "duration": 4.0,
+      "loop": false,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "zeitraffer",
+      "prompt": "Fast forward time lapse, clock hands spinning quickly with rapid ticking whirr, comedic, short",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

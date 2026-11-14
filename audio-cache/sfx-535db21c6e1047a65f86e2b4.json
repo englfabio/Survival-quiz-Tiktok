@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon spit take, comedic pfft spray sound from a mouth, short",
+  "duration": 1,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T23:03:37.531Z"
+}

@@ -232,34 +232,34 @@ export const SinkMess = ({fill = 1, rumble = 0, good = 0, foam = 0, time = 0}: {
           </mesh>
         ))}
       </group>
-      {/* Essensreste obendrauf: Nudeln, Paprika, grüner Klumpen */}
+      {/* Essensreste obendrauf: Nudeln, Paprika, grüner Klumpen (verschwinden in dieser Reihenfolge: Nudel, Paprika rot, Klumpen, Nudel, Nudel, Paprika grün) */}
       <group position={[jig(60), hop(60), 0]}>
         {showFood(5) && (
           <group position={[-0.05, 0.11, 0.05]}>
             <Noodle mat={f.noodle} seed={1} />
           </group>
         )}
-        {showFood(4) && (
+        {showFood(2) && (
           <group position={[0.0, 0.1, 0.0]} rotation={[0, 1.3, 0]}>
             <Noodle mat={f.noodle} seed={2} />
           </group>
         )}
-        {showFood(3) && (
+        {showFood(1) && (
           <group position={[-0.1, 0.1, -0.02]} rotation={[0, 2.4, 0]}>
             <Noodle mat={f.noodle} seed={3} len={0.13} />
           </group>
         )}
-        {showFood(2) && (
+        {showFood(4) && (
           <group position={[0.06, 0.115, 0.07]} rotation={[0.3, 0.6, 0]}>
             <PaprikaPiece mat={f.paprika} />
           </group>
         )}
-        {showFood(1) && (
+        {showFood(0) && (
           <group position={[-0.14, 0.105, 0.08]} rotation={[0.2, -0.7, 0.3]}>
             <PaprikaPiece mat={f.paprika2} s={0.9} />
           </group>
         )}
-        {showFood(0) && (
+        {showFood(3) && (
           <group position={[0.02, 0.12, -0.05]}>
             <Blob m={f} time={time} s={1.15} />
           </group>

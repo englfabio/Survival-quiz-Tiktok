@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Several small wet food plops landing in a kitchen sink, comedic splats, short",
+  "duration": 1.2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T23:03:40.016Z"
+}

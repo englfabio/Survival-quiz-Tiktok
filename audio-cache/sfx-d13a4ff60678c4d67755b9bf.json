@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Fast forward time lapse, clock hands spinning quickly with rapid ticking whirr, comedic, short",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T23:03:45.098Z"
+}

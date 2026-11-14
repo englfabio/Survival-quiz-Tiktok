@@ -4048,14 +4048,16 @@ const spuelePose = (motion: Motion, time: number): DummyPose | null => {
       return p;
     }
     case 'roundhouse': {
-      // Deckung (0–0,4 s) → volle Drehung um die Hochachse (0,4–1,6 s, rechtes Knie geht hoch) → Roundhouse-Kick mit rechts
-      // zur rechten Seite (1,6–2,8 s, ganz gestreckt bei ca. 2,2 s auf Kopfhöhe) → Bein zurück, wieder Deckung (bis 3,4 s)
+      // ZEITLUPE (echte Zeiten): Deckung (0–0,6 s) → volle Drehung um die Hochachse (0,6–2,4 s, rechtes Knie geht hoch) →
+      // Roundhouse-Kick mit rechts zur rechten Seite (2,4–4,2 s, ganz gestreckt ca. 3,1–3,7 s auf Kopfhöhe) → Bein zurück, Deckung ab 5,1 s
+      // Zeitlupe: alles 1,5-mal langsamer (Zeiten unten in "Normalzeit" – echte Zeit = × 1,5)
+      const T = time / 1.5;
       const p = base();
-      const g = easeInOut(clamp(time / 0.4));
-      const spin = easeInOut(clamp((time - 0.4) / 1.2));
-      const cham = easeInOut(clamp((time - 1.0) / 0.6)) * (1 - easeInOut(clamp((time - 2.8) / 0.5)));
-      const lift = easeInOut(clamp((time - 1.5) / 0.6)) * (1 - easeInOut(clamp((time - 2.65) / 0.55)));
-      const ext = easeInOut(clamp((time - 1.75) / 0.45)) * (1 - easeInOut(clamp((time - 2.45) / 0.4)));
+      const g = easeInOut(clamp(T / 0.4));
+      const spin = easeInOut(clamp((T - 0.4) / 1.2));
+      const cham = easeInOut(clamp((T - 1.0) / 0.6)) * (1 - easeInOut(clamp((T - 2.8) / 0.5)));
+      const lift = easeInOut(clamp((T - 1.5) / 0.6)) * (1 - easeInOut(clamp((T - 2.65) / 0.55)));
+      const ext = easeInOut(clamp((T - 1.75) / 0.45)) * (1 - easeInOut(clamp((T - 2.45) / 0.4)));
       p.yaw = spin * Math.PI * 2;
       p.hipY = 0.98 - 0.04 * g + 0.02 * lift;
       p.torsoX = 0.05 * g;

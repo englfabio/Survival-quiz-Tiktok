@@ -692,7 +692,11 @@ export const Actor = ({
       {name === 'spuele' && <SinkMess fill={v.fill} rumble={v.rumble} good={v.good} foam={v.mark} time={zt} />}
       {name === 'abtropfgitter' && <DishRack fill={v.fill} />}
       {name === 'spuckbogen' && <FoodArc time={state.motionTime} active={state.motion === 'show'} size={v.size} />}
-      {name === 'kuechenuhr' && <KitchenClock hours={v.fill > 0 ? v.fill : 18} moving={state.motion === 'spin'} time={zt} />}
+      {name === 'kuechenuhr' && (
+        <group scale={1 + v.size}>
+          <KitchenClock hours={v.fill > 0 ? v.fill : 18} moving={state.motion === 'spin'} time={zt} />
+        </group>
+      )}
       {name === 'laubhaufen' && <LeafPile size={v.size} />}
       {name === 'laubdecke' && <LeafCover fill={v.fill} />}
       {name === 'laubwurf' && <LeafThrow time={state.motionTime} active={state.motion === 'show'} />}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Slow careful dish washing, sponge scrubbing a plate with soapy water, running tap in background",
+  "duration": 4,
+  "loop": false,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-14T23:03:42.895Z"
+}

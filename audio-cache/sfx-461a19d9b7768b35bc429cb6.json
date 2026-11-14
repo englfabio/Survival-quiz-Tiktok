@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon chewing and munching sounds, one person eating slowly, comedic, close, no voice",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.55,
+  "createdAt": "2026-11-14T23:03:30.400Z"
+}

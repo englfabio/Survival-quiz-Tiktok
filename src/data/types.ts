@@ -258,7 +258,7 @@ export type Motion =
   | 'sinkreach' // in die Spüle greifen (0–0,9 s), bei 1,15 s erstarren + zittern, ab 2,6 s Hand langsam herausheben
   | 'pinchEat' // ein Bissen mit spitzen Fingern: greifen (0,75 s), betrachten (1,35 s), essen (1,8 s); Art = Wert mark 0/1/2
   | 'chew' // ernst kauen, linke Hand in der Hüfte
-  | 'roundhouse' // Drehung (0,4–1,6 s) + hoher Roundhouse-Kick mit rechts zur rechten Seite (gestreckt ca. 2,2 s), Deckung ab 3,4 s
+  | 'roundhouse' // Zeitlupe: Drehung (0,6–2,4 s) + hoher Roundhouse-Kick mit rechts zur rechten Seite (gestreckt ca. 3,1–3,7 s), Deckung ab 5,1 s
   | 'spitarc' // zurücklehnen (0,5 s), in hohem Bogen nach vorn ausspucken (0,5–0,75 s), Mund abwischen (ab 1,2 s)
   | 'hazwash' // im Schutzanzug vorsichtig abspülen: Teller links, Schwamm rechts in langsamen Kreisen
   | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
@@ -571,6 +571,8 @@ export type Scenario = {
    * Spezial-Ablauf: Situation → je Antwort Karte + kleine Szene → Abstimmung (Countdown, "Stimm ab!") → Outro.
    */
   format?: 'quiz' | 'spezial';
+  /** Pause nach jedem Sprach-Clip in Sekunden (Standard 0,5). Kleiner = kürzeres Video (Spezial-Regel: max. 66 s, Texte nie ändern) */
+  padAfter?: number;
   category: string;
   stage: string;
   /** hook (optional) = große Überschrift oben während der Situation (nur eingeblendet, nicht gesprochen) */

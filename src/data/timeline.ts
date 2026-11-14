@@ -116,7 +116,7 @@ export const buildTimeline = (
   const texts = clipTexts(s);
   const len = (id: ClipId) => {
     const a = audioSeconds?.[id] ?? estimateSpeechSeconds(texts[id] ?? '');
-    const base = LEAD[id] + a + PAD_AFTER;
+    const base = LEAD[id] + a + (s.padAfter ?? PAD_AFTER);
     return Math.round(Math.max(base, MIN_LEN[id] ?? 0) * FPS);
   };
 

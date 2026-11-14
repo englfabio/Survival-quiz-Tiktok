@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Big slow motion martial arts spinning kick whoosh, deep cinematic air swoosh, comedic",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T23:03:33.076Z"
+}
