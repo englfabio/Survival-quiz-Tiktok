@@ -33,7 +33,7 @@ for (const j of jobs) {
     inputProps: props,
     browserExecutable,
     chromiumOptions,
-    imageFormat: 'png',
+    imageFormat: j.out.endsWith('.jpg') ? 'jpeg' : 'png',
     scale: j.scale ?? 1,
     overwrite: true,
   });

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Person taking a satisfied sip of hot coffee from a mug, soft slurp and content 'ahh' sigh, close, no music",
+  "duration": 1.8,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T15:58:34.445Z"
+}

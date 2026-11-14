@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Large excavator diesel engine idling and slowly driving, deep rumble with clanking steel tracks, outdoors, no music",
+  "duration": 5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T15:58:25.578Z"
+}

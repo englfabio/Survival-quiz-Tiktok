@@ -701,6 +701,62 @@
       "duration": 1.2,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "lok-hupe",
+      "prompt": "Cheerful two-tone small diesel locomotive horn, short comedic toot toot, outdoors, no music",
+      "duration": 1.6,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "lok-fahrt",
+      "prompt": "Small diesel locomotive starting and driving on rails, chugging engine and rhythmic clickety-clack of wheels on track joints, outdoors, no music",
+      "duration": 5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "bremse",
+      "prompt": "Train brakes squealing as a small locomotive slows down and stops, metallic screech then hiss of air, comedic, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "bagger-motor",
+      "prompt": "Large excavator diesel engine idling and slowly driving, deep rumble with clanking steel tracks, outdoors, no music",
+      "duration": 5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "auto-hupen",
+      "prompt": "Several impatient car horns honking one after another in a traffic jam behind a slow vehicle, comedic, outdoors, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "laptop-auf",
+      "prompt": "Laptop lid being opened with a soft click, followed by a short pleasant startup chime, close, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "videocall-ding",
+      "prompt": "Short friendly notification ding of someone joining a video call, clean digital chime, no music",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "kaffee-schluerfen",
+      "prompt": "Person taking a satisfied sip of hot coffee from a mug, soft slurp and content 'ahh' sigh, close, no music",
+      "duration": 1.8,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

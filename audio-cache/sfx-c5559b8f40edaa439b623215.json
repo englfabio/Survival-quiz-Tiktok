@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cheerful two-tone small diesel locomotive horn, short comedic toot toot, outdoors, no music",
+  "duration": 1.6,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T15:58:17.740Z"
+}

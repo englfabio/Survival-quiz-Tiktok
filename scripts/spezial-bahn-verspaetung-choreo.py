@@ -239,7 +239,7 @@ for i in range(9):
 a['autoschlange'].append(K(tAn, -50, 0, 'park', 90, y=HIDE))
 # Tacho "25 km/h" neben der Kabine (ploppt bei "Höchstgeschwindigkeit" auf)
 def tacho_pos(t):
-    return (bx(t) + 1.2, 2.9)
+    return (bx(t) - 2.4, 3.6)
 a['tacho'] = [K(0, *tacho_pos(0), 'park', 0, y=HIDE, size=3.0)]
 for i in range(6):
     tt = tHo + (tAn - tHo) * i / 5
@@ -249,16 +249,16 @@ a['tacho'].append(K(tAn, -50, 0, 'park', y=HIDE))
 DAYS = 'Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Montag|Dienstag'
 NDAYS = 7
 def cal_pos(t):
-    return (bx(t) + 5.0, 2.4)
-a['tageskalender'] = [K(0, *cal_pos(0), 'park', 240, y=HIDE, fill=1, text=DAYS, size=5)]
+    return (bx(t) - 1.0, -2.2)
+a['tageskalender'] = [K(0, *cal_pos(0), 'park', 240, y=HIDE, fill=1, text=DAYS, size=3.5, good=1)]
 flips = [tHo + sb(0.3) + (tAn - tHo - sb(0.6)) * j / (NDAYS - 1) for j in range(NDAYS)]
 for j, tt in enumerate(flips):
     if j == 0:
-        a['tageskalender'] += [K(tt - 0.002, *cal_pos(tt), 'park', 0, y=HIDE, fill=1), K(tt, *cal_pos(tt), 'park', 240, y=4.0, fill=1)]
+        a['tageskalender'] += [K(tt - 0.002, *cal_pos(tt), 'park', 0, y=HIDE, fill=1), K(tt, *cal_pos(tt), 'park', 240, y=5.6, fill=1)]
     else:
         a['tageskalender'] += [K(tt - sb(0.35), *cal_pos(tt - sb(0.35)), 'park', 0, fill=j), K(tt, *cal_pos(tt), 'park', 0, fill=j + 1)]
-a['tageskalender'] += [K(tAn - 0.002, *cal_pos(tAn - 0.002), 'park', 0, fill=NDAYS), K(tAn, ARRIVE_X - 4.5, 2.6, 'park', 160, y=3.6, fill=NDAYS, size=3)]
-a['tageskalender'] += [K(tDi - 0.002, ARRIVE_X - 4.5, 2.6, 'park', 160), K(tDi, 1.15, -2.17, 'park', 180, y=1.45, fill=NDAYS, size=0.6)]
+a['tageskalender'] += [K(tAn - 0.002, *cal_pos(tAn - 0.002), 'park', 0, fill=NDAYS), K(tAn, ARRIVE_X - 4.5, 2.6, 'park', 160, y=3.6, fill=NDAYS, size=3, good=1)]
+a['tageskalender'] += [K(tDi - 0.002, ARRIVE_X - 4.5, 2.6, 'park', 160), K(tDi, 1.15, -2.17, 'park', 180, y=1.45, fill=NDAYS, size=0.6, good=0)]
 # Büro: Chef schaut auf die Uhr
 a['chef'] = [K(0, 1.05, -1.0, 'stand', 180, y=HIDE), K(tDi - 0.002, 1.05, -1.0, 'stand', 180, y=HIDE), K(tDi, 0.55, -1.1, 'watchlook', 160, y=0, brow=1)]
 BAG_PTS = lambda x: [[x - 3.3, 7.2, -1.2], [x + 5.6, 4.0, 1.0], [x - 3.0, 0.0, 2.2], [x + 3.0, 0.0, -1.6]]

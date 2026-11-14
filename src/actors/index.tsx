@@ -503,6 +503,11 @@ export const Actor = ({
         <Speedo text={actor.text ?? '25 km/h'} value={v.fill > 0 ? v.fill * 100 : 25} time={state.motionTime} visible={state.motion === 'show'} size={v.size} />
       </group>
     )}
+    {name === 'tageskalender' && v.good > 0.5 && (
+      <group position={pos} quaternion={billboard(pos, camPos)} scale={1 + v.size}>
+        <DayCalendar day={Math.max(1, v.fill)} labels={actor.text ? actor.text.split('|') : undefined} />
+      </group>
+    )}
     {name === 'hund' && actor.leashTo && <Leash a={DOG_COLLAR.clone().applyMatrix4(matrix)} b={actor.leashTo} />}
     {name === 'dummy' && v.heart > 0.01 && (
       <group position={heartPos} quaternion={billboard(heartPos, camPos)}>
@@ -597,7 +602,7 @@ export const Actor = ({
         </group>
       )}
       {(name === 'klingel' || name === 'klingel2') && <Doorbell text={actor.text ?? (name === 'klingel' ? 'NACHBAR' : 'DUMMY')} press={v.press} />}
-      {name === 'tageskalender' && (
+      {name === 'tageskalender' && v.good < 0.5 && (
         <group scale={1 + v.size}>
           <DayCalendar day={Math.max(1, v.fill)} labels={actor.text ? actor.text.split('|') : undefined} />
         </group>
