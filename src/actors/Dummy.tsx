@@ -20,6 +20,7 @@ import {MoneyBundle, Pen} from './MoneyProps';
 import {Glint, NeedleCap, Syringe, SYRINGE_SCALE, SYRINGE_TIP} from './SyringeProps';
 import {ConfettiBurst, ConfettiCannon, GardenHat, Hammer, PartyHat} from './WeckerProps';
 import {Binder, Coin, Envelope, FatMarker, HeadSplat, ReadingGlasses, RubberStamp, Spoon, YogurtCup} from './WgProps';
+import {FLAT_DOOR, flapCutPoint, Parcel, Saw} from './PaketProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -70,7 +71,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread' | 'saw' | 'letter' | 'parcelR' | 'stir';
   /** Beschriftung des Gegenstands in der Hand (z. B. Brief "1. Mahnung") */
   label?: string;
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
@@ -78,7 +79,7 @@ export type DummyPose = {
   /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
   fill: number;
   /** Gegenstand in beiden Händen (Feuer): Eimer mit Wasser, Geschenkpaket */
-  both: '' | 'bucket' | 'gift' | 'broom';
+  both: '' | 'bucket' | 'gift' | 'broom' | 'parcel' | 'stack' | 'stackL' | 'stackL2' | 'parcelL';
   /** Sprühnebel aus dem Desinfektionsspray: 0 = aus … 1 = voll */
   mist: number;
   /** Bauchatmung: Bauch zeigen (Panik-Video) + wie weit er sich hebt 0 … 1 */
@@ -3217,8 +3218,356 @@ export const zapPose = (p: DummyPose, amount: number, time: number, seed = 1): D
   };
 };
 
+// ---------- Spezial: Paket beim Nachbarn (Treppenhaus) ----------
+/**
+ * Bewegungen (wiederverwendbar). Koordinaten im Dummy-System (Ursprung Boden zwischen den Füßen, +z vorn, rechte Hand bei −x):
+ *  Dummy:
+ *  - ringwait:     klingelt mit rechts (Klingel 0,42 m vor ihm, 0,3 m rechts, 1,38 m hoch; Druck 0,35–0,65 s), wartet dann genervt mit
+ *                  verschränkten Armen, tippt mit dem Fuß, seufzt – alle 3,4 s klingelt er erneut
+ *  - pitchtent:    kniet (0,6 s), Hände am Packsack 0,45 m vor ihm (bis 1,2 s), reißt die Arme hoch (Zelt ploppt 1,2–2,0 s auf), dann stolz
+ *  - tentsit:      sitzt auf dem Boden (Knie hoch, Hände auf den Knien), schaut sich ab und zu um; Hüfte 0,15 m
+ *  - tentcook:     sitzt und rührt mit rechts im Topf 0,45 m vor ihm (Topf-Rand 0,26 m hoch), links auf dem Knie
+ *  - tentslump:    sitzt zusammengesunken, Kopf hängt, döst (nickt ein, schreckt leicht hoch)
+ *  - sawflap:      kniet vor der Tür (Türfläche 0,6 m vor ihm, Klappe mittig vor ihm), sägt ab 0,55 s in 2,2 s einmal rund um die Klappe
+ *                  (Umriss wie FLAT_DOOR.flap, Tür-Wert "fill" passend 0 → 1; für die gespiegelte Tür "side" 1), drückt die Klappe
+ *                  ab 2,85 s mit links auf (Tür-Wert "lid"), Säge in der Hand bis 3,0 s
+ *  - flapgrab:     kniet, greift mit beiden Händen durch die Klappe (0,75 m vor ihm), zieht ein Paket heraus und stellt es links neben sich
+ *                  (Paket abgestellt bei 1,36 s), alle 1,7 s ein neues
+ *  - letterfreeze: hält einen Brief (Text aus Feld "text" der Figur, Standard „Gegenrechnung“), reißt ihn auf (0,5–1,0 s), liest,
+ *                  zuckt bei 1,6 s und erstarrt (zittert leicht)
+ *  - showletter:   steht und hält einen Brief mit rechts vor die Brust, Schrift zur Kamera (Text aus Feld "text")
+ *  Paket-Nachbar:
+ *  - doorpeek:     steht hinter dem Türspalt, linke Hand an der Türkante (0,3 m vor ihm), lugt vorsichtig hinaus
+ *  - flappeek:     liegt bäuchlings, Kopf 0,8 m vor der Hüfte auf 0,38 m Höhe (= durch die Klappe), winkt mit links neben dem Kopf
+ *  - parcelletter: hält ein Paket auf dem linken Unterarm und streckt ab 0,4 s mit rechts einen Brief nach vorn (0,5 m vor ihm)
+ *  - holdparcel:   hält nur das Paket auf dem linken Unterarm (rechte Hand locker)
+ *  Paketbote (Stapel automatisch in den Händen):
+ *  - carrystack:   gehen (Weg über Zeitpunkte) bzw. stehen mit Paketstapel vor der Brust
+ *  - stairsup:     Treppe hochsteigen mit hohen Schritten (Weg + Höhe über groundHeight der Bühne)
+ *  - stepover:     übertrieben vorsichtig mit hohen Knien über etwas steigen (Weg + "y" über Zeitpunkte), Stapel hoch gehalten
+ *  - botering:     Stapel auf dem linken Arm, klingelt mit rechts (wie ringwait, Druck 0,35–0,65 s), wartet und wippt
+ *  - setparcel:    bückt sich und stellt mit rechts ein Paket 0,5 m vor sich ab (unten 0,9 s, loslassen 1,0 s), Rest-Stapel links
+ */
+export const PAKET_BELL: P3 = [-0.3, 1.38, 0.42];
+const floorSit = (time: number): DummyPose => {
+  const p = base();
+  p.hipY = 0.15;
+  p.legL = L3(-2.0, 0.16, 0.93);
+  p.legR = L3(-2.0, -0.16, 0.93);
+  p.torsoX = -0.08 + Math.sin(time * 2.0) * 0.01;
+  p.headX = 0.1;
+  return p;
+};
+const paketPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  const holdStack = (p: DummyPose, up = 0) => {
+    reachR(p, [-0.2, 1.12 + up, 0.3], 0.33, [0.6, -1, -0.3]);
+    reachL(p, [0.2, 1.12 + up, 0.3], 0.33, [0.6, -1, -0.3]);
+    p.both = 'stack';
+  };
+  const stackOnLeft = (p: DummyPose) => {
+    reachL(p, [0.14, 1.08, 0.3], 0.33, [0.7, -1, -0.1]);
+    p.foreZL = 0.2;
+  };
+  const ring = (p: DummyPose, tc: number) => {
+    const up = easeInOut(clamp(tc / 0.35));
+    const press = Math.sin(Math.PI * clamp((tc - 0.35) / 0.3)) * 0.035;
+    const back = easeInOut(clamp((tc - 0.65) / 0.35));
+    const bell: P3 = [PAKET_BELL[0], PAKET_BELL[1], PAKET_BELL[2] - 0.04 + press];
+    reachR(p, lerp3t(lerp3t(rest, bell, up), rest, back), 0.36, [0.6, -0.8, -0.5]);
+    p.torsoX = 0.04 + 0.04 * up * (1 - back) + breathe;
+    p.headY = -0.15 * up * (1 - back);
+    return back;
+  };
+  switch (motion) {
+    case 'ringwait': {
+      const p = base();
+      const tc = time % 3.4;
+      const back = ring(p, tc);
+      // genervt warten: Arme verschränken, Fuß tippt, Seufzer
+      const w = easeInOut(clamp((tc - 1.0) / 0.4)) * (1 - easeInOut(clamp((tc - 3.15) / 0.25)));
+      if (w > 0.001) {
+        const q = base();
+        reachR(q, [0.12, 1.06, 0.22], 0.33, [0.5, -1, 0.2]);
+        reachL(q, [-0.12, 1.1, 0.24], 0.33, [0.5, -1, 0.2]);
+        p.armR = mixLimb(p.armR, q.armR, w);
+        p.armL = mixLimb(p.armL, q.armL, w);
+        p.foreZ = q.foreZ * w + p.foreZ * (1 - w);
+        p.foreZL = q.foreZL * w;
+      } else {
+        reachL(p, restL, 0.33);
+      }
+      const tap = Math.max(0, Math.sin(time * 10)) * w;
+      p.legR = L3(-0.12 * tap, -0.05, 0.18 * tap);
+      p.legL = L3(0, 0.06, 0);
+      const sigh = Math.sin(Math.PI * clamp((tc - 2.0) / 0.9));
+      p.chest = 0.6 * Math.max(0, sigh) * w;
+      p.headX = -0.12 * Math.max(0, sigh) * w + 0.05;
+      p.headY = (1 - w) * p.headY + w * (0.25 * Math.sin(time * 0.9));
+      p.torsoX += -0.04 * w;
+      void back;
+      return p;
+    }
+    case 'pitchtent': {
+      const kn = kneelUp(0.35);
+      kn.headX = 0.3;
+      const k = easeInOut(clamp(time / 0.6));
+      const p = mix(base(), kn, k);
+      const bag: P3 = [0, 0.2, 0.45];
+      const pull = easeInOut(clamp((time - 1.15) / 0.35));
+      const proud = easeInOut(clamp((time - 2.0) / 0.5));
+      const up = Math.sin(Math.PI * clamp((time - 1.15) / 0.9));
+      const hiR: P3 = [-0.45, 1.45, 0.3];
+      const hiL: P3 = [0.45, 1.45, 0.3];
+      const hipR: P3 = [-0.24, 0.6, -0.02];
+      const hipL: P3 = [0.24, 0.6, -0.02];
+      const R0 = lerp3t([-0.2, 0.55, 0.25], [bag[0] - 0.14, bag[1], bag[2]], easeInOut(clamp((time - 0.5) / 0.6)));
+      const L0 = lerp3t([0.2, 0.55, 0.25], [bag[0] + 0.14, bag[1], bag[2]], easeInOut(clamp((time - 0.5) / 0.6)));
+      const R = proud > 0 ? lerp3t(hiR, hipR, proud) : lerp3t(R0, hiR, pull);
+      const L = proud > 0 ? lerp3t(hiL, hipL, proud) : lerp3t(L0, hiL, pull);
+      reachR(p, R, 0.33, proud > 0 ? [0.8, -0.2, -0.8] : [0.6, -1, -0.3]);
+      reachL(p, L, 0.33, proud > 0 ? [0.8, -0.2, -0.8] : [0.6, -1, -0.3]);
+      p.torsoX = 0.35 * (1 - pull) - 0.15 * up + 0.05 * proud + breathe;
+      p.headX = 0.3 - 0.5 * up * (1 - proud);
+      p.chest = 0.6 * proud;
+      return p;
+    }
+    case 'tentsit': {
+      const p = floorSit(time);
+      reachR(p, [-0.13, 0.36, 0.4], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.13, 0.36, 0.4], 0.33, [0.6, -1, -0.3]);
+      p.headY = 0.35 * Math.sin(time * 0.6) * Math.max(0, Math.sin(time * 0.31 + 1));
+      p.headX = 0.08 + 0.03 * Math.sin(time * 1.3);
+      return p;
+    }
+    case 'tentcook': {
+      const p = floorSit(time);
+      p.torsoX = 0.12 + breathe;
+      p.headX = 0.4;
+      const a = time * 4.2;
+      reachR(p, [-0.05 + Math.cos(a) * 0.04, 0.33, 0.5 + Math.sin(a) * 0.04], 0.4, [0.6, -1, -0.3]);
+      reachL(p, [0.13, 0.36, 0.4], 0.33, [0.6, -1, -0.3]);
+      p.item = 'stir';
+      return p;
+    }
+    case 'tentslump': {
+      const p = floorSit(time);
+      const nod = (time % 3.2) / 3.2;
+      const drop = easeInOut(clamp(nod / 0.8));
+      const jerk = clamp((nod - 0.8) / 0.08) * (1 - clamp((nod - 0.88) / 0.12));
+      p.torsoX = 0.32 + 0.12 * drop - 0.2 * jerk + Math.sin(time * 1.2) * 0.015;
+      p.headX = 0.45 + 0.35 * drop - 0.6 * jerk;
+      p.headY = 0.1;
+      reachR(p, [-0.14, 0.33, 0.4], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.14, 0.33, 0.4], 0.33, [0.6, -1, -0.3]);
+      p.chest = 0.3 * (0.5 + 0.5 * Math.sin(time * 1.4));
+      return p;
+    }
+    case 'sawflap': {
+      const kn = kneelUp(0.2);
+      const k = easeInOut(clamp(time / 0.5));
+      const p = mix(base(), kn, k);
+      p.headX = 0.45;
+      const u = clamp((time - 0.55) / 2.2);
+      const cp = flapCutPoint(u);
+      const zig = time > 0.55 && time < 2.75 ? Math.sin(time * 28) * 0.05 : 0;
+      // gespiegelte Tür (Scharnier rechts vom Dummy): Tür-x wächst nach links (+x im Dummy-System)
+      const at: P3 = [(cp[0] - FLAT_DOOR.flap.cx) * 0.9, cp[1] + 0.02, 0.27 + zig];
+      const done = easeInOut(clamp((time - 2.8) / 0.35));
+      const R = lerp3t(lerp3t([-0.2, 0.55, 0.25], at, easeInOut(clamp((time - 0.2) / 0.35))), [-0.28, 0.45, 0.12], done);
+      reachR(p, R, 0.33, [0.6, -1, -0.3]);
+      // links: an der Tür abstützen, ab 4,0 s die Klappe aufdrücken
+      const push = easeInOut(clamp((time - 2.85) / 0.35));
+      const L = lerp3t([0.3, 0.75, 0.5], [0.02, 0.22 + 0.05 * push, 0.55 + 0.12 * push], easeInOut(clamp((time - 2.75) / 0.25)));
+      reachL(p, lerp3t([0.2, 0.55, 0.25], L, k), 0.33, [0.6, -1, -0.3]);
+      p.headY = -at[0] * 0.8 * (1 - done);
+      p.torsoX = 0.2 + 0.15 * push + breathe;
+      p.item = time < 3.0 ? 'saw' : '';
+      return p;
+    }
+    case 'flapgrab': {
+      const kn = kneelUp(0.45);
+      const k = easeInOut(clamp(time / 0.5));
+      const p = mix(base(), kn, k);
+      p.headX = 0.3;
+      const c = (time % 1.7) / 1.7;
+      const into = easeInOut(clamp(c / 0.27));
+      const out = easeInOut(clamp((c - 0.3) / 0.25));
+      const side = easeInOut(clamp((c - 0.58) / 0.22));
+      const ret = easeInOut(clamp((c - 0.84) / 0.16));
+      const hole: P3 = [0, 0.32, 0.74];
+      const near: P3 = [0, 0.38, 0.38];
+      const put: P3 = [0.42, 0.32, 0.22];
+      let M = lerp3t(near, hole, into);
+      if (c >= 0.3) M = lerp3t(hole, near, out);
+      if (c >= 0.58) M = lerp3t(near, put, side);
+      if (c >= 0.84) M = lerp3t(put, near, ret);
+      reachR(p, [M[0] - 0.12, M[1], M[2]], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [M[0] + 0.12, M[1], M[2]], 0.33, [0.6, -1, -0.3]);
+      p.torsoX = 0.45 + 0.3 * into * (1 - out) + breathe;
+      p.torsoY = 0.5 * side * (1 - ret);
+      p.both = c >= 0.29 && c < 0.8 ? 'parcel' : '';
+      return p;
+    }
+    case 'letterfreeze': {
+      const p = base();
+      const up = easeInOut(clamp(time / 0.5));
+      const tear = Math.sin(Math.PI * clamp((time - 0.5) / 0.5));
+      const read = easeInOut(clamp((time - 1.0) / 0.4));
+      const sh = clamp((time - 1.6) / 0.2);
+      const jolt = Math.sin(Math.PI * sh) * (1 - 0.5 * sh);
+      const frozen = time > 1.6;
+      const tr = frozen ? Math.sin(time * 33) * 0.004 : 0;
+      p.torsoX = -0.02 - 0.12 * (frozen ? 1 : 0) * sh + tr;
+      p.headX = 0.15 + 0.15 * read - 0.25 * sh;
+      p.hipY = 0.98 + 0.02 * jolt;
+      p.legL = L3(0, 0.08 + 0.04 * sh, 0);
+      p.legR = L3(0, -0.08 - 0.04 * sh, 0);
+      const y = 1.2 + 0.08 * sh;
+      reachR(p, lerp3t(rest, [-0.09 - 0.05 * tear - 0.02 * sh, y + tr, 0.3 + 0.04 * sh], up), 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.09 + 0.05 * tear + 0.02 * sh, y - tr, 0.3 + 0.04 * sh], up), 0.36, [0.6, -1, -0.3]);
+      p.item = up > 0.3 ? 'letterread' : '';
+      p.label = 'Gegenrechnung';
+      return p;
+    }
+    case 'showletter': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = breathe;
+      p.headX = 0.02;
+      p.headY = 0.06 * Math.sin(time * 0.8);
+      reachR(p, lerp3t(rest, [-0.06, 1.18, 0.3], k), 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.24, 0.98, -0.02], k), 0.33, [0.7, -0.2, -0.8]);
+      p.item = 'letter';
+      p.label = 'Rechnung';
+      return p;
+    }
+    case 'doorpeek': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      p.torsoZ = 0.12 * k;
+      p.torsoX = 0.12 * k + breathe;
+      p.headX = 0.05;
+      p.headY = 0.2 * Math.sin(time * 1.1) * k;
+      reachL(p, lerp3t(restL, [0.12, 1.15, 0.32], k), 0.33, [0.6, -1, -0.3]);
+      reachR(p, rest, 0.33);
+      return p;
+    }
+    case 'flappeek': {
+      const p = base();
+      p.hipY = 0.2;
+      p.legL = L3(1.5, 0.08, 0.05);
+      p.legR = L3(1.5, -0.08, 0.05);
+      p.torsoX = 1.47;
+      p.headX = -1.25 + 0.05 * Math.sin(time * 1.5);
+      p.headY = 0.18 * Math.sin(time * 1.2);
+      const wave = Math.sin(time * 9) * 0.06;
+      reachL(p, [0.15 + wave, 0.47, 0.84], 0.33, [0.6, -1, -0.3]);
+      reachR(p, [-0.16, 0.06, 0.6], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'parcelletter': {
+      const p = base();
+      const k = easeInOut(clamp((time - 0.4) / 0.5));
+      p.torsoX = 0.04 * k + breathe;
+      p.headX = 0.05;
+      stackOnLeft(p);
+      reachR(p, lerp3t(rest, [-0.12, 1.2, 0.5], k), 0.36, [0.6, -1, -0.3]);
+      p.both = 'parcelL';
+      p.item = 'letter';
+      p.label = 'Gegenrechnung';
+      return p;
+    }
+    case 'holdparcel': {
+      const p = base();
+      p.torsoX = -0.03 + breathe;
+      p.headX = 0.02;
+      p.headY = 0.08 * Math.sin(time * 0.9);
+      stackOnLeft(p);
+      reachR(p, rest, 0.33);
+      p.both = 'parcelL';
+      return p;
+    }
+    case 'carrystack': {
+      const p = base();
+      if (speed > 0.05) {
+        const ph = time * TAU * Math.max(0.8, speed * 0.62);
+        const s = Math.sin(ph);
+        p.legL.sx = -0.42 * s;
+        p.legR.sx = 0.42 * s;
+        p.legL.bend = 0.5 * Math.max(0, Math.sin(ph + 1.2));
+        p.legR.bend = 0.5 * Math.max(0, Math.sin(ph + 1.2 + Math.PI));
+        p.hipY = 0.98 - 0.03 * Math.abs(Math.cos(ph));
+        p.torsoY = 0.04 * s;
+      }
+      p.torsoX = -0.05 + breathe;
+      p.headX = 0.05;
+      holdStack(p);
+      return p;
+    }
+    case 'stairsup': {
+      const p = base();
+      const ph = time * TAU * 0.85;
+      const s = Math.sin(ph);
+      const liftL = Math.max(0, Math.sin(ph + 0.6));
+      const liftR = Math.max(0, Math.sin(ph + 0.6 + Math.PI));
+      p.legL = L3(-0.25 - 0.55 * liftL + 0.2 * s, 0.05, 0.25 + 0.9 * liftL);
+      p.legR = L3(-0.25 - 0.55 * liftR - 0.2 * s, -0.05, 0.25 + 0.9 * liftR);
+      p.hipY = 0.93 - 0.04 * Math.abs(Math.cos(ph));
+      p.torsoX = 0.12 + breathe;
+      p.headX = -0.1;
+      holdStack(p);
+      return p;
+    }
+    case 'stepover': {
+      const p = base();
+      const ph = time * TAU * 0.6;
+      const liftL = Math.max(0, Math.sin(ph));
+      const liftR = Math.max(0, Math.sin(ph + Math.PI));
+      p.legL = L3(-1.35 * liftL + 0.15, 0.12, 1.1 * liftL);
+      p.legR = L3(-1.35 * liftR + 0.15, -0.12, 1.1 * liftR);
+      p.hipY = 0.96 - 0.04 * Math.max(liftL, liftR);
+      p.torsoX = -0.1 + 0.05 * Math.sin(ph * 2);
+      p.torsoZ = 0.08 * Math.sin(ph);
+      p.headX = 0.35;
+      holdStack(p, 0.18);
+      return p;
+    }
+    case 'botering': {
+      const p = base();
+      const tc = time % 3.4;
+      ring(p, tc);
+      stackOnLeft(p);
+      p.both = 'stackL';
+      const w = easeInOut(clamp((tc - 1.0) / 0.4));
+      p.hipY = 0.98 + 0.012 * Math.sin(time * 6) * w;
+      p.headY = 0.2 * Math.sin(time * 0.9) * w;
+      return p;
+    }
+    case 'setparcel': {
+      const p = base();
+      const down = easeInOut(clamp(time / 0.9));
+      const up = easeInOut(clamp((time - 1.1) / 0.7));
+      const bend = down * (1 - up);
+      p.torsoX = 0.75 * bend + breathe;
+      p.hipY = 0.98 - 0.22 * bend;
+      p.legL = L3(-0.5 * bend, 0.1, 0.9 * bend);
+      p.legR = L3(-0.5 * bend, -0.1, 0.9 * bend);
+      p.headX = 0.2;
+      stackOnLeft(p);
+      p.both = 'stackL2';
+      reachR(p, lerp3t(lerp3t(rest, [-0.08, 0.16, 0.5], down), rest, up), 0.33, [0.6, -1, -0.3]);
+      p.item = time < 1.0 ? 'parcelR' : '';
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed);
+  const g = gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -3678,7 +4027,7 @@ export const dummyPoseBlended = (
  * Uniform für Figuren mit Dummy-Körper (Bahnmitarbeiterin, Bundespolizist …): Farben für Jacke, Säume, Kragen, Hose,
  * Mütze (Schirmmütze) + Mützenband, optional Halstuch und Zopf. Ohne Logos und ohne echte Abzeichen.
  */
-export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; /** Krawatte (Farbe) */ tie?: string; /** ohne Schirmmütze (z. B. Anzug) */ nocap?: boolean; noCap?: boolean};
+export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; /** Krawatte (Farbe) */ tie?: string; /** ohne Schirmmütze (z. B. Anzug) */ nocap?: boolean; noCap?: boolean; /** Bademantel: Jacke wird zum Mantel bis übers Knie, Gürtel in Kragenfarbe, keine Hose */ robe?: boolean; /** Hausschuhe (Farbe) statt Schuhen */ slippers?: string};
 const useMats = (color = YELLOW, coat = false, uni?: Uniform) =>
   useMemo(
     () => ({
@@ -3977,7 +4326,10 @@ const Leg = ({
   time = 0,
   pants = 0,
   paint = 0,
+  slipper,
 }: {
+  /** Hausschuhe (Farbe, flauschig) statt Schuhen */
+  slipper?: string;
   /** Schuhe mit grüner Farbe 0 … 1 */
   paint?: number;
   m: Mats;
@@ -4023,6 +4375,17 @@ const Leg = ({
               <circleGeometry args={[0.013, 10]} />
             </mesh>
           )}
+        </group>
+      ) : slipper ? (
+        <group position={[0, -0.47, 0.06]}>
+          <mesh scale={[0.085, 0.05, 0.16]} castShadow>
+            <icosahedronGeometry args={[1, 1]} />
+            <meshStandardMaterial color={slipper} roughness={1} flatShading />
+          </mesh>
+          <mesh position={[0, 0.03, 0.06]} scale={[0.07, 0.03, 0.06]}>
+            <icosahedronGeometry args={[1, 1]} />
+            <meshStandardMaterial color="#ffffff" roughness={1} flatShading />
+          </mesh>
         </group>
       ) : (
         <>
@@ -4474,6 +4837,40 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
       </>
     );
   }
+  if (pose.item === 'saw' || pose.item === 'letter' || pose.item === 'parcelR' || pose.item === 'stir') {
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
+    return (
+      <group position={tip} quaternion={level}>
+        {pose.item === 'saw' && (
+          <group position={[0, 0, 0.02]}>
+            <Saw />
+          </group>
+        )}
+        {pose.item === 'letter' && (
+          <group position={[0, 0.07, 0.04]} rotation={[-0.1, 0, 0.06]} scale={1.35}>
+            <Envelope text={pose.label ?? 'Rechnung'} />
+          </group>
+        )}
+        {pose.item === 'parcelR' && (
+          <group position={[0, -0.21, 0.03]}>
+            <Parcel w={0.3} h={0.2} d={0.26} shade={2} />
+          </group>
+        )}
+        {pose.item === 'stir' && (
+          <group position={[0, -0.02, 0.02]} rotation={[0.35, 0, 0]}>
+            <mesh position={[0, -0.12, 0]}>
+              <cylinderGeometry args={[0.008, 0.008, 0.26, 6]} />
+              <meshStandardMaterial color="#c79a62" roughness={0.7} />
+            </mesh>
+            <mesh position={[0, -0.25, 0]} scale={[1, 1.4, 0.5]}>
+              <sphereGeometry args={[0.025, 8, 6]} />
+              <meshStandardMaterial color="#c79a62" roughness={0.7} />
+            </mesh>
+          </group>
+        )}
+      </group>
+    );
+  }
   if (WG_ITEMS.includes(pose.item)) {
     const tip = armPoint(pose.armR, -1, pose.foreZ, 0.36);
     const tipL = armPoint(pose.armL, 1, pose.foreZL, 0.36);
@@ -4707,6 +5104,31 @@ const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
   }
   // Gegenstand bleibt in der Welt waagrecht (Oberkörper-Neigung ausgleichen)
   const rot: [number, number, number] = [-pose.torsoX - pose.pitch, -pose.torsoY, -pose.torsoZ];
+  if (pose.both === 'parcel' || pose.both === 'stack' || pose.both === 'stackL' || pose.both === 'stackL2' || pose.both === 'parcelL') {
+    const onLeft = pose.both !== 'parcel' && pose.both !== 'stack';
+    const at = onLeft ? l.clone().add(new THREE.Vector3(-0.1, 0, 0)) : mid;
+    const n = pose.both === 'stack' || pose.both === 'stackL' ? 3 : pose.both === 'stackL2' ? 2 : 1;
+    const boxes: [number, number, number][] = [
+      [0.42, 0.26, 0.34],
+      [0.34, 0.2, 0.3],
+      [0.26, 0.15, 0.22],
+    ];
+    const one = pose.both === 'parcel' || pose.both === 'parcelL';
+    let y = onLeft ? -0.05 : -0.14;
+    return (
+      <group position={at} rotation={rot}>
+        {(one ? [[0.34, 0.24, 0.28] as [number, number, number]] : boxes.slice(0, n)).map(([w, h, d], i) => {
+          const el = (
+            <group key={i} position={[0, y, 0.04]} rotation={[0, i * 0.15 - 0.1, 0]}>
+              <Parcel w={w} h={h} d={d} shade={i + (one ? 3 : 0)} />
+            </group>
+          );
+          y += h;
+          return el;
+        })}
+      </group>
+    );
+  }
   return (
     <group position={mid} rotation={rot}>
       {pose.both === 'bucket' ? (
@@ -4913,7 +5335,7 @@ export const Dummy = ({
   const m = useMats(color, coat, uniform);
   if (uniform) {
     jacket = 1;
-    pants = 1;
+    pants = uniform.robe ? 0 : 1;
   }
   const time = useCurrentFrame() / 30;
   const wound: ArmWound | undefined =
@@ -4939,8 +5361,22 @@ export const Dummy = ({
             <icosahedronGeometry args={[0.15, 1]} />
           </mesh>
         )}
-        <Leg m={m} limb={pose.legL} side={1} barefoot={barefoot} pants={pants} paint={paint} />
-        <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} sting={sting} pain={pain} barefoot={barefoot} time={time} pants={pants} paint={paint} />
+        <Leg m={m} limb={pose.legL} side={1} barefoot={barefoot} pants={pants} paint={paint} slipper={uniform?.slippers} />
+        <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} sting={sting} pain={pain} barefoot={barefoot} time={time} pants={pants} paint={paint} slipper={uniform?.slippers} />
+        {uniform?.robe && (
+          <group>
+            {/* Bademantel: Rock vom Becken bis übers Knie (sitzt locker), überlappende Vorderkante */}
+            <mesh material={m.jacket} position={[0, -0.2, 0]} castShadow>
+              <cylinderGeometry args={[0.2, 0.25, 0.46, 10, 1, true]} />
+            </mesh>
+            <mesh material={m.jacketDark} position={[0, -0.43, 0]}>
+              <cylinderGeometry args={[0.252, 0.252, 0.03, 10, 1, true]} />
+            </mesh>
+            <mesh material={m.fur} position={[0.05, -0.2, 0.215]} rotation={[-0.1, 0, 0.05]}>
+              <boxGeometry args={[0.05, 0.44, 0.012]} />
+            </mesh>
+          </group>
+        )}
         {/* Oberkörper */}
         <group position={[0, 0.06, 0]} rotation={[pose.torsoX, pose.torsoY, pose.torsoZ]}>
           <mesh material={m.joint} position={[0, 0.08, 0]} castShadow>
@@ -4955,6 +5391,20 @@ export const Dummy = ({
             <icosahedronGeometry args={[0.18, 1]} />
           </mesh>
           <JacketBody m={m} amount={jacket} chest={pose.chest} wind={wind} windDir={windDir} time={fxTime} />
+          {uniform?.robe && (
+            <group>
+              {/* Gürtel mit Schleife + Schalkragen */}
+              <mesh material={m.fur} position={[0, 0.12, 0]}>
+                <cylinderGeometry args={[0.19, 0.19, 0.05, 10]} />
+              </mesh>
+              <mesh material={m.fur} position={[0.08, 0.06, 0.18]} rotation={[0.1, 0, 0.2]}>
+                <boxGeometry args={[0.035, 0.16, 0.02]} />
+              </mesh>
+              <mesh material={m.fur} position={[0.0, 0.42, 0.13]} rotation={[-0.35, 0, 0]}>
+                <torusGeometry args={[0.11, 0.035, 5, 10, Math.PI]} />
+              </mesh>
+            </group>
+          )}
           {jacket > 0.5 &&
             stash > 0.05 &&
             [0, 1, 2].slice(0, Math.ceil(stash)).map((i) => (

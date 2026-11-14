@@ -19,8 +19,9 @@ import {Briefcase, Contract, Envelope, GardenGate, GardenGnome, LawnMower, LawnP
 import {Branch, HiddenNeedle, LitterPile, NeedleCap, Syringe, SYRINGE_SCALE} from './SyringeProps';
 import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, PaperForm} from './MoneyProps';
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
-import type {Kid, Uniform} from './Dummy';
+import type {DummyPose, Kid, Uniform} from './Dummy';
 import {ColdWaterGlass, CoolPack, HeartBadge} from './PanicProps';
+import {CampStove, DayCalendar, Doorbell, FairyLights, FlatDoor, Parcel, ParcelStack, Saw, Tent} from './PaketProps';
 import {BigFridge, BigRedButton, Binder, CoinPile, Envelope as WgEnvelope, FatMarker, Laptop, RubberStamp, StickyNote, YogurtBlast, YogurtCup} from './WgProps';
 import {Whale, whalePose} from './Whale';
 import {Eel, eelAnchors, eelPose} from './Eel';
@@ -184,6 +185,21 @@ export const ACTORS = {
   ordner: {height: 0.16, climbOffset: 0, speedLineHeight: 0},
   laptop: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
   stift: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Paket beim Nachbarn (Treppenhaus) ----
+  paketnachbar: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  paketbote: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  paket: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  paket2: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  pakete: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  zelt: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  lichterkette: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  kocher: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  saege: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  klingel: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  klingel2: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  tageskalender: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  treppentuer: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  treppentuer2: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Kinder-Dummys: klein (Maßstab 0,6), bunte Körperfarben, Kappe oder Zöpfe – freundlich, ohne Gesicht wie alle Dummys */
@@ -206,8 +222,14 @@ const NEIGHBOR_COLOR = '#3f8fd6';
 const DOCTOR_COLOR = '#2fae9c';
 /** Körperfarbe des Kumpels (zweiter Crashtest-Dummy, orange – für alle Szenen, in denen man jemandem hilft) */
 const BUDDY_COLOR = '#f07a1e';
+/** Paket-Nachbar: Dummy-Körper blaugrau, weinroter Bademantel mit hellem Gürtel/Schalkragen, flauschige Hausschuhe */
+const PARCEL_NB_COLOR = '#7f95a8';
+const ROBE: Uniform = {jacket: '#9c4a5a', dark: '#7a3343', collar: '#efe0d2', pants: '#7f95a8', cap: '#9c4a5a', band: '#9c4a5a', trim: '#9c4a5a', nocap: true, robe: true, slippers: '#c9b6cf'};
+/** Paketbote: Dummy-Körper hell salbeigrün, neutrale blaugraue Uniform + Mütze – KEIN Logo, keine Paketdienst-Farben */
+const COURIER_COLOR = '#c4d0bf';
+const COURIER_UNIFORM: Uniform = {jacket: '#5b7389', dark: '#3e5164', collar: '#dfe6ec', pants: '#3a434d', cap: '#5b7389', band: '#3e5164', trim: '#8fa5b8'};
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
@@ -408,6 +430,9 @@ const windLocal = (face: number, drift: number) => {
   return Math.atan2(lx, lz);
 };
 
+/** Brief in der Hand: Aufschrift aus dem Feld "text" der Figur (falls gesetzt) */
+const withLabel = (p: DummyPose, text?: string): DummyPose => (text && (p.item === 'letterread' || p.item === 'letter') ? {...p, label: text} : p);
+
 /** Drehung, damit ein flaches Symbol an Position p zur Kamera schaut */
 const billboard = (p: THREE.Vector3, cam: [number, number, number]) => {
   const m = new THREE.Matrix4().lookAt(new THREE.Vector3(...cam), p, new THREE.Vector3(0, 1, 0));
@@ -471,7 +496,7 @@ export const Actor = ({
         <Dummy
           zap={v.zap}
           zapTime={zt}
-          pose={sitExtras(zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 3), v.pack, v.sip)}
+          pose={withLabel(sitExtras(zapPose(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), v.zap, zt, 3), v.pack, v.sip), actor.text)}
           heave={v.heave}
           bite={state.bite}
           sting={state.sting}
@@ -501,6 +526,8 @@ export const Actor = ({
           gardenhat={v.gardenhat}
           paint={v.paint}
           uniform={v.suit > 0.5 ? SUIT_UNIFORM : undefined}
+          glasses={v.glasses}
+          splat={v.splat}
         />
       )}
       {name === 'gartennachbar' && (
@@ -527,9 +554,26 @@ export const Actor = ({
       {name === 'giesskanne2' && <GardenWateringCan tilt={v.tilt} water={v.water} time={clock} />}
       {name === 'nagelschere' && <NailScissors time={clock} size={v.size} />}
       {name === 'gartentor' && <GardenGate door={v.door} />}
-          glasses={v.glasses}
-          splat={v.splat}
-        />
+      {name === 'paketnachbar' && (
+        <Dummy pose={withLabel(dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev), actor.text)} color={PARCEL_NB_COLOR} uniform={ROBE} brow={v.brow} teeth={v.teeth} />
+      )}
+      {name === 'paketbote' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={COURIER_COLOR} uniform={COURIER_UNIFORM} brow={v.brow} />
+      )}
+      {(name === 'paket' || name === 'paket2') && <Parcel shade={name === 'paket' ? 1 : 3} w={0.34 * (1 + v.size)} h={0.24 * (1 + v.size)} d={0.28 * (1 + v.size)} />}
+      {name === 'pakete' && <ParcelStack fill={v.fill} />}
+      {name === 'zelt' && <Tent fill={v.fill} squish={v.squish} time={zt} />}
+      {name === 'lichterkette' && <FairyLights glow={v.glow} time={clock} span={0.42 + v.size} />}
+      {name === 'kocher' && <CampStove fire={v.fire} smoke={v.smoke} time={clock} />}
+      {name === 'saege' && (
+        <group rotation={[0, 0, Math.PI / 2]} position={[0, 0.004, 0]}>
+          <Saw />
+        </group>
+      )}
+      {(name === 'klingel' || name === 'klingel2') && <Doorbell text={actor.text ?? (name === 'klingel' ? 'NACHBAR' : 'DUMMY')} press={v.press} />}
+      {name === 'tageskalender' && <DayCalendar day={Math.max(1, v.fill)} />}
+      {(name === 'treppentuer' || name === 'treppentuer2') && (
+        <FlatDoor open={v.door} cut={v.fill} lid={v.lid} text={actor.text ?? (name === 'treppentuer' ? 'NACHBAR' : 'DUMMY')} wood={name === 'treppentuer2'} time={zt} mirror={v.side > 0.5} />
       )}
       {name === 'kuehlschrank' && <BigFridge door={v.door} night={v.glow} wobble={v.rumble} time={zt} />}
       {name === 'joghurt' && (

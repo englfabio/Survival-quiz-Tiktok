@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Footsteps walking up stone stairs in a stairwell with slight echo, steady pace, no music, no voices",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T11:05:54.003Z"
+}

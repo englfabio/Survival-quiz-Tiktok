@@ -210,6 +210,25 @@ export type Motion =
   | 'openletters' // Briefe öffnen (alle 1,8 s ein neuer), wird immer entsetzter
   | 'countcoins' // sitzend Münzen einzeln vom Häufchen nach rechts legen (alle 0,8 s)
   | 'wipebrow' // Joghurt von der Stirn wischen, vom Finger probieren, Daumen hoch
+  // ---- Spezial: Paket beim Nachbarn (Treppenhaus) – Dummy, Paket-Nachbar, Paketbote (Details: paketPose in Dummy.tsx) ----
+  | 'ringwait'
+  | 'pitchtent'
+  | 'tentsit'
+  | 'tentcook'
+  | 'tentslump'
+  | 'sawflap'
+  | 'flapgrab'
+  | 'letterfreeze'
+  | 'showletter'
+  | 'doorpeek'
+  | 'flappeek'
+  | 'parcelletter'
+  | 'holdparcel'
+  | 'carrystack'
+  | 'stairsup'
+  | 'stepover'
+  | 'botering'
+  | 'setparcel'
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln

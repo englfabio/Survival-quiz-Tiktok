@@ -1,0 +1,2653 @@
+{
+  "id": "spezial-paket-nachbar",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "treppenhaus",
+  "situation": {
+    "speech": "Dein Paket ist mal wieder beim Nachbarn gelandet, der nie aufmacht. Du klingelst seit drei Tagen. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Vor seiner Tür campieren",
+      "speech": "A: Du campierst vor seiner Tür.",
+      "dummyAction": "Der Dummy baut ein kleines Zelt direkt vor der Tür des Nachbarn auf (Lichterkette, Campingkocher), der Kalender blättert von Tag 1 über Tag 2 zu Tag 5. Der Paketbote kommt mit einem Paketstapel die Treppe hoch, steigt über das Zelt und klingelt beim Nachbarn – der öffnet einen Spalt und zieht das Paket hinein. Dummy verdutzt.",
+      "explanation": "Du baust dein Zelt direkt vor seiner Tür auf. Tag eins. Tag zwei. Tag fünf. Dann kommt der Paketbote, mit einem neuen Paket für dich. Er steigt über dein Zelt und klingelt beim Nachbarn.",
+      "sceneExtra": 3.6,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -1.49,
+              2.89,
+              8.56
+            ],
+            "look": [
+              0.86,
+              0.73,
+              -0.18
+            ]
+          },
+          {
+            "t": 0.3137,
+            "pos": [
+              -1.373,
+              2.782,
+              8.123
+            ],
+            "look": [
+              0.86,
+              0.73,
+              -0.18
+            ]
+          },
+          {
+            "t": 0.3171,
+            "pos": [
+              -0.67,
+              1.91,
+              7.79
+            ],
+            "look": [
+              0.81,
+              0.56,
+              -0.63
+            ]
+          },
+          {
+            "t": 0.4079,
+            "pos": [
+              -0.596,
+              1.843,
+              7.369
+            ],
+            "look": [
+              0.81,
+              0.56,
+              -0.63
+            ]
+          },
+          {
+            "t": 0.4115,
+            "pos": [
+              -9.73,
+              2.04,
+              5.63
+            ],
+            "look": [
+              0.71,
+              -0.12,
+              1.41
+            ]
+          },
+          {
+            "t": 0.65,
+            "pos": [
+              -9.208,
+              1.932,
+              5.419
+            ],
+            "look": [
+              0.71,
+              -0.12,
+              1.41
+            ]
+          },
+          {
+            "t": 0.6534,
+            "pos": [
+              -8.36,
+              2.09,
+              0.96
+            ],
+            "look": [
+              0.81,
+              0.79,
+              -0.33
+            ]
+          },
+          {
+            "t": 0.8087,
+            "pos": [
+              -7.901,
+              2.025,
+              0.895
+            ],
+            "look": [
+              0.81,
+              0.79,
+              -0.33
+            ]
+          },
+          {
+            "t": 0.8117,
+            "pos": [
+              -5.86,
+              2.26,
+              2.88
+            ],
+            "look": [
+              1.27,
+              0.64,
+              -0.76
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -5.504,
+              2.179,
+              2.698
+            ],
+            "look": [
+              1.27,
+              0.64,
+              -0.76
+            ]
+          }
+        ],
+        "actors": {
+          "treppentuer": [
+            {
+              "t": 0,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "door": 0
+            },
+            {
+              "t": 0.7749,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "door": 0
+            },
+            {
+              "t": 0.7975,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "door": 0.16
+            },
+            {
+              "t": 0.9048,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "door": 0.16
+            },
+            {
+              "t": 0.9229,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "door": 0
+            }
+          ],
+          "treppentuer2": [
+            {
+              "t": 0,
+              "x": -1.4,
+              "z": -1.43,
+              "motion": "park",
+              "face": 90,
+              "door": 0.0
+            }
+          ],
+          "klingel": [
+            {
+              "t": 0,
+              "x": 1.392,
+              "z": -1.18,
+              "motion": "park",
+              "face": 270,
+              "press": 0,
+              "y": 1.38
+            },
+            {
+              "t": 0.7263,
+              "x": 1.392,
+              "z": -1.18,
+              "motion": "park",
+              "face": 270,
+              "press": 0,
+              "y": 1.38
+            },
+            {
+              "t": 0.7308,
+              "x": 1.392,
+              "z": -1.18,
+              "motion": "park",
+              "face": 270,
+              "press": 1,
+              "y": 1.38
+            },
+            {
+              "t": 0.7473,
+              "x": 1.392,
+              "z": -1.18,
+              "motion": "park",
+              "face": 270,
+              "press": 1,
+              "y": 1.38
+            },
+            {
+              "t": 0.7574,
+              "x": 1.392,
+              "z": -1.18,
+              "motion": "park",
+              "face": 270,
+              "press": 0,
+              "y": 1.38
+            }
+          ],
+          "klingel2": [
+            {
+              "t": 0,
+              "x": -1.392,
+              "z": -1.22,
+              "motion": "park",
+              "face": 90,
+              "press": 0,
+              "y": 1.38
+            }
+          ],
+          "tageskalender": [
+            {
+              "t": 0,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 1,
+              "y": 1.62
+            },
+            {
+              "t": 0.3739,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 1,
+              "y": 1.62
+            },
+            {
+              "t": 0.402,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 2,
+              "y": 1.62
+            },
+            {
+              "t": 0.406,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 2,
+              "y": 1.62
+            },
+            {
+              "t": 0.4542,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 5,
+              "y": 1.62
+            },
+            {
+              "t": 1,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 5,
+              "y": 1.62
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.78,
+              "z": 0.82,
+              "motion": "stand",
+              "face": 0,
+              "brow": 0.4
+            },
+            {
+              "t": 0.1993,
+              "x": 0.78,
+              "z": 0.32,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.2023,
+              "x": 0.78,
+              "z": 0.32,
+              "motion": "pitchtent",
+              "face": 0
+            },
+            {
+              "t": 0.3418,
+              "x": 0.78,
+              "z": 0.32,
+              "motion": "pitchtent",
+              "face": 0
+            },
+            {
+              "t": 0.3448,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentsit",
+              "face": 180,
+              "brow": 0.0
+            },
+            {
+              "t": 0.3739,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentsit",
+              "face": 180
+            },
+            {
+              "t": 0.3769,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentcook",
+              "face": 180
+            },
+            {
+              "t": 0.406,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentcook",
+              "face": 180
+            },
+            {
+              "t": 0.409,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentslump",
+              "face": 180
+            },
+            {
+              "t": 0.6265,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentslump",
+              "face": 180
+            },
+            {
+              "t": 0.6295,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentsit",
+              "face": 180,
+              "brow": 1.0
+            },
+            {
+              "t": 0.9078,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentsit",
+              "face": 180,
+              "question": 0
+            },
+            {
+              "t": 0.9279,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentsit",
+              "face": 180,
+              "question": 1
+            },
+            {
+              "t": 1,
+              "x": 0.78,
+              "z": -0.08,
+              "motion": "tentsit",
+              "face": 180,
+              "question": 1
+            }
+          ],
+          "zelt": [
+            {
+              "t": 0,
+              "x": 0.78,
+              "z": -0.3,
+              "motion": "park",
+              "face": 180,
+              "fill": 0,
+              "squish": 0
+            },
+            {
+              "t": 0.2625,
+              "x": 0.78,
+              "z": -0.3,
+              "motion": "park",
+              "face": 180,
+              "fill": 0
+            },
+            {
+              "t": 0.3026,
+              "x": 0.78,
+              "z": -0.3,
+              "motion": "park",
+              "face": 180,
+              "fill": 1
+            },
+            {
+              "t": 0.6445,
+              "x": 0.78,
+              "z": -0.3,
+              "motion": "park",
+              "face": 180,
+              "squish": 0
+            },
+            {
+              "t": 0.6596,
+              "x": 0.78,
+              "z": -0.3,
+              "motion": "park",
+              "face": 180,
+              "squish": 0.75
+            },
+            {
+              "t": 0.6746,
+              "x": 0.78,
+              "z": -0.3,
+              "motion": "park",
+              "face": 180,
+              "squish": 0.55
+            },
+            {
+              "t": 0.6897,
+              "x": 0.78,
+              "z": -0.3,
+              "motion": "park",
+              "face": 180,
+              "squish": 0
+            }
+          ],
+          "lichterkette": [
+            {
+              "t": 0,
+              "x": 0.78,
+              "z": 0.2,
+              "motion": "park",
+              "face": 180,
+              "glow": 0,
+              "y": -30
+            },
+            {
+              "t": 0.3418,
+              "x": 0.78,
+              "z": 0.2,
+              "motion": "park",
+              "face": 180,
+              "glow": 0,
+              "y": -30
+            },
+            {
+              "t": 0.3448,
+              "x": 0.78,
+              "z": 0.22,
+              "motion": "park",
+              "face": 180,
+              "glow": 1,
+              "size": 0.02,
+              "y": 0.86
+            }
+          ],
+          "kocher": [
+            {
+              "t": 0,
+              "x": 0.73,
+              "z": 0.39,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "fire": 0
+            },
+            {
+              "t": 0.3739,
+              "x": 0.73,
+              "z": 0.39,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "fire": 0
+            },
+            {
+              "t": 0.3769,
+              "x": 0.73,
+              "z": 0.39,
+              "motion": "park",
+              "face": 180,
+              "y": 0,
+              "fire": 1,
+              "smoke": 1
+            },
+            {
+              "t": 0.406,
+              "x": 0.73,
+              "z": 0.39,
+              "motion": "park",
+              "face": 180,
+              "fire": 1,
+              "smoke": 1
+            },
+            {
+              "t": 0.409,
+              "x": 0.73,
+              "z": 0.39,
+              "motion": "park",
+              "face": 180,
+              "fire": 0,
+              "smoke": 0.3
+            }
+          ],
+          "paketbote": [
+            {
+              "t": 0,
+              "x": 0.78,
+              "z": 4.35,
+              "motion": "stairsup",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.4229,
+              "x": 0.78,
+              "z": 4.35,
+              "motion": "stairsup",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.4259,
+              "x": 0.78,
+              "z": 4.35,
+              "motion": "stairsup",
+              "face": 0,
+              "y": 0
+            },
+            {
+              "t": 0.6065,
+              "x": 0.78,
+              "z": 0.98,
+              "motion": "stairsup",
+              "face": 0
+            },
+            {
+              "t": 0.6095,
+              "x": 0.78,
+              "z": 0.98,
+              "motion": "carrystack",
+              "face": 0
+            },
+            {
+              "t": 0.6265,
+              "x": 0.78,
+              "z": 0.72,
+              "motion": "carrystack",
+              "face": 0
+            },
+            {
+              "t": 0.6295,
+              "x": 0.78,
+              "z": 0.72,
+              "motion": "stepover",
+              "face": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6445,
+              "x": 0.78,
+              "z": 0.3,
+              "motion": "stepover",
+              "face": 2.1,
+              "y": 0.32
+            },
+            {
+              "t": 0.6596,
+              "x": 0.8,
+              "z": -0.25,
+              "motion": "stepover",
+              "face": 6.0,
+              "y": 0.5
+            },
+            {
+              "t": 0.6746,
+              "x": 0.86,
+              "z": -0.82,
+              "motion": "stepover",
+              "face": 10.5,
+              "y": 0.34
+            },
+            {
+              "t": 0.6897,
+              "x": 0.94,
+              "z": -1.25,
+              "motion": "stepover",
+              "face": 7.4,
+              "y": 0.06
+            },
+            {
+              "t": 0.7047,
+              "x": 0.97,
+              "z": -1.48,
+              "motion": "stepover",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.7067,
+              "x": 0.97,
+              "z": -1.48,
+              "motion": "carrystack",
+              "face": 90,
+              "y": 0
+            },
+            {
+              "t": 0.7097,
+              "x": 0.97,
+              "z": -1.48,
+              "motion": "botering",
+              "face": 90
+            },
+            {
+              "t": 0.797,
+              "x": 0.97,
+              "z": -1.48,
+              "motion": "botering",
+              "face": 90
+            },
+            {
+              "t": 0.8,
+              "x": 0.97,
+              "z": -1.48,
+              "motion": "botering",
+              "face": 140
+            },
+            {
+              "t": 0.8075,
+              "x": 0.97,
+              "z": -1.48,
+              "motion": "setparcel",
+              "face": 140
+            },
+            {
+              "t": 1,
+              "x": 0.97,
+              "z": -1.48,
+              "motion": "setparcel",
+              "face": 140,
+              "brow": 1
+            }
+          ],
+          "paketnachbar": [
+            {
+              "t": 0,
+              "x": 1.72,
+              "z": -1.05,
+              "motion": "stand",
+              "face": 260,
+              "y": -30
+            },
+            {
+              "t": 0.7719,
+              "x": 1.72,
+              "z": -1.05,
+              "motion": "stand",
+              "face": 260,
+              "y": -30
+            },
+            {
+              "t": 0.7749,
+              "x": 1.72,
+              "z": -1.05,
+              "motion": "doorpeek",
+              "face": 250,
+              "y": 0,
+              "brow": 1
+            },
+            {
+              "t": 1,
+              "x": 1.72,
+              "z": -1.05,
+              "motion": "doorpeek",
+              "face": 250
+            }
+          ],
+          "paket2": [
+            {
+              "t": 0,
+              "x": 1.291,
+              "z": -1.097,
+              "motion": "park",
+              "face": 230,
+              "y": -30
+            },
+            {
+              "t": 0.8567,
+              "x": 1.291,
+              "z": -1.097,
+              "motion": "park",
+              "face": 230,
+              "y": -30
+            },
+            {
+              "t": 0.8577,
+              "x": 1.291,
+              "z": -1.097,
+              "motion": "park",
+              "face": 230,
+              "y": 0
+            },
+            {
+              "t": 0.8727,
+              "x": 1.291,
+              "z": -1.097,
+              "motion": "park",
+              "face": 230,
+              "y": 0
+            },
+            {
+              "t": 0.8978,
+              "x": 1.62,
+              "z": -0.9,
+              "motion": "park",
+              "face": 250,
+              "y": 0
+            },
+            {
+              "t": 0.8988,
+              "x": 1.62,
+              "z": -0.9,
+              "motion": "park",
+              "face": 250,
+              "y": -30
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.2625,
+            "id": "plopp",
+            "volume": 0.6
+          },
+          {
+            "t": 0.2675,
+            "id": "geschenk-rascheln",
+            "volume": 0.35
+          },
+          {
+            "t": 0.3869,
+            "id": "kalender-blaettern",
+            "volume": 0.35
+          },
+          {
+            "t": 0.419,
+            "id": "kalender-blaettern",
+            "volume": 0.35
+          },
+          {
+            "t": 0.4259,
+            "id": "schritte-treppe",
+            "volume": 0.5
+          },
+          {
+            "t": 0.6445,
+            "id": "schleichen",
+            "volume": 0.4
+          },
+          {
+            "t": 0.7298,
+            "id": "tuerklingel",
+            "volume": 0.5
+          },
+          {
+            "t": 0.7749,
+            "id": "tuer-knarren",
+            "volume": 0.5
+          },
+          {
+            "t": 0.8527,
+            "id": "paket-abstellen",
+            "volume": 0.6
+          },
+          {
+            "t": 0.9078,
+            "id": "tuer-zu",
+            "volume": 0.5
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Loch in seine Tür schneiden",
+      "speech": "B: Du schneidest ein Loch in seine Tür, damit du deine Pakete direkt rausholen kannst.",
+      "dummyAction": "Der Dummy sägt comichaft mit einer kleinen Säge eine Katzenklappe unten in die Tür des Nachbarn und holt seine Pakete einzeln heraus. Am nächsten Morgen steckt der Nachbar den Kopf durch die Klappe und winkt freundlich – der Dummy winkt verdutzt zurück.",
+      "explanation": "Du schneidest eine kleine Klappe in seine Tür. Ab jetzt holst du deine Pakete einfach selbst raus. Am nächsten Morgen steckt sein Kopf in der Klappe. Und er sagt zum ersten Mal Hallo.",
+      "sceneExtra": 1.2,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -4.98,
+              2.2,
+              2.97
+            ],
+            "look": [
+              1.0,
+              0.55,
+              -0.48
+            ]
+          },
+          {
+            "t": 0.4528,
+            "pos": [
+              -4.681,
+              2.118,
+              2.798
+            ],
+            "look": [
+              1.0,
+              0.55,
+              -0.48
+            ]
+          },
+          {
+            "t": 0.4564,
+            "pos": [
+              -2.53,
+              2.31,
+              3.32
+            ],
+            "look": [
+              1.12,
+              0.35,
+              -0.32
+            ]
+          },
+          {
+            "t": 0.6815,
+            "pos": [
+              -2.347,
+              2.212,
+              3.138
+            ],
+            "look": [
+              1.12,
+              0.35,
+              -0.32
+            ]
+          },
+          {
+            "t": 0.6849,
+            "pos": [
+              -5.89,
+              1.53,
+              3.6
+            ],
+            "look": [
+              1.05,
+              0.51,
+              0.05
+            ]
+          },
+          {
+            "t": 0.8486,
+            "pos": [
+              -5.543,
+              1.479,
+              3.422
+            ],
+            "look": [
+              1.05,
+              0.51,
+              0.05
+            ]
+          },
+          {
+            "t": 0.8515,
+            "pos": [
+              -7.57,
+              1.32,
+              1.52
+            ],
+            "look": [
+              0.82,
+              0.72,
+              -0.27
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -7.151,
+              1.29,
+              1.431
+            ],
+            "look": [
+              0.82,
+              0.72,
+              -0.27
+            ]
+          }
+        ],
+        "actors": {
+          "treppentuer": [
+            {
+              "t": 0,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "fill": 0,
+              "lid": 0
+            },
+            {
+              "t": 0.3568,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "fill": 0,
+              "lid": 0
+            },
+            {
+              "t": 0.4636,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "fill": 1,
+              "lid": 0
+            },
+            {
+              "t": 0.4709,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0
+            },
+            {
+              "t": 0.4854,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0.7
+            },
+            {
+              "t": 0.4903,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0.7
+            },
+            {
+              "t": 0.4976,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0.15
+            },
+            {
+              "t": 0.5107,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 1
+            },
+            {
+              "t": 0.5316,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 1
+            },
+            {
+              "t": 0.5461,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0.15
+            },
+            {
+              "t": 0.5801,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0.15
+            },
+            {
+              "t": 0.5932,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 1
+            },
+            {
+              "t": 0.6141,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 1
+            },
+            {
+              "t": 0.6286,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0.15
+            },
+            {
+              "t": 0.654,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0.1
+            },
+            {
+              "t": 0.657,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0
+            },
+            {
+              "t": 0.7112,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 0
+            },
+            {
+              "t": 0.7282,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 1.0
+            },
+            {
+              "t": 1,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "lid": 1.0
+            }
+          ],
+          "treppentuer2": [
+            {
+              "t": 0,
+              "x": -1.4,
+              "z": -1.43,
+              "motion": "park",
+              "face": 90,
+              "door": 0.0
+            }
+          ],
+          "klingel": [
+            {
+              "t": 0,
+              "x": 1.392,
+              "z": -1.18,
+              "motion": "park",
+              "face": 270,
+              "press": 0,
+              "y": 1.38
+            }
+          ],
+          "klingel2": [
+            {
+              "t": 0,
+              "x": -1.392,
+              "z": -1.22,
+              "motion": "park",
+              "face": 90,
+              "press": 0,
+              "y": 1.38
+            }
+          ],
+          "tageskalender": [
+            {
+              "t": 0,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 1,
+              "y": 1.62
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.305,
+              "z": -0.35,
+              "motion": "stand",
+              "face": 90,
+              "brow": 1.0
+            },
+            {
+              "t": 0.3271,
+              "x": 0.755,
+              "z": -0.5,
+              "motion": "stand",
+              "face": 90
+            },
+            {
+              "t": 0.3301,
+              "x": 0.755,
+              "z": -0.5,
+              "motion": "sawflap",
+              "face": 90,
+              "brow": 0.3
+            },
+            {
+              "t": 0.4873,
+              "x": 0.755,
+              "z": -0.5,
+              "motion": "sawflap",
+              "face": 90
+            },
+            {
+              "t": 0.4903,
+              "x": 0.755,
+              "z": -0.5,
+              "motion": "flapgrab",
+              "face": 90
+            },
+            {
+              "t": 0.654,
+              "x": 0.755,
+              "z": -0.5,
+              "motion": "flapgrab",
+              "face": 90
+            },
+            {
+              "t": 0.657,
+              "x": 0.5,
+              "z": -0.15,
+              "motion": "stand",
+              "face": 120,
+              "brow": 0.0
+            },
+            {
+              "t": 0.7307,
+              "x": 0.5,
+              "z": -0.15,
+              "motion": "stepback",
+              "face": 120,
+              "brow": 1.0
+            },
+            {
+              "t": 0.8446,
+              "x": 0.25,
+              "z": -0.03,
+              "motion": "wave",
+              "face": 115
+            },
+            {
+              "t": 0.932,
+              "x": 0.25,
+              "z": -0.03,
+              "motion": "wave",
+              "face": 115,
+              "question": 1
+            },
+            {
+              "t": 1,
+              "x": 0.25,
+              "z": -0.03,
+              "motion": "wave",
+              "face": 115,
+              "question": 1
+            }
+          ],
+          "pakete": [
+            {
+              "t": 0,
+              "x": 0.995,
+              "z": -1.0,
+              "motion": "park",
+              "face": 100,
+              "fill": 0
+            },
+            {
+              "t": 0.5549,
+              "x": 0.995,
+              "z": -1.0,
+              "motion": "park",
+              "face": 100,
+              "fill": 0.001
+            },
+            {
+              "t": 0.5563,
+              "x": 0.995,
+              "z": -1.0,
+              "motion": "park",
+              "face": 100,
+              "fill": 0.143
+            },
+            {
+              "t": 0.6374,
+              "x": 0.995,
+              "z": -1.0,
+              "motion": "park",
+              "face": 100,
+              "fill": 0.144
+            },
+            {
+              "t": 0.6388,
+              "x": 0.995,
+              "z": -1.0,
+              "motion": "park",
+              "face": 100,
+              "fill": 0.286
+            },
+            {
+              "t": 0.654,
+              "x": 0.995,
+              "z": -1.0,
+              "motion": "park",
+              "face": 100
+            },
+            {
+              "t": 0.657,
+              "x": 0.995,
+              "z": -1.0,
+              "motion": "park",
+              "face": 100,
+              "fill": 0.571
+            }
+          ],
+          "saege": [
+            {
+              "t": 0,
+              "x": 0.755,
+              "z": -0.5,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.4748,
+              "x": 0.755,
+              "z": -0.5,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.4757,
+              "x": 0.855,
+              "z": -0.08,
+              "motion": "park",
+              "face": 20,
+              "y": 0
+            }
+          ],
+          "paketnachbar": [
+            {
+              "t": 0,
+              "x": 2.06,
+              "z": -0.5,
+              "motion": "flappeek",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.7131,
+              "x": 2.06,
+              "z": -0.5,
+              "motion": "flappeek",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.7161,
+              "x": 2.41,
+              "z": -0.5,
+              "motion": "flappeek",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.7331,
+              "x": 2.06,
+              "z": -0.5,
+              "motion": "flappeek",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.8155,
+              "x": 2.06,
+              "z": -0.5,
+              "motion": "flappeek",
+              "face": 270,
+              "brow": 0.6
+            },
+            {
+              "t": 1,
+              "x": 2.06,
+              "z": -0.5,
+              "motion": "flappeek",
+              "face": 270,
+              "brow": 0.6
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.3568,
+            "id": "saegen",
+            "volume": 0.6
+          },
+          {
+            "t": 0.4806,
+            "id": "plopp",
+            "volume": 0.4
+          },
+          {
+            "t": 0.5544,
+            "id": "paket-abstellen",
+            "volume": 0.5
+          },
+          {
+            "t": 0.6369,
+            "id": "paket-abstellen",
+            "volume": 0.5
+          },
+          {
+            "t": 0.7258,
+            "id": "tuer-knarren",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Rechnung schicken",
+      "speech": "C: Du schickst ihm eine Rechnung, weil er dein Paket festhält. Wir sind ja schließlich in Deutschland.",
+      "dummyAction": "Der Dummy schiebt einen Brief „Rechnung“ unter der Tür des Nachbarn durch (Schild „5 € / Tag“). Eine Woche später klingelt es beim Dummy: Der Nachbar steht mit dem Paket vor seiner Tür und überreicht einen Brief „Gegenrechnung“. Der Dummy öffnet ihn und erstarrt.",
+      "explanation": "Fünf Euro für jeden Tag, den er dein Paket festhält. Nach einer Woche steht er vor deiner Tür. Mit dem Paket. Und mit einer Gegenrechnung für die Lagerung.",
+      "sceneExtra": 1.6,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -2.1,
+              2.14,
+              7.53
+            ],
+            "look": [
+              0.76,
+              0.76,
+              -0.3
+            ]
+          },
+          {
+            "t": 0.3502,
+            "pos": [
+              -1.957,
+              2.071,
+              7.139
+            ],
+            "look": [
+              0.76,
+              0.76,
+              -0.3
+            ]
+          },
+          {
+            "t": 0.3536,
+            "pos": [
+              -8.03,
+              2.49,
+              4.75
+            ],
+            "look": [
+              1.1,
+              0.9,
+              -0.52
+            ]
+          },
+          {
+            "t": 0.5811,
+            "pos": [
+              -7.573,
+              2.411,
+              4.487
+            ],
+            "look": [
+              1.1,
+              0.9,
+              -0.52
+            ]
+          },
+          {
+            "t": 0.5846,
+            "pos": [
+              0.7,
+              2.04,
+              6.49
+            ],
+            "look": [
+              -0.37,
+              0.7,
+              -2.06
+            ]
+          },
+          {
+            "t": 0.7353,
+            "pos": [
+              0.646,
+              1.973,
+              6.062
+            ],
+            "look": [
+              -0.37,
+              0.7,
+              -2.06
+            ]
+          },
+          {
+            "t": 0.7385,
+            "pos": [
+              1.62,
+              1.71,
+              5.17
+            ],
+            "look": [
+              -0.94,
+              0.55,
+              -1.85
+            ]
+          },
+          {
+            "t": 0.8268,
+            "pos": [
+              1.492,
+              1.652,
+              4.819
+            ],
+            "look": [
+              -0.94,
+              0.55,
+              -1.85
+            ]
+          },
+          {
+            "t": 0.8297,
+            "pos": [
+              7.09,
+              1.98,
+              0.78
+            ],
+            "look": [
+              -1.25,
+              0.79,
+              -1.47
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              6.673,
+              1.921,
+              0.667
+            ],
+            "look": [
+              -1.25,
+              0.79,
+              -1.47
+            ]
+          }
+        ],
+        "actors": {
+          "treppentuer": [
+            {
+              "t": 0,
+              "x": 1.4,
+              "z": -0.03,
+              "motion": "park",
+              "face": 270,
+              "side": 1,
+              "door": 0.0,
+              "fill": 0.0,
+              "lid": 0.0
+            }
+          ],
+          "treppentuer2": [
+            {
+              "t": 0,
+              "x": -1.4,
+              "z": -1.43,
+              "motion": "park",
+              "face": 90,
+              "door": 0
+            },
+            {
+              "t": 0.6301,
+              "x": -1.4,
+              "z": -1.43,
+              "motion": "park",
+              "face": 90,
+              "door": 0
+            },
+            {
+              "t": 0.6597,
+              "x": -1.4,
+              "z": -1.43,
+              "motion": "park",
+              "face": 90,
+              "door": 0.85
+            },
+            {
+              "t": 1,
+              "x": -1.4,
+              "z": -1.43,
+              "motion": "park",
+              "face": 90,
+              "door": 0.85
+            }
+          ],
+          "klingel": [
+            {
+              "t": 0,
+              "x": 1.392,
+              "z": -1.18,
+              "motion": "park",
+              "face": 270,
+              "press": 0,
+              "y": 1.38
+            }
+          ],
+          "klingel2": [
+            {
+              "t": 0,
+              "x": -1.392,
+              "z": -1.22,
+              "motion": "park",
+              "face": 90,
+              "press": 0,
+              "y": 1.38
+            },
+            {
+              "t": 0.5896,
+              "x": -1.392,
+              "z": -1.22,
+              "motion": "park",
+              "face": 90,
+              "press": 0,
+              "y": 1.38
+            },
+            {
+              "t": 0.594,
+              "x": -1.392,
+              "z": -1.22,
+              "motion": "park",
+              "face": 90,
+              "press": 1,
+              "y": 1.38
+            },
+            {
+              "t": 0.6103,
+              "x": -1.392,
+              "z": -1.22,
+              "motion": "park",
+              "face": 90,
+              "press": 1,
+              "y": 1.38
+            },
+            {
+              "t": 0.6202,
+              "x": -1.392,
+              "z": -1.22,
+              "motion": "park",
+              "face": 90,
+              "press": 0,
+              "y": 1.38
+            }
+          ],
+          "tageskalender": [
+            {
+              "t": 0,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 1,
+              "y": 1.62
+            },
+            {
+              "t": 0.5678,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 1,
+              "y": 1.62
+            },
+            {
+              "t": 0.6349,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 7,
+              "y": 1.62
+            },
+            {
+              "t": 1,
+              "x": 0.98,
+              "z": -2.78,
+              "motion": "park",
+              "face": 180,
+              "fill": 7,
+              "y": 1.62
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.45,
+              "z": -0.25,
+              "motion": "showletter",
+              "face": 160,
+              "brow": 0.6,
+              "text": "Rechnung"
+            },
+            {
+              "t": 0.3736,
+              "x": 0.45,
+              "z": -0.25,
+              "motion": "showletter",
+              "face": 160
+            },
+            {
+              "t": 0.3766,
+              "x": 0.775,
+              "z": -0.5,
+              "motion": "slideletter",
+              "face": 90
+            },
+            {
+              "t": 0.4418,
+              "x": 0.775,
+              "z": -0.5,
+              "motion": "slideletter",
+              "face": 90
+            },
+            {
+              "t": 0.4428,
+              "x": 0.775,
+              "z": -0.5,
+              "motion": "armscross",
+              "face": 160
+            },
+            {
+              "t": 0.5678,
+              "x": 0.775,
+              "z": -0.5,
+              "motion": "armscross",
+              "face": 160
+            },
+            {
+              "t": 0.5708,
+              "x": -2.1,
+              "z": -1.9,
+              "motion": "stand",
+              "face": 90,
+              "y": 0,
+              "brow": 0
+            },
+            {
+              "t": 0.6449,
+              "x": -2.1,
+              "z": -1.9,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.6844,
+              "x": -1.28,
+              "z": -1.9,
+              "motion": "walk",
+              "face": 90
+            },
+            {
+              "t": 0.6859,
+              "x": -1.28,
+              "z": -1.9,
+              "motion": "stand",
+              "face": 90
+            },
+            {
+              "t": 0.79,
+              "x": -1.28,
+              "z": -1.9,
+              "motion": "stand",
+              "face": 90,
+              "brow": 0.5
+            },
+            {
+              "t": 0.793,
+              "x": -1.28,
+              "z": -1.9,
+              "motion": "letterfreeze",
+              "face": 90,
+              "brow": 0.5,
+              "text": "Gegenrechnung"
+            },
+            {
+              "t": 0.8719,
+              "x": -1.28,
+              "z": -1.9,
+              "motion": "letterfreeze",
+              "face": 90,
+              "brow": 1.0,
+              "question": 0
+            },
+            {
+              "t": 0.8917,
+              "x": -1.28,
+              "z": -1.9,
+              "motion": "letterfreeze",
+              "face": 90,
+              "question": 1
+            },
+            {
+              "t": 1,
+              "x": -1.28,
+              "z": -1.9,
+              "motion": "letterfreeze",
+              "face": 90,
+              "question": 1
+            }
+          ],
+          "brief": [
+            {
+              "t": 0,
+              "x": 1.195,
+              "z": -0.44,
+              "motion": "park",
+              "face": 90,
+              "tilt": 1,
+              "y": -30,
+              "text": "Rechnung"
+            },
+            {
+              "t": 0.4037,
+              "x": 1.195,
+              "z": -0.44,
+              "motion": "park",
+              "face": 90,
+              "tilt": 1,
+              "y": -30
+            },
+            {
+              "t": 0.4062,
+              "x": 1.195,
+              "z": -0.44,
+              "motion": "park",
+              "face": 90,
+              "tilt": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.4319,
+              "x": 1.555,
+              "z": -0.44,
+              "motion": "park",
+              "face": 90,
+              "tilt": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.4349,
+              "x": 1.555,
+              "z": -0.44,
+              "motion": "park",
+              "face": 90,
+              "tilt": 1,
+              "y": -30
+            }
+          ],
+          "paketnachbar": [
+            {
+              "t": 0,
+              "x": -0.62,
+              "z": -1.88,
+              "motion": "stand",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.5678,
+              "x": -0.62,
+              "z": -1.88,
+              "motion": "stand",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.5708,
+              "x": -0.6,
+              "z": -1.58,
+              "motion": "ringwait",
+              "face": 270,
+              "y": 0
+            },
+            {
+              "t": 0.6271,
+              "x": -0.6,
+              "z": -1.58,
+              "motion": "ringwait",
+              "face": 270
+            },
+            {
+              "t": 0.6301,
+              "x": -0.62,
+              "z": -1.88,
+              "motion": "holdparcel",
+              "face": 270,
+              "teeth": 1
+            },
+            {
+              "t": 0.7071,
+              "x": -0.62,
+              "z": -1.88,
+              "motion": "holdparcel",
+              "face": 270
+            },
+            {
+              "t": 0.7101,
+              "x": -0.62,
+              "z": -1.88,
+              "motion": "parcelletter",
+              "face": 270
+            },
+            {
+              "t": 0.79,
+              "x": -0.62,
+              "z": -1.88,
+              "motion": "parcelletter",
+              "face": 270
+            },
+            {
+              "t": 0.793,
+              "x": -0.62,
+              "z": -1.88,
+              "motion": "holdparcel",
+              "face": 270
+            },
+            {
+              "t": 1,
+              "x": -0.62,
+              "z": -1.88,
+              "motion": "holdparcel",
+              "face": 270
+            }
+          ],
+          "hinweis": [
+            {
+              "t": 0,
+              "x": 1.0,
+              "z": -0.5,
+              "motion": "park",
+              "face": 270,
+              "size": -0.1,
+              "y": 2.35,
+              "text": "5 € / Tag"
+            },
+            {
+              "t": 0.3983,
+              "x": 1.0,
+              "z": -0.5,
+              "motion": "park",
+              "face": 270,
+              "y": 2.35
+            },
+            {
+              "t": 0.4013,
+              "x": 1.0,
+              "z": -0.5,
+              "motion": "show",
+              "face": 270,
+              "y": 2.35
+            },
+            {
+              "t": 0.5678,
+              "x": 1.0,
+              "z": -0.5,
+              "motion": "show",
+              "face": 270,
+              "y": 2.35
+            },
+            {
+              "t": 0.5708,
+              "x": 1.0,
+              "z": -0.5,
+              "motion": "park",
+              "face": 270,
+              "y": -30
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.4087,
+            "id": "papier-schieben",
+            "volume": 0.55
+          },
+          {
+            "t": 0.4013,
+            "id": "plopp",
+            "volume": 0.45
+          },
+          {
+            "t": 0.5757,
+            "id": "kalender-blaettern",
+            "volume": 0.4
+          },
+          {
+            "t": 0.593,
+            "id": "tuerklingel",
+            "volume": 0.5
+          },
+          {
+            "t": 0.6301,
+            "id": "tuer-knarren",
+            "volume": 0.4
+          },
+          {
+            "t": 0.8177,
+            "id": "brief-reissen",
+            "volume": 0.6
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du? Schreib A, B oder C in die Kommentare.",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Eine richtige Antwort gibt es diesmal nicht. Aber jeder hat so einen Nachbarn. Schreib A, B oder C in die Kommentare und markier jemanden, der das kennt.",
+    "screen": "Schreib A, B oder C in die Kommentare"
+  },
+  "publishing": {
+    "description": "Dein Paket ist mal wieder beim Nachbarn gelandet, der nie aufmacht – was machst du? 📦 Schreib A, B oder C in die Kommentare!\n\nDiesmal ohne richtige Antwort, nur zum Spaß. Bitte nichts davon nachmachen. 😄\n\n#waswürdestdutun #paket #nachbarn #paketbote #treppenhaus #spezial #comedy #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team ___. Und du? 👇 Markier jemanden, der so einen Nachbarn hat!"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.82,
+            2.69,
+            8.31
+          ],
+          "look": [
+            -0.0,
+            0.75,
+            -1.28
+          ]
+        },
+        {
+          "t": 0.5969,
+          "pos": [
+            0.779,
+            2.593,
+            7.831
+          ],
+          "look": [
+            -0.0,
+            0.75,
+            -1.28
+          ]
+        },
+        {
+          "t": 0.6005,
+          "pos": [
+            -7.31,
+            1.94,
+            0.64
+          ],
+          "look": [
+            1.2,
+            0.59,
+            -0.72
+          ]
+        },
+        {
+          "t": 0.8586,
+          "pos": [
+            -6.884,
+            1.873,
+            0.572
+          ],
+          "look": [
+            1.2,
+            0.59,
+            -0.72
+          ]
+        },
+        {
+          "t": 0.8614,
+          "pos": [
+            4.98,
+            1.73,
+            -1.79
+          ],
+          "look": [
+            1.12,
+            1.27,
+            -1.38
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            4.787,
+            1.707,
+            -1.77
+          ],
+          "look": [
+            1.12,
+            1.27,
+            -1.38
+          ]
+        }
+      ],
+      "actors": {
+        "treppentuer": [
+          {
+            "t": 0,
+            "x": 1.4,
+            "z": -0.03,
+            "motion": "park",
+            "face": 270,
+            "side": 1,
+            "door": 0.0,
+            "fill": 0.0,
+            "lid": 0.0
+          }
+        ],
+        "treppentuer2": [
+          {
+            "t": 0,
+            "x": -1.4,
+            "z": -1.43,
+            "motion": "park",
+            "face": 90,
+            "door": 0.0
+          }
+        ],
+        "klingel": [
+          {
+            "t": 0,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.0398,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.0506,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.0904,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.1145,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.4494,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.4602,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.5,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.5241,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.859,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.8698,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.9096,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.9337,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          }
+        ],
+        "klingel2": [
+          {
+            "t": 0,
+            "x": -1.392,
+            "z": -1.22,
+            "motion": "park",
+            "face": 90,
+            "press": 0,
+            "y": 1.38
+          }
+        ],
+        "tageskalender": [
+          {
+            "t": 0,
+            "x": 0.98,
+            "z": -2.78,
+            "motion": "park",
+            "face": 180,
+            "fill": 1,
+            "y": 1.62
+          },
+          {
+            "t": 0.686,
+            "x": 0.98,
+            "z": -2.78,
+            "motion": "park",
+            "face": 180,
+            "fill": 1,
+            "y": 1.62
+          },
+          {
+            "t": 0.7492,
+            "x": 0.98,
+            "z": -2.78,
+            "motion": "park",
+            "face": 180,
+            "fill": 2,
+            "y": 1.62
+          },
+          {
+            "t": 0.8095,
+            "x": 0.98,
+            "z": -2.78,
+            "motion": "park",
+            "face": 180,
+            "fill": 3,
+            "y": 1.62
+          },
+          {
+            "t": 1,
+            "x": 0.98,
+            "z": -2.78,
+            "motion": "park",
+            "face": 180,
+            "fill": 3,
+            "y": 1.62
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.97,
+            "z": -1.48,
+            "motion": "ringwait",
+            "face": 90,
+            "brow": 0.3
+          },
+          {
+            "t": 0.826,
+            "x": 0.97,
+            "z": -1.48,
+            "motion": "ringwait",
+            "face": 90,
+            "brow": 1.0
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.0482,
+          "id": "tuerklingel",
+          "volume": 0.45
+        },
+        {
+          "t": 0.4578,
+          "id": "tuerklingel",
+          "volume": 0.45
+        },
+        {
+          "t": 0.8674,
+          "id": "tuerklingel",
+          "volume": 0.45
+        },
+        {
+          "t": 0.7372,
+          "id": "kalender-blaettern",
+          "volume": 0.35
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.87,
+            3.06,
+            7.94
+          ],
+          "look": [
+            0.07,
+            -0.12,
+            -1.23
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.846,
+            2.965,
+            7.665
+          ],
+          "look": [
+            0.07,
+            -0.12,
+            -1.23
+          ]
+        }
+      ],
+      "actors": {
+        "treppentuer": [
+          {
+            "t": 0,
+            "x": 1.4,
+            "z": -0.03,
+            "motion": "park",
+            "face": 270,
+            "side": 1,
+            "door": 0.0,
+            "fill": 0.0,
+            "lid": 0.0
+          }
+        ],
+        "treppentuer2": [
+          {
+            "t": 0,
+            "x": -1.4,
+            "z": -1.43,
+            "motion": "park",
+            "face": 90,
+            "door": 0.0
+          }
+        ],
+        "klingel": [
+          {
+            "t": 0,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.0589,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.075,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.1339,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.1696,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.666,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          },
+          {
+            "t": 0.6821,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.741,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 1,
+            "y": 1.38
+          },
+          {
+            "t": 0.7767,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          }
+        ],
+        "klingel2": [
+          {
+            "t": 0,
+            "x": -1.392,
+            "z": -1.22,
+            "motion": "park",
+            "face": 90,
+            "press": 0,
+            "y": 1.38
+          }
+        ],
+        "tageskalender": [
+          {
+            "t": 0,
+            "x": 0.98,
+            "z": -2.78,
+            "motion": "park",
+            "face": 180,
+            "fill": 3,
+            "y": 1.62
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.97,
+            "z": -1.48,
+            "motion": "ringwait",
+            "face": 90,
+            "brow": 0.6
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.02,
+            2.81,
+            17.06
+          ],
+          "look": [
+            -0.83,
+            1.45,
+            0.06
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -0.014,
+            2.756,
+            16.38
+          ],
+          "look": [
+            -0.83,
+            1.45,
+            0.06
+          ]
+        }
+      ],
+      "actors": {
+        "treppentuer": [
+          {
+            "t": 0,
+            "x": 1.4,
+            "z": -0.03,
+            "motion": "park",
+            "face": 270,
+            "side": 1,
+            "door": 0.0,
+            "fill": 0.0,
+            "lid": 0.0
+          }
+        ],
+        "treppentuer2": [
+          {
+            "t": 0,
+            "x": -1.4,
+            "z": -1.43,
+            "motion": "park",
+            "face": 90,
+            "door": 0.0
+          }
+        ],
+        "klingel": [
+          {
+            "t": 0,
+            "x": 1.392,
+            "z": -1.18,
+            "motion": "park",
+            "face": 270,
+            "press": 0,
+            "y": 1.38
+          }
+        ],
+        "klingel2": [
+          {
+            "t": 0,
+            "x": -1.392,
+            "z": -1.22,
+            "motion": "park",
+            "face": 90,
+            "press": 0,
+            "y": 1.38
+          }
+        ],
+        "tageskalender": [
+          {
+            "t": 0,
+            "x": 0.98,
+            "z": -2.78,
+            "motion": "park",
+            "face": 180,
+            "fill": 7,
+            "y": 1.62
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.42,
+            "z": 0.1,
+            "motion": "showletter",
+            "face": 180,
+            "brow": 0.6,
+            "text": "Rechnung"
+          }
+        ],
+        "paketnachbar": [
+          {
+            "t": 0,
+            "x": 0.46,
+            "z": 0.1,
+            "motion": "showletter",
+            "face": 180,
+            "brow": 0.3,
+            "teeth": 1,
+            "text": "Gegenrechnung"
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}

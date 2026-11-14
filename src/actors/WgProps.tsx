@@ -18,7 +18,7 @@ const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters>
   new THREE.MeshStandardMaterial({color, roughness: 0.6, flatShading: true, ...extra});
 
 /** Text-Textur auf Leinwand: draw(g, w, h) zeichnet, Rückgabe mit Seitenverhältnis */
-const canvasTex = (w: number, h: number, draw: (g: CanvasRenderingContext2D) => void) => () => {
+export const canvasTex = (w: number, h: number, draw: (g: CanvasRenderingContext2D) => void) => () => {
   const c = document.createElement('canvas');
   c.width = w;
   c.height = h;
@@ -31,7 +31,7 @@ const canvasTex = (w: number, h: number, draw: (g: CanvasRenderingContext2D) => 
 };
 
 /** Text so groß wie möglich in eine Breite setzen (mehrzeilig über "\n") */
-const fitText = (g: CanvasRenderingContext2D, text: string, cx: number, cy: number, maxW: number, maxSize: number, weight = 800, lineH = 1.0) => {
+export const fitText = (g: CanvasRenderingContext2D, text: string, cx: number, cy: number, maxW: number, maxSize: number, weight = 800, lineH = 1.0) => {
   const lines = text.split('\n');
   let size = maxSize;
   g.font = `${weight} ${size}px ${T.font}`;
@@ -46,7 +46,7 @@ const fitText = (g: CanvasRenderingContext2D, text: string, cx: number, cy: numb
 };
 
 /** Mesh mit Text-Textur (leuchtet leicht, damit es immer gut lesbar ist) */
-const TextPlane = ({draw, k, w, h, glow = 0.35}: {draw: () => THREE.Texture; k: string; w: number; h: number; glow?: number}) => {
+export const TextPlane = ({draw, k, w, h, glow = 0.35}: {draw: () => THREE.Texture; k: string; w: number; h: number; glow?: number}) => {
   const tex = useFontTexture(draw, k);
   const mat = useMemo(
     () =>

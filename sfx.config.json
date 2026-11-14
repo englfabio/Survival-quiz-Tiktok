@@ -659,6 +659,48 @@
       "duration": 0.6,
       "loop": false,
       "promptInfluence": 0.7
+    },
+    {
+      "id": "treppenhaus-atmo",
+      "prompt": "Quiet apartment building stairwell ambience, soft echo, faint distant door closing far below, muffled street outside, calm room tone, no music, no voices",
+      "duration": 14,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "saegen",
+      "prompt": "Small hand saw cutting quickly through a wooden door, fast comedic back and forth sawing strokes, close, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "paket-abstellen",
+      "prompt": "Cardboard parcel box set down on a stone floor, soft hollow thud, close, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "brief-reissen",
+      "prompt": "Paper envelope being torn open quickly, crisp paper rip, close, no music",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "schritte-treppe",
+      "prompt": "Footsteps walking up stone stairs in a stairwell with slight echo, steady pace, no music, no voices",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "tuer-knarren",
+      "prompt": "Apartment door slowly creaking open just a little, short wooden creak, comedic, close, no music",
+      "duration": 1.2,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Small hand saw cutting quickly through a wooden door, fast comedic back and forth sawing strokes, close, no music",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-14T11:05:46.912Z"
+}

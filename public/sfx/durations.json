@@ -92,5 +92,11 @@
   "tastatur": 3.03,
   "papier-schieben": 0.836,
   "muenzen": 2.038,
-  "stempel": 0.627
+  "stempel": 0.627,
+  "treppenhaus-atmo": 14.028,
+  "saegen": 3.03,
+  "paket-abstellen": 0.836,
+  "brief-reissen": 1.045,
+  "schritte-treppe": 3.03,
+  "tuer-knarren": 1.228
 }

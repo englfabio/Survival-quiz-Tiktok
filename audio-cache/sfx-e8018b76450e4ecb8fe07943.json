@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Quiet apartment building stairwell ambience, soft echo, faint distant door closing far below, muffled street outside, calm room tone, no music, no voices",
+  "duration": 14,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-14T11:05:44.335Z"
+}

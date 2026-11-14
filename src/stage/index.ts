@@ -14,6 +14,7 @@ import {autumnForestStage, streetStage} from './AutumnForest';
 import {gardenStage, neighborLawnStage} from './Garden';
 import {neighborGardenNightStage, neighborGardenStage} from './NeighborGarden';
 import {parkStage} from './Park';
+import {stairwellStage} from './Stairwell';
 import {playgroundStage} from './Playground';
 import {policeStationStage} from './PoliceStation';
 import {graveyardStage} from './Graveyard';
@@ -60,4 +61,5 @@ export const STAGES: Record<string, StageDef> = {
   'nachbargarten-nacht': neighborGardenNightStage,
   'wg-kueche': wgKitchenStage,
   'wg-kueche-nacht': wgKitchenNightStage,
+  treppenhaus: stairwellStage,
 };
