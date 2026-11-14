@@ -200,6 +200,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Zaun x ±7.5 / z −7 … 5.5 mit Eingang rechts (z 0.6 … 2.0), Schild am Eingang (`PlaygroundSign`, (7.3, 2.6), Tafel zeigt nach −x, „SPIELPLATZ“ +
   Telefon-Symbol ohne echte Nummer), Fallschutzmatten, Häuser in der Ferne (Tag). Vorn (z > 2.5, |x| < 6) frei für Kameras.
   Aus dem Park jetzt exportiert und wiederverwendbar: `TrashBin`, `FarHouses` (mit `day` = Tagesansicht).
+  Zwei Gärten nebeneinander (`nachbargarten`, `src/stage/NeighborGarden.tsx`, Atmo = `wald-atmo`; Nacht-Variante `nachbargarten-nacht` mit Mond,
+  Sternen, warmen Fensterlichtern + Gartenlampen, Atmo = `nacht-atmo`): Doppelhaus hinten (Hauswände zum Garten z −7.8), niedriger weißer Lattenzaun
+  (0,7 m) bei x = 0 mit Lücke fürs Gartentor (z 3 … 4, Figur `gartentor`), links Garten des Dummys mit Hundehütte (−8.3, −5.6) + welken Büschen,
+  rechts Garten des Nachbarn mit Blumenbeeten, Rosenbüschen, Kugel-Buchs, Haustür (x 3.4) mit Stufe, Klingel + Türlampe; Platz vor der Tür (3.4, −6.42),
+  Nachbar auf der Stufe (3.4, −7.42, y 0.16). Die Rasenflächen sind Figuren (`rasen` bei (−5.2, 0.6), `rasen2` bei (5.2, 0.6)), Koordinaten in `NG`.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -258,6 +263,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   einfrieren = vor der Berührung), Arme freundlich ausbreiten + Kinder wegschicken (`shoo`), Handy mit beiden Händen hoch + fotografieren (`photo`, Blitz bei 1 s);
   vorhanden und wiederverwendet: telefonieren (`call`), aufheben (`pickup`, für den Ast), Stelle markieren (`mark`, mit Ast `plant`), erklären (`pointtalk`).
   Kinder: auf der Schaukel sitzen + Beine baumeln (`swingsit`, y 0.15), im Sand buddeln (`sandplay`), dazu `run`, `wave`, `cheer`, `listen`, `stand`.
+  Nachbars Rasen (Spezial): neidisch über den niedrigen Zaun schauen, Hände auf der Latte, Zehenspitzen + Seufzer (`envy`), übertrieben auf Zehenspitzen
+  schleichen (`tiptoe`, mit Weg), vorgebeugt Rasen mit der Sprühdose ansprühen – Dose + grüner Nebel automatisch (`spraylawn`), über einen niedrigen Zaun
+  steigen (`climbover`, 2,2 s, Weg über Zeitpunkte), geduckt mit dem Rasenmäher davonschleichen (`mowsneak`, Mäher `"attach": "dummy", x 0, y 0, z 0.88`,
+  Mäher-Bewegung `push` = Räder drehen), Aktenkoffer rechts + mit links klingeln (`ringbell`, Klingel 0,42 m vor ihm auf 1,38 m), Brief in den Briefkasten
+  werfen (`postletter`, Schlitz 0,5 m vor ihm auf 1,08 m), triumphierend Arme verschränken (`armscross`); Nachbar: kniend mit der Nagelschere schneiden
+  (`snip`), gießen mit linker Hand in der Hüfte (`waterplants`), Klemmbrett mit beiden Händen halten (`holdboard`). Wiederverwendet: Vertrag unterschreiben =
+  `fillform` (Klemmbrett 0,5 m vor ihm), verwirrt umschauen = `lookaround` + `question`, verdutzt am Kopf kratzen = `sheepish`, winken, gehen, `notice`.
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -272,6 +284,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   beides `src/effects/BodyHint.tsx`, liegt immer sichtbar über dem Körper)
 - **Kleidung (Dummy):** Winterjacke (`jacket` 0 … 1) und lange Hose (`pants` 0 … 1) – an/aus, Ärmel rutschen beim Ausziehen.
   Wind/Sog an der Jacke: Wert `wind` 0 … 1 = Jackensaum flattert Richtung Gleis (−z der Welt), `drift` = seitlich mit dem Zug.
+- **Anzug (Dummy):** Wert `suit` 1 = dunkelgrauer Anzug, weißer Hemdkragen, rote Krawatte (Uniform `SUIT_UNIFORM` in index.tsx; Uniform-Felder
+  `noCap` = ohne Mütze, `tie` = Krawattenfarbe). **Grüne Farbe auf den Schuhen:** Wert `paint` 1 (dunkelgrün glänzend + Farbkleckse an den Schienbeinen).
+  **Strohhut:** Prop `hat` am Dummy (bei `gartennachbar` immer an).
 - **Fragezeichen über jeder Figur mit Dummy-Körper:** Wert `question` 0 … 1 (z. B. verwunderte Polizisten).
 - **Augenbrauen** (Figuren mit Dummy-Körper): Wert `brow` – ab 0,01 sichtbar, 1 = rechte Braue hochgezogen („Hm?“).
 - **Geldbündel in der Jacke** (Dummy mit `jacket` 1): Wert `stash` 0 … 3 = so viele Bündel schauen vorn aus der Jacke.
@@ -295,7 +310,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `tapewalk` automatisch die Rolle Absperrband) – beide können alle Dummy-Bewegungen (Uniform über Prop `uniform` in Dummy.tsx, wiederverwendbar),
   Streifenpolizist + Streifenpolizistin (`polizist`, `polizistin`: gleiche dunkelblaue Uniform ohne Abzeichen, Polizistin mit Zopf),
   Hund (`hund`, `src/actors/PistolProps.tsx`: freundlicher brauner Low-Poly-Hund, wedelt; `walk`, `stand`, `sit`; Wert `leash` 1 = rote Leine zur
-  rechten Hand der Figur in `holder`, Standard `nachbar` = Spaziergänger)
+  rechten Hand der Figur in `holder`, Standard `nachbar` = Spaziergänger; Wert `paint` 1 = mit grüner Farbe angesprüht),
+  Garten-Nachbar (`gartennachbar`: Kumpel-Dummy in Orange mit Strohhut – kann alle Dummy-Bewegungen, Augenbrauen + Fragezeichen; Gegenstände in seiner
+  Hand mit `"holder": "gartennachbar"`)
 - **Kinder-Dummys** (`kind1` rosa mit Zöpfen, `kind2` hellblau mit gelber Kappe, `kind3` grün mit roter Kappe; `KIDS` in `src/actors/index.tsx`):
   Dummy-Körper auf 0,6 verkleinert, größerer Kopf, bunt, ohne Gesicht – immer freundlich zeigen. Können alle Dummy-Bewegungen.
 - **Objekte (Spritze, `src/actors/SyringeProps.tsx`):** stilisierte Einwegspritze mit offener Nadel (`spritze`: Ursprung = Kolbenmitte, Nadel +z, `tilt` negativ =
@@ -371,6 +388,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Kaffeebecher (`becher`, `toss` = wirbelt durch die Luft, `size`), gelbe Schallwellen „)))“ für Durchsagen (`durchsage`, `show`, schaut zur Kamera, `side` 1 = nach
   links, `size`), Handy quer zum Filmen mit blauer Hülle + Display mit Zug und rotem Aufnahme-Punkt (`filmhandy`, Display zeigt zum Dummy: face Dummy + 180),
   Sog-Windlinien vom Bahnsteig zum Gleis (`sog`, face 0, Werte `wind` 0 … 1, `drift`, `size` = breiter).
+- **Objekte (Nachbars Rasen, `src/actors/NeighborProps.tsx`):** Rasenfläche 10,2 × 16,6 m (`rasen`, `rasen2`: Wert `lush` 0 = braun + fleckig mit kahlen
+  Stellen … 1 = leuchtend grün mit Mähstreifen, `paint` 0 … 1 = neon-grün angesprüht, glänzend; geht weich über), Gartenzwerg (`gartenzwerg`, `paint`, `size`),
+  glänzender roter Rasenmäher mit Chrom-Griff + Glitzern (`rasenmaeher`, vorn +z, Griff hinten), brauner Aktenkoffer (`aktenkoffer`, Ursprung = Griff, `hand` 1),
+  Klemmbrett „KAUFVERTRAG“ (`kaufvertrag`, `fill` 0 … 1 = Unterschrift wird geschrieben, `tilt`), Briefumschlag mit rotem Stempel „KÜNDIGUNG“ (`kuendigung`,
+  Feld `text`, `size`), Briefkasten auf Pfosten (`briefkasten`, `door` = Klappe), großes rotes Schild „VERKAUFT“ auf Pfosten (`verkauft`, `show` = ploppt aus
+  dem Boden), grüne Gießkanne (`giesskanne`, Ursprung = Griff, `tilt` ≈ 38 zum Gießen, `water` 1 = Wasserstrahl), Nagelschere (`nagelschere`, schnippt, `size`),
+  weißes Gartentor (`gartentor`, `door` 0 … 1), Sprühdose mit grüner Farbe (bei `spraylawn`/`SprayCan`), Glitzern (`Sparkle`). `SprayMist` kann jetzt
+  Farbe, Breite (`spread`) und Tröpfchengröße (`grain`).
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -386,6 +411,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-nachbars-rasen),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -457,6 +483,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Erklärung 2 + 3): korrekt. Choreografie: `python3 scripts/spritze-spielplatz-choreo.py`. Kein Drogenkonsum/Blut, Kinder nur als bunte Kinder-Dummys;
   falsche Optionen frieren ein (Option 2 bevor die Nadel den Finger berührt). Standbilder in review/spritze-spielplatz/phase1/.
   Finales Video: review/final/spritze-spielplatz.mp4.
+- Spezial „Nachbars Rasen“ (erstes Spezial-Video): 967 neue Zeichen (387 Credits laut ElevenLabs), Sprechzeit 67,4 s, Video 75,7 s (Szene A rein visuell
+  +0,8 s für die Reaktion des Nachbarn). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 („A:“, „B.“, „C:“ + Abstimmung): korrekt. Choreografie:
+  `python3 scripts/spezial-nachbars-rasen-choreo.py` (Kameras rechnet `scripts/fitcam_fast.py` = schnelle Variante von fitcam). Alles comichaft: kein Schaden
+  für den Nachbarn, er schaut am Ende jeder Szene verdutzt (Fragezeichen). Standbilder in review/spezial-nachbars-rasen/phase1/.
+  Finales Video: review/final/spezial-nachbars-rasen.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -484,7 +515,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `magnet-platsch`, `seil-ziehen`, `kopfsteinpflaster` (Magnetfischen-Granate; Kanal nutzt `see-atmo`);
   `bahnhof-atmo` (Bühne Bahnhof, Schleife), `koffer-rollen`, `schnallen-klick`, `absperrband` (Herrenloser Koffer);
   `laub-rascheln`, `hund-bellen` (Pistole im Wald); Geldkoffer nutzt nur vorhandene Effekte;
-  `durchsage-gong`, `zug-naht`, `zug-durchfahrt`, `wind-sog` (Bahnsteigkante-Sog; Bühne `bahnsteig` nutzt `bahnhof-atmo`).
+  `durchsage-gong`, `zug-naht`, `zug-durchfahrt`, `wind-sog` (Bahnsteigkante-Sog; Bühne `bahnsteig` nutzt `bahnhof-atmo`);
+  `tuerklingel`, `schere-schnipp`, `briefkasten`, `schleichen` (Comic-Zehenspitzen), `rasen-zauber` (Glitzer-Verwandlung) (Spezial Nachbars Rasen;
+  Bühne `nachbargarten` nutzt `wald-atmo`, `nachbargarten-nacht` nutzt `nacht-atmo`; wiederverwendet: `spruehen`, `plopp`, `hund-bellen`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -680,7 +713,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Bedroom.tsx = Schlafzimmer, Aufzug, volle Bahn + Commuter-Figuren; Canal.tsx = Kanal mit Kaimauer;
                       Station.tsx = Bahnhof (Bahnsteig + Halle + Fundbüro, Varianten volle Halle + Bahnsteig mit Oberleitung/Lautsprecher) + Passenger-Figuren;
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
-                      PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz)
+                      PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz;
+                      NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -691,10 +725,13 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       Herz-Symbol, MagnetProps.tsx = Magnet/Granate/Seil, StationProps.tsx = Koffer/
                       Absperrband/Rechnung/Absperrband-Rolle, PistolProps.tsx = Pistole/Karten-Handy/
                       Polizeiauto/Hund/Leine, MoneyProps.tsx = Geldkoffer/Bündel/Formular/Taschenrechner/
-                      Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien, SyringeProps.tsx = Spritze/Kappe/Müll/versteckte Nadel/Ast/Glitzer) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      Kalenderblatt/§-Schild, TrainProps.tsx = Zug/Becher/Schallwellen/Filmhandy/Sog-Windlinien, SyringeProps.tsx = Spritze/Kappe/Müll/versteckte Nadel/Ast/Glitzer,
+                      NeighborProps.tsx = Rasen/Gartenzwerg/Rasenmäher/Aktenkoffer/Kaufvertrag/Kündigung/Briefkasten/
+                      VERKAUFT-Schild/Gießkanne/Nagelschere/Sprühdose/Gartentor/Glitzern) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
-src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche
+src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,
+                      VoteCards, SignBoard, SpezialOutroPanel (components.tsx)
 src/Showcase.tsx      "Baukasten": jede Bewegung einzeln zum Anschauen (Zahnunfall-Demos in src/ShowcaseZahn.tsx)
 scripts/check.ts      npm run check → Aufbau + Mindestlänge aller Szenarien prüfen
 review/               Gesicherte Standbilder zur Freigabe (Pilot: phase3/; weitere Videos: review/<id>/)
