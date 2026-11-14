@@ -3161,6 +3161,40 @@ const nachbarPose = (motion: Motion, time: number, speed: number): DummyPose | n
       p.legR.sz = -0.07;
       return p;
     }
+    case 'carrywalk': {
+      // Schweres vor dem Bauch tragen und dabei gehen (Arme wie "carry", Beine wie "walk", etwas kürzere Schritte)
+      const w = dummyPose('walk', time, speed * 0.8);
+      const c = carryPose(time);
+      c.legL = w.legL;
+      c.legR = w.legR;
+      c.hipY = w.hipY - 0.02;
+      c.torsoY = w.torsoY * 0.5;
+      return c;
+    }
+    case 'leaftoss': {
+      // Laub über den Zaun werfen: alle 1,6 s bücken + mit beiden Armen Laub schaufeln (0–0,5 s), aufrichten (bis 0,9 s),
+      // über den Kopf nach vorn werfen (Abwurf ca. 1,0 s), zurück (bis 1,6 s)
+      const P = 1.6;
+      const ph = time % P;
+      const low = (s: 1 | -1): P3 => [0.18 * s, 0.25, 0.5];
+      const chest = (s: 1 | -1): P3 => [0.16 * s, 1.05, 0.32];
+      const up = (s: 1 | -1): P3 => [0.22 * s, 1.85, 0.42];
+      const k1 = easeInOut(clamp(ph / 0.5));
+      const k2 = easeInOut(clamp((ph - 0.5) / 0.4));
+      const k3 = easeInOut(clamp((ph - 0.9) / 0.25));
+      const k4 = easeInOut(clamp((ph - 1.15) / 0.45));
+      const bend = k1 * (1 - k2);
+      const p = base();
+      p.hipY = 0.98 - 0.22 * bend;
+      p.legL = L3(-0.45 * bend, 0.08, 0.8 * bend);
+      p.legR = L3(-0.45 * bend, -0.08, 0.8 * bend);
+      p.torsoX = 0.7 * bend - 0.15 * k3 * (1 - k4);
+      p.headX = 0.3 * bend - 0.25 * k3 * (1 - k4);
+      const hand = (s: 1 | -1) => lerp3t(lerp3t(lerp3t(lerp3t(chest(s), low(s), k1), chest(s), k2), up(s), k3), chest(s), k4);
+      reachR(p, hand(-1), 0.33, [0.6, -1, -0.3]);
+      reachL(p, hand(1), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
     case 'snip': {
       const p = kneelUp(0.62);
       const sn = Math.sin(time * 14) * 0.012;

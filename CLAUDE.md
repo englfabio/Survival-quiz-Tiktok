@@ -99,8 +99,8 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
 
 - Oben links steht das ganze Video über das Abzeichen **„SPEZIAL“** im Warnschild-Stil (`SpezialBadge`, Warndreieck mit
   Grinsegesicht) statt des Kategorie-Abzeichens. Kategorie in der Datei: `spezial`.
-- Mindestlänge **61 s** gilt auch hier (`npm run check`). Zu kurz → Szenen rein visuell verlängern über `options[n].sceneExtra`
-  (Sekunden, ohne neuen Text), z. B. längere Kamerafahrten oder Reaktionen.
+- Länge **61–66 s** (siehe „Dauerhafte Spezial-Regeln“ unten; `npm run check` prüft die 61 s). Zu kurz → Szenen rein visuell verlängern über
+  `options[n].sceneExtra` (Sekunden, ohne neuen Text), z. B. längere Kamerafahrten oder Reaktionen.
 - Szenario-Datei: `correctOption`, `reveal`, `sourceLine` **weglassen** (die Prüfung meldet sonst einen Fehler), `sources` optional.
   `shots` braucht nur `situation`, `countdown` (= Abstimmung) und `outro`. Sprach-Clips: situation, option1–3, explain1–3,
   countdown, outro (kein reveal).
@@ -120,12 +120,28 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
   Liefert der Inhaber Texte ausdrücklich „Buchstabe für Buchstabe“, gelten sie wortgenau – auch wenn sie länger sind als das Schema
   (z. B. Outro mit „Eine richtige Antwort gibt es diesmal nicht …“ bei der Bahn-Verspätung).
 - **Schema für Spezial-Videos (vom Inhaber als Vorlage freigegeben, Vorbild: spezial-mitbewohner-joghurt, 66 s):**
-  - Ziel-Länge knapp über 61 s (ca. 61–67 s), Texte knapp halten: Situation 1–3 kurze Sätze, Kartentext-Ansage ein Satz,
+  - Länge 61–66 s (Spezial-Regel 1), Texte knapp halten: Situation 1–3 kurze Sätze, Kartentext-Ansage ein Satz,
     jede Szene ca. 3–6 kurze Sätze (Pointe zuerst, keine Füllwörter, keine Wiederholung der Karte in der Szene).
   - Abstimmung: „Also, was machst du? Schreib A, B oder C in die Kommentare.“ + Schild „Stimm ab!“.
-  - Danach NICHTS mehr wiederholen (kein „Eine richtige Antwort gibt es diesmal nicht“, kein zweites „Schreib A, B oder C …“).
-    Outro nur ein kurzer Schluss, z. B. „Markier deinen …! Was soll der Dummy als Nächstes erleben?“
+  - Danach kein „Eine richtige Antwort gibt es diesmal nicht“. Outro = Spezial-Regel 3 (A, B oder C in die Kommentare + folgen).
   - Ist ein gelieferter Text deutlich zu lang für dieses Schema: dem Inhaber eine gekürzte Fassung vorschlagen (Regel 7 gilt weiter).
+- **Flüssiger Übergang (vom Inhaber gewünscht):** Der Szenentext (`explanation`) darf die vorgelesene Antwort NICHT wiederholen,
+  sondern setzt direkt danach ein (z. B. Antwort „Du legst … und wartest“ → Szene „Dann setzt du dich … und wartest.“).
+- ~~Ende ohne Doppelung / Outro mit „Freund markieren“~~ – für Spezial-Videos ersetzt durch Spezial-Regel 3 (unten). Für neue
+  Quiz-Videos gilt weiter sinngemäß: Countdown fordert zum Kommentieren auf → Outro nicht noch einmal.
+
+#### Dauerhafte Spezial-Regeln (vom Inhaber festgelegt – gelten für ALLE Spezial-Videos, gehen älteren Angaben oben vor)
+
+1. **Länge:** Spezial-Videos sind **mindestens 61 und höchstens 66 Sekunden** lang. Zu kurz → visuell verlängern
+   (`options[n].sceneExtra`, längere Kamerafahrten/Reaktionen). Zu lang → Pausen und Kamerafahrten kürzen
+   (z. B. `sceneExtra` 0, kürzere Pausen zwischen den Clips, kürzere Karten-/Abstimmungs-/Outro-Einstellungen).
+   **Texte werden nie geändert.** Passt es trotz gekürzter Pausen nicht in 66 s → anhalten und dem Inhaber Bescheid geben.
+2. **Keine Dopplungen:** Die gesprochene Antwort ist kurz. Die Szene danach erzählt, was passiert, und wiederholt die Antwort nicht
+   (gilt für Text UND Bild: die Szene zeigt den Ablauf/die Folgen, nicht noch einmal nur die Antwort).
+3. **Outro jedes Spezial-Videos:** Am Ende immer die Aufforderung, **A, B oder C in die Kommentare zu schreiben und dem Kanal zu folgen**
+   (z. B. „Schreib A, B oder C in die Kommentare und folg gerne für mehr.“; Schild `outro.screen` passend, z. B. „A, B oder C? Folgen!“).
+4. **Marken:** Markennamen dürfen im gesprochenen Text vorkommen, wenn der Inhaber das vorgibt. **Logos, echte Spielgrafiken, echte
+   Produktdesigns und Figuren, die echten Personen ähneln, werden nie gezeigt** (Selbstprüfung bei den Standbildern).
 
 - Abschnittslängen richten sich (sobald es Sprachaufnahmen gibt) automatisch nach der
   Länge der Audios. Bis dahin wird die Sprechdauer aus der Textlänge geschätzt
@@ -231,7 +247,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Sternen, warmen Fensterlichtern + Gartenlampen, Atmo = `nacht-atmo`): Doppelhaus hinten (Hauswände zum Garten z −7.8), niedriger weißer Lattenzaun
   (0,7 m) bei x = 0 mit Lücke fürs Gartentor (z 3 … 4, Figur `gartentor`), links Garten des Dummys mit Hundehütte (−8.3, −5.6) + welken Büschen,
   rechts Garten des Nachbarn mit Blumenbeeten, Rosenbüschen, Kugel-Buchs, Haustür (x 3.4) mit Stufe, Klingel + Türlampe; Platz vor der Tür (3.4, −6.42),
-  Nachbar auf der Stufe (3.4, −7.42, y 0.16). Die Rasenflächen sind Figuren (`rasen` bei (−5.2, 0.6), `rasen2` bei (5.2, 0.6)), Koordinaten in `NG`.
+  Nachbar auf der Stufe (3.4, −7.42, y 0.16). Offenes Fenster im Erdgeschoss des Nachbarhauses (Mitte x 7.9, Brüstung 0,93 m, mit Gardinen,
+  dahinter 0,4 m tiefer dunkler Raum): Figur „schaut aus dem Fenster“ bei `NG.window.spot` (7.9, −8.02), face 180 (HouseBlock-Prop `openWin`).
+  Die Rasenflächen sind Figuren (`rasen` bei (−5.2, 0.6), `rasen2` bei (5.2, 0.6)), Koordinaten in `NG`.
   WG-Küche (`wg-kueche`, Nacht-Variante `wg-kueche-nacht` mit Mond, dunklem Licht, Wanduhr auf 3 Uhr; `src/stage/Kitchen.tsx`, Plätze in `WG`,
   Atmo = `uhr-ticken`): Küche wie `kueche`, aber großer Kühlschrank als Objekt (`kuehlschrank` bei (−2.13, −1.94), face 180), Küchentisch (−0.2, 0.55,
   Platte 0,76) mit zwei Stühlen (links (−0.98, 0.55) Blick +x = face 90, rechts (0.58, 0.55) Blick −x = face 270), Schreibtisch hinten rechts (Platte 0,74)
@@ -332,7 +350,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Mäher-Bewegung `push` = Räder drehen), Aktenkoffer rechts + mit links klingeln (`ringbell`, Klingel 0,42 m vor ihm auf 1,38 m), Brief in den Briefkasten
   werfen (`postletter`, Schlitz 0,5 m vor ihm auf 1,08 m), triumphierend Arme verschränken (`armscross`); Nachbar: kniend mit der Nagelschere schneiden
   (`snip`), gießen mit linker Hand in der Hüfte (`waterplants`), Klemmbrett mit beiden Händen halten (`holdboard`). Wiederverwendet: Vertrag unterschreiben =
-  `fillform` (Klemmbrett 0,5 m vor ihm), verwirrt umschauen = `lookaround` + `question`, verdutzt am Kopf kratzen = `sheepish`, winken, gehen, `notice`.
+  `fillform` (Klemmbrett 0,5 m vor ihm), Schweres vor dem Bauch tragen + gehen (`carrywalk`, Fliegerbombe `"attach": "dummy", x 0, y 0.95, z 0.4,
+  face −90`, danach `lower` + Bombe frei liegend y 0.16, face = Dummy-face + 90), alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf
+  nach vorn werfen (`leaftoss`, Abwurf ca. 1,0 s – Objekt `laubwurf` an gleicher Stelle/Richtung mit `show`), warten auf dem Gartenstuhl = `couchwait`
+  (+ Shot-Feld `timer` als Zeitraffer-Uhr), verwirrt umschauen = `lookaround` + `question`, verdutzt am Kopf kratzen = `sheepish`, winken, gehen, `notice`.
   WG-Küche (Dummy UND Kumpel/Mitbewohner, Details in `wgPose` in Dummy.tsx): Kühlschrank öffnen + leeren Becher entdecken (`fridgeopen`, Dummy bei
   `WG_FRIDGE_STAND` (−1.55, −1.05) face 0, Tür-Wert `door` 0 → 1 genau von 0,4 bis 1,2 s nach Bewegungsbeginn, Becher ab 2,0 s links in der Hand), entsetzt
   erstarren (`aghast`), großen roten Knopf drücken (`pressbutton`, Knopf 0,5 m vor ihm, Treffer 0,72 s), Zettel schreiben (`writenote`, Tisch 0,42 m vor ihm) +
@@ -507,7 +528,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Klemmbrett „KAUFVERTRAG“ (`kaufvertrag`, `fill` 0 … 1 = Unterschrift wird geschrieben, `tilt`), Briefumschlag mit rotem Stempel „KÜNDIGUNG“ (`kuendigung`,
   Feld `text`, `size`), Briefkasten auf Pfosten (`briefkasten`, `door` = Klappe), großes rotes Schild „VERKAUFT“ auf Pfosten (`verkauft`, `show` = ploppt aus
   dem Boden), grüne Gießkanne (`giesskanne2`, Ursprung = Griff, `tilt` ≈ 38 zum Gießen, `water` 1 = Wasserstrahl), Nagelschere (`nagelschere`, schnippt, `size`),
-  weißes Gartentor (`gartentor`, `door` 0 … 1), Sprühdose mit grüner Farbe (bei `spraylawn`/`SprayCan`), Glitzern (`Sparkle`). `SprayMist` kann jetzt
+  weißes Gartentor (`gartentor`, `door` 0 … 1), weißer Plastik-Gartenstuhl (`gartenstuhl`, Sitz 0,45 m – Dummy an gleicher Stelle mit
+  `couchwait`/`chairsit`), Laubhaufen (`laubhaufen`, `size` −1 = weg), Laubdecke über einer Rasenfläche (`laubdecke`, `fill` 0 … 1, ab 0,9 kein Grün mehr),
+  fliegendes Laub im Bogen nach vorn (`laubwurf`, `show` = wirft alle 1,6 s, passend zu `leaftoss`), Sprühdose mit grüner Farbe (bei `spraylawn`/`SprayCan`), Glitzern (`Sparkle`). `SprayMist` kann jetzt
   Farbe, Breite (`spread`) und Tröpfchengröße (`grain`).
 - **Objekte (WG-Küche, `src/actors/WgProps.tsx`):** großer Kühlschrank (`kuehlschrank`: Tür links angeschlagen `door` 0 … 1, Innenlicht, `glow` 1 = nachts
   helles Innenlicht, `rumble` = Tür wackelt; Joghurt-Fach `FRIDGE_SHELF`), Joghurtbecher mit Etikett „DUMMY“ (`joghurt`: `lid` 0 zu … 1 offen, `fill` (0,01 = leer),
@@ -639,11 +662,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   nicht; Outro mit vom Inhaber gewünschtem Zusatzsatz „Und schreib auch rein, was der Dummy als Nächstes erleben soll.“). Wort-Zeitstempel = Text (geprüft),
   Kontrolle scribe_v2 (Situation mit „8 Uhr 47“ + Outro): korrekt. Choreografie: `python3 scripts/spezial-wecker-choreo.py`. Comichaft: Wecker trifft niemanden.
   Standbilder in review/spezial-wecker/phase1/. Finales Video: review/final/spezial-wecker.mp4, vom Inhaber freigegeben.
-- Spezial „Nachbars Rasen“: 967 neue Zeichen (387 Credits laut ElevenLabs), Sprechzeit 67,4 s, Video 75,7 s (Szene A rein visuell
+- Spezial „Nachbars Rasen“ – Überarbeitung (vom Inhaber gewünscht): Antworten A = Fliegerbombe in seinen Garten legen und warten (KEINE
+  Explosion/Auflösung, Zeitraffer-Uhr), B = nachts Laub auf seine Grünfläche werfen, C = Haus kaufen + ihn kündigen; Szenentexte ohne Wiederholung,
+  Outro mit Freund markieren + folgen. 644 neue Zeichen (257 Credits), Video 65,6 s, Kontrolle scribe_v2 korrekt. Neu gerendert: review/final/spezial-nachbars-rasen.mp4, vom Inhaber freigegeben.
+  Frühere Fassung: 967 neue Zeichen (387 Credits laut ElevenLabs), Sprechzeit 67,4 s, Video 75,7 s (Szene A rein visuell
   +0,8 s für die Reaktion des Nachbarn). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 („A:“, „B.“, „C:“ + Abstimmung): korrekt. Choreografie:
   `python3 scripts/spezial-nachbars-rasen-choreo.py` (Kameras rechnet `scripts/fitcam_fast.py` = schnelle Variante von fitcam). Alles comichaft: kein Schaden
   für den Nachbarn, er schaut am Ende jeder Szene verdutzt (Fragezeichen). Standbilder in review/spezial-nachbars-rasen/phase1/.
-  Finales Video: review/final/spezial-nachbars-rasen.mp4, vom Inhaber freigegeben.
+  (Diese frühere Fassung ist durch die Überarbeitung ersetzt.)
 - Spezial Mitbewohner-Joghurt (erstes Video im Spezial-Format): erst 1106 Zeichen (90,4 s – dem Inhaber zu lang), dann **Texte auf Wunsch des Inhabers gekürzt**
   (669 neue Zeichen, ca. 268 Credits): Sprechzeit 58,3 s, Video 66,4 s. Outro nur noch „Markier deinen Joghurt-Dieb! Was soll der Dummy als Nächstes erleben?“
   (Inhaber: nach „Schreib A, B oder C in die Kommentare“ nichts mehr wiederholen, kein „keine richtige Antwort“). Wort-Zeitstempel = Text (geprüft),

@@ -253,6 +253,8 @@ export type Motion =
   | 'wineadmire' // Museumsbesucher: Weinglas, Hand am Kinn
   | 'winegasp' // Museumsbesucher: staunen
   | 'winetoast' // Museumsbesucher: Glas heben + trinken
+  | 'carrywalk' // Dummy: Schweres vor dem Bauch tragen und dabei gehen (Weg über Zeitpunkte)
+  | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
   | 'float' // Wal: schwebt gemütlich, blinzelt, Flossen wedeln

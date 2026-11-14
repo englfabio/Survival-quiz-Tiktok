@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import {useMemo, type ReactElement} from 'react';
 import {spring} from 'remotion';
 import * as THREE from 'three';
 import {Instances, type Inst} from '../stage/Forest';
@@ -629,4 +629,125 @@ export const GardenGate = ({door = 0}: {door?: number}) => {
       </mesh>
     </group>
   );
+};
+
+// ---------------- Gartenstuhl ----------------
+/** Weißer Plastik-Gartenstuhl. Ursprung = Mitte unten, Sitz 0,45 m hoch (passt zu chairsit/couchwait), Lehne hinten (−z) */
+export const GardenChair = () => {
+  const m = useMemo(() => std('#f3f3ef', {roughness: 0.45}), []);
+  return (
+    <group>
+      <mesh material={m} position={[0, 0.43, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.5, 0.05, 0.48]} />
+      </mesh>
+      <mesh material={m} position={[0, 0.76, -0.24]} rotation={[-0.15, 0, 0]} castShadow>
+        <boxGeometry args={[0.5, 0.62, 0.04]} />
+      </mesh>
+      {[-1, 1].map((s) => (
+        <mesh key={`a${s}`} material={m} position={[0.25 * s, 0.62, -0.02]} castShadow>
+          <boxGeometry args={[0.04, 0.04, 0.42]} />
+        </mesh>
+      ))}
+      {[
+        [-0.22, -0.2],
+        [0.22, -0.2],
+        [-0.22, 0.2],
+        [0.22, 0.2],
+      ].map(([x, z], i) => (
+        <mesh key={i} material={m} position={[x, 0.21, z]} castShadow>
+          <boxGeometry args={[0.045, 0.43, 0.045]} />
+        </mesh>
+      ))}
+    </group>
+  );
+};
+
+// ---------------- Laub ----------------
+const leafGeo = (() => {
+  const g = new THREE.CircleGeometry(1, 5);
+  g.rotateX(-Math.PI / 2);
+  g.scale(1, 1, 0.6);
+  return g;
+})();
+const LEAF_COLS = ['#d9822b', '#c9551f', '#e2a93a', '#b8402a', '#a8652a', '#e6c04e', '#8f4a22', '#c7922f'];
+
+/** Laubhaufen (Ursprung = Mitte, Radius ca. 0,9 m × (1 + size)), size −1 = weg */
+export const LeafPile = ({size = 0}: {size?: number}) => {
+  const items = useMemo(() => {
+    const r = rng(55);
+    const out: Inst[] = [];
+    for (let i = 0; i < 700; i++) {
+      const a = r() * Math.PI * 2;
+      const d = Math.sqrt(r());
+      const h = (1 - d * d) * 0.55;
+      out.push({pos: [Math.cos(a) * d * 0.9, h * (0.4 + 0.6 * r()), Math.sin(a) * d * 0.9], scale: [0.05 + r() * 0.03, 1, 0.05 + r() * 0.03], rotY: r() * 6.3, color: LEAF_COLS[Math.floor(r() * LEAF_COLS.length)]});
+    }
+    return out;
+  }, []);
+  const s = Math.max(0, 1 + size);
+  if (s < 0.02) return null;
+  return (
+    <group scale={[s, s, s]}>
+      <mesh position={[0, 0.12, 0]} scale={[0.85, 0.3, 0.85]}>
+        <sphereGeometry args={[1, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        <meshStandardMaterial color="#a8652a" roughness={1} flatShading />
+      </mesh>
+      <Instances geometry={leafGeo} items={items} castShadow={false} />
+    </group>
+  );
+};
+
+/** Laubdecke über einer Rasenfläche (LAWN_W × LAWN_D): fill 0 … 1 = wie dicht, ab ca. 0,9 ist kein Grün mehr zu sehen */
+export const LeafCover = ({fill = 0}: {fill?: number}) => {
+  const all = useMemo(() => {
+    const r = rng(77);
+    const out: (Inst & {k: number})[] = [];
+    for (let i = 0; i < 5200; i++) {
+      const x = (r() - 0.5) * LAWN_W;
+      const z = (r() - 0.5) * LAWN_D;
+      const sc = 0.09 + r() * 0.07;
+      out.push({pos: [x, 0.02 + r() * 0.05, z], scale: [sc, 1, sc], rotY: r() * 6.3, color: LEAF_COLS[Math.floor(r() * LEAF_COLS.length)], k: r()});
+    }
+    return out;
+  }, []);
+  const fq = Math.round(clamp(fill) * 30) / 30;
+  const items = useMemo(() => all.filter((it) => it.k < fq), [all, fq]);
+  if (fq < 0.01) return null;
+  return (
+    <group>
+      {fq > 0.85 && (
+        <mesh position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[LAWN_W, LAWN_D]} />
+          <meshStandardMaterial color="#b0632a" roughness={1} transparent opacity={(fq - 0.85) / 0.15} />
+        </mesh>
+      )}
+      <Instances geometry={leafGeo} items={items} castShadow={false} />
+    </group>
+  );
+};
+
+/** Laub fliegt im Bogen nach vorn (+z): alle "period" Sekunden ein Schwung (Abwurf bei phase), von (0, 1.7, 0.4) bis ca. z 3.2 */
+export const LeafThrow = ({time, period = 1.6, phase = 1.0, active = true}: {time: number; period?: number; phase?: number; active?: boolean}) => {
+  const seeds = useMemo(() => {
+    const r = rng(31);
+    return Array.from({length: 26}, () => ({dx: (r() - 0.5) * 0.9, dz: 2.2 + r() * 1.6, h: 0.9 + r() * 0.8, sp: 0.85 + r() * 0.3, rot: r() * 6, c: LEAF_COLS[Math.floor(r() * LEAF_COLS.length)], s: 0.06 + r() * 0.04}));
+  }, []);
+  if (!active) return null;
+  const out: ReactElement[] = [];
+  // die letzten zwei Schwünge sind gleichzeitig in der Luft
+  for (let k = 0; k < 2; k++) {
+    const t0 = (Math.floor((time - phase) / period) - k) * period + phase;
+    const tt = time - t0;
+    if (t0 < 0 || tt < 0 || tt > 1.6) continue;
+    seeds.forEach((sd, i) => {
+      const u = clamp((tt * sd.sp) / 1.2);
+      const y = 1.7 + sd.h * 4 * u * (1 - u) - 1.7 * u * u;
+      out.push(
+        <mesh key={`${k}-${i}`} geometry={leafGeo} position={[sd.dx * u, Math.max(0.03, y), 0.4 + sd.dz * u]} rotation={[tt * 6 + sd.rot, tt * 4, sd.rot]} scale={[sd.s, 1, sd.s]}>
+          <meshStandardMaterial color={sd.c} roughness={0.9} side={THREE.DoubleSide} />
+        </mesh>,
+      );
+    });
+  }
+  return <group>{out}</group>;
 };

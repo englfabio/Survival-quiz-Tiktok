@@ -15,7 +15,7 @@ import {Dummy, dummyPoseBlended, rightHandLocal, sitExtras, zapPose} from './Dum
 import {Grenade, Magnet} from './MagnetProps';
 import {Bill, CordonTape, Suitcase, TapeRoll} from './StationProps';
 import {FilmPhone, PlasticCup, SoundWaves, SuctionWind, Train} from './TrainProps';
-import {Briefcase, Contract, Envelope, GardenGate, GardenGnome, LawnMower, LawnPatch, Mailbox, NailScissors, SoldSign, WateringCan as GardenWateringCan} from './NeighborProps';
+import {Briefcase, Contract, Envelope, GardenChair, GardenGate, GardenGnome, LawnMower, LawnPatch, LeafCover, LeafPile, LeafThrow, Mailbox, NailScissors, SoldSign, WateringCan as GardenWateringCan} from './NeighborProps';
 import {Branch, HiddenNeedle, LitterPile, NeedleCap, Syringe, SYRINGE_SCALE} from './SyringeProps';
 import {Calculator, CalendarSheet, MoneyBundle, MoneyCase, ParagraphBadge, PaperForm} from './MoneyProps';
 import {Dog, DOG_COLLAR, dogPose, Leash, MapPhone, Pistol, PoliceCar} from './PistolProps';
@@ -225,6 +225,10 @@ export const ACTORS = {
   besucher1: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   besucher2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   besucher3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  gartenstuhl: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  laubhaufen: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  laubdecke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  laubwurf: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Auto des Dummys im Monstertruck-Video (Wert mark 1): himmelblau, damit es platt gut zu erkennen ist */
@@ -677,6 +681,10 @@ export const Actor = ({
           <DelayBoard text={actor.text ?? '+90 Min'} blink={v.blink} />
         </group>
       )}
+      {name === 'gartenstuhl' && <GardenChair />}
+      {name === 'laubhaufen' && <LeafPile size={v.size} />}
+      {name === 'laubdecke' && <LeafCover fill={v.fill} />}
+      {name === 'laubwurf' && <LeafThrow time={state.motionTime} active={state.motion === 'show'} />}
       {name === 'becher' && (
         <group rotation={state.motion === 'toss' ? [state.motionTime * 7.5, state.motionTime * 3, state.motionTime * 11] : [0, 0, 0]}>
           <PlasticCup size={v.size} />
