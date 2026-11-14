@@ -227,6 +227,8 @@ export const ACTORS = {
   besucher3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
 } as const;
 
+/** Auto des Dummys im Monstertruck-Video (Wert mark 1): himmelblau, damit es platt gut zu erkennen ist */
+const DUMMY_CAR_BLUE = '#3f9be0';
 /** Monstertruck-Fahrer: Dummy-Körper hellgrau, roter Rennanzug mit weißen Streifen, roter Rennhelm (kein Logo) */
 const TRUCKER_COLOR = '#b7bec6';
 const TRUCKER_UNIFORM: Uniform = {jacket: '#d8392b', dark: '#9e2a20', collar: '#f4f4f2', pants: '#d8392b', cap: '#d8392b', band: '#d8392b', trim: '#f4f4f2', helmet: '#d8392b'};
@@ -778,9 +780,10 @@ export const Actor = ({
         </group>
       )}
       {name === 'bear' && <Bear pose={bearPose(state.motion, state.motionTime, state.speed)} />}
-      {name === 'car' && v.squish > 0.001 && <FlatCar flat={v.squish} pose={carPose(state.motion, state.motionTime, state.speed)} />}
+      {name === 'car' && v.squish > 0.001 && <FlatCar flat={v.squish} pose={carPose(state.motion, state.motionTime, state.speed)} color={v.mark > 0.5 ? DUMMY_CAR_BLUE : undefined} />}
       {name === 'car' && v.squish <= 0.001 && (
         <Car
+          color={v.mark > 0.5 ? DUMMY_CAR_BLUE : undefined}
           pose={carPose(state.motion, state.motionTime, state.speed)}
           windowOpen={v.window}
           door={v.door}
@@ -901,7 +904,7 @@ export const Actor = ({
           <Unimog dist={pos.x * Math.sin(deg(state.face)) - pos.z * Math.cos(deg(state.face))} time={clock} blue={v.blue} spray={v.spray} mud={v.splat} rumble={v.rumble} seed={Number(name.slice(-1))} />
         </group>
       )}
-      {name === 'bilderrahmen' && <PictureFrame fill={v.side > 0.5 ? 0 : 1} />}
+      {name === 'bilderrahmen' && <PictureFrame fill={v.side > 0.5 ? 0 : 1} carColor={v.mark > 0.5 ? DUMMY_CAR_BLUE : undefined} />}
       {name === 'preisschild' && <PriceTag text={actor.text ?? '2.000.000 €'} time={state.motionTime} visible={state.motion === 'show'} />}
       {PASSENGERS[name] && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={PASSENGERS[name].color} uniform={PASSENGERS[name].uniform} brow={v.brow} />

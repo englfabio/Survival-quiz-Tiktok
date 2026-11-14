@@ -91,9 +91,10 @@ def truck_pts(x, z, s=1.0):
 def unimog_pts(x, z):
     return [[x - 2.4, 2.9, z], [x + 2.4, 2.9, z], [x - 2.4, 0, z + 1.2], [x + 2.4, 0, z - 1.2]]
 def seat(t, parent, motion, s=1.0, base=MT_SEAT, **kw):
-    return K(t, base[0] * s, base[2] * s, motion, 0, y=base[1] * s, attach=parent, **kw)
+    lift = 0.62 if s > 1 else 0.0                # großer Truck: Sitz höher (MONSTER.bigSeatLift)
+    return K(t, base[0] * s, base[2] * s, motion, 0, y=base[1] * s + lift, attach=parent, **kw)
 def flatcar(y=0.0, x=PARK[0], z=PARK[1], squish=1.0):
-    return [K(0, x, z, 'park', 90, y=y, squish=squish)]
+    return [K(0, x, z, 'park', 90, y=y, squish=squish, mark=1)]
 
 # Acker: gleiche Bodenformel wie ackerHeight in src/stage/Monstertruck.tsx
 HILLS = [(-14, 1.0, 1.5, 4.5, 8), (6, -0.5, 2.1, 5.0, 9), (27, 0.5, 1.8, 4.5, 8), (48, -1.0, 2.3, 5.0, 9)]
@@ -130,7 +131,7 @@ tk.append(K(1, tx(cE * L), PARK[1], 'park', 90, y=0, tilt=0, smoke=0.6, rumble=0
 a['monstertruck'] = tk
 a['truckfahrer'] = [seat(0, 'monstertruck', 'seatdrive')]
 t_flat = sec(t_hit + 0.15)
-a['car'] = [K(0, *PARK, 'park', 90, squish=0), K(t_flat, *PARK, 'park', 90, squish=0), K(t_flat + sec(0.25), *PARK, 'park', 90, squish=1)]
+a['car'] = [K(0, *PARK, 'park', 90, squish=0, mark=1), K(t_flat, *PARK, 'park', 90, squish=0), K(t_flat + sec(0.25), *PARK, 'park', 90, squish=1)]
 a['dummy'] = [K(0, *DW, 'stand', 180), K(t_flat + sec(0.2), *DW, 'stand', 180), K(t_flat + sec(0.25), *DW, 'carshock', 180),
               K(cW - 0.002, *DW, 'carshock', 180), K(cW, *DW, 'carshock', 165, brow=1, question=0), K(cW + sec(0.5), *DW, 'carshock', 165, question=1)]
 CAM_S0 = F(CAR_PTS(*PARK, 0) + truck_pts(-5.0, PARK[1]) + truck_pts(TSTOP - 0.5, PARK[1]) + body(DW[0], DW[1], y0=WALK_Y), 12, 10, SIT)
@@ -197,7 +198,7 @@ a['truckfahrer'] += [K(tUn + sa(0.6), *DRV, 'stand', face_to(DRV, (X1, 0.0))), K
 # Kameras
 CAM_AC = F(truck_pts(B0[0], B0[1], BIG) + body(*DA), 25, 6)
 CAM_A1 = F([[CLIMB[0] - 1.0, 4.0, CLIMB[1] - 0.2], [CLIMB[0] + 1.0, 4.0, CLIMB[1]], [CLIMB[0], 0.0, CLIMB[1] + 0.3], [CLIMB[0] + 1.2, 0.0, CLIMB[1] - 0.6]], 12, 4)
-cab_w = (B0[0] + MT_SEAT[2] * BIG, MT_SEAT[1] * BIG, 0.0)
+cab_w = (B0[0] + MT_SEAT[2] * BIG, MT_SEAT[1] * BIG + 0.62, 0.0)
 CAM_A2 = F([[cab_w[0] - 0.4, cab_w[1] + 2.0, 0.0], [cab_w[0] + 0.6, cab_w[1] + 0.3, 0.3], [B0[0] + 2.25, 0.0, 1.8], [B0[0] + 2.25, 2.5, 1.8], [B0[0] - 0.6, 0.0, 1.8]], 55, -4)
 CAM_A3 = F(truck_pts(B0[0] + 1.5, 0.0, BIG) + truck_pts(X1, 0.0) + body(*DRV, y0=WALK_Y), 62, 8)
 CAM_A4 = F(truck_pts(X1 - 0.3, 0.0, BIG) + [[X1 - 0.3, 6.6, 0.0]] + body(*DRV, y0=WALK_Y), 40, 6)
@@ -221,7 +222,7 @@ DP = (2.9, -3.9)                              # Dummy stolz neben dem Kunstwerk
 DIR = (2.05, -3.1)                            # Museumsdirektor (besucher1)
 V2 = (-1.3, -2.55); V3 = (0.6, -2.45); V1v = (-2.4, -2.9)
 a = {}
-a['bilderrahmen'] = [K(0, FR[0], FR[2], 'park', 180, y=HIDE), K(tRa - 0.002, FR[0], FR[2], 'park', 180, y=HIDE),
+a['bilderrahmen'] = [K(0, FR[0], FR[2], 'park', 180, y=HIDE, mark=1), K(tRa - 0.002, FR[0], FR[2], 'park', 180, y=HIDE),
                      K(tRa, FR[0], FR[2], 'park', 180, y=FR[1] - 0.2), K(tRa + sb(0.35), FR[0], FR[2], 'park', 180, y=FR[1] - 0.2), K(tRa + sb(0.75), FR[0], FR[2], 'park', 180, y=FR[1])]
 a['dummy'] = [K(0, 0.0, 1.2, 'stand', 0, brow=1), K(s0 - 0.002, 0.0, 1.2, 'stand', 0)]
 a['dummy'] += [K(tRa, *DH, 'hangframe', 0, brow=0, cut=True), K(tRa + sb(1.7), *DH, 'hangframe', 0), K(tRa + sb(2.0), *DH, 'stand', 0),
@@ -239,15 +240,15 @@ a['besucher3'] = [K(0, *V3, 'stand', look_fr(V3), y=HIDE), K(tBe - 0.002, *V3, '
                   K(tMu, *V3, 'wineadmire', look_fr(V3)), K(tMo + sb(0.2), *V3, 'winetoast', look_fr(V3) - 10), K(1, *V3, 'winetoast')]
 TAG = (3.25, 3.9, -4.95)
 a['preisschild'] = [K(0, TAG[0], TAG[2], 'park', 180, y=TAG[1]), K(tZw - 0.002, TAG[0], TAG[2], 'park', 180), K(tZw, TAG[0], TAG[2], 'show', 180, text='2.000.000 €')]
-SOLD = (-3.4, -3.75)
-t_sold = tZw + sb(1.1)
-a['verkauft'] = [K(0, *SOLD, 'park', 20, y=HIDE, size=0.5), K(t_sold - 0.002, *SOLD, 'park', 20, y=HIDE), K(t_sold, *SOLD, 'show', 20, y=0)]
+SOLD = (-3.25, -4.15)
+t_sold = tZw + sb(0.75)
+a['verkauft'] = [K(0, *SOLD, 'park', 162, y=HIDE, size=0.5), K(t_sold - 0.002, *SOLD, 'park', 162, y=HIDE), K(t_sold, *SOLD, 'show', 162, y=0)]
 FRAME_PTS = [[FR[0] - 2.4, FR[1] + 1.4, FR[2]], [FR[0] + 2.4, FR[1] + 1.4, FR[2]], [FR[0] - 2.4, FR[1] - 1.4, FR[2]], [FR[0] + 2.4, FR[1] - 1.4, FR[2]]]
 CAM_BC = F(body(0.0, 1.2) + FRAME_PTS[:2] + [[0.0, 0.0, -4.9]], 0, 8)
 CAM_B1 = F(FRAME_PTS + body(*DH), 28, 4)
 CAM_B2 = F(body(*V2) + body(*V3) + body(*V1v) + FRAME_PTS[:2], 38, 8)
 CAM_B3 = F(FRAME_PTS + [[TAG[0] + 0.8, TAG[1] + 0.1, TAG[2]], [TAG[0] + 0.8, TAG[1] - 1.2, TAG[2]]] + body(*DP) + body(*DIR) + [[SOLD[0] - 0.6, 2.7, SOLD[1]], [SOLD[0], 0.0, SOLD[1]]], 8, 6)
-CAM_B4 = F(body(*DP) + FRAME_PTS[1:2] + FRAME_PTS[3:4] + [[FR[0] - 0.5, FR[1] + 1.4, FR[2]], [FR[0] - 0.5, FR[1] - 1.4, FR[2]]] + body(*DIR) + body(*V3), -18, 8)
+CAM_B4 = F(body(*DP) + FRAME_PTS[1:2] + FRAME_PTS[3:4] + [[FR[0] - 0.5, FR[1] + 1.4, FR[2]], [FR[0] - 0.5, FR[1] - 1.4, FR[2]]] + body(*DIR) + body(*V3) + [[SOLD[0] - 1.0, 2.75, SOLD[1]], [SOLD[0], 0.0, SOLD[1]]], -10, 8)
 shots['option2'] = {
     'camera': shot(0, tRa, CAM_BC, 0.95) + shot(tRa, tBe, CAM_B1, 0.93) + shot(tBe, tMu, CAM_B2, 0.93) + shot(tMu, tMo, CAM_B3, 0.95) + shot(tMo, 1.003, CAM_B4, 0.93),
     'actors': a,
@@ -263,7 +264,7 @@ s0 = scene0(3)
 tRu = ac(3, 'Du rufst'); tKu = ac(3, 'Kurz darauf'); tUm = ac(3, 'Unimogs'); tSch = ac(3, 'Polizei-Schriftzug'); tVe = ac(3, 'Die Verfolgungsjagd')
 tQu = ac(3, 'Quer über'); tMa = ac(3, 'durch den Matsch'); tHu = ac(3, 'über jeden')
 a = {}
-a['car'] = [K(0, *PARK, 'park', 90, squish=1), K(tQu - 0.002, *PARK, 'park', 90), K(tQu, *PARK, 'park', 90, y=HIDE)]
+a['car'] = [K(0, *PARK, 'park', 90, squish=1, mark=1), K(tQu - 0.002, *PARK, 'park', 90), K(tQu, *PARK, 'park', 90, y=HIDE)]
 MT_C = (9.0, PARK[1])                         # Monstertruck steht noch hinter dem Auto am Straßenrand
 DC = (2.2, -6.75)
 a['dummy'] = [K(0, *DC, 'carshock', 165), K(s0 - 0.002, *DC, 'carshock', 165), K(tRu, *DC, 'callpoint', 120, cut=True), K(tVe - 0.002, *DC, 'callpoint', 120),
@@ -320,7 +321,7 @@ CAM_CC = F(CAR_PTS(*PARK) + body(*DC, y0=WALK_Y) + truck_pts(*MT_C), 22, 8)
 CAM_C1 = F(body(*DC, y0=WALK_Y) + [[PARK[0] + 1.2, 0.2, PARK[1]]], -20, 6)
 CAM_C2 = F(unimog_pts(-12.0, 1.4) + unimog_pts(-20.0, 1.4) + [[-6.0, 0.0, 3.0]], 60, 6)
 CAM_C3 = F([[U_STOP[0][0] - 1.5, 2.9, 1.4], [U_STOP[0][0] + 2.4, 2.9, 1.4], [U_STOP[0][0] - 0.4, 1.2, 2.45], [U_STOP[0][0] + 1.4, 0.0, 2.45]], 6, 4)
-CAM_C4 = F(truck_pts(MT_C[0] + 7, MT_C[1] + 1.5) + unimog_pts(U_STOP[0][0] + 6, 1.4) + unimog_pts(U_STOP[1][0] + 4, 1.4), 35, 9)
+CAM_C4 = F(truck_pts(MT_C[0] + 15, MT_C[1] + 2.5) + unimog_pts(U_STOP[0][0] + 3, 1.4) + unimog_pts(U_STOP[1][0] + 1, 1.4), -62, 9)
 def chase_cam(t, az, el, names=('monstertruck', 'unimog1'), extra_pts=()):
     pts = []
     for nm in names:
@@ -352,12 +353,12 @@ shots['option3'] = {
 # =========================================================================================================
 a = {}
 a['car'] = flatcar()
-VD = (0.2, -6.4); VT = (-1.25, -6.7); VP = (1.55, -6.65)
+VD = (0.1, -6.4); VT = (-1.5, -6.7); VP = (1.7, -6.65)
 a['dummy'] = [K(0, *VD, 'carshock', 180)]
 a['truckfahrer'] = [K(0, *VT, 'sheepish', 165)]
 a['polizist'] = [K(0, *VP, 'stand', 200, brow=1)]
 a['monstertruck'] = [K(0, 7.5, PARK[1], 'park', 90)]
-CAM_V = ([0.2, 1.2, 0.0], [0.2, 2.05, -6.6])
+CAM_V = F(CAR_PTS(*PARK) + body(*VD, y0=WALK_Y) + body(*VT, y0=WALK_Y) + body(*VP, y0=WALK_Y), 0, 4, (90, 990, 1010, 1560))
 shots['countdown'] = {'camera': [cam(0, *CAM_V), cam(1, *dolly(CAM_V, 0.95))], 'actors': a}
 
 # =========================================================================================================

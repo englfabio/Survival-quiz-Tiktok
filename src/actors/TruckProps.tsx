@@ -127,6 +127,8 @@ export const MONSTER = {
   floor: 1.78,
   seat: [0, 1.78, 0.05] as [number, number, number],
   bigScale: 1.5,
+  /** im großen Truck sitzt der Fahrer so viel höher (Sitz = seat × 1,5 + bigSeatLift) */
+  bigSeatLift: 0.62,
   len: 4.6,
   height: 3.15,
 };
@@ -339,7 +341,7 @@ export const MonsterTruck = ({
       </group>
       {/* Sitz + Lenkrad in Original-Größe (auch im großen Truck passt der Dummy genau): Sitz bei MONSTER.seat × Maßstab */}
       <group scale={1 / s} position={[0, shake, 0]}>
-        <group position={[MONSTER.seat[0] * s, MONSTER.seat[1] * s * (1 - 0.55 * sq), MONSTER.seat[2] * s]}>
+        <group position={[MONSTER.seat[0] * s, MONSTER.seat[1] * s * (1 - 0.55 * sq) + (big ? MONSTER.bigSeatLift : 0), MONSTER.seat[2] * s]}>
           <group position={[0, 1.0, 0.5]} rotation={[-0.5, 0, 0]}>
             <mesh material={m.seat}>
               <torusGeometry args={[0.17, 0.025, 5, 14]} />
@@ -352,7 +354,7 @@ export const MonsterTruck = ({
             <boxGeometry args={[0.6, 0.75, 0.12]} />
           </mesh>
           <mesh material={m.seat} position={[0, 0.2, 0]}>
-            <boxGeometry args={[0.4, 0.4 * (s - 0.3), 0.4]} />
+            <boxGeometry args={[0.4, 0.4 + (big ? MONSTER.bigSeatLift * 2 : 0), 0.4]} />
           </mesh>
         </group>
       </group>
@@ -703,12 +705,12 @@ export const FlatCar = ({flat, pose = PARKED, color}: {flat: number; pose?: CarP
 /** Außenmaße des Rahmens; Ursprung = Mitte, Vorderseite +z, Rückseite liegt auf z 0 (an der Wand) */
 export const FRAME = {w: 4.7, h: 2.7, depth: 0.16};
 
-export const PictureFrame = ({fill = 1}: {fill?: number}) => {
+export const PictureFrame = ({fill = 1, carColor}: {fill?: number; carColor?: string}) => {
   const m = useMemo(
     () => ({
       gold: std('#d2a43a', {roughness: 0.3, metalness: 0.65}),
       goldDark: std('#9c7424', {roughness: 0.35, metalness: 0.6}),
-      mat: std('#1f2a44', {roughness: 0.95}),
+      mat: std('#f4efe2', {roughness: 0.95}),
     }),
     [],
   );
@@ -746,7 +748,7 @@ export const PictureFrame = ({fill = 1}: {fill?: number}) => {
       {/* das platte Auto, von oben gesehen (Dach zeigt nach vorn) */}
       {fill > 0.5 && (
         <group position={[0, 0, 0.06]} rotation={[Math.PI / 2, Math.PI / 2, 0]} scale={0.98}>
-          <FlatCar flat={1} />
+          <FlatCar flat={1} color={carColor} />
         </group>
       )}
     </group>
