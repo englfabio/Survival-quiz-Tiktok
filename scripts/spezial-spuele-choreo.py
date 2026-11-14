@@ -134,7 +134,7 @@ HAND_IN = [ST[0] + 0.05, 0.95, ST[1] - 0.55]
 HAND_UP = [ST[0] + 0.34, 1.3, ST[1] - 0.36]
 situation = {
  'camera': [*shot(0, r3(c_kalt - 0.003), F(body(*ST) + [[SINK[0] - 0.3, 0.9, SINK[1]], [SINK[0] + 0.3, 0.9, SINK[1]]], 28, 8, SIT)),
-            *shot(c_kalt, r3(c_gl - 0.003), F([[FOOD[0] - 0.3, 0.92, FOOD[2] - 0.2], [FOOD[0] + 0.3, 0.92, FOOD[2] + 0.2], [ST[0], 1.6, ST[1]], [ST[0] + 0.3, 1.3, ST[1]]], 40, 38, SIT)),
+            *shot(c_kalt, r3(c_gl - 0.003), F([[FOOD[0] - 0.3, 0.92, FOOD[2] - 0.2], [FOOD[0] + 0.3, 0.92, FOOD[2] + 0.2], [ST[0] + 0.3, 1.3, ST[1]]], 75, 40, SIT, fov=50)),
             *shot(c_gl, r3(c_was - 0.003), F([[HAND_UP[0] - 0.25, HAND_UP[1] - 0.25, HAND_UP[2]], [HAND_UP[0] + 0.15, HAND_UP[1] + 0.35, HAND_UP[2]], [ST[0], 1.85, ST[1]]], 55, 6, SIT)),
             *shot(c_was, 1, F(body(*ST) + [[ST[0] + 0.5, 1.2, ST[1]]], 35, 8, SIT))],
  'actors': a,
@@ -183,9 +183,9 @@ aA = static(); aA['spuele'] = fillA; aA['dummy'] = dummyA
 FACE_PT = [[ST[0] - 0.05, 1.95, ST[1]], [ST[0] + 0.25, 1.95, ST[1]], [ST[0] + 0.25, 1.15, ST[1] - 0.5], [ST[0] - 0.15, 1.15, ST[1] - 0.5]]
 expA = {
  'camera': [*shot(0, r3(sA - 0.003), F(body(*ST) + [[SINK[0] - 0.35, 0.9, SINK[1]], [SINK[0] + 0.35, 0.9, SINK[1]]], 25, 8)),
-            *shot(sA, r3(c_pap - 0.003), F(FACE_PT + [[ST[0] + 0.1, 1.0, ST[1]]], 86, 4)),
-            *shot(c_pap, r3(c_irg - 0.003), F(FACE_PT, 100, 6)),
-            *shot(c_irg, r3(c_bis - 0.003), F([[ST[0] - 0.05, 1.95, ST[1]], [ST[0] + 0.25, 1.95, ST[1]], [ST[0] + 0.25, 1.35, ST[1] - 0.3], [ST[0] - 0.2, 1.35, ST[1]]], 92, 2)),
+            *shot(sA, r3(c_pap - 0.003), F(FACE_PT + [[ST[0] + 0.1, 1.0, ST[1]]], 82, 4, fov=50)),
+            *shot(c_pap, r3(c_irg - 0.003), F(FACE_PT, 95, 6, fov=50)),
+            *shot(c_irg, r3(c_bis - 0.003), F([[ST[0] - 0.05, 1.95, ST[1]], [ST[0] + 0.25, 1.95, ST[1]], [ST[0] + 0.25, 1.35, ST[1] - 0.3], [ST[0] - 0.2, 1.35, ST[1]]], 88, 2, fov=50)),
             *shot(c_bis, r3(c_nix - 0.003), F(body(*ST) + [[SINK[0] - 0.35, 0.9, SINK[1]], [SINK[0] + 0.35, 0.9, SINK[1]]], 12, 10)),
             *shot(c_nix, 1, F(body(*END_A) + [[SINK[0] - 0.3, 0.9, SINK[1]], [SINK[0] + 0.3, 0.9, SINK[1]]], 25, 10))],
  'actors': aA,
@@ -225,8 +225,8 @@ expB = {
  'camera': [*shot(0, r3(sB - 0.003), F(body(*KB) + [[KB[0] + 0.6, 0.2, KB[1]], [KB[0] - 0.6, 0.2, KB[1]]], 20, 6)),
             *shot(sB, r3(c_kick - 0.003), F(body(*KB, 1.95, 0.45) + [[KB[0], 0.0, KB[1] + 0.5]], 25, 0)),
             *shot(c_kick, r3(c_tel - 0.003), F(body(*KB, 1.95, 0.35) + [KICK_TIP, [KICK_TIP[0], 0.4, KB[1]]], 5, 0)),
-            *shot(c_tel, r3(c_und2 - 0.003), F([[SINK[0] - 0.32, 0.9, SINK[1] - 0.2], [SINK[0] + 0.32, 0.9, SINK[1] + 0.2], [SINK[0], 1.3, SINK[1]]], 30, 30)),
-            *shot(c_und2, r3(c_zur - 0.003), F(body(*KB) + [[KB[0], 2.42, KB[1] - 0.3], [SINK[0], 0.9, SINK[1]]], 45, 4, fov=60)),
+            *shot(c_tel, r3(c_und2 - 0.003), F([[SINK[0] - 0.32, 0.9, SINK[1] - 0.2], [SINK[0] + 0.32, 0.9, SINK[1] + 0.2], [SINK[0], 1.3, SINK[1]]], 25, 58, fov=50)),
+            *shot(c_und2, r3(c_zur - 0.003), F([[KB[0], 2.45, KB[1] - 0.3], [KB[0], 1.1, KB[1] + 0.1], [SINK[0] - 0.2, 0.9, SINK[1]], [KB[0], 1.95, KB[1] + 0.25]], 72, 4, fov=60)),
             *shot(c_zur, 1, F(body(*KB, 1.9, 0.25) + [[SINK[0] - 0.3, 0.9, SINK[1]], [SINK[0] + 0.3, 0.9, SINK[1]]], 25, 8))],
  'actors': aB,
  'sfx': [{'t': r3(rh0 + sb(0.6)), 'id': 'kick-whoosh', 'volume': 0.6}, {'t': r3(kick_peak - sb(0.3)), 'id': 'kick-whoosh', 'volume': 0.8},
@@ -269,8 +269,8 @@ HANDS_C = [[ST[0] - 0.15, 1.25, ST[1] - 0.45], [ST[0] + 0.25, 1.25, ST[1] - 0.45
 expC = {
  'camera': [*shot(0, r3(sC - 0.003), F(body(*IN1) + body(*IN0) + [[SINK[0], 0.9, SINK[1]]], 20, 8)),
             *shot(sC, r3(c_mas - 0.003), F(body(*ST) + [[SINK[0] + 0.3, 0.9, SINK[1]]], 25, 8)),
-            *shot(c_mas, r3(c_han - 0.003), F(HEAD_C, 60, 4)),
-            *shot(c_han, r3(c_abw - 0.003), F(HANDS_C, 60, 30)),
+            *shot(c_mas, r3(c_han - 0.003), F(HEAD_C, 85, 4, fov=50)),
+            *shot(c_han, r3(c_abw - 0.003), F(HANDS_C, 78, 38, fov=50)),
             *shot(c_abw, r3(c_drei - 0.003), F(body(*ST) + [[RACK[0] + 0.2, 0.9, RACK[1]]], 25, 10)),
             *shot(c_drei, r3(c_aber - 0.003), F(body(*ST) + [[CLOCK[0] + 0.25, CLOCK_Y + 0.25, CLOCK[1]], [CLOCK[0] - 0.25, CLOCK_Y - 0.5, CLOCK[1]], [RACK[0], 0.9, RACK[1]]], 15, 6)),
             *shot(c_aber, 1, F(body(*END_C) + [[SINK[0] - 0.3, 0.9, SINK[1]], [RACK[0] + 0.2, 0.9, RACK[1]]], 18, 8))],
@@ -283,13 +283,13 @@ expC = {
 VOTE_D = (-0.7, -0.75)
 aV = static()
 aV['dummy'] = [K(0, *VOTE_D, 'sheepish', 165, brow=1)]
-vote = {'camera': shot(0, 1, F(body(*VOTE_D, 1.95, 0.35) + [[SINK[0], 0.9, SINK[1]]], 10, 4, (120, 960, 1010, 1240), push=0.04)), 'actors': aV}
+vote = {'camera': [cam(0, [-0.35, 1.05, 4.6], [-0.4, 1.75, -0.3]), cam(1, [-0.4, 1.05, 4.3], [-0.4, 1.75, -0.3])], 'actors': aV}
 
 # ================= Outro: Dummy hinter dem Tisch, winkt =================
 OUT_D = (-0.2, -0.05)
 aO = static()
 aO['dummy'] = [K(0, *OUT_D, 'stand', 180, brow=0.05), K(0.3, *OUT_D, 'wave', 180), K(1, *OUT_D, 'wave', 180)]
-outro = {'camera': shot(0, 1, F(body(*OUT_D, 2.1, 0.4) + [[SINK[0], 0.9, SINK[1]]], 0, 3, (70, 1000, 900, 1225), push=0.05)),
+outro = {'camera': shot(0, 1, F(body(*OUT_D, 2.15, 0.45), 0, 3, (70, 1000, 900, 1225), push=0.05)),
          'actors': aO}
 
 DESC = ("Du hast mal wieder Essensreste in der Spüle angefasst – was machst du? 🍝 Schreib A, B oder C in die Kommentare!\n\n"
@@ -305,7 +305,7 @@ scen = {
   {'card': S['o3c'], 'speech': S['o3s'], 'dummyAction': 'Der Dummy kommt im weißen Ganzkörper-Schutzanzug mit Maske, Schutzbrille und Gummihandschuhen auf Zehenspitzen in die Küche und spült in Zeitlupe ab. Die Küchenuhr springt von 18 auf 21 Uhr, das Geschirr ist sauber.', 'explanation': S['e3'], 'sceneExtra': EXTRA[3], 'choreography': expC},
  ],
  'countdown': {'speech': S['vote'], 'screen': 'Stimm ab!'},
- 'outro': {'speech': S['outro'], 'screen': 'Schreib A, B oder C & folg für mehr!'},
+ 'outro': {'speech': S['outro'], 'screen': 'Kommentieren & folgen!'},
  'publishing': {'description': DESC, 'pinnedComment': 'Ich bin Team ___. Und du? 👇'},
  'shots': {'situation': situation, 'countdown': vote, 'outro': outro},
 }

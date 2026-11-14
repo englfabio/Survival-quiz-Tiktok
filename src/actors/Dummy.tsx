@@ -4021,12 +4021,13 @@ const spuelePose = (motion: Motion, time: number): DummyPose | null => {
       p.torsoX = 0.38 * lean + breathe;
       p.headX = 0.3 * lean + 0.12 * clamp((time - 0.75) / 0.3) - 0.2 * easeInOut(clamp((time - 1.4) / 0.4)) * (1 - easeInOut(clamp((time - 1.9) / 0.3)));
       const pick: P3 = [SINK_FOOD[0], SINK_FOOD[1] + 0.02, SINK_FOOD[2]];
-      const look: P3 = [-0.1, 1.5, 0.4];
+      const look: P3 = [-0.12, 1.6, 0.42];
       const mouth: P3 = [-0.04, 1.68, 0.2];
       let R: P3;
       if (time < 0.6) R = lerp3t(rest, pick, easeInOut(time / 0.6));
       else if (time < 0.75) R = pick;
-      else if (time < 1.35) R = lerp3t(pick, look, easeInOut((time - 0.75) / 0.6));
+      else if (time < 1.1) R = lerp3t(pick, look, easeInOut((time - 0.75) / 0.35));
+      else if (time < 1.35) R = look;
       else if (time < 1.8) R = lerp3t(look, mouth, easeInOut((time - 1.35) / 0.45));
       else R = lerp3t(mouth, [-0.2, 1.05, 0.18], easeInOut(clamp((time - 1.85) / 0.5)));
       reachR(p, R, 0.36, [0.5, -1, -0.4]);
@@ -5317,7 +5318,7 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
     const kind = FOOD_SEQ[Math.max(0, Math.min(2, Math.round(tooth?.mark ?? 0)))];
     return (
       <group position={tip} quaternion={level}>
-        <FoodBit kind={kind} time={time} s={1.25} />
+        <FoodBit kind={kind} time={time} s={1.9} />
       </group>
     );
   }

@@ -66,7 +66,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -386,6 +386,16 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Partner ca. 0,95 m gegenüber), telefonieren + mit links zur Straße zeigen (`callpoint`); Museumsbesucher mit Weinglas (automatisch): anerkennend nicken
   (`wineadmire`), staunen (`winegasp`), prosten + trinken (`winetoast`). Im Monstertruck: `"attach": "monstertruck", x 0, y 1.78, z 0.05, face 0`; im großen
   `monstertruck2`: `x 0, y 3.29, z 0.075` (= Sitz × 1,5 + 0,62); im Unimog (Fahrer links): `"attach": "unimog1", x 0.42, y 1.32, z 0.62, face 0`.
+  Spüle (Spezial, Details in `spuelePose` in Dummy.tsx; Dummy 0,55 m vor der Spülenmitte, Blick zur Spüle = face 0, in `kueche` bei (−1.25, −1.43)):
+  in die Spüle greifen + erstarren (`sinkreach`: Hand drin 0,9 s, Erstarren mit Zittern 1,15 s, ab 2,6 s glitschige Hand langsam herausheben + weit weghalten,
+  Reste an den Fingern automatisch), ein Bissen mit spitzen Fingern (`pinchEat`, 2,0 s: greifen 0,75 s, ernst betrachten bis 1,35 s, essen 1,8 s; Art des
+  Stücks über Dummy-Wert `mark` 0 Nudel / 1 Paprika / 2 grüner Klumpen; danach `chew` = ernst kauen, Hand in der Hüfte), Drehung + hoher Roundhouse-Kick
+  in Zeitlupe (`roundhouse`: Drehung 0,6–2,4 s, Kick mit rechts zur rechten Seite 2,4–4,2 s, gestreckt ca. 3,1–3,7 s auf Kopfhöhe, Deckung ab ca. 5 s),
+  in hohem Bogen ausspucken (`spitarc`: Spucken bei 0,55 s, Objekt `spuckbogen` gleiche Stelle/Richtung mit `show` ab dann; Mund abwischen ab 1,2 s),
+  im Schutzanzug vorsichtig abspülen (`hazwash`: Teller links, Schwamm rechts in langsamen Kreisen). Pose-Feld `yaw` = ganzer Körper dreht sich
+  (für Drehungen innerhalb einer Bewegung). Wiederverwendet: `boxguard` (Deckung), `proud`, `tiptoe`, `sheepish`, `wave`.
+- **Schutzanzug (Dummy):** Wert `hazmat` 1 = weißer Ganzkörper-Schutzanzug ohne Aufdruck, Kapuze, Atemschutzmaske mit zwei Filtern, Schutzbrille,
+  blaue Gummihandschuhe mit Stulpe + blaue Überschuhe (Uniform `HAZMAT_UNIFORM` in Dummy.tsx; Arm-Prop `rubber` = Gummihandschuh in beliebiger Farbe).
 - **Monstertruck-Fahrer** (`truckfahrer`): Dummy-Körper hellgrau, roter Rennanzug, roter Rennhelm mit weißem Streifen + dunklem Visier (Uniform-Feld `helmet` =
   Helmfarbe, für jede Dummy-Figur nutzbar), ohne Logo – kann alle Dummy-Bewegungen. **Museumsbesucher** (`besucher1` Direktor im dunklen Anzug mit goldener
   Krawatte, `besucher2` grüne Jacke + rosa Schal + Haarknoten, `besucher3` weinrote Jacke; `MUSEUM_GUESTS` in index.tsx) – alle Dummy-Bewegungen.
@@ -571,6 +581,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   himmelblau (Auto des Dummys im Monstertruck-Video). Goldener Bilderrahmen 4,7 × 2,7 m (`bilderrahmen`, mit dem platten Auto darin, `mark` 1 = blaues Auto,
   `side` 1 = leer; an der Wand face 180), Preisschild an einer Schnur (`preisschild`, Feld `text` Standard „2.000.000 €“, `show` ploppt auf, face 180 an der Wand),
   Weinglas mit Rotwein (in der Hand bei `wineadmire`/`winegasp`/`winetoast`), Schlamm-Spritzer `MudSpray`. VERKAUFT-Schild `verkauft` jetzt mit `size`.
+- **Objekte (Spüle, `src/actors/SpueleProps.tsx`, comichaft + bunt, nicht eklig):** Spülen-Einsatz voller Geschirr (`spuele`: in `kueche`/`wohnkueche`/
+  `wg-kueche` bei (−1.25, y 0.92, −1.98), face 0; Tellerstapel, hochkant gelehnte Teller, blauer Topf, Becher, Schüssel, Gabel, bunte Essensreste obendrauf –
+  gelbe Nudeln, rote/grüne Paprika, wabbelnder grüner Klumpen; `fill` 0 … 1 = wie viele Reste noch da sind (verschwinden einzeln: Nudel, Paprika rot, Klumpen,
+  Nudel, Nudel, Paprika grün), `rumble` = Teller klirren/wackeln, `good` 1 = sauber (keine Soßenflecken, Glitzern), `mark` = Spülschaum), Abtropfgestell
+  (`abtropfgitter`, `fill` = bis 5 saubere Teller; neben der Spüle bei (−0.72, y 0.945, −2.0)), Essensreste fliegen in hohem Bogen vom Mund nach vorn
+  (`spuckbogen`, `show` = Flug 1,1 s, Ziel 0,7 m × (1 + `size`) vor der Figur), große Küchenuhr mit Zeigern + gelber Digitalanzeige (`kuechenuhr`: `fill` = Uhrzeit
+  in Stunden, z. B. 18 → 21 springt „18:00“ → „21:00“, Bewegung `spin` = Zeiger drehen + rote Zeitraffer-Striche, `size`; in `kueche` bei (1.45, y 2.05, −2.28), face 180).
+  In der Hand automatisch: Essensrest (`pinchEat`), glitschige Reste an den Fingern (`sinkreach`), Teller + Schwamm (`hazwash`). Einzelteil `FoodBit`.
+- **Szenario-Feld `padAfter`** (Sekunden, Standard 0,5): Pause nach jedem Sprach-Clip – zum Kürzen auf höchstens 66 s (Spezial-Regel 1), Texte bleiben gleich.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
@@ -586,7 +605,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -689,6 +708,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (geprüft), Kontrolle scribe_v2 (Situation, Option 3, Szene C „Unimogs“): korrekt. Choreografie: `python3 scripts/spezial-monstertruck-choreo.py` (Schema wie
   Joghurt/Bahn). Comichaft: niemand sitzt im überfahrenen Auto/Truck, Jagd ohne Unfälle. Keine Logos (Selbstprüfung: kein Stern am Unimog). Standbilder in
   review/spezial-monstertruck/phase1/. Finales Video: review/final/spezial-monstertruck.mp4 (85,2 s), vom Inhaber freigegeben.
+- Spezial Spüle: 733 neue Zeichen (293 Credits laut ElevenLabs, Abstimmung aus Cache), Sprechzeit 58,5 s, Video 65,8 s (erst 66,2 s → Pause nach
+  den Clips `padAfter` 0,45 statt 0,5 s; Texte Buchstabe für Buchstabe vom Inhaber). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 (Situation,
+  Option 2 „Chuck Norris“, Szenen A–C, Outro): korrekt. Choreografie: `python3 scripts/spezial-spuele-choreo.py` (Schema wie Joghurt). Bühne `kueche` statt
+  `wg-kueche`, weil der WG-Tisch die Spüle verdeckt. Nur der Dummy kickt (keine Figur, die einer echten Person ähnelt), keine Logos.
+  Standbilder in review/spezial-spuele/phase1/. Finales Video: review/final/spezial-spuele.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -727,6 +751,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `landstrasse` nutzen `wald-atmo`, `bahnsteig-verspaetung` `bahnhof-atmo`; wiederverwendet: `durchsage-gong`, `plopp`, `kalender-blaettern`).
   `monstertruck-motor`, `blech-knautschen` (comichaft, keine Explosion), `museum-atmo` (Bühne Museum, Schleife), `staunen`, `glaeser-klirren`, `bild-aufhaengen`,
   `matsch-spritzen` (Monstertruck; wiederverwendet: `sirene` (Polizei), `handy-waehlen`, `plopp`; `wohnstrasse`/`acker` nutzen `wald-atmo`).
+  `glitsch`, `schmatzen`, `kick-whoosh`, `teller-klirren`, `ausspucken`, `reste-platsch`, `schrubben`, `zeitraffer` (Spezial Spüle; wiederverwendet: `schleichen`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -941,7 +966,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       PaketProps.tsx = Paket/Stapel/Zelt/Lichterkette/Kocher/Säge/Klingel/Tageskalender/Wohnungstür mit Klappe,
                       WgProps.tsx = Kühlschrank/Joghurtbecher/Zettel/Knopf/Joghurt-Welle/Briefe/Stempel/Münzen/Ordner/Laptop/Lesebrille,
                       BahnProps.tsx = Lok/Bagger/Signal/Tacho/Kaffeetasse/Autoschlange/Anzeigetafel/Lokführermütze/Armbanduhr,
-                      TruckProps.tsx = Monstertruck/Polizei-Unimog/plattes Auto/Bilderrahmen/Preisschild/Weinglas/Rennhelm/Schlamm-Spritzer) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      TruckProps.tsx = Monstertruck/Polizei-Unimog/plattes Auto/Bilderrahmen/Preisschild/Weinglas/Rennhelm/Schlamm-Spritzer,
+                      SpueleProps.tsx = Spüle mit Geschirr + Essensresten/Abtropfgestell/Spuckbogen/Küchenuhr/Essensrest) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,

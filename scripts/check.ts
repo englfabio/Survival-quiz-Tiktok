@@ -30,6 +30,10 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
   if (tl.totalSeconds < MIN_SECONDS) {
     console.log(`   ⛔ Zu kurz! Mindestens ${MIN_SECONDS} s nötig. NICHT rendern – Inhaber informieren.`);
   }
+  // Spezial-Regel 1 (vom Inhaber): Spezial-Videos höchstens 66 s – Hinweis (ältere Spezial-Videos sind länger und bleiben gültig)
+  if (s.format === 'spezial' && tl.totalSeconds > 66) {
+    console.log('   ℹ️  Spezial über 66 s: bei neuen Videos Pausen (padAfter) / Kamerafahrten kürzen, Texte nie ändern.');
+  }
   if (!ok) problems++;
 }
 process.exit(problems ? 1 : 0);

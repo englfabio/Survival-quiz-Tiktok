@@ -342,7 +342,7 @@ export const FoodArc = ({time, active, size = 0}: {time: number; active: boolean
         const y = start.y + (end.y - start.y) * u + 4 * apex * u * (1 - u);
         const spin = time * (6 + r() * 6);
         return (
-          <group key={i} position={[x, y, z]} rotation={[spin, spin * 0.7, 0]} scale={0.95}>
+          <group key={i} position={[x, y, z]} rotation={[spin, spin * 0.7, 0]} scale={1.9}>
             {k === 'noodle' ? <Noodle mat={m.noodle} seed={i + 2} len={0.12} /> : k === 'blob' ? <Blob m={m} time={time} s={0.7} /> : <PaprikaPiece mat={k === 'paprika' ? m.paprika : m.paprika2} />}
           </group>
         );
@@ -353,7 +353,7 @@ export const FoodArc = ({time, active, size = 0}: {time: number; active: boolean
         if (u <= 0.02 || u >= 0.9) return null;
         const y = start.y + (end.y - start.y) * u + 4 * apex * u * (1 - u);
         return (
-          <mesh key={`d${i}`} material={m.blob} position={[0, y, start.z + (end.z - start.z) * u]} scale={0.5 + 0.06 * i}>
+          <mesh key={`d${i}`} material={m.blob} position={[0, y, start.z + (end.z - start.z) * u]} scale={1.0 + 0.1 * i}>
             <sphereGeometry args={[0.012, 5, 4]} />
           </mesh>
         );
