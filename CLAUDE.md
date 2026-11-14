@@ -106,6 +106,12 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
 - Kein Rot/Grün, kein Richtig-/Falsch-Ton; beim Erscheinen jeder Antwort ein „Pop“, bei der Abstimmung Ticks + Spannung.
 - Spezial-Videos werden im Positionsplan nicht gezählt.
 - Darstellung immer comichaft und harmlos.
+- **Flüssiger Übergang (vom Inhaber gewünscht):** Der Szenentext (`explanation`) darf die vorgelesene Antwort NICHT wiederholen,
+  sondern setzt direkt danach ein (z. B. Antwort „Du legst … und wartest“ → Szene „Dann setzt du dich … und wartest.“).
+- **Ende ohne Doppelung (vom Inhaber gewünscht):** „Schreib A, B oder C in die Kommentare“ kommt nur EINMAL (bei der Abstimmung).
+  Das Outro nutzt die Gelegenheit für: Freund markieren + folgen (z. B. „Ihr habt doch bestimmt auch einen Freund, dem das ständig
+  passiert. Markiert ihn und folgt uns gerne.“), Schild `outro.screen` passend dazu (z. B. „Freund markieren & folgen!“).
+  Gilt sinngemäß auch für neue Quiz-Videos (Countdown fordert zum Kommentieren auf → Outro nicht noch einmal).
 
 - Abschnittslängen richten sich (sobald es Sprachaufnahmen gibt) automatisch nach der
   Länge der Audios. Bis dahin wird die Sprechdauer aus der Textlänge geschätzt
@@ -204,7 +210,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Sternen, warmen Fensterlichtern + Gartenlampen, Atmo = `nacht-atmo`): Doppelhaus hinten (Hauswände zum Garten z −7.8), niedriger weißer Lattenzaun
   (0,7 m) bei x = 0 mit Lücke fürs Gartentor (z 3 … 4, Figur `gartentor`), links Garten des Dummys mit Hundehütte (−8.3, −5.6) + welken Büschen,
   rechts Garten des Nachbarn mit Blumenbeeten, Rosenbüschen, Kugel-Buchs, Haustür (x 3.4) mit Stufe, Klingel + Türlampe; Platz vor der Tür (3.4, −6.42),
-  Nachbar auf der Stufe (3.4, −7.42, y 0.16). Die Rasenflächen sind Figuren (`rasen` bei (−5.2, 0.6), `rasen2` bei (5.2, 0.6)), Koordinaten in `NG`.
+  Nachbar auf der Stufe (3.4, −7.42, y 0.16). Offenes Fenster im Erdgeschoss des Nachbarhauses (Mitte x 7.9, Brüstung 0,93 m, mit Gardinen,
+  dahinter 0,4 m tiefer dunkler Raum): Figur „schaut aus dem Fenster“ bei `NG.window.spot` (7.9, −8.02), face 180 (HouseBlock-Prop `openWin`).
+  Die Rasenflächen sind Figuren (`rasen` bei (−5.2, 0.6), `rasen2` bei (5.2, 0.6)), Koordinaten in `NG`.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -269,7 +277,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Mäher-Bewegung `push` = Räder drehen), Aktenkoffer rechts + mit links klingeln (`ringbell`, Klingel 0,42 m vor ihm auf 1,38 m), Brief in den Briefkasten
   werfen (`postletter`, Schlitz 0,5 m vor ihm auf 1,08 m), triumphierend Arme verschränken (`armscross`); Nachbar: kniend mit der Nagelschere schneiden
   (`snip`), gießen mit linker Hand in der Hüfte (`waterplants`), Klemmbrett mit beiden Händen halten (`holdboard`). Wiederverwendet: Vertrag unterschreiben =
-  `fillform` (Klemmbrett 0,5 m vor ihm), verwirrt umschauen = `lookaround` + `question`, verdutzt am Kopf kratzen = `sheepish`, winken, gehen, `notice`.
+  `fillform` (Klemmbrett 0,5 m vor ihm), Schweres vor dem Bauch tragen + gehen (`carrywalk`, Fliegerbombe `"attach": "dummy", x 0, y 0.95, z 0.4,
+  face −90`, danach `lower` + Bombe frei liegend y 0.16, face = Dummy-face + 90), alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf
+  nach vorn werfen (`leaftoss`, Abwurf ca. 1,0 s – Objekt `laubwurf` an gleicher Stelle/Richtung mit `show`), warten auf dem Gartenstuhl = `couchwait`
+  (+ Shot-Feld `timer` als Zeitraffer-Uhr), verwirrt umschauen = `lookaround` + `question`, verdutzt am Kopf kratzen = `sheepish`, winken, gehen, `notice`.
 - **Panik-Darstellung (Dummy):** Herz-Symbol neben dem Kopf (Wert `heart` = Schläge/s, 0 = aus; schnell = zuckende Striche, Ton `herzschlag`
   pro Schlag im Choreo-Skript), hektisches Atmen = `breath` (Atemwolken) + `heave` (Brustkorb hebt sich 0 … 1), Bauch hebt/senkt sich bei `sitbreathe`
   mit ruhigen Atemwolken beim Ausatmen. Shot-Feld `"tight": [{t, v}]` = Raum wird eng (leichter Zoom + dunkle Vignette, 0 … 1),
@@ -394,7 +405,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Klemmbrett „KAUFVERTRAG“ (`kaufvertrag`, `fill` 0 … 1 = Unterschrift wird geschrieben, `tilt`), Briefumschlag mit rotem Stempel „KÜNDIGUNG“ (`kuendigung`,
   Feld `text`, `size`), Briefkasten auf Pfosten (`briefkasten`, `door` = Klappe), großes rotes Schild „VERKAUFT“ auf Pfosten (`verkauft`, `show` = ploppt aus
   dem Boden), grüne Gießkanne (`giesskanne`, Ursprung = Griff, `tilt` ≈ 38 zum Gießen, `water` 1 = Wasserstrahl), Nagelschere (`nagelschere`, schnippt, `size`),
-  weißes Gartentor (`gartentor`, `door` 0 … 1), Sprühdose mit grüner Farbe (bei `spraylawn`/`SprayCan`), Glitzern (`Sparkle`). `SprayMist` kann jetzt
+  weißes Gartentor (`gartentor`, `door` 0 … 1), weißer Plastik-Gartenstuhl (`gartenstuhl`, Sitz 0,45 m – Dummy an gleicher Stelle mit
+  `couchwait`/`chairsit`), Laubhaufen (`laubhaufen`, `size` −1 = weg), Laubdecke über einer Rasenfläche (`laubdecke`, `fill` 0 … 1, ab 0,9 kein Grün mehr),
+  fliegendes Laub im Bogen nach vorn (`laubwurf`, `show` = wirft alle 1,6 s, passend zu `leaftoss`), Sprühdose mit grüner Farbe (bei `spraylawn`/`SprayCan`), Glitzern (`Sparkle`). `SprayMist` kann jetzt
   Farbe, Breite (`spread`) und Tröpfchengröße (`grain`).
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
@@ -483,7 +496,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Erklärung 2 + 3): korrekt. Choreografie: `python3 scripts/spritze-spielplatz-choreo.py`. Kein Drogenkonsum/Blut, Kinder nur als bunte Kinder-Dummys;
   falsche Optionen frieren ein (Option 2 bevor die Nadel den Finger berührt). Standbilder in review/spritze-spielplatz/phase1/.
   Finales Video: review/final/spritze-spielplatz.mp4.
-- Spezial „Nachbars Rasen“ (erstes Spezial-Video): 967 neue Zeichen (387 Credits laut ElevenLabs), Sprechzeit 67,4 s, Video 75,7 s (Szene A rein visuell
+- Spezial „Nachbars Rasen“ – Überarbeitung (vom Inhaber gewünscht): Antworten A = Fliegerbombe in seinen Garten legen und warten (KEINE
+  Explosion/Auflösung, Zeitraffer-Uhr), B = nachts Laub auf seine Grünfläche werfen, C = Haus kaufen + ihn kündigen; Szenentexte ohne Wiederholung,
+  Outro mit Freund markieren + folgen. 644 neue Zeichen (257 Credits), Video 65,6 s, Kontrolle scribe_v2 korrekt.
+  Frühere Fassung: 967 neue Zeichen (387 Credits laut ElevenLabs), Sprechzeit 67,4 s, Video 75,7 s (Szene A rein visuell
   +0,8 s für die Reaktion des Nachbarn). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 („A:“, „B.“, „C:“ + Abstimmung): korrekt. Choreografie:
   `python3 scripts/spezial-nachbars-rasen-choreo.py` (Kameras rechnet `scripts/fitcam_fast.py` = schnelle Variante von fitcam). Alles comichaft: kein Schaden
   für den Nachbarn, er schaut am Ende jeder Szene verdutzt (Fragezeichen). Standbilder in review/spezial-nachbars-rasen/phase1/.
