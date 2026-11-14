@@ -487,7 +487,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   +0,8 s für die Reaktion des Nachbarn). Wort-Zeitstempel = Text (geprüft), Kontrolle scribe_v2 („A:“, „B.“, „C:“ + Abstimmung): korrekt. Choreografie:
   `python3 scripts/spezial-nachbars-rasen-choreo.py` (Kameras rechnet `scripts/fitcam_fast.py` = schnelle Variante von fitcam). Alles comichaft: kein Schaden
   für den Nachbarn, er schaut am Ende jeder Szene verdutzt (Fragezeichen). Standbilder in review/spezial-nachbars-rasen/phase1/.
-  Finales Video: review/final/spezial-nachbars-rasen.mp4.
+  Finales Video: review/final/spezial-nachbars-rasen.mp4, vom Inhaber freigegeben.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
