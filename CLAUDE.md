@@ -267,8 +267,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   WG-Küche (Dummy UND Kumpel/Mitbewohner, Details in `wgPose` in Dummy.tsx): Kühlschrank öffnen + leeren Becher entdecken (`fridgeopen`, Dummy bei
   `WG_FRIDGE_STAND` (−1.55, −1.05) face 0, Tür-Wert `door` 0 → 1 genau von 0,4 bis 1,2 s nach Bewegungsbeginn, Becher ab 2,0 s links in der Hand), entsetzt
   erstarren (`aghast`), großen roten Knopf drücken (`pressbutton`, Knopf 0,5 m vor ihm, Treffer 0,72 s), Zettel schreiben (`writenote`, Tisch 0,42 m vor ihm) +
-  auf den Becher kleben (`sticknote`, 0,5 s), am Laptop tippen (`typedesk`, sitzend), kniend Briefe unter der Tür durchschieben (`slideletter`, alle 1,3 s,
-  Schub 0,6–1,12 s), Stempel kräftig aufdrücken (`stamp`, Treffer 0,58 s), Ordner ins Regal stellen (`shelve`, loslassen 1,35 s, dann Hände in die Hüften);
+  auf den Becher kleben (`sticknote`, 0,5 s), am Laptop tippen (`typedesk`, sitzend), kniend Briefe unter der Tür durchschieben (`slideletter`, alle 1,0 s,
+  Schub 0,6–1,0 s), Stempel kräftig aufdrücken (`stamp`, Treffer 0,58 s), Ordner ins Regal stellen (`shelve`, loslassen 1,35 s, dann Hände in die Hüften);
   verstohlen Joghurt löffeln (`spoon`), Becher mit Zettel lesen + erschrocken zurückzucken (`readnote`, 1,2 s), Becher ganz langsam abstellen (`putback`, 2,2 s),
   Briefe mit wachsendem Entsetzen öffnen (`openletters`, alle 1,8 s: Rechnung → 1. Mahnung → 2. Mahnung, Schrift zur Kamera), sitzend Münzen einzeln zählen
   (`countcoins`, alle 0,8 s), Joghurt von der Stirn wischen + probieren + Daumen hoch (`wipebrow`). Werte: `glasses` (Lesebrille), `splat` (Joghurt am Kopf),
@@ -481,9 +481,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Erklärung 2 + 3): korrekt. Choreografie: `python3 scripts/spritze-spielplatz-choreo.py`. Kein Drogenkonsum/Blut, Kinder nur als bunte Kinder-Dummys;
   falsche Optionen frieren ein (Option 2 bevor die Nadel den Finger berührt). Standbilder in review/spritze-spielplatz/phase1/.
   Finales Video: review/final/spritze-spielplatz.mp4.
-- Spezial Mitbewohner-Joghurt (erstes Video im Spezial-Format): 1106 neue Zeichen (ElevenLabs: 443 Credits), Sprechzeit 81,3 s, Video 90,4 s. Wort-Zeitstempel = Text
-  (geprüft), Kontrolle scribe_v2 (Option 3 „1,29 Euro“ + Szene C „2026“): korrekt. Choreografie: `python3 scripts/mitbewohner-joghurt-choreo.py` (dauert ca. 3 min,
-  Kameras werden mit `fitcam` automatisch eingepasst). Outro-Satz „Und was soll der Dummy als Nächstes erleben?“ auf Wunsch des Inhabers ergänzt.
+- Spezial Mitbewohner-Joghurt (erstes Video im Spezial-Format): erst 1106 Zeichen (90,4 s – dem Inhaber zu lang), dann **Texte auf Wunsch des Inhabers gekürzt**
+  (669 neue Zeichen, ca. 268 Credits): Sprechzeit 58,3 s, Video 66,4 s. Outro nur noch „Markier deinen Joghurt-Dieb! Was soll der Dummy als Nächstes erleben?“
+  (Inhaber: nach „Schreib A, B oder C in die Kommentare“ nichts mehr wiederholen, kein „keine richtige Antwort“). Wort-Zeitstempel = Text (geprüft),
+  Kontrolle scribe_v2 (Option 3 „1,29 Euro“, Szene A, Szene C „2026“): korrekt. Choreografie: `python3 scripts/mitbewohner-joghurt-choreo.py` (dauert ca. 3 min,
+  Kameras werden mit `fitcam` automatisch eingepasst). Vorgabe des Inhabers für Spezial-Videos: Länge knapp über 61 s anstreben, Texte knapp halten.
   Standbilder in review/spezial-mitbewohner-joghurt/phase1/. Finales Video: review/final/spezial-mitbewohner-joghurt.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
