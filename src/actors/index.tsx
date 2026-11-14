@@ -597,7 +597,11 @@ export const Actor = ({
         </group>
       )}
       {(name === 'klingel' || name === 'klingel2') && <Doorbell text={actor.text ?? (name === 'klingel' ? 'NACHBAR' : 'DUMMY')} press={v.press} />}
-      {name === 'tageskalender' && <DayCalendar day={Math.max(1, v.fill)} labels={actor.text ? actor.text.split('|') : undefined} />}
+      {name === 'tageskalender' && (
+        <group scale={1 + v.size}>
+          <DayCalendar day={Math.max(1, v.fill)} labels={actor.text ? actor.text.split('|') : undefined} />
+        </group>
+      )}
       {(name === 'treppentuer' || name === 'treppentuer2') && (
         <FlatDoor open={v.door} cut={v.fill} lid={v.lid} text={actor.text ?? (name === 'treppentuer' ? 'NACHBAR' : 'DUMMY')} wood={name === 'treppentuer2'} time={zt} mirror={v.side > 0.5} />
       )}
@@ -634,7 +638,11 @@ export const Actor = ({
       {name === 'signal' && <RailSignal green={v.good} time={clock} />}
       {name === 'kaffeetasse' && <CoffeeMug smoke={v.smoke} time={clock} />}
       {name === 'autoschlange' && <CarQueue count={v.fill > 0 ? v.fill * 8 : 6} dist={pos.x + pos.z} time={zt} rumble={v.rumble} />}
-      {name === 'anzeigetafel' && <DelayBoard text={actor.text ?? '+90 Min'} blink={v.blink} />}
+      {name === 'anzeigetafel' && (
+        <group scale={1 + v.size}>
+          <DelayBoard text={actor.text ?? '+90 Min'} blink={v.blink} />
+        </group>
+      )}
       {name === 'becher' && (
         <group rotation={state.motion === 'toss' ? [state.motionTime * 7.5, state.motionTime * 3, state.motionTime * 11] : [0, 0, 0]}>
           <PlasticCup size={v.size} />

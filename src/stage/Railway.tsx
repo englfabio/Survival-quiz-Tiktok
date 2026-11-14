@@ -250,7 +250,7 @@ const RailwayScene = (_: {cam?: StageCam}) => (
     <Countryside seed={91} keepFree={railFree} />
     <Track />
     <FencePosts z={-6.2} />
-    <FencePosts z={7.5} />
+    <FencePosts z={14} />
   </>
 );
 

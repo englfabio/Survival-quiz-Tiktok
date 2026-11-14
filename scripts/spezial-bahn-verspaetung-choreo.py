@@ -122,7 +122,7 @@ CAM_S0 = F(BOARD_PTS + [[SPEAKER[0], SPEAKER[1] - 0.4, SPEAKER[2]]], 8, -10, SIT
 CAM_S1 = F(body(*D0) + body(*P1) + BOARD_PTS[:2] + [[P2[0], 1.9, P2[1]]], -38, 6, SIT)
 WRIST = (D0[0] - 0.2, D0[1] - 0.1)
 CAM_S2 = F([[D0[0], 2.0, D0[1]], [WRIST[0], 1.15, WRIST[1]], [D0[0] + 0.25, 1.4, D0[1]], [D0[0] - 0.3, 1.9, D0[1]]], -60, 8, SIT)
-CAM_S3 = F(body(*D0) + [[BOARD[0] + 1.55, BOARD_Y + 0.96, BOARD[1]], [BOARD[0], BOARD_Y + 0.96, BOARD[1]]], 10, 6, SIT)
+CAM_S3 = F(body(*D0), 15, 6, SIT)
 shots['situation'] = {
     'camera': shot(0, cD, CAM_S0, 0.9) + shot(cD, cA, CAM_S1) + shot(cA, cW, CAM_S2, 0.93) + shot(cW, 1.003, CAM_S3, 0.93),
     'actors': a,
@@ -165,7 +165,7 @@ lok_keys.append(K(1, LOCO_STOP, 0, 'park', 90, blink=1, ring=0))
 a['lok'] = lok_keys
 a['verkauft'] = [K(0, 2.2, 3.4, 'park', 200, y=HIDE), K(tK + sa(0.2) - 0.002, 2.2, 3.4, 'park', 200, y=HIDE), K(tK + sa(0.2), 2.2, 3.4, 'show', 200, y=0),
                  K(tN - 0.002, 2.2, 3.4, 'show'), K(tN, 2.2, 3.4, 'park', y=HIDE)]
-a['signal'] = [K(0, *SIGNAL, 'park', 270, good=0)]
+a['signal'] = [K(0, *SIGNAL, 'park', 215, good=0)]
 a['zug'] = [K(0, TRAIN_REAR + TRAIN_LEN, 0, 'park', 90, y=0.15, text='+90 Min', side=1)]
 # Dummy: steht staunend vor der Lok → jubelt (VERKAUFT) → (Schnitt "Mit Hupe") sitzt in der Lok und hupt → setzt die Mütze auf → stolz
 # → fährt (hupt) → tippt am roten Signal aufs Lenkrad
@@ -192,12 +192,12 @@ def follow(t, az=20, el=6):
     x = lokx(t)
     return F(LOK_PTS(x), az, el)
 tF0 = tN; tF1 = tR
-CAM_SG = F([[SIGNAL[0] - 0.5, 4.95, SIGNAL[1]], [SIGNAL[0] + 0.5, 4.95, SIGNAL[1]], [SIGNAL[0], 3.4, SIGNAL[1]], [LOCO_STOP + 3.2, 0.3, 0], [LOCO_STOP + 1, 3.0, 0]], -40, 2)
+CAM_SG = F([[SIGNAL[0] - 0.5, 4.95, SIGNAL[1]], [SIGNAL[0] + 0.5, 4.95, SIGNAL[1]], [SIGNAL[0], 3.4, SIGNAL[1]], [LOCO_STOP + 3.2, 0.3, 0], [LOCO_STOP + 1, 3.0, 0]], -10, 4)
 CAM_WT = F([[LOCO_STOP + SEAT[2], 3.2 + 0.3, 0.0], [LOCO_STOP + SEAT[2] + 0.6, 1.25 + 0.3 + 0.5, 0.3], [LOCO_STOP + SEAT[2] - 0.4, 2.0, -0.3]], 60, 6)
 # Kamerafahrt nach vorne: hinter dem Führerhaus über die Motorhaube zum Zugende mit "+90 Min"
 CAMV0 = ([LOCO_STOP - 5.5, 4.1, 1.2], [LOCO_STOP + 6, 2.9, 0.0])
 CAMV1 = ([TRAIN_REAR - 9.0, 3.6, 1.6], [TRAIN_REAR, 3.4, 0.0])
-CAM_G = F([[TRAIN_REAR, 4.4, -1.4], [TRAIN_REAR, 4.4, 1.4], [TRAIN_REAR, 1.0, 0], [LOCO_STOP, 3.5, 0], [LOCO_STOP + 3.2, 0.3, 1.2]], 40, 8)
+CAM_G = F([[TRAIN_REAR, 4.4, -1.4], [TRAIN_REAR, 4.4, 1.4], [TRAIN_REAR, 1.0, 0], [LOCO_STOP, 3.5, 0], [LOCO_STOP + 3.2, 0.3, 1.2]], -72, 8)
 shots['option1'] = {
     'camera': shot(0, tK, CAM_A0, 0.94) + shot(tK, tH, CAM_AK, 0.95) + shot(tH, tM, CAM_AH, 0.93) + shot(tM, tA, CAM_AM, 0.92) + shot(tA, tN, CAM_AA, 0.94) +
               [cam(tN, *follow(tN, 25, 7))] + [cam(tN + (tF1 - tN) * i / 4, *follow(tN + (tF1 - tN) * i / 4, 25 - 4 * i, 7)) for i in range(1, 4)] +
@@ -240,7 +240,7 @@ a['autoschlange'].append(K(tAn, -50, 0, 'park', 90, y=HIDE))
 # Tacho "25 km/h" neben der Kabine (ploppt bei "Höchstgeschwindigkeit" auf)
 def tacho_pos(t):
     return (bx(t) + 1.2, 2.9)
-a['tacho'] = [K(0, *tacho_pos(0), 'park', 0, y=HIDE, size=1.6)]
+a['tacho'] = [K(0, *tacho_pos(0), 'park', 0, y=HIDE, size=3.0)]
 for i in range(6):
     tt = tHo + (tAn - tHo) * i / 5
     a['tacho'].append(K(tt - (0.002 if i == 5 else 0), *tacho_pos(tt if i < 5 else tAn - 0.002), 'show' if i < 5 else 'show', 0, y=3.5 if i < 5 else 3.5))
@@ -249,16 +249,16 @@ a['tacho'].append(K(tAn, -50, 0, 'park', y=HIDE))
 DAYS = 'Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Montag|Dienstag'
 NDAYS = 7
 def cal_pos(t):
-    return (bx(t) - 1.0, 2.9)
-a['tageskalender'] = [K(0, *cal_pos(0), 'park', 180, y=HIDE, fill=1, text=DAYS)]
+    return (bx(t) + 5.0, 2.4)
+a['tageskalender'] = [K(0, *cal_pos(0), 'park', 240, y=HIDE, fill=1, text=DAYS, size=5)]
 flips = [tHo + sb(0.3) + (tAn - tHo - sb(0.6)) * j / (NDAYS - 1) for j in range(NDAYS)]
 for j, tt in enumerate(flips):
     if j == 0:
-        a['tageskalender'] += [K(tt - 0.002, *cal_pos(tt), 'park', 0, y=HIDE, fill=1), K(tt, *cal_pos(tt), 'park', 180, y=5.1, fill=1)]
+        a['tageskalender'] += [K(tt - 0.002, *cal_pos(tt), 'park', 0, y=HIDE, fill=1), K(tt, *cal_pos(tt), 'park', 240, y=4.0, fill=1)]
     else:
         a['tageskalender'] += [K(tt - sb(0.35), *cal_pos(tt - sb(0.35)), 'park', 0, fill=j), K(tt, *cal_pos(tt), 'park', 0, fill=j + 1)]
-a['tageskalender'] += [K(tAn - 0.002, *cal_pos(tAn - 0.002), 'park', 0, fill=NDAYS), K(tAn, ARRIVE_X - 3.2, 1.2, 'park', 0, y=4.4, fill=NDAYS)]
-a['tageskalender'] += [K(tDi - 0.002, ARRIVE_X - 3.2, 1.2, 'park', 0), K(tDi, 1.15, -2.19, 'park', 0, y=1.45, fill=NDAYS)]
+a['tageskalender'] += [K(tAn - 0.002, *cal_pos(tAn - 0.002), 'park', 0, fill=NDAYS), K(tAn, ARRIVE_X - 4.5, 2.6, 'park', 160, y=3.6, fill=NDAYS, size=3)]
+a['tageskalender'] += [K(tDi - 0.002, ARRIVE_X - 4.5, 2.6, 'park', 160), K(tDi, 1.15, -2.17, 'park', 180, y=1.45, fill=NDAYS, size=0.6)]
 # Büro: Chef schaut auf die Uhr
 a['chef'] = [K(0, 1.05, -1.0, 'stand', 180, y=HIDE), K(tDi - 0.002, 1.05, -1.0, 'stand', 180, y=HIDE), K(tDi, 0.55, -1.1, 'watchlook', 160, y=0, brow=1)]
 BAG_PTS = lambda x: [[x - 3.3, 7.2, -1.2], [x + 5.6, 4.0, 1.0], [x - 3.0, 0.0, 2.2], [x + 3.0, 0.0, -1.6]]
@@ -267,15 +267,15 @@ CAM_B0 = F(BAG_PTS(BX0), 35, -6)
 def bfollow(t, az, el, pts):
     return F(pts(bx(t)), az, el)
 CAB_PTS = lambda x: [[CAB(x)[0] - 0.5, CAB(x)[1] + 2.05, CAB(x)[2]], [CAB(x)[0] + 0.7, CAB(x)[1] + 0.3, CAB(x)[2] + 0.5], [CAB(x)[0], CAB(x)[1] + 0.8, CAB(x)[2] - 0.6]]
-TAIL_PTS = lambda x: [[x + 3.5, 6.5, 0.6], [x - QGAP - 3 * 5.4, 1.5, 0], [x - QGAP, 0, 1.5], [x + 2.6, 5.4, 1.0], [x + 1.2, 4.2, 2.9]]
+TAIL_PTS = lambda x: [[x + 3.5, 6.5, 0.6], [x - QGAP - 1 * 5.4, 1.5, 0], [x - QGAP, 0, 1.5], [x + 2.6, 5.4, 1.0], [x + 1.2, 4.2, 2.9]]
 CAM_BO = F([[0.0, 2.6, -0.8], [1.5, 2.6, -0.8], [0.55, 0.0, -1.1], [1.15, 1.7, -2.19], [1.15, 1.2, -2.19]], 0, 6)
-CAM_BA = F(BAG_PTS(ARRIVE_X) + [[ARRIVE_X + 8, 11.5, -16.0], [ARRIVE_X - 4, 11.5, -16.0], [ARRIVE_X - 3.2, 4.8, 1.2]], 35, 8)
+CAM_BA = F(BAG_PTS(ARRIVE_X) + [[ARRIVE_X + 2, 12.5, -16.0], [ARRIVE_X - 4.5, 4.9, 2.6]], 20, 6)
 tmid = (tHo + tKm) / 2
 shots['option2'] = {
     'camera': shot(0, tKe, CAM_B0, 0.95) +
               [cam(tKe, *bfollow(tKe, 30, 4, BAG_PTS)), cam(tNu - 0.003, *bfollow(tNu - 0.003, 18, 4, BAG_PTS))] +
               [cam(tNu, *bfollow(tNu, 35, 4, CAB_PTS)), cam(tHo - 0.003, *bfollow(tHo - 0.003, 30, 4, CAB_PTS))] +
-              [cam(tHo, *bfollow(tHo, -62, 14, TAIL_PTS)), cam(tAn - 0.003, *bfollow(tAn - 0.003, -55, 14, TAIL_PTS))] +
+              [cam(tHo, *bfollow(tHo, -62, 12, TAIL_PTS)), cam(tAn - 0.003, *bfollow(tAn - 0.003, -55, 12, TAIL_PTS))] +
               shot(tAn, tDi, CAM_BA, 0.95) + shot(tDi, 1.003, CAM_BO, 0.93),
     'actors': a,
     'stage': [{'t': 0, 'stage': 'landstrasse'}, {'t': r3(tDi), 'stage': 'buero'}],
@@ -310,7 +310,7 @@ a['laptop'] = [K(0, LAP[0], LAP[1], 'park', 90, y=HIDE, lid=0, mark=1, glow=0), 
                K(tSi + sc(0.02), LAP[0], LAP[1], 'park', 90, glow=1)]
 a['digitaluhr'] = [K(0, CLK[0], CLK[1], 'park', 90, y=HIDE, text='8:01'), K(tJ - 0.002, CLK[0], CLK[1], 'park', 90, y=HIDE), K(tJ, CLK[0], CLK[1], 'park', 70, y=CLK[2])]
 a['kaffeetasse'] = [K(0, MUG[0], MUG[1], 'park', 90, y=HIDE, smoke=1), K(tKa - 0.002, MUG[0], MUG[1], 'park', 90, y=HIDE), K(tKa, MUG[0], MUG[1], 'park', 90, y=HIDE)]
-CAM_C0 = F(body(*D0) + body(*P1) + BOARD_PTS[:2], -30, 6)
+CAM_C0 = F(body(*D0) + body(*P1), -30, 6)
 CAM_CW = F(body(*D0) + body(*HOME) + body(*P1) + body(*P3), 5, 6)
 CAM_CJ = F(body(*STAND_H) + [[STAND_H[0], 0.0, STAND_H[1] + 0.4]], 30, 4)
 SITPTS = [[CH[0], 1.45, CH[1]], [CH[0] - 0.65, 0.95, CH[1]], [CH[0] + 0.25, 0.0, CH[1]], [CH[0], 1.0, CH[1] + 0.35]]
@@ -318,7 +318,7 @@ CAM_CK = F(SITPTS, 45, 6)
 CAM_CL = F([[LAP[0], 0.98, LAP[1] + 0.2], [LAP[0], 0.74, LAP[1] - 0.2], [CH[0], 1.45, CH[1]], [CH[0] - 0.3, 0.9, CH[1] + 0.3]], 140, 18)
 CAM_CB = F([[-2.5, 2.2, -1.1], [-2.5, 0.0, 0.6], [CH[0] + 0.4, 1.45, CH[1]], [-0.5, 0.0, 0.4]], 70, 10)
 CAM_CU = F([[CLK[0] - 0.08, 0.86, CLK[1]], [CLK[0] + 0.08, 0.74, CLK[1] + 0.08], [CLK[0], 0.74, CLK[1] - 0.12]], 75, 14)
-CAM_CM = F([[LAP[0] - 0.05, 0.98, LAP[1] - 0.17], [LAP[0] - 0.05, 0.98, LAP[1] + 0.17], [LAP[0], 0.76, LAP[1]], [CH[0] + 0.1, 1.5, CH[1] - 0.25], [CH[0] - 0.1, 1.85, CH[1] - 0.45]], 115, 12)
+CAM_CM = F([[LAP[0] - 0.05, 0.98, LAP[1] - 0.17], [LAP[0] - 0.05, 0.98, LAP[1] + 0.17], [LAP[0], 0.76, LAP[1]], [CH[0] + 0.1, 1.5, CH[1] - 0.25], [CH[0] - 0.1, 1.95, CH[1] - 0.45], [CH[0] + 0.1, 1.3, CH[1]]], 98, 28)
 shots['option3'] = {
     'camera': shot(0, tDr, CAM_C0, 0.94) + shot(tDr, tJ, CAM_CW, 0.95) + shot(tJ, tKa, CAM_CJ, 0.93) + shot(tKa, tLa, CAM_CK, 0.93) + shot(tLa, tKB, CAM_CL, 0.93) +
               shot(tKB, tU8, CAM_CB, 0.95) + shot(tU8, tSi, CAM_CU, 0.9) + shot(tSi, 1.003, CAM_CM, 0.93),
@@ -337,7 +337,8 @@ a['dummy'] = [K(0, -0.2, 5.0, 'armscross', 180, brow=1)]
 a['fahrgast1'] = [K(0, 1.05, 4.6, 'watchlook', 200)]
 a['fahrgast2'] = [K(0, -1.45, 4.55, 'armscross', 160)]
 a['fahrgast3'] = [K(0, 2.6, 3.6, 'stand', 210)]
-shots['countdown'] = {'camera': [cam(0, [-0.2, 1.15, 10.4], [-0.2, 2.15, 4.5]), cam(1, [-0.2, 1.15, 9.9], [-0.2, 2.15, 4.5])], 'actors': a}
+CAM_V = ([-0.2, 1.2, 11.2], [-0.2, 2.05, 4.5])
+shots['countdown'] = {'camera': [cam(0, *CAM_V), cam(1, *dolly(CAM_V, 0.95))], 'actors': a}
 
 # =========================================================================================================
 # Outro: Dummy wieder am Bahnsteig, neben ihm die Tafel – springt von "+90 Min" auf "+120 Min"
@@ -345,12 +346,12 @@ shots['countdown'] = {'camera': [cam(0, [-0.2, 1.15, 10.4], [-0.2, 2.15, 4.5]), 
 c = 'outro'
 cSw = cue(c, 'Aber jeder')
 a = {}
-OB = (-0.9, 3.8); OD = (1.0, 4.4)
-a['anzeigetafel'] = [K(0, *OB, 'park', 0, y=1.85, text='+90 Min', blink=0), K(cSw - 0.05, *OB, 'park', 0, blink=0), K(cSw - 0.002, *OB, 'park', 0, text='+90 Min', blink=1),
+OB = (-0.5, 3.9); OD = (1.0, 4.4)
+a['anzeigetafel'] = [K(0, *OB, 'park', 0, y=1.6, text='+90 Min', blink=0, size=-0.35), K(cSw - 0.05, *OB, 'park', 0, blink=0), K(cSw - 0.002, *OB, 'park', 0, text='+90 Min', blink=1),
                      K(cSw, *OB, 'park', 0, text='+120 Min', blink=1), K(cSw + 0.12, *OB, 'park', 0, blink=0)]
 a['dummy'] = [K(0, *OD, 'watchtap', 255), K(cSw - 0.002, *OD, 'watchtap', 255), K(cSw, *OD, 'aghast', 200), K(cSw + 0.18, *OD, 'aghast', 200),
               K(cSw + 0.19, *OD, 'armscross', 190, brow=1)]
-CAM_O = F([[OB[0] - 1.55, 2.81, OB[1]], [OB[0] - 1.55, 1.85, OB[1]], [OD[0] + 0.3, 1.98, OD[1]], [OD[0], 0.0, OD[1]]], 8, 6, (70, 1000, 900, 1225))
+CAM_O = F([[OB[0] - 1.0, 2.23, OB[1]], [OB[0] - 1.0, 1.6, OB[1]], [OD[0] + 0.3, 1.98, OD[1]], [OD[0], 0.0, OD[1]]], 8, 6, (50, 1030, 760, 1250))
 shots['outro'] = {'camera': [cam(0, *CAM_O), cam(1, *dolly(CAM_O, 0.95))], 'actors': a,
                   'sfx': [{'t': r3(cSw - 0.02), 'id': 'durchsage-gong', 'volume': 0.6}]}
 

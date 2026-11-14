@@ -553,11 +553,8 @@ const LivingScene = ({homeOffice = false}: {homeOffice?: boolean; cam?: unknown}
               </mesh>
               <pointLight position={[0.18, 0.3, 0]} intensity={1.2} color="#ffd9a0" distance={2.5} decay={1.6} />
             </group>
-            <group position={[-0.15, HOMEOFFICE.deskH, -0.5]} scale={0.45}>
-              <Plant s={1} />
-            </group>
           </group>
-          <group position={[HOMEOFFICE.chair[0] + 0.02, 0, HOMEOFFICE.chair[1]]} rotation={[0, -Math.PI / 2, 0]}>
+          <group position={[HOMEOFFICE.chair[0] + 0.02, 0, HOMEOFFICE.chair[1]]} rotation={[0, Math.PI / 2, 0]}>
             <Chair color="#c9573c" legs="#6e482c" />
           </group>
           <mesh position={[-1.6, 0.007, -0.4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>

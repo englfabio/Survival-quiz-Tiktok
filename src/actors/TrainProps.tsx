@@ -164,10 +164,12 @@ const NoseDetails = ({m, dir, L, display}: {m: ReturnType<typeof useTrainMats>; 
         <planeGeometry args={[TRAIN.width - 0.55, len * 0.92]} />
       </mesh>
       {display && (
-        <group position={[0, ya + (yb - ya) * 0.72, za + (zb - za) * 0.72 + dir * 0.06]} rotation={[dir === 1 ? -(Math.PI / 2 - ang) : -(Math.PI / 2 + ang), 0, 0]}>
-          <group rotation={[0, dir === 1 ? 0 : Math.PI, 0]} scale={[1, dir === 1 ? 1 : -1, 1]}>
-            <TextPlane draw={displayTex(display)} k={`Zuganzeige ${display}`} w={2.1} h={0.52} glow={1.2} />
-          </group>
+        <group position={[0, f + 1.42, z0 + dir * 0.12]} rotation={[0, dir === 1 ? 0 : Math.PI, 0]}>
+          <mesh position={[0, 0, -0.06]}>
+            <boxGeometry args={[2.1, 0.56, 0.1]} />
+            <meshStandardMaterial color="#111214" />
+          </mesh>
+          <TextPlane draw={displayTex(display)} k={`Zuganzeige ${display}`} w={2.0} h={0.5} glow={1.2} />
         </group>
       )}
       {/* Stirn: oranger Streifen + Scheinwerfer + Rücklicht */}
