@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Office coffee machine grinding briefly then pouring hot coffee into a ceramic mug, gentle gurgle, close, no music",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T01:53:54.156Z"
+}

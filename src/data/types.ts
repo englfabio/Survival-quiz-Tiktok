@@ -272,6 +272,19 @@ export type Motion =
   | 'peekin' // durch eine Tür hineinschauen: Hände am Rahmen, vorbeugen
   | 'gape' // staunen mit offenem Mund, Hände an den Wangen (Nachbarn)
   | 'relief' // erleichtert: Hände auf die Brust, tief ausatmen
+  // ---- Spezial Chef (Details: chefPose in Dummy.tsx) ----
+  | 'seatthrow' // sitzt (z. B. im Bagger), holt mit rechts über dem Kopf aus, wirft nach vorn (Abwurf 0,7 s), zeigt danach zufrieden
+  | 'slapcard' // Karte hoch (bis 0,5 s), schwungvoll 0,45 m vor sich auf den Tisch (0,78 m) knallen (0,75 s), danach Arme verschränken
+  | 'spinswap' // wirbelt mit ausgebreiteten Armen um die eigene Achse (Wirbel-Effekt)
+  | 'desktap' // sitzt am Tisch, zurückgelehnt, Finger tippen ungeduldig (0,45 m vor ihm), linke Hand zeigt immer wieder nach vorn
+  | 'pushstack' // sitzt, schiebt mit beiden Händen einen Stapel über den Tisch nach vorn (Zyklus 1,6 s)
+  | 'sweatstand' // steht nervös, Hände knetend vor dem Bauch, wischt alle 2,4 s mit rechts die Stirn
+  | 'nagpoint' // Chef: steht, linke Hand in der Hüfte, rechter Zeigefinger tippt/zeigt nach vorn unten, Kopf nickt genervt
+  | 'deskslump' // sitzt am Tisch, Ellbogen auf dem Tisch, Kopf in die linke Hand, seufzt
+  | 'doorhold' // Tür mit links aufdrücken (Griff 0,5 m vor ihm, 0,35 m links, 1,0 m hoch; 0,3–1,0 s), dann mit rechts einladend winken
+  | 'boxpunch' // Boxhaltung + abwechselnd Gerade rechts/links (Zyklus 0,9 s, Faust ca. 0,6 m vor ihm auf 1,5 m), wippt
+  | 'pourcoffee' // steht an der Maschine: Tasse rechts unter den Auslauf (0,4 m vor ihm, 1,0 m hoch), links drückt die Taste
+  | 'standcoffee' // steht, Tasse rechts zum Mund, trinkt (0,8–1,8 s), zufrieden – wie drinkcoffee, aber stehend
   | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
@@ -417,6 +430,8 @@ export type ActorKey = {
   lunge?: number;
   /** Dummy: Röntgen-Hinweis Magen mit Pfeil zum Blutstropfen + Giftpunkte + Warndreieck, 0 … 1 */
   blut?: number;
+  /** Figuren mit Dummy-Körper: Schweißtropfen + Stress-Striche am Kopf, 0 = aus … 1 = viel … 2 = sehr viel */
+  sweat?: number;
   /** Glas Milch ("milchglas"): Füllstand 1 = voll … 0 = leer */
   fill?: number;
   /** Oberschrank ("oberschrank"): Kindersicherung 1 = eingerastet … 0 = offen */
@@ -508,7 +523,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

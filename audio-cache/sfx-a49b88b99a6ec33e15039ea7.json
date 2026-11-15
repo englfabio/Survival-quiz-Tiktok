@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Heavy office photocopier being shoved across a floor, loud scraping slide with rattling plastic and a fluttering burst of paper sheets, comedic, no music",
+  "duration": 1.8,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T01:53:45.024Z"
+}

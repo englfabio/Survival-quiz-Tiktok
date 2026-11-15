@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Playing card slapped down hard on a wooden desk, single sharp dramatic slap with a tiny wooden knock, close, no music",
+  "duration": 0.7,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-15T01:53:50.054Z"
+}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Magical cartoon whirlwind swirl, fast spinning whoosh rising in pitch with sparkly shimmer, ending with a soft pop, playful, no music",
+  "duration": 1.6,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T01:53:47.927Z"
+}

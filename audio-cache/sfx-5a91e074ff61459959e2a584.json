@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Quiet modern open-plan office ambience, soft distant keyboard typing, faint air conditioning hum, muffled indistinct murmur without clear words, no music",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-15T01:53:39.766Z"
+}

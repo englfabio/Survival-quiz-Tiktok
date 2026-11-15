@@ -14,7 +14,7 @@ import type {StageDef} from './types';
  */
 export const OFFICE = {W: 4.4, D: 4.4, H: 2.7, desk: {x: -0.55, z: -0.35, h: 0.76}, chair: {x: -0.55, z: -1.15}, calendar: {x: 1.15, y: 1.45, z: -2.19}, chefAtCal: {x: 1.05, z: -1.62}};
 
-const ExecChair = () => {
+export const ExecChair = () => {
   const m = useMemo(() => ({leather: std('#2b2d31', {roughness: 0.45}), steel: std('#b9bec4', {metalness: 0.7, roughness: 0.3})}), []);
   return (
     <group>

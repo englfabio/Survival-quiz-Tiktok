@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon comedy wall crash, plaster wall bursting open with chunky thuds and crumbling debris tumbling onto a floor, short dust whoosh, no explosion, no screams, no music",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T01:53:42.181Z"
+}

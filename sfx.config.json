@@ -891,6 +891,62 @@
       "duration": 3.0,
       "loop": false,
       "promptInfluence": 0.5
+    },
+    {
+      "id": "buero-atmo",
+      "prompt": "Quiet modern open-plan office ambience, soft distant keyboard typing, faint air conditioning hum, muffled indistinct murmur without clear words, no music",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "wand-krachen",
+      "prompt": "Cartoon comedy wall crash, plaster wall bursting open with chunky thuds and crumbling debris tumbling onto a floor, short dust whoosh, no explosion, no screams, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "kopierer-rutschen",
+      "prompt": "Heavy office photocopier being shoved across a floor, loud scraping slide with rattling plastic and a fluttering burst of paper sheets, comedic, no music",
+      "duration": 1.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "wirbel",
+      "prompt": "Magical cartoon whirlwind swirl, fast spinning whoosh rising in pitch with sparkly shimmer, ending with a soft pop, playful, no music",
+      "duration": 1.6,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "karte-klatsch",
+      "prompt": "Playing card slapped down hard on a wooden desk, single sharp dramatic slap with a tiny wooden knock, close, no music",
+      "duration": 0.7,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "papierstapel",
+      "prompt": "Thick stack of paper documents dropped onto a wooden desk, heavy papery thud, close, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "kaffee-eingiessen",
+      "prompt": "Office coffee machine grinding briefly then pouring hot coffee into a ceramic mug, gentle gurgle, close, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "kaenguru-hops",
+      "prompt": "Cartoon kangaroo hopping on a carpet floor, three soft bouncy thumps with a playful boing, comedic, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

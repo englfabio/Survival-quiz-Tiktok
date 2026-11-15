@@ -42,6 +42,7 @@ import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
 import {Bucket, ChristmasTree, DoorLeaf, FireTruck, GiftPile} from './ChristmasProps';
 import {DishRack, FoodArc, KitchenClock, SinkMess} from './SpueleProps';
 import {BrickHouse, BrickPile, DoormatMesh, FamilyHouse, GardenShedProp} from './HausProps';
+import {BoxingBell, BreakWall, Copier, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
 
@@ -248,6 +249,16 @@ export const ACTORS = {
   laubhaufen: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
   laubdecke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   laubwurf: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Chef ----
+  buerowand: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
+  kopierer: {height: 0.8, climbOffset: 0, speedLineHeight: 0},
+  reversekarte: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  boxglocke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  aktenstapel: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
+  wirbel: {height: 1.2, climbOffset: 0, speedLineHeight: 0},
+  kollege1: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  kollege2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  kollege3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
 } as const;
 
 /** Auto des Dummys im Monstertruck-Video (Wert mark 1): himmelblau, damit es platt gut zu erkennen ist */
@@ -260,6 +271,13 @@ const MUSEUM_GUESTS: Record<string, {color: string; uniform: Uniform}> = {
   besucher1: {color: '#9aa1a8', uniform: {jacket: '#2f3440', dark: '#1f232b', collar: '#f4f6f8', pants: '#2b2f38', cap: '#2f3440', band: '#2f3440', trim: '#2f3440', tie: '#c9a24a', nocap: true}},
   besucher2: {color: '#c9a3d9', uniform: {jacket: '#2f6b5a', dark: '#1f4a3e', collar: '#f2e6d6', pants: '#2a2f36', cap: '#2f6b5a', band: '#2f6b5a', trim: '#2f6b5a', nocap: true, scarf: '#e86a8f', hair: '#3a2618'}},
   besucher3: {color: '#f0c27a', uniform: {jacket: '#7a2f45', dark: '#552030', collar: '#efe0d2', pants: '#33363d', cap: '#7a2f45', band: '#7a2f45', trim: '#7a2f45', nocap: true}},
+};
+
+/** Kollegen-Dummys im Büro: Pastell-Körper, Hemd/Bluse/Strickjacke + Hose, ohne Mütze (kein Logo) – können alle Dummy-Bewegungen */
+const COLLEAGUES: Record<string, {color: string; uniform: Uniform}> = {
+  kollege1: {color: '#8fd0c0', uniform: {jacket: '#9cc3e6', dark: '#6f9cc4', collar: '#f4f6f8', pants: '#3a3f46', cap: '#9cc3e6', band: '#9cc3e6', trim: '#9cc3e6', tie: '#2f4f8f', nocap: true}},
+  kollege2: {color: '#f2b38a', uniform: {jacket: '#c66a8a', dark: '#9a4d68', collar: '#f6e9ee', pants: '#2f3542', cap: '#c66a8a', band: '#c66a8a', trim: '#c66a8a', nocap: true, hair: '#3a2618'}},
+  kollege3: {color: '#b8a6e0', uniform: {jacket: '#6a8f4a', dark: '#4d6b35', collar: '#eef0e6', pants: '#4a3d30', cap: '#6a8f4a', band: '#6a8f4a', trim: '#6a8f4a', nocap: true}},
 };
 
 /** Wartende Fahrgast-Dummys (Bahnsteig): Dummy-Körper in Pastellfarben, Mantel/Jacke + Hose, ohne Mütze – können alle Dummy-Bewegungen */
@@ -296,7 +314,7 @@ const ROBE: Uniform = {jacket: '#9c4a5a', dark: '#7a3343', collar: '#efe0d2', pa
 const COURIER_COLOR = '#c4d0bf';
 const COURIER_UNIFORM: Uniform = {jacket: '#5b7389', dark: '#3e5164', collar: '#dfe6ec', pants: '#3a434d', cap: '#5b7389', band: '#3e5164', trim: '#8fa5b8'};
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
@@ -525,6 +543,9 @@ export const Actor = ({
   const qPos = pos.clone().add(new THREE.Vector3(0, 2.2, 0));
   // Herz-Symbol: links neben dem Kopf (aus Sicht der Kamera), Höhe passt zu Stehen/Sitzen
   const sitting = ['bedsitdown', 'sitbreathe', 'chairsit', 'couchsit'].includes(state.motion);
+  // Schweiß: an der Stirn (sitzend tiefer)
+  const seated = ['chairsit', 'couchsit', 'typedesk', 'desktap', 'pushstack', 'deskslump', 'drinkcoffee', 'seatwave', 'seatthrow', 'seatdrive', 'seattriumph'].includes(state.motion);
+  const sweatPos = pos.clone().add(new THREE.Vector3(0, seated ? 1.32 : 1.72, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().multiplyScalar(0.14));
   const heartPos = pos.clone().add(new THREE.Vector3(0, sitting ? 1.6 : 2.05, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().cross(new THREE.Vector3(0, 1, 0)).multiplyScalar(-0.32));
   // Zeit für Blitze/Zittern = Gesamtzeit im Abschnitt (läuft über Bewegungswechsel weiter, friert beim Einfrieren ein)
   const zt = state.sectionTime ?? state.motionTime;
@@ -560,6 +581,16 @@ export const Actor = ({
     {name === 'dummy' && v.heart > 0.01 && (
       <group position={heartPos} quaternion={billboard(heartPos, camPos)}>
         <HeartBadge phase={state.heartPhase ?? 0} rate={v.heart} amount={clamp(v.heart / 0.3, 0, 1)} />
+      </group>
+    )}
+    {DUMMY_LIKE.includes(name) && v.sweat > 0.01 && (
+      <group position={sweatPos} quaternion={billboard(sweatPos, camPos)}>
+        <SweatDrops amount={v.sweat} time={zt} />
+      </group>
+    )}
+    {name === 'boxglocke' && state.motion === 'show' && (
+      <group position={pos} quaternion={billboard(pos, camPos)} scale={(1 + v.size) * popScale(state.motionTime)}>
+        <BoxingBell ring={v.ring} time={zt} />
       </group>
     )}
     {name === 'dummy' && v.cold > 0.01 && (
@@ -702,6 +733,22 @@ export const Actor = ({
         </group>
       )}
       {name === 'gartenstuhl' && <GardenChair />}
+      {name === 'buerowand' && <BreakWall fill={v.fill} />}
+      {name === 'kopierer' && (
+        <group rotation={[0, 0, deg(v.tilt)]} position={[Math.sin(zt * 37) * 0.01 * v.rumble, 0, 0]}>
+          <Copier fill={v.fill} />
+        </group>
+      )}
+      {name === 'reversekarte' && (
+        <group rotation={v.tilt > 0.5 ? [-Math.PI / 2, 0, 0] : [0, 0, 0]} position={v.tilt > 0.5 ? [0, 0.004, 0] : [0, 0, 0]}>
+          <ReverseCard size={v.size} glow={v.glow} time={zt} />
+        </group>
+      )}
+      {name === 'aktenstapel' && <TaskStack fill={v.fill} />}
+      {name === 'wirbel' && <Swirl amount={v.fill} time={zt} />}
+      {COLLEAGUES[name] && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={COLLEAGUES[name].color} uniform={COLLEAGUES[name].uniform} brow={v.brow} />
+      )}
       {name === 'fussmatte' && <DoormatMesh />}
       {/^haus\d?$/.test(name) && <FamilyHouse look={v.mark} squish={v.squish} seed={name.length + (name.charCodeAt(name.length - 1) % 7)} />}
       {name === 'klemmhaus' && <BrickHouse fill={v.fill} />}
@@ -927,7 +974,7 @@ export const Actor = ({
       {name === 'absperrband' && <CordonTape fill={v.fill} size={v.size} />}
       {name === 'rechnung' && <Bill size={v.size} />}
       {name === 'chef' && (
-        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BOSS_COLOR} uniform={BOSS_SUIT} brow={v.brow} />
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BOSS_COLOR} uniform={BOSS_SUIT} brow={v.brow} gloves={v.gloves} teeth={v.teeth} />
       )}
       {MUSEUM_GUESTS[name] && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={MUSEUM_GUESTS[name].color} uniform={MUSEUM_GUESTS[name].uniform} brow={v.brow} />
@@ -986,6 +1033,12 @@ export const Actor = ({
     </group>
     </>
   );
+};
+
+/** „Plopp“-Größe beim Erscheinen (0 → 1 mit kurzem Überschwingen in 0,35 s) */
+const popScale = (t: number) => {
+  const k = clamp(t / 0.35);
+  return k >= 1 ? 1 : 1 + 2.2 * Math.pow(k - 1, 3) + 1.2 * Math.pow(k - 1, 2);
 };
 
 /** Zitteraal mit Blitzen (zap) */
