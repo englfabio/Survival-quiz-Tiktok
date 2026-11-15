@@ -275,7 +275,7 @@ export type Motion =
   // ---- Spezial Chef (Details: chefPose in Dummy.tsx) ----
   | 'seatthrow' // sitzt (z. B. im Bagger), holt mit rechts über dem Kopf aus, wirft nach vorn (Abwurf 0,7 s), zeigt danach zufrieden
   | 'slapcard' // Karte hoch (bis 0,5 s), schwungvoll 0,45 m vor sich auf den Tisch (0,78 m) knallen (0,75 s), danach Arme verschränken
-  | 'holdcard' // Karte stolz mit rechts vor sich hochhalten (0,36 m vor ihm, 1,36 m hoch), linke Hand in der Hüfte
+  | 'holdcard' // Karte stolz mit rechts neben dem Kopf hochhalten (0,3 m rechts, 0,26 m vor ihm, 1,62 m hoch), linke Hand in der Hüfte
   | 'spinswap' // wirbelt mit ausgebreiteten Armen um die eigene Achse (Wirbel-Effekt)
   | 'desktap' // sitzt am Tisch, zurückgelehnt, Finger tippen ungeduldig (0,45 m vor ihm), linke Hand zeigt immer wieder nach vorn
   | 'pushstack' // sitzt, schiebt mit beiden Händen einen Stapel über den Tisch nach vorn (Zyklus 1,6 s)
@@ -284,7 +284,7 @@ export type Motion =
   | 'deskslump' // sitzt am Tisch, Ellbogen auf dem Tisch, Kopf in die linke Hand, seufzt
   | 'doorhold' // Tür mit links aufdrücken (Griff 0,5 m vor ihm, 0,35 m links, 1,0 m hoch; 0,3–1,0 s), dann mit rechts einladend winken
   | 'boxpunch' // Boxhaltung + abwechselnd Gerade rechts/links (Zyklus 0,9 s, Faust ca. 0,6 m vor ihm auf 1,5 m), wippt
-  | 'pourcoffee' // steht an der Maschine: Tasse rechts unter den Auslauf (0,4 m vor ihm, 1,0 m hoch), links drückt die Taste
+  | 'pourcoffee' // steht an der Maschine: Tasse rechts unter den Auslauf (0,42 m vor ihm, 1,02 m hoch), links drückt die Taste
   | 'standcoffee' // steht, Tasse rechts zum Mund, trinkt (0,8–1,8 s), zufrieden – wie drinkcoffee, aber stehend
   | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)

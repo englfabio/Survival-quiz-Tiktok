@@ -25,7 +25,7 @@ vote="Also, was machst du? Schreib A, B oder C in die Kommentare.",
 outro="Schreib A, B oder C in die Kommentare und folg gerne für mehr. Markier jemanden, dem das auch immer passiert.",
 )
 EXTRA = {1: 0.0, 2: 0.0, 3: 0.0}
-TAIL = 0.5
+TAIL = 0.3   # Pause nach jedem Clip (gekürzt, damit ≤ 66 s und nah an 1 Minute – Texte unverändert)
 NO_VOTE = True
 OUTRO_MIN = 0.0   # bei Bedarf: Schlussbild 2–3 s länger stehen lassen (Ziel ≥ 61 s)
 
@@ -120,9 +120,9 @@ CHAIR = (3.9, -5.3); CHAIR_Y = 0.09     # Chefsessel (Sitz 0,54 m) → Figuren d
 VISITOR = (3.9, -3.7)
 DOOR_HINGE = (1.86, -1.0)
 MY_DESK = (-4.2, 2.4); MY_SEAT = (-4.2, 3.05)
-COFFEE_ST = (-1.4, 0.12)
+COFFEE_ST = (-1.0, 1.33)
 COPIER0 = (0.9, -3.0)
-CHEF_SAFE = (5.3, -1.95)                # Chef bei A: sicher in der Ecke vorn rechts im Chefbüro
+CHEF_SAFE = (5.05, -5.5)  # hinter seinem Schreibtisch neben dem Regal (3,4 m vom Bagger, Wandteile fliegen höchstens bis x 3,5)                # Chef bei A: sicher in der Ecke vorn rechts im Chefbüro
 COLL = {'kollege1': (-3.4, 1.2), 'kollege2': (-4.4, 1.4), 'kollege3': (-5.4, 1.2)}   # Kollegen bei A: sicher an der Seite, ca. 3 m vom Bagger
 SEAT_B = dict(attach='bagger', y=2.6)   # im Bagger: x −0.85, z 0.55 (Kabine), face 0
 def bseat(t, motion, **kw):
@@ -132,7 +132,7 @@ def door(t, v):
 def wall(t, v):
     return K(t, *WALL, 'park', 90, y=0.0, fill=v)
 def static(wallfill=0.0, doorv=0.0, copier=True):
-    a = {'buerowand': [wall(0, wallfill)], 'zimmertuer': [door(0, doorv)]}
+    a = {'buerowand': [wall(0, wallfill)], 'glastuer': [door(0, doorv)]}
     if copier: a['kopierer'] = [K(0, *COPIER0, 'park', 90, y=0.0)]
     return a
 def colleagues(motion='stand', faces=None):
@@ -164,7 +164,7 @@ for n, (x, z) in [('kollege1', (-5.9, 3.05)), ('kollege2', (-10.2, 3.05)), ('kol
     a[n] = [K(0, x, z, 'typedesk', 0)]
 SLUMP_PTS = seated(*MY_SEAT) + [[MY_DESK[0] - 0.75, 0.74, MY_DESK[1] - 0.4], [MY_DESK[0] + 0.75, 1.3, MY_DESK[1] - 0.4]]
 situation = {
- 'camera': [*shot(0, r3(c_seit - 0.003), F(seated(*MY_SEAT) + body(*CHEF_NAG) + [[MY_DESK[0] - 0.75, 0.74, MY_DESK[1]]], 25, 12, SIT)),
+ 'camera': [*shot(0, r3(c_seit - 0.003), F(seated(*MY_SEAT) + body(*CHEF_NAG) + [[MY_DESK[0] - 0.75, 0.74, MY_DESK[1]]], 18, 12, SIT)),
             *shot(c_seit, r3(c_jed - 0.003), F([[CAL[0] - 0.25, 0.85, CAL[1]], [CAL[0] + 0.25, 1.45, CAL[1]]] + seated(*MY_SEAT), 340, 10, SIT, push=0.1)),
             *shot(c_jed, r3(c_was - 0.003), F(SLUMP_PTS + [[STACK_ME[0], 1.4, STACK_ME[1]]] + body(*CHEF_NAG), 15, 26, SIT)),
             *shot(c_was, 1, F(body(MY_SEAT[0] - 0.75, MY_SEAT[1] + 0.35, 2.3) + body(-3.3, 3.0), 0, 6, SIT))],
@@ -190,8 +190,12 @@ BX0, BX_HIT, BX_STOP = -9.6, -2.75, -1.2          # Bagger-Mitte (x): Start, Wan
 t_hit = r3(c_wand + sa(0.35))                      # Wand bricht kurz nach „Die Wand“
 t_stop = r3(c_dann + sa(0.35))
 bx_card_end = -4.3
+BX_COP = COPIER0[0] - 0.34 - 2.8                  # Bagger-Mitte, wenn die Front den Kopierer berührt
+t_cop0 = r3(max(t_hit + sa(0.3), c_kop + sa(0.1)))
+t_cop1 = r3(c_alle - sa(0.1))                      # Kopierer ist zur Seite geschoben
 bag = [K(0, BX0, LANE, 'drive', 90, y=0.0, tilt=60, smoke=0.6), K(r3(sA - 0.003), bx_card_end, LANE, 'drive', 90, tilt=60),
-       K(sA, bx_card_end, LANE, 'drive', 90, cut=True), K(t_hit, BX_HIT, LANE, 'drive', 90),
+       K(sA, bx_card_end, LANE, 'drive', 90, cut=True), K(t_hit, BX_HIT, LANE, 'drive', 90), K(t_cop0, BX_COP, LANE, 'drive', 90),
+       K(t_cop1, -1.6, LANE, 'drive', 90),
        K(t_stop, BX_STOP, LANE, 'drive', 90), K(r3(t_stop + sa(0.02)), BX_STOP, LANE, 'park', 90, smoke=0.3), K(1, BX_STOP, LANE, 'park', 90)]
 def bag_x(t):
     for i in range(len(bag) - 1):
@@ -207,11 +211,10 @@ def t_at_x(x):
         if bag_x(mid) < x: lo = mid
         else: hi = mid
     return lo
-t_cop0 = r3(max(t_at_x(COPIER0[0] - 0.34 - 2.8), t_hit + sa(0.05)))
 COPIER1 = (2.35, -1.42)
 wallA = [wall(0, 0.0), wall(r3(t_hit - 0.003), 0.0), wall(t_hit, 0.001), wall(r3(t_hit + sa(2.2)), 1.0)]
 copA = [K(0, *COPIER0, 'park', 90, y=0.0, tilt=0, fill=0), K(t_cop0, *COPIER0, 'park', 90, rumble=1),
-        K(r3(t_cop0 + (t_stop - t_cop0) * 0.6), 1.85, -2.0, 'park', 118, tilt=-8, fill=0.6), K(t_stop, *COPIER1, 'park', 132, tilt=-14, fill=1.0, rumble=0),
+        K(r3(t_cop0 + (t_cop1 - t_cop0) * 0.6), 1.7, -2.1, 'park', 118, tilt=-8, fill=0.6), K(t_cop1, *COPIER1, 'park', 132, tilt=-14, fill=1.0, rumble=0),
         K(1, *COPIER1, 'park', 132, tilt=-14)]
 # Dummy im Bagger; Brief fliegt bei THROW_RELEASE (0,7 s) aus der Kabine auf den Tisch
 THROW_REL = 0.7
@@ -250,15 +253,15 @@ expA = {
             # 1) im Chefbüro: die Wand gibt nach (Kamera rechts vorn, sicher)
             *shot(sA, r3(c_kop - 0.003), F(WALL_PTS + [[2.2, 0, -3.6]], 105, 6)),
             # 2) der Kopierer wird zur Seite geschoben
-            *shot(c_kop, r3(c_alle - 0.003), F([[0.5, 0, -3.3], [2.8, 0, -1.1], [1.6, 1.2, -2.2], [0.5, 3.0, -3.0]] + body(*CHEF_SAFE), 140, 14)),
+            *mshot(c_kop, r3(c_alle - 0.003), [5.6, 2.4, -1.25], [1.4, 0.9, -2.6], 55),
             # 3a) Kollegen stehen sicher an der Seite und staunen, dahinter der Bagger in der Wand
             *shot(c_alle, r3(c_mid - 0.003), F([p for (x, z) in COLL.values() for p in body(x, z)] + [[-1.0, 4.6, LANE + 0.85]], 330, 8)),
             # 3b) Chef steht sicher in der Ecke seines Büros und staunt
-            *shot(c_mid, r3(c_dann - 0.003), F(body(*CHEF_SAFE, 2.0) + [[2.0, 0, -2.6], [2.0, 2.4, -2.6]], 115, 8)),
+            *mshot(c_mid, r3(c_dann - 0.003), [4.3, 1.65, -1.4], [4.65, 1.2, -5.0], 50),
             # 4) Kabine: anhalten + werfen
-            *shot(c_dann, r3(c_tisch - sa(0.25)), F([[hand_rel[0] - 0.7, 2.7, hand_rel[2] - 0.6], [hand_rel[0] + 0.4, 4.5, hand_rel[2] + 0.5]], 75, 8)),
+            *mshot(c_dann, r3(c_tisch - sa(0.25)), [2.9, 3.1, -1.35], [-0.1, 3.75, -2.75], 50),
             # 5) Brief landet auf dem Chef-Schreibtisch, Chef staunt sicher in der Ecke
-            *shot(r3(c_tisch - sa(0.25) + 0.003), 1, F([[DESK[0] - 1, DESK_H, DESK[1] - 0.45], [DESK[0] + 1, DESK_H, DESK[1] + 0.45], [LAND[0], 1.2, LAND[1]]] + body(*CHEF_SAFE), 95, 22))],
+            *mshot(r3(c_tisch - sa(0.25) + 0.003), 1, [3.9, 1.95, -1.3], [4.1, 1.05, -4.9], 50)],
  'actors': aA,
  'sfx': [{'t': 0.01, 'id': 'bagger-motor', 'volume': 0.55}, {'t': r3(sA), 'id': 'bagger-motor', 'volume': 0.6},
          {'t': r3(t_hit), 'id': 'wand-krachen', 'volume': 0.85}, {'t': r3(t_cop0), 'id': 'kopierer-rutschen', 'volume': 0.7},
@@ -283,7 +286,7 @@ slap0 = r3(max(sB + sb(0.05), c_karte + sb(0.25) - sb(SLAP_HIT)))
 t_slap = r3(slap0 + sb(SLAP_HIT))
 CARD_SPOT = (VISITOR[0] - 0.05, VISITOR[1] - 0.6)
 sw0 = r3(c_wirb - sb(0.05)); sw1 = r3(c_ploetz + sb(0.35)); swap = r3((sw0 + sw1) / 2)
-dummyB = [K(0, *VISITOR, 'holdcard', 0), K(r3(sB - 0.003), *VISITOR, 'holdcard', 0),
+dummyB = [K(0, *VISITOR, 'holdcard', 160), K(r3(sB - 0.003), *VISITOR, 'holdcard', 160),
           K(sB, *VISITOR, 'stand', 0, cut=True), K(r3(slap0 - 0.003), *VISITOR, 'stand', 0),
           K(slap0, *VISITOR, 'slapcard', 0), K(r3(sw0 - 0.003), *VISITOR, 'slapcard', 0),
           K(sw0, *VISITOR, 'spinswap', 0), K(r3(swap - 0.003), *VISITOR, 'spinswap', 0),
@@ -296,7 +299,7 @@ chefB = [K(0, *CHAIR, 'chairsit', 180, y=CHAIR_Y, brow=1), K(r3(slap0 + sb(SLAP_
          K(swap, *VISITOR, 'spinswap', 0, y=0.0, cut=True), K(r3(sw1 - 0.003), *VISITOR, 'spinswap', 0),
          K(sw1, *VISITOR, 'sweatstand', 0, cut=True, sweat=0.4), K(r3(c_jt), *VISITOR, 'sweatstand', 0, sweat=1.0), K(1, *VISITOR, 'sweatstand', 0, sweat=2.0)]
 # Karte: in der Hand (hand 1) bis zum Knall, dann flach auf dem Tisch (zur Kamera/zum Besucher lesbar = face 180)
-cardK = [K(0, *VISITOR, 'park', 180, y=1.2, hand=1, drop=-0.12, size=0.6), K(r3(t_slap - 0.003), *VISITOR, 'park', 180, hand=1, drop=-0.04),
+cardK = [K(0, *VISITOR, 'park', 180, y=1.2, hand=1, drop=-0.1, size=0.3), K(r3(t_slap - 0.003), *VISITOR, 'park', 180, hand=1, drop=-0.04),
          K(t_slap, *CARD_SPOT, 'park', 180, y=DESK_H + 0.006, hand=0, tilt=1, glow=0, size=0.45), K(r3(t_slap + sb(0.15)), *CARD_SPOT, 'park', 180, glow=1),
          K(r3(sw0 + sb(0.3)), *CARD_SPOT, 'park', 180, glow=1), K(r3(sw1), *CARD_SPOT, 'park', 180, glow=0)]
 swirl = [K(0, *DESK, 'park', 0, y=0.0, fill=0), K(sw0, *DESK, 'park', 0, fill=0), K(r3(sw0 + sb(0.3)), *DESK, 'park', 0, fill=1),
@@ -308,7 +311,7 @@ DAYS = 'Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Montag|Dienstag'
 CALB = (DESK[0] - 1.25, DESK[1] + 0.05)
 calB = [K(0, *CALB, 'park', 180, y=HIDE, fill=1, text=DAYS, good=1, size=0.6), K(r3(c_jt - 0.003), *CALB, 'park', 180, y=HIDE),
         K(c_jt, *CALB, 'park', 180, y=1.85, fill=1), K(r3(c_jt + sb(0.25)), *CALB, 'park', 180, fill=1), K(r3(c_mehr + sb(0.9)), *CALB, 'park', 180, fill=6)]
-aB = static(wallfill=0.0)
+aB = static(wallfill=0.0, copier=False)
 aB['dummy'] = dummyB
 aB['chef'] = chefB
 aB['reversekarte'] = cardK
@@ -317,7 +320,7 @@ aB['aktenstapel'] = stackB
 aB['tageskalender'] = calB
 DESK_PTS = [[DESK[0] - 1, DESK_H, DESK[1] - 0.45], [DESK[0] + 1, DESK_H, DESK[1] + 0.45]]
 expB = {
- 'camera': [*shot(0, r3(sB - 0.003), F(body(*VISITOR, 2.0) + [[VISITOR[0], 1.4, VISITOR[1] + 0.4]], 335, 6)),
+ 'camera': [*mshot(0, r3(sB - 0.003), [3.35, 1.5, -1.3], [3.9, 1.35, -3.7], 46),
             # 1) Karte knallt auf den Tisch (nah, von schräg oben)
             *shot(sB, r3(c_wirb - 0.003), F([[CARD_SPOT[0] - 0.35, DESK_H, CARD_SPOT[1] - 0.25], [CARD_SPOT[0] + 0.35, DESK_H, CARD_SPOT[1] + 0.25], [VISITOR[0], 1.95, VISITOR[1]]], 80, 36, push=0.1)),
             # 2) Wirbel über dem Schreibtisch
@@ -325,7 +328,7 @@ expB = {
             # 3) Dummy im Chefsessel (von vorn über den Tisch), Chef steht davor
             *shot(r3(c_ploetz + sb(0.4)), r3(c_ab - 0.003), F(seated(*CHAIR, CHAIR_Y) + DESK_PTS + body(*VISITOR), 65, 12)),
             # 4) Dummy schiebt Stapel, Chef schwitzt (über die Schulter des Chefs)
-            *shot(c_ab, r3(c_jt - 0.003), F(seated(*CHAIR, CHAIR_Y) + body(*VISITOR) + [[STACK_B[0], 1.3, STACK_B[1]]], 320, 14)),
+            *mshot(c_ab, r3(c_jt - 0.003), [5.7, 1.65, -2.5], [3.9, 1.0, -4.6], 50),
             # 5) Jeden Tag ein bisschen mehr: Kalender blättert, Stapel wachsen, Chef schwitzt immer mehr
             *mshot(c_jt, 1, [1.45, 1.75, -1.45], [3.75, 1.3, -4.3], 46)],
  'actors': aB,
@@ -347,13 +350,13 @@ c_epi = cue(C, 'explain3', 'Ein epischer')
 c_und = cue(C, 'explain3', 'Und du holst')
 c_kaff = cue(C, 'explain3', 'Kaffee')
 D_DOOR = (1.45, -0.48)                   # Dummy vor der Tür (Griff 0,5 vor / 0,35 links), face 0
-D_ASIDE = (2.35, -0.35)
-K_WAIT = (0.55, -0.25)
-K_FIGHT = (2.35, -3.1); C_FIGHT = (3.6, -3.1)
+D_ASIDE = (0.4, -0.35)
+K_WAIT = (2.6, 0.2)
+K_FIGHT = (2.35, -3.4); C_FIGHT = (3.6, -3.4)
 dh0 = r3(max(sC + sc(0.05), c_tuer - sc(0.2)))
-doorC = [door(0, 0), door(r3(dh0 + sc(0.3)), 0), door(r3(dh0 + sc(1.0)), 0.62), door(1, 0.62)]
+doorC = [door(0, 0), door(r3(dh0 + sc(0.3)), 0), door(r3(dh0 + sc(1.0)), 0.62), door(r3(c_und - 0.003), 0.62), door(c_und, 0), door(1, 0)]
 kang = [K(0, *K_WAIT, 'guard', 160), K(r3(c_kang - 0.003), *K_WAIT, 'guard', face_to(K_WAIT, (1.43, -0.9)))]
-kang += path(c_kang, r3(c_glo - sc(0.1)), [K_WAIT, (1.43, -0.55), (1.43, -1.6), (2.0, -2.6), K_FIGHT], 'hop', None)
+kang += path(c_kang, r3(c_glo - sc(0.1)), [K_WAIT, (1.75, -0.2), (1.43, -0.6), (1.43, -1.6), (2.0, -2.7), K_FIGHT], 'hop', None)
 kang += [K(r3(c_glo - sc(0.05)), *K_FIGHT, 'guard', 90)]
 # Show-Kampf: Schläge treffen nur die Handschuhe (Abstand 1,25 m, Faust ca. 0,6–0,75 m vor der Figur)
 t = c_epi
@@ -362,23 +365,23 @@ while t < 0.995:
     t += sc(1.5)
 dumC = [K(0, D_DOOR[0] + 0.5, D_DOOR[1] + 0.3, 'stand', 330), K(r3(dh0 - 0.003), *D_DOOR, 'stand', 0),
         K(dh0, *D_DOOR, 'doorhold', 0, cut=True), K(r3(c_kang + sc(0.2)), *D_DOOR, 'doorhold', 0),
-        K(r3(c_kang + sc(0.25)), *D_ASIDE, 'doorhold', 300), K(r3(c_glo - 0.003), *D_ASIDE, 'doorhold', 300),
-        K(c_glo, *D_ASIDE, 'stand', 240), K(r3(c_und - 0.003), *D_ASIDE, 'stand', 240),
-        K(c_und, *COFFEE_ST, 'pourcoffee', 180, cut=True), K(r3(c_kaff - sc(0.45)), *COFFEE_ST, 'pourcoffee', 180),
-        K(r3(c_kaff - sc(0.42)), *COFFEE_ST, 'standcoffee', 180), K(1, *COFFEE_ST, 'standcoffee', 180)]
+        K(r3(c_kang + sc(0.25)), *D_ASIDE, 'doorhold', 60), K(r3(c_glo - 0.003), *D_ASIDE, 'doorhold', 60),
+        K(c_glo, *D_ASIDE, 'stand', 120), K(r3(c_und - 0.003), *D_ASIDE, 'stand', 240),
+        K(c_und, *COFFEE_ST, 'pourcoffee', 0, cut=True), K(r3(c_kaff - sc(0.45)), *COFFEE_ST, 'pourcoffee', 0),
+        K(r3(c_kaff - sc(0.42)), *COFFEE_ST, 'standcoffee', 20), K(1, *COFFEE_ST, 'standcoffee', 20)]
 chefC = [K(0, *C_FIGHT, 'stand', 0, gloves=1), K(r3(c_kang + sc(0.5)), *C_FIGHT, 'stand', 270, gloves=1, brow=1),
          K(r3(c_glo - sc(0.05)), *C_FIGHT, 'boxguard', 270), K(r3(c_epi - 0.003), *C_FIGHT, 'boxguard', 270),
          K(c_epi, *C_FIGHT, 'boxpunch', 270), K(1, *C_FIGHT, 'boxpunch', 270, sweat=0.6)]
-bell = [K(0, 3.0, -3.1, 'park', 180, y=HIDE, size=0.6), K(r3(c_glo - 0.003), 3.0, -3.1, 'park', 180, y=HIDE),
-        K(c_glo, 2.95, -3.1, 'show', 180, y=2.75, ring=1), K(r3(c_rund + sc(0.9)), 2.95, -3.1, 'show', 180, ring=1), K(r3(c_epi), 2.95, -3.1, 'show', 180, ring=0),
-        K(r3(c_epi + 0.003), 2.95, -3.1, 'park', 180, y=HIDE)]
-aC = static()
-aC['zimmertuer'] = doorC
+BELL = (2.97, -3.4)
+bell = [K(0, *BELL, 'park', 180, y=HIDE, size=-0.3), K(r3(c_glo - 0.003), *BELL, 'park', 180, y=HIDE),
+        K(c_glo, *BELL, 'show', 180, y=1.98, ring=1), K(r3(c_rund + sc(0.9)), *BELL, 'show', 180, ring=1), K(r3(c_epi), *BELL, 'show', 180, ring=0),
+        K(r3(c_epi + 0.003), *BELL, 'park', 180, y=HIDE)]
+aC = static(copier=False)
+aC['glastuer'] = doorC
 aC['kaenguru'] = kang
 aC['dummy'] = dumC
 aC['chef'] = chefC
 aC['boxglocke'] = bell
-aC['kaffeetasse'] = [K(0, -1.1, 0.68, 'park', 0, y=0.93, smoke=1.0)]
 FIGHT_PTS = body(*K_FIGHT, 1.8) + body(*C_FIGHT, 2.0)
 punch_sfx = []
 t = c_epi + sc(0.4)
@@ -387,15 +390,15 @@ while t < 0.99:
 expC = {
  'camera': [*shot(0, r3(sC - 0.003), F(body(*K_WAIT, 1.8) + body(D_DOOR[0] + 0.5, D_DOOR[1] + 0.3) + [[1.0, 2.05, -1.0], [1.86, 0, -1.0]], 345, 6)),
             # 1) Tür geht auf (von innen aus dem Chefbüro)
-            *mshot(sC, r3(c_kang - 0.003), [2.75, 1.45, -3.0], [1.35, 1.05, -0.55], 52),
+            *mshot(sC, r3(c_kang - 0.003), [-0.6, 1.5, 1.6], [1.45, 1.1, -0.8], 50),
             # 2) Känguru hüpft rein (Chef staunt vorn rechts)
-            *mshot(c_kang, r3(c_glo - 0.003), [4.7, 1.55, -4.3], [1.8, 1.0, -1.4], 52),
+            *mshot(c_kang, r3(c_glo - 0.003), [0.5, 1.5, -4.6], [2.2, 1.0, -1.8], 55),
             # 3) Glocke + Runde eins: beide in Boxhaltung, Glocke darüber
-            *mshot(c_glo, r3(c_epi - 0.003), [2.95, 1.25, -1.15], [2.95, 1.75, -3.1], 64),
+            *mshot(c_glo, r3(c_epi - 0.003), [2.97, 1.25, -1.15], [2.97, 1.55, -3.4], 64),
             # 4) epischer Kampf: tief + seitlich, langsam herum
-            cam(c_epi, [1.7, 0.8, -1.35], [2.98, 1.3, -3.1], 54), cam(r3(c_und - 0.003), [1.15, 0.9, -2.3], [2.98, 1.3, -3.1], 54),
-            # 5) Dummy holt sich in Ruhe Kaffee, hinten durchs Glas der Kampf
-            *mshot(c_und, 1, [-2.9, 1.55, 3.4], [-0.2, 1.2, -1.3], 40, push=0.05)],
+            cam(c_epi, [1.7, 0.8, -1.6], [2.98, 1.3, -3.4], 54), cam(r3(c_und - 0.003), [1.15, 0.9, -2.6], [2.98, 1.3, -3.4], 54),
+            # 5) Dummy holt sich in Ruhe Kaffee und schaut dem Kampf durchs Glas zu (wie Fernsehen)
+            *mshot(c_und, 1, [-4.18, 3.2, 5.11], [0.96, 0.6, -1.02], 44, push=0.05)],
  'actors': aC,
  'sfx': [{'t': r3(dh0 + sc(0.35)), 'id': 'tuer-knarren', 'volume': 0.55}, {'t': r3(c_kang + sc(0.05)), 'id': 'kaenguru-hops', 'volume': 0.6},
          {'t': r3(c_glo + sc(0.05)), 'id': 'boxglocke', 'volume': 0.85}, {'t': r3(c_epi), 'id': 'staunen', 'volume': 0.3},

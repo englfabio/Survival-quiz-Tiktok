@@ -4125,7 +4125,7 @@ const spuelePose = (motion: Motion, time: number): DummyPose | null => {
  *                 danach zufrieden mit dem Finger nach vorn zeigen. Brief bis zum Abwurf in der Hand (item 'letter', Text = Feld "text").
  *  - slapcard:    steht vor dem Tisch: Karte hoch über den Kopf (0–0,5 s), schwungvoll auf den Tisch 0,45 m vor ihm (Platte 0,78 m) knallen
  *                 (Treffer 0,75 s), kurz drauflassen, ab 1,2 s aufrichten + Arme verschränken. Karte = Objekt mit "hand" 1 bis 0,75 s.
- *  - holdcard:    Karte stolz mit rechts vor sich hochhalten (0,36 m vor ihm, 1,36 m hoch), linke Hand in der Hüfte.
+ *  - holdcard:    Karte stolz mit rechts neben dem Kopf hochhalten (0,3 m rechts, 0,26 m vor ihm, 1,62 m hoch), linke Hand in der Hüfte.
  *  - spinswap:    wirbelt mit ausgebreiteten Armen um die eigene Achse (ca. 2 Umdrehungen/s).
  *  - desktap:     sitzt zurückgelehnt am Tisch, rechte Finger tippen ungeduldig auf die Platte (0,42 m vor ihm, 0,8 m hoch),
  *                 linke Hand zeigt alle 2,4 s energisch nach vorn ("Na los!").
@@ -4137,7 +4137,7 @@ const spuelePose = (motion: Motion, time: number): DummyPose | null => {
  *  - doorhold:    Tür mit LINKS aufdrücken: Griff 0,5 m vor ihm, 0,35 m links auf 1,0 m (0–0,3 s), drücken bis 0,85 m vor ihm
  *                 (0,3–1,0 s), loslassen, dann mit rechts einladend zur Tür winken (Butler-Geste, ab 1,2 s).
  *  - boxpunch:    Boxhaltung, abwechselnd Gerade rechts/links (Zyklus 0,9 s, Faust ca. 0,6 m vor ihm auf 1,5 m), wippt.
- *  - pourcoffee:  Tasse rechts unter den Auslauf (0,4 m vor ihm, 1,0 m hoch), links drückt die Taste (0,4 m vor ihm, 0,2 m links, 1,3 m).
+ *  - pourcoffee:  Tasse rechts unter den Auslauf (0,42 m vor ihm, 1,02 m hoch), links drückt oben auf die Taste (0,5 m vor ihm, 1,36 m).
  *  - standcoffee: steht, Tasse rechts zum Mund (bis 0,8 s), trinkt (0,8–1,8 s), Tasse runter (bis 2,4 s), zufrieden.
  */
 export const SLAP_HIT = 0.75;
@@ -4189,10 +4189,10 @@ const chefPose = (motion: Motion, time: number): DummyPose | null => {
       return p;
     }
     case 'holdcard': {
-      // Karte stolz mit rechts vor sich hochhalten (0,36 m vor ihm, 1,36 m hoch), linke Hand in der Hüfte, leicht zurückgelehnt
+      // Karte stolz mit rechts neben dem Kopf hochhalten (0,3 m rechts, 0,26 m vor ihm, 1,62 m hoch), linke Hand in der Hüfte
       const p = base();
       const k = easeInOut(clamp(time / 0.45));
-      reachR(p, lerp3t(rest, [-0.04, 1.36 + Math.sin(time * 1.5) * 0.01, 0.36], k), 0.36);
+      reachR(p, lerp3t(rest, [-0.3, 1.62 + Math.sin(time * 1.5) * 0.01, 0.26], k), 0.36);
       reachL(p, [0.24, 1.0, -0.02], 0.33, [0.8, -0.2, -0.8]);
       p.torsoX = -0.05 * k + breathe;
       p.headX = 0.18 * k;
@@ -4319,8 +4319,8 @@ const chefPose = (motion: Motion, time: number): DummyPose | null => {
       const p = base();
       const k = easeInOut(clamp(time / 0.5));
       const press = Math.sin(Math.PI * clamp((time - 0.6) / 0.4));
-      reachR(p, lerp3t(rest, [-0.02, 1.0, 0.4], k), 0.33, [0.6, -1, -0.3]);
-      reachL(p, lerp3t(restL, [0.2, 1.3 - 0.03 * Math.max(0, press), 0.42], k), 0.33, [0.6, -1, -0.3]);
+      reachR(p, lerp3t(rest, [-0.02, 1.02, 0.42], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.12, 1.36 - 0.03 * Math.max(0, press), 0.5], k), 0.33, [0.6, -1, -0.3]);
       p.torsoX = 0.18 * k + breathe;
       p.headX = 0.3 * k;
       p.item = 'mug';

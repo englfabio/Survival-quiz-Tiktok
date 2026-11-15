@@ -15,13 +15,13 @@ import type {StageDef} from './types';
  *    ist frei (Fahrweg des Baggers, Mitte BUERO.lane z −3.8, Breite 4 m → z −5.8 … −1.8). Platz des Dummys: Schreibtisch BUERO.myDesk (−4.2, 2.4), Stuhl davor
  *    BUERO.mySeat (−4.2, 3.05), Blick zum Tisch = face 0.
  *  - Kaffee-Theke frei stehend links vor dem Chefbüro: x −2.8 … −0.8, z 0.45 … 1.05 (Platte 0,92 m) mit Kaffeemaschine (ohne Logo)
- *    bei BUERO.coffee (−1.4, 0.7), Front zur Glaswand (−z); dahinter stehen: BUERO.coffeeStand (−1.4, 0.12), face 180 (Blick zur Kamera,
- *    hinter ihm durchs Glas das Chefbüro).
+ *    bei BUERO.coffee (−1.0, 0.75), Front zum Großraumbüro (+z); davor stehen: BUERO.coffeeStand (−1.0, 1.33), face 0 → Blick über die
+ *    Theke durchs Glas ins Chefbüro (z. B. Kaffee trinken und zuschauen).
  *  - Chefbüro: x 0 … 6.4, z −6.2 … −1.0 (Holzboden). Linke Wand (x 0) ist ein OBJEKT ("buerowand", ChefProps.tsx) → kann vom Bagger
  *    durchbrochen werden; bitte immer mit (0, −3.6) face 90 einsetzen (Breite 5,2 m). Vorderwand = Glaswand (z −1.0) mit Türöffnung x 1.0 … 1.86
- *    (Türblatt = Objekt "zimmertuer" bei BUERO.doorHinge (1.86, −1.0) face 0 → geht nach innen ins Chefbüro auf). Schild „CHEF“ neben der Tür.
+ *    (Türblatt = Objekt "glastuer" bei BUERO.doorHinge (1.86, −1.0) face 0 → geht nach innen ins Chefbüro auf). Schild „CHEF“ neben der Tür.
  *    Chef-Schreibtisch BUERO.desk (3.9, −4.5) (Platte 0,76 m, 2,0 × 0,9 m), Chefsessel dahinter BUERO.chair (3.9, −5.3)
- *    (Sitz 0,54 m, Blick +z = face 180), Besucher vor dem Tisch BUERO.visitor (3.9, −3.45), face 0. Aktenregal rechts, Fenster hinten.
+ *    (Sitz 0,54 m, Blick +z = face 180), Besucher vor dem Tisch BUERO.visitor (3.9, −3.45), face 0. Aktenregal + Pflanze hinten rechts an der Rückwand, Fenster hinten.
  *  - Wände und Glas sind von außen unsichtbar bzw. durchsichtig → Kameras dürfen außerhalb stehen.
  */
 export const BUERO = {
@@ -31,7 +31,7 @@ export const BUERO = {
   wallX: 0,
   chef: {x0: 0, x1: 6.4, z0: -6.2, z1: -1.0},
   door: [1.0, -1.0] as [number, number],
-  /** Türblatt "zimmertuer": Scharnier rechts bei (1.86, −1.0), face 0 → geht nach innen ins Chefbüro auf */
+  /** Türblatt "glastuer" (oder "zimmertuer"): Scharnier rechts bei (1.86, −1.0), face 0 → geht nach innen ins Chefbüro auf */
   doorHinge: [1.86, -1.0] as [number, number],
   doorW: 0.86,
   desk: {x: 3.9, z: -4.5, h: 0.76},
@@ -39,8 +39,8 @@ export const BUERO = {
   visitor: [3.9, -3.45] as [number, number],
   myDesk: [-4.2, 2.4] as [number, number],
   mySeat: [-4.2, 3.05] as [number, number],
-  coffee: [-1.4, 0.7] as [number, number],
-  coffeeStand: [-1.4, 0.12] as [number, number],
+  coffee: [-1.0, 0.75] as [number, number],
+  coffeeStand: [-1.0, 1.33] as [number, number],
   desks: [
     [-4.2, 2.4],
     [-5.9, 2.4],
@@ -316,7 +316,7 @@ const OpenOfficeScene = () => {
         <ExecChair />
       </group>
       {/* Aktenregal rechts im Chefbüro + Pflanze */}
-      <group position={[chef.x1 - 0.22, 0, -4.4]} rotation={[0, -Math.PI / 2, 0]}>
+      <group position={[chef.x1 - 1.35, 0, chef.z0 + 0.22]}>
         {[0.02, 0.6, 1.2, 1.8].map((y) => (
           <mesh key={y} material={mats.shelf} position={[0, y + 0.015, 0]} castShadow>
             <boxGeometry args={[1.4, 0.03, 0.35]} />
@@ -336,8 +336,8 @@ const OpenOfficeScene = () => {
           )),
         )}
       </group>
-      <group position={[chef.x1 - 0.45, 0, chef.z0 + 0.5]}>
-        <Plant s={1.4} />
+      <group position={[chef.x1 - 0.3, 0, chef.z0 + 0.45]}>
+        <Plant s={1.2} />
       </group>
       {/* Großraumbüro: Schreibtisch-Inseln (frei bleibt der Bagger-Weg z −5.6 … −1.6) */}
       {BUERO.desks.map(([x, z], i) => (
@@ -366,7 +366,7 @@ const OpenOfficeScene = () => {
         <mesh material={mats.counterTop} position={[0, 0.91, 0]}>
           <boxGeometry args={[2.04, 0.04, 0.64]} />
         </mesh>
-        <group position={[BUERO.coffee[0] + 1.8, 0.93, 0.02]} rotation={[0, Math.PI, 0]}>
+        <group position={[BUERO.coffee[0] + 1.8, 0.93, BUERO.coffee[1] - 0.75]}>
           <CoffeeMachine />
         </group>
         {[-0.7, -0.52, -0.34].map((x, i) => (

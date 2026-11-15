@@ -7,13 +7,14 @@ import {RingLines} from './WeckerProps';
 /**
  * Spezial „Chef“ – Objekte, alle comichaft, harmlos und OHNE Logos/Markenzeichen:
  *  - BreakWall ("buerowand"): Bürowand 5,2 × 5 m, Wert "fill" 0 = heil … 1 = durchbrochen (Teile fliegen nach +z ihres Systems,
- *    landen auf dem Boden, Staubwolke; Ränder links/rechts + oben bleiben stehen). fill läuft linear über 2,2 s Flugzeit.
+ *    landen höchstens ca. 2,8 m hinter der Wand, Staubwolke; Ränder links/rechts + oben bleiben stehen). fill läuft linear über 2,2 s Flugzeit.
  *  - Copier ("kopierer"): großer Büro-Kopierer (Front +z), "fill" 0 … 1 = Papierblätter fliegen heraus.
  *  - ReverseCard ("reversekarte"): rote Karte mit zwei gebogenen Pfeilen im Kreis – OHNE Schriftzug, OHNE weißes Oval, OHNE Logo.
  *    "tilt" 1 = liegt flach, "glow" = gelber Schein, "size".
  *  - BoxingBell ("boxglocke"): Boxring-Glocke (Messing auf rotem Brett) mit Hammer, "ring" = klingelt + Schall-Linien, schaut zur Kamera.
  *  - TaskStack ("aktenstapel"): wachsende Papierstapel mit Klebezetteln (DRINGEND! / SOFORT! …), "fill" 0 … 1.
  *  - Swirl ("wirbel"): comichafter Wirbel (Ringe, Streifen, Sterne), "fill" = Stärke 0 … 1.
+ *  - GlassDoor ("glastuer"): Glastür mit dunklem Rahmen + Griffstange, "door" 0 … 1 (wie DoorLeaf).
  *  - SweatDrops: Schweißtropfen + Stress-Striche am Kopf (Wert "sweat" an Figuren mit Dummy-Körper).
  */
 
@@ -52,7 +53,8 @@ export const BreakWall = ({fill = 0}: {fill?: number}) => {
           c: [x, y],
           w: cw * (0.92 + r() * 0.06),
           h: rh * (0.9 + r() * 0.08),
-          v: [(x / WALL.hole) * (0.6 + r() * 0.8), 0.6 + r() * 1.6, 1.8 + r() * 1.6 + (1 - y / WALL.top) * 0.8],
+          // vorwärts höchstens ca. 2 m/s → Teile landen spätestens ca. 2,8 m hinter der Wand (Chef steht mit Abstand dahinter)
+          v: [(x / WALL.hole) * (0.4 + r() * 0.5), 0.5 + r() * 1.3, 0.9 + r() * 0.7 + (1 - y / WALL.top) * 0.4],
           spin: [(r() - 0.5) * 9, (r() - 0.5) * 4, (r() - 0.5) * 8],
           delay: (1 - y / WALL.top) * 0.05 + Math.abs(x) * 0.03 + r() * 0.05,
         });
@@ -511,6 +513,51 @@ export const SweatDrops = ({amount = 0, time = 0}: {amount?: number; time?: numb
       {[-1, 0, 1].map((k) => (
         <mesh key={k} material={m.line} position={[k * 0.11, 0.33 + (k === 0 ? 0.04 : 0) + 0.015 * Math.sin(time * 18 + k), 0.02]} rotation={[0, 0, -k * 0.45]}>
           <planeGeometry args={[0.022, 0.1]} />
+        </mesh>
+      ))}
+    </group>
+  );
+};
+
+// ---------- Glastür (passend zur Glaswand im Büro) ----------
+/** Glastür mit dunklem Rahmen + Griffstange, Scharnier am Ursprung, Blatt nach +x (Breite 0,86 m, Höhe 2,05 m),
+ *  Wert "door" 0 zu … 1 offen (schwingt nach +z des eigenen Systems, wie DoorLeaf). Objekt "glastuer". */
+export const GLASS_DOOR = {w: 0.86, h: 2.05};
+export const GlassDoor = ({open = 0}: {open?: number}) => {
+  const m = useMemo(
+    () => ({
+      frame: std('#3a3f46', {metalness: 0.5, roughness: 0.4}),
+      glass: new THREE.MeshStandardMaterial({color: '#cfe8f4', transparent: true, opacity: 0.2, roughness: 0.05, depthWrite: false, side: THREE.DoubleSide}),
+      frost: new THREE.MeshStandardMaterial({color: '#ffffff', transparent: true, opacity: 0.45, roughness: 0.6, depthWrite: false, side: THREE.DoubleSide}),
+      steel: std('#c9ced3', {metalness: 0.8, roughness: 0.25}),
+    }),
+    [],
+  );
+  const {w, h} = GLASS_DOOR;
+  return (
+    <group rotation={[0, -clamp(open) * 1.75, 0]}>
+      <mesh material={m.glass} position={[w / 2, h / 2, 0]}>
+        <planeGeometry args={[w - 0.08, h - 0.08]} />
+      </mesh>
+      <mesh material={m.frost} position={[w / 2, 1.2, 0.002]}>
+        <planeGeometry args={[w - 0.08, 0.16]} />
+      </mesh>
+      {[
+        [w / 2, 0.02, w, 0.04],
+        [w / 2, h - 0.02, w, 0.04],
+      ].map(([x, y, ww, hh], i) => (
+        <mesh key={i} material={m.frame} position={[x, y, 0]}>
+          <boxGeometry args={[ww, hh, 0.04]} />
+        </mesh>
+      ))}
+      {[0.02, w - 0.02].map((x) => (
+        <mesh key={x} material={m.frame} position={[x, h / 2, 0]}>
+          <boxGeometry args={[0.04, h, 0.04]} />
+        </mesh>
+      ))}
+      {[-1, 1].map((k) => (
+        <mesh key={k} material={m.steel} position={[w - 0.12, 1.05, k * 0.05]}>
+          <boxGeometry args={[0.025, 0.5, 0.025]} />
         </mesh>
       ))}
     </group>

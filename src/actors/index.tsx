@@ -42,7 +42,7 @@ import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
 import {Bucket, ChristmasTree, DoorLeaf, FireTruck, GiftPile} from './ChristmasProps';
 import {DishRack, FoodArc, KitchenClock, SinkMess} from './SpueleProps';
 import {BrickHouse, BrickPile, DoormatMesh, FamilyHouse, GardenShedProp} from './HausProps';
-import {BoxingBell, BreakWall, Copier, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
+import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
 
@@ -256,6 +256,7 @@ export const ACTORS = {
   boxglocke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   aktenstapel: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
   wirbel: {height: 1.2, climbOffset: 0, speedLineHeight: 0},
+  glastuer: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
   kollege1: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   kollege2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   kollege3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
@@ -745,6 +746,7 @@ export const Actor = ({
         </group>
       )}
       {name === 'aktenstapel' && <TaskStack fill={v.fill} />}
+      {name === 'glastuer' && <GlassDoor open={v.door} />}
       {name === 'wirbel' && <Swirl amount={v.fill} time={zt} />}
       {COLLEAGUES[name] && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={COLLEAGUES[name].color} uniform={COLLEAGUES[name].uniform} brow={v.brow} />
