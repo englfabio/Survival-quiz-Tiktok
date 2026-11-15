@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cosmic big bang: everything gets sucked inward with a rising reverse whoosh, a brief silence, then a deep soft booming explosion that blooms into a shimmering sparkling space shimmer, cinematic, no music",
+  "duration": 5,
+  "loop": false,
+  "promptInfluence": 0.55,
+  "createdAt": "2026-11-15T12:04:44.257Z"
+}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Calm deep space ambience, soft low drone with gentle airy shimmer and faint twinkling, peaceful, no music melody",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-15T12:04:47.715Z"
+}

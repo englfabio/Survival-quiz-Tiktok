@@ -1,0 +1,2153 @@
+{
+  "id": "spezial-trex-stau",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "autobahn",
+  "padAfter": 0.3,
+  "situation": {
+    "speech": "Du stehst mal wieder im Stau, weil ein T-Rex auf der Autobahn steht. Er bewegt sich keinen Zentimeter. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Rampen wie in Fortnite",
+      "speech": "A: Du baust Rampen wie in Fortnite und fährst einfach über ihn drüber.",
+      "dummyAction": "Das Auto fährt aus dem Stau los und baut sich mitten im Fahren Rampen aus Holz (ploppen als blaue Bau-Vorschau auf und werden zu Holz, selbst gestaltet, keine Original-Grafik), fährt immer höher über den T-Rex hinweg und baut sich auf der anderen Seite umgedrehte Treppen nach unten. Dazu eine selbst gestaltete Spiel-Anzeige.",
+      "explanation": "Rampe, Rampe, Rampe. Mitten im Fahren, immer höher, über den T-Rex hinweg. Und auf der anderen Seite baust du dir den Weg einfach wieder runter.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -45.53,
+              15.58,
+              92.04
+            ],
+            "look": [
+              -7.24,
+              -0.75,
+              1.39
+            ]
+          },
+          {
+            "t": 0.3143,
+            "pos": [
+              -43.616,
+              14.764,
+              87.508
+            ],
+            "look": [
+              -7.24,
+              -0.75,
+              1.39
+            ]
+          },
+          {
+            "t": 0.3177,
+            "pos": [
+              -44.35,
+              14.85,
+              44.16
+            ],
+            "look": [
+              -8.17,
+              3.88,
+              -2.29
+            ]
+          },
+          {
+            "t": 0.461,
+            "pos": [
+              -41.456,
+              13.972,
+              40.444
+            ],
+            "look": [
+              -8.17,
+              3.88,
+              -2.29
+            ]
+          },
+          {
+            "t": 0.4646,
+            "pos": [
+              -16.09,
+              19.97,
+              74.3
+            ],
+            "look": [
+              0.31,
+              4.15,
+              -2.31
+            ]
+          },
+          {
+            "t": 0.6145,
+            "pos": [
+              -14.778,
+              18.704,
+              68.171
+            ],
+            "look": [
+              0.31,
+              4.15,
+              -2.31
+            ]
+          },
+          {
+            "t": 0.618,
+            "pos": [
+              15.56,
+              12.72,
+              69.89
+            ],
+            "look": [
+              9.52,
+              5.6,
+              0.83
+            ]
+          },
+          {
+            "t": 0.8358,
+            "pos": [
+              15.258,
+              12.364,
+              66.437
+            ],
+            "look": [
+              9.52,
+              5.6,
+              0.83
+            ]
+          },
+          {
+            "t": 0.8387,
+            "pos": [
+              67.37,
+              31.41,
+              100.53
+            ],
+            "look": [
+              25.19,
+              7.58,
+              -3.49
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              64.839,
+              29.98,
+              94.289
+            ],
+            "look": [
+              25.19,
+              7.58,
+              -3.49
+            ]
+          }
+        ],
+        "actors": {
+          "stau": [
+            {
+              "t": 0,
+              "x": -15.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "car": [
+            {
+              "t": 0,
+              "x": -15.0,
+              "z": -3.75,
+              "motion": "park",
+              "face": 90,
+              "y": 0.0,
+              "mark": 1,
+              "tilt": 0
+            },
+            {
+              "t": 0.358,
+              "x": -15.0,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.4057,
+              "x": -12.0,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.4152,
+              "x": -10.2,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.62,
+              "tilt": -36.87
+            },
+            {
+              "t": 0.6581,
+              "x": 9.6,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 15.47,
+              "tilt": -36.87
+            },
+            {
+              "t": 0.6657,
+              "x": 10.6,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 16.05,
+              "tilt": 0
+            },
+            {
+              "t": 0.7633,
+              "x": 17.0,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 10.52,
+              "tilt": 36.87
+            },
+            {
+              "t": 0.8685,
+              "x": 24.0,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 5.27,
+              "tilt": 36.87
+            },
+            {
+              "t": 0.9737,
+              "x": 32.2,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.999,
+              "x": 47.0,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 1,
+              "x": 48.0,
+              "z": -3.75,
+              "motion": "park",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "buckled",
+              "face": 0,
+              "attach": "car",
+              "y": 0.0
+            },
+            {
+              "t": 0.997,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "buckled",
+              "face": 0,
+              "attach": "car",
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "seatwave",
+              "face": 0,
+              "attach": "car",
+              "y": 0.02
+            },
+            {
+              "t": 1,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "seatwave",
+              "face": 0,
+              "attach": "car",
+              "y": 0.02
+            }
+          ],
+          "trex": [
+            {
+              "t": 0,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "bored",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.561,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "gaze",
+              "face": 180,
+              "pitch": 0,
+              "turn": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6867,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "gaze",
+              "face": 180,
+              "pitch": 35,
+              "turn": -60,
+              "y": 0.0
+            },
+            {
+              "t": 0.9737,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "gaze",
+              "face": 180,
+              "pitch": 20,
+              "turn": -110,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "gaze",
+              "face": 180,
+              "pitch": 10,
+              "turn": -140,
+              "y": 0.0
+            }
+          ],
+          "bau": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "fill": 0.0,
+              "text": "S -7.50 0.00 -3.75 90;S -0.50 5.25 -3.75 90;S 6.50 10.50 -3.75 90;D 13.50 10.50 -3.75 90;D 20.50 5.25 -3.75 90;D 27.50 0.00 -3.75 90"
+            },
+            {
+              "t": 0.3835,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4013,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4125,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4303,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 2.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4415,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 2.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4593,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 3.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6295,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 3.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6473,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 4.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7347,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 4.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7525,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 5.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8399,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 5.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8577,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 6.0,
+              "y": 0.0
+            }
+          ]
+        },
+        "hud": [
+          0.3072,
+          1.0
+        ],
+        "hudSel": [
+          {
+            "t": 0.3803,
+            "sel": "stair"
+          },
+          {
+            "t": 0.4093,
+            "sel": "stair"
+          },
+          {
+            "t": 0.4383,
+            "sel": "stair"
+          },
+          {
+            "t": 0.6263,
+            "sel": "stair"
+          },
+          {
+            "t": 0.7315,
+            "sel": "stair"
+          },
+          {
+            "t": 0.8367,
+            "sel": "stair"
+          },
+          {
+            "t": 0.9737,
+            "sel": ""
+          }
+        ],
+        "sfx": [
+          {
+            "t": 0.3517,
+            "id": "auto-motor",
+            "volume": 0.6
+          },
+          {
+            "t": 0.3886,
+            "id": "bau-klack",
+            "volume": 0.7
+          },
+          {
+            "t": 0.4176,
+            "id": "bau-klack",
+            "volume": 0.7
+          },
+          {
+            "t": 0.4466,
+            "id": "bau-klack",
+            "volume": 0.7
+          },
+          {
+            "t": 0.6346,
+            "id": "bau-klack",
+            "volume": 0.7
+          },
+          {
+            "t": 0.7398,
+            "id": "bau-klack",
+            "volume": 0.7
+          },
+          {
+            "t": 0.845,
+            "id": "bau-klack",
+            "volume": 0.7
+          },
+          {
+            "t": 0.6613,
+            "id": "staunen",
+            "volume": 0.35
+          },
+          {
+            "t": 0.9737,
+            "id": "auto-landung",
+            "volume": 0.7
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Urknall auslösen",
+      "speech": "B: Du löst den Urknall aus. Dann gibt es auch keinen Stau mehr.",
+      "dummyAction": "Der Dummy steht neben seinem Auto, ein großer roter Knopf mit der Aufschrift URKNALL ploppt auf. Er drückt ihn: greller Lichtblitz, alles zieht sich in einen leuchtenden Punkt zusammen, Schwärze, dann entsteht ein neuer Sternenhimmel mit Galaxien. Kein T-Rex, kein Stau.",
+      "explanation": "Ein Knopf. Ein Knall. Alles fängt von vorne an. Kein T-Rex. Kein Stau. Gar nichts.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -42.68,
+              8.8,
+              56.6
+            ],
+            "look": [
+              -2.72,
+              -0.08,
+              1.1
+            ]
+          },
+          {
+            "t": 0.416,
+            "pos": [
+              -40.682,
+              8.356,
+              53.825
+            ],
+            "look": [
+              -2.72,
+              -0.08,
+              1.1
+            ]
+          },
+          {
+            "t": 0.4195,
+            "pos": [
+              -10.75,
+              0.95,
+              -2.2
+            ],
+            "look": [
+              -10.9,
+              0.62,
+              -3.75
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.5564,
+            "pos": [
+              -10.765,
+              0.917,
+              -2.355
+            ],
+            "look": [
+              -10.9,
+              0.62,
+              -3.75
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.56,
+            "pos": [
+              -10.9,
+              1.25,
+              -0.15
+            ],
+            "look": [
+              -11.0,
+              0.95,
+              -3.75
+            ],
+            "fov": 46
+          },
+          {
+            "t": 0.6709,
+            "pos": [
+              -10.905,
+              1.235,
+              -0.33
+            ],
+            "look": [
+              -11.0,
+              0.95,
+              -3.75
+            ],
+            "fov": 46
+          },
+          {
+            "t": 0.6732,
+            "pos": [
+              0,
+              6,
+              120
+            ],
+            "look": [
+              0,
+              0,
+              0
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.8053,
+            "pos": [
+              0,
+              10,
+              95
+            ],
+            "look": [
+              0,
+              0,
+              0
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.8084,
+            "pos": [
+              -30,
+              18,
+              60
+            ],
+            "look": [
+              10,
+              0,
+              -20
+            ],
+            "fov": 55
+          },
+          {
+            "t": 0.9316,
+            "pos": [
+              -25.2,
+              15.84,
+              50.4
+            ],
+            "look": [
+              10,
+              0,
+              -20
+            ],
+            "fov": 55
+          },
+          {
+            "t": 0.934,
+            "pos": [
+              20,
+              -10,
+              150
+            ],
+            "look": [
+              0,
+              0,
+              0
+            ],
+            "fov": 48
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              19.0,
+              -9.5,
+              142.5
+            ],
+            "look": [
+              0,
+              0,
+              0
+            ],
+            "fov": 48
+          }
+        ],
+        "actors": {
+          "stau": [
+            {
+              "t": 0,
+              "x": -15.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.6427,
+              "x": -15.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.6447,
+              "x": -15.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "trex": [
+            {
+              "t": 0,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "bored",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.6427,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "bored",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.6447,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "bored",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "car": [
+            {
+              "t": 0,
+              "x": -15.0,
+              "z": -3.75,
+              "motion": "park",
+              "face": 90,
+              "y": 0.0,
+              "mark": 1,
+              "door": 0.9
+            },
+            {
+              "t": 0.6427,
+              "x": -15.0,
+              "z": -3.75,
+              "motion": "park",
+              "face": 90,
+              "y": 0.0,
+              "mark": 1,
+              "door": 0.9
+            },
+            {
+              "t": 0.6447,
+              "x": -15.0,
+              "z": -3.75,
+              "motion": "park",
+              "face": 90,
+              "y": -30,
+              "mark": 1,
+              "door": 0.9
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -11.8,
+              "z": -3.55,
+              "motion": "stand",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.0516,
+              "x": -11.8,
+              "z": -3.55,
+              "motion": "stand",
+              "face": 100,
+              "question": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.4297,
+              "x": -11.8,
+              "z": -3.55,
+              "motion": "stand",
+              "face": 100,
+              "question": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4327,
+              "x": -11.4,
+              "z": -3.75,
+              "motion": "stand",
+              "face": 90,
+              "cut": true,
+              "question": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4895,
+              "x": -11.4,
+              "z": -3.75,
+              "motion": "stand",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.4925,
+              "x": -11.4,
+              "z": -3.75,
+              "motion": "pressbutton",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.6427,
+              "x": -11.4,
+              "z": -3.75,
+              "motion": "pressbutton",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.6447,
+              "x": -11.4,
+              "z": -3.75,
+              "motion": "pressbutton",
+              "face": 90,
+              "y": -30
+            },
+            {
+              "t": 1,
+              "x": -11.4,
+              "z": -3.75,
+              "motion": "pressbutton",
+              "face": 90,
+              "y": -30
+            }
+          ],
+          "knopf": [
+            {
+              "t": 0,
+              "x": -10.9,
+              "z": -3.75,
+              "motion": "park",
+              "face": 270,
+              "y": -30,
+              "text": "URKNALL"
+            },
+            {
+              "t": 0.0215,
+              "x": -10.9,
+              "z": -3.75,
+              "motion": "park",
+              "face": 270,
+              "y": -30
+            },
+            {
+              "t": 0.0232,
+              "x": -10.9,
+              "z": -3.75,
+              "motion": "park",
+              "face": 270,
+              "y": 0.0,
+              "press": 0,
+              "glow": 0.3
+            },
+            {
+              "t": 0.5527,
+              "x": -10.9,
+              "z": -3.75,
+              "motion": "park",
+              "face": 270,
+              "press": 0,
+              "glow": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.5544,
+              "x": -10.9,
+              "z": -3.75,
+              "motion": "park",
+              "face": 270,
+              "press": 1,
+              "glow": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.6427,
+              "x": -10.9,
+              "z": -3.75,
+              "motion": "park",
+              "face": 270,
+              "press": 1,
+              "glow": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.6447,
+              "x": -10.9,
+              "z": -3.75,
+              "motion": "park",
+              "face": 270,
+              "press": 1,
+              "glow": 1,
+              "y": -30
+            }
+          ],
+          "urknall": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "fill": 0
+            },
+            {
+              "t": 0.6427,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "fill": 0
+            },
+            {
+              "t": 0.6447,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.6877,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.13,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "y": 0.0
+            }
+          ]
+        },
+        "stage": [
+          {
+            "t": 0,
+            "stage": "autobahn"
+          },
+          {
+            "t": 0.6447,
+            "stage": "weltraum"
+          }
+        ],
+        "implode": [
+          0.5544,
+          0.6189,
+          0.6447
+        ],
+        "sfx": [
+          {
+            "t": 0.0215,
+            "id": "plopp",
+            "volume": 0.6
+          },
+          {
+            "t": 0.5518,
+            "id": "knopf-druecken",
+            "volume": 0.8
+          },
+          {
+            "t": 0.5544,
+            "id": "urknall",
+            "volume": 0.9
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Raptoren als Köder",
+      "speech": "C: Du schickst ein paar Velociraptoren als Köder los, die ihn weglocken.",
+      "dummyAction": "Drei bunte, gefiederte Velociraptoren springen aus dem Gebüsch, tänzeln frech vor dem T-Rex herum und rennen über die Wiese davon. Der T-Rex jagt ihnen hinterher (niemand wird verletzt), die Autobahn ist frei und der Dummy fährt winkend weiter.",
+      "explanation": "Drei Raptoren, ein Plan. Sie tänzeln vor ihm herum und rennen los. Der T-Rex hinterher. Die Autobahn ist frei.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -23.74,
+              5.27,
+              25.22
+            ],
+            "look": [
+              2.33,
+              1.35,
+              10.16
+            ]
+          },
+          {
+            "t": 0.3802,
+            "pos": [
+              -22.176,
+              5.035,
+              24.316
+            ],
+            "look": [
+              2.33,
+              1.35,
+              10.16
+            ]
+          },
+          {
+            "t": 0.3837,
+            "pos": [
+              23.31,
+              7.85,
+              60.56
+            ],
+            "look": [
+              4.85,
+              0.27,
+              9.85
+            ]
+          },
+          {
+            "t": 0.5764,
+            "pos": [
+              22.202,
+              7.395,
+              57.517
+            ],
+            "look": [
+              4.85,
+              0.27,
+              9.85
+            ]
+          },
+          {
+            "t": 0.58,
+            "pos": [
+              9.6,
+              1.0,
+              17.8
+            ],
+            "look": [
+              9.0,
+              3.6,
+              5.8
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.7218,
+            "pos": [
+              9.564,
+              1.156,
+              17.08
+            ],
+            "look": [
+              9.0,
+              3.6,
+              5.8
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.7251,
+            "pos": [
+              35.0,
+              6.0,
+              14
+            ],
+            "look": [
+              7.0,
+              3.0,
+              22
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.9004,
+            "pos": [
+              32.76,
+              5.76,
+              14.64
+            ],
+            "look": [
+              7.0,
+              3.0,
+              22
+            ],
+            "fov": 50
+          },
+          {
+            "t": 0.903,
+            "pos": [
+              5.0,
+              1.5,
+              -12.5
+            ],
+            "look": [
+              0.0,
+              1.0,
+              -3.75
+            ],
+            "fov": 46
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              4.8,
+              1.48,
+              -12.15
+            ],
+            "look": [
+              0.0,
+              1.0,
+              -3.75
+            ],
+            "fov": 46
+          }
+        ],
+        "actors": {
+          "stau": [
+            {
+              "t": 0,
+              "x": -15.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "car": [
+            {
+              "t": 0,
+              "x": -15.0,
+              "z": -3.75,
+              "motion": "park",
+              "face": 90,
+              "y": 0.0,
+              "mark": 1
+            },
+            {
+              "t": 0.8547,
+              "x": -15.0,
+              "z": -3.75,
+              "motion": "park",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.8577,
+              "x": -15.0,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 19.0,
+              "z": -3.75,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "buckled",
+              "face": 0,
+              "attach": "car",
+              "y": 0.0
+            },
+            {
+              "t": 0.6929,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "buckled",
+              "face": 0,
+              "attach": "car",
+              "y": 0.0
+            },
+            {
+              "t": 0.6949,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "seatwave",
+              "face": 0,
+              "attach": "car",
+              "y": 0.02
+            },
+            {
+              "t": 1,
+              "x": 0.3,
+              "z": -0.2,
+              "motion": "seatwave",
+              "face": 0,
+              "attach": "car",
+              "y": 0.02
+            }
+          ],
+          "trex": [
+            {
+              "t": 0,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "bored",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.5524,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "gaze",
+              "face": 180,
+              "pitch": -25,
+              "turn": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6899,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "gaze",
+              "face": 180,
+              "pitch": -30,
+              "turn": 15,
+              "y": 0.0
+            },
+            {
+              "t": 0.7597,
+              "x": 9.0,
+              "z": 0.3,
+              "motion": "chase",
+              "face": 180,
+              "pitch": 0,
+              "turn": 0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 9.0,
+              "z": 62,
+              "motion": "chase",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "raptor1": [
+            {
+              "t": 0,
+              "x": -3.2,
+              "z": 11.0,
+              "motion": "hide",
+              "face": 200,
+              "y": 0.0
+            },
+            {
+              "t": 0.45,
+              "x": -3.2,
+              "z": 11.0,
+              "motion": "hide",
+              "face": 71.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.453,
+              "x": -3.2,
+              "z": 11.0,
+              "motion": "leap",
+              "face": 71.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.4801,
+              "x": 1.7,
+              "z": 9.35,
+              "motion": "leap",
+              "face": 71.4,
+              "y": 1.6
+            },
+            {
+              "t": 0.5072,
+              "x": 6.6,
+              "z": 7.7,
+              "motion": "leap",
+              "face": 71.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.5092,
+              "x": 6.6,
+              "z": 7.7,
+              "motion": "dance",
+              "face": -15,
+              "y": 0.0
+            },
+            {
+              "t": 0.6899,
+              "x": 6.6,
+              "z": 7.7,
+              "motion": "dance",
+              "face": -15,
+              "y": 0.0
+            },
+            {
+              "t": 0.6929,
+              "x": 6.6,
+              "z": 7.7,
+              "motion": "sprint",
+              "face": 186.8,
+              "y": 0.0
+            },
+            {
+              "t": 0.729,
+              "x": 6.264,
+              "z": 9.6,
+              "motion": "leap",
+              "face": 186.8,
+              "y": 1.2
+            },
+            {
+              "t": 0.7543,
+              "x": 5.928,
+              "z": 12.5,
+              "motion": "sprint",
+              "face": 186.8,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 1.0,
+              "z": 55,
+              "motion": "sprint",
+              "face": 186.8,
+              "y": 0.0
+            }
+          ],
+          "raptor2": [
+            {
+              "t": 0,
+              "x": 0.6,
+              "z": 11.5,
+              "motion": "hide",
+              "face": 200,
+              "y": 0.0
+            },
+            {
+              "t": 0.463,
+              "x": 0.6,
+              "z": 11.5,
+              "motion": "hide",
+              "face": 72.2,
+              "y": 0.0
+            },
+            {
+              "t": 0.466,
+              "x": 0.6,
+              "z": 11.5,
+              "motion": "leap",
+              "face": 72.2,
+              "y": 0.0
+            },
+            {
+              "t": 0.4931,
+              "x": 4.95,
+              "z": 10.1,
+              "motion": "leap",
+              "face": 72.2,
+              "y": 1.6
+            },
+            {
+              "t": 0.5202,
+              "x": 9.3,
+              "z": 8.7,
+              "motion": "leap",
+              "face": 72.2,
+              "y": 0.0
+            },
+            {
+              "t": 0.5222,
+              "x": 9.3,
+              "z": 8.7,
+              "motion": "dance",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6899,
+              "x": 9.3,
+              "z": 8.7,
+              "motion": "dance",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6965,
+              "x": 9.3,
+              "z": 8.7,
+              "motion": "sprint",
+              "face": 179.2,
+              "y": 0.0
+            },
+            {
+              "t": 0.7326,
+              "x": 9.342,
+              "z": 9.6,
+              "motion": "leap",
+              "face": 179.2,
+              "y": 1.2
+            },
+            {
+              "t": 0.7579,
+              "x": 9.384,
+              "z": 12.5,
+              "motion": "sprint",
+              "face": 179.2,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 10.0,
+              "z": 60,
+              "motion": "sprint",
+              "face": 179.2,
+              "y": 0.0
+            }
+          ],
+          "raptor3": [
+            {
+              "t": 0,
+              "x": 4.2,
+              "z": 10.9,
+              "motion": "hide",
+              "face": 200,
+              "y": 0.0
+            },
+            {
+              "t": 0.476,
+              "x": 4.2,
+              "z": 10.9,
+              "motion": "hide",
+              "face": 65.3,
+              "y": 0.0
+            },
+            {
+              "t": 0.479,
+              "x": 4.2,
+              "z": 10.9,
+              "motion": "leap",
+              "face": 65.3,
+              "y": 0.0
+            },
+            {
+              "t": 0.5061,
+              "x": 7.9,
+              "z": 9.2,
+              "motion": "leap",
+              "face": 65.3,
+              "y": 1.6
+            },
+            {
+              "t": 0.5332,
+              "x": 11.6,
+              "z": 7.5,
+              "motion": "leap",
+              "face": 65.3,
+              "y": 0.0
+            },
+            {
+              "t": 0.5352,
+              "x": 11.6,
+              "z": 7.5,
+              "motion": "dance",
+              "face": 15,
+              "y": 0.0
+            },
+            {
+              "t": 0.6899,
+              "x": 11.6,
+              "z": 7.5,
+              "motion": "dance",
+              "face": 15,
+              "y": 0.0
+            },
+            {
+              "t": 0.7001,
+              "x": 11.6,
+              "z": 7.5,
+              "motion": "sprint",
+              "face": 172.2,
+              "y": 0.0
+            },
+            {
+              "t": 0.7362,
+              "x": 11.984,
+              "z": 9.6,
+              "motion": "leap",
+              "face": 172.2,
+              "y": 1.2
+            },
+            {
+              "t": 0.7615,
+              "x": 12.368,
+              "z": 12.5,
+              "motion": "sprint",
+              "face": 172.2,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 18.0,
+              "z": 54,
+              "motion": "sprint",
+              "face": 172.2,
+              "y": 0.0
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.453,
+            "id": "laub-rascheln",
+            "volume": 0.6
+          },
+          {
+            "t": 0.4675,
+            "id": "raptor-kreischen",
+            "volume": 0.6
+          },
+          {
+            "t": 0.5886,
+            "id": "raptor-kreischen",
+            "volume": 0.55
+          },
+          {
+            "t": 0.7669,
+            "id": "t-rex-stampfen",
+            "volume": 0.75
+          },
+          {
+            "t": 0.8613,
+            "id": "auto-motor",
+            "volume": 0.5
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du?",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr.",
+    "screen": "Kommentieren & folgen!"
+  },
+  "publishing": {
+    "description": "Du stehst mal wieder im Stau, weil ein T-Rex auf der Autobahn steht – was machst du? 🦖 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. 😄\n\n#waswürdestdutun #trex #dino #stau #autobahn #fortnite #spezial #comedy\n\nHinweis: Das gesamte Video ist KI-generiert. Nicht mit Epic Games verbunden.",
+    "pinnedComment": "Ich bin Team ___. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -13.4,
+            1.75,
+            -8.35
+          ],
+          "look": [
+            -14.75,
+            1.05,
+            -3.95
+          ],
+          "fov": 44
+        },
+        {
+          "t": 0.2353,
+          "pos": [
+            -13.562,
+            1.666,
+            -7.822
+          ],
+          "look": [
+            -14.75,
+            1.05,
+            -3.95
+          ],
+          "fov": 44
+        },
+        {
+          "t": 0.2385,
+          "pos": [
+            -134.87,
+            48.55,
+            34.77
+          ],
+          "look": [
+            -30.55,
+            -12.57,
+            0.88
+          ]
+        },
+        {
+          "t": 0.595,
+          "pos": [
+            -124.438,
+            42.438,
+            31.381
+          ],
+          "look": [
+            -30.55,
+            -12.57,
+            0.88
+          ]
+        },
+        {
+          "t": 0.5986,
+          "pos": [
+            -0.72,
+            4.81,
+            -16.64
+          ],
+          "look": [
+            8.95,
+            1.48,
+            4.09
+          ]
+        },
+        {
+          "t": 0.8826,
+          "pos": [
+            0.054,
+            4.544,
+            -14.982
+          ],
+          "look": [
+            8.95,
+            1.48,
+            4.09
+          ]
+        },
+        {
+          "t": 0.8853,
+          "pos": [
+            -11.6,
+            1.55,
+            -7.95
+          ],
+          "look": [
+            -14.65,
+            1.2,
+            -3.9
+          ],
+          "fov": 40
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -11.844,
+            1.522,
+            -7.626
+          ],
+          "look": [
+            -14.65,
+            1.2,
+            -3.9
+          ],
+          "fov": 40
+        }
+      ],
+      "actors": {
+        "stau": [
+          {
+            "t": 0,
+            "x": -15.0,
+            "z": 0.0,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "rumble": 0.0
+          }
+        ],
+        "trex": [
+          {
+            "t": 0,
+            "x": 9.0,
+            "z": 0.3,
+            "motion": "bored",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 0.6005,
+            "x": 9.0,
+            "z": 0.3,
+            "motion": "yawn",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 9.0,
+            "z": 0.3,
+            "motion": "yawn",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": -15.0,
+            "z": -3.75,
+            "motion": "park",
+            "face": 90,
+            "y": 0.0,
+            "mark": 1
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": -0.2,
+            "motion": "wheeltap",
+            "face": 0,
+            "attach": "car",
+            "y": 0.02,
+            "brow": 1
+          },
+          {
+            "t": 0.8491,
+            "x": 0.3,
+            "z": -0.2,
+            "motion": "wheeltap",
+            "face": 0,
+            "attach": "car",
+            "y": 0.02
+          },
+          {
+            "t": 0.8521,
+            "x": 0.3,
+            "z": -0.2,
+            "motion": "buckled",
+            "face": 0,
+            "attach": "car",
+            "y": 0.0,
+            "question": 0,
+            "cut": true
+          },
+          {
+            "t": 0.8997,
+            "x": 0.3,
+            "z": -0.2,
+            "motion": "buckled",
+            "face": 0,
+            "attach": "car",
+            "y": 0.0,
+            "question": 1
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.02,
+          "id": "auto-hupen",
+          "volume": 0.35
+        },
+        {
+          "t": 0.6183,
+          "id": "t-rex-gaehnen",
+          "volume": 0.8
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -7.99,
+            4.06,
+            57.41
+          ],
+          "look": [
+            1.76,
+            7.79,
+            6.56
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -7.6,
+            4.209,
+            55.376
+          ],
+          "look": [
+            1.76,
+            7.79,
+            6.56
+          ]
+        }
+      ],
+      "actors": {
+        "stau": [
+          {
+            "t": 0,
+            "x": -15.0,
+            "z": 0.0,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": -15.0,
+            "z": -3.75,
+            "motion": "park",
+            "face": 90,
+            "y": 0.0,
+            "mark": 1
+          }
+        ],
+        "trex": [
+          {
+            "t": 0,
+            "x": 5.0,
+            "z": 1.3,
+            "motion": "stand",
+            "face": 215,
+            "y": 0.0,
+            "pitch": -10
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -2.0,
+            "z": 6.4,
+            "motion": "stand",
+            "face": 170,
+            "y": 0.0,
+            "question": 1
+          }
+        ],
+        "raptor1": [
+          {
+            "t": 0,
+            "x": -3.6,
+            "z": 6.9,
+            "motion": "stand",
+            "face": 168,
+            "y": 0.0
+          }
+        ],
+        "raptor2": [
+          {
+            "t": 0,
+            "x": -0.4,
+            "z": 6.9,
+            "motion": "stand",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "raptor3": [
+          {
+            "t": 0,
+            "x": 1.2,
+            "z": 6.5,
+            "motion": "stand",
+            "face": 192,
+            "y": 0.0
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -9.06,
+            5.54,
+            65.07
+          ],
+          "look": [
+            2.14,
+            5.84,
+            6.64
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -8.5,
+            5.555,
+            62.148
+          ],
+          "look": [
+            2.14,
+            5.84,
+            6.64
+          ]
+        }
+      ],
+      "actors": {
+        "stau": [
+          {
+            "t": 0,
+            "x": -15.0,
+            "z": 0.0,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": -15.0,
+            "z": -3.75,
+            "motion": "park",
+            "face": 90,
+            "y": 0.0,
+            "mark": 1
+          }
+        ],
+        "trex": [
+          {
+            "t": 0,
+            "x": 5.0,
+            "z": 1.3,
+            "motion": "stand",
+            "face": 215,
+            "y": 0.0
+          },
+          {
+            "t": 0.25,
+            "x": 5.0,
+            "z": 1.3,
+            "motion": "yawn",
+            "face": 215,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 5.0,
+            "z": 1.3,
+            "motion": "yawn",
+            "face": 215,
+            "y": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -2.0,
+            "z": 6.4,
+            "motion": "stand",
+            "face": 175,
+            "y": 0.0
+          },
+          {
+            "t": 0.15,
+            "x": -2.0,
+            "z": 6.4,
+            "motion": "wave",
+            "face": 175,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -2.0,
+            "z": 6.4,
+            "motion": "wave",
+            "face": 175,
+            "y": 0.0
+          }
+        ],
+        "raptor1": [
+          {
+            "t": 0,
+            "x": -3.6,
+            "z": 6.9,
+            "motion": "stand",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 0.1,
+            "x": -3.6,
+            "z": 6.9,
+            "motion": "dance",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -3.6,
+            "z": 6.9,
+            "motion": "dance",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "raptor2": [
+          {
+            "t": 0,
+            "x": -0.4,
+            "z": 6.9,
+            "motion": "stand",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 0.18,
+            "x": -0.4,
+            "z": 6.9,
+            "motion": "dance",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.4,
+            "z": 6.9,
+            "motion": "dance",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "raptor3": [
+          {
+            "t": 0,
+            "x": 1.2,
+            "z": 6.5,
+            "motion": "stand",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 0.26,
+            "x": 1.2,
+            "z": 6.5,
+            "motion": "dance",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 1.2,
+            "z": 6.5,
+            "motion": "dance",
+            "face": 180,
+            "y": 0.0
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.3,
+          "id": "t-rex-gaehnen",
+          "volume": 0.45
+        }
+      ],
+      "sharpCuts": true
+    }
+  }
+}

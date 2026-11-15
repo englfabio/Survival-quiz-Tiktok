@@ -298,6 +298,15 @@ export type Motion =
   | 'guard' // Känguru: Boxhaltung, wippt auf dem Schwanz
   | 'punch' // Känguru: Schlag mit rechts (ausholen 0–0,25 s, Treffer bei ca. 0,4 s, ca. 0,75 m vor ihm auf 1,55 m), zurück
   | 'victory' // Känguru: Siegerpose – beide Pfoten hoch, hüpft kurz, freches Grinsen
+  // ---- Spezial T-Rex-Stau (Details: DinoProps.tsx) ----
+  | 'yawn' // T-Rex: gähnt gelangweilt (Kopf hoch, Maul weit auf 0,5–2,0 s, Ärmchen strecken), danach wieder 'bored'
+  | 'bored' // T-Rex: steht gelangweilt, Kopf etwas tiefer, blinzelt, Schwanz pendelt träge
+  | 'gaze' // T-Rex: schaut mit offenem Maul staunend nach oben (Blickrichtung über Wert turn/pitch)
+  | 'chase' // T-Rex: rennt hinterher (Weg über Zeitpunkte), Ärmchen zappeln
+  | 'hide' // Raptor: duckt sich (im Gebüsch), nur der Kopf schaut hervor
+  | 'leap' // Raptor: springt (Weg über Zeitpunkte, Bogen 1,2 m hoch)
+  | 'dance' // Raptor: tänzelt auf der Stelle, hüpft von Fuß zu Fuß, wackelt mit Kopf + Schwanz
+  | 'sprint' // Raptor: rennt (Weg über Zeitpunkte)
   // ---- Zahn (Figur "zahn") ----
   | 'fly' // Zahn: dreht sich im Flug (Weg/Bogen über Zeitpunkte)
   | 'lie' // Zahn: liegt still
@@ -521,10 +530,16 @@ export type ActorKey = {
   jogger?: number;
   /** Dummy: weißer Ganzkörper-Schutzanzug mit Maske, Schutzbrille, Gummihandschuhen (0/1) */
   hazmat?: number;
+  /** T-Rex/Raptor: Kopf drehen (Grad, + = nach links aus Sicht der Figur) */
+  turn?: number;
+  /** T-Rex/Raptor: Kopf heben (Grad, + = nach oben) */
+  pitch?: number;
+  /** T-Rex: Maul zusätzlich öffnen 0 … 1 */
+  jaw?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
@@ -570,6 +585,15 @@ export type Shot = {
   tight?: {t: number; v: number}[];
   /** Atem-Anzeige einblenden: [t Beginn, t Ende] – zeigt im Takt "Ein" (2 s, kurz) und "Aus" (4 s, lang), Zyklus 6 s ab Beginn */
   breathGuide?: [number, number];
+  /**
+   * Spiel-Anzeige (selbst gestaltet, kein Original): [t Beginn, t Ende]. Unten Mitte Lebensbalken, unten rechts leeres Inventar,
+   * oben rechts Minikarte, darüber rechts die Bau-Auswahl (Wand, Treppe, Boden, Dach).
+   */
+  hud?: [number, number];
+  /** Bau-Auswahl in der Spiel-Anzeige: Liste {t, sel} mit sel = "wall" | "stair" | "floor" | "roof" | "" */
+  hudSel?: {t: number; sel: string}[];
+  /** Alles zieht sich in einen leuchtenden Punkt zusammen: [t Beginn, t Punkt, t schwarz] (Urknall rückwärts) */
+  implode?: [number, number, number];
 };
 
 /** Wort-Zeitstempel einer Sprachaufnahme (von ElevenLabs) */

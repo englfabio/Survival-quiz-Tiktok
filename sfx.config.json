@@ -947,6 +947,70 @@
       "duration": 1.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "autobahn-atmo",
+      "prompt": "Motorway traffic jam ambience on a sunny afternoon, idling car engines all around, distant traffic hum, light wind, a bird now and then, no horns, no music",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "bau-klack",
+      "prompt": "Video game building sound: a quick bright whoosh followed by a solid wooden plank thunk clack, punchy and satisfying, short, no music",
+      "duration": 0.5,
+      "loop": false,
+      "promptInfluence": 0.75,
+      "gainDb": 4
+    },
+    {
+      "id": "auto-motor",
+      "prompt": "Small hatchback car engine revving and accelerating quickly from standstill, tyres chirp briefly, outdoors, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "auto-landung",
+      "prompt": "Small car landing hard on a wooden ramp after a jump, heavy hollow wooden thud with suspension bounce, comedic, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "t-rex-gaehnen",
+      "prompt": "Huge cartoon dinosaur giving a long lazy bored yawn, deep rumbling throaty yawn ending in a sleepy grumble, comedic, not scary, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.65
+    },
+    {
+      "id": "t-rex-stampfen",
+      "prompt": "Giant cartoon dinosaur running away with heavy thudding footsteps that shake the ground, booming steps getting quieter into the distance, comedic, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "raptor-kreischen",
+      "prompt": "Three small cheeky cartoon dinosaurs chirping and squeaking playfully like excited birds, teasing, comedic and cute, no music",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.65
+    },
+    {
+      "id": "urknall",
+      "prompt": "Cosmic big bang: everything gets sucked inward with a rising reverse whoosh, a brief silence, then a deep soft booming explosion that blooms into a shimmering sparkling space shimmer, cinematic, no music",
+      "duration": 5,
+      "loop": false,
+      "promptInfluence": 0.55
+    },
+    {
+      "id": "weltraum-atmo",
+      "prompt": "Calm deep space ambience, soft low drone with gentle airy shimmer and faint twinkling, peaceful, no music melody",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
     }
   ]
 }

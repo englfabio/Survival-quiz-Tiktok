@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Giant cartoon dinosaur running away with heavy thudding footsteps that shake the ground, booming steps getting quieter into the distance, comedic, no music",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T12:04:39.961Z"
+}

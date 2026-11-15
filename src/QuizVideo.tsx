@@ -30,6 +30,7 @@ import {
   type CardState, WarnTag} from './ui/components';
 import {useFonts} from './ui/fonts';
 import {SafeZones} from './ui/SafeZones';
+import {GameHud} from './ui/GameHud';
 import {T} from './ui/theme';
 
 export type QuizProps = {
@@ -127,6 +128,12 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
   // Enge/Panik-Wirkung (leichter Zoom + dunkler Rand) – friert beim Einfrieren mit ein
   const tightV = shot.tight?.length ? tightAt(shot.tight, frozen ? shot.freeze! : t) : 0;
   const stage = STAGES[stageName];
+  // Urknall rückwärts: alles zieht sich in einen leuchtenden Punkt zusammen (Shot-Feld "implode": [Beginn, Punkt, schwarz])
+  const imp = shot.implode;
+  const impK = imp ? interpolate(t, [imp[0], imp[1]], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
+  const impActive = !!imp && t >= imp[0] && t < imp[2];
+  const impScale = 1 - 0.985 * Math.pow(impK, 1.6);
+  const impDot = imp ? (t < imp[1] ? impK : interpolate(t, [imp[1], imp[2]], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})) : 0;
 
   // kurzer Abblende-Übergang an jedem Schnitt (auch bei Bühnenwechsel mitten im Abschnitt)
   const cutFade = Math.max(
@@ -147,7 +154,14 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
               : undefined,
           }}
         >
-          <AbsoluteFill style={{transform: tightV > 0.001 ? `scale(${1 + 0.07 * tightV})` : undefined}}>
+          <AbsoluteFill
+            style={{
+              transform: impActive ? `scale(${impScale}) rotate(${impK * 140}deg)` : tightV > 0.001 ? `scale(${1 + 0.07 * tightV})` : undefined,
+              transformOrigin: '540px 900px',
+              filter: impActive ? `brightness(${1 + 5 * impK}) blur(${impK * 6}px)` : undefined,
+              opacity: impActive && t >= imp![1] ? 0 : 1,
+            }}
+          >
           <Freeze frame={sec.from + (freezeLocal ?? 0)} active={frozen}>
             <Scene3D
               stage={stage}
@@ -181,6 +195,32 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
             }),
           }}
         />
+      )}
+
+      {/* Urknall: greller Blitz zu Beginn, dann leuchtender Punkt, dann Schwärze */}
+      {imp && t >= imp[0] && t < imp[2] + 0.05 && (
+        <>
+          <AbsoluteFill
+            style={{
+              backgroundColor: 'white',
+              opacity: interpolate(t, [imp[0], imp[0] + 0.02, imp[0] + 0.09], [0, 0.95, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
+            }}
+          />
+          <AbsoluteFill style={{backgroundColor: '#000', opacity: interpolate(t, [imp[0] + (imp[1] - imp[0]) * 0.5, imp[1]], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) * (t < imp[2] ? 1 : 0), zIndex: 0}} />
+          <div
+            style={{
+              position: 'absolute',
+              left: 540 - 160,
+              top: 900 - 160,
+              width: 320,
+              height: 320,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, #ffffff 0%, #fff6d8 12%, rgba(255,220,140,0.75) 26%, rgba(255,170,90,0.25) 48%, rgba(0,0,0,0) 70%)',
+              transform: `scale(${0.15 + 1.1 * impDot})`,
+              opacity: impDot,
+            }}
+          />
+        </>
       )}
 
       {/* Abdunklung oben/unten für Lesbarkeit */}
@@ -295,6 +335,16 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
             <Subtitle text={inScene ? o.explanation : o.speech} t={subT} starts={tm?.sentenceStarts} />
           </>
         );
+      })()}
+
+      {/* Spiel-Anzeige (selbst gestaltet), Shot-Feld "hud" */}
+      {shot.hud && (() => {
+        let sel = '';
+        for (const k of shot.hudSel ?? []) if (t >= k.t) sel = k.sel;
+        const h0 = shot.hud[0] * sec.duration;
+        const h1 = shot.hud[1] * sec.duration;
+        const prog = Math.max(0, Math.min(1, (local - h0) / Math.max(1, h1 - h0)));
+        return <GameHud local={local} from={h0} to={h1} sel={sel} carX={-30 + 75 * prog} />;
       })()}
 
       {/* ---------- Spezial: Abstimmung ---------- */}

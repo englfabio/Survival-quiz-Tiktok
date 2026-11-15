@@ -25,7 +25,7 @@ export const rng = (seed: number) => {
 };
 
 const MOVING: Motion[] = ['walk', 'run', 'sidestep', 'backstep', 'climb', 'stumble', 'slither', 'drive', 'swim', 'wade', 'hop', 'swimaway',
-  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger', 'toss', 'rollcase', 'tapewalk', 'sneak', 'carrycase', 'hurryback', 'filmphone', 'pass', 'pinchcarry', 'arc', 'tiptoe', 'mowsneak', 'carrywalk'];
+  'push', 'retreat', 'cross', 'crawl', 'backswim', 'shamble', 'confused', 'recoil', 'runbucket', 'hitstagger', 'toss', 'rollcase', 'tapewalk', 'sneak', 'carrycase', 'hurryback', 'filmphone', 'pass', 'pinchcarry', 'arc', 'tiptoe', 'mowsneak', 'carrywalk', 'chase', 'sprint', 'leap'];
 
 /**
  * Bewegungen, die über mehrere Zeitpunkte hinweg weiterlaufen (Zeit startet nicht bei jedem Zeitpunkt neu,
@@ -41,7 +41,7 @@ const CONTINUOUS: Motion[] = ['drive', 'roll', 'float', 'sink', 'buckled', 'unbu
   'recoil', 'runbucket', 'pullgift', 'closedoor', 'callwave',
   'stuck', 'grabarms', 'towelswing', 'switchoff', 'broompush', 'kneelcall', 'peek', 'wiggle', 'withdraw',
   'boxguard', 'hitstagger', 'dazed', 'searchkneel', 'pickcrown', 'holdtooth', 'rinsetooth', 'wraptooth', 'placetooth', 'dentalsit',
-  'guard', 'punch', 'victory', 'fly', 'lie',
+  'guard', 'punch', 'victory', 'fly', 'lie', 'yawn', 'bored', 'gaze', 'chase', 'hide', 'leap', 'dance', 'sprint',
   'tabstare', 'fingermouth', 'drinkmilk', 'spit', 'stowtabs',
   'wallpress', 'clench', 'bedsitdown', 'sitbreathe', 'uneasy', 'holdstrap', 'float', 'appear', 'shrink', 'spout',
   'magthrow', 'haul', 'startle', 'lowerset', 'unhook', 'holdgren', 'windup', 'placeseat',

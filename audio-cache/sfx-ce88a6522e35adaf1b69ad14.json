@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Small car landing hard on a wooden ramp after a jump, heavy hollow wooden thud with suspension bounce, comedic, no music",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-15T12:04:34.781Z"
+}

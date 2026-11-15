@@ -42,6 +42,8 @@ import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
 import {Bucket, ChristmasTree, DoorLeaf, FireTruck, GiftPile} from './ChristmasProps';
 import {DishRack, FoodArc, KitchenClock, SinkMess} from './SpueleProps';
 import {BrickHouse, BrickPile, DoormatMesh, FamilyHouse, GardenShedProp} from './HausProps';
+import {TRex, trexPose, Raptor, raptorPose, RAPTOR_COLORS} from './DinoProps';
+import {BigBang, BuildSet, TrafficJam} from './BuildProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
@@ -249,6 +251,14 @@ export const ACTORS = {
   laubhaufen: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
   laubdecke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   laubwurf: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: T-Rex-Stau ----
+  trex: {height: 6.2, climbOffset: 0, speedLineHeight: 0},
+  raptor1: {height: 1.2, climbOffset: 0, speedLineHeight: 0.8},
+  raptor2: {height: 1.2, climbOffset: 0, speedLineHeight: 0.8},
+  raptor3: {height: 1.2, climbOffset: 0, speedLineHeight: 0.8},
+  bau: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  stau: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
+  urknall: {height: 0, climbOffset: 0, speedLineHeight: 0},
   // ---- Spezial: Chef ----
   buerowand: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   kopierer: {height: 0.8, climbOffset: 0, speedLineHeight: 0},
@@ -711,7 +721,12 @@ export const Actor = ({
           <FatMarker />
         </group>
       )}
-      {name === 'knopf' && <BigRedButton press={v.press} glow={v.glow} />}
+      {name === 'knopf' && <BigRedButton press={v.press} glow={v.glow} label={actor.text} />}
+      {name === 'trex' && <TRex pose={trexPose(state.motion, state.motionTime, state.speed, v.turn, v.pitch, v.jaw)} />}
+      {RAPTOR_COLORS[name] && <Raptor name={name} pose={raptorPose(state.motion, state.motionTime, state.speed, name.length * 1.3 + (name.charCodeAt(6) % 3) * 2.1, v.turn, v.pitch)} />}
+      {name === 'bau' && <BuildSet text={actor.text} fill={v.fill} />}
+      {name === 'stau' && <TrafficJam rows={v.fill > 0 ? Math.round(v.fill) : 9} time={zt} rumble={v.rumble} />}
+      {name === 'urknall' && <BigBang fill={v.fill} camPos={camPos} />}
       {name === 'joghurtwelle' && <YogurtBlast time={state.motionTime} active={state.motion === 'splash'} fill={v.fill} />}
       {(name === 'brief' || name === 'brief2' || name === 'brief3' || name === 'brief4') && (
         <group rotation={v.tilt > 0 ? [-Math.PI / 2, 0, 0] : [0, 0, 0]} position={v.tilt > 0 ? [0, 0.003, 0] : [0, 0, 0]}>

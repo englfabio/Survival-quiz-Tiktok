@@ -40,8 +40,9 @@ export const validateScenario = (s: Scenario, file: string): string[] => {
   need(s.outro?.speech && s.outro?.screen, 'outro.speech/screen fehlt');
   need(s.publishing?.description && s.publishing?.pinnedComment, 'publishing.description/pinnedComment fehlt');
   need(
-    s.publishing?.description?.trimEnd().endsWith('Hinweis: Das gesamte Video ist KI-generiert.'),
-    'publishing.description muss mit "Hinweis: Das gesamte Video ist KI-generiert." enden',
+    // letzter Absatz beginnt mit dem KI-Hinweis (vom Inhaber vorgegebener Zusatz in derselben Zeile erlaubt, z. B. "Nicht mit … verbunden.")
+    (s.publishing?.description?.trimEnd().split('\n').pop() ?? '').startsWith('Hinweis: Das gesamte Video ist KI-generiert.'),
+    'publishing.description muss mit "Hinweis: Das gesamte Video ist KI-generiert." enden (letzte Zeile)',
   );
   const shotKeys = spezial ? (['situation', 'countdown', 'outro'] as const) : (['situation', 'options', 'countdown', 'reveal', 'outro'] as const);
   for (const k of shotKeys) {

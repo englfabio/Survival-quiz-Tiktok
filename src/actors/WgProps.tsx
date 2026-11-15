@@ -361,7 +361,20 @@ const stripeTex = canvasTex(256, 64, (g) => {
 });
 /** Großer roter Knopf auf einem Sockel mit Warnstreifen. Ursprung = Boden, Knopf oben auf 0,92 m. press 0 … 1 = gedrückt */
 export const BUTTON_TOP = 0.98;
-export const BigRedButton = ({press = 0, glow = 0}: {press?: number; glow?: number}) => {
+const labelTex = (text: string) =>
+  canvasTex(512, 160, (g) => {
+    g.fillStyle = '#ffd21a';
+    g.fillRect(0, 0, 512, 160);
+    g.strokeStyle = '#1d1f22';
+    g.lineWidth = 12;
+    g.strokeRect(6, 6, 500, 148);
+    g.fillStyle = '#1d1f22';
+    fitText(g, text, 256, 84, 470, 120, 900);
+  });
+
+/** Großer roter Knopf; optional mit Schild (Feld text, z. B. "URKNALL") vorn und hinten am Sockel + über dem Knopf */
+export const BigRedButton = ({press = 0, glow = 0, label}: {press?: number; glow?: number; label?: string}) => {
+  const lt = useMemo(() => (label ? labelTex(label) : undefined), [label]);
   const stripes = useMemo(() => {
     const t = stripeTex();
     t.wrapS = THREE.RepeatWrapping;
@@ -390,6 +403,14 @@ export const BigRedButton = ({press = 0, glow = 0}: {press?: number; glow?: numb
         <sphereGeometry args={[0.11, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2]} />
         <meshStandardMaterial color="#e3201b" roughness={0.3} emissive="#ff2a1a" emissiveIntensity={0.15 + 0.6 * glow} />
       </mesh>
+      {label && lt &&
+        [0, Math.PI, Math.PI / 2, -Math.PI / 2].map((ry) => (
+          <group key={ry} rotation={[0, ry, 0]}>
+            <group position={[0, 0.56, 0.172]}>
+              <TextPlane draw={lt} k={`Knopf-Schild ${label}`} w={0.32} h={0.1} glow={0.3} />
+            </group>
+          </group>
+        ))}
     </group>
   );
 };

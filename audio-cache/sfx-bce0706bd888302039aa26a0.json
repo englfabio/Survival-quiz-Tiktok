@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Motorway traffic jam ambience on a sunny afternoon, idling car engines all around, distant traffic hum, light wind, a bird now and then, no horns, no music",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-15T12:04:28.753Z"
+}

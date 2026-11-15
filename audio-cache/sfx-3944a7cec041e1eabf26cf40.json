@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Huge cartoon dinosaur giving a long lazy bored yawn, deep rumbling throaty yawn ending in a sleepy grumble, comedic, not scary, no music",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.65,
+  "createdAt": "2026-11-15T12:04:37.526Z"
+}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Video game building sound: a quick bright whoosh followed by a solid wooden plank thunk clack, punchy and satisfying, short, no music",
+  "duration": 0.5,
+  "loop": false,
+  "promptInfluence": 0.75,
+  "createdAt": "2026-11-15T12:04:30.748Z"
+}
