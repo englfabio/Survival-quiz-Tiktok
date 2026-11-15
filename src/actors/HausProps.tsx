@@ -207,10 +207,7 @@ export const brickLayout = () => {
     const win = layer === 2 || layer === 3;
     // vorn links → rechts (Tür Mitte, Fenster links/rechts)
     for (const x of frontX) {
-      if (Math.abs(x) < 0.1 && layer <= 3) {
-        if (layer === 0) out.push({x, y, z: FZ, rot: 0, kind: 'door', color: '#8a3b2a', studs: false});
-        continue;
-      }
+      if (Math.abs(x) < 0.1 && layer <= 3) continue; // Tür kommt am Ende der ersten Lage
       if (Math.abs(Math.abs(x) - 1.2) < 0.1 && win) {
         if (layer === 2) out.push({x, y, z: FZ, rot: 0, kind: 'window', color: '#ffffff', studs: false});
         continue;
@@ -241,6 +238,7 @@ export const brickLayout = () => {
       }
       out.push({x: -2.7, y, z, rot: 1, kind: 'brick', color: col(), studs: true});
     }
+    if (layer === 0) out.push({x: 0, y: 0, z: FZ, rot: 0, kind: 'door', color: '#8a3b2a', studs: false});
   }
   // Dach: vier Reihen Dachsteine je Seite (von außen nach oben) + Giebel-Füllung, dann First
   const top = 5 * h;
@@ -495,6 +493,33 @@ export const GardenShedProp = ({door = 0}: {door?: number}) => {
       <mesh position={[-0.65, 1.3, 1.19]} material={m.glass}>
         <boxGeometry args={[0.5, 0.4, 0.02]} />
       </mesh>
+    </group>
+  );
+};
+
+/** Haufen großer Bausteine (`klemmsteine`): liegt bereit; Wert `fill` 1 = voll … 0 = leer (Steine verschwinden von oben) */
+export const BrickPile = ({fill = 1}: {fill?: number}) => {
+  const items = useMemo(() => {
+    const r = rng(17);
+    const out: {x: number; y: number; z: number; ry: number; rz: number; c: string}[] = [];
+    const rows = [6, 5, 3, 2];
+    let y = 0;
+    rows.forEach((n, ri) => {
+      for (let i = 0; i < n; i++) {
+        out.push({x: (i - (n - 1) / 2) * 0.75 + (r() - 0.5) * 0.25, y: y + (r() - 0.5) * 0.04, z: (r() - 0.5) * 0.7, ry: (r() - 0.5) * 1.2 + (ri % 2 ? Math.PI / 2 : 0), rz: (r() - 0.5) * 0.18, c: BRICK_COLS[Math.floor(r() * BRICK_COLS.length)]});
+      }
+      y += BRICK.h * 0.82;
+    });
+    return out;
+  }, []);
+  const n = Math.round(items.length * clamp(fill));
+  return (
+    <group>
+      {items.slice(0, n).map((b, i) => (
+        <group key={i} position={[b.x, b.y, b.z]} rotation={[0, b.ry, b.rz]}>
+          <BrickPiece color={b.c} />
+        </group>
+      ))}
     </group>
   );
 };

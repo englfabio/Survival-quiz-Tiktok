@@ -41,7 +41,7 @@ import {Weever, weeverPose} from './Weever';
 import {QuestionMark, Zombie, zombiePoseBlended} from './Zombie';
 import {Bucket, ChristmasTree, DoorLeaf, FireTruck, GiftPile} from './ChristmasProps';
 import {DishRack, FoodArc, KitchenClock, SinkMess} from './SpueleProps';
-import {BrickHouse, DoormatMesh, FamilyHouse, GardenShedProp} from './HausProps';
+import {BrickHouse, BrickPile, DoormatMesh, FamilyHouse, GardenShedProp} from './HausProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
 
@@ -230,6 +230,7 @@ export const ACTORS = {
   haus5: {height: 3.0, climbOffset: 0, speedLineHeight: 0},
   haus6: {height: 3.0, climbOffset: 0, speedLineHeight: 0},
   klemmhaus: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
+  klemmsteine: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
   gartenhaus: {height: 1.2, climbOffset: 0, speedLineHeight: 0},
   // ---- Spezial: Monstertruck ----
   monstertruck: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
@@ -704,6 +705,7 @@ export const Actor = ({
       {name === 'fussmatte' && <DoormatMesh />}
       {/^haus\d?$/.test(name) && <FamilyHouse look={v.mark} squish={v.squish} seed={name.length + (name.charCodeAt(name.length - 1) % 7)} />}
       {name === 'klemmhaus' && <BrickHouse fill={v.fill} />}
+      {name === 'klemmsteine' && <BrickPile fill={v.fill > 0 ? v.fill : 1} />}
       {name === 'gartenhaus' && <GardenShedProp door={v.door} />}
       {name === 'spuele' && <SinkMess fill={v.fill} rumble={v.rumble} good={v.good} foam={v.mark} time={zt} />}
       {name === 'abtropfgitter' && <DishRack fill={v.fill} />}

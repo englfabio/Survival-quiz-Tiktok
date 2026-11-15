@@ -1,0 +1,2859 @@
+{
+  "id": "spezial-haus-weg",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "siedlung",
+  "padAfter": 0.5,
+  "noVote": true,
+  "situation": {
+    "speech": "Du kommst mal wieder nach Hause, und dein Haus ist weg. Einfach weg. Nur die Fußmatte liegt noch da. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Einfach neu aufbauen",
+      "speech": "A: Du baust es einfach wieder auf. Stein für Stein.",
+      "dummyAction": "Der Dummy baut sein Haus aus großen bunten Klemmbausteinen mit Noppen (ohne Logo) Stein für Stein wieder auf – erst drei Steine mit lautem Klick, dann im Zeitraffer Etage für Etage, am Ende steht das Haus, sogar mit Garage.",
+      "explanation": "Klick. Klick. Klick. Stein auf Stein, Etage für Etage. Nach fünf Minuten steht es wieder da. Sogar mit Garage.",
+      "sceneExtra": 1.7,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              1.31,
+              2.21,
+              2.28
+            ],
+            "look": [
+              4.21,
+              0.4,
+              -6.71
+            ]
+          },
+          {
+            "t": 0.2731,
+            "pos": [
+              1.484,
+              2.101,
+              1.741
+            ],
+            "look": [
+              4.21,
+              0.4,
+              -6.71
+            ]
+          },
+          {
+            "t": 0.2764,
+            "pos": [
+              1.6,
+              2.16,
+              -3.44
+            ],
+            "look": [
+              -2.98,
+              0.54,
+              -9.99
+            ]
+          },
+          {
+            "t": 0.3481,
+            "pos": [
+              1.325,
+              2.063,
+              -3.833
+            ],
+            "look": [
+              -2.98,
+              0.54,
+              -9.99
+            ]
+          },
+          {
+            "t": 0.3515,
+            "pos": [
+              -3.85,
+              2.71,
+              -2.38
+            ],
+            "look": [
+              -2.21,
+              0.54,
+              -10.08
+            ]
+          },
+          {
+            "t": 0.4078,
+            "pos": [
+              -3.752,
+              2.58,
+              -2.842
+            ],
+            "look": [
+              -2.21,
+              0.54,
+              -10.08
+            ]
+          },
+          {
+            "t": 0.4113,
+            "pos": [
+              3.15,
+              3.76,
+              -3.01
+            ],
+            "look": [
+              1.0,
+              0.56,
+              -10.09
+            ]
+          },
+          {
+            "t": 0.4306,
+            "pos": [
+              3.021,
+              3.568,
+              -3.435
+            ],
+            "look": [
+              1.0,
+              0.56,
+              -10.09
+            ]
+          },
+          {
+            "t": 0.4342,
+            "pos": [
+              9.94,
+              7.64,
+              8.8
+            ],
+            "look": [
+              -0.62,
+              0.98,
+              -11.9
+            ]
+          },
+          {
+            "t": 0.5234,
+            "pos": [
+              8.884,
+              6.974,
+              6.73
+            ],
+            "look": [
+              -0.62,
+              0.98,
+              -11.9
+            ]
+          },
+          {
+            "t": 0.527,
+            "pos": [
+              -12.77,
+              11.84,
+              8.62
+            ],
+            "look": [
+              -0.74,
+              0.39,
+              -12.23
+            ]
+          },
+          {
+            "t": 0.6076,
+            "pos": [
+              -11.567,
+              10.695,
+              6.535
+            ],
+            "look": [
+              -0.74,
+              0.39,
+              -12.23
+            ]
+          },
+          {
+            "t": 0.6111,
+            "pos": [
+              4.51,
+              4.14,
+              11.15
+            ],
+            "look": [
+              -0.24,
+              1.54,
+              -10.94
+            ]
+          },
+          {
+            "t": 0.8071,
+            "pos": [
+              4.225,
+              3.984,
+              9.825
+            ],
+            "look": [
+              -0.24,
+              1.54,
+              -10.94
+            ]
+          },
+          {
+            "t": 0.8101,
+            "pos": [
+              15.62,
+              6.37,
+              18.71
+            ],
+            "look": [
+              1.93,
+              1.24,
+              -10.66
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              14.799,
+              6.062,
+              16.948
+            ],
+            "look": [
+              1.93,
+              1.24,
+              -10.66
+            ]
+          }
+        ],
+        "actors": {
+          "haus1": [
+            {
+              "t": 0,
+              "x": -36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 1,
+              "squish": 0.0
+            }
+          ],
+          "haus2": [
+            {
+              "t": 0,
+              "x": -24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 2,
+              "squish": 0.0
+            }
+          ],
+          "haus3": [
+            {
+              "t": 0,
+              "x": -12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 3,
+              "squish": 0.0
+            }
+          ],
+          "haus4": [
+            {
+              "t": 0,
+              "x": 12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 4,
+              "squish": 0.0
+            }
+          ],
+          "haus5": [
+            {
+              "t": 0,
+              "x": 24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 5,
+              "squish": 0.0
+            }
+          ],
+          "haus6": [
+            {
+              "t": 0,
+              "x": 36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 6,
+              "squish": 0.0
+            }
+          ],
+          "gartenhaus": [
+            {
+              "t": 0,
+              "x": -3.2,
+              "z": -20.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "door": 0.0
+            }
+          ],
+          "klemmhaus": [
+            {
+              "t": 0,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.3492,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3574,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.006,
+              "y": 0.0
+            },
+            {
+              "t": 0.4003,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.006,
+              "y": 0.0
+            },
+            {
+              "t": 0.4085,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.013,
+              "y": 0.0
+            },
+            {
+              "t": 0.4513,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.013,
+              "y": 0.0
+            },
+            {
+              "t": 0.4595,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.019,
+              "y": 0.0
+            },
+            {
+              "t": 0.445,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.019,
+              "y": 0.0
+            },
+            {
+              "t": 0.5932,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.794,
+              "y": 0.0
+            },
+            {
+              "t": 0.7767,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.794,
+              "y": 0.0
+            },
+            {
+              "t": 0.8563,
+              "x": -0.6,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "y": 0.0
+            }
+          ],
+          "klemmsteine": [
+            {
+              "t": 0,
+              "x": 4.4,
+              "z": -7.3,
+              "motion": "park",
+              "face": 160,
+              "y": 0.0,
+              "fill": 1.0
+            },
+            {
+              "t": 0.445,
+              "x": 4.4,
+              "z": -7.3,
+              "motion": "park",
+              "face": 160,
+              "fill": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5932,
+              "x": 4.4,
+              "z": -7.3,
+              "motion": "park",
+              "face": 160,
+              "fill": 0.001,
+              "y": 0.0
+            }
+          ],
+          "fussmatte": [
+            {
+              "t": 0,
+              "x": -0.6,
+              "z": -9.7,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 3.0,
+              "z": -6.7,
+              "motion": "proud",
+              "face": 160
+            },
+            {
+              "t": 0.3054,
+              "x": 3.0,
+              "z": -6.7,
+              "motion": "proud",
+              "face": 160
+            },
+            {
+              "t": 0.3084,
+              "x": -3.0,
+              "z": -9.85,
+              "motion": "stacklow",
+              "face": 0,
+              "cut": true
+            },
+            {
+              "t": 0.3718,
+              "x": -3.0,
+              "z": -9.85,
+              "motion": "stacklow",
+              "face": 0
+            },
+            {
+              "t": 0.3748,
+              "x": -1.8,
+              "z": -9.85,
+              "motion": "stacklow",
+              "face": 0,
+              "cut": true
+            },
+            {
+              "t": 0.4228,
+              "x": -1.8,
+              "z": -9.85,
+              "motion": "stacklow",
+              "face": 0
+            },
+            {
+              "t": 0.4258,
+              "x": 0.6,
+              "z": -9.85,
+              "motion": "stacklow",
+              "face": 0,
+              "cut": true
+            },
+            {
+              "t": 0.442,
+              "x": 0.6,
+              "z": -9.85,
+              "motion": "stacklow",
+              "face": 0
+            },
+            {
+              "t": 0.445,
+              "x": -3.0,
+              "z": -9.85,
+              "motion": "stackfast",
+              "face": 0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.5021,
+              "x": -3.0,
+              "z": -9.85,
+              "motion": "stackfast",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5051,
+              "x": 0.6,
+              "z": -9.85,
+              "motion": "stackfast",
+              "face": 0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.5623,
+              "x": 0.6,
+              "z": -9.85,
+              "motion": "stackfast",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5653,
+              "x": 1.2,
+              "z": -11.6,
+              "motion": "stackfast",
+              "face": 0,
+              "y": 2.5,
+              "cut": true
+            },
+            {
+              "t": 0.5902,
+              "x": 1.2,
+              "z": -11.6,
+              "motion": "stackfast",
+              "face": 0,
+              "y": 2.5
+            },
+            {
+              "t": 0.5932,
+              "x": -2.2,
+              "z": -8.2,
+              "motion": "proud",
+              "face": 200,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.7703,
+              "x": -2.2,
+              "z": -8.2,
+              "motion": "proud",
+              "face": 200,
+              "y": 0.0
+            },
+            {
+              "t": 0.7733,
+              "x": 4.0,
+              "z": -8.4,
+              "motion": "proud",
+              "face": 210,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 4.0,
+              "z": -8.4,
+              "motion": "proud",
+              "face": 210,
+              "y": 0.0
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.356,
+            "id": "klemmstein-klick",
+            "volume": 0.75
+          },
+          {
+            "t": 0.4071,
+            "id": "klemmstein-klick",
+            "volume": 0.75
+          },
+          {
+            "t": 0.4462,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.4524,
+            "id": "klemmstein-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.4581,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.4635,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.4697,
+            "id": "klemmstein-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.4759,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.482,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.4882,
+            "id": "klemmstein-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.4944,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.5006,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.5068,
+            "id": "klemmstein-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.5129,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.5191,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.5253,
+            "id": "klemmstein-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.5314,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.5376,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.5438,
+            "id": "klemmstein-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.55,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.5561,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.5623,
+            "id": "klemmstein-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.5685,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.5747,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.5808,
+            "id": "klemmstein-klick",
+            "volume": 0.55
+          },
+          {
+            "t": 0.587,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.5932,
+            "id": "klemmstein-klick",
+            "volume": 0.65
+          },
+          {
+            "t": 0.7792,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.7866,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.7941,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8016,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.809,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8165,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.824,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8314,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8389,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8463,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8538,
+            "id": "klemmstein-klick",
+            "volume": 0.45
+          },
+          {
+            "t": 0.445,
+            "id": "zeitraffer",
+            "volume": 0.45
+          }
+        ],
+        "timer": [
+          0.445,
+          0.6204,
+          300
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Ab ins Gartenhaus",
+      "speech": "B: Du gehst in dein Gartenhaus.",
+      "dummyAction": "Der Dummy öffnet die Tür des kleinen Gartenhauses. Die Kamera fährt hinein: innen eine riesige Holzhalle, viel größer als das Gartenhaus von außen, und mittendrin steht sein komplettes Haus. Er atmet erleichtert auf.",
+      "explanation": "Von außen ist es nur ein kleines Gartenhaus. Aber drinnen ist es riesig. Und mittendrin steht: dein Haus. Gott sei Dank.",
+      "sceneExtra": 1.7,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              3.19,
+              6.33,
+              10.2
+            ],
+            "look": [
+              0.17,
+              -0.18,
+              -14.18
+            ]
+          },
+          {
+            "t": 0.1967,
+            "pos": [
+              3.009,
+              5.939,
+              8.737
+            ],
+            "look": [
+              0.17,
+              -0.18,
+              -14.18
+            ]
+          },
+          {
+            "t": 0.1997,
+            "pos": [
+              2.56,
+              2.62,
+              -7.9
+            ],
+            "look": [
+              -3.33,
+              0.85,
+              -19.03
+            ]
+          },
+          {
+            "t": 0.4855,
+            "pos": [
+              2.207,
+              2.514,
+              -8.568
+            ],
+            "look": [
+              -3.33,
+              0.85,
+              -19.03
+            ]
+          },
+          {
+            "t": 0.4891,
+            "pos": [
+              0.0,
+              1.5,
+              7.75
+            ],
+            "look": [
+              0.0,
+              4.0,
+              0.0
+            ],
+            "fov": 60
+          },
+          {
+            "t": 0.6421,
+            "pos": [
+              0.0,
+              2.4,
+              5.0
+            ],
+            "look": [
+              0.0,
+              15.0,
+              -6.0
+            ],
+            "fov": 60
+          },
+          {
+            "t": 0.6456,
+            "pos": [
+              0.0,
+              3.2,
+              7.4
+            ],
+            "look": [
+              0.0,
+              3.4,
+              -10.0
+            ],
+            "fov": 62
+          },
+          {
+            "t": 0.8119,
+            "pos": [
+              0.0,
+              3.0,
+              5.8
+            ],
+            "look": [
+              0.0,
+              3.4,
+              -10.0
+            ],
+            "fov": 62
+          },
+          {
+            "t": 0.8149,
+            "pos": [
+              3.4,
+              1.6,
+              4.2
+            ],
+            "look": [
+              0.9,
+              2.6,
+              -6.0
+            ],
+            "fov": 55
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              3.2,
+              1.6,
+              3.6
+            ],
+            "look": [
+              0.9,
+              2.6,
+              -6.0
+            ],
+            "fov": 55
+          }
+        ],
+        "actors": {
+          "haus1": [
+            {
+              "t": 0,
+              "x": -36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 1,
+              "squish": 0.0
+            },
+            {
+              "t": 0.4879,
+              "x": -36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4909,
+              "x": -36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "haus2": [
+            {
+              "t": 0,
+              "x": -24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 2,
+              "squish": 0.0
+            },
+            {
+              "t": 0.4879,
+              "x": -24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4909,
+              "x": -24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "haus3": [
+            {
+              "t": 0,
+              "x": -12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 3,
+              "squish": 0.0
+            },
+            {
+              "t": 0.4879,
+              "x": -12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4909,
+              "x": -12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "haus4": [
+            {
+              "t": 0,
+              "x": 12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 4,
+              "squish": 0.0
+            },
+            {
+              "t": 0.4879,
+              "x": 12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4909,
+              "x": 12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "haus5": [
+            {
+              "t": 0,
+              "x": 24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 5,
+              "squish": 0.0
+            },
+            {
+              "t": 0.4879,
+              "x": 24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4909,
+              "x": 24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "haus6": [
+            {
+              "t": 0,
+              "x": 36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 6,
+              "squish": 0.0
+            },
+            {
+              "t": 0.4879,
+              "x": 36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4909,
+              "x": 36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "fussmatte": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -8.65,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4879,
+              "x": 0.0,
+              "z": -8.65,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4909,
+              "x": 0.0,
+              "z": -8.65,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            }
+          ],
+          "gartenhaus": [
+            {
+              "t": 0,
+              "x": -3.2,
+              "z": -20.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "door": 0
+            },
+            {
+              "t": 0.2825,
+              "x": -3.2,
+              "z": -20.5,
+              "motion": "park",
+              "face": 180,
+              "door": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3321,
+              "x": -3.2,
+              "z": -20.5,
+              "motion": "park",
+              "face": 180,
+              "door": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.4879,
+              "x": -3.2,
+              "z": -20.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "door": 1
+            },
+            {
+              "t": 0.4909,
+              "x": -3.2,
+              "z": -20.5,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "door": 1
+            }
+          ],
+          "haus": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -12.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "mark": 0
+            },
+            {
+              "t": 0.4879,
+              "x": 0.0,
+              "z": -12.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.4909,
+              "x": 0.0,
+              "z": -12.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.8,
+              "z": -7.0,
+              "motion": "walk",
+              "face": 346.4
+            },
+            {
+              "t": 0.2334,
+              "x": -2.0,
+              "z": -18.6,
+              "motion": "walk",
+              "face": 346.4
+            },
+            {
+              "t": 0.2364,
+              "x": -2.2,
+              "z": -18.88,
+              "motion": "shedopen",
+              "face": 0,
+              "cut": true
+            },
+            {
+              "t": 0.3788,
+              "x": -2.2,
+              "z": -18.88,
+              "motion": "shedopen",
+              "face": 0
+            },
+            {
+              "t": 0.3818,
+              "x": -2.75,
+              "z": -18.83,
+              "motion": "peekin",
+              "face": 0
+            },
+            {
+              "t": 0.4879,
+              "x": -2.75,
+              "z": -18.83,
+              "motion": "peekin",
+              "face": 0
+            },
+            {
+              "t": 0.4909,
+              "x": 0.0,
+              "z": 7.3,
+              "motion": "walk",
+              "face": 0,
+              "cut": true
+            },
+            {
+              "t": 0.6044,
+              "x": 0.0,
+              "z": 4.8,
+              "motion": "walk",
+              "face": 0
+            },
+            {
+              "t": 0.6058,
+              "x": 0.0,
+              "z": 4.8,
+              "motion": "stand",
+              "face": 0,
+              "brow": 1
+            },
+            {
+              "t": 0.6197,
+              "x": 0.0,
+              "z": 4.8,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.6227,
+              "x": -0.4,
+              "z": -1.5,
+              "motion": "stand",
+              "face": 0,
+              "cut": true
+            },
+            {
+              "t": 0.7751,
+              "x": -0.4,
+              "z": -1.5,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.7781,
+              "x": 1.6,
+              "z": -2.6,
+              "motion": "relief",
+              "face": 165,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 1.6,
+              "z": -2.6,
+              "motion": "relief",
+              "face": 165
+            }
+          ]
+        },
+        "stage": [
+          {
+            "t": 0,
+            "stage": "siedlung"
+          },
+          {
+            "t": 0.4909,
+            "stage": "gartenhaus-innen"
+          }
+        ],
+        "sfx": [
+          {
+            "t": 0.2825,
+            "id": "tuer-knarren",
+            "volume": 0.6
+          },
+          {
+            "t": 0.7086,
+            "id": "himmel-chor",
+            "volume": 0.55
+          },
+          {
+            "t": 0.498,
+            "id": "staunen",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Monstertruck über die Siedlung",
+      "speech": "C: Du fährst aus Frust mit einem Monstertruck über alle Häuser der Siedlung.",
+      "dummyAction": "Der Dummy klettert in einen riesigen Monstertruck und fährt über alle leeren Häuser der Siedlung, eins nach dem anderen – sie werden comichaft platt wie Pfannkuchen. Die Nachbarn stehen sicher auf der Straße und schauen mit offenem Mund zu.",
+      "explanation": "Ein Haus nach dem anderen. Die ganze Siedlung. Wenn du kein Haus mehr hast, dann hat hier keiner eins.",
+      "sceneExtra": 1.8,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -0.28,
+              4.28,
+              20.9
+            ],
+            "look": [
+              -9.43,
+              1.23,
+              1.29
+            ]
+          },
+          {
+            "t": 0.3537,
+            "pos": [
+              -0.829,
+              4.097,
+              19.723
+            ],
+            "look": [
+              -9.43,
+              1.23,
+              1.29
+            ]
+          },
+          {
+            "t": 0.3572,
+            "pos": [
+              -48.0,
+              6.5,
+              15.0
+            ],
+            "look": [
+              -43.0,
+              2.2,
+              -12.5
+            ]
+          },
+          {
+            "t": 0.5363,
+            "pos": [
+              -18.738,
+              6.5,
+              15.0
+            ],
+            "look": [
+              -13.738,
+              2.2,
+              -12.5
+            ]
+          },
+          {
+            "t": 0.5399,
+            "pos": [
+              -99.93,
+              48.41,
+              26.33
+            ],
+            "look": [
+              -7.18,
+              -2.26,
+              -11.15
+            ]
+          },
+          {
+            "t": 0.6377,
+            "pos": [
+              -96.22,
+              46.383,
+              24.831
+            ],
+            "look": [
+              -7.18,
+              -2.26,
+              -11.15
+            ]
+          },
+          {
+            "t": 0.6411,
+            "pos": [
+              -4.64,
+              1.74,
+              -3.24
+            ],
+            "look": [
+              -7.39,
+              0.77,
+              4.32
+            ],
+            "fov": 44
+          },
+          {
+            "t": 0.7759,
+            "pos": [
+              -4.805,
+              1.682,
+              -2.786
+            ],
+            "look": [
+              -7.39,
+              0.77,
+              4.32
+            ],
+            "fov": 44
+          },
+          {
+            "t": 0.779,
+            "pos": [
+              0.24,
+              13.35,
+              39.31
+            ],
+            "look": [
+              27.49,
+              -1.11,
+              -7.87
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              1.875,
+              12.482,
+              36.479
+            ],
+            "look": [
+              27.49,
+              -1.11,
+              -7.87
+            ]
+          }
+        ],
+        "actors": {
+          "haus1": [
+            {
+              "t": 0,
+              "x": -36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 1,
+              "squish": 0
+            },
+            {
+              "t": 0.4154,
+              "x": -36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4311,
+              "x": -36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 1,
+              "y": 0.0
+            }
+          ],
+          "haus2": [
+            {
+              "t": 0,
+              "x": -24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 2,
+              "squish": 0
+            },
+            {
+              "t": 0.4784,
+              "x": -24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4941,
+              "x": -24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 1,
+              "y": 0.0
+            }
+          ],
+          "haus3": [
+            {
+              "t": 0,
+              "x": -12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 3,
+              "squish": 0
+            },
+            {
+              "t": 0.5414,
+              "x": -12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5571,
+              "x": -12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 1,
+              "y": 0.0
+            }
+          ],
+          "haus4": [
+            {
+              "t": 0,
+              "x": 12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 4,
+              "squish": 0
+            },
+            {
+              "t": 0.6674,
+              "x": 12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6831,
+              "x": 12,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 1,
+              "y": 0.0
+            }
+          ],
+          "haus5": [
+            {
+              "t": 0,
+              "x": 24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 5,
+              "squish": 0
+            },
+            {
+              "t": 0.7303,
+              "x": 24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7461,
+              "x": 24,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 1,
+              "y": 0.0
+            }
+          ],
+          "haus6": [
+            {
+              "t": 0,
+              "x": 36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "mark": 6,
+              "squish": 0
+            },
+            {
+              "t": 0.7933,
+              "x": 36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8091,
+              "x": 36,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "squish": 1,
+              "y": 0.0
+            }
+          ],
+          "fussmatte": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -8.65,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "gartenhaus": [
+            {
+              "t": 0,
+              "x": -3.2,
+              "z": -20.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "door": 0.0
+            }
+          ],
+          "monstertruck2": [
+            {
+              "t": 0,
+              "x": -10.0,
+              "z": -0.6,
+              "motion": "park",
+              "face": 90,
+              "y": 0.0,
+              "rumble": 0.2,
+              "smoke": 0.2
+            },
+            {
+              "t": 0.1121,
+              "x": -10.0,
+              "z": -0.6,
+              "motion": "park",
+              "face": 90,
+              "rumble": 0.6,
+              "smoke": 0.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.3767,
+              "x": -10.0,
+              "z": -0.6,
+              "motion": "park",
+              "face": 90,
+              "rumble": 0.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.3797,
+              "x": -47.0,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0,
+              "rumble": 0.7,
+              "smoke": 0.6,
+              "cut": true
+            },
+            {
+              "t": 0.4133,
+              "x": -40.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.4248,
+              "x": -38.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 1.2,
+              "tilt": -9
+            },
+            {
+              "t": 0.4437,
+              "x": -34.8,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.8,
+              "tilt": 6
+            },
+            {
+              "t": 0.4616,
+              "x": -31.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.4763,
+              "x": -28.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.4878,
+              "x": -26.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 1.2,
+              "tilt": -9
+            },
+            {
+              "t": 0.5067,
+              "x": -22.8,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.8,
+              "tilt": 6
+            },
+            {
+              "t": 0.5246,
+              "x": -19.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.5393,
+              "x": -16.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.5508,
+              "x": -14.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 1.2,
+              "tilt": -9
+            },
+            {
+              "t": 0.5697,
+              "x": -10.8,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.8,
+              "tilt": 6
+            },
+            {
+              "t": 0.5876,
+              "x": -7.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.6653,
+              "x": 7.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.6768,
+              "x": 9.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 1.2,
+              "tilt": -9
+            },
+            {
+              "t": 0.6957,
+              "x": 13.2,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.8,
+              "tilt": 6
+            },
+            {
+              "t": 0.7135,
+              "x": 16.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.7282,
+              "x": 19.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.7398,
+              "x": 21.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 1.2,
+              "tilt": -9
+            },
+            {
+              "t": 0.7587,
+              "x": 25.2,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.8,
+              "tilt": 6
+            },
+            {
+              "t": 0.7765,
+              "x": 28.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.7912,
+              "x": 31.4,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.8028,
+              "x": 33.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 1.2,
+              "tilt": -9
+            },
+            {
+              "t": 0.8217,
+              "x": 37.2,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.8,
+              "tilt": 6
+            },
+            {
+              "t": 0.8395,
+              "x": 40.6,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.86,
+              "x": 44.5,
+              "z": -12.5,
+              "motion": "drive",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 1,
+              "x": 45.0,
+              "z": -12.5,
+              "motion": "park",
+              "face": 90,
+              "y": 0.0,
+              "tilt": 0,
+              "rumble": 0.4
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -9.0,
+              "z": 2.1,
+              "motion": "stand",
+              "face": 330,
+              "brow": 1
+            },
+            {
+              "t": 0.0332,
+              "x": -9.0,
+              "z": 2.1,
+              "motion": "stand",
+              "face": 330
+            },
+            {
+              "t": 0.0362,
+              "x": -9.9,
+              "z": 1.5,
+              "motion": "truckclimb",
+              "face": 0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.1374,
+              "x": -9.9,
+              "z": 1.4,
+              "motion": "truckclimb",
+              "face": 0,
+              "y": 1.9
+            },
+            {
+              "t": 0.1404,
+              "x": 0.0,
+              "z": 0.075,
+              "motion": "seattriumph",
+              "face": 0,
+              "y": 3.29,
+              "attach": "monstertruck2",
+              "cut": true
+            },
+            {
+              "t": 0.3767,
+              "x": 0.0,
+              "z": 0.075,
+              "motion": "seattriumph",
+              "face": 0,
+              "y": 3.29,
+              "attach": "monstertruck2"
+            },
+            {
+              "t": 0.3797,
+              "x": 0.0,
+              "z": 0.075,
+              "motion": "seatdrive",
+              "face": 0,
+              "y": 3.29,
+              "attach": "monstertruck2"
+            },
+            {
+              "t": 0.6159,
+              "x": 0.0,
+              "z": 0.075,
+              "motion": "seatdrive",
+              "face": 0,
+              "y": 3.29,
+              "attach": "monstertruck2"
+            },
+            {
+              "t": 0.6189,
+              "x": 0.0,
+              "z": 0.075,
+              "motion": "seattriumph",
+              "face": 0,
+              "y": 3.29,
+              "attach": "monstertruck2"
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 0.075,
+              "motion": "seattriumph",
+              "face": 0,
+              "y": 3.29,
+              "attach": "monstertruck2"
+            }
+          ],
+          "nachbar": [
+            {
+              "t": 0,
+              "x": -8.2,
+              "z": 4.2,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.405,
+              "x": -8.2,
+              "z": 4.2,
+              "motion": "gape",
+              "face": 16.4
+            }
+          ],
+          "gartennachbar": [
+            {
+              "t": 0,
+              "x": -6.6,
+              "z": 4.5,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.405,
+              "x": -6.6,
+              "z": 4.5,
+              "motion": "gape",
+              "face": 13.1
+            }
+          ],
+          "paketnachbar": [
+            {
+              "t": 0,
+              "x": 6.4,
+              "z": 4.2,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.405,
+              "x": 6.4,
+              "z": 4.2,
+              "motion": "gape",
+              "face": 347.1
+            }
+          ],
+          "fahrgast2": [
+            {
+              "t": 0,
+              "x": 14.0,
+              "z": 4.3,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.405,
+              "x": 14.0,
+              "z": 4.3,
+              "motion": "gape",
+              "face": 333.4
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.1121,
+            "id": "monstertruck-motor",
+            "volume": 0.5
+          },
+          {
+            "t": 0.3797,
+            "id": "monstertruck-motor",
+            "volume": 0.6
+          },
+          {
+            "t": 0.5333,
+            "id": "monstertruck-motor",
+            "volume": 0.45
+          },
+          {
+            "t": 0.6379,
+            "id": "staunen",
+            "volume": 0.45
+          },
+          {
+            "t": 0.4217,
+            "id": "haus-knautschen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.4847,
+            "id": "haus-knautschen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.5477,
+            "id": "haus-knautschen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.6737,
+            "id": "haus-knautschen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.7366,
+            "id": "haus-knautschen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.7996,
+            "id": "haus-knautschen",
+            "volume": 0.7
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du? Schreib A, B oder C in die Kommentare.",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare und folg gerne für mehr. Markier jemanden, dem das auch immer passiert.",
+    "screen": "Kommentieren & folgen!"
+  },
+  "publishing": {
+    "description": "Du kommst mal wieder nach Hause, und dein Haus ist weg – was machst du? 🏠 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Bitte nichts davon nachmachen. 😄\n\n#waswürdestdutun #haus #zuhause #monstertruck #spezial #comedy #quiz #lustig\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team ___. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.62,
+            2.25,
+            7.82
+          ],
+          "look": [
+            -2.53,
+            0.04,
+            -3.91
+          ]
+        },
+        {
+          "t": 0.2588,
+          "pos": [
+            0.431,
+            2.117,
+            7.116
+          ],
+          "look": [
+            -2.53,
+            0.04,
+            -3.91
+          ]
+        },
+        {
+          "t": 0.2621,
+          "pos": [
+            37.09,
+            9.98,
+            13.62
+          ],
+          "look": [
+            0.98,
+            1.09,
+            -11.59
+          ]
+        },
+        {
+          "t": 0.4683,
+          "pos": [
+            34.923,
+            9.447,
+            12.107
+          ],
+          "look": [
+            0.98,
+            1.09,
+            -11.59
+          ]
+        },
+        {
+          "t": 0.4719,
+          "pos": [
+            -1.94,
+            2.24,
+            -10.01
+          ],
+          "look": [
+            -0.57,
+            0.54,
+            -4.55
+          ]
+        },
+        {
+          "t": 0.5908,
+          "pos": [
+            -1.858,
+            2.138,
+            -9.682
+          ],
+          "look": [
+            -0.57,
+            0.54,
+            -4.55
+          ]
+        },
+        {
+          "t": 0.5943,
+          "pos": [
+            2.19,
+            3.49,
+            -2.94
+          ],
+          "look": [
+            -0.61,
+            0.32,
+            -8.58
+          ]
+        },
+        {
+          "t": 0.8635,
+          "pos": [
+            2.022,
+            3.3,
+            -3.278
+          ],
+          "look": [
+            -0.61,
+            0.32,
+            -8.58
+          ]
+        },
+        {
+          "t": 0.8662,
+          "pos": [
+            -0.55,
+            1.65,
+            -2.64
+          ],
+          "look": [
+            -0.0,
+            0.5,
+            -8.93
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -0.517,
+            1.581,
+            -3.017
+          ],
+          "look": [
+            -0.0,
+            0.5,
+            -8.93
+          ]
+        }
+      ],
+      "actors": {
+        "haus1": [
+          {
+            "t": 0,
+            "x": -36,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 1,
+            "squish": 0.0
+          }
+        ],
+        "haus2": [
+          {
+            "t": 0,
+            "x": -24,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 2,
+            "squish": 0.0
+          }
+        ],
+        "haus3": [
+          {
+            "t": 0,
+            "x": -12,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 3,
+            "squish": 0.0
+          }
+        ],
+        "haus4": [
+          {
+            "t": 0,
+            "x": 12,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 4,
+            "squish": 0.0
+          }
+        ],
+        "haus5": [
+          {
+            "t": 0,
+            "x": 24,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 5,
+            "squish": 0.0
+          }
+        ],
+        "haus6": [
+          {
+            "t": 0,
+            "x": 36,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 6,
+            "squish": 0.0
+          }
+        ],
+        "fussmatte": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -8.65,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 0.8299,
+            "x": 0.0,
+            "z": -8.65,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 0.8323,
+            "x": 0.0,
+            "z": -8.65,
+            "motion": "park",
+            "face": 180,
+            "y": -30
+          }
+        ],
+        "gartenhaus": [
+          {
+            "t": 0,
+            "x": -3.2,
+            "z": -20.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "door": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -4.2,
+            "z": -4.0,
+            "motion": "walk",
+            "face": 90
+          },
+          {
+            "t": 0.2924,
+            "x": -0.9,
+            "z": -4.0,
+            "motion": "walk",
+            "face": 90
+          },
+          {
+            "t": 0.2954,
+            "x": 0.0,
+            "z": -4.6,
+            "motion": "homefreeze",
+            "face": 0,
+            "cut": true
+          },
+          {
+            "t": 0.576,
+            "x": 0.0,
+            "z": -4.6,
+            "motion": "homefreeze",
+            "face": 0
+          },
+          {
+            "t": 0.579,
+            "x": 0.0,
+            "z": -9.1,
+            "motion": "stand",
+            "face": 180,
+            "cut": true
+          },
+          {
+            "t": 0.7405,
+            "x": 0.0,
+            "z": -9.1,
+            "motion": "stand",
+            "face": 180
+          },
+          {
+            "t": 0.7425,
+            "x": 0.0,
+            "z": -9.1,
+            "motion": "liftmat",
+            "face": 180
+          },
+          {
+            "t": 0.8312,
+            "x": 0.0,
+            "z": -9.1,
+            "motion": "liftmat",
+            "face": 180,
+            "question": 0
+          },
+          {
+            "t": 0.9021,
+            "x": 0.0,
+            "z": -9.1,
+            "motion": "liftmat",
+            "face": 180,
+            "question": 1
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.453,
+          "id": "leere-wind",
+          "volume": 0.5
+        },
+        {
+          "t": 0.837,
+          "id": "geschenk-rascheln",
+          "volume": 0.35
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.0,
+            1.2,
+            1.5
+          ],
+          "look": [
+            0.0,
+            1.6,
+            -5.0
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.0,
+            1.2,
+            1.2
+          ],
+          "look": [
+            0.0,
+            1.6,
+            -5.0
+          ]
+        }
+      ],
+      "actors": {
+        "haus1": [
+          {
+            "t": 0,
+            "x": -36,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 1,
+            "squish": 0.0
+          }
+        ],
+        "haus2": [
+          {
+            "t": 0,
+            "x": -24,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 2,
+            "squish": 0.0
+          }
+        ],
+        "haus3": [
+          {
+            "t": 0,
+            "x": -12,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 3,
+            "squish": 0.0
+          }
+        ],
+        "haus4": [
+          {
+            "t": 0,
+            "x": 12,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 4,
+            "squish": 0.0
+          }
+        ],
+        "haus5": [
+          {
+            "t": 0,
+            "x": 24,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 5,
+            "squish": 0.0
+          }
+        ],
+        "haus6": [
+          {
+            "t": 0,
+            "x": 36,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 6,
+            "squish": 0.0
+          }
+        ],
+        "fussmatte": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -8.65,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "gartenhaus": [
+          {
+            "t": 0,
+            "x": -3.2,
+            "z": -20.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "door": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -5.2,
+            "motion": "sheepish",
+            "face": 180,
+            "brow": 1
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.0,
+            2.54,
+            18.0
+          ],
+          "look": [
+            0.0,
+            2.1,
+            -4.28
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.0,
+            2.518,
+            16.886
+          ],
+          "look": [
+            0.0,
+            2.1,
+            -4.28
+          ]
+        }
+      ],
+      "actors": {
+        "haus1": [
+          {
+            "t": 0,
+            "x": -36,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 1,
+            "squish": 0.0
+          }
+        ],
+        "haus2": [
+          {
+            "t": 0,
+            "x": -24,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 2,
+            "squish": 0.0
+          }
+        ],
+        "haus3": [
+          {
+            "t": 0,
+            "x": -12,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 3,
+            "squish": 0.0
+          }
+        ],
+        "haus4": [
+          {
+            "t": 0,
+            "x": 12,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 4,
+            "squish": 0.0
+          }
+        ],
+        "haus5": [
+          {
+            "t": 0,
+            "x": 24,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 5,
+            "squish": 0.0
+          }
+        ],
+        "haus6": [
+          {
+            "t": 0,
+            "x": 36,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "mark": 6,
+            "squish": 0.0
+          }
+        ],
+        "fussmatte": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -8.65,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "gartenhaus": [
+          {
+            "t": 0,
+            "x": -3.2,
+            "z": -20.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0,
+            "door": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -4.4,
+            "motion": "stand",
+            "face": 180,
+            "brow": 0.05
+          },
+          {
+            "t": 0.25,
+            "x": 0.0,
+            "z": -4.4,
+            "motion": "wave",
+            "face": 180
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": -4.4,
+            "motion": "wave",
+            "face": 180
+          }
+        ],
+        "nachbar": [
+          {
+            "t": 0,
+            "x": -1.5,
+            "z": -4.1,
+            "motion": "stand",
+            "face": 165
+          },
+          {
+            "t": 0.35,
+            "x": -1.5,
+            "z": -4.1,
+            "motion": "wave",
+            "face": 165
+          },
+          {
+            "t": 1,
+            "x": -1.5,
+            "z": -4.1,
+            "motion": "wave",
+            "face": 165
+          }
+        ],
+        "paketnachbar": [
+          {
+            "t": 0,
+            "x": 1.5,
+            "z": -4.1,
+            "motion": "stand",
+            "face": 195
+          },
+          {
+            "t": 0.45,
+            "x": 1.5,
+            "z": -4.1,
+            "motion": "wave",
+            "face": 195
+          },
+          {
+            "t": 1,
+            "x": 1.5,
+            "z": -4.1,
+            "motion": "wave",
+            "face": 195
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}

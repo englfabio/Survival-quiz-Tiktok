@@ -188,6 +188,8 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     watchL: k < 0.5 ? a.watchL : b.watchL,
     label: k < 0.5 ? a.label : b.label,
     yaw: L(a.yaw ?? 0, b.yaw ?? 0),
+    mouthO: L(a.mouthO ?? 0, b.mouthO ?? 0),
+    brickColor: k < 0.5 ? a.brickColor : b.brickColor,
   };
 };
 
@@ -4118,8 +4120,8 @@ const spuelePose = (motion: Motion, time: number): DummyPose | null => {
 };
 
 // ---------- Spezial "Haus weg": Siedlung, Fußmatte, Klemmbausteine, Gartenhaus, Nachbarn ----------
-/** Baustein-Zyklus (Sekunden) der Bewegungen stacklow / stackbrick / stackhigh bzw. stackfast (Zeitraffer) */
-export const STACK_CYCLE = {normal: 1.0, fast: 0.42};
+/** Baustein-Zyklus (Sekunden): stacklow 0,75 / stackbrick + stackhigh 0,9 / stackfast 0,42 (Zeitraffer) */
+export const STACK_CYCLE = {low: 0.75, normal: 0.9, fast: 0.42};
 /** Zeitpunkt im Zyklus (Anteil), an dem der Stein aufgesetzt wird (Klick) */
 export const STACK_RELEASE = 0.62;
 const hausPose = (motion: Motion, time: number): DummyPose | null => {
@@ -4173,7 +4175,7 @@ const hausPose = (motion: Motion, time: number): DummyPose | null => {
       // einen großen Baustein vor sich aufsetzen (0,55 m vor ihm): Stein kommt in die Hände, wird nach vorn auf die Höhe H gehoben und
       // bei STACK_RELEASE des Zyklus fest aufgedrückt (Klick), Hände zurück. stacklow = H 0,6 (bücken), stackbrick = 1,0, stackhigh = 2,05
       // (über Kopf), stackfast = Zeitraffer (schneller Zyklus, Höhe wechselt)
-      const C = motion === 'stackfast' ? STACK_CYCLE.fast : STACK_CYCLE.normal;
+      const C = motion === 'stackfast' ? STACK_CYCLE.fast : motion === 'stacklow' ? STACK_CYCLE.low : STACK_CYCLE.normal;
       const n = Math.floor(time / C);
       const u = (time % C) / C;
       const Hs = motion === 'stacklow' ? 0.62 : motion === 'stackhigh' ? 2.05 : motion === 'stackbrick' ? 1.02 : [0.62, 1.02, 1.5, 1.02][n % 4];
@@ -4200,21 +4202,32 @@ const hausPose = (motion: Motion, time: number): DummyPose | null => {
       return p;
     }
     case 'shedopen': {
-      // Gartenhaus-Tür öffnen + hineinschauen: Griff 0,45 m vor ihm, 0,25 m rechts auf 0,9 m (0–0,5 s), Tür aufziehen nach rechts außen
-      // (0,5–1,2 s, kleiner Schritt zurück), dann vorbeugen und mit dem Kopf hineinschauen (ab 1,4 s), linke Hand am Türrahmen
+      // Gartenhaus-Tür mit LINKS öffnen: Griff 0,45 m vor ihm, 0,27 m links auf 0,9 m (0–0,5 s), Tür nach links außen aufziehen
+      // (0,5–1,2 s, Oberkörper dreht leicht mit), danach Tür loslassen und überrascht kurz zurückzucken (ab 1,3 s)
       const p = base();
       const grab = easeInOut(clamp(time / 0.5));
       const pull = easeInOut(clamp((time - 0.5) / 0.7));
-      const peek = easeInOut(clamp((time - 1.4) / 0.6));
-      const handle: P3 = [-0.25, 0.9, 0.45];
-      const opened: P3 = [-0.62, 0.95, 0.2];
-      reachR(p, pull > 0 ? lerp3t(handle, opened, pull) : lerp3t(rest, handle, grab), 0.33, [0.5, -1, -0.4]);
-      reachL(p, lerp3t(restL, [0.34, 1.35, 0.42], peek), 0.33, [0.7, -1, -0.3]);
-      p.torsoX = 0.08 * grab - 0.05 * pull + 0.42 * peek + breathe;
-      p.headX = 0.1 + 0.25 * peek;
-      p.headY = -0.1 * pull * (1 - peek) + 0.05 * Math.sin(time * 1.3) * peek;
-      p.legL = L3(0.12 * peek, 0.08, 0.05);
-      p.legR = L3(-0.25 * peek, -0.08, 0.1 * peek);
+      const let_ = easeInOut(clamp((time - 1.3) / 0.4));
+      const handle: P3 = [0.27, 0.9, 0.45];
+      const opened: P3 = [0.62, 0.95, 0.12];
+      reachL(p, let_ > 0 ? lerp3t(opened, restL, let_) : pull > 0 ? lerp3t(handle, opened, pull) : lerp3t(restL, handle, grab), 0.33, [0.7, -1, -0.3]);
+      reachR(p, rest, 0.33);
+      p.torsoX = 0.1 * grab * (1 - pull) + breathe - 0.06 * let_;
+      p.torsoY = 0.25 * pull * (1 - let_);
+      p.headX = 0.12 - 0.1 * let_;
+      p.headY = 0.3 * pull;
+      return p;
+    }
+    case 'peekin': {
+      // durch eine Tür hineinschauen: Hände an den Türrahmen (links/rechts 0,42 m, 0,45 m vor ihm, 1,3 m hoch), vorbeugen, Kopf vor
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      reachL(p, lerp3t(restL, [0.42, 1.3, 0.45], k), 0.33, [0.7, -1, -0.3]);
+      reachR(p, lerp3t(rest, [-0.42, 1.3, 0.45], k), 0.33, [0.6, -1, -0.3]);
+      p.torsoX = 0.38 * k + breathe;
+      p.headX = 0.15 + 0.2 * k;
+      p.headY = 0.08 * Math.sin(time * 1.2) * k;
+      p.legR = L3(-0.2 * k, -0.08, 0.08 * k);
       return p;
     }
     case 'gape': {
@@ -6357,7 +6370,7 @@ export const Dummy = ({
             {pose.puffPhase !== undefined ? <BreathPuffs phase={pose.puffPhase} rate={1 / 6} life={3.2} /> : <BreathPuffs phase={breathPhase} rate={breath} />}
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
             {(pose.mouthO ?? 0) > 0.02 && (
-              <mesh position={[0, -0.045, 0.118]} scale={[0.75, 0.45 + 0.75 * clamp(pose.mouthO ?? 0), 0.4]}>
+              <mesh position={[0, -0.05, 0.12]} scale={[1.15, 0.7 + 1.0 * clamp(pose.mouthO ?? 0), 0.5]}>
                 <sphereGeometry args={[0.05, 10, 8]} />
                 <meshStandardMaterial color="#241512" roughness={0.8} />
               </mesh>

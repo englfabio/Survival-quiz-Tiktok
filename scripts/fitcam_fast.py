@@ -2,7 +2,7 @@
 # fit(points, az, el, fov, box) → (Kamera, Blickpunkt, Pixel) – kleinster Abstand, bei dem alle Punkte in box liegen.
 import numpy as np, math
 
-def fit(points, az, el, fov=38, box=(90, 990, 470, 1250)):
+def fit(points, az, el, fov=38, box=(90, 990, 470, 1250), dmax=60):
     P = np.array(points, float); c = P.mean(0)
     d3 = np.array([math.sin(math.radians(az)) * math.cos(math.radians(el)), math.sin(math.radians(el)), math.cos(math.radians(az)) * math.cos(math.radians(el))])
     rgt = np.cross(-d3, [0, 1, 0]); rgt /= np.linalg.norm(rgt); up = np.cross(rgt, -d3)
@@ -10,7 +10,7 @@ def fit(points, az, el, fov=38, box=(90, 990, 470, 1250)):
     t = math.tan(math.radians(fov / 2))
     oys, oxs = np.meshgrid(np.linspace(-0.6, 0.6, 49), np.linspace(-0.4, 0.4, 17), indexing='ij')
     oys = oys.ravel(); oxs = oxs.ravel()
-    for d in np.arange(0.8, 60, 0.05):
+    for d in np.arange(0.8, dmax, 0.05 if dmax <= 60 else 0.2):
         cam = c + d3 * d
         looks = c[None, :] + (up[None, :] * oys[:, None] + rgt[None, :] * oxs[:, None]) * d   # (N,3)
         f = looks - cam[None, :]; f /= np.linalg.norm(f, axis=1, keepdims=True)

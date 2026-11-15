@@ -264,11 +264,12 @@ export type Motion =
   // ---- Spezial Haus weg (Details: hausPose in Dummy.tsx) ----
   | 'homefreeze' // nach Hause kommen + erstarren: Ruck, Arme halb gespreizt, steif; ab 1,2 s Kopf sucht links/rechts
   | 'liftmat' // Fußmatte 0,45 m vor ihm hochheben: Hocke (0,7 s), greifen, aufrichten + Matte vor die Brust (1,8 s), ratlos schauen
-  | 'stacklow' // großen Baustein 0,55 m vor sich auf 0,6 m Höhe aufsetzen (bücken), Zyklus 1,0 s, Klick bei 0,62
-  | 'stackbrick' // wie stacklow, Höhe 1,0 m
+  | 'stacklow' // großen Baustein 0,55 m vor sich auf 0,6 m Höhe aufsetzen (bücken), Zyklus 0,75 s, Aufsetzen bei 62 % des Zyklus
+  | 'stackbrick' // wie stacklow, Höhe 1,0 m, Zyklus 0,9 s
   | 'stackhigh' // wie stacklow, Höhe 2,05 m (über Kopf)
   | 'stackfast' // Zeitraffer: Steine im Zyklus 0,42 s aufsetzen, Höhe wechselt
-  | 'shedopen' // Gartenhaus-Tür öffnen (Griff 0,45 m vor ihm, 0,25 m rechts) + vorbeugen + hineinschauen (ab 1,4 s)
+  | 'shedopen' // Gartenhaus-Tür mit links öffnen (Griff 0,45 m vor ihm, 0,27 m links, 0,9 m hoch; 0,5–1,2 s), dann loslassen
+  | 'peekin' // durch eine Tür hineinschauen: Hände am Rahmen, vorbeugen
   | 'gape' // staunen mit offenem Mund, Hände an den Wangen (Nachbarn)
   | 'relief' // erleichtert: Hände auf die Brust, tief ausatmen
   | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
