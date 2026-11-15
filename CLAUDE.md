@@ -140,6 +140,10 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
    (gilt für Text UND Bild: die Szene zeigt den Ablauf/die Folgen, nicht noch einmal nur die Antwort).
 3. **Outro jedes Spezial-Videos:** Am Ende immer die Aufforderung, **A, B oder C in die Kommentare zu schreiben und dem Kanal zu folgen**
    (z. B. „Schreib A, B oder C in die Kommentare und folg gerne für mehr.“; Schild `outro.screen` passend, z. B. „A, B oder C? Folgen!“).
+   **Ergänzung (vom Inhaber, Haus-weg-Video):** „In die Kommentare schreiben“ wird im ganzen Ende **nur EINMAL** gesagt (Abstimmung mit
+   `noVote` weglassen, wenn das Outro es schon sagt). Das Outro fordert außerdem zum **Folgen** auf und dazu, **jemanden zu markieren,
+   dem das auch immer passiert**. Reicht es trotzdem nicht für 61 s: das letzte Bild einfach **2–3 Sekunden stehen lassen** (`outroMin`
+   + Abblenden). Ziel: ca. 1 Minute, nicht viel mehr.
 4. **Marken:** Markennamen dürfen im gesprochenen Text vorkommen, wenn der Inhaber das vorgibt. **Logos, echte Spielgrafiken, echte
    Produktdesigns und Figuren, die echten Personen ähneln, werden nie gezeigt** (Selbstprüfung bei den Standbildern).
 
