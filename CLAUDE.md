@@ -717,7 +717,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `wg-kueche`, weil der WG-Tisch die Spüle verdeckt. Nur der Dummy kickt (keine Figur, die einer echten Person ähnelt), keine Logos.
   Standbilder in review/spezial-spuele/phase1/. Finales Video: review/final/spezial-spuele.mp4.
   **Änderung vom Inhaber:** „Schreib A, B oder C in die Kommentare“ kam direkt zweimal (Abstimmung + Outro) → Abstimmung herausgeschnitten
-  (`noVote`), Outro klingt auf 6,9 s aus (`outroMin`, Abblenden) → Video 61,3 s. Neu gerendert, Kontrolle scribe_v2: Satz nur noch einmal.
+  (`noVote`), Outro klingt auf 6,9 s aus (`outroMin`, Abblenden) → Video 61,3 s. Neu gerendert, Kontrolle scribe_v2: Satz nur noch einmal. **Vom Inhaber freigegeben.**
   **Für künftige Spezial-Videos beachten:** Abstimmung + Outro dürfen nicht beide „Schreib A, B oder C …“ sagen – entweder Abstimmung weglassen
   (`noVote`) oder beim Inhaber nachfragen.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
