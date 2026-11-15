@@ -1,0 +1,2644 @@
+{
+  "id": "spezial-chef",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "grossraumbuero",
+  "padAfter": 0.5,
+  "noVote": true,
+  "situation": {
+    "speech": "Dein Chef geht dir mal wieder auf die Nerven. Seit Wochen. Jeden Tag ein bisschen mehr. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Mit dem Bagger kündigen",
+      "speech": "A: Du fährst mit dem Bagger durchs Büro und wirfst ihm die Kündigung hin.",
+      "dummyAction": "Der Dummy fährt mit einem (verkleinerten) Bagger durchs Großraumbüro, die Bürowand bricht comichaft auf, der Kopierer wird zur Seite geschoben und kippt um. Chef und Kollegen stehen deutlich sichtbar sicher an der Seite und staunen. Der Bagger hält, der Dummy wirft den Brief „KÜNDIGUNG“ aus der Kabine auf den Tisch des Chefs.",
+      "explanation": "Die Wand gibt nach. Der Kopierer auch. Alle stehen sicher an der Seite und staunen. Dann hältst du an und wirfst ihm die Kündigung auf den Tisch.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              6.48,
+              8.28,
+              25.7
+            ],
+            "look": [
+              -1.21,
+              -0.92,
+              2.03
+            ]
+          },
+          {
+            "t": 0.3261,
+            "pos": [
+              6.019,
+              7.728,
+              24.28
+            ],
+            "look": [
+              -1.21,
+              -0.92,
+              2.03
+            ]
+          },
+          {
+            "t": 0.3296,
+            "pos": [
+              -7.1,
+              4.61,
+              -15.94
+            ],
+            "look": [
+              -1.03,
+              1.18,
+              -2.93
+            ]
+          },
+          {
+            "t": 0.4626,
+            "pos": [
+              -6.614,
+              4.336,
+              -14.899
+            ],
+            "look": [
+              -1.03,
+              1.18,
+              -2.93
+            ]
+          },
+          {
+            "t": 0.4662,
+            "pos": [
+              -15.24,
+              5.78,
+              -12.2
+            ],
+            "look": [
+              -2.8,
+              0.42,
+              -3.49
+            ]
+          },
+          {
+            "t": 0.5531,
+            "pos": [
+              -14.494,
+              5.458,
+              -11.677
+            ],
+            "look": [
+              -2.8,
+              0.42,
+              -3.49
+            ]
+          },
+          {
+            "t": 0.5567,
+            "pos": [
+              3.31,
+              29.9,
+              20.39
+            ],
+            "look": [
+              0.27,
+              0.41,
+              -1.27
+            ]
+          },
+          {
+            "t": 0.758,
+            "pos": [
+              3.188,
+              28.72,
+              19.524
+            ],
+            "look": [
+              0.27,
+              0.41,
+              -1.27
+            ]
+          },
+          {
+            "t": 0.7612,
+            "pos": [
+              -14.59,
+              4.95,
+              -9.14
+            ],
+            "look": [
+              -0.55,
+              1.38,
+              -4.03
+            ]
+          },
+          {
+            "t": 0.9014,
+            "pos": [
+              -13.748,
+              4.736,
+              -8.833
+            ],
+            "look": [
+              -0.55,
+              1.38,
+              -4.03
+            ]
+          },
+          {
+            "t": 0.904,
+            "pos": [
+              -1.02,
+              3.94,
+              -3.7
+            ],
+            "look": [
+              -0.39,
+              0.75,
+              -6.03
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.989,
+              3.78,
+              -3.817
+            ],
+            "look": [
+              -0.39,
+              0.75,
+              -6.03
+            ]
+          }
+        ],
+        "actors": {
+          "buerowand": [
+            {
+              "t": 0,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4055,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4075,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "burst",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "burst",
+              "face": 0,
+              "y": 0.0
+            }
+          ],
+          "zimmertuer": [
+            {
+              "t": 0,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0,
+              "door": 0
+            }
+          ],
+          "aktenstapel2": [
+            {
+              "t": 0,
+              "x": -4.05,
+              "z": 1.15,
+              "motion": "park",
+              "face": 0,
+              "y": 0.74,
+              "fill": 0.85,
+              "mark": 1
+            }
+          ],
+          "bagger": [
+            {
+              "t": 0,
+              "x": -1.0,
+              "z": 6.2,
+              "motion": "drive",
+              "face": 0,
+              "y": 0.0,
+              "size": -0.25,
+              "tilt": 10,
+              "smoke": 0.25
+            },
+            {
+              "t": 0.3527,
+              "x": -1.0,
+              "z": 3.2,
+              "motion": "drive",
+              "face": 0,
+              "tilt": 10,
+              "y": 0.0
+            },
+            {
+              "t": 0.3557,
+              "x": -1.0,
+              "z": 1.3,
+              "motion": "drive",
+              "face": 0,
+              "tilt": 6,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 0.4075,
+              "x": -1.0,
+              "z": 0.55,
+              "motion": "drive",
+              "face": 0,
+              "tilt": 6,
+              "y": 0.0
+            },
+            {
+              "t": 0.4748,
+              "x": -1.0,
+              "z": -0.75,
+              "motion": "drive",
+              "face": 0,
+              "tilt": 4,
+              "y": 0.0
+            },
+            {
+              "t": 0.5839,
+              "x": -1.0,
+              "z": -1.6,
+              "motion": "park",
+              "face": 0,
+              "tilt": 4,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -1.0,
+              "z": -1.6,
+              "motion": "park",
+              "face": 0,
+              "tilt": 4,
+              "y": 0.0
+            }
+          ],
+          "kopierer": [
+            {
+              "t": 0,
+              "x": -2.05,
+              "z": -3.35,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.4728,
+              "x": -2.05,
+              "z": -3.35,
+              "motion": "park",
+              "face": 180,
+              "tilt": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4748,
+              "x": -2.05,
+              "z": -3.35,
+              "motion": "burst",
+              "face": 180,
+              "tilt": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5175,
+              "x": -4.1,
+              "z": -3.8,
+              "motion": "burst",
+              "face": 200,
+              "tilt": 25,
+              "y": 0.0
+            },
+            {
+              "t": 0.5419,
+              "x": -4.6,
+              "z": -4.0,
+              "motion": "burst",
+              "face": 210,
+              "tilt": 84,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -4.6,
+              "z": -4.0,
+              "motion": "burst",
+              "face": 210,
+              "tilt": 84,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.637,
+              "z": 0.413,
+              "motion": "seatdrive",
+              "face": 0,
+              "y": 1.9,
+              "attach": "bagger"
+            },
+            {
+              "t": 0.7893,
+              "x": -0.637,
+              "z": 0.413,
+              "motion": "seatdrive",
+              "face": 0,
+              "y": 1.9,
+              "attach": "bagger"
+            },
+            {
+              "t": 0.7923,
+              "x": -0.637,
+              "z": 0.413,
+              "motion": "seatthrow",
+              "face": 0,
+              "y": 1.9,
+              "attach": "bagger",
+              "text": "KÜNDIGUNG"
+            },
+            {
+              "t": 1,
+              "x": -0.637,
+              "z": 0.413,
+              "motion": "seatthrow",
+              "face": 0,
+              "y": 1.9,
+              "attach": "bagger"
+            }
+          ],
+          "brief": [
+            {
+              "t": 0,
+              "x": -0.263,
+              "z": -2.613,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.8281,
+              "x": -0.263,
+              "z": -2.613,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.8301,
+              "x": -0.263,
+              "z": -2.613,
+              "motion": "toss",
+              "face": 0,
+              "y": 3.2,
+              "size": 0.9,
+              "spin": 0,
+              "tilt": 0
+            },
+            {
+              "t": 0.8529,
+              "x": -0.306,
+              "z": -4.396,
+              "motion": "toss",
+              "face": 0,
+              "y": 3.0,
+              "spin": 1.0
+            },
+            {
+              "t": 0.8738,
+              "x": -0.35,
+              "z": -6.18,
+              "motion": "toss",
+              "face": 0,
+              "y": 0.88,
+              "spin": 2.0,
+              "tilt": 0
+            },
+            {
+              "t": 0.8758,
+              "x": -0.35,
+              "z": -6.18,
+              "motion": "park",
+              "face": 0,
+              "y": 0.76,
+              "spin": 0,
+              "tilt": 1
+            },
+            {
+              "t": 1,
+              "x": -0.35,
+              "z": -6.18,
+              "motion": "park",
+              "face": 0,
+              "y": 0.76,
+              "tilt": 1
+            }
+          ],
+          "chef": [
+            {
+              "t": 0,
+              "x": 3.9,
+              "z": -5.3,
+              "motion": "stand",
+              "face": 270
+            },
+            {
+              "t": 0.4136,
+              "x": 3.9,
+              "z": -5.3,
+              "motion": "gape",
+              "face": 243.0
+            },
+            {
+              "t": 0.888,
+              "x": 3.9,
+              "z": -5.3,
+              "motion": "gape",
+              "face": 281.7
+            }
+          ],
+          "kollege1": [
+            {
+              "t": 0,
+              "x": -5.4,
+              "z": -1.3,
+              "motion": "gape",
+              "face": 126.9
+            },
+            {
+              "t": 0.3557,
+              "x": -5.4,
+              "z": -1.3,
+              "motion": "gape",
+              "face": 87.4,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -5.4,
+              "z": -1.3,
+              "motion": "gape",
+              "face": 74.7
+            }
+          ],
+          "kollege2": [
+            {
+              "t": 0,
+              "x": 1.85,
+              "z": -1.45,
+              "motion": "gape",
+              "face": 219.6
+            },
+            {
+              "t": 0.3557,
+              "x": 1.85,
+              "z": -1.45,
+              "motion": "gape",
+              "face": 271.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 1.85,
+              "z": -1.45,
+              "motion": "gape",
+              "face": 290.2
+            }
+          ],
+          "kollege3": [
+            {
+              "t": 0,
+              "x": 2.35,
+              "z": 0.35,
+              "motion": "gape",
+              "face": 243.8
+            },
+            {
+              "t": 0.3557,
+              "x": 2.35,
+              "z": 0.35,
+              "motion": "gape",
+              "face": 298.9,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 2.35,
+              "z": 0.35,
+              "motion": "gape",
+              "face": 310.4
+            }
+          ]
+        },
+        "sfx": [
+          {
+            "t": 0.0,
+            "id": "bagger-motor",
+            "volume": 0.55
+          },
+          {
+            "t": 0.3557,
+            "id": "bagger-motor",
+            "volume": 0.6
+          },
+          {
+            "t": 0.4045,
+            "id": "wand-durchbruch",
+            "volume": 0.85
+          },
+          {
+            "t": 0.4748,
+            "id": "kopierer-rutschen",
+            "volume": 0.75
+          },
+          {
+            "t": 0.5534,
+            "id": "staunen",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8301,
+            "id": "kick-whoosh",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8758,
+            "id": "karte-klatsch",
+            "volume": 0.7
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Uno-Reverse-Karte",
+      "speech": "B: Du spielst die Uno-Reverse-Karte. Ab jetzt bist du sein Chef.",
+      "dummyAction": "Der Dummy knallt eine rote Reverse-Karte (zwei gebogene Pfeile im Kreis, ohne Schrift, ohne Oval, ohne Logo) auf den Tisch. Ein bunter Wirbel – Dummy und Chef tauschen die Plätze. Jetzt sitzt der Dummy im Chefsessel, trommelt ungeduldig und schiebt dem schwitzenden Chef Stapel von Aufgaben hin, jeden Tag mehr.",
+      "explanation": "Die Karte liegt auf dem Tisch. Ein kurzer Wirbel, und plötzlich sitzt du auf seinem Stuhl. Ab jetzt gehst du ihm auf die Nerven. Jeden Tag ein bisschen mehr.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              3.44,
+              2.27,
+              -11.37
+            ],
+            "look": [
+              -0.57,
+              0.74,
+              -5.63
+            ]
+          },
+          {
+            "t": 0.2858,
+            "pos": [
+              3.199,
+              2.178,
+              -11.026
+            ],
+            "look": [
+              -0.57,
+              0.74,
+              -5.63
+            ]
+          },
+          {
+            "t": 0.2891,
+            "pos": [
+              2.93,
+              4.41,
+              -1.71
+            ],
+            "look": [
+              -0.72,
+              0.98,
+              -5.56
+            ]
+          },
+          {
+            "t": 0.4692,
+            "pos": [
+              2.638,
+              4.136,
+              -2.018
+            ],
+            "look": [
+              -0.72,
+              0.98,
+              -5.56
+            ]
+          },
+          {
+            "t": 0.4728,
+            "pos": [
+              3.04,
+              2.84,
+              3.84
+            ],
+            "look": [
+              -1.09,
+              0.69,
+              -5.92
+            ]
+          },
+          {
+            "t": 0.5768,
+            "pos": [
+              2.792,
+              2.711,
+              3.254
+            ],
+            "look": [
+              -1.09,
+              0.69,
+              -5.92
+            ]
+          },
+          {
+            "t": 0.5804,
+            "pos": [
+              7.31,
+              2.18,
+              -3.34
+            ],
+            "look": [
+              -0.57,
+              0.49,
+              -6.2
+            ]
+          },
+          {
+            "t": 0.7425,
+            "pos": [
+              6.68,
+              2.045,
+              -3.569
+            ],
+            "look": [
+              -0.57,
+              0.49,
+              -6.2
+            ]
+          },
+          {
+            "t": 0.7457,
+            "pos": [
+              6.34,
+              2.61,
+              -2.13
+            ],
+            "look": [
+              -0.49,
+              0.51,
+              -6.08
+            ]
+          },
+          {
+            "t": 0.89,
+            "pos": [
+              5.93,
+              2.484,
+              -2.367
+            ],
+            "look": [
+              -0.49,
+              0.51,
+              -6.08
+            ]
+          },
+          {
+            "t": 0.8926,
+            "pos": [
+              -8.45,
+              2.59,
+              -2.43
+            ],
+            "look": [
+              -0.71,
+              0.64,
+              -6.04
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -8.063,
+              2.492,
+              -2.611
+            ],
+            "look": [
+              -0.71,
+              0.64,
+              -6.04
+            ]
+          }
+        ],
+        "actors": {
+          "buerowand": [
+            {
+              "t": 0,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            }
+          ],
+          "zimmertuer": [
+            {
+              "t": 0,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": -30,
+              "door": 0
+            }
+          ],
+          "reversekarte": [
+            {
+              "t": 0,
+              "x": -0.55,
+              "z": -5.7,
+              "motion": "park",
+              "face": 15,
+              "y": -30,
+              "size": 0.6
+            },
+            {
+              "t": 0.3752,
+              "x": -0.55,
+              "z": -5.7,
+              "motion": "park",
+              "face": 15,
+              "y": -30
+            },
+            {
+              "t": 0.3772,
+              "x": -0.55,
+              "z": -5.7,
+              "motion": "park",
+              "face": 15,
+              "y": 0.762
+            },
+            {
+              "t": 1,
+              "x": -0.55,
+              "z": -5.7,
+              "motion": "park",
+              "face": 15,
+              "y": 0.762
+            }
+          ],
+          "wirbel": [
+            {
+              "t": 0,
+              "x": -0.6,
+              "z": -6.075,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0,
+              "fill": 0,
+              "size": 0.6
+            },
+            {
+              "t": 0.4773,
+              "x": -0.6,
+              "z": -6.075,
+              "motion": "park",
+              "face": 0,
+              "fill": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4984,
+              "x": -0.6,
+              "z": -6.075,
+              "motion": "park",
+              "face": 0,
+              "fill": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.5733,
+              "x": -0.6,
+              "z": -6.075,
+              "motion": "park",
+              "face": 0,
+              "fill": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.6004,
+              "x": -0.6,
+              "z": -6.075,
+              "motion": "park",
+              "face": 0,
+              "fill": 0,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.6,
+              "z": -5.2,
+              "motion": "cardshow",
+              "face": 0
+            },
+            {
+              "t": 0.341,
+              "x": -0.6,
+              "z": -5.2,
+              "motion": "cardshow",
+              "face": 0
+            },
+            {
+              "t": 0.344,
+              "x": -0.6,
+              "z": -5.2,
+              "motion": "cardslam",
+              "face": 0
+            },
+            {
+              "t": 0.4743,
+              "x": -0.6,
+              "z": -5.2,
+              "motion": "cardslam",
+              "face": 0
+            },
+            {
+              "t": 0.4773,
+              "x": -0.6,
+              "z": -5.2,
+              "motion": "whirl",
+              "face": 0,
+              "spin": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5612,
+              "x": -0.6,
+              "z": -5.45,
+              "motion": "whirl",
+              "face": 0,
+              "spin": 3.0,
+              "y": 0.45
+            },
+            {
+              "t": 0.5642,
+              "x": -0.6,
+              "z": -7.15,
+              "motion": "desktap",
+              "face": 180,
+              "spin": 0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.7088,
+              "x": -0.6,
+              "z": -7.15,
+              "motion": "desktap",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.7118,
+              "x": -0.6,
+              "z": -7.15,
+              "motion": "deskpush",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.8573,
+              "x": -0.6,
+              "z": -7.15,
+              "motion": "deskpush",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.8603,
+              "x": -0.6,
+              "z": -7.15,
+              "motion": "desktap",
+              "face": 180,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -0.6,
+              "z": -7.15,
+              "motion": "desktap",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "chef": [
+            {
+              "t": 0,
+              "x": -0.6,
+              "z": -6.95,
+              "motion": "chefnag",
+              "face": 180
+            },
+            {
+              "t": 0.3742,
+              "x": -0.6,
+              "z": -6.95,
+              "motion": "chefnag",
+              "face": 180
+            },
+            {
+              "t": 0.3772,
+              "x": -0.6,
+              "z": -6.95,
+              "motion": "gape",
+              "face": 180
+            },
+            {
+              "t": 0.4743,
+              "x": -0.6,
+              "z": -6.95,
+              "motion": "gape",
+              "face": 180
+            },
+            {
+              "t": 0.4773,
+              "x": -0.6,
+              "z": -6.95,
+              "motion": "whirl",
+              "face": 180,
+              "spin": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5612,
+              "x": -0.6,
+              "z": -6.7,
+              "motion": "whirl",
+              "face": 180,
+              "spin": -3.0,
+              "y": 0.45
+            },
+            {
+              "t": 0.5642,
+              "x": -0.6,
+              "z": -5.2,
+              "motion": "sweatstand",
+              "face": 0,
+              "spin": 0,
+              "y": 0.0,
+              "sweat": 0.6,
+              "cut": true
+            },
+            {
+              "t": 0.8573,
+              "x": -0.6,
+              "z": -5.2,
+              "motion": "sweatstand",
+              "face": 0,
+              "sweat": 0.8,
+              "y": 0.0
+            },
+            {
+              "t": 0.8603,
+              "x": -0.6,
+              "z": -5.05,
+              "motion": "sweatstand",
+              "face": 0,
+              "sweat": 1.0,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -0.6,
+              "z": -5.05,
+              "motion": "sweatstand",
+              "face": 0,
+              "sweat": 1.0,
+              "y": 0.0
+            }
+          ],
+          "aktenstapel": [
+            {
+              "t": 0,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "y": -30,
+              "fill": 0.0
+            },
+            {
+              "t": 0.7098,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "y": -30,
+              "fill": 0.0
+            },
+            {
+              "t": 0.7118,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "y": 0.76,
+              "fill": 0.1,
+              "mark": 0
+            },
+            {
+              "t": 0.7541,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.1,
+              "y": 0.76
+            },
+            {
+              "t": 0.7631,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.22,
+              "y": 0.76
+            },
+            {
+              "t": 0.8386,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.22,
+              "y": 0.76
+            },
+            {
+              "t": 0.8476,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.34,
+              "y": 0.76
+            },
+            {
+              "t": 0.8603,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.45,
+              "mark": 1,
+              "cut": true,
+              "y": 0.76
+            },
+            {
+              "t": 1,
+              "x": -0.3,
+              "z": -5.68,
+              "motion": "park",
+              "face": 0,
+              "fill": 1.0,
+              "mark": 2,
+              "y": 0.76
+            }
+          ],
+          "tageskalender": [
+            {
+              "t": 0,
+              "x": -1.3,
+              "z": -6.2,
+              "motion": "park",
+              "face": 180,
+              "y": -30,
+              "good": 1,
+              "fill": 1
+            },
+            {
+              "t": 0.8583,
+              "x": -1.3,
+              "z": -6.2,
+              "motion": "park",
+              "face": 180,
+              "y": -30
+            },
+            {
+              "t": 0.8603,
+              "x": -1.3,
+              "z": -6.2,
+              "motion": "park",
+              "face": 180,
+              "y": 1.51,
+              "fill": 1
+            },
+            {
+              "t": 0.8754,
+              "x": -1.3,
+              "z": -6.2,
+              "motion": "park",
+              "face": 180,
+              "fill": 1,
+              "y": 1.51
+            },
+            {
+              "t": 0.9819,
+              "x": -1.3,
+              "z": -6.2,
+              "motion": "park",
+              "face": 180,
+              "fill": 31,
+              "y": 1.51
+            }
+          ]
+        },
+        "stage": [
+          {
+            "t": 0,
+            "stage": "grossraumbuero-offen"
+          }
+        ],
+        "sfx": [
+          {
+            "t": 0.3754,
+            "id": "karte-klatsch",
+            "volume": 0.8
+          },
+          {
+            "t": 0.4773,
+            "id": "wirbel",
+            "volume": 0.75
+          },
+          {
+            "t": 0.8724,
+            "id": "kalender-blaettern",
+            "volume": 0.55
+          },
+          {
+            "t": 0.7571,
+            "id": "papier-schieben",
+            "volume": 0.5
+          },
+          {
+            "t": 0.8416,
+            "id": "papier-schieben",
+            "volume": 0.5
+          },
+          {
+            "t": 0.8844,
+            "id": "akten-plumps",
+            "volume": 0.45
+          },
+          {
+            "t": 0.9267,
+            "id": "akten-plumps",
+            "volume": 0.45
+          },
+          {
+            "t": 0.969,
+            "id": "akten-plumps",
+            "volume": 0.45
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Das Känguru reinlassen",
+      "speech": "C: Du lässt das Känguru mit den Boxhandschuhen in sein Büro.",
+      "dummyAction": "Der Dummy öffnet die Tür zum Chefbüro, das Känguru mit Boxhandschuhen hüpft hinein, die Boxglocke klingelt, Chef (blaue Handschuhe) und Känguru liefern sich einen Show-Boxkampf ohne Treffer. Der Dummy holt sich in Ruhe einen Kaffee, hinter dem Glasfenster wird weitergeboxt.",
+      "explanation": "Die Tür geht auf. Das Känguru hüpft rein. Die Glocke klingelt: Runde eins. Ein epischer Kampf. Und du holst dir in Ruhe einen Kaffee.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -0.62,
+              2.22,
+              6.62
+            ],
+            "look": [
+              2.44,
+              0.74,
+              -1.77
+            ]
+          },
+          {
+            "t": 0.3083,
+            "pos": [
+              -0.436,
+              2.131,
+              6.117
+            ],
+            "look": [
+              2.44,
+              0.74,
+              -1.77
+            ]
+          },
+          {
+            "t": 0.3117,
+            "pos": [
+              0.92,
+              2.14,
+              6.93
+            ],
+            "look": [
+              2.93,
+              0.65,
+              -1.84
+            ]
+          },
+          {
+            "t": 0.4481,
+            "pos": [
+              1.041,
+              2.051,
+              6.404
+            ],
+            "look": [
+              2.93,
+              0.65,
+              -1.84
+            ]
+          },
+          {
+            "t": 0.4517,
+            "pos": [
+              14.24,
+              4.85,
+              -18.01
+            ],
+            "look": [
+              1.24,
+              0.95,
+              -5.0
+            ]
+          },
+          {
+            "t": 0.5749,
+            "pos": [
+              13.46,
+              4.616,
+              -17.229
+            ],
+            "look": [
+              1.24,
+              0.95,
+              -5.0
+            ]
+          },
+          {
+            "t": 0.5785,
+            "pos": [
+              4.62,
+              2.5,
+              8.33
+            ],
+            "look": [
+              4.62,
+              1.18,
+              -4.3
+            ]
+          },
+          {
+            "t": 0.7417,
+            "pos": [
+              4.62,
+              2.434,
+              7.699
+            ],
+            "look": [
+              4.62,
+              1.18,
+              -4.3
+            ]
+          },
+          {
+            "t": 0.745,
+            "pos": [
+              3.93,
+              1.49,
+              3.7
+            ],
+            "look": [
+              4.62,
+              0.73,
+              -4.29
+            ]
+          },
+          {
+            "t": 0.7885,
+            "pos": [
+              4.013,
+              1.399,
+              2.741
+            ],
+            "look": [
+              4.62,
+              0.73,
+              -4.29
+            ]
+          },
+          {
+            "t": 0.7916,
+            "pos": [
+              0.82,
+              3.4,
+              2.29
+            ],
+            "look": [
+              4.91,
+              0.55,
+              -3.99
+            ]
+          },
+          {
+            "t": 0.833,
+            "pos": [
+              1.311,
+              3.058,
+              1.536
+            ],
+            "look": [
+              4.91,
+              0.55,
+              -3.99
+            ]
+          },
+          {
+            "t": 0.8359,
+            "pos": [
+              -5.25,
+              2.25,
+              4.23
+            ],
+            "look": [
+              5.29,
+              0.94,
+              -2.39
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -4.723,
+              2.184,
+              3.899
+            ],
+            "look": [
+              5.29,
+              0.94,
+              -2.39
+            ]
+          }
+        ],
+        "actors": {
+          "buerowand": [
+            {
+              "t": 0,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5626,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5656,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.7963,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.7993,
+              "x": -1.0,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0
+            }
+          ],
+          "zimmertuer": [
+            {
+              "t": 0,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0,
+              "door": 0
+            },
+            {
+              "t": 0.397,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "door": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4373,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "door": 1,
+              "y": 0.0
+            },
+            {
+              "t": 0.5626,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0,
+              "door": 1
+            },
+            {
+              "t": 0.5656,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.7963,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": -30
+            },
+            {
+              "t": 0.7993,
+              "x": 2.9,
+              "z": -2.5,
+              "motion": "park",
+              "face": 0,
+              "y": 0.0,
+              "door": 1
+            }
+          ],
+          "aktenstapel2": [
+            {
+              "t": 0,
+              "x": -4.05,
+              "z": 1.15,
+              "motion": "park",
+              "face": 0,
+              "y": 0.74,
+              "fill": 0.85,
+              "mark": 1
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.84,
+              "z": -2.05,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.3672,
+              "x": 1.84,
+              "z": -2.05,
+              "motion": "stand",
+              "face": 0
+            },
+            {
+              "t": 0.3702,
+              "x": 1.84,
+              "z": -2.05,
+              "motion": "dooropen",
+              "face": 0
+            },
+            {
+              "t": 0.444,
+              "x": 1.84,
+              "z": -2.05,
+              "motion": "dooropen",
+              "face": 0
+            },
+            {
+              "t": 0.4709,
+              "x": 1.29,
+              "z": -1.8,
+              "motion": "dooropen",
+              "face": 20
+            },
+            {
+              "t": 0.7963,
+              "x": 1.29,
+              "z": -1.8,
+              "motion": "dooropen",
+              "face": 20
+            },
+            {
+              "t": 0.7993,
+              "x": 5.45,
+              "z": -1.3,
+              "motion": "getcoffee",
+              "face": 90,
+              "cut": true
+            },
+            {
+              "t": 0.9738,
+              "x": 5.45,
+              "z": -1.3,
+              "motion": "getcoffee",
+              "face": 90
+            },
+            {
+              "t": 0.9751,
+              "x": 5.45,
+              "z": -1.3,
+              "motion": "coffeesip",
+              "face": 120
+            },
+            {
+              "t": 1,
+              "x": 5.45,
+              "z": -1.3,
+              "motion": "coffeesip",
+              "face": 120
+            }
+          ],
+          "kaenguru": [
+            {
+              "t": 0,
+              "x": 3.05,
+              "z": -1.2,
+              "motion": "guard",
+              "face": 330
+            },
+            {
+              "t": 0.4533,
+              "x": 3.05,
+              "z": -1.2,
+              "motion": "guard",
+              "face": 330
+            },
+            {
+              "t": 0.4563,
+              "x": 3.05,
+              "z": -1.2,
+              "motion": "hop",
+              "face": 336.0
+            },
+            {
+              "t": 0.5033,
+              "x": 2.47,
+              "z": -2.15,
+              "motion": "hop",
+              "face": 0
+            },
+            {
+              "t": 0.5435,
+              "x": 2.47,
+              "z": -3.1,
+              "motion": "hop",
+              "face": 0
+            },
+            {
+              "t": 0.5626,
+              "x": 2.8,
+              "z": -4.0,
+              "motion": "hop",
+              "face": 20.1
+            },
+            {
+              "t": 0.5656,
+              "x": 5.25,
+              "z": -4.3,
+              "motion": "guard",
+              "face": 270,
+              "cut": true
+            },
+            {
+              "t": 0.7081,
+              "x": 5.25,
+              "z": -4.3,
+              "motion": "guard",
+              "face": 270
+            },
+            {
+              "t": 0.7111,
+              "x": 5.25,
+              "z": -4.3,
+              "motion": "punch",
+              "face": 270,
+              "cut": true
+            },
+            {
+              "t": 0.7681,
+              "x": 5.25,
+              "z": -4.3,
+              "motion": "punch",
+              "face": 270
+            },
+            {
+              "t": 0.7711,
+              "x": 5.25,
+              "z": -4.3,
+              "motion": "guard",
+              "face": 270,
+              "cut": true
+            },
+            {
+              "t": 0.7963,
+              "x": 5.25,
+              "z": -4.3,
+              "motion": "guard",
+              "face": 270
+            },
+            {
+              "t": 0.7993,
+              "x": 5.15,
+              "z": -3.7,
+              "motion": "punch",
+              "face": 270,
+              "cut": true
+            },
+            {
+              "t": 0.8563,
+              "x": 5.15,
+              "z": -3.7,
+              "motion": "punch",
+              "face": 270
+            },
+            {
+              "t": 0.8593,
+              "x": 5.15,
+              "z": -3.7,
+              "motion": "guard",
+              "face": 270,
+              "cut": true
+            },
+            {
+              "t": 0.9164,
+              "x": 5.15,
+              "z": -3.7,
+              "motion": "guard",
+              "face": 270
+            },
+            {
+              "t": 0.9194,
+              "x": 5.15,
+              "z": -3.7,
+              "motion": "punch",
+              "face": 270,
+              "cut": true
+            },
+            {
+              "t": 0.9764,
+              "x": 5.15,
+              "z": -3.7,
+              "motion": "punch",
+              "face": 270
+            },
+            {
+              "t": 0.9794,
+              "x": 5.15,
+              "z": -3.7,
+              "motion": "hop",
+              "face": 270,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 5.15,
+              "z": -3.7,
+              "motion": "hop",
+              "face": 270
+            }
+          ],
+          "chef": [
+            {
+              "t": 0,
+              "x": -0.6,
+              "z": -6.95,
+              "motion": "stand",
+              "face": 180
+            },
+            {
+              "t": 0.4966,
+              "x": -0.6,
+              "z": -6.95,
+              "motion": "gape",
+              "face": 141.4
+            },
+            {
+              "t": 0.5656,
+              "x": 4.0,
+              "z": -4.3,
+              "motion": "boxguard",
+              "face": 90,
+              "gloves": 1,
+              "cut": true
+            },
+            {
+              "t": 0.7081,
+              "x": 4.0,
+              "z": -4.3,
+              "motion": "boxguard",
+              "face": 90,
+              "gloves": 1
+            },
+            {
+              "t": 0.7111,
+              "x": 4.0,
+              "z": -4.3,
+              "motion": "boxdodge",
+              "face": 90,
+              "gloves": 1,
+              "cut": true
+            },
+            {
+              "t": 0.7681,
+              "x": 4.0,
+              "z": -4.3,
+              "motion": "boxdodge",
+              "face": 90,
+              "gloves": 1
+            },
+            {
+              "t": 0.7711,
+              "x": 4.0,
+              "z": -4.3,
+              "motion": "jab",
+              "face": 90,
+              "gloves": 1,
+              "cut": true
+            },
+            {
+              "t": 0.7963,
+              "x": 4.0,
+              "z": -4.3,
+              "motion": "jab",
+              "face": 90,
+              "gloves": 1
+            },
+            {
+              "t": 0.7993,
+              "x": 4.2,
+              "z": -3.7,
+              "motion": "boxdodge",
+              "face": 90,
+              "gloves": 1,
+              "cut": true
+            },
+            {
+              "t": 0.8563,
+              "x": 4.2,
+              "z": -3.7,
+              "motion": "boxdodge",
+              "face": 90,
+              "gloves": 1
+            },
+            {
+              "t": 0.8593,
+              "x": 4.2,
+              "z": -3.7,
+              "motion": "jab",
+              "face": 90,
+              "gloves": 1,
+              "cut": true
+            },
+            {
+              "t": 0.9164,
+              "x": 4.2,
+              "z": -3.7,
+              "motion": "jab",
+              "face": 90,
+              "gloves": 1
+            },
+            {
+              "t": 0.9194,
+              "x": 4.2,
+              "z": -3.7,
+              "motion": "boxdodge",
+              "face": 90,
+              "gloves": 1,
+              "cut": true
+            },
+            {
+              "t": 0.9764,
+              "x": 4.2,
+              "z": -3.7,
+              "motion": "boxdodge",
+              "face": 90,
+              "gloves": 1
+            },
+            {
+              "t": 0.9794,
+              "x": 4.2,
+              "z": -3.7,
+              "motion": "jab",
+              "face": 90,
+              "gloves": 1,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 4.2,
+              "z": -3.7,
+              "motion": "jab",
+              "face": 90,
+              "gloves": 1
+            }
+          ],
+          "boxhandschuhe": [
+            {
+              "t": 0,
+              "x": -0.05,
+              "z": -6.25,
+              "motion": "park",
+              "face": 20,
+              "y": 0.76
+            },
+            {
+              "t": 0.5626,
+              "x": -0.05,
+              "z": -6.25,
+              "motion": "park",
+              "face": 20,
+              "y": 0.76
+            },
+            {
+              "t": 0.5656,
+              "x": -0.05,
+              "z": -6.25,
+              "motion": "park",
+              "face": 20,
+              "y": -30
+            }
+          ],
+          "boxglocke": [
+            {
+              "t": 0,
+              "x": 4.625,
+              "z": -4.3,
+              "motion": "park",
+              "face": 0,
+              "y": 2.75,
+              "size": 0.5
+            },
+            {
+              "t": 0.569,
+              "x": 4.625,
+              "z": -4.3,
+              "motion": "show",
+              "face": 0,
+              "y": 2.75
+            },
+            {
+              "t": 0.7081,
+              "x": 4.625,
+              "z": -4.3,
+              "motion": "show",
+              "face": 0,
+              "y": 2.75
+            },
+            {
+              "t": 0.7111,
+              "x": 4.625,
+              "z": -4.3,
+              "motion": "park",
+              "face": 0,
+              "y": 2.75
+            }
+          ]
+        },
+        "stage": [
+          {
+            "t": 0,
+            "stage": "grossraumbuero"
+          },
+          {
+            "t": 0.5656,
+            "stage": "grossraumbuero-offen"
+          },
+          {
+            "t": 0.7993,
+            "stage": "grossraumbuero"
+          }
+        ],
+        "sfx": [
+          {
+            "t": 0.397,
+            "id": "tuer-knarren",
+            "volume": 0.55
+          },
+          {
+            "t": 0.569,
+            "id": "boxglocke",
+            "volume": 0.8
+          },
+          {
+            "t": 0.8329,
+            "id": "kaffeemaschine",
+            "volume": 0.6
+          },
+          {
+            "t": 0.463,
+            "id": "plopp",
+            "volume": 0.2
+          },
+          {
+            "t": 0.5033,
+            "id": "plopp",
+            "volume": 0.2
+          },
+          {
+            "t": 0.5435,
+            "id": "plopp",
+            "volume": 0.2
+          },
+          {
+            "t": 0.5838,
+            "id": "plopp",
+            "volume": 0.2
+          },
+          {
+            "t": 0.7346,
+            "id": "boxschlag",
+            "volume": 0.4
+          },
+          {
+            "t": 0.7916,
+            "id": "kick-whoosh",
+            "volume": 0.4
+          },
+          {
+            "t": 0.8487,
+            "id": "boxschlag",
+            "volume": 0.18
+          },
+          {
+            "t": 0.9057,
+            "id": "kick-whoosh",
+            "volume": 0.18
+          },
+          {
+            "t": 0.9628,
+            "id": "boxschlag",
+            "volume": 0.18
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du? Schreib A, B oder C in die Kommentare.",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare und folg gerne für mehr. Markier jemanden, dem das auch immer passiert.",
+    "screen": "Kommentieren & folgen!"
+  },
+  "publishing": {
+    "description": "Dein Chef geht dir mal wieder auf die Nerven – was machst du? 💼 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Bitte nichts davon nachmachen. 😄\n\n#waswürdestdutun #chef #arbeit #büro #unoreverse #spezial #comedy #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team ___. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.26,
+            2.32,
+            8.06
+          ],
+          "look": [
+            -4.24,
+            0.21,
+            1.12
+          ]
+        },
+        {
+          "t": 0.4282,
+          "pos": [
+            -0.01,
+            2.193,
+            7.644
+          ],
+          "look": [
+            -4.24,
+            0.21,
+            1.12
+          ]
+        },
+        {
+          "t": 0.4318,
+          "pos": [
+            -4.28,
+            1.54,
+            3.24
+          ],
+          "look": [
+            -4.69,
+            0.94,
+            0.9
+          ]
+        },
+        {
+          "t": 0.5649,
+          "pos": [
+            -4.321,
+            1.48,
+            3.006
+          ],
+          "look": [
+            -4.69,
+            0.94,
+            0.9
+          ]
+        },
+        {
+          "t": 0.5685,
+          "pos": [
+            -6.25,
+            2.41,
+            6.0
+          ],
+          "look": [
+            -3.85,
+            0.54,
+            0.87
+          ]
+        },
+        {
+          "t": 0.8452,
+          "pos": [
+            -6.106,
+            2.298,
+            5.692
+          ],
+          "look": [
+            -3.85,
+            0.54,
+            0.87
+          ]
+        },
+        {
+          "t": 0.8481,
+          "pos": [
+            -3.87,
+            1.88,
+            7.52
+          ],
+          "look": [
+            -4.81,
+            0.66,
+            0.82
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -3.945,
+            1.782,
+            6.984
+          ],
+          "look": [
+            -4.81,
+            0.66,
+            0.82
+          ]
+        }
+      ],
+      "actors": {
+        "buerowand": [
+          {
+            "t": 0,
+            "x": -1.0,
+            "z": -2.5,
+            "motion": "park",
+            "face": 0,
+            "y": 0.0
+          }
+        ],
+        "zimmertuer": [
+          {
+            "t": 0,
+            "x": 2.9,
+            "z": -2.5,
+            "motion": "park",
+            "face": 0,
+            "y": 0.0,
+            "door": 0
+          }
+        ],
+        "aktenstapel2": [
+          {
+            "t": 0,
+            "x": -4.05,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "y": 0.74,
+            "fill": 0.0,
+            "mark": 1
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -4.4,
+            "z": 0.5,
+            "motion": "typedesk",
+            "face": 180
+          },
+          {
+            "t": 0.5542,
+            "x": -4.4,
+            "z": 0.5,
+            "motion": "typedesk",
+            "face": 180
+          },
+          {
+            "t": 0.5572,
+            "x": -4.4,
+            "z": 0.5,
+            "motion": "typedesk",
+            "face": 180,
+            "cut": true
+          },
+          {
+            "t": 0.8089,
+            "x": -4.4,
+            "z": 0.5,
+            "motion": "typedesk",
+            "face": 180
+          },
+          {
+            "t": 0.8119,
+            "x": -4.4,
+            "z": 0.5,
+            "motion": "deskslump",
+            "face": 180,
+            "cut": true
+          },
+          {
+            "t": 0.9288,
+            "x": -4.4,
+            "z": 0.5,
+            "motion": "deskslump",
+            "face": 180,
+            "question": 0
+          },
+          {
+            "t": 0.9937,
+            "x": -4.4,
+            "z": 0.5,
+            "motion": "deskslump",
+            "face": 180,
+            "question": 1
+          },
+          {
+            "t": 1,
+            "x": -4.4,
+            "z": 0.5,
+            "motion": "deskslump",
+            "face": 180,
+            "question": 1
+          }
+        ],
+        "chef": [
+          {
+            "t": 0,
+            "x": -3.15,
+            "z": 0.95,
+            "motion": "chefnag",
+            "face": 270
+          },
+          {
+            "t": 0.5542,
+            "x": -3.15,
+            "z": 0.95,
+            "motion": "chefnag",
+            "face": 270
+          },
+          {
+            "t": 0.5572,
+            "x": -3.15,
+            "z": 0.95,
+            "motion": "pilefiles",
+            "face": 270,
+            "cut": true
+          },
+          {
+            "t": 0.8089,
+            "x": -3.15,
+            "z": 0.95,
+            "motion": "pilefiles",
+            "face": 270
+          },
+          {
+            "t": 0.8119,
+            "x": -3.0,
+            "z": 0.85,
+            "motion": "chefnag",
+            "face": 255,
+            "cut": true
+          },
+          {
+            "t": 1,
+            "x": -3.0,
+            "z": 0.85,
+            "motion": "chefnag",
+            "face": 255
+          }
+        ],
+        "aktenstapel": [
+          {
+            "t": 0,
+            "x": -4.08,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "y": 0.74,
+            "fill": 0.12,
+            "mark": 0
+          },
+          {
+            "t": 0.6325,
+            "x": -4.08,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "fill": 0.12,
+            "mark": 0,
+            "y": 0.74
+          },
+          {
+            "t": 0.6403,
+            "x": -4.08,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "fill": 0.29,
+            "mark": 0,
+            "y": 0.74
+          },
+          {
+            "t": 0.7754,
+            "x": -4.08,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "fill": 0.29,
+            "mark": 0,
+            "y": 0.74
+          },
+          {
+            "t": 0.7832,
+            "x": -4.08,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "fill": 0.46,
+            "mark": 0,
+            "y": 0.74
+          },
+          {
+            "t": 0.8119,
+            "x": -4.08,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "fill": 0.95,
+            "mark": 2,
+            "cut": true,
+            "y": 0.74
+          },
+          {
+            "t": 1,
+            "x": -4.08,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "fill": 0.95,
+            "mark": 2,
+            "y": 0.74
+          }
+        ],
+        "tageskalender": [
+          {
+            "t": 0,
+            "x": -4.85,
+            "z": 1.05,
+            "motion": "park",
+            "face": 180,
+            "y": 0.94,
+            "good": 1,
+            "fill": 1
+          },
+          {
+            "t": 0.456,
+            "x": -4.85,
+            "z": 1.05,
+            "motion": "park",
+            "face": 180,
+            "fill": 1,
+            "y": 0.94
+          },
+          {
+            "t": 0.5377,
+            "x": -4.85,
+            "z": 1.05,
+            "motion": "park",
+            "face": 180,
+            "fill": 24,
+            "y": 0.94
+          }
+        ]
+      },
+      "sfx": [
+        {
+          "t": 0.456,
+          "id": "kalender-blaettern",
+          "volume": 0.6
+        },
+        {
+          "t": 0.6286,
+          "id": "akten-plumps",
+          "volume": 0.6
+        },
+        {
+          "t": 0.7715,
+          "id": "akten-plumps",
+          "volume": 0.6
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.0,
+            1.2,
+            6.0
+          ],
+          "look": [
+            0.0,
+            1.4,
+            0.5
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.0,
+            1.2,
+            5.7
+          ],
+          "look": [
+            0.0,
+            1.4,
+            0.5
+          ]
+        }
+      ],
+      "actors": {
+        "buerowand": [
+          {
+            "t": 0,
+            "x": -1.0,
+            "z": -2.5,
+            "motion": "park",
+            "face": 0,
+            "y": 0.0
+          }
+        ],
+        "zimmertuer": [
+          {
+            "t": 0,
+            "x": 2.9,
+            "z": -2.5,
+            "motion": "park",
+            "face": 0,
+            "y": 0.0,
+            "door": 0
+          }
+        ],
+        "aktenstapel2": [
+          {
+            "t": 0,
+            "x": -4.05,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "y": 0.74,
+            "fill": 0.85,
+            "mark": 1
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.5,
+            "motion": "stand",
+            "face": 180
+          }
+        ]
+      },
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.03,
+            2.55,
+            22.73
+          ],
+          "look": [
+            0.03,
+            2.1,
+            0.36
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.03,
+            2.527,
+            21.611
+          ],
+          "look": [
+            0.03,
+            2.1,
+            0.36
+          ]
+        }
+      ],
+      "actors": {
+        "buerowand": [
+          {
+            "t": 0,
+            "x": -1.0,
+            "z": -2.5,
+            "motion": "park",
+            "face": 0,
+            "y": 0.0
+          }
+        ],
+        "zimmertuer": [
+          {
+            "t": 0,
+            "x": 2.9,
+            "z": -2.5,
+            "motion": "park",
+            "face": 0,
+            "y": 0.0,
+            "door": 0
+          }
+        ],
+        "aktenstapel2": [
+          {
+            "t": 0,
+            "x": -4.05,
+            "z": 1.15,
+            "motion": "park",
+            "face": 0,
+            "y": 0.74,
+            "fill": 0.85,
+            "mark": 1
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": 0.6,
+            "motion": "coffeesip",
+            "face": 180
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": 0.6,
+            "motion": "coffeesip",
+            "face": 180
+          }
+        ],
+        "chef": [
+          {
+            "t": 0,
+            "x": -1.35,
+            "z": 0.35,
+            "motion": "stand",
+            "face": 165,
+            "gloves": 1
+          },
+          {
+            "t": 0.3,
+            "x": -1.35,
+            "z": 0.35,
+            "motion": "wave",
+            "face": 165,
+            "gloves": 1
+          },
+          {
+            "t": 1,
+            "x": -1.35,
+            "z": 0.35,
+            "motion": "wave",
+            "face": 165,
+            "gloves": 1
+          }
+        ],
+        "kaenguru": [
+          {
+            "t": 0,
+            "x": 1.45,
+            "z": 0.35,
+            "motion": "guard",
+            "face": 195
+          },
+          {
+            "t": 0.4,
+            "x": 1.45,
+            "z": 0.35,
+            "motion": "victory",
+            "face": 195
+          },
+          {
+            "t": 1,
+            "x": 1.45,
+            "z": 0.35,
+            "motion": "victory",
+            "face": 195
+          }
+        ]
+      },
+      "sharpCuts": true
+    }
+  }
+}

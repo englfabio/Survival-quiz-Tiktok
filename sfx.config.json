@@ -891,6 +891,55 @@
       "duration": 3.0,
       "loop": false,
       "promptInfluence": 0.5
+    },
+    {
+      "id": "buero-atmo",
+      "prompt": "Calm open-plan office room tone: soft distant keyboard typing, quiet murmur, air conditioning hum, occasional mouse click, seamless loop",
+      "duration": 10.0,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "wand-durchbruch",
+      "prompt": "Comedic cartoon crash of a big excavator smashing through a plasterboard office wall, crumbling drywall chunks tumbling to the floor, dusty rumble, no explosion, no screams",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "kopierer-rutschen",
+      "prompt": "Heavy office photocopier scraping and sliding across a tiled floor, then tipping over with a plastic clunk and a flurry of paper sheets fluttering, comedic",
+      "duration": 1.6,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "wirbel",
+      "prompt": "Magical cartoon swirl whoosh, spinning tornado sparkle sound that rises and ends with a bright pop, comedic place swap",
+      "duration": 1.6,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "akten-plumps",
+      "prompt": "Thick stack of paper files and folders dropped onto a wooden desk, heavy papery thud, single hit",
+      "duration": 0.7,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "kaffeemaschine",
+      "prompt": "Office coffee machine grinding beans briefly then pouring coffee into a ceramic mug, soft gurgle, calm",
+      "duration": 3.0,
+      "loop": false,
+      "promptInfluence": 0.55
+    },
+    {
+      "id": "karte-klatsch",
+      "prompt": "A single playing card slapped down hard onto a wooden table, crisp dramatic slap",
+      "duration": 0.6,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

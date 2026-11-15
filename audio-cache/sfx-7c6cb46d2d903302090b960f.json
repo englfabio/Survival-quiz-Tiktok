@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Thick stack of paper files and folders dropped onto a wooden desk, heavy papery thud, single hit",
+  "duration": 0.7,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T02:04:40.976Z"
+}

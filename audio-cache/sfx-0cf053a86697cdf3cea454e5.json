@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Comedic cartoon crash of a big excavator smashing through a plasterboard office wall, crumbling drywall chunks tumbling to the floor, dusty rumble, no explosion, no screams",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T02:04:34.263Z"
+}

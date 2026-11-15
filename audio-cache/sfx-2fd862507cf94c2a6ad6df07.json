@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Magical cartoon swirl whoosh, spinning tornado sparkle sound that rises and ends with a bright pop, comedic place swap",
+  "duration": 1.6,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T02:04:38.654Z"
+}

@@ -11,6 +11,7 @@ import {outbackStage} from './Outback';
 import {dentalStage} from './Dental';
 import {bedroomMorningStage, bedroomStage, elevatorStage, trainStage} from './Bedroom';
 import {officeStage} from './Office';
+import {openOfficeCutStage, openOfficeStage} from './OpenOffice';
 import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
 import {autumnForestStage, streetStage} from './AutumnForest';
@@ -49,6 +50,8 @@ export const STAGES: Record<string, StageDef> = {
   'schlafzimmer-morgen': bedroomMorningStage,
   nachbarrasen: neighborLawnStage,
   buero: officeStage,
+  grossraumbuero: openOfficeStage,
+  'grossraumbuero-offen': openOfficeCutStage,
   aufzug: elevatorStage,
   bahn: trainStage,
   kanal: canalStage,

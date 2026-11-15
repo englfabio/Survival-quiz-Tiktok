@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Calm open-plan office room tone: soft distant keyboard typing, quiet murmur, air conditioning hum, occasional mouse click, seamless loop",
+  "duration": 10,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-15T02:04:31.776Z"
+}

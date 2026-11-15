@@ -272,6 +272,22 @@ export type Motion =
   | 'peekin' // durch eine Tür hineinschauen: Hände am Rahmen, vorbeugen
   | 'gape' // staunen mit offenem Mund, Hände an den Wangen (Nachbarn)
   | 'relief' // erleichtert: Hände auf die Brust, tief ausatmen
+  // ---- Spezial Chef (Dummy-Körper, Details in chefPose in Dummy.tsx) ----
+  | 'seatthrow' // sitzend (Bagger) Brief nach vorn werfen, Abwurf 0,62 s
+  | 'cardshow' // Reverse-Karte rechts hochhalten
+  | 'cardslam' // Karte auf den Tisch knallen (0,5 m vor ihm, Treffer 0,55 s)
+  | 'whirl' // Arme ausgebreitet wirbeln (Drehung über Wert "spin")
+  | 'desktap' // sitzend ungeduldig mit den Fingern auf den Tisch trommeln
+  | 'deskpush' // sitzend Stapel über den Tisch nach vorn schieben (Zyklus 1,4 s)
+  | 'sweatstand' // nervös stehen, Hände kneten, Stirn wischen
+  | 'chefnag' // belehrend mit dem Zeigefinger wackeln
+  | 'pilefiles' // Aktenstapel auf den Tisch knallen (Zyklus 1,1 s, Abwurf 0,55 s)
+  | 'deskslump' // sitzend am Tisch zusammensacken
+  | 'dooropen' // Tür aufschieben + einladende Geste
+  | 'getcoffee' // Kaffee an der Maschine holen (Taste 0,5 s, Tasse ab 2,0 s)
+  | 'coffeesip' // entspannt stehen + am Kaffee nippen (alle 3 s)
+  | 'jab' // boxen: Geraden abwechselnd (alle 0,5 s)
+  | 'boxdodge' // boxen: ausweichen, ducken
   | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----
@@ -505,10 +521,14 @@ export type ActorKey = {
   jogger?: number;
   /** Dummy: weißer Ganzkörper-Schutzanzug mit Maske, Schutzbrille, Gummihandschuhen (0/1) */
   hazmat?: number;
+  /** Spezial Chef: Drehung um die Hochachse (Umdrehungen, z. B. Wirbel) */
+  spin?: number;
+  /** Spezial Chef: Schweißtropfen am Kopf 0 … 1 */
+  sweat?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'spin', 'sweat'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

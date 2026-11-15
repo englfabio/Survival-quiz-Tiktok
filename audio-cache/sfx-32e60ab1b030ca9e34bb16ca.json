@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Heavy office photocopier scraping and sliding across a tiled floor, then tipping over with a plastic clunk and a flurry of paper sheets fluttering, comedic",
+  "duration": 1.6,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T02:04:36.613Z"
+}
