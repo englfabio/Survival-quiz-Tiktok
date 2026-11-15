@@ -40,8 +40,8 @@ export const BreakWall = ({fill = 0}: {fill?: number}) => {
   const chunks = useMemo(() => {
     const r = rng(77);
     const out: Chunk[] = [];
-    const cols = 6;
-    const rows = 6;
+    const cols = 7;
+    const rows = 7;
     const cw = (WALL.hole * 2) / cols;
     const rh = WALL.top / rows;
     for (let i = 0; i < cols; i++)
@@ -52,8 +52,8 @@ export const BreakWall = ({fill = 0}: {fill?: number}) => {
           c: [x, y],
           w: cw * (0.92 + r() * 0.06),
           h: rh * (0.9 + r() * 0.08),
-          v: [(x / WALL.hole) * (0.4 + r() * 0.5), 0.3 + r() * 1.2, 1.2 + r() * 1.3 + (1 - y / WALL.top) * 0.6],
-          spin: [(r() - 0.5) * 6, (r() - 0.5) * 3, (r() - 0.5) * 5],
+          v: [(x / WALL.hole) * (0.6 + r() * 0.8), 0.6 + r() * 1.6, 1.8 + r() * 1.6 + (1 - y / WALL.top) * 0.8],
+          spin: [(r() - 0.5) * 9, (r() - 0.5) * 4, (r() - 0.5) * 8],
           delay: (1 - y / WALL.top) * 0.05 + Math.abs(x) * 0.03 + r() * 0.05,
         });
       }
@@ -110,7 +110,7 @@ export const BreakWall = ({fill = 0}: {fill?: number}) => {
           </mesh>
           {chunks.map((k, i) => {
             const tt = Math.max(0, t - k.delay);
-            const half = Math.min(k.w, k.h) * 0.22;
+            const half = WALL.d * 0.8;
             // Landezeit: y(t) = c.y + v.y t − G/2 t² = half
             const a = G / 2;
             const disc = k.v[1] * k.v[1] + 4 * a * (k.c[1] - half);
@@ -128,10 +128,10 @@ export const BreakWall = ({fill = 0}: {fill?: number}) => {
             return (
               <group key={i} position={[x, y, z]} rotation={[rx, ry, rz]}>
                 <mesh material={m.paint} castShadow>
-                  <boxGeometry args={[k.w * 0.98, k.h * 0.98, WALL.d]} />
+                  <boxGeometry args={[k.w * 0.9, k.h * 0.9, WALL.d * 1.6]} />
                 </mesh>
-                <mesh material={m.core} position={[0, 0, 0]} scale={[0.985, 0.985, 1.02]}>
-                  <boxGeometry args={[k.w * 0.96, k.h * 0.96, WALL.d * 0.9]} />
+                <mesh material={m.core} scale={[1.0, 1.0, 1.0]} position={[0, 0, -0.005]}>
+                  <boxGeometry args={[k.w * 0.92, k.h * 0.92, WALL.d * 1.45]} />
                 </mesh>
               </group>
             );
@@ -445,7 +445,7 @@ export const Swirl = ({amount = 0, time = 0}: {amount?: number; time?: number}) 
     [],
   );
   if (amount < 0.01) return null;
-  m.white.opacity = 0.75 * clamp(amount);
+  m.white.opacity = 0.9 * clamp(amount);
   m.yellow.opacity = 0.9 * clamp(amount);
   m.blue.opacity = 0.55 * clamp(amount);
   const rings = 8;
@@ -456,7 +456,7 @@ export const Swirl = ({amount = 0, time = 0}: {amount?: number; time?: number}) 
         const r = 0.45 + i * 0.13;
         return (
           <mesh key={i} material={i % 3 === 1 ? m.blue : m.white} position={[0, y, 0]} rotation={[Math.PI / 2, 0, time * (7 + i * 0.7) + i]}>
-            <torusGeometry args={[r, 0.035, 4, 24, Math.PI * 1.45]} />
+            <torusGeometry args={[r, 0.07, 5, 28, Math.PI * 1.55]} />
           </mesh>
         );
       })}
@@ -466,7 +466,7 @@ export const Swirl = ({amount = 0, time = 0}: {amount?: number; time?: number}) 
         const r = 0.55 + y * 0.38;
         return (
           <mesh key={`s${i}`} material={m.yellow} position={[Math.cos(a) * r, y, Math.sin(a) * r]} rotation={[0, -a, Math.PI / 4]}>
-            <octahedronGeometry args={[0.05, 0]} />
+            <octahedronGeometry args={[0.08, 0]} />
           </mesh>
         );
       })}

@@ -10,7 +10,8 @@ import type {StageDef} from './types';
  * Hohe Loft-Decke (Wände 5 m, keine sichtbare Decke) → auch der große Bagger passt hinein.
  *
  *  - Großraumbüro: x −16 … 0, z −6.2 … 10 (Teppich blaugrau). Rückwand z −6.2 mit großen Fenstern (Hochhäuser), linke Wand x −16.
- *    Schreibtisch-Inseln mit Bildschirmen + Stühlen nur bei z ≥ 1.2 (BUERO.desks) → der Streifen z −5.8 … −1.8 vor der Chefbüro-Wand
+ *    Schreibtisch-Inseln mit Bildschirmen + Stühlen nur bei z ≥ 1.2 (BUERO.desks; vor dem Platz des Dummys
+ *    ist frei, damit Kameras von vorn freie Sicht haben) → der Streifen z −5.8 … −1.8 vor der Chefbüro-Wand
  *    ist frei (Fahrweg des Baggers, Mitte BUERO.lane z −3.8, Breite 4 m → z −5.8 … −1.8). Platz des Dummys: Schreibtisch BUERO.myDesk (−4.2, 2.4), Stuhl davor
  *    BUERO.mySeat (−4.2, 3.05), Blick zum Tisch = face 0.
  *  - Kaffee-Theke frei stehend links vor dem Chefbüro: x −2.8 … −0.8, z 0.45 … 1.05 (Platte 0,92 m) mit Kaffeemaschine (ohne Logo)
@@ -43,8 +44,6 @@ export const BUERO = {
   desks: [
     [-4.2, 2.4],
     [-5.9, 2.4],
-    [-4.2, 4.6],
-    [-5.9, 4.6],
     [-10.2, 2.4],
     [-11.9, 2.4],
     [-10.2, 4.6],
@@ -195,8 +194,8 @@ const OpenOfficeScene = () => {
       <pointLight position={[3.4, 3.6, -3.4]} intensity={2.2} color="#fff6ea" distance={10} decay={1.4} />
       <pointLight position={[-6, 3.6, 2.5]} intensity={2.4} color="#fff6ea" distance={14} decay={1.4} />
       {/* Böden: Teppich im Großraumbüro, Holz im Chefbüro */}
-      <mesh material={mats.carpet} rotation={[-Math.PI / 2, 0, 0]} position={[-4, 0, 3]} receiveShadow>
-        <planeGeometry args={[32, 22]} />
+      <mesh material={mats.carpet} rotation={[-Math.PI / 2, 0, 0]} position={[-4, 0, 17]} receiveShadow>
+        <planeGeometry args={[60, 50]} />
       </mesh>
       <mesh material={mats.planks} rotation={[-Math.PI / 2, 0, 0]} position={[(chef.x0 + chef.x1) / 2, 0.003, (chef.z0 + chef.z1) / 2]} receiveShadow>
         <planeGeometry args={[chef.x1 - chef.x0, chef.z1 - chef.z0]} />
@@ -337,18 +336,18 @@ const OpenOfficeScene = () => {
           )),
         )}
       </group>
-      <group position={[chef.x1 - 0.5, 0, -1.5]}>
+      <group position={[chef.x1 - 0.45, 0, chef.z0 + 0.5]}>
         <Plant s={1.4} />
       </group>
       {/* Großraumbüro: Schreibtisch-Inseln (frei bleibt der Bagger-Weg z −5.6 … −1.6) */}
       {BUERO.desks.map(([x, z], i) => (
-        <group key={i} position={[x, 0, z]} rotation={[0, i % 4 >= 2 ? Math.PI : 0, 0]}>
+        <group key={i} position={[x, 0, z]} rotation={[0, z > 3.5 ? Math.PI : 0, 0]}>
           <OfficeDesk seed={i} />
         </group>
       ))}
       {/* Hängelampen über den Inseln */}
       {[-5.05, -11.05].map((x) =>
-        [2.4, 4.6].map((z) => (
+        (x > -8 ? [2.4] : [2.4, 4.6]).map((z) => (
           <group key={`${x}${z}`} position={[x, 3.3, z]}>
             <mesh material={mats.frame} position={[0, 0.85, 0]}>
               <cylinderGeometry args={[0.01, 0.01, 1.7, 4]} />
@@ -380,7 +379,6 @@ const OpenOfficeScene = () => {
       {/* Pflanzen im Großraumbüro */}
       {[
         [-15.2, -5.4],
-        [-1.0, 7.5],
         [-15.2, 7.5],
         [-8.6, -5.7],
       ].map(([x, z], i) => (

@@ -275,6 +275,7 @@ export type Motion =
   // ---- Spezial Chef (Details: chefPose in Dummy.tsx) ----
   | 'seatthrow' // sitzt (z. B. im Bagger), holt mit rechts über dem Kopf aus, wirft nach vorn (Abwurf 0,7 s), zeigt danach zufrieden
   | 'slapcard' // Karte hoch (bis 0,5 s), schwungvoll 0,45 m vor sich auf den Tisch (0,78 m) knallen (0,75 s), danach Arme verschränken
+  | 'holdcard' // Karte stolz mit rechts vor sich hochhalten (0,36 m vor ihm, 1,36 m hoch), linke Hand in der Hüfte
   | 'spinswap' // wirbelt mit ausgebreiteten Armen um die eigene Achse (Wirbel-Effekt)
   | 'desktap' // sitzt am Tisch, zurückgelehnt, Finger tippen ungeduldig (0,45 m vor ihm), linke Hand zeigt immer wieder nach vorn
   | 'pushstack' // sitzt, schiebt mit beiden Händen einen Stapel über den Tisch nach vorn (Zyklus 1,6 s)

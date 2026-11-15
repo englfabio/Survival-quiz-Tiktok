@@ -4125,6 +4125,7 @@ const spuelePose = (motion: Motion, time: number): DummyPose | null => {
  *                 danach zufrieden mit dem Finger nach vorn zeigen. Brief bis zum Abwurf in der Hand (item 'letter', Text = Feld "text").
  *  - slapcard:    steht vor dem Tisch: Karte hoch über den Kopf (0–0,5 s), schwungvoll auf den Tisch 0,45 m vor ihm (Platte 0,78 m) knallen
  *                 (Treffer 0,75 s), kurz drauflassen, ab 1,2 s aufrichten + Arme verschränken. Karte = Objekt mit "hand" 1 bis 0,75 s.
+ *  - holdcard:    Karte stolz mit rechts vor sich hochhalten (0,36 m vor ihm, 1,36 m hoch), linke Hand in der Hüfte.
  *  - spinswap:    wirbelt mit ausgebreiteten Armen um die eigene Achse (ca. 2 Umdrehungen/s).
  *  - desktap:     sitzt zurückgelehnt am Tisch, rechte Finger tippen ungeduldig auf die Platte (0,42 m vor ihm, 0,8 m hoch),
  *                 linke Hand zeigt alle 2,4 s energisch nach vorn ("Na los!").
@@ -4185,6 +4186,17 @@ const chefPose = (motion: Motion, time: number): DummyPose | null => {
       p.headX = -0.15 * up * (1 - down) + 0.35 * bend - 0.1 * rise;
       p.chest = 0.6 * rise;
       if (stay > 0 && stay < 1) p.torsoX += Math.sin(stay * 30) * 0.01;
+      return p;
+    }
+    case 'holdcard': {
+      // Karte stolz mit rechts vor sich hochhalten (0,36 m vor ihm, 1,36 m hoch), linke Hand in der Hüfte, leicht zurückgelehnt
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      reachR(p, lerp3t(rest, [-0.04, 1.36 + Math.sin(time * 1.5) * 0.01, 0.36], k), 0.36);
+      reachL(p, [0.24, 1.0, -0.02], 0.33, [0.8, -0.2, -0.8]);
+      p.torsoX = -0.05 * k + breathe;
+      p.headX = 0.18 * k;
+      p.chest = 0.4 * k;
       return p;
     }
     case 'spinswap': {
