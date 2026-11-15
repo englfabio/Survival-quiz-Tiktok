@@ -66,7 +66,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -283,6 +283,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (z −3.45, x −2.6 … 2.6), Fantasie-Bilder an den Seitenwänden, Skulptur auf Sockel, Bank. Acker am Stadtrand (`acker`, `ACKER`, Atmo `wald-atmo`): matschiger
   Acker mit Furchen, Matschpfützen, Hügeln (Bodenhöhe `ackerHeight`, gleiche Formel `acker_h` im Choreo-Skript; Fahrzeug-Neigung `tilt` daraus berechnen),
   Häuser + Hochhäuser im Hintergrund; Verfolgungsweg entlang +x bei z ≈ 0 (x −40 … 70), vorn flach.
+  Siedlung (`siedlung`, `src/stage/Settlement.tsx`, `SIEDLUNG`, Atmo `wald-atmo`): Siedlungsstraße entlang x bei z 0 (Fahrbahn z −3 … 3), Gehwege z −3 … −5
+  und 3 … 5 (vorn = sicherer Zuschauer-Platz der Nachbarn, Blick zu den Häusern face 0), Grundstücke je 12 m breit (Mitten x 0 = Dummy, ±12, ±24, ±36),
+  Hecken dazwischen, weißer Vorgartenzaun mit Weg-Lücke, Briefkästen, Bäume, ferne Häuser. Die Häuser sind OBJEKTE (`haus1` … `haus6` bei (x, −12.5), face 180,
+  Tür bei z −9) → plattdrückbar. Grundstück des Dummys leer (Erd-Rechteck 7 × 7 m), Fußmatte bei (0, −8.65), Gartenhaus-Objekt bei (−3.2, −20.5) face 180.
+  Gartenhaus von innen (`gartenhaus-innen`, gleiche Datei, `SHED_HALL`, Atmo `museum-atmo`): riesige Holzhalle (x ±24, Rückwand z −34, Vorderwand z 8 mit der
+  kleinen Tür 0,8 × 1,8 m bei x 0, Höhe 18), Dielen, Dachbalken, Hängelampen, winzig wirkende Gartengeräte/Regale; Mitte frei für das Haus (`haus` bei (0, −12)) auf
+  Rasenstück. Kamera innen starten (z ≈ 7.5), Vorderwand ist fest. Für Totalen in der Halle Kamera von Hand setzen (fov ≈ 60), sonst landet fitcam hinter der Wand.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -396,7 +403,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Stücks über Dummy-Wert `mark` 0 Nudel / 1 Paprika / 2 grüner Klumpen; danach `chew` = ernst kauen, Hand in der Hüfte), Drehung + hoher Roundhouse-Kick
   in Zeitlupe (`roundhouse`: Drehung 0,6–2,4 s, Kick mit rechts zur rechten Seite 2,4–4,2 s, gestreckt ca. 3,1–3,7 s auf Kopfhöhe, Deckung ab ca. 5 s),
   in hohem Bogen ausspucken (`spitarc`: Spucken bei 0,55 s, Objekt `spuckbogen` gleiche Stelle/Richtung mit `show` ab dann; Mund abwischen ab 1,2 s),
-  im Schutzanzug vorsichtig abspülen (`hazwash`: Teller links, Schwamm rechts in langsamen Kreisen). Pose-Feld `yaw` = ganzer Körper dreht sich
+  im Schutzanzug vorsichtig abspülen (`hazwash`: Teller links, Schwamm rechts in langsamen Kreisen).
+  Haus weg (Spezial, Details in `hausPose` in Dummy.tsx): nach Hause kommen + erstarren, Arme halb gespreizt, ab 1,2 s Kopf sucht links/rechts (`homefreeze`),
+  Fußmatte 0,45 m vor ihm hochheben + senkrecht vor die Brust, Schrift nach vorn (`liftmat`, Matte in den Händen ab 0,75 s → Matten-Objekt dann ausblenden),
+  großen Baustein 0,55 m vor sich aufsetzen (`stacklow` Höhe 0,6 / Zyklus 0,65 s, `stackbrick` 1,0 / 0,9 s, `stackhigh` 2,05 / 0,9 s, `stackfast` Zeitraffer 0,42 s;
+  Aufsetzen bei 62 % des Zyklus = Klick; Stein automatisch in den Händen, Farbe wechselt), Gartenhaus-Tür mit links aufziehen (`shedopen`, Griff 0,45 m vor ihm,
+  0,27 m links → außerhalb des Türschwungs stehen), durch eine Tür hineinschauen (`peekin`), staunen mit OFFENEM MUND + Händen an den Wangen (`gape`, für alle
+  Figuren mit Dummy-Körper; Pose-Feld `mouthO`), erleichtert Hände auf die Brust + ausatmen (`relief`). Wiederverwendet: `walk`, `proud`, `wave`, `truckclimb`,
+  `seattriumph`, `seatdrive`, `stand`. Pose-Feld `yaw` = ganzer Körper dreht sich
   (für Drehungen innerhalb einer Bewegung). Wiederverwendet: `boxguard` (Deckung), `proud`, `tiptoe`, `sheepish`, `wave`.
 - **Schutzanzug (Dummy):** Wert `hazmat` 1 = weißer Ganzkörper-Schutzanzug ohne Aufdruck, Kapuze, Atemschutzmaske mit zwei Filtern, Schutzbrille,
   blaue Gummihandschuhe mit Stulpe + blaue Überschuhe (Uniform `HAZMAT_UNIFORM` in Dummy.tsx; Arm-Prop `rubber` = Gummihandschuh in beliebiger Farbe).
@@ -593,6 +607,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (`spuckbogen`, `show` = Flug 1,1 s, Ziel 0,7 m × (1 + `size`) vor der Figur), große Küchenuhr mit Zeigern + gelber Digitalanzeige (`kuechenuhr`: `fill` = Uhrzeit
   in Stunden, z. B. 18 → 21 springt „18:00“ → „21:00“, Bewegung `spin` = Zeiger drehen + rote Zeitraffer-Striche, `size`; in `kueche` bei (1.45, y 2.05, −2.28), face 180).
   In der Hand automatisch: Essensrest (`pinchEat`), glitschige Reste an den Fingern (`sinkreach`), Teller + Schwamm (`hazwash`). Einzelteil `FoodBit`.
+- **Objekte (Haus weg, `src/actors/HausProps.tsx`, alle OHNE Logos/Markenaufdruck):** Fußmatte „WILLKOMMEN“ (`fussmatte`, 0,9 × 0,55 m, Schrift lesbar
+  von +z → face 180 = von der Straße lesbar; in den Händen bei `liftmat`), Einfamilienhaus 7 × 7 m, 2 Etagen + Satteldach, Tür vorn (`haus`, `haus1` … `haus6`:
+  `mark` 0 = Haus des Dummys sonnengelb, 1 … 6 Pastell; `squish` 0 … 1 = platt wie ein Pfannkuchen, Dachziegel rutschen heraus – keine Trümmer, kein Feuer),
+  Klemmbaustein-Haus mit Garage (`klemmhaus`: große bunte Steine 1,2 × 0,6 × 0,5 m mit Noppen, rotes Dach aus Dachsteinen, Fenster, Tür, Garage mit weißem Tor;
+  `fill` 0 … 1 = gesetzte Teile, 155 Teile, Haus fertig bei 123/155, das jeweils nächste senkt sich ein; Reihenfolge `brickLayout()`), Haufen Bausteine
+  (`klemmsteine`, `fill` 0,001 = leer), Gartenhaus mit Tür (`gartenhaus`, `door` 0 … 1, Tür schwenkt nach außen links, dahinter warmes Licht).
+  Monstertruck über Häuser: Truck-Weg entlang der Häuserreihe, je Haus y-Hügel (bis 1,2) + `tilt`, Haus-`squish` 0 → 1 während der Truck darüberrollt.
+- **Wort-Zeitstempel prüfen:** Bei sehr kurzen, gleichen Wörtern am Clip-Anfang („Klick. Klick. Klick.“) lagen die ElevenLabs-Zeitstempel bis 1,3 s daneben →
+  per scribe_v2 kontrollieren und `alignment.json` für diesen Clip aus den erkannten Wortzeiten neu bauen (Ton unverändert, siehe Haus-weg-Sitzung).
 - **Szenario-Feld `padAfter`** (Sekunden, Standard 0,5): Pause nach jedem Sprach-Clip – zum Kürzen auf höchstens 66 s (Spezial-Regel 1), Texte bleiben gleich.
 - **Szenario-Felder `noVote` / `outroMin`** (nur Spezial): `noVote: true` = Abstimmungs-Abschnitt ganz weglassen (das Outro fordert selbst zu
   „A, B oder C in die Kommentare“ auf → keine Dopplung direkt hintereinander), `outroMin` = Outro mindestens so viele Sekunden (Bild klingt aus,
@@ -612,7 +635,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -724,6 +747,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (`noVote`), Outro klingt auf 6,9 s aus (`outroMin`, Abblenden) → Video 61,3 s. Neu gerendert, Kontrolle scribe_v2: Satz nur noch einmal. **Vom Inhaber freigegeben.**
   **Für künftige Spezial-Videos beachten:** Abstimmung + Outro dürfen nicht beide „Schreib A, B oder C …“ sagen – entweder Abstimmung weglassen
   (`noVote`) oder beim Inhaber nachfragen.
+- Spezial Haus weg: 714 neue Zeichen (285 Credits laut ElevenLabs, Abstimmung entfällt), Sprechzeit 58,1 s, Video 61,3 s (Szene C rein visuell +1,2 s:
+  längere Monstertruck-Fahrt). Texte Buchstabe für Buchstabe vom Inhaber; Outro = sein Outro-Satz + auf seinen Wunsch „Markier jemanden, dem das auch immer
+  passiert.“, „in die Kommentare“ nur einmal (`noVote`). Kontrolle scribe_v2 (alle Clips): korrekt; Zeitstempel von Szene A aus scribe neu gebaut.
+  Choreografie: `python3 scripts/spezial-haus-weg-choreo.py`. Comichaft: Häuser bei C leer, Nachbarn sicher auf dem Gehweg; Klemmbausteine ohne Logo.
+  Standbilder in review/spezial-haus-weg/phase1/. Finales Video: review/final/spezial-haus-weg.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -763,6 +791,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `monstertruck-motor`, `blech-knautschen` (comichaft, keine Explosion), `museum-atmo` (Bühne Museum, Schleife), `staunen`, `glaeser-klirren`, `bild-aufhaengen`,
   `matsch-spritzen` (Monstertruck; wiederverwendet: `sirene` (Polizei), `handy-waehlen`, `plopp`; `wohnstrasse`/`acker` nutzen `wald-atmo`).
   `glitsch`, `schmatzen`, `kick-whoosh`, `teller-klirren`, `ausspucken`, `reste-platsch`, `schrubben`, `zeitraffer` (Spezial Spüle; wiederverwendet: `schleichen`).
+  `klemmstein-klick` (helles Plastik-Klick, +10 dB, jeder aufgesetzte Stein; im Zeitraffer höchstens alle 0,075 s), `haus-knautschen` (comichaft), `himmel-chor`,
+  `leere-wind` (Spezial Haus weg; wiederverwendet: `zeitraffer`, `tuer-knarren`, `staunen`, `monstertruck-motor`, `geschenk-rascheln`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -960,7 +990,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       AutumnForest.tsx = Herbstwald + Waldrand-Straße + Laub; Park.tsx = Park am Abend;
                       PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz; Office.tsx = Chef-Büro;
                       NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus;
-                      Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude; Monstertruck.tsx = Wohnstraße, Museumshalle, Acker am Stadtrand)
+                      Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude; Monstertruck.tsx = Wohnstraße, Museumshalle, Acker am Stadtrand;
+                      Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -978,7 +1009,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       WgProps.tsx = Kühlschrank/Joghurtbecher/Zettel/Knopf/Joghurt-Welle/Briefe/Stempel/Münzen/Ordner/Laptop/Lesebrille,
                       BahnProps.tsx = Lok/Bagger/Signal/Tacho/Kaffeetasse/Autoschlange/Anzeigetafel/Lokführermütze/Armbanduhr,
                       TruckProps.tsx = Monstertruck/Polizei-Unimog/plattes Auto/Bilderrahmen/Preisschild/Weinglas/Rennhelm/Schlamm-Spritzer,
-                      SpueleProps.tsx = Spüle mit Geschirr + Essensresten/Abtropfgestell/Spuckbogen/Küchenuhr/Essensrest) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      SpueleProps.tsx = Spüle mit Geschirr + Essensresten/Abtropfgestell/Spuckbogen/Küchenuhr/Essensrest,
+                      HausProps.tsx = Fußmatte/Einfamilienhaus/Klemmbaustein-Haus/Bausteinhaufen/Gartenhaus mit Tür) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,
