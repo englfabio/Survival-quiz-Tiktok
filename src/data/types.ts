@@ -272,6 +272,17 @@ export type Motion =
   | 'peekin' // durch eine Tür hineinschauen: Hände am Rahmen, vorbeugen
   | 'gape' // staunen mit offenem Mund, Hände an den Wangen (Nachbarn)
   | 'relief' // erleichtert: Hände auf die Brust, tief ausatmen
+  // ---- Spezial Waschmaschine (Details: waschPose in Dummy.tsx) ----
+  | 'drumpeek' // sitzt in der Trommel, Hände am Bullauge, schaut hin und her
+  | 'glassknock' // kniet, klopft mit rechts ans Glas, links Hand am Mund (ruft)
+  | 'takehand' // kniet, rechte Hand nach vorn-oben ausgestreckt
+  | 'drumexit' // wird herausgezogen: Knien → Hocke → Stehen, rechte Hand vorn (Weg über Zeitpunkte)
+  | 'sockstomp' // stapft mit hohen Knien durch Sockenberge (Weg über Zeitpunkte)
+  | 'sockraise' // hält mit rechts etwas triumphierend über den Kopf, wippt
+  | 'drumlounge' // sitzt, Beine ausgestreckt, lehnt sich zurück, Hände hinter dem Kopf
+  | 'wmopen' // Waschmaschinen-Tür mit links aufziehen (Griff 0,5 m vor ihm, 0,27 m links, 1,25 m)
+  | 'helphand' // beugt sich in die Öffnung, rechte Hand helfend hineingestreckt
+  | 'pullback' // zieht mit der rechten Hand zurück, lehnt sich nach hinten
   // ---- Spezial Chef (Details: chefPose in Dummy.tsx) ----
   | 'seatthrow' // sitzt (z. B. im Bagger), holt mit rechts über dem Kopf aus, wirft nach vorn (Abwurf 0,7 s), zeigt danach zufrieden
   | 'slapcard' // Karte hoch (bis 0,5 s), schwungvoll 0,45 m vor sich auf den Tisch (0,78 m) knallen (0,75 s), danach Arme verschränken

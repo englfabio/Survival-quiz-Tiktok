@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon footsteps wading through a big soft pile of fabric and socks, fluffy rustling cloth swishes with each step, comedic, no music",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T20:54:41.496Z"
+}

@@ -1011,6 +1011,41 @@
       "duration": 22,
       "loop": true,
       "promptInfluence": 0.5
+    },
+    {
+      "id": "keller-atmo",
+      "prompt": "Quiet basement laundry room ambience, soft room tone, very faint distant water pipe hum and an occasional gentle drip, calm, no machines running, no music",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "trommel-atmo",
+      "prompt": "Huge empty cavern ambience inside a giant metal drum, soft airy echoing room tone with a faint metallic shimmer and gentle distant wind, calm and mysterious, no music",
+      "duration": 22,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "glas-klopfen",
+      "prompt": "Knuckles knocking three times on a thick round glass window, knock knock knock, clear hollow glassy taps, comedic, no voice, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "tuer-klick",
+      "prompt": "Washing machine round door latch clicking open with a soft plastic click and a light rubber seal pop, short, no music",
+      "duration": 1,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "socken-stapfen",
+      "prompt": "Cartoon footsteps wading through a big soft pile of fabric and socks, fluffy rustling cloth swishes with each step, comedic, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

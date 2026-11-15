@@ -44,6 +44,7 @@ import {DishRack, FoodArc, KitchenClock, SinkMess} from './SpueleProps';
 import {BrickHouse, BrickPile, DoormatMesh, FamilyHouse, GardenShedProp} from './HausProps';
 import {TRex, trexPose, Raptor, raptorPose, RAPTOR_COLORS} from './DinoProps';
 import {BigBang, BuildSet, TrafficJam} from './BuildProps';
+import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
@@ -251,6 +252,15 @@ export const ACTORS = {
   laubhaufen: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
   laubdecke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   laubwurf: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Waschmaschine ----
+  waschmaschine: {height: 1.25, climbOffset: 0, speedLineHeight: 0},
+  waeschekorb: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  weichspueler: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
+  handtuchdecke: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  pullikissen: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  lieblingssocke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  socke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
+  stiefbruder: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   // ---- Spezial: T-Rex-Stau ----
   trex: {height: 6.2, climbOffset: 0, speedLineHeight: 0},
   raptor1: {height: 1.2, climbOffset: 0, speedLineHeight: 0.8},
@@ -284,6 +294,9 @@ const MUSEUM_GUESTS: Record<string, {color: string; uniform: Uniform}> = {
   besucher3: {color: '#f0c27a', uniform: {jacket: '#7a2f45', dark: '#552030', collar: '#efe0d2', pants: '#33363d', cap: '#7a2f45', band: '#7a2f45', trim: '#7a2f45', nocap: true}},
 };
 
+/** Stiefbruder (Spezial Waschmaschine): Dummy-Körper lila, dunkelgrüner Kapuzenpulli-Look + graue Jogginghose, ohne Mütze */
+const STEPBRO_COLOR = '#9b72d9';
+const STEPBRO_UNIFORM: Uniform = {jacket: '#2f7a5a', dark: '#22594a', collar: '#3f9a72', pants: '#7d848c', cap: '#2f7a5a', band: '#2f7a5a', trim: '#2f7a5a', nocap: true};
 /** Kollegen-Dummys im Büro: Pastell-Körper, Hemd/Bluse/Strickjacke + Hose, ohne Mütze (kein Logo) – können alle Dummy-Bewegungen */
 const COLLEAGUES: Record<string, {color: string; uniform: Uniform}> = {
   kollege1: {color: '#8fd0c0', uniform: {jacket: '#9cc3e6', dark: '#6f9cc4', collar: '#f4f6f8', pants: '#3a3f46', cap: '#9cc3e6', band: '#9cc3e6', trim: '#9cc3e6', tie: '#2f4f8f', nocap: true}},
@@ -325,7 +338,7 @@ const ROBE: Uniform = {jacket: '#9c4a5a', dark: '#7a3343', collar: '#efe0d2', pa
 const COURIER_COLOR = '#c4d0bf';
 const COURIER_UNIFORM: Uniform = {jacket: '#5b7389', dark: '#3e5164', collar: '#dfe6ec', pants: '#3a434d', cap: '#5b7389', band: '#3e5164', trim: '#8fa5b8'};
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3', 'stiefbruder'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
@@ -763,6 +776,16 @@ export const Actor = ({
       {name === 'aktenstapel' && <TaskStack fill={v.fill} />}
       {name === 'glastuer' && <GlassDoor open={v.door} />}
       {name === 'wirbel' && <Swirl amount={v.fill} time={zt} />}
+      {name === 'stiefbruder' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={STEPBRO_COLOR} uniform={STEPBRO_UNIFORM} brow={v.brow} />
+      )}
+      {name === 'waschmaschine' && <WashingMachine door={v.door} />}
+      {name === 'waeschekorb' && <LaundryBasket />}
+      {name === 'weichspueler' && <SoftenerBottle smoke={v.smoke} time={zt} size={v.size} />}
+      {name === 'handtuchdecke' && <TowelBlanket fill={v.fill} />}
+      {name === 'pullikissen' && <SweaterPillow />}
+      {name === 'lieblingssocke' && <group rotation={[deg(v.tilt), 0, 0]}><FavSock glow={v.glow} time={zt} size={v.size} /></group>}
+      {name === 'socke' && <group scale={1 + v.size}><Sock color={SOCK_COLORS[Math.round(v.mark) % SOCK_COLORS.length]} /></group>}
       {COLLEAGUES[name] && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={COLLEAGUES[name].color} uniform={COLLEAGUES[name].uniform} brow={v.brow} />
       )}

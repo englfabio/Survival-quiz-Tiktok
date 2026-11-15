@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Huge empty cavern ambience inside a giant metal drum, soft airy echoing room tone with a faint metallic shimmer and gentle distant wind, calm and mysterious, no music",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-15T20:54:35.298Z"
+}

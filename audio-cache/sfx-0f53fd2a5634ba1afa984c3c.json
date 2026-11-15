@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Quiet basement laundry room ambience, soft room tone, very faint distant water pipe hum and an occasional gentle drip, calm, no machines running, no music",
+  "duration": 22,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-15T20:54:31.654Z"
+}

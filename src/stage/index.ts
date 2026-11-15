@@ -12,6 +12,7 @@ import {dentalStage} from './Dental';
 import {bedroomMorningStage, bedroomStage, elevatorStage, trainStage} from './Bedroom';
 import {officeStage} from './Office';
 import {highwayStage, spaceStage} from './Highway';
+import {drumHallStage, laundryRoomStage} from './Laundry';
 import {openOfficeStage} from './OpenOffice';
 import {clearingStage} from './Clearing';
 import {forestStage} from './Forest';
@@ -79,4 +80,6 @@ export const STAGES: Record<string, StageDef> = {
   acker: fieldStage,
   autobahn: highwayStage,
   weltraum: spaceStage,
+  waschkeller: laundryRoomStage,
+  'trommel-innen': drumHallStage,
 };

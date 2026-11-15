@@ -142,5 +142,10 @@
   "t-rex-stampfen": 3.03,
   "raptor-kreischen": 2.038,
   "urknall": 5.042,
-  "weltraum-atmo": 22.047
+  "weltraum-atmo": 22.047,
+  "keller-atmo": 22.047,
+  "trommel-atmo": 22.047,
+  "glas-klopfen": 1.515,
+  "tuer-klick": 1.045,
+  "socken-stapfen": 3.03
 }
