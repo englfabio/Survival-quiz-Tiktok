@@ -24,6 +24,7 @@ import {FLAT_DOOR, flapCutPoint, Parcel, Saw} from './PaketProps';
 import {CoffeeMug, LocoCap, WristWatch} from './BahnProps';
 import {RaceHelmet, WineGlass} from './TruckProps';
 import {FoodBit, type FoodKind} from './SpueleProps';
+import {BRICK_COLS, BrickPiece, DoormatMesh} from './HausProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -82,7 +83,11 @@ export type DummyPose = {
   /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
   fill: number;
   /** Gegenstand in beiden Händen (Feuer): Eimer mit Wasser, Geschenkpaket */
-  both: '' | 'bucket' | 'gift' | 'broom' | 'parcel' | 'stack' | 'stackL' | 'stackL2' | 'parcelL';
+  both: '' | 'bucket' | 'gift' | 'broom' | 'parcel' | 'stack' | 'stackL' | 'stackL2' | 'parcelL' | 'mat' | 'brick';
+  /** Baustein in den Händen (both 'brick'): Farbe = BRICK_COLS[brickColor % n] */
+  brickColor?: number;
+  /** offener Mund (staunen, „Mund offen“): 0 … 1 – dunkles Oval vorn am Kopf */
+  mouthO?: number;
   /** Sprühnebel aus dem Desinfektionsspray: 0 = aus … 1 = voll */
   mist: number;
   /** Bauchatmung: Bauch zeigen (Panik-Video) + wie weit er sich hebt 0 … 1 */
@@ -4112,8 +4117,140 @@ const spuelePose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+// ---------- Spezial "Haus weg": Siedlung, Fußmatte, Klemmbausteine, Gartenhaus, Nachbarn ----------
+/** Baustein-Zyklus (Sekunden) der Bewegungen stacklow / stackbrick / stackhigh bzw. stackfast (Zeitraffer) */
+export const STACK_CYCLE = {normal: 1.0, fast: 0.42};
+/** Zeitpunkt im Zyklus (Anteil), an dem der Stein aufgesetzt wird (Klick) */
+export const STACK_RELEASE = 0.62;
+const hausPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  switch (motion) {
+    case 'homefreeze': {
+      // nach Hause kommen + erstarren: Ruck zurück (0–0,35 s), Arme halb zur Seite gespreizt, steif mit leichtem Zittern,
+      // ab 1,2 s dreht sich der Kopf langsam suchend nach links und rechts
+      const p = base();
+      const jolt = Math.sin(Math.PI * clamp(time / 0.35)) * (1 - clamp(time / 0.35));
+      const k = easeInOut(clamp(time / 0.35));
+      const tr = time > 0.35 ? Math.sin(time * 29) * 0.006 : 0;
+      p.torsoX = -0.08 * k - 0.14 * jolt + tr;
+      p.headX = 0.05 * k - 0.15 * jolt;
+      p.headY = Math.sin(Math.max(0, time - 1.2) * 1.4) * 0.45 * clamp((time - 1.2) / 0.6);
+      p.hipY = 0.98 + 0.015 * jolt;
+      p.legL = L3(0.06 * k, 0.1, 0.05);
+      p.legR = L3(-0.04 * k, -0.1, 0.05);
+      reachL(p, lerp3t(restL, [0.46, 1.0 + tr, 0.2], k), 0.33, [0.7, -0.8, -0.2]);
+      reachR(p, lerp3t(rest, [-0.46, 1.0 - tr, 0.2], k), 0.33, [0.7, -0.8, -0.2]);
+      return p;
+    }
+    case 'liftmat': {
+      // Fußmatte (0,45 m vor ihm am Boden) hochheben: in die Hocke (0–0,7 s), greifen (0,7–0,9 s), aufrichten + Matte vor die Brust
+      // (0,9–1,8 s, senkrecht, Schrift nach vorn), dann ratlos darunter/dahinter schauen (Kopf neigt sich, schaut zur Seite)
+      const kneel = kneelPose();
+      kneel.torsoX = 0.7;
+      kneel.headX = 0.45;
+      const down = easeInOut(clamp(time / 0.7));
+      const up = easeInOut(clamp((time - 0.9) / 0.9));
+      const p = mix(mix(base(), kneel, down), base(), up);
+      const ground: P3 = [0, 0.12, 0.45];
+      const held: P3 = [0, 1.25, 0.42];
+      const g = lerp3t(ground, held, up);
+      const reachK = easeInOut(clamp(time / 0.75));
+      reachL(p, lerp3t(restL, [g[0] + 0.3, g[1], g[2]], reachK), 0.36, [0.7, -1, -0.3]);
+      reachR(p, lerp3t(rest, [g[0] - 0.3, g[1], g[2]], reachK), 0.36, [0.6, -1, -0.3]);
+      const look = clamp((time - 2.0) / 0.5);
+      p.headX = lerpN(0.45 * down, 0.12, up) + 0.15 * look;
+      p.headY = 0.35 * Math.sin(Math.max(0, time - 2.0) * 1.6) * look;
+      p.torsoX += breathe;
+      if (time > 0.75) p.both = 'mat';
+      return p;
+    }
+    case 'stacklow':
+    case 'stackbrick':
+    case 'stackhigh':
+    case 'stackfast': {
+      // einen großen Baustein vor sich aufsetzen (0,55 m vor ihm): Stein kommt in die Hände, wird nach vorn auf die Höhe H gehoben und
+      // bei STACK_RELEASE des Zyklus fest aufgedrückt (Klick), Hände zurück. stacklow = H 0,6 (bücken), stackbrick = 1,0, stackhigh = 2,05
+      // (über Kopf), stackfast = Zeitraffer (schneller Zyklus, Höhe wechselt)
+      const C = motion === 'stackfast' ? STACK_CYCLE.fast : STACK_CYCLE.normal;
+      const n = Math.floor(time / C);
+      const u = (time % C) / C;
+      const Hs = motion === 'stacklow' ? 0.62 : motion === 'stackhigh' ? 2.05 : motion === 'stackbrick' ? 1.02 : [0.62, 1.02, 1.5, 1.02][n % 4];
+      const p = base();
+      const lowK = clamp((1.0 - Hs) / 0.4);
+      const lift = easeInOut(clamp(u / STACK_RELEASE));
+      const press = clamp((u - STACK_RELEASE + 0.08) / 0.08) * (1 - clamp((u - STACK_RELEASE) / 0.1));
+      const back = easeInOut(clamp((u - STACK_RELEASE - 0.04) / (1 - STACK_RELEASE - 0.04)));
+      const hold: P3 = [0, 1.05, 0.3];
+      const at: P3 = [0, Hs + 0.28 - 0.05 * press, 0.55];
+      const c = lerp3t(lerp3t(hold, at, lift), hold, back);
+      reachL(p, [c[0] + 0.3, c[1], c[2]], 0.36, [0.7, -1, -0.3]);
+      reachR(p, [c[0] - 0.3, c[1], c[2]], 0.36, [0.6, -1, -0.3]);
+      const bend = lowK * lift * (1 - back);
+      p.torsoX = 0.45 * bend + 0.06 * press + breathe - (Hs > 1.6 ? 0.12 * lift * (1 - back) : 0);
+      p.hipY = 0.98 - 0.12 * bend;
+      p.legL = L3(-0.35 * bend, 0.1, 0.55 * bend);
+      p.legR = L3(-0.35 * bend, -0.1, 0.55 * bend);
+      p.headX = 0.25 + 0.2 * bend - (Hs > 1.6 ? 0.45 * lift * (1 - back) : 0);
+      if (u < STACK_RELEASE + 0.02) {
+        p.both = 'brick';
+        p.brickColor = n;
+      }
+      return p;
+    }
+    case 'shedopen': {
+      // Gartenhaus-Tür öffnen + hineinschauen: Griff 0,45 m vor ihm, 0,25 m rechts auf 0,9 m (0–0,5 s), Tür aufziehen nach rechts außen
+      // (0,5–1,2 s, kleiner Schritt zurück), dann vorbeugen und mit dem Kopf hineinschauen (ab 1,4 s), linke Hand am Türrahmen
+      const p = base();
+      const grab = easeInOut(clamp(time / 0.5));
+      const pull = easeInOut(clamp((time - 0.5) / 0.7));
+      const peek = easeInOut(clamp((time - 1.4) / 0.6));
+      const handle: P3 = [-0.25, 0.9, 0.45];
+      const opened: P3 = [-0.62, 0.95, 0.2];
+      reachR(p, pull > 0 ? lerp3t(handle, opened, pull) : lerp3t(rest, handle, grab), 0.33, [0.5, -1, -0.4]);
+      reachL(p, lerp3t(restL, [0.34, 1.35, 0.42], peek), 0.33, [0.7, -1, -0.3]);
+      p.torsoX = 0.08 * grab - 0.05 * pull + 0.42 * peek + breathe;
+      p.headX = 0.1 + 0.25 * peek;
+      p.headY = -0.1 * pull * (1 - peek) + 0.05 * Math.sin(time * 1.3) * peek;
+      p.legL = L3(0.12 * peek, 0.08, 0.05);
+      p.legR = L3(-0.25 * peek, -0.08, 0.1 * peek);
+      return p;
+    }
+    case 'gape': {
+      // staunen mit offenem Mund: Hände an die Wangen (0–0,4 s), zurücklehnen, Kopf folgt langsam dem Geschehen, Mund offen
+      const p = base();
+      const k = easeInOut(clamp(time / 0.4));
+      const tr = Math.sin(time * 23) * 0.004 * k;
+      reachL(p, lerp3t(restL, [0.13, 1.66 + tr, 0.13], k), 0.33, [0.6, -1, -0.3]);
+      reachR(p, lerp3t(rest, [-0.13, 1.66 - tr, 0.13], k), 0.33, [0.6, -1, -0.3]);
+      p.torsoX = -0.1 * k + breathe;
+      p.headX = -0.12 * k;
+      p.headY = 0.18 * Math.sin(time * 0.7) * k;
+      p.chest = 0.7 * k;
+      p.mouthO = k;
+      return p;
+    }
+    case 'relief': {
+      // erleichtert („Gott sei Dank“): beide Hände flach auf die Brust (0–0,5 s), tief ausatmen – Schultern sinken, Kopf erst
+      // zurück, dann leicht nach vorn
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const ex = easeInOut(clamp((time - 0.5) / 0.9));
+      reachL(p, lerp3t(restL, [0.06, 1.42 - 0.04 * ex, 0.22], k), 0.33, [0.6, -1, -0.3]);
+      reachR(p, lerp3t(rest, [-0.08, 1.38 - 0.04 * ex, 0.22], k), 0.33, [0.6, -1, -0.3]);
+      p.headX = -0.3 * k * (1 - ex) + 0.18 * ex;
+      p.torsoX = -0.06 * k * (1 - ex) + 0.08 * ex + breathe;
+      p.chest = 0.9 * k * (1 - ex);
+      p.hipY = 0.98 - 0.02 * ex;
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -5752,6 +5889,25 @@ const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
   }
   // Gegenstand bleibt in der Welt waagrecht (Oberkörper-Neigung ausgleichen)
   const rot: [number, number, number] = [-pose.torsoX - pose.pitch, -pose.torsoY, -pose.torsoZ];
+  if (pose.both === 'brick') {
+    return (
+      <group position={mid} rotation={rot}>
+        <group position={[0, -0.27, 0]}>
+          <BrickPiece color={BRICK_COLS[(pose.brickColor ?? 0) % BRICK_COLS.length]} />
+        </group>
+      </group>
+    );
+  }
+  if (pose.both === 'mat') {
+    // Fußmatte senkrecht vor der Brust, Schrift nach vorn (+z)
+    return (
+      <group position={mid} rotation={rot}>
+        <group position={[0, -0.02, 0.04]} rotation={[Math.PI / 2, 0, 0]}>
+          <DoormatMesh />
+        </group>
+      </group>
+    );
+  }
   if (pose.both === 'parcel' || pose.both === 'stack' || pose.both === 'stackL' || pose.both === 'stackL2' || pose.both === 'parcelL') {
     const onLeft = pose.both !== 'parcel' && pose.both !== 'stack';
     const at = onLeft ? l.clone().add(new THREE.Vector3(-0.1, 0, 0)) : mid;
@@ -6200,6 +6356,12 @@ export const Dummy = ({
             <Marker m={m} r={0.05} position={[-0.118, 0.01, 0]} rotation={[0, -Math.PI / 2, 0]} />
             {pose.puffPhase !== undefined ? <BreathPuffs phase={pose.puffPhase} rate={1 / 6} life={3.2} /> : <BreathPuffs phase={breathPhase} rate={breath} />}
             {teeth > 0.5 && <TeethRow gap={gap > 0.5} />}
+            {(pose.mouthO ?? 0) > 0.02 && (
+              <mesh position={[0, -0.045, 0.118]} scale={[0.75, 0.45 + 0.75 * clamp(pose.mouthO ?? 0), 0.4]}>
+                <sphereGeometry args={[0.05, 10, 8]} />
+                <meshStandardMaterial color="#241512" roughness={0.8} />
+              </mesh>
+            )}
             {uniform && !uniform.nocap && !uniform.noCap && !uniform.helmet && <UniformCap m={m} hair={!!uniform.hair} />}
             {uniform?.helmet && <RaceHelmet color={uniform.helmet} />}
             {hazmat > 0.5 && <HazmatHood />}

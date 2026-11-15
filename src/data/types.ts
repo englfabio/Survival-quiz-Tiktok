@@ -261,6 +261,16 @@ export type Motion =
   | 'roundhouse' // Zeitlupe: Drehung (0,6–2,4 s) + hoher Roundhouse-Kick mit rechts zur rechten Seite (gestreckt ca. 3,1–3,7 s), Deckung ab 5,1 s
   | 'spitarc' // zurücklehnen (0,5 s), in hohem Bogen nach vorn ausspucken (0,5–0,75 s), Mund abwischen (ab 1,2 s)
   | 'hazwash' // im Schutzanzug vorsichtig abspülen: Teller links, Schwamm rechts in langsamen Kreisen
+  // ---- Spezial Haus weg (Details: hausPose in Dummy.tsx) ----
+  | 'homefreeze' // nach Hause kommen + erstarren: Ruck, Arme halb gespreizt, steif; ab 1,2 s Kopf sucht links/rechts
+  | 'liftmat' // Fußmatte 0,45 m vor ihm hochheben: Hocke (0,7 s), greifen, aufrichten + Matte vor die Brust (1,8 s), ratlos schauen
+  | 'stacklow' // großen Baustein 0,55 m vor sich auf 0,6 m Höhe aufsetzen (bücken), Zyklus 1,0 s, Klick bei 0,62
+  | 'stackbrick' // wie stacklow, Höhe 1,0 m
+  | 'stackhigh' // wie stacklow, Höhe 2,05 m (über Kopf)
+  | 'stackfast' // Zeitraffer: Steine im Zyklus 0,42 s aufsetzen, Höhe wechselt
+  | 'shedopen' // Gartenhaus-Tür öffnen (Griff 0,45 m vor ihm, 0,25 m rechts) + vorbeugen + hineinschauen (ab 1,4 s)
+  | 'gape' // staunen mit offenem Mund, Hände an den Wangen (Nachbarn)
+  | 'relief' // erleichtert: Hände auf die Brust, tief ausatmen
   | 'leaftoss' // Dummy: alle 1,6 s Laub mit beiden Armen schaufeln und über den Kopf nach vorn werfen (Abwurf ca. 1,0 s)
   | 'toss' // Gegenstand fliegt (z. B. geworfener Magnet): Weg über Zeitpunkte, gleichmäßig (ohne Abbremsen)
   // ---- Wal (Figur "wal") ----

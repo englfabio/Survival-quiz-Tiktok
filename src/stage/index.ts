@@ -3,6 +3,7 @@ import {canalStage} from './Canal';
 import {stationDelayStage, stationFullStage, stationPlatformStage, stationStage} from './Station';
 import {railwayStage, roadStage} from './Railway';
 import {fieldStage, museumStage, streetHomeStage} from './Monstertruck';
+import {settlementStage, shedHallStage} from './Settlement';
 import {castleStage} from './Castle';
 import {christmasRoomStage, hallStage, outsideStage, plainHallStage} from './Christmas';
 import {diningKitchenStage, kitchenStage, wgKitchenNightStage, wgKitchenStage} from './Kitchen';
@@ -69,6 +70,8 @@ export const STAGES: Record<string, StageDef> = {
   landstrasse: roadStage,
   'wohnzimmer-homeoffice': homeOfficeStage,
   wohnstrasse: streetHomeStage,
+  siedlung: settlementStage,
+  'gartenhaus-innen': shedHallStage,
   museum: museumStage,
   acker: fieldStage,
 };

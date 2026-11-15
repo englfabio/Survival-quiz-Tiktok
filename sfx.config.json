@@ -868,7 +868,8 @@
       "prompt": "Single crisp bright click of two plastic toy building bricks snapping firmly together, clean, close up, no reverb",
       "duration": 0.5,
       "loop": false,
-      "promptInfluence": 0.75
+      "promptInfluence": 0.75,
+      "gainDb": 10
     },
     {
       "id": "haus-knautschen",
