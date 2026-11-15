@@ -99,8 +99,7 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
 
 - Oben links steht das ganze Video über das Abzeichen **„SPEZIAL“** im Warnschild-Stil (`SpezialBadge`, Warndreieck mit
   Grinsegesicht) statt des Kategorie-Abzeichens. Kategorie in der Datei: `spezial`.
-- Länge **61–66 s** (siehe „Dauerhafte Spezial-Regeln“ unten; `npm run check` prüft die 61 s). Zu kurz → Szenen rein visuell verlängern über
-  `options[n].sceneExtra` (Sekunden, ohne neuen Text), z. B. längere Kamerafahrten oder Reaktionen.
+- Länge **61–66 s** – siehe „Dauerhafte Spezial-Regeln“ unten (Regel 1; `npm run check` prüft die 61 s).
 - Szenario-Datei: `correctOption`, `reveal`, `sourceLine` **weglassen** (die Prüfung meldet sonst einen Fehler), `sources` optional.
   `shots` braucht nur `situation`, `countdown` (= Abstimmung) und `outro`. Sprach-Clips: situation, option1–3, explain1–3,
   countdown, outro (kein reveal).
@@ -122,28 +121,27 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
 - **Schema für Spezial-Videos (vom Inhaber als Vorlage freigegeben, Vorbild: spezial-mitbewohner-joghurt, 66 s):**
   - Länge 61–66 s (Spezial-Regel 1), Texte knapp halten: Situation 1–3 kurze Sätze, Kartentext-Ansage ein Satz,
     jede Szene ca. 3–6 kurze Sätze (Pointe zuerst, keine Füllwörter, keine Wiederholung der Karte in der Szene).
-  - Abstimmung: „Also, was machst du? Schreib A, B oder C in die Kommentare.“ + Schild „Stimm ab!“.
-  - Danach kein „Eine richtige Antwort gibt es diesmal nicht“. Outro = Spezial-Regel 3 (A, B oder C in die Kommentare + folgen).
+  - Abstimmung: nur „Also, was machst du?“ mit Countdown + Schild „Stimm ab!“ (Spezial-Regel 3).
+  - Danach kein „Eine richtige Antwort gibt es diesmal nicht“. Outro = Spezial-Regel 3 (A, B oder C in die Kommentare + markieren + folgen).
   - Ist ein gelieferter Text deutlich zu lang für dieses Schema: dem Inhaber eine gekürzte Fassung vorschlagen (Regel 7 gilt weiter).
 - **Flüssiger Übergang (vom Inhaber gewünscht):** Der Szenentext (`explanation`) darf die vorgelesene Antwort NICHT wiederholen,
   sondern setzt direkt danach ein (z. B. Antwort „Du legst … und wartest“ → Szene „Dann setzt du dich … und wartest.“).
 - ~~Ende ohne Doppelung / Outro mit „Freund markieren“~~ – für Spezial-Videos ersetzt durch Spezial-Regel 3 (unten). Für neue
   Quiz-Videos gilt weiter sinngemäß: Countdown fordert zum Kommentieren auf → Outro nicht noch einmal.
 
-#### Dauerhafte Spezial-Regeln (vom Inhaber festgelegt – gelten für ALLE Spezial-Videos, gehen älteren Angaben oben vor)
+#### Dauerhafte Spezial-Regeln (vom Inhaber festgelegt – gelten für ALLE Spezial-Videos, ersetzen alle älteren/ähnlichen Angaben oben)
 
-1. **Länge:** Spezial-Videos sind **mindestens 61 und höchstens 66 Sekunden** lang. Zu kurz → visuell verlängern
-   (`options[n].sceneExtra`, längere Kamerafahrten/Reaktionen). Zu lang → Pausen und Kamerafahrten kürzen
-   (z. B. `sceneExtra` 0, kürzere Pausen zwischen den Clips, kürzere Karten-/Abstimmungs-/Outro-Einstellungen).
-   **Texte werden nie geändert.** Passt es trotz gekürzter Pausen nicht in 66 s → anhalten und dem Inhaber Bescheid geben.
-2. **Keine Dopplungen:** Die gesprochene Antwort ist kurz. Die Szene danach erzählt, was passiert, und wiederholt die Antwort nicht
-   (gilt für Text UND Bild: die Szene zeigt den Ablauf/die Folgen, nicht noch einmal nur die Antwort).
-3. **Outro jedes Spezial-Videos:** Am Ende immer die Aufforderung, **A, B oder C in die Kommentare zu schreiben und dem Kanal zu folgen**
-   (z. B. „Schreib A, B oder C in die Kommentare und folg gerne für mehr.“; Schild `outro.screen` passend, z. B. „A, B oder C? Folgen!“).
-   **Ergänzung (vom Inhaber, Haus-weg-Video):** „In die Kommentare schreiben“ wird im ganzen Ende **nur EINMAL** gesagt (Abstimmung mit
-   `noVote` weglassen, wenn das Outro es schon sagt). Das Outro fordert außerdem zum **Folgen** auf und dazu, **jemanden zu markieren,
-   dem das auch immer passiert**. Reicht es trotzdem nicht für 61 s: das letzte Bild einfach **2–3 Sekunden stehen lassen** (`outroMin`
-   + Abblenden). Ziel: ca. 1 Minute, nicht viel mehr.
+1. **Länge:** Spezial-Videos sind **mindestens 61 und höchstens 66 Sekunden** lang. Ist ein Video zu kurz, wird es zuerst
+   **visuell verlängert** (Kamerafahrten, Reaktionen; technisch `options[n].sceneExtra`, längere Einstellungen). Reicht das nicht,
+   bleibt das **letzte Bild des Outros zwei bis drei Sekunden länger stehen** (`outroMin`). Ist es zu lang, werden **Pausen und
+   Kamerafahrten gekürzt** (z. B. `sceneExtra` 0, kürzere Pausen zwischen den Clips, kürzere Karten-/Abstimmungs-/Outro-Einstellungen).
+   **Texte werden nie geändert.**
+2. **Keine Dopplungen:** Die gesprochene Antwort ist kurz. Die Szene danach erzählt, was passiert, und **wiederholt die Antwort nicht**
+   (gilt für Text UND Bild).
+3. **Abstimmung und Outro:** Die Aufforderung, **A, B oder C in die Kommentare zu schreiben, kommt im ganzen Video nur EINMAL, nämlich
+   im Outro.** Der Abstimmungs-Teil davor fragt nur **„Also, was machst du?“** mit Countdown. Im Outro wird zusätzlich gesagt, dass man
+   **jemanden markieren** soll, dem das auch immer passiert, und **dem Kanal folgen** soll
+   (z. B. „Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr.“).
 4. **Marken:** Markennamen dürfen im gesprochenen Text vorkommen, wenn der Inhaber das vorgibt. **Logos, echte Spielgrafiken, echte
    Produktdesigns und Figuren, die echten Personen ähneln, werden nie gezeigt** (Selbstprüfung bei den Standbildern).
 
@@ -645,7 +643,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Szenario-Feld `padAfter`** (Sekunden, Standard 0,5): Pause nach jedem Sprach-Clip – zum Kürzen auf höchstens 66 s (Spezial-Regel 1), Texte bleiben gleich.
 - **Szenario-Felder `noVote` / `outroMin`** (nur Spezial): `noVote: true` = Abstimmungs-Abschnitt ganz weglassen (das Outro fordert selbst zu
   „A, B oder C in die Kommentare“ auf → keine Dopplung direkt hintereinander), `outroMin` = Outro mindestens so viele Sekunden (Bild klingt aus,
-  dazu Shot-Feld `fade` im Outro), z. B. damit das Video trotzdem ≥ 61 s bleibt.
+  dazu Shot-Feld `fade` im Outro), z. B. damit das Video trotzdem ≥ 61 s bleibt. **Seit Spezial-Regel 3 (neu):** Abstimmung NICHT mehr
+  weglassen, sondern nur „Also, was machst du?“ + Countdown; „A, B oder C in die Kommentare“ steht nur im Outro.
 - **Einfrieren** (`"freeze": t` in einem Shot): Figuren + Bühne bleiben ab t stehen, Bild wird etwas blasser,
   Kamera fährt langsam weiter. Bei falschen Optionen kommen rotes Aufleuchten + Falsch-Ton genau dann.
 - **Hook-Überschrift:** `situation.hook` in der Szenario-Datei = große Überschrift oben während der Situation (nur eingeblendet).
