@@ -148,7 +148,7 @@ a['chef'] = [K(0, *CHEF_AT, 'chefnag', 270), K(r3(c_jed - 0.003), *CHEF_AT, 'che
              K(c_was, CHEF_AT[0] + 0.15, CHEF_AT[1] - 0.1, 'chefnag', 255, cut=True), K(1, CHEF_AT[0] + 0.15, CHEF_AT[1] - 0.1, 'chefnag', 255)]
 # Aktenstapel wächst: bei jedem Abwurf (Zyklus 1,1 s, Abwurf 0,55 s) ein Stück höher
 CAL = (MYDESK[0] - 0.45, MYDESK[1] - 0.05)
-STACK = (MYDESK[0] + 0.32, MYDESK[1] + 0.05)
+STACK = (MYDESK[0] + 0.5, MYDESK[1] + 0.12)
 stk = [K(0, *STACK, 'park', 0, y=MYDESK_H, fill=0.12, mark=0)]
 n_drop = 0; tt = c_jed + sec(L0, 0.55 + 0.05)
 while tt < c_was - sec(L0, 0.1):
@@ -156,7 +156,7 @@ while tt < c_was - sec(L0, 0.1):
     stk += [K(r3(tt - sec(L0, 0.02)), *STACK, 'park', 0, fill=round(0.12 + 0.17 * (n_drop - 1), 3), mark=min(1, n_drop // 3)),
             K(r3(tt + sec(L0, 0.04)), *STACK, 'park', 0, fill=round(0.12 + 0.17 * n_drop, 3), mark=min(1, n_drop // 3))]
     tt += sec(L0, 1.1)
-stk += [K(c_was, *STACK, 'park', 0, fill=0.95, mark=2, cut=True), K(1, *STACK, 'park', 0, fill=0.95, mark=2)]
+stk += [K(c_was, *STACK, 'park', 0, fill=0.8, mark=1, cut=True), K(1, *STACK, 'park', 0, fill=0.8, mark=1)]
 a['aktenstapel'] = stk
 a['tageskalender'] = [K(0, CAL[0], CAL[1], 'park', 180, y=MYDESK_H + 0.2, good=1, fill=1), K(r3(c_seit + sec(L0, 0.1)), CAL[0], CAL[1], 'park', 180, fill=1),
                       K(r3(c_jed - sec(L0, 0.15)), CAL[0], CAL[1], 'park', 180, fill=24)]
@@ -169,7 +169,7 @@ situation = {
  'camera': [*shot(0, r3(c_seit - 0.003), F(seated(*MYCHAIR) + body(*CHEF_AT) + [[MYDESK[0] - 0.75, 0.74, MYDESK[1] + 0.4]], 30, 10, SIT)),
             *shot(c_seit, r3(c_jed - 0.003), F(CALP + [[MYCHAIR[0], 1.45, MYCHAIR[1]]], 10, 10, SIT, push=0.1)),
             *shot(c_jed, r3(c_was - 0.003), F(seated(*MYCHAIR) + body(*CHEF_AT) + [[STACK[0], MYDESK_H + 1.2, STACK[1]]], 335, 14, SIT)),
-            *shot(c_was, 1, F(seated(*MYCHAIR, 0) + [[STACK[0], MYDESK_H + 1.4, STACK[1]], [MYDESK[0] - 0.8, 0.74, MYDESK[1] + 0.4], [MYCHAIR[0], 2.3, MYCHAIR[1]]], 5, 6, SIT, push=0.08))],
+            *shot(c_was, 1, F(seated(*MYCHAIR, 0) + [[STACK[0], MYDESK_H + 1.1, STACK[1]], [MYDESK[0] - 0.8, 0.74, MYDESK[1] + 0.4], [MYCHAIR[0], 2.3, MYCHAIR[1]]], 340, 14, SIT, push=0.08))],
  'actors': a,
  'sfx': [{'t': r3(c_seit + sec(L0, 0.1)), 'id': 'kalender-blaettern', 'volume': 0.6}] + plumps,
 }
@@ -207,11 +207,11 @@ dummyA = [bag_seat(0, 'seatdrive'), bag_seat(r3(throw0 - 0.003), 'seatdrive'), b
 HANDW = (BX - BSEAT['x'] + 0.1, Z_STOP - BSEAT['z'] - 0.6)  # Kabine vorn (Welt, face 0 → lokal x → Welt −x)
 LAND = (DESK[0] + 0.25, DESK[1] + 0.12)
 fly = r3(rel + sa(0.75))
-letter = [K(0, *HANDW, 'park', 0, y=HIDE), K(r3(rel - 0.002), *HANDW, 'park', 0, y=HIDE),
+letter = [K(0, *HANDW, 'park', 180, y=HIDE, text='KÜNDIGUNG'), K(r3(rel - 0.002), *HANDW, 'park', 0, y=HIDE),
           K(rel, *HANDW, 'toss', 0, y=3.2, size=0.9, spin=0, tilt=0),
           K(r3((rel + fly) / 2), (HANDW[0] + LAND[0]) / 2, (HANDW[1] + LAND[1]) / 2, 'toss', 0, y=3.0, spin=1.0),
           K(r3(fly - 0.002), *LAND, 'toss', 0, y=DESK_H + 0.12, spin=2.0, tilt=0),
-          K(fly, *LAND, 'park', 0, y=DESK_H, spin=0, tilt=1), K(1, *LAND, 'park', 0, y=DESK_H, tilt=1)]
+          K(fly, *LAND, 'park', 180, y=DESK_H, spin=0, tilt=1), K(1, *LAND, 'park', 180, y=DESK_H, tilt=1)]
 CHEF_SAFE = (3.9, -5.3)
 KOL = {'kollege1': (-5.4, -1.3), 'kollege2': (1.85, -1.45), 'kollege3': (2.35, 0.35)}
 aA = office(stack=0.85)
@@ -240,7 +240,7 @@ expA = {
             # 3) von oben: alle stehen sicher an der Seite (Chef rechts im Chefbüro, Kollegen im Großraumbüro)
             *shot(c_alle, r3(c_dann - 0.003), F(body(*CHEF_SAFE) + [p for q in KOL.values() for p in body(*q)] + BAG_PTS(Z_STOP), 8, 52, push=0.04)),
             # 4) Bagger hält, Dummy wirft – Brief fliegt auf den Tisch
-            *shot(c_dann, r3(c_kue - 0.003), F(CAB(Z_STOP) + [[DESK[0] - 1.0, DESK_H, DESK[1]], [DESK[0] + 1.0, DESK_H, DESK[1]]], 250, 12)),
+            *shot(c_dann, r3(c_kue - 0.003), F(CAB(Z_STOP) + [[DESK[0] - 1.0, DESK_H, DESK[1]], [DESK[0] + 1.0, DESK_H, DESK[1]]], 145, 10)),
             # 5) Brief liegt auf dem Tisch, Chef staunt
             *shot(c_kue, 1, F([[LAND[0] - 0.55, DESK_H, LAND[1] - 0.35], [LAND[0] + 0.55, DESK_H, LAND[1] + 0.35], [LAND[0], DESK_H + 0.35, LAND[1]]], 345, 50, push=0.05))],
  'actors': aA,
@@ -362,7 +362,7 @@ while tt < fight_end - sc(0.05):
     chefC += [K(r3(tt), *FIGHT_C, cm, 90, gloves=1, cut=True), K(r3(t2), *FIGHT_C, cm, 90, gloves=1)]
     tt = t2 + 0.003; i += 1
 # hinter dem Glasfenster kämpfen sie weiter, während du Kaffee holst
-FIGHT_C2 = (FIGHT_C[0] + 0.2, FIGHT_C[1] + 0.6); FIGHT_K2 = (FIGHT_K[0] - 0.1, FIGHT_K[1] + 0.6)
+FIGHT_C2 = (FIGHT_C[0] + 0.3, -3.2); FIGHT_K2 = (FIGHT_K[0] + 0.15, -3.2)
 tt = c_und; i = 0
 while tt < 1 - 0.003:
     km, cm = seq[i % len(seq)]
@@ -393,14 +393,14 @@ expC = {
             # 1) Tür geht auf
             *shot(sC, r3(c_hupf - 0.003), F(body(*D_ST) + [[2.0, 0, PZ], [2.9, 2.2, PZ], [2.9, 0, PZ - 0.9]] + body(*K0, 1.8), 350, 8)),
             # 2) Känguru hüpft ins Chefbüro (Blick aus dem Chefbüro zur Tür), Chef staunt, Handschuhe liegen auf dem Tisch
-            *shot(c_hupf, r3(c_glock - 0.003), F([[2.0, 0, PZ], [2.9, 2.2, PZ]] + body(*K_IN, 1.8) + body(*CHEF_BEHIND) + [[GLV[0], DESK_H, GLV[1]]], 135, 12)),
+            *shot(c_hupf, r3(c_glock - 0.003), F([[2.0, 0, PZ], [2.9, 2.2, PZ]] + body(*K_IN, 1.8), 165, 8)),
             # 3) Glocke: Runde eins – beide in Boxhaltung
-            *shot(c_glock, r3(c_epi - 0.003), F(FIGHT_PTS + [[BELL[0], 3.15, BELL[1]]], 0, 6, push=0.05)),
+            *shot(c_glock, r3(c_epi - 0.003), F(FIGHT_PTS + [[BELL[0], 3.15, BELL[1]]], 0, 6, push=0.05, fov=50)),
             # 4) epischer Kampf: schnelle Schnitte
-            *shot(c_epi, r3(c_epi + (c_und - c_epi) * 0.5 - 0.003), F(FIGHT_PTS, 355, 4, push=0.12)),
+            *shot(c_epi, r3(c_epi + (c_und - c_epi) * 0.5 - 0.003), F(FIGHT_PTS, 355, 4, push=0.12, fov=50)),
             *shot(r3(c_epi + (c_und - c_epi) * 0.5), r3(c_und - 0.003), F(FIGHT_PTS, 330, 18, push=0.12)),
             # 5) du holst dir in Ruhe einen Kaffee – hinter dem Glasfenster boxen sie weiter
-            *shot(c_und, 1, F(body(*COFFEE_ST) + body(*FIGHT_C2) + body(*FIGHT_K2, 1.8), 305, 6, push=0.05))],
+            *shot(c_und, 1, F(body(*COFFEE_ST) + body(*FIGHT_C2) + body(*FIGHT_K2, 1.8), 330, 4, push=0.05, fov=45))],
  'actors': aC,
  'stage': [{'t': 0, 'stage': 'grossraumbuero'}, {'t': c_glock, 'stage': 'grossraumbuero-offen'}, {'t': c_und, 'stage': 'grossraumbuero'}],
  'sfx': sfxC,
