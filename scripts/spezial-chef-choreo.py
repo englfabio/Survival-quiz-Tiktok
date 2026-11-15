@@ -26,7 +26,7 @@ outro="Schreib A, B oder C in die Kommentare und folg gerne für mehr. Markier j
 )
 # Szenen rein visuell verlängern (Sekunden, ohne Text), damit das Video mindestens 61 s lang ist
 EXTRA = {1: 0.0, 2: 0.0, 3: 0.0}
-TAIL = 0.5
+TAIL = 0.4   # Pause nach jedem Clip (Video sonst 65,7 s – Inhaber: ca. 1 Minute, nicht viel mehr)
 # „Schreib A, B oder C in die Kommentare“ nur EINMAL (Inhaber): Abstimmung weglassen, das Outro fordert dazu auf
 NO_VOTE = True
 OUTRO_MIN = 0.0   # bei Bedarf: Schlussbild 2–3 s länger stehen lassen
