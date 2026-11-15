@@ -66,7 +66,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -290,6 +290,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Gartenhaus von innen (`gartenhaus-innen`, gleiche Datei, `SHED_HALL`, Atmo `museum-atmo`): riesige Holzhalle (x ±24, Rückwand z −34, Vorderwand z 8 mit der
   kleinen Tür 0,8 × 1,8 m bei x 0, Höhe 18), Dielen, Dachbalken, Hängelampen, winzig wirkende Gartengeräte/Regale; Mitte frei für das Haus (`haus` bei (0, −12)) auf
   Rasenstück. Kamera innen starten (z ≈ 7.5), Vorderwand ist fest. Für Totalen in der Halle Kamera von Hand setzen (fov ≈ 60), sonst landet fitcam hinter der Wand.
+  Büro-Etage (`bueroetage`, `src/stage/OpenOffice.tsx`, `BUERO`, Atmo `buero-atmo`): helles Großraumbüro (Teppich, x −16 … 0) + gläsernes Chefbüro
+  (Holzboden, x 0 … 6.4, z −6.2 … −1.0), Wände 5 m hoch ohne sichtbare Decke (großer Bagger passt hinein). Linke Chefbüro-Wand = OBJEKT `buerowand`
+  bei (0, −3.6) face 90 (durchbrechbar), Vorderwand = Glas mit Tür x 1.0 … 1.86 (Türblatt = Objekt `glastuer` bei (1.86, −1.0) face 0, geht nach innen auf),
+  Schild „CHEF“. Chef-Schreibtisch (3.9, −4.5) Platte 0,76, Chefsessel (3.9, −5.3) (Figur dort y 0.09, face 180), Besucher (3.9, −3.7) face 0, Regal + Pflanze
+  hinten rechts. Großraumbüro: Schreibtisch-Inseln (`OfficeDesk`, Stuhl vorn) bei z 2.4 (x −4.2 = Platz des Dummys, Stuhl (−4.2, 3.05) face 0; −5.9, −10.2,
+  −11.9) + bei z 4.6 (x −10.2/−11.9); Streifen z −5.8 … −1.8 vor der Chefbüro-Wand frei (Bagger-Weg z −3.7). Kaffee-Theke x −2.8 … −0.8, z 0.45 … 1.05
+  mit Kaffeemaschine (`CoffeeMachine`, ohne Logo) bei (−1.0, 0.75); davor stehen (−1.0, 1.33) face 0 = Blick durchs Glas ins Chefbüro.
+  Wände/Glas von außen unsichtbar bzw. durchsichtig → Kameras dürfen außen stehen. `ExecChair` (Chefsessel) aus Office.tsx jetzt exportiert.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -412,6 +420,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Figuren mit Dummy-Körper; Pose-Feld `mouthO`), erleichtert Hände auf die Brust + ausatmen (`relief`). Wiederverwendet: `walk`, `proud`, `wave`, `truckclimb`,
   `seattriumph`, `seatdrive`, `stand`. Pose-Feld `yaw` = ganzer Körper dreht sich
   (für Drehungen innerhalb einer Bewegung). Wiederverwendet: `boxguard` (Deckung), `proud`, `tiptoe`, `sheepish`, `wave`.
+  Chef-Spezial (alle Figuren mit Dummy-Körper, Details in `chefPose` in Dummy.tsx): im Bagger sitzend ausholen + werfen (`seatthrow`, Abwurf 0,7 s,
+  Brief bis dahin in der Hand = item 'letter', Aufschrift über Feld `text`), Karte neben dem Kopf hochhalten (`holdcard`), Karte schwungvoll auf den Tisch
+  knallen (`slapcard`, Treffer 0,75 s, Tisch 0,45 m vor ihm; Karte als Objekt mit `hand` 1 bis zum Treffer), mit ausgebreiteten Armen wirbeln (`spinswap`),
+  sitzend ungeduldig auf den Tisch tippen + nach vorn zeigen (`desktap`), sitzend Stapel über den Tisch schieben (`pushstack`), nervös stehen + Stirn wischen
+  (`sweatstand`, mit Wert `sweat`), Chef nervt mit Zeigefinger (`nagpoint`), sitzend Kopf in die Hand stützen + seufzen (`deskslump`), Tür mit links aufdrücken
+  + Butler-Geste (`doorhold`), Boxhaltung + Geraden (`boxpunch`, mit `gloves` 1 – auch Chef), Kaffee an der Maschine (`pourcoffee`) + stehend trinken
+  (`standcoffee`, Tasse automatisch). Wiederverwendet: `typedesk`, `chairsit`, `gape`, `watchlook`, `boxguard`, `seatdrive`, `wave`; Känguru `hop`/`guard`/`punch`/`victory`.
 - **Schutzanzug (Dummy):** Wert `hazmat` 1 = weißer Ganzkörper-Schutzanzug ohne Aufdruck, Kapuze, Atemschutzmaske mit zwei Filtern, Schutzbrille,
   blaue Gummihandschuhe mit Stulpe + blaue Überschuhe (Uniform `HAZMAT_UNIFORM` in Dummy.tsx; Arm-Prop `rubber` = Gummihandschuh in beliebiger Farbe).
 - **Monstertruck-Fahrer** (`truckfahrer`): Dummy-Körper hellgrau, roter Rennanzug, roter Rennhelm mit weißem Streifen + dunklem Visier (Uniform-Feld `helmet` =
@@ -468,6 +483,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Hausschuhe (Uniform-Feld `slippers` = Farbe) – kann alle Dummy-Bewegungen, Augenbrauen, Fragezeichen, `teeth` 1 = Grinsen.
 - **Paketbote** (`paketbote`): Dummy-Körper hell salbeigrün, neutrale blaugraue Uniform + Mütze, KEIN Logo, keine Paketdienst-Farben (Vorgabe Inhaber).
 - **Chef** (`chef`): Dummy-Figur grau mit dunkelgrauem Anzug, weißem Hemd, roter Krawatte, ohne Mütze (Uniform-Felder `tie`, `nocap` – wiederverwendbar).
+  Jetzt auch mit roten Boxhandschuhen (`gloves` 1) und Zähnen (`teeth`).
+- **Kollegen-Dummys** (`kollege1` mint/hellblaues Hemd + Krawatte, `kollege2` apricot/rosa Bluse + Haare, `kollege3` lila/grüne Strickjacke; `COLLEAGUES` in
+  index.tsx): alle Dummy-Bewegungen, Augenbrauen. **Schweiß** an jeder Figur mit Dummy-Körper: Wert `sweat` 0 … 2 (Tropfen + Stress-Striche, schaut zur Kamera).
 - **Hütchen** für alle Figuren mit Dummy-Körper: `partyhat` (Partyhütchen, 0 … 1 wird von oben aufgesetzt), `gardenhat` (Strohhut mit grünem Band, z. B. Nachbar = `kumpel` + `gardenhat` 1).
 - **Kinder-Dummys** (`kind1` rosa mit Zöpfen, `kind2` hellblau mit gelber Kappe, `kind3` grün mit roter Kappe; `KIDS` in `src/actors/index.tsx`):
   Dummy-Körper auf 0,6 verkleinert, größerer Kopf, bunt, ohne Gesicht – immer freundlich zeigen. Können alle Dummy-Bewegungen.
@@ -614,6 +632,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `fill` 0 … 1 = gesetzte Teile, 155 Teile, Haus fertig bei 123/155, das jeweils nächste senkt sich ein; Reihenfolge `brickLayout()`), Haufen Bausteine
   (`klemmsteine`, `fill` 0,001 = leer), Gartenhaus mit Tür (`gartenhaus`, `door` 0 … 1, Tür schwenkt nach außen links, dahinter warmes Licht).
   Monstertruck über Häuser: Truck-Weg entlang der Häuserreihe, je Haus y-Hügel (bis 1,2) + `tilt`, Haus-`squish` 0 → 1 während der Truck darüberrollt.
+- **Objekte (Chef, `src/actors/ChefProps.tsx`, alle OHNE Logos):** durchbrechbare Bürowand 5,2 × 5 m (`buerowand`: `fill` 0 heil … 1 durchbrochen, Teile
+  fliegen nach +z des eigenen Systems höchstens ca. 2,6 m weit + Staub, Ränder bleiben stehen; `fill` linear über 2,2 s), Kopierer (`kopierer`, Front +z; `fill` =
+  Papierblätter fliegen, `tilt` = kippt zur Seite, `rumble`), Reverse-Karte (`reversekarte`: rote Karte mit zwei gebogenen weißen Pfeilen im Kreis, kleine
+  Pfeile in den Ecken – KEIN Schriftzug, KEIN weißes Oval, KEIN Logo; Rückseite dunkelrot gestreift; `tilt` 1 = liegt flach, `glow` = gelbe Strahlen, `size`),
+  Boxring-Glocke (`boxglocke`: Messing auf rotem Brett + Hammer, Bewegung `show` = ploppt auf, `ring` = klingelt + Schall-Linien, schaut zur Kamera, `size`),
+  Aktenstapel (`aktenstapel`: bis 7 Papierstapel mit Klebezetteln DRINGEND!/SOFORT!/HEUTE NOCH!…, `fill` 0 … 1), Wirbel (`wirbel`: Ringe + Sterne, `fill` =
+  Stärke), Glastür (`glastuer`, `door` wie Türblatt). Wiederverwendet: Bagger `bagger` (`tilt` 60 = Arm hoch), Brief `brief` („KÜNDIGUNG“, `tilt` 1 flach),
+  Tageskalender `tageskalender` („Woche 1|…“ bzw. Wochentage), Kaffeetasse in der Hand.
 - **Wort-Zeitstempel prüfen:** Bei sehr kurzen, gleichen Wörtern am Clip-Anfang („Klick. Klick. Klick.“) lagen die ElevenLabs-Zeitstempel bis 1,3 s daneben →
   per scribe_v2 kontrollieren und `alignment.json` für diesen Clip aus den erkannten Wortzeiten neu bauen (Ton unverändert, siehe Haus-weg-Sitzung).
 - **Szenario-Feld `padAfter`** (Sekunden, Standard 0,5): Pause nach jedem Sprach-Clip – zum Kürzen auf höchstens 66 s (Spezial-Regel 1), Texte bleiben gleich.
@@ -635,7 +661,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -752,6 +778,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   passiert.“, „in die Kommentare“ nur einmal (`noVote`). Kontrolle scribe_v2 (alle Clips): korrekt; Zeitstempel von Szene A aus scribe neu gebaut.
   Choreografie: `python3 scripts/spezial-haus-weg-choreo.py`. Comichaft: Häuser bei C leer, Nachbarn sicher auf dem Gehweg; Klemmbausteine ohne Logo.
   Standbilder in review/spezial-haus-weg/phase1/. Finales Video: review/final/spezial-haus-weg.mp4.
+- Spezial Chef: 734 neue Zeichen (294 Credits laut ElevenLabs; Outro wortgleich mit Haus weg → aus Cache, Abstimmung entfällt), Sprechzeit 64,2 s inkl.
+  Outro, Video 64,6 s (`padAfter` 0,3 s, damit ≤ 66 s und nah an 1 Minute). Texte Buchstabe für Buchstabe vom Inhaber (Marke „Uno“ nur gesprochen, Karte
+  ohne Logo/Schrift/Oval); Outro wie Haus weg (Kommentare nur einmal, folgen, jemanden markieren). Kontrolle scribe_v2: korrekt, Zeitstempel max. 0,14 s
+  daneben. Choreografie: `python3 scripts/spezial-chef-choreo.py`. Bei A stehen Chef (hinter seinem Tisch) + Kollegen sicher an der Seite, nur Wand/Kopierer
+  gehen kaputt; bei C Show-Kampf, Schläge treffen nur Handschuhe. Standbilder in review/spezial-chef/phase1/. Finales Video: review/final/spezial-chef.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -793,6 +824,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `glitsch`, `schmatzen`, `kick-whoosh`, `teller-klirren`, `ausspucken`, `reste-platsch`, `schrubben`, `zeitraffer` (Spezial Spüle; wiederverwendet: `schleichen`).
   `klemmstein-klick` (helles Plastik-Klick, +10 dB, jeder aufgesetzte Stein; im Zeitraffer höchstens alle 0,075 s), `haus-knautschen` (comichaft), `himmel-chor`,
   `leere-wind` (Spezial Haus weg; wiederverwendet: `zeitraffer`, `tuer-knarren`, `staunen`, `monstertruck-motor`, `geschenk-rascheln`).
+  `buero-atmo` (Großraumbüro, Schleife), `wand-krachen`, `kopierer-rutschen`, `wirbel`, `karte-klatsch`, `papierstapel`, `kaffee-eingiessen`, `kaenguru-hops`
+  (Spezial Chef; wiederverwendet: `bagger-motor`, `boxglocke`, `boxschlag`, `kaffee-schluerfen`, `tuer-knarren`, `staunen`, `whoosh`, `tastatur`, `kalender-blaettern`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -991,7 +1024,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz; Office.tsx = Chef-Büro;
                       NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus;
                       Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude; Monstertruck.tsx = Wohnstraße, Museumshalle, Acker am Stadtrand;
-                      Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle)
+                      Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle; OpenOffice.tsx = Büro-Etage)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -1010,7 +1043,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       BahnProps.tsx = Lok/Bagger/Signal/Tacho/Kaffeetasse/Autoschlange/Anzeigetafel/Lokführermütze/Armbanduhr,
                       TruckProps.tsx = Monstertruck/Polizei-Unimog/plattes Auto/Bilderrahmen/Preisschild/Weinglas/Rennhelm/Schlamm-Spritzer,
                       SpueleProps.tsx = Spüle mit Geschirr + Essensresten/Abtropfgestell/Spuckbogen/Küchenuhr/Essensrest,
-                      HausProps.tsx = Fußmatte/Einfamilienhaus/Klemmbaustein-Haus/Bausteinhaufen/Gartenhaus mit Tür) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      HausProps.tsx = Fußmatte/Einfamilienhaus/Klemmbaustein-Haus/Bausteinhaufen/Gartenhaus mit Tür,
+                      ChefProps.tsx = Bürowand/Kopierer/Reverse-Karte/Boxglocke/Aktenstapel/Wirbel/Schweiß/Glastür) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,
