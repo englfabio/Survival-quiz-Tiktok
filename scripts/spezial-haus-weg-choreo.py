@@ -22,7 +22,7 @@ vote="Also, was machst du? Schreib A, B oder C in die Kommentare.",
 outro="Schreib A, B oder C in die Kommentare und folg gerne für mehr. Markier jemanden, dem das auch immer passiert.",
 )
 # Szenen rein visuell verlängern (Sekunden, ohne Text), damit das Video mindestens 61 s lang ist
-EXTRA = {1: 1.7, 2: 1.7, 3: 1.8}
+EXTRA = {1: 0.0, 2: 0.0, 3: 1.2}
 TAIL = 0.5
 # „Schreib A, B oder C in die Kommentare“ nur EINMAL (Inhaber): Abstimmung weglassen, das Outro fordert dazu auf
 NO_VOTE = True
@@ -173,7 +173,7 @@ BH = (-0.6, HZ)                                # Klemmbaustein-Haus (Ursprung Bo
 PILE = (4.4, -7.3)
 FRONT_X = [-2.4, -1.2, 1.2]                    # erste drei Steine (vordere Reihe, Lage 0)
 FZ = BH[1] + 2.1                               # Mitte der Vorderwand
-LOW_C, FAST_C, REL = 0.75, 0.42, 0.62          # STACK_CYCLE.low / .fast, STACK_RELEASE (Dummy.tsx)
+LOW_C, FAST_C, REL = 0.65, 0.42, 0.62          # STACK_CYCLE.low / .fast, STACK_RELEASE (Dummy.tsx)
 # die ersten drei Steine: Aufsetzen bei den drei „Klick“ (stacklow läuft durch, Zyklus 0,75 s)
 st0 = r3(c_k[0] - sa(REL * LOW_C))
 rel = [r3(st0 + sa(REL * LOW_C + k * LOW_C)) for k in range(3)]
@@ -357,7 +357,7 @@ expC = {
             # 3) Nachbarn staunen mit offenem Mund (sicher auf dem Gehweg)
             *shot(c_wenn, r3(c_dann - 0.003), F([p for (x, z) in list(NB.values())[:2] for p in body(x, z, 2.35)], 160, 4, fov=44)),
             # 4) alles platt, Truck auf dem letzten Haus, Nachbarn vorn
-            *shot(c_dann, 1, F(house_pts(24, flat=True) + house_pts(36) + TRUCK_AT(36) + body(14.0, 4.3), 330, 12))],
+            *shot(c_dann, 1, F(house_pts(24, flat=True) + house_pts(36, flat=True) + TRUCK_AT(X1) + body(14.0, 4.3), 330, 12))],
  'actors': aC,
  'sfx': sfxC,
 }

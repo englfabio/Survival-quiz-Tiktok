@@ -264,7 +264,7 @@ export type Motion =
   // ---- Spezial Haus weg (Details: hausPose in Dummy.tsx) ----
   | 'homefreeze' // nach Hause kommen + erstarren: Ruck, Arme halb gespreizt, steif; ab 1,2 s Kopf sucht links/rechts
   | 'liftmat' // Fußmatte 0,45 m vor ihm hochheben: Hocke (0,7 s), greifen, aufrichten + Matte vor die Brust (1,8 s), ratlos schauen
-  | 'stacklow' // großen Baustein 0,55 m vor sich auf 0,6 m Höhe aufsetzen (bücken), Zyklus 0,75 s, Aufsetzen bei 62 % des Zyklus
+  | 'stacklow' // großen Baustein 0,55 m vor sich auf 0,6 m Höhe aufsetzen (bücken), Zyklus 0,65 s, Aufsetzen bei 62 % des Zyklus
   | 'stackbrick' // wie stacklow, Höhe 1,0 m, Zyklus 0,9 s
   | 'stackhigh' // wie stacklow, Höhe 2,05 m (über Kopf)
   | 'stackfast' // Zeitraffer: Steine im Zyklus 0,42 s aufsetzen, Höhe wechselt

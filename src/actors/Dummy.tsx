@@ -4120,8 +4120,8 @@ const spuelePose = (motion: Motion, time: number): DummyPose | null => {
 };
 
 // ---------- Spezial "Haus weg": Siedlung, Fußmatte, Klemmbausteine, Gartenhaus, Nachbarn ----------
-/** Baustein-Zyklus (Sekunden): stacklow 0,75 / stackbrick + stackhigh 0,9 / stackfast 0,42 (Zeitraffer) */
-export const STACK_CYCLE = {low: 0.75, normal: 0.9, fast: 0.42};
+/** Baustein-Zyklus (Sekunden): stacklow 0,65 / stackbrick + stackhigh 0,9 / stackfast 0,42 (Zeitraffer) */
+export const STACK_CYCLE = {low: 0.65, normal: 0.9, fast: 0.42};
 /** Zeitpunkt im Zyklus (Anteil), an dem der Stein aufgesetzt wird (Klick) */
 export const STACK_RELEASE = 0.62;
 const hausPose = (motion: Motion, time: number): DummyPose | null => {
