@@ -4493,7 +4493,7 @@ const hausPose = (motion: Motion, time: number): DummyPose | null => {
 
 // ---------- Spezial Waschmaschine (Dummy + Stiefbruder, alle Figuren mit Dummy-Körper) ----------
 /**
- *  - drumpeek:   sitzt in der Trommel (Boden 0), beugt sich vor, Hände flach am Bullauge (0,55 m vor ihm, 0,8 m hoch),
+ *  - drumpeek:   sitzt in der Trommel (Boden 0), beugt sich vor, Hände flach am Bullauge (0,62 m vor ihm, 0,63 m hoch),
  *                Kopf schaut neugierig hin und her
  *  - glassknock: kniet aufrecht, klopft mit rechts ans Glas (0,5 m vor ihm auf 1,05 m, Klopfer alle 0,32 s, Pause alle 1,6 s),
  *                linke Hand als Trichter am Mund (ruft)
@@ -4509,7 +4509,7 @@ const hausPose = (motion: Motion, time: number): DummyPose | null => {
  *                (0,62 m vor ihm auf 1,28 m), kleine „Komm schon“-Bewegung
  *  - pullback:   zieht mit der rechten Hand zurück (0–1,2 s), lehnt sich nach hinten, Füße fest
  */
-export const WM_GLASS_HAND: P3 = [0, 0.8, 0.55];
+export const WM_GLASS_HAND: P3 = [0, 0.63, 0.62];
 export const WM_KNOCK: P3 = [-0.1, 1.05, 0.5];
 export const WM_HELP: P3 = [-0.05, 1.28, 0.62];
 const waschPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
@@ -4522,8 +4522,8 @@ const waschPose = (motion: Motion, time: number, speed: number): DummyPose | nul
       const k = easeInOut(clamp(time / 0.6));
       p.torsoX = -0.08 + 0.36 * k + breathe;
       const look = Math.sin(time * 1.1) * 0.35 * k;
-      reachR(p, lerp3t([-0.13, 0.36, 0.4], [-0.17, 0.82, 0.55], k), 0.33, [0.7, -0.8, -0.3]);
-      reachL(p, lerp3t([0.13, 0.36, 0.4], [0.17, 0.84, 0.55], k), 0.33, [0.7, -0.8, -0.3]);
+      reachR(p, lerp3t([-0.13, 0.36, 0.4], [-0.2, 0.62, 0.62], k), 0.33, [0.7, -0.8, -0.3]);
+      reachL(p, lerp3t([0.13, 0.36, 0.4], [0.2, 0.64, 0.62], k), 0.33, [0.7, -0.8, -0.3]);
       p.headX = 0.05 - 0.15 * k;
       p.headY = look;
       return p;

@@ -177,6 +177,35 @@ const moundHeight = (x: number, z: number) => {
   return h;
 };
 
+/** Stoff-Muster für die Sockenberge (viele bunte Socken-Striche) */
+const moundTexture = () => {
+  const c = document.createElement('canvas');
+  c.width = 256;
+  c.height = 256;
+  const g = c.getContext('2d')!;
+  g.fillStyle = '#6d6478';
+  g.fillRect(0, 0, 256, 256);
+  const r = rng(9);
+  g.lineCap = 'round';
+  for (let i = 0; i < 260; i++) {
+    g.strokeStyle = SOCK_COLORS[Math.floor(r() * SOCK_COLORS.length)];
+    g.lineWidth = 9 + r() * 6;
+    const x = r() * 256;
+    const y = r() * 256;
+    const a = r() * Math.PI * 2;
+    g.beginPath();
+    g.moveTo(x, y);
+    g.lineTo(x + Math.cos(a) * 22, y + Math.sin(a) * 22);
+    g.lineTo(x + Math.cos(a) * 22 + Math.cos(a + 1.6) * 12, y + Math.sin(a) * 22 + Math.sin(a + 1.6) * 12);
+    g.stroke();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(3, 2);
+  return t;
+};
+
 const DrumHallScene = ({cam}: {cam?: {pos: [number, number, number]}}) => {
   void cam;
   const frame = useCurrentFrame();
@@ -191,7 +220,7 @@ const DrumHallScene = ({cam}: {cam?: {pos: [number, number, number]}}) => {
       hub: std('#d6dce1', {metalness: 0.7, roughness: 0.25}),
       ring: std('#f4f5f3', {roughness: 0.35}),
       rubber: std('#5d6266', {roughness: 0.9}),
-      glass: new THREE.MeshBasicMaterial({color: '#fff3d6', transparent: true, opacity: 0.55, depthWrite: false, side: THREE.DoubleSide}),
+      glass: new THREE.MeshBasicMaterial({color: '#fff3d6', transparent: true, opacity: 0.08, depthWrite: false, side: THREE.DoubleSide}),
       beam: new THREE.MeshBasicMaterial({color: '#fff1cc', transparent: true, opacity: 0.07, depthWrite: false, side: THREE.DoubleSide}),
       gold: std('#e8b923', {metalness: 0.85, roughness: 0.25}),
       silver: std('#cfd5da', {metalness: 0.85, roughness: 0.25}),
@@ -231,27 +260,28 @@ const DrumHallScene = ({cam}: {cam?: {pos: [number, number, number]}}) => {
     }
     return items;
   }, [back, len]);
-  const sockGeo = useMemo(() => sockGeometry(6), []);
-  const cuffGeo = useMemo(() => sockCuffGeometry(6), []);
+  const sockGeo = useMemo(() => sockGeometry(8), []);
+  const cuffGeo = useMemo(() => sockCuffGeometry(8), []);
+  const moundMat = useMemo(() => new THREE.MeshStandardMaterial({map: moundTexture(), roughness: 1, flatShading: true}), []);
   // Verlorene Dinge (riesig): Typ, x, z, Drehung, Farbe
   const things = useMemo(() => {
     const r = rng(77);
     const list: {kind: string; x: number; z: number; rot: number; tilt: number; color: string}[] = [];
     const put = (kind: string, x: number, z: number, color = '#ffffff', tilt = 0) => list.push({kind, x, z, rot: r() * Math.PI * 2, tilt, color});
-    put('coin', 2.4, 7.5, 'gold', 0.25); put('coin', -2.2, 3.2, 'silver', 0.1); put('coin', 1.8, -1.4, 'gold', 0.5); put('coin', -1.6, -4.6, 'gold', 0.15);
-    put('coin', 3.6, -6.5, 'silver', 0.3); put('coin', -4.2, 1.5, 'gold', 0.9);
-    put('button', -2.6, 9.0, '#e2574c', 0.2); put('button', 2.9, 2.0, '#4aa3df', 0.1); put('button', -2.8, -2.2, '#f4c542', 0.35); put('button', 2.2, -9.5, '#2f3542', 0.2);
-    put('button', -5.5, 10.5, '#7bc67b', 0.6);
-    put('hairtie', 1.6, 10.2, '#ff7eb3'); put('hairtie', -1.9, 0.4, '#2f3542'); put('hairtie', 2.8, -4.0, '#b98ad8');
-    put('receipt', -3.2, 5.4); put('receipt', 3.4, -0.2); put('receipt', -2.4, -7.8);
-    put('tissue', 2.2, 4.6); put('tissue', -3.4, -5.6);
+    // entlang des Wegs (sichtbar in den nahen Einstellungen), dazu einige weiter weg
+    put('button', -1.5, 5.6, '#e2574c', 0.2); put('coin', 1.4, 4.4, 'gold', 0.3); put('hairtie', -1.2, 7.6, '#ff7eb3');
+    put('coin', -1.35, 1.1, 'gold', 0.35); put('hairtie', 1.0, 0.3, '#b98ad8'); put('coin', -0.95, -0.7, 'silver', 0.15); put('button', 1.5, 1.9, '#4aa3df', 0.1);
+    put('button', -2.8, -2.2, '#f4c542', 0.35); put('coin', 3.6, -6.5, 'silver', 0.3); put('coin', -4.2, 1.5, 'gold', 0.9); put('button', 2.2, -9.5, '#2f3542', 0.2);
+    put('button', -5.5, 10.5, '#7bc67b', 0.6); put('hairtie', -1.9, -3.4, '#2f3542'); put('coin', 2.6, 9.6, 'gold', 0.2);
+    put('receipt', -3.2, 5.4); put('receipt', 2.9, -0.8); put('receipt', -2.4, -7.8);
+    put('tissue', 2.4, 6.4); put('tissue', -3.0, -5.6);
     return list;
   }, []);
   const RIB_A = [Math.PI, Math.PI / 3, -Math.PI / 3];
   return (
     <>
       <color attach="background" args={['#20262c']} />
-      <fog attach="fog" args={['#2c3238', 22, 75]} />
+      <fog attach="fog" args={['#262c32', 40, 110]} />
       <ambientLight intensity={0.45} color="#dfe8f0" />
       <hemisphereLight args={['#fff3dd', '#4a5058', 0.7]} />
       <directionalLight position={[3, 16, front + 6]} intensity={2.0} color="#ffe9c8" castShadow
@@ -289,6 +319,12 @@ const DrumHallScene = ({cam}: {cam?: {pos: [number, number, number]}}) => {
       <mesh material={mats.beam} position={[0, 5.5, front - 8]} rotation={[Math.PI / 2 + 0.25, 0, 0]}>
         <cylinderGeometry args={[6.5, 3.5, 16, 24, 1, true]} />
       </mesh>
+      {/* Sockenberge: bunter Stoff-Hügel unter den Socken */}
+      {MOUNDS.map(([mx, mz, rad, hh], i) => (
+        <mesh key={i} material={moundMat} position={[mx, drumGround(mx) - 0.1, mz]} scale={[rad, hh * 0.97, rad]} castShadow receiveShadow>
+          <sphereGeometry args={[1, 18, 10, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        </mesh>
+      ))}
       {/* Socken */}
       <Instanced geometry={sockGeo} items={socks} />
       <Instanced geometry={cuffGeo} items={socks} colorOverride="#f4f1e6" side={THREE.DoubleSide} />
@@ -344,7 +380,7 @@ const DrumHallScene = ({cam}: {cam?: {pos: [number, number, number]}}) => {
         );
       })}
       {/* riesiger Löffel + leerer Joghurtbecher */}
-      <group position={[-3.0, drumGround(-3.0) + 0.25, -0.8]} rotation={[0.05, 0.9, 0]}>
+      <group position={[2.6, drumGround(2.6) + 0.25, 3.0]} rotation={[0.05, -0.9, 0]}>
         <mesh material={mats.spoon} position={[0, 0, 0.9]} rotation={[Math.PI / 2, 0, 0]} castShadow>
           <boxGeometry args={[0.18, 2.2, 0.06]} />
         </mesh>
@@ -352,7 +388,7 @@ const DrumHallScene = ({cam}: {cam?: {pos: [number, number, number]}}) => {
           <sphereGeometry args={[0.42, 16, 10]} />
         </mesh>
       </group>
-      <group position={[3.4, drumGround(3.4) + moundHeight(3.4, 8.8) - 0.05, 8.8]} rotation={[0, -0.5, 1.35]} scale={9}>
+      <group position={[-3.1, drumGround(-3.1) + 0.55, 2.6]} rotation={[0, 0.7, 1.4]} scale={9}>
         <YogurtCup lid={1} fill={0.01} />
       </group>
       {/* sanfte Staubkörnchen im Licht */}
