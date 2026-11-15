@@ -35,7 +35,7 @@ outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch imm
 **A_TEXT,
 )
 EXTRA = {1: 0.0, 2: 0.0, 3: 0.0}
-TAIL = 0.3          # Pause nach jedem Clip (Texte unverändert)
+TAIL = 0.15         # Pause nach jedem Clip (gekürzt, damit ≤ 66 s – Texte unverändert)
 OUTRO_MIN = 0.0     # bei Bedarf: Schlussbild 2–3 s länger stehen lassen (Ziel ≥ 61 s)
 VOTE_LEN = 5.6
 
@@ -91,7 +91,7 @@ def K(t, x, z, motion, face=None, **kw):
 def te(t):
     return (0.5 - 0.5 * math.cos(math.pi * t)) * 0.35 + t * 0.65
 def cam(t, pos, look, fov=None):
-    d = {'t': round(te(max(0, min(1, t))), 4), 'pos': [round(v, 3) for v in pos], 'look': [round(v, 3) for v in look]}
+    d = {'t': round(te(max(0, min(1, t))), 4), 'pos': [round(v, 3) for v in pos], 'look': look if isinstance(look, str) else [round(v, 3) for v in look]}
     if fov: d['fov'] = fov
     return d
 HIDE = -30
@@ -151,7 +151,7 @@ RAPT = ['raptor1', 'raptor2', 'raptor3']
 def hide_all(a, t):
     """Figuren ausblenden (für den Bühnenwechsel in den Weltraum)"""
     for n, keys in a.items():
-        last = dict(keys[-1]); last['t'] = r3(t); last['y'] = HIDE; last.pop('cut', None)
+        last = dict(keys[-1]); last['t'] = r3(t); last['y'] = -5000; last.pop('cut', None)
         prev = dict(keys[-1]); prev['t'] = r3(t - 0.002)
         keys.extend([prev, last])
 
@@ -172,7 +172,7 @@ situation = {
    # 2) weil ein T-Rex auf der Autobahn steht: hoch hinter dem Stau, Blick nach vorn zum T-Rex
    *shot(c_weil, r3(c_er - 0.003), F([[-60, 0, -5.6], [-60, 0, 5.6], [TREX[0] + 2, 0, -9], [TREX[0], 7.5, TREX[1] + 5]], 270 + 18, 22, SIT, push=0.1)),
    # 3) er bewegt sich keinen Zentimeter: T-Rex gähnt (von vorn unten, Autos klein davor)
-   *shot(c_er, r3(c_was - 0.003), F(TREX_HEAD + [[TREX[0] - 2, 0, TREX[1] + 3], [TREX[0] + 2, 0, TREX[1] + 3]], 205, 4, SIT, push=0.08)),
+   *shot(c_er, r3(c_was - 0.003), F(TREX_HEAD + [[TREX[0] - 2, 0, TREX[1] + 3], [TREX[0] + 2, 0, TREX[1] + 3]], 15, 6, SIT, push=0.08)),
    # 4) Was machst du? Dummy im Auto schaut fragend, T-Rex im Hintergrund
    *mshot(c_was, 1, [CAR0[0] + 3.4, 1.55, CAR0[1] - 4.2], [CAR0[0] + 0.35, 1.2, CAR0[1] - 0.15], 40, push=0.08),
  ],
@@ -445,7 +445,7 @@ aB['urknall'] = [K(0, 0, 0, 'park', 180, y=HIDE, fill=0), K(r3(imp2 - 0.002), 0,
 BTN_PTS = [[BTN[0] - 0.4, 0, BTN[1] - 0.4], [BTN[0] + 0.4, 1.05, BTN[1] + 0.4]]
 camB = [
   # Karte: Dummy steht neben seinem Auto, Knopf ploppt auf, T-Rex dahinter
-  *shot(0, r3(sB - 0.003), F(body(D_B[0] - 0.4, D_B[1] + 0.2) + BTN_PTS + [[TREX[0], 6.5, TREX[1] + 4]], 330, 6, push=0.05)),
+  *shot(0, r3(sB - 0.003), F(body(D_B[0] - 0.4, D_B[1] + 0.2) + BTN_PTS + car_pts(*CAR0), 70, 8, push=0.05)),
   # 1) Ein Knopf: nah von der Seite, Schild URKNALL lesbar
   *mshot(sB, r3(c_knall - 0.003), [BTN[0] + 0.15, 0.95, BTN[1] + 1.55], [BTN[0], 0.62, BTN[1]], 42, push=0.1),
   # 2) Ein Knall: Dummy drückt (Knopf in Bildmitte = Mitte des Zusammenziehens)
@@ -479,7 +479,7 @@ c_sie = cue(C, 'explain3', 'Sie tänzeln')
 c_renn = cue(C, 'explain3', 'und rennen')
 c_der = cue(C, 'explain3', 'Der T-Rex')
 c_die = cue(C, 'explain3', 'Die Autobahn')
-from_bush = {'raptor1': (-3.2, 11.0), 'raptor2': (0.6, 11.5), 'raptor3': (4.2, 10.9)}
+from_bush = {'raptor1': (-3.2, 10.1), 'raptor2': (0.6, 10.5), 'raptor3': (4.2, 10.0)}
 dance_at = {'raptor1': (TREX[0] - 2.4, TREX[1] + 7.4), 'raptor2': (TREX[0] + 0.3, TREX[1] + 8.4), 'raptor3': (TREX[0] + 2.6, TREX[1] + 7.2)}
 run_to = {'raptor1': (TREX[0] - 8, 55), 'raptor2': (TREX[0] + 1, 60), 'raptor3': (TREX[0] + 9, 54)}
 aC = {'stau': jam(), 'car': [], 'dummy': [], 'trex': []}
@@ -489,7 +489,7 @@ for i, n in enumerate(RAPT):
     l0 = r3(lp0 + sc(0.18) * i)
     l1 = r3(l0 + sc(0.75))
     mid = ((b[0] + d[0]) / 2, (b[1] + d[1]) / 2)
-    keys = [K(0, *b, 'hide', 200, y=0.0), K(r3(l0 - 0.003), *b, 'hide', face_to(b, d)),
+    keys = [K(0, *b, 'hide', 0, y=0.0), K(r3(l0 - 0.003), *b, 'hide', face_to(b, d)),
             K(l0, *b, 'leap', face_to(b, d), y=0.0), K(r3((l0 + l1) / 2), *mid, 'leap', face_to(b, d), y=1.6), K(l1, *d, 'leap', face_to(b, d), y=0.0),
             K(r3(l1 + 0.002), *d, 'dance', 0 + (i - 1) * 15, y=0.0), K(r3(c_renn - 0.003), *d, 'dance', 0 + (i - 1) * 15)]
     run0 = r3(c_renn + sc(0.05 * i))
@@ -507,15 +507,15 @@ aC['dummy'] = [seat(0, 'buckled'), seat(r3(c_renn), 'buckled'), seat_free(r3(c_r
 BUSH_PTS = [[-4.5, 0, 10.5], [5.5, 0, 12.6], [0.6, 1.6, 12.1]]
 camC = [
   # Karte: Gebüsch am Rand, drei Raptoren lugen hervor, T-Rex-Kopf darüber
-  *shot(0, r3(sC - 0.003), F(BUSH_PTS + [[TREX[0] - 1, 6.8, TREX[1] + 5]], 300, 6, push=0.06)),
+  *shot(0, r3(sC - 0.003), F([[-4.2, 0, 9.6], [5.2, 0, 10.6], [0.6, 1.5, 10.5]], 185, 6, push=0.06)),
   # 1) Drei Raptoren, ein Plan.: sie springen aus dem Gebüsch über die Leitplanke
   *shot(sC, r3(c_sie - 0.003), F(BUSH_PTS + [[d[0], 0, d[1]] for d in dance_at.values()], 20, 8, push=0.06)),
   # 2) Sie tänzeln vor ihm herum: tief vor dem T-Rex, Raptoren vorn, T-Rex schaut hinunter
-  *mshot(c_sie, r3(c_renn - 0.003), [TREX[0] + 0.6, 1.0, TREX[1] + 17.5], [TREX[0], 3.6, TREX[1] + 5.5], 50, push=0.06),
+  *shot(c_sie, r3(c_renn - 0.003), F([p for d in dance_at.values() for p in body(d[0], d[1], 1.3)] + TREX_HEAD, 90, 5, push=0.06)),
   # 3) und rennen los. Der T-Rex hinterher.: von der Seite, alle laufen über die Wiese davon
   *mshot(c_renn, r3(c_die - 0.003), [TREX[0] + 26, 6.0, 14], [TREX[0] - 2, 3.0, 22], 50, push=0.08),
   # 4) Die Autobahn ist frei: Dummy fährt winkend weiter (von vorn seitlich)
-  *mshot(c_die, 1, [TREX[0] - 4, 1.5, -12.5], [TREX[0] - 9, 1.0, -3.75], 46, push=0.04),
+  cam(c_die, [TREX[0] - 6, 1.7, -13.0], 'car', 46), cam(1, [TREX[0] - 5, 1.7, -12.5], 'car', 46),
 ]
 stomps = [{'t': r3(tr0 + sc(0.1)), 'id': 't-rex-stampfen', 'volume': 0.75}]
 expC = {
@@ -528,23 +528,24 @@ expC = {
 # =====================================================================================================
 # Abstimmung: alle stehen, Kamera tief + ruhig
 # =====================================================================================================
-VP = {'dummy': (-2.0, 6.4), 'raptor1': (-3.6, 6.9), 'raptor2': (-0.4, 6.9), 'raptor3': (1.2, 6.5)}
-aV = {'stau': jam(), 'car': [K(0, *CAR0, 'park', 90, y=0.0, mark=1)], 'trex': [K(0, TREX[0] - 4, TREX[1] + 1, 'stand', 215, y=0.0, pitch=-10)]}
+VP = {'dummy': (-10.0, 5.8), 'raptor1': (-12.4, 6.2), 'raptor2': (-7.6, 6.2), 'raptor3': (-8.9, 4.0)}
+TV = (-5.5, -1.8)   # T-Rex dahinter (Abstimmung/Outro)
+aV = {'stau': jam(), 'car': [K(0, *CAR0, 'park', 90, y=0.0, mark=1)], 'trex': [K(0, *TV, 'stand', 215, y=0.0, pitch=-10)]}
 aV['dummy'] = [K(0, *VP['dummy'], 'stand', 170, y=0.0, question=1)]
 for i, n in enumerate(RAPT):
     aV[n] = [K(0, *VP[n], 'stand', 180 + (i - 1) * 12, y=0.0)]
-vote = {'camera': shot(0, 1, F([p for k, (x, z) in VP.items() for p in body(x, z, 2.0)] + [[TREX[0] - 4, 7.2, TREX[1] + 4]], 352, 3, (90, 990, 1000, 1400), push=0.04)),
+vote = {'camera': mshot(0, 1, [-13.4, 3.6, 17.6], [-9.8, 2.0, 4.6], 50, push=0.04),
         'actors': aV}
 
 # =====================================================================================================
 # Outro: alle winken / tänzeln, T-Rex gähnt
 # =====================================================================================================
 aO = {'stau': jam(), 'car': [K(0, *CAR0, 'park', 90, y=0.0, mark=1)],
-      'trex': [K(0, TREX[0] - 4, TREX[1] + 1, 'stand', 215, y=0.0), K(0.25, TREX[0] - 4, TREX[1] + 1, 'yawn', 215), K(1, TREX[0] - 4, TREX[1] + 1, 'yawn', 215)]}
+      'trex': [K(0, *TV, 'stand', 215, y=0.0), K(0.25, *TV, 'yawn', 215), K(1, *TV, 'yawn', 215)]}
 aO['dummy'] = [K(0, *VP['dummy'], 'stand', 175, y=0.0), K(0.15, *VP['dummy'], 'wave', 175), K(1, *VP['dummy'], 'wave', 175)]
 for i, n in enumerate(RAPT):
     aO[n] = [K(0, *VP[n], 'stand', 180, y=0.0), K(0.1 + 0.08 * i, *VP[n], 'dance', 180), K(1, *VP[n], 'dance', 180)]
-outro = {'camera': shot(0, 1, F([p for k, (x, z) in VP.items() for p in body(x, z, 2.1)] + [[TREX[0] - 4, 7.2, TREX[1] + 4]], 352, 4, (70, 1000, 900, 1300), push=0.05)),
+outro = {'camera': mshot(0, 1, [-13.6, 3.8, 20.5], [-9.8, 0.2, 4.6], 50, push=0.05),
          'actors': aO, 'sfx': [{'t': 0.3, 'id': 't-rex-gaehnen', 'volume': 0.45}]}
 if OUTRO_MIN > 0:
     outro['fade'] = [round(1 - 1.6 / OUTRO_MIN, 3), 0.99, 0.85]
