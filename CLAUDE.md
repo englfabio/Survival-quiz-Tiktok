@@ -35,7 +35,8 @@ Gebaut mit Remotion (React → Video) und @remotion/three (3D).
     Nicht anhalten, nur kurz Bescheid sagen.
 13. **KI-Hinweis:** Jede Videobeschreibung (`publishing.description`) endet nach den Hashtags mit einer Leerzeile und
     genau diesem Satz: `Hinweis: Das gesamte Video ist KI-generiert.` (auch in `review/final/<id>-texte.txt`).
-    Steht der Satz nicht in der vom Inhaber gelieferten Beschreibung, wird er ergänzt.
+    Steht der Satz nicht in der vom Inhaber gelieferten Beschreibung, wird er ergänzt. Ein vom Inhaber vorgegebener Zusatz in derselben
+    Zeile ist erlaubt (z. B. T-Rex-Stau: „… KI-generiert. Nicht mit Epic Games verbunden.“; die Prüfung erlaubt das).
 
 ## Durchlauf-Modus (STANDARD für jedes Video – vom Inhaber so festgelegt)
 
@@ -66,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -296,6 +297,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   −11.9) + bei z 4.6 (x −10.2/−11.9); Streifen z −5.8 … −1.8 vor der Chefbüro-Wand frei (Bagger-Weg z −3.7). Kaffee-Theke x −2.8 … −0.8, z 0.45 … 1.05
   mit Kaffeemaschine (`CoffeeMachine`, ohne Logo) bei (−1.0, 0.75); davor stehen (−1.0, 1.33) face 0 = Blick durchs Glas ins Chefbüro.
   Wände/Glas von außen unsichtbar bzw. durchsichtig → Kameras dürfen außen stehen. `ExecChair` (Chefsessel) aus Office.tsx jetzt exportiert.
+  Autobahn mit Stau (`autobahn`, `src/stage/Highway.tsx`, `HIGHWAY`, Atmo `autobahn-atmo`): sonniger Nachmittag, Verkehr nach +x, drei Spuren z −3.75/0/3.75
+  (Rand ±5.625), Standstreifen bis z 8.1, Außen-Leitplanke z 8.6, Mittelstreifen mit doppelter Leitplanke z −7.15, leere Gegenfahrbahn bis z −20.4,
+  Schilderbrücke bei x −48 (erfundene Ziele „Kreidezeit 12 km“, „Dinotal 2 km“), Gebüsch am Rand (`HIGHWAY.bushes`, z ≈ 11.5, Raptoren-Verstecke),
+  Wiese/Felder, Bäume vorn erst ab z 70 (Kameras auf der Wiese frei), Hügel. Weltraum (`weltraum`, gleiche Datei, Atmo `weltraum-atmo`): schwarzes All
+  mit Sternen + Nebeln (folgen der Kamera). Busch-Bauteil `Bush` exportiert.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -425,6 +431,20 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (`sweatstand`, mit Wert `sweat`), Chef nervt mit Zeigefinger (`nagpoint`), sitzend Kopf in die Hand stützen + seufzen (`deskslump`), Tür mit links aufdrücken
   + Butler-Geste (`doorhold`), Boxhaltung + Geraden (`boxpunch`, mit `gloves` 1 – auch Chef), Kaffee an der Maschine (`pourcoffee`) + stehend trinken
   (`standcoffee`, Tasse automatisch). Wiederverwendet: `typedesk`, `chairsit`, `gape`, `watchlook`, `boxguard`, `seatdrive`, `wave`; Känguru `hop`/`guard`/`punch`/`victory`.
+- **T-Rex-Stau (Spezial):** `trex` (DinoProps.tsx): riesiger, freundlicher Low-Poly-T-Rex, türkisgrün, Kulleraugen, stumpfe Comic-Zähne, KEIN Film-Design
+  (Hüfte 3,55 m, Kopf ca. 6,5–7,5 m, ca. 11 m lang); Bewegungen `stand`, `bored` (Lider halb zu), `yawn` (gähnt, Maul auf 0,5–2,0 s), `gaze` (staunt nach
+  oben), `chase`/`walk` (Weg über Zeitpunkte); Werte `turn`/`pitch` (Kopf, Grad), `jaw`. `raptor1` blau / `raptor2` lila / `raptor3` orange: gefiederte
+  Velociraptoren mit Federkamm (0,9 m Hüfte): `stand`, `hide` (geduckt), `leap` (Sprung, Höhe über y), `dance` (tänzeln), `sprint`.
+  Bau-Teile (BuildProps.tsx, selbst gestaltet, keine Spielgrafik): Raster 7 × 5,25 m, Holzwand `W`, Holzrampe/Treppe `S` (steigt in Richtung r),
+  umgedreht `D`, Boden `F`; Figur `bau` mit Feld text `"W x y z r;S x y z r;…"` und Wert `fill` (Teil i: clamp(fill − i): erst blaue Bau-Vorschau
+  mit hellen Kanten, dann ploppt das Holz auf). `stau`: drei Spuren bunte Autos (vorn genervte Fahrer-Dummys, `wheeltap`/`buckled`), Ursprung
+  vorderste Reihe, Lücke linke Spur vorn. `urknall` (Wert `fill` 0 → 1): Lichtpunkt → expandierende Sterne, Gas, Galaxien. Knopf `knopf` jetzt mit
+  Schild (Feld text, z. B. „URKNALL“). Auto des Dummys fährt Rampen hoch: `drive` mit `y` + `tilt` (−36,9° = Nase hoch).
+  Shot-Felder: `hud` [t0, t1] + `hudSel` [{t, sel: wall|stair|floor|roof|""}] = selbst gestaltete Spiel-Anzeige (src/ui/GameHud.tsx: Minikarte oben rechts,
+  Bau-Auswahl + leeres Inventar unten rechts, Lebensbalken unten links/Mitte – reine Deko); `implode` [Beginn, Punkt, schwarz] = greller Blitz, alles
+  zieht sich in einen leuchtenden Punkt zusammen, Schwärze (danach per `stage`-Liste Bühnenwechsel). Kamera-`look` darf ein Figurname sein (z. B. "car").
+  Ninetys-Spirale (Wand, Wand, Treppe, Auto springt an jeder Ecke + dreht 90°) ist im Skript als Variante `ninetys` vorhanden, wirkte aber unübersichtlich
+  (Auto im engen Turm kaum zu sehen) → im Video Rampen. Probebilder: review/spezial-trex-stau/test-ninetys/.
 - **Schutzanzug (Dummy):** Wert `hazmat` 1 = weißer Ganzkörper-Schutzanzug ohne Aufdruck, Kapuze, Atemschutzmaske mit zwei Filtern, Schutzbrille,
   blaue Gummihandschuhe mit Stulpe + blaue Überschuhe (Uniform `HAZMAT_UNIFORM` in Dummy.tsx; Arm-Prop `rubber` = Gummihandschuh in beliebiger Farbe).
 - **Monstertruck-Fahrer** (`truckfahrer`): Dummy-Körper hellgrau, roter Rennanzug, roter Rennhelm mit weißem Streifen + dunklem Visier (Uniform-Feld `helmet` =
@@ -660,7 +680,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -782,6 +802,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   ohne Logo/Schrift/Oval); Outro wie Haus weg (Kommentare nur einmal, folgen, jemanden markieren). Kontrolle scribe_v2: korrekt, Zeitstempel max. 0,14 s
   daneben. Choreografie: `python3 scripts/spezial-chef-choreo.py`. Bei A stehen Chef (hinter seinem Tisch) + Kollegen sicher an der Seite, nur Wand/Kopierer
   gehen kaputt; bei C Show-Kampf, Schläge treffen nur Handschuhe. Standbilder in review/spezial-chef/phase1/. Finales Video: review/final/spezial-chef.mp4.
+- Spezial T-Rex-Stau: 788 neue Zeichen (ca. 316 Credits laut ElevenLabs), Sprechzeit 57,9 s, Video 65,7 s (`padAfter` 0,15 s, damit ≤ 66 s). Texte Buchstabe für
+  Buchstabe vom Inhaber, A in der Rampen-Fassung (Ninetys getestet, nicht sauber). Abstimmung nur „Also, was machst du?“, Kommentare nur im Outro.
+  Kontrolle scribe_v2 (alle Clips): korrekt. Choreografie: `python3 scripts/spezial-trex-stau-choreo.py [rampen|ninetys]`. Marke „Fortnite“ nur gesprochen/
+  Kartentext, keine Spielgrafik/Logo. Standbilder in review/spezial-trex-stau/phase1/. Finales Video: review/final/spezial-trex-stau.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -825,6 +849,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `leere-wind` (Spezial Haus weg; wiederverwendet: `zeitraffer`, `tuer-knarren`, `staunen`, `monstertruck-motor`, `geschenk-rascheln`).
   `buero-atmo` (Großraumbüro, Schleife), `wand-krachen`, `kopierer-rutschen`, `wirbel`, `karte-klatsch`, `papierstapel`, `kaffee-eingiessen`, `kaenguru-hops`
   (Spezial Chef; wiederverwendet: `bagger-motor`, `boxglocke`, `boxschlag`, `kaffee-schluerfen`, `tuer-knarren`, `staunen`, `whoosh`, `tastatur`, `kalender-blaettern`).
+  `autobahn-atmo` (Schleife), `bau-klack` (+4 dB), `auto-motor`, `auto-landung`, `t-rex-gaehnen`, `t-rex-stampfen`, `raptor-kreischen`, `urknall`, `weltraum-atmo` (Schleife)
+  (Spezial T-Rex-Stau; wiederverwendet: `auto-hupen`, `plopp`, `knopf-druecken`, `staunen`, `laub-rascheln`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1023,7 +1049,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       PoliceStation.tsx = Polizeiwache mit Tresen; Playground.tsx = Spielplatz; Office.tsx = Chef-Büro;
                       NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus;
                       Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude; Monstertruck.tsx = Wohnstraße, Museumshalle, Acker am Stadtrand;
-                      Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle; OpenOffice.tsx = Büro-Etage)
+                      Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle; OpenOffice.tsx = Büro-Etage;
+                      Highway.tsx = Autobahn + Weltraum)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -1043,7 +1070,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       TruckProps.tsx = Monstertruck/Polizei-Unimog/plattes Auto/Bilderrahmen/Preisschild/Weinglas/Rennhelm/Schlamm-Spritzer,
                       SpueleProps.tsx = Spüle mit Geschirr + Essensresten/Abtropfgestell/Spuckbogen/Küchenuhr/Essensrest,
                       HausProps.tsx = Fußmatte/Einfamilienhaus/Klemmbaustein-Haus/Bausteinhaufen/Gartenhaus mit Tür,
-                      ChefProps.tsx = Bürowand/Kopierer/Reverse-Karte/Boxglocke/Aktenstapel/Wirbel/Schweiß/Glastür) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      ChefProps.tsx = Bürowand/Kopierer/Reverse-Karte/Boxglocke/Aktenstapel/Wirbel/Schweiß/Glastür,
+                      DinoProps.tsx = T-Rex/Raptoren, BuildProps.tsx = Holz-Bauteile/Bau-Figur/Stau/Urknall) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,
