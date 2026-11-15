@@ -862,6 +862,34 @@
       "duration": 1.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "klemmstein-klick",
+      "prompt": "Single crisp bright click of two plastic toy building bricks snapping firmly together, clean, close up, no reverb",
+      "duration": 0.5,
+      "loop": false,
+      "promptInfluence": 0.75
+    },
+    {
+      "id": "haus-knautschen",
+      "prompt": "Comedic cartoon crunch of a wooden toy house being squashed flat by a giant truck tire, crunchy creak and soft thud, no explosion",
+      "duration": 1.2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "himmel-chor",
+      "prompt": "Short heavenly choir 'aaah' sting with soft harp glissando, comedic revelation moment",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "leere-wind",
+      "prompt": "Lonely gust of wind over an empty lot with a few crickets, comedic awkward silence",
+      "duration": 3.0,
+      "loop": false,
+      "promptInfluence": 0.5
     }
   ]
 }

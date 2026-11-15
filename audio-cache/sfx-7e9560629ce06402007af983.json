@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Lonely gust of wind over an empty lot with a few crickets, comedic awkward silence",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-15T00:18:10.508Z"
+}

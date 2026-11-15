@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Comedic cartoon crunch of a wooden toy house being squashed flat by a giant truck tire, crunchy creak and soft thud, no explosion",
+  "duration": 1.2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-15T00:18:04.731Z"
+}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Single crisp bright click of two plastic toy building bricks snapping firmly together, clean, close up, no reverb",
+  "duration": 0.5,
+  "loop": false,
+  "promptInfluence": 0.75,
+  "createdAt": "2026-11-15T00:18:02.664Z"
+}
