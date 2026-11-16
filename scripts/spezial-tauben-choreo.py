@@ -216,9 +216,9 @@ cs_.add('dummy', c_sog, 1, [K(c_sog, -0.85, -1.25, 'gape', face_to((-0.85, -1.25
                               K(c_was, -0.6, -0.2, 'lookaround', 180, question=1.0, cut=True), K(1, -0.6, -0.2, 'lookaround', 180, question=1.0)])
 situation = {
  'camera': [
-   *shot(0, c_sie - 0.003, M([2.6, 1.7, 4.7], [0.2, 3.2, -9.0], push=0.08)),
+   *shot(0, c_sie - 0.003, M([2.2, 1.8, 8.6], [0.3, 3.2, -9.0], push=0.08)),
    *shot(c_sie, c_sog - 0.003, M([0.4, 1.7, 6.2], [0.1, 0.85, -0.9], push=0.1)),
-   *shot(c_sog, c_was - 0.003, M([-0.75, 1.5, 0.45], [-1.85, 1.0, -1.8], 42, push=0.1)),
+   *shot(c_sog, c_was - 0.003, M([-0.85, 1.35, 0.1], [-1.95, 1.0, -1.8], 42, push=0.1)),
    *shot(c_was, 1, M([0.2, 1.8, 5.6], [-0.5, 0.85, -0.6], push=0.06)),
  ],
  'actors': cs_.build(),
@@ -244,7 +244,7 @@ DA = (0.25, 0.55)
 cA.add('fernseher', 0, t_off, [K(0, *TV, 'park', 270)])
 cA.add('tauben2', 0, t_off, [flock(0, TXT_LIVING)])
 cA.add('dummy', 0, t_off, [K(0, *DA, 'call', 180), K(r3(sA - 0.003), *DA, 'call', 180), K(sA, *DA, 'callwait', 180), K(t_off, *DA, 'callwait', 180)])
-cA.add('warteschleife', sA, t_off, [K(sA, DA[0] - 0.05, DA[1], 'show', y=1.98)])
+cA.add('warteschleife', sA, t_off, [K(sA, DA[0] - 0.42, DA[1] + 0.2, 'show', y=1.68)])
 cA.add('fernseher', c_bei, c_alle, [K(c_bei, *TV, 'park', 270)])
 cA.add('tauben2', c_bei, c_alle, [flock(c_bei, TXT_LIVING, blink=0.0), flock(r3(c_bei + sa(0.25)), TXT_LIVING, blink=1.0)])
 # Büro: Regierungs-Dummy (anonym) nickt + drückt den Knopf
@@ -260,9 +260,9 @@ cA.add('ladesymbol', c_und, 1, [K(c_und, -2.0, WIRE_Z, 'show', y=7.35, size=0.6)
 camA = [
   *shot(0, sA - 0.003, M([0.5, 1.6, 5.4], [0.15, 1.0, -0.3], push=0.05)),
   *shot(sA, t_off - 0.003, M([0.9, 1.7, 3.6], [0.25, 1.5, 0.55], push=0.1)),
-  *shot(t_off, c_bei - 0.003, M([0.55, 1.5, 2.9], [0.8, 1.2, -0.6], push=0.08)),
+  *shot(t_off, c_bei - 0.003, M([0.45, 1.35, 4.3], [0.8, 1.05, -0.6], push=0.08)),
   *shot(c_bei, c_alle - 0.003, M([0.2, 1.25, 1.8], [-0.1, 0.6, -1.8], 40, push=0.1)),
-  *shot(c_alle, c_und - 0.003, F([[-3.6, 0, FRONT], [3.6, 7.6, FRONT], [-7.0, 6.5, WIRE_Z], [3.5, 6.5, WIRE_Z]], -32, 10, ANS), push=0.04),
+  *shot(c_alle, c_und - 0.003, M([-2.0, 4.6, 10.5], [0.0, 4.3, -9.0], push=0.05)),
   *shot(c_und, 1, M([-2.0, 4.6, 12.5], [-2.0, 6.6, WIRE_Z], push=0.08)),
 ]
 expA = {
@@ -304,21 +304,21 @@ cB.add('pullikissen', 0, c_die, [K(0, 0.58, 0.55, 'park', 270, y=0.45)])
 # Dachboden: Tauben ordentlich in den Nestern, Anführer mit Brille
 cB.add('tauben2', c_die, c_du, [flock(c_die, TXT_ATTIC)])
 cB.add('taubenchef', c_die, c_du, [K(c_die, 0.15, 0.6, 'nod', 200), K(c_du, 0.15, 0.6, 'nod', 200)])
-cB.add('hausordnung', c_die, 1, [K(c_die, ATTIC_DOOR[0], ATTIC_DOOR[1], 'park', 180, y=1.33)])
-cB.add('putzplan', c_die, 1, [K(c_die, ATTIC_DOOR[0], ATTIC_DOOR[1], 'park', 180, y=0.72)])
+cB.add('hausordnung', c_die, 1, [K(c_die, ATTIC_DOOR[0], -2.125, 'park', 180, y=1.33)])
+cB.add('putzplan', c_die, 1, [K(c_die, ATTIC_DOOR[0], -2.125, 'park', 180, y=0.72)])
 # Küche: Dummy zufrieden mit Kaffee, keine Taube
 cB.add('dummy', c_du, c_mit, [dseat(c_du, 'drinkcoffee'), dseat(c_mit, 'drinkcoffee')])
 # Hausordnung + Putzplan an der Dachboden-Tür, Anführer daneben
 cB.add('tauben2', c_mit, 1, [flock(c_mit, TXT_ATTIC)])
 cB.add('taubenchef', c_mit, 1, [K(c_mit, 0.25, -1.75, 'nod', 165), K(1, 0.25, -1.75, 'nod', 165)])
 camB = [
-  *shot(0, sB - 0.003, M([-0.45, 1.4, 5.2], [-0.45, 0.95, 0.55], push=0.04)),
+  *shot(0, sB - 0.003, M([-0.55, 1.4, 5.6], [-0.55, 0.95, 0.55], push=0.04)),
   *shot(sB, c_ende - 0.003, M([-1.75, 1.45, 1.5], [-0.15, 0.95, 0.5], push=0.1)),
   *shot(c_ende, t_shake - 0.003, M([0.15, 1.35, 2.7], [-0.5, 0.88, 0.55], push=0.08)),
   *shot(t_shake, c_die - 0.003, M([-0.4, 1.3, 3.9], [-0.42, 0.98, 0.55], push=0.1)),
-  *shot(c_die, c_du - 0.003, M([0.2, 1.45, 4.3], [-0.6, 0.65, -1.2], push=0.06)),
+  *shot(c_die, c_du - 0.003, M([0.6, 1.05, 3.4], [-1.0, 0.5, -1.4], 40, push=0.06)),
   *shot(c_du, c_mit - 0.003, M([-0.2, 1.4, 3.6], [-0.9, 1.0, 0.5], push=0.08)),
-  *shot(c_mit, 1, M([0.55, 1.15, 0.6], [0.9, 1.0, -2.17], 40, push=0.12)),
+  *shot(c_mit, 1, M([0.92, 1.0, 1.3], [0.92, 1.0, -2.1], 34, push=0.1)),
 ]
 expB = {
  'camera': camB, 'actors': cB.build(),
@@ -358,7 +358,7 @@ camC = [
   *shot(0, sC - 0.003, F([[-3.6, 0, FRONT], [3.6, 7.6, FRONT], [TRUCK0[0] - 3, 0, 0], [TRUCK0[0] + 3, 4.5, 0]], -20, 8, ANS), push=0.04),
   *shot(sC, c_dannC - 0.003, F([[-3.6, 0, FRONT], [3.6, 7.6, FRONT], [TREE[0] - 2.6, 3, TREE[1]], [TREE[0] + 2.4, 5.5, TREE[1]]], 35, 10, ANS), push=0.05),
   *shot(c_dannC, c_kein - 0.003, F([[-11, 0, HOUSE[1]], [9, 7.6, HOUSE[1]], [-4, 0, -9], [4, 0, -16]], -30, 14, ANS), push=0.04),
-  *shot(c_kein, c_prob - 0.003, M([3.2, 6.4, 14.5], [0.0, 0.6, HOUSE[1]], push=0.06)),
+  *shot(c_kein, c_prob - 0.003, M([7.5, 5.6, 13.5], [1.0, 2.2, HOUSE[1]], push=0.06)),
   *shot(c_prob, 1, F([[X1 + 0.6 - 4, 0, HOUSE[1] - 2.5], [X1 + 0.6 + 4, 5.5, HOUSE[1] + 2.5], [-3, 0, HOUSE[1]]], 40, 12, ANS), push=0.06),
 ]
 expC = {
