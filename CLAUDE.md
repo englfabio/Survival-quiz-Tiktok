@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -302,6 +302,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Schilderbrücke bei x −48 (erfundene Ziele „Kreidezeit 12 km“, „Dinotal 2 km“), Gebüsch am Rand (`HIGHWAY.bushes`, z ≈ 11.5, Raptoren-Verstecke),
   Wiese/Felder, Bäume vorn erst ab z 70 (Kameras auf der Wiese frei), Hügel. Weltraum (`weltraum`, gleiche Datei, Atmo `weltraum-atmo`): schwarzes All
   mit Sternen + Nebeln (folgen der Kamera). Busch-Bauteil `Bush` exportiert.
+  Waschkeller (`waschkeller`, `src/stage/Laundry.tsx`, `WASCH`, Atmo `keller-atmo`): W 5.6, D 5.0 (Rückwand z −2.5), H 3.3, graue Bodenfliesen, halbhoch
+  gefliest, Rohre, Glühbirne, Kellerfenster links oben, Regal mit Waschmittel-Kartons ohne Aufdruck + Weichspülern, Wäschekorb links (−1.75, −1.0), Badematte;
+  Platz für die XXL-Waschmaschine (Objekt `waschmaschine`) bei (0.5, −1.45), face 180 → Front z −0.45, Glas z ≈ −0.36, Bullauge-Mitte y 1.25, Trommelboden y 0.43.
+  Trommel innen (`trommel-innen`, gleiche Datei, `TROMMEL`, Atmo `trommel-atmo`): das Innere der Waschmaschine als riesige Höhle – Lochblech-Zylinder Radius 14
+  (Achse entlang z, Boden steigt seitlich = groundHeight), Rückwand z −34 mit Nabe, vorn bei z 15 das riesige Bullauge (Kamera bei z ≈ 20 schaut durch den Ring
+  hinein = „durch das Bullauge fahren“), Sockenberge (bunte Stoff-Hügel + viele einzelne Socken, instanziert), Sockenteppich auf dem Weg (x ±3, z −10 … 14),
+  riesige verlorene Dinge (Knöpfe, Münzen ohne Motiv, Haargummis, Kassenzettel ohne Namen, Taschentuch-Fetzen, Löffel, leerer Joghurtbecher), kleiner freier
+  Schatz-Hügel `TROMMEL.treasure` (0.4, −7.2) für die Lieblingssocke. Weg des Dummys entlang x ≈ 0 von z 9 nach −6.5; nahe Kameras vor ihm (kleineres z) schauen
+  Richtung Bullauge.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -431,6 +440,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (`sweatstand`, mit Wert `sweat`), Chef nervt mit Zeigefinger (`nagpoint`), sitzend Kopf in die Hand stützen + seufzen (`deskslump`), Tür mit links aufdrücken
   + Butler-Geste (`doorhold`), Boxhaltung + Geraden (`boxpunch`, mit `gloves` 1 – auch Chef), Kaffee an der Maschine (`pourcoffee`) + stehend trinken
   (`standcoffee`, Tasse automatisch). Wiederverwendet: `typedesk`, `chairsit`, `gape`, `watchlook`, `boxguard`, `seatdrive`, `wave`; Känguru `hop`/`guard`/`punch`/`victory`.
+  Waschmaschine (Spezial, Details in `waschPose` in Dummy.tsx): in der Trommel sitzen + durchs Bullauge schauen, Hände am Glas (`drumpeek`, Glas 0,62 m vor ihm),
+  kniend ans Glas klopfen + mit links rufen (`glassknock`, Klopfer 0,5 m vor ihm auf 1,05 m), kniend rechte Hand nach vorn-oben (`takehand`, 0,62 m vor ihm auf 0,85 m),
+  herausgezogen werden Knien → Hocke → Stehen (`drumexit`, Weg + y über Zeitpunkte), mit hohen Knien durch Socken stapfen (`sockstomp`, Weg), etwas triumphierend
+  über den Kopf halten + wippen (`sockraise`, Gegenstand mit `hand` 1), mit ausgestreckten Beinen zurücklehnen, Hände hinter dem Kopf (`drumlounge`).
+  Stiefbruder (alle Dummy-Figuren): Waschmaschinen-Tür mit links aufziehen (`wmopen`, Griff 0,5 m vor ihm, 0,27 m links auf 1,25 m), in die Öffnung beugen + rechte Hand
+  helfend hineinstrecken (`helphand`, 0,62 m vor ihm auf 1,28 m – trifft `takehand` des Dummys bei 1,2 m Abstand), zurückziehen (`pullback`). Wiederverwendet:
+  `tentsit`, `gape`, `pickup`, `peekin`, `walk`, `relief`, `wave`.
 - **T-Rex-Stau (Spezial):** `trex` (DinoProps.tsx): riesiger, freundlicher Low-Poly-T-Rex, türkisgrün, Kulleraugen, stumpfe Comic-Zähne, KEIN Film-Design
   (Hüfte 3,55 m, Kopf ca. 6,5–7,5 m, ca. 11 m lang); Bewegungen `stand`, `bored` (Lider halb zu), `yawn` (gähnt, Maul auf 0,5–2,0 s), `gaze` (staunt nach
   oben), `chase`/`walk` (Weg über Zeitpunkte); Werte `turn`/`pitch` (Kopf, Grad), `jaw`. `raptor1` blau / `raptor2` lila / `raptor3` orange: gefiederte
@@ -502,6 +518,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
 - **Paketbote** (`paketbote`): Dummy-Körper hell salbeigrün, neutrale blaugraue Uniform + Mütze, KEIN Logo, keine Paketdienst-Farben (Vorgabe Inhaber).
 - **Chef** (`chef`): Dummy-Figur grau mit dunkelgrauem Anzug, weißem Hemd, roter Krawatte, ohne Mütze (Uniform-Felder `tie`, `nocap` – wiederverwendbar).
   Jetzt auch mit roten Boxhandschuhen (`gloves` 1) und Zähnen (`teeth`).
+- **Stiefbruder** (`stiefbruder`): Dummy-Körper lila, dunkelgrüner Pulli + graue Hose, ohne Mütze – kann alle Dummy-Bewegungen, Augenbrauen, Fragezeichen.
+- **Objekte (Waschmaschine, `src/actors/WaschProps.tsx`, alle OHNE Logos):** XXL-Frontlader 2,0 × 2,6 × 2,0 m (`waschmaschine`, comichaft übergroß, damit der Dummy
+  hineinpasst; IMMER AUS: Anzeige dunkel, Drehknopf auf 0, keine Lämpchen, Trommel steht still, kein Wasser; `door` 0 … 1 = Bullauge-Tür links angeschlagen, schwenkt
+  nach vorn links; Front +z, face 180; Konstanten `WM`), Wäschekorb mit bunter Wäsche (`waeschekorb`), Weichspüler-Flasche pastell-lila mit Wolken-Bild (`weichspueler`,
+  `smoke` = dampft wie eine Duftkerze mit Glitzern, keine Flamme, `size`), Handtuch-Decke türkis gestreift (`handtuchdecke`, `fill` 0 gefaltet … 1 ausgebreitet),
+  Pulli-Kissen (`pullikissen`), einzelne Socke (`socke`, `mark` = Farbe, `size`), Lieblingssocke rot-weiß geringelt mit gelbem Stern (`lieblingssocke`: Ursprung = Bündchen,
+  `glow` = Glitzern + Schein, `tilt` 90 = liegt, `size` 1.6 im Riesen-Innenraum; in der Hand mit `hand` 1, `drop` 0). Bauteile `Sock`, `sockGeometry`, `drumTexture` (Lochblech).
 - **Kollegen-Dummys** (`kollege1` mint/hellblaues Hemd + Krawatte, `kollege2` apricot/rosa Bluse + Haare, `kollege3` lila/grüne Strickjacke; `COLLEAGUES` in
   index.tsx): alle Dummy-Bewegungen, Augenbrauen. **Schweiß** an jeder Figur mit Dummy-Körper: Wert `sweat` 0 … 2 (Tropfen + Stress-Striche, schaut zur Kamera).
 - **Hütchen** für alle Figuren mit Dummy-Körper: `partyhat` (Partyhütchen, 0 … 1 wird von oben aufgesetzt), `gardenhat` (Strohhut mit grünem Band, z. B. Nachbar = `kumpel` + `gardenhat` 1).
@@ -680,7 +703,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -806,6 +829,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Buchstabe vom Inhaber, A in der Rampen-Fassung (Ninetys getestet, nicht sauber). Abstimmung nur „Also, was machst du?“, Kommentare nur im Outro.
   Kontrolle scribe_v2 (alle Clips): korrekt. Choreografie: `python3 scripts/spezial-trex-stau-choreo.py [rampen|ninetys]`. Marke „Fortnite“ nur gesprochen/
   Kartentext, keine Spielgrafik/Logo. Standbilder in review/spezial-trex-stau/phase1/. Finales Video: review/final/spezial-trex-stau.mp4. **Vom Inhaber freigegeben.**
+- Spezial Waschmaschine: 787 neue Zeichen (ca. 316 Credits laut ElevenLabs; Outro wortgleich mit T-Rex → aus Cache), Sprechzeit 64,3 s inkl. Outro.
+  Texte Buchstabe für Buchstabe vom Inhaber; Abstimmung + Outro auf seinen Nachtrag hin: „in die Kommentare“ nur EINMAL (Outro wie T-Rex mit markieren + folgen).
+  Weil die Texte allein schon 64,3 s dauern, ging ≤ 66 s nur ohne Abstimmungs-Teil (`noVote`, sonst über 66 s auch ohne jede Pause) → `padAfter` 0,05 s, Video 65,7 s.
+  Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-waschmaschine-choreo.py`. Maschine immer aus (Kinder sollen es nicht
+  nachmachen), XXL-Maschine comichaft. Standbilder in review/spezial-waschmaschine/phase1/. Finales Video: review/final/spezial-waschmaschine.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -851,6 +879,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Spezial Chef; wiederverwendet: `bagger-motor`, `boxglocke`, `boxschlag`, `kaffee-schluerfen`, `tuer-knarren`, `staunen`, `whoosh`, `tastatur`, `kalender-blaettern`).
   `autobahn-atmo` (Schleife), `bau-klack` (+4 dB), `auto-motor`, `auto-landung`, `t-rex-gaehnen`, `t-rex-stampfen`, `raptor-kreischen`, `urknall`, `weltraum-atmo` (Schleife)
   (Spezial T-Rex-Stau; wiederverwendet: `auto-hupen`, `plopp`, `knopf-druecken`, `staunen`, `laub-rascheln`).
+  `keller-atmo` (Waschkeller, Schleife), `trommel-atmo` (Riesen-Trommel, Schleife), `glas-klopfen`, `tuer-klick`, `socken-stapfen` (Spezial Waschmaschine;
+  wiederverwendet: `whoosh`, `staunen`, `himmel-chor`, `plopp`, `kissen-plumps`, `dampf`, `tuer-knarren`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1050,7 +1080,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus;
                       Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude; Monstertruck.tsx = Wohnstraße, Museumshalle, Acker am Stadtrand;
                       Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle; OpenOffice.tsx = Büro-Etage;
-                      Highway.tsx = Autobahn + Weltraum)
+                      Highway.tsx = Autobahn + Weltraum; Laundry.tsx = Waschkeller + riesiges Trommel-Inneres)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -1071,7 +1101,8 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       SpueleProps.tsx = Spüle mit Geschirr + Essensresten/Abtropfgestell/Spuckbogen/Küchenuhr/Essensrest,
                       HausProps.tsx = Fußmatte/Einfamilienhaus/Klemmbaustein-Haus/Bausteinhaufen/Gartenhaus mit Tür,
                       ChefProps.tsx = Bürowand/Kopierer/Reverse-Karte/Boxglocke/Aktenstapel/Wirbel/Schweiß/Glastür,
-                      DinoProps.tsx = T-Rex/Raptoren, BuildProps.tsx = Holz-Bauteile/Bau-Figur/Stau/Urknall) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
+                      DinoProps.tsx = T-Rex/Raptoren, BuildProps.tsx = Holz-Bauteile/Bau-Figur/Stau/Urknall,
+                      WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
 src/ui/               Warnschild-UI, Farben (theme.ts), Schrift, Symbole, Sichere Bereiche; Spezial: SpezialBadge, AnswerHeader,
