@@ -145,11 +145,12 @@ Zweites Format neben dem Quiz – nur zum Spaß. **Keine richtige Antwort, keine
    (z. B. „Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr.“).
 4. **Marken:** Markennamen dürfen im gesprochenen Text vorkommen, wenn der Inhaber das vorgibt. **Logos, echte Spielgrafiken, echte
    Produktdesigns und Figuren, die echten Personen ähneln, werden nie gezeigt** (Selbstprüfung bei den Standbildern).
-5. **Video-Ideen (neu, vom Inhaber seit dem Tauben-Video):** Am Ende jedes Videos (Outro) wird zusätzlich dazu aufgefordert,
-   **neue Video-Ideen in die Kommentare zu schreiben**. Damit „in die Kommentare“ trotzdem nur einmal gesagt wird, wird es in den
-   Outro-Satz eingebaut: „Schreib A, B oder C und neue Video-Ideen in die Kommentare, markier jemanden, dem das auch immer passiert,
-   und folg gerne für mehr.“ Dazu die gelbe Zusatzzeile `outro.extra` „Neue Video-Ideen? Ab in die Kommentare!“ (`extraCue` „neue Video-Ideen“).
-   Liefert der Inhaber einen Outro-Text ohne diesen Teil, wird er so ergänzt (und im Bericht erwähnt).
+5. **Video-Ideen (neu, vom Inhaber seit dem Tauben-Video):** Am Ende jedes Videos wird nach dem Outro-Satz zusätzlich
+   **gesprochen**: „Neue Video-Ideen? Ab in die Kommentare!“ (direkt angehängt an `outro.speech`, z. B. „Schreib A, B oder C in die
+   Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!“).
+   Gleichzeitig erscheint derselbe Satz als gelbe Zusatzzeile (`outro.extra`, `extraCue` „Neue Video-Ideen“). Ausdrücklicher Wunsch
+   des Inhabers – das zweite „in die Kommentare“ in diesem angehängten Satz ist erlaubt (Ausnahme zu Regel 3). Fehlt der Satz im
+   gelieferten Outro-Text, wird er angehängt (Rest des Textes bleibt Buchstabe für Buchstabe) und im Bericht erwähnt.
 
 - Abschnittslängen richten sich (sobald es Sprachaufnahmen gibt) automatisch nach der
   Länge der Audios. Bis dahin wird die Sprechdauer aus der Textlänge geschätzt
