@@ -235,7 +235,7 @@ const DrumHallScene = ({cam}: {cam?: {pos: [number, number, number]}}) => {
     const r = rng(2016);
     const items: Inst[] = [];
     const add = (x: number, y: number, z: number, s = 2.6) =>
-      items.push({pos: [x, y, z], rot: [r() * Math.PI * 2, r() * Math.PI * 2, r() * Math.PI * 2], scale: s * (0.85 + r() * 0.3), color: SOCK_COLORS[Math.floor(r() * SOCK_COLORS.length)]});
+      Math.hypot(x - TROMMEL.treasure[0], z - TROMMEL.treasure[1]) < 1.5 ? 0 : items.push({pos: [x, y, z], rot: [r() * Math.PI * 2, r() * Math.PI * 2, r() * Math.PI * 2], scale: s * (0.85 + r() * 0.3), color: SOCK_COLORS[Math.floor(r() * SOCK_COLORS.length)]});
     // Sockenberge
     for (const [mx, mz, rad, hh] of MOUNDS) {
       const n = Math.round(rad * rad * 9);

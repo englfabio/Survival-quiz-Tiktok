@@ -205,17 +205,17 @@ camA = [
   # Karte: Dummy schaut durchs Bullauge
   *shot(0, r3(sA - 0.003), F(DRUM_PTS, 8, 3, push=0.05)),
   # Kamera fährt auf das Bullauge zu … (Waschkeller)
-  cam(sA, [MX + 0.05, CY + 0.05, GLASS + 2.4], [MX, CY - 0.05, MZ], 40), cam(r3(t_in - 0.003), [MX, CY, GLASS + 0.05], [MX, CY - 0.05, MZ], 40),
+  cam(sA, [MX + 0.05, CY + 0.35, GLASS + 2.4], [MX, CY + 0.55, MZ], 40), cam(r3(t_in - 0.003), [MX, CY + 0.6, GLASS + 0.05], [MX, CY + 0.62, MZ], 40),
   # … und durch das Glas hinein: riesiger Innenraum, der Ring des Bullauges rahmt das Bild
   cam(t_in, [0.0, 8.7, 20.5], [0.0, 2.6, 2.0], 54), cam(r3(c_sock - 0.003), [0.0, 6.2, 13.2], [0.0, 1.6, 2.0], 54),
   # Socken, Knöpfe: tief neben dem stapfenden Dummy
   cam(c_sock, [1.7, 1.3, 2.0], 'dummy', 46), cam(r3(c_muen - 0.003), [1.6, 1.3, 1.2], 'dummy', 46),
   # ein paar Münzen, ein Haargummi: tief über Münze + Haargummi, Dummy dahinter
-  *mshot(c_muen, r3(c_alles - 0.003), [-1.6, 0.75, -2.6], [-0.1, 0.7, 1.4], 50, push=0.1),
+  *mshot(c_muen, r3(c_alles - 0.003), [-1.7, 1.45, -2.8], [-0.1, 0.8, 1.4], 50, push=0.1),
   # Alles, was jemals …: hoch + weit über der ganzen Höhle
   *mshot(c_alles, r3(c_und - 0.003), [7.5, 9.5, 12.0], [0.0, 1.0, -8.0], 52, push=0.08),
   # Und da hinten: über die Schulter zur glitzernden Socke
-  *mshot(c_und, r3(t_raise - 0.003), [-2.4, 2.5, -4.4], [0.4, 0.95, -7.3], 46, push=0.12),
+  *mshot(c_und, r3(t_raise - 0.003), [2.0, 3.2, -10.9], [0.4, 0.95, -6.9], 40, push=0.12),
   # Schatz gefunden: tief von vorn, Socke hoch über dem Kopf
   *mshot(t_raise, 1, [0.9, 1.0, -10.2], [0.4, 2.0, -6.45], 46, push=0.06),
 ]
@@ -284,15 +284,15 @@ c_holt = cue(C, 'explain3', 'holt dich')
 S_OPEN = (MX + 0.82 + 0.27 + 0.02, GLASS + 0.5)     # Griff 0,5 m vor ihm, 0,27 m links (linke Hand)
 S_PEEK = (MX + 0.72, GLASS + 0.62)
 S_HELP = (MX - 0.1, GLASS + 0.64)                    # rechte Hand 0,62 m vor ihm → trifft die Hand des Dummys
-S_BACK = (MX + 0.05, GLASS + 1.75)
-D_OUT = (MX - 0.25, GLASS + 1.0)
+S_BACK = (MX + 0.95, GLASS + 1.35)
+D_OUT = (MX - 0.4, GLASS + 0.95)
 op0 = r3(c_tuer - sc(0.45))
 peek0 = r3(c_es - sc(0.15))
 walk0 = r3(c_er + sc(0.05))
 walk1 = r3(walk0 + sc(0.75))
 help0 = r3(max(walk1 + sc(0.02), c_haelt - sc(0.5)))
 pull0 = r3(max(help0 + sc(0.7), c_holt - sc(0.2)))
-pull1 = r3(pull0 + sc(1.4))
+pull1 = r3(min(0.97, pull0 + sc(1.2)))
 stepC = [K(0, S_OPEN[0] + 2.6, S_OPEN[1] + 0.4, 'stand', 270, y=HIDE), K(r3(op0 - sc(1.1)), S_OPEN[0] + 2.6, S_OPEN[1] + 0.4, 'walk', 270, y=0.0),
          K(r3(op0 - sc(0.05)), *S_OPEN, 'walk', 300), K(op0, *S_OPEN, 'wmopen', 0),
          K(r3(peek0 - 0.003), *S_OPEN, 'wmopen', 0), K(peek0, *S_PEEK, 'peekin', 345, brow=1.0), K(r3(walk0 - 0.003), *S_PEEK, 'peekin', 345, brow=1.0),
@@ -317,7 +317,7 @@ camC = [
   # Die Tür geht auf: aus der Trommel heraus, Licht + Stiefbruder draußen
   *shot(c_tuer, r3(c_es - 0.003), F(WM_PTS[:4] + [[S_OPEN[0] + 0.3, 0, S_OPEN[1]], [S_OPEN[0], 1.9, S_OPEN[1]]], 25, 6, push=0.05)),
   # Es ist dein Stiefbruder: er schaut zum Spalt herein (Augenbraue hoch)
-  *mshot(c_es, r3(c_er - 0.003), [MX + 0.45, 1.75, MZ - 0.15], [S_PEEK[0], 1.6, S_PEEK[1]], 56, push=0.06),
+  *mshot(c_es, r3(c_er - 0.003), [MX + 0.35, 1.55, MZ - 0.6], [S_PEEK[0], 1.55, S_PEEK[1]], 48, push=0.06),
   # Er macht die Tür auf und hält dir eine Hand hin: draußen von der Seite
   *shot(c_er, r3(c_holt - 0.003), F([[MX - 1.0, 0, FRONT], [MX + 1.2, 0, 0.6], [MX - 0.4, 1.95, 0.4], [MX + 1.0, 2.0, FRONT], [MX, 0.5, MZ + 0.4]], 40, 8, push=0.06)),
   # und holt dich raus: beide draußen vor der Maschine
@@ -347,7 +347,8 @@ vote = {'camera': shot(0, 1, F(V_PTS, 0, 4, (120, 960, 1060, 1320), push=0.04)),
 aO = {'waschmaschine': [wm(0, door=0.0)],
       'dummy': [K(0, *VP['dummy'], 'stand', 175, y=0.0), K(0.12, *VP['dummy'], 'wave', 175), K(1, *VP['dummy'], 'wave', 175)],
       'stiefbruder': [K(0, *VP['stiefbruder'], 'stand', 188, y=0.0), K(0.2, *VP['stiefbruder'], 'wave', 188), K(1, *VP['stiefbruder'], 'wave', 188)]}
-outro = {'camera': shot(0, 1, F(V_PTS, 6, 6, (100, 980, 780, 1110), push=0.05)), 'actors': aO}
+O_PTS = [[VP['dummy'][0] - 0.5, 0, VP['dummy'][1]], [VP['stiefbruder'][0] + 0.5, 0, VP['stiefbruder'][1]], [VP['dummy'][0], 1.95, VP['dummy'][1]], [MX, 1.9, FRONT]]
+outro = {'camera': shot(0, 1, F(O_PTS, 6, 6, (100, 980, 780, 1110), push=0.05)), 'actors': aO}
 if OUTRO_MIN > 0:
     outro['fade'] = [round(1 - 1.6 / OUTRO_MIN, 3), 0.99, 0.85]
 
