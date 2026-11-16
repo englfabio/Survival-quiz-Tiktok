@@ -855,7 +855,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Texte Buchstabe für Buchstabe vom Inhaber; Nachtrag Inhaber: „in die Kommentare“ nur EINMAL, Outro mit markieren + folgen (wie T-Rex/Waschmaschine). Texte allein
   ca. 65 s → Abstimmungs-Teil entfällt (`noVote`), `padAfter` 0,1 s → Video 65,8 s. Kontrolle scribe_v2 (alle neuen Clips): korrekt, Zeitstempel max. 0,32 s daneben.
   Choreografie: `python3 scripts/spezial-pirat-token-choreo.py`. „Fortnite“/„Pirat-Token“ nur gesprochen; Spiel, Plakat-Münze, Laptop, Dosen selbst gestaltet, keine Logos.
-  Standbilder in review/spezial-pirat-token/phase1/. Finales Video: review/final/spezial-pirat-token.mp4.
+  Standbilder in review/spezial-pirat-token/phase1/. Finales Video: review/final/spezial-pirat-token.mp4. **Vom Inhaber freigegeben.**
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
