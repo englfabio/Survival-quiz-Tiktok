@@ -244,7 +244,7 @@ DA = (0.25, 0.55)
 cA.add('fernseher', 0, t_off, [K(0, *TV, 'park', 270)])
 cA.add('tauben2', 0, t_off, [flock(0, TXT_LIVING)])
 cA.add('dummy', 0, t_off, [K(0, *DA, 'call', 180), K(r3(sA - 0.003), *DA, 'call', 180), K(sA, *DA, 'callwait', 180), K(t_off, *DA, 'callwait', 180)])
-cA.add('warteschleife', sA, t_off, [K(sA, DA[0] - 0.42, DA[1] + 0.2, 'show', y=1.68)])
+cA.add('warteschleife', sA, t_off, [K(sA, DA[0] - 0.25, DA[1] + 0.25, 'show', y=1.72)])
 cA.add('fernseher', c_bei, c_alle, [K(c_bei, *TV, 'park', 270)])
 cA.add('tauben2', c_bei, c_alle, [flock(c_bei, TXT_LIVING, blink=0.0), flock(r3(c_bei + sa(0.25)), TXT_LIVING, blink=1.0)])
 # Büro: Regierungs-Dummy (anonym) nickt + drückt den Knopf
@@ -358,7 +358,7 @@ camC = [
   *shot(0, sC - 0.003, F([[-3.6, 0, FRONT], [3.6, 7.6, FRONT], [TRUCK0[0] - 3, 0, 0], [TRUCK0[0] + 3, 4.5, 0]], -20, 8, ANS), push=0.04),
   *shot(sC, c_dannC - 0.003, F([[-3.6, 0, FRONT], [3.6, 7.6, FRONT], [TREE[0] - 2.6, 3, TREE[1]], [TREE[0] + 2.4, 5.5, TREE[1]]], 35, 10, ANS), push=0.05),
   *shot(c_dannC, c_kein - 0.003, F([[-11, 0, HOUSE[1]], [9, 7.6, HOUSE[1]], [-4, 0, -9], [4, 0, -16]], -30, 14, ANS), push=0.04),
-  *shot(c_kein, c_prob - 0.003, M([7.5, 5.6, 13.5], [1.0, 2.2, HOUSE[1]], push=0.06)),
+  *shot(c_kein, c_prob - 0.003, F([[-3.8, 0, -16.0], [3.8, 0.6, -9.0], [3.7, 3.2, TREE[1]], [5.8, 4.9, TREE[1]]], 55, 14, ANS), push=0.05),
   *shot(c_prob, 1, F([[X1 + 0.6 - 4, 0, HOUSE[1] - 2.5], [X1 + 0.6 + 4, 5.5, HOUSE[1] + 2.5], [-3, 0, HOUSE[1]]], 40, 12, ANS), push=0.06),
 ]
 expC = {
