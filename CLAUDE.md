@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -311,6 +311,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   riesige verlorene Dinge (Knöpfe, Münzen ohne Motiv, Haargummis, Kassenzettel ohne Namen, Taschentuch-Fetzen, Löffel, leerer Joghurtbecher), kleiner freier
   Schatz-Hügel `TROMMEL.treasure` (0.4, −7.2) für die Lieblingssocke. Weg des Dummys entlang x ≈ 0 von z 9 nach −6.5; nahe Kameras vor ihm (kleineres z) schauen
   Richtung Bullauge.
+  Gaming-Zimmer (`gamingzimmer`, `src/stage/Bedroom.tsx`, `GAMING`, Atmo `gaming-atmo`): Schlafzimmer am Abend (Bett, Fenster, Tür wie `schlafzimmer`), aber
+  statt Schreibtisch/Leseecke/Nachttisch eine Gaming-Ecke an der Rückwand links: schwarzer Tisch x −1.75 … −0.45, z −1.9 … −1.25, Platte 0,75 m, vier schlanke
+  Beine (darunter frei), RGB-Leisten (Tischkante, Mauspad, Rückwand, Decke; Farbwechsel), Headset, Maus, Dosen ohne Marke, Gaming-Stuhl (Lehne hinten +z) bei
+  (−1.1, −0.95) → Dummy sitzt dort face 0, Laptop bei (−1.1, y 0.75, −1.38) face 180; Plakat „PIRAT-TOKEN“ (selbst gestaltete Münze) über dem Tisch bei
+  (−1.1, 1.68, −1.885); Laptop-Stapel unter dem Tisch bei (−0.70, −1.45) face 90. Plakatrahmen + Wand-LEDs nur von vorn sichtbar → Kamera darf hinter die
+  Rückwand (unter/neben dem Plakat durch auf das Gesicht des Dummys).
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -447,6 +453,17 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Stiefbruder (alle Dummy-Figuren): Waschmaschinen-Tür mit links aufziehen (`wmopen`, Griff 0,5 m vor ihm, 0,27 m links auf 1,25 m), in die Öffnung beugen + rechte Hand
   helfend hineinstrecken (`helphand`, 0,62 m vor ihm auf 1,28 m – trifft `takehand` des Dummys bei 1,2 m Abstand), zurückziehen (`pullback`). Wiederverwendet:
   `tentsit`, `gape`, `pickup`, `peekin`, `walk`, `relief`, `wave`.
+  Pirat-Token (Spezial, Details in `gamePose` in Dummy.tsx, alle sitzend auf dem Gaming-Stuhl, Tastatur 0,43 m vor ihm auf 0,78 m): hektisch auf die Tastatur
+  hämmern (`keyhammer`), wie gebannt auf den Bildschirm starren (`screenstare`), sich mit rechts den Dampf aus dem Gesicht wedeln (`fansteam`), Laptop mit beiden
+  Händen 0,4 m nach links schieben (`pushaside`, 0,2–0,9 s), nach rechts unten beugen + Laptop vom Stapel holen + vor sich absetzen (`grablaptop`, Griff 0,85 s,
+  oben 1,7 s, abgesetzt 2,0 s), Deckel aufklappen (`lidopen`, lid 0 → 1 bei 0,15–0,85 s), Deckel langsam zuklappen + zurücklehnen, Hände hinter den Kopf, Blick
+  hoch zum Plakat (`closelean`, lid 1 → 0 bei 0,2–1,5 s, Lehnen 1,7–2,9 s), triumphierend beide Arme hochreißen (`seatcheer`).
+- **Objekte (Pirat-Token, `src/actors/GamingProps.tsx`, alles selbst gestaltet – KEINE echte Spielgrafik/Oberfläche, KEIN Logo, KEIN echtes Token):**
+  Gaming-Laptop (`gaminglaptop`, `gaminglaptop2`: dunkel mit RGB-Streifen; Bildschirm = eigenes buntes Insel-Spiel mit kleiner runder Spielfigur, Palmen, Schatztruhe,
+  die aufklappt + golden leuchtet, Zähler „TRUHEN GEÖFFNET: 48.213“; Werte `lid` 0 zu … 1 offen (IMMER setzen, Standard 0), `fill` = Zählerstand, `mark` = Truhen
+  pro Sekunde, `turn` = Phase des Truhen-Zyklus (auf Wort-Zeitstempel legen), `smoke` 0 … 2 = comichafte Dampfwolken (kein Feuer), `glow` 0 … 1 = Tasten glühen rot,
+  `good` 0 … 1 = goldene Piratenmünze leuchtet auf dem Bildschirm auf), Laptop-Stapel (`laptopstapel`, `fill` = Anzahl), Bauteile `EnergyCan` (Dose ohne Marke),
+  `GamingChair`, `PiratePoster`, `SteamPuffs`, Zeichnung `drawPirateCoin` (goldene Münze, Totenkopf mit Piratenhut, gekreuzte Knochen, Seil-Rand, Glanz).
 - **T-Rex-Stau (Spezial):** `trex` (DinoProps.tsx): riesiger, freundlicher Low-Poly-T-Rex, türkisgrün, Kulleraugen, stumpfe Comic-Zähne, KEIN Film-Design
   (Hüfte 3,55 m, Kopf ca. 6,5–7,5 m, ca. 11 m lang); Bewegungen `stand`, `bored` (Lider halb zu), `yawn` (gähnt, Maul auf 0,5–2,0 s), `gaze` (staunt nach
   oben), `chase`/`walk` (Weg über Zeitpunkte); Werte `turn`/`pitch` (Kopf, Grad), `jaw`. `raptor1` blau / `raptor2` lila / `raptor3` orange: gefiederte
@@ -703,7 +720,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -834,6 +851,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Weil die Texte allein schon 64,3 s dauern, ging ≤ 66 s nur ohne Abstimmungs-Teil (`noVote`, sonst über 66 s auch ohne jede Pause) → `padAfter` 0,05 s, Video 65,7 s.
   Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-waschmaschine-choreo.py`. Maschine immer aus (Kinder sollen es nicht
   nachmachen), XXL-Maschine comichaft. Standbilder in review/spezial-waschmaschine/phase1/. Finales Video: review/final/spezial-waschmaschine.mp4. **Vom Inhaber freigegeben.**
+- Spezial Pirat-Token: 719 neue Zeichen (ca. 287 Credits laut ElevenLabs; Abstimmung + Outro wortgleich mit T-Rex → aus Cache), Sprechzeit 62,1 s ohne Abstimmung.
+  Texte Buchstabe für Buchstabe vom Inhaber; Nachtrag Inhaber: „in die Kommentare“ nur EINMAL, Outro mit markieren + folgen (wie T-Rex/Waschmaschine). Texte allein
+  ca. 65 s → Abstimmungs-Teil entfällt (`noVote`), `padAfter` 0,1 s → Video 65,8 s. Kontrolle scribe_v2 (alle neuen Clips): korrekt, Zeitstempel max. 0,32 s daneben.
+  Choreografie: `python3 scripts/spezial-pirat-token-choreo.py`. „Fortnite“/„Pirat-Token“ nur gesprochen; Spiel, Plakat-Münze, Laptop, Dosen selbst gestaltet, keine Logos.
+  Standbilder in review/spezial-pirat-token/phase1/. Finales Video: review/final/spezial-pirat-token.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -881,6 +903,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Spezial T-Rex-Stau; wiederverwendet: `auto-hupen`, `plopp`, `knopf-druecken`, `staunen`, `laub-rascheln`).
   `keller-atmo` (Waschkeller, Schleife), `trommel-atmo` (Riesen-Trommel, Schleife), `glas-klopfen`, `tuer-klick`, `socken-stapfen` (Spezial Waschmaschine;
   wiederverwendet: `whoosh`, `staunen`, `himmel-chor`, `plopp`, `kissen-plumps`, `dampf`, `tuer-knarren`).
+  `gaming-atmo` (Gaming-Zimmer, Schleife: Laptop-Lüfter), `truhe-auf`, `zaehler-rattern`, `laptop-zuklappen`, `gold-fanfare` (Spezial Pirat-Token;
+  wiederverwendet: `tastatur`, `dampf`, `laptop-auf`, `papier-schieben`, `geschenk-rascheln`, `himmel-chor`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1102,6 +1126,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       HausProps.tsx = Fußmatte/Einfamilienhaus/Klemmbaustein-Haus/Bausteinhaufen/Gartenhaus mit Tür,
                       ChefProps.tsx = Bürowand/Kopierer/Reverse-Karte/Boxglocke/Aktenstapel/Wirbel/Schweiß/Glastür,
                       DinoProps.tsx = T-Rex/Raptoren, BuildProps.tsx = Holz-Bauteile/Bau-Figur/Stau/Urknall,
+                      GamingProps.tsx = Gaming-Laptop mit eigenem Spiel/Zähler/Dampf/Plakat/Laptop-Stapel/Dosen/Gaming-Stuhl,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
