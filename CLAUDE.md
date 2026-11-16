@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -323,6 +323,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (−1.1, −0.95) → Dummy sitzt dort face 0, Laptop bei (−1.1, y 0.75, −1.38) face 180; Plakat „PIRAT-TOKEN“ (selbst gestaltete Münze) über dem Tisch bei
   (−1.1, 1.68, −1.885); Laptop-Stapel unter dem Tisch bei (−0.70, −1.45) face 90. Plakatrahmen + Wand-LEDs nur von vorn sichtbar → Kamera darf hinter die
   Rückwand (unter/neben dem Plakat durch auf das Gesicht des Dummys).
+  Tauben-Straße (`taubenstrasse`, `src/stage/Settlement.tsx`, `TAUBEN`, Atmo `wald-atmo`): wie `siedlung`, aber mit dem Haus des Dummys (Objekt `haus`
+  bei (0, −12.5), face 180, Vorderseite z −9; Wert `door` 1 = Fenster offen/dunkel), Holz-Strommasten auf dem vorderen Gehweg (x −20/−8/4/16, z 5.6) mit drei
+  Leitungen (Höhe `wireY(x)`, ca. 6,2–6,5 m, durchhängend; Tauben-Reihe auf der mittleren Leitung x −6.9 … 3), großer Baum gegenüber (6.2, 9.2) mit drei
+  waagerechten Ästen (y 3.1/3.9/4.7) → 15 Sitzplätze `TAUBEN.perches`, Blick zum Haus face 0.
+  Dachboden (`dachboden`, `src/stage/Attic.tsx`, `ATTIC`, Atmo `uhr-ticken`): gemütlicher Dachboden unter dem Satteldach (x ±2.6, Rückwand/Giebel z −2.2, First
+  3,0 m, Kniestock 0,9 m), Holzdielen, Sparren, Lichterkette am First, rundes Giebelfenster (−0.55, 2.05), Holztür rechts (Mitte x 0.92) – Schilder an der Tür bei
+  z −2.125 (face 180: `hausordnung` y 1.33, `putzplan` y 0.72), Nester (Holzkisten mit Stroh, Bauteil `NestBox`) in einer Reihe vor der Rückwand + Brett darüber
+  (`ATTIC.nests`), Teppich, Futternapf. Kamera z. B. [0.6, 1.05, 3.4] Blick [−1.0, 0.5, −1.4] (fov 40) für die Nester.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -464,6 +472,24 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Händen 0,4 m nach links schieben (`pushaside`, 0,2–0,9 s), nach rechts unten beugen + Laptop vom Stapel holen + vor sich absetzen (`grablaptop`, Griff 0,85 s,
   oben 1,7 s, abgesetzt 2,0 s), Deckel aufklappen (`lidopen`, lid 0 → 1 bei 0,15–0,85 s), Deckel langsam zuklappen + zurücklehnen, Hände hinter den Kopf, Blick
   hoch zum Plakat (`closelean`, lid 1 → 0 bei 0,2–1,5 s, Lehnen 1,7–2,9 s), triumphierend beide Arme hochreißen (`seatcheer`).
+  Tauben (Spezial, Details in `pigeonPose` in Dummy.tsx): genervt telefonieren in der Warteschleife – Hand in der Hüfte, Fuß tippt, Seufzer (`callwait`),
+  telefonieren + nicken (`callnod`, auch Regierungs-Dummy), sitzend am Tisch verhandeln/gestikulieren (`seattalk`), sitzend stempeln (`seatstamp`, Treffer 0,58 s,
+  Tisch 0,42 m vor ihm), sitzend die rechte Hand über den Tisch reichen + schütteln (`seatshake`, Hand ca. 0,55 m vor ihm auf 0,98 m). Wiederverwendet: `call`,
+  `gape`, `lookaround`, `chairsit`, `pushstack`, `drinkcoffee`, `pressbutton`, `seatdrive`, `seattriumph`, `wave`, `stand`.
+- **Tauben (`src/actors/PigeonProps.tsx`, comichaft, den Tauben passiert nie etwas):** Taube im Low-Poly-Look (`Pigeon`: blaugrau, grün-lila schillernder Hals,
+  helle Flügel mit zwei dunklen Binden, rote Füße, Kulleraugen; Wert `blink` = kleines rotes Blinklicht auf dem Rücken). **Schwarm** (`tauben`, `tauben2`, `tauben3`):
+  ganze Gruppe in WELT-Koordinaten (Figur bei (0, 0), face 180; y −30 = weg), Feld `text` = Tauben getrennt mit „;“, je „x y z face“ (sitzt: wippt, schaut
+  umher, pickt) oder „x y z face>x y z face“ (fliegt im Bogen von → nach, Flügelschlag); Werte `fill` 0 … 1 = Flug-Fortschritt (bei 1 sind ALLE gelandet),
+  `mark` = Staffelung (0 = alle gleichzeitig), `blink`, `size` (draußen 0,4). **Tauben-Anführer** (`taubenchef`, 1,35-fach, dunkler, rote Krawatte + Lesebrille):
+  `perch`, `talk` (mit den Flügeln gestikulieren), `nod`, `wingshake` (rechter Flügel nach vorn + schütteln, Spitze ca. 0,31 m vor ihm), `wingpush` (Papier schieben,
+  alle 1,6 s), `flap`, `walk`. Steht z. B. AUF dem Küchentisch (y 0,76) dem sitzenden Dummy gegenüber.
+- **Regierungs-Dummy** (`agent`): Dummy-Körper dunkelgrau, schwarzer Anzug, weißes Hemd, schwarze Krawatte, schwarze Sonnenbrille (Uniform-Feld `shades`,
+  für jede Dummy-Figur nutzbar), kein Abzeichen – anonymer „Regierungs“-Mitarbeiter (keine echten Politiker/Gebäude).
+- **Objekte (Tauben, `src/actors/PigeonProps.tsx`):** Mietvertrag (`mietvertrag`: Blatt „MIETVERTRAG / Dachboden: Tauben / Küche: Dummy“, Unterschriften mit
+  Tauben-Fußabdruck, liegt flach; `mark` 1 = roter Stempel „GENEHMIGT“), Putzplan (`putzplan`, Zettel Mo–So Tauben/Dummy mit Haken), Hausordnung (`hausordnung`,
+  Holzrahmen-Schild mit 5 lustigen Regeln), Fernseher auf Lowboard (`fernseher`, Bild mit Himmel + Wolken, Oberkante 1,08 m), Warteschleife (`warteschleife`:
+  schwebende gelbe Musiknoten + Schild „Bitte warten …“, `show`, schaut zur Kamera), Lade-Symbol (`ladesymbol`: grüne Batterie mit Blitz, füllt sich in Schleife,
+  `show`, `size`), Nest (Bauteil `NestBox`). Haus (`haus`) jetzt mit Wert `door` 1 = Fenster offen. Knopf `knopf` mit Schild „ZURÜCK“ wiederverwendet.
 - **Objekte (Pirat-Token, `src/actors/GamingProps.tsx`, alles selbst gestaltet – KEINE echte Spielgrafik/Oberfläche, KEIN Logo, KEIN echtes Token):**
   Gaming-Laptop (`gaminglaptop`, `gaminglaptop2`: dunkel mit RGB-Streifen; Bildschirm = eigenes buntes Insel-Spiel mit kleiner runder Spielfigur, Palmen, Schatztruhe,
   die aufklappt + golden leuchtet, Zähler „TRUHEN GEÖFFNET: 48.213“; Werte `lid` 0 zu … 1 offen (IMMER setzen, Standard 0), `fill` = Zählerstand, `mark` = Truhen
@@ -726,7 +752,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -862,6 +888,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   ca. 65 s → Abstimmungs-Teil entfällt (`noVote`), `padAfter` 0,1 s → Video 65,8 s. Kontrolle scribe_v2 (alle neuen Clips): korrekt, Zeitstempel max. 0,32 s daneben.
   Choreografie: `python3 scripts/spezial-pirat-token-choreo.py`. „Fortnite“/„Pirat-Token“ nur gesprochen; Spiel, Plakat-Münze, Laptop, Dosen selbst gestaltet, keine Logos.
   Standbilder in review/spezial-pirat-token/phase1/. Finales Video: review/final/spezial-pirat-token.mp4. **Vom Inhaber freigegeben.**
+- Spezial Tauben: 902 neue Zeichen (ca. 359 Credits laut ElevenLabs; Abstimmung aus Cache), Sprechzeit 64,5 s inkl. Outro. Texte Buchstabe für Buchstabe vom
+  Inhaber; Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5, Wunsch Inhaber). Texte allein ca. 64,5 s → Abstimmungs-Teil entfällt
+  (`noVote`), `padAfter` 0,05 s → Video 65,9 s (Inhaber hatte hier ausnahmsweise auch > 66 s erlaubt – nicht nötig; ab dem nächsten Video wieder Richtung 61 s).
+  Kontrolle scribe_v2 (alle Clips): korrekt. Choreografie: `python3 scripts/spezial-tauben-choreo.py` (Helfer `Cast` = Figur je Bühne ein-/ausblenden; prüft mit
+  `check_c`, dass bei C alle Tauben auf dem Baum sind, BEVOR der Truck losfährt: gelandet 2,4 s, Truck 2,7 s, Haus platt ab 3,4 s der Szene). Comichaft, den Tauben
+  passiert nichts; A ohne echte Politiker/Regierungsgebäude (anonyme Hotline, Regierungs-Dummy mit Sonnenbrille in neutralem Büro). Standbilder in
+  review/spezial-tauben/phase1/. Finales Video: review/final/spezial-tauben.mp4.
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -911,6 +944,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   wiederverwendet: `whoosh`, `staunen`, `himmel-chor`, `plopp`, `kissen-plumps`, `dampf`, `tuer-knarren`).
   `gaming-atmo` (Gaming-Zimmer, Schleife: Laptop-Lüfter), `truhe-auf`, `zaehler-rattern`, `laptop-zuklappen`, `gold-fanfare` (Spezial Pirat-Token;
   wiederverwendet: `tastatur`, `dampf`, `laptop-auf`, `papier-schieben`, `geschenk-rascheln`, `himmel-chor`).
+  `tauben-gurren`, `fluegelschlag` (Schwarm hebt ab), `warteschleife` (Telefon-Wartemusik), `klick`, `piep`, `laden` (Spezial Tauben; wiederverwendet:
+  `handy-waehlen`, `kuehlschrank-auf`, `papier-schieben`, `stempel`, `kaffee-schluerfen`, `monstertruck-motor`, `haus-knautschen`; Dachboden nutzt `uhr-ticken`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1110,7 +1145,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       NeighborGarden.tsx = zwei Gärten nebeneinander, Tag + Nacht; Stairwell.tsx = Treppenhaus;
                       Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude; Monstertruck.tsx = Wohnstraße, Museumshalle, Acker am Stadtrand;
                       Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle; OpenOffice.tsx = Büro-Etage;
-                      Highway.tsx = Autobahn + Weltraum; Laundry.tsx = Waschkeller + riesiges Trommel-Inneres)
+                      Highway.tsx = Autobahn + Weltraum; Laundry.tsx = Waschkeller + riesiges Trommel-Inneres;
+                      Settlement.tsx auch Tauben-Straße mit Strommasten + Baum; Attic.tsx = Dachboden)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -1133,6 +1169,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       ChefProps.tsx = Bürowand/Kopierer/Reverse-Karte/Boxglocke/Aktenstapel/Wirbel/Schweiß/Glastür,
                       DinoProps.tsx = T-Rex/Raptoren, BuildProps.tsx = Holz-Bauteile/Bau-Figur/Stau/Urknall,
                       GamingProps.tsx = Gaming-Laptop mit eigenem Spiel/Zähler/Dampf/Plakat/Laptop-Stapel/Dosen/Gaming-Stuhl,
+                      PigeonProps.tsx = Tauben/Schwarm/Anführer/Mietvertrag/Putzplan/Hausordnung/Fernseher/Warteschleife/Lade-Symbol/Nest,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
