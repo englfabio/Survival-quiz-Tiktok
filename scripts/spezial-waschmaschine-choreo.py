@@ -28,11 +28,14 @@ vote="Also, was machst du?",
 outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr.",
 )
 EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.0))}
-TAIL = float(os.environ.get('TAIL', 0.15))         # Pause nach jedem Clip (nur Pausen kürzen, Texte bleiben)
+TAIL = float(os.environ.get('TAIL', 0.05))         # Pause nach jedem Clip (nur Pausen kürzen, Texte bleiben)
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))  # bei Bedarf: Schlussbild 2–3 s länger stehen lassen (Ziel ≥ 61 s)
-VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.4))
+VOTE_LEN = 5.6                                  # fest im Zeitplan (src/data/timeline.ts)
+# Gesprochene Texte allein 64,3 s → mit Abstimmung (5,6 s) wären es über 66 s, auch ohne Pausen. Texte bleiben unverändert,
+# daher entfällt der Abstimmungs-Teil (wie bei Chef/Haus weg); „in die Kommentare“ kommt genau einmal im Outro.
+NO_VOTE = os.environ.get('NO_VOTE', '1') == '1'
 
-LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': 0.6, 'explain2': 0.5, 'explain3': 0.5, 'countdown': 0.1, 'outro': 0.3}
+LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'countdown': 0.1, 'outro': 0.3}   # wie src/data/timeline.ts
 MINLEN = {'situation': 5, 'explain1': 6, 'explain2': 6, 'explain3': 7, 'countdown': 5, 'outro': 3}
 TEXT = {'situation': S['situation'], 'option1': S['o1s'], 'option2': S['o2s'], 'option3': S['o3s'],
         'explain1': S['e1'], 'explain2': S['e2'], 'explain3': S['e3'], 'countdown': S['vote'], 'outro': S['outro']}
@@ -366,6 +369,7 @@ scen = {
  'shots': {'situation': situation, 'countdown': vote, 'outro': outro},
 }
 if OUTRO_MIN > 0: scen['outroMin'] = OUTRO_MIN
+if NO_VOTE: scen['noVote'] = True
 for _sh in [situation, vote, outro, expA, expB, expC]:
     _sh['sharpCuts'] = True
     for keys in _sh['actors'].values():
@@ -375,7 +379,7 @@ for _sh in [situation, vote, outro, expA, expB, expC]:
             if 'y' in k: y = k['y']
             elif y is not None and not k.get('attach'): k['y'] = y
 json.dump(scen, open(f'{ROOT}/scenarios/{ID}.json', 'w'), ensure_ascii=False, indent=2)
-total = seclen('situation') + TA + TB + TC + seclen('countdown') + seclen('outro')
+total = seclen('situation') + TA + TB + TC + (0 if NO_VOTE else seclen('countdown')) + seclen('outro')
 print('Länge', round(total, 1), 's', 'audio' if dur else 'geschätzt',
       {'situation': seclen('situation'), 'A': (cardA, sceneA), 'B': (cardB, sceneB), 'C': (cardC, sceneC), 'vote': seclen('countdown'), 'outro': seclen('outro')})
 print('A: Schatz hoch bei', round(t_raise * TA, 2), 's von', round(TA, 2), '| C: rausgezogen', round(pull1 * TC, 2), 's von', round(TC, 2))
