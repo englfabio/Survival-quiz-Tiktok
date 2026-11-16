@@ -9,7 +9,7 @@ import type {StageCam, StageDef} from './types';
  *    über x 0: Dachhöhe ATTIC.roofY(x). Dachflächen + Seiten nur von innen sichtbar.
  *  - Giebelwand: rundes Fenster (Mitte ATTIC.window), Holztür rechts (Mitte x ATTIC.door[0], 0,75 × 1,75 m, Vorderseite z −2.18) →
  *    Platz für die Objekte `hausordnung` (oben) und `putzplan` (unten) an der Tür, face 180.
- *  - Nester (Holzkisten mit Stroh) ordentlich in einer Reihe an der linken Seite + zwei auf einem Brett an der Rückwand:
+ *  - Nester (Holzkisten mit Stroh) ordentlich in einer Reihe vor der Rückwand links, eins an der linken Seite + zwei auf einem Brett darüber:
  *    Sitzplätze ATTIC.nests (x, y, z) – Tauben dort mit Blick nach vorn (face 180) bzw. zur Mitte.
  *  - warmes Licht, Lichterkette am First, kleiner Teppich, Futternapf, Wasserschale.
  */
@@ -19,10 +19,10 @@ const KNEE = 0.9;
 const RIDGE = 3.0;
 const roofY = (x: number) => RIDGE - (Math.abs(x) / (W / 2)) * (RIDGE - KNEE);
 const NESTS: [number, number, number][] = [
-  [-2.1, 0.09, -1.5],
-  [-2.1, 0.09, -0.7],
-  [-2.1, 0.09, 0.1],
-  [-2.1, 0.09, 0.9],
+  [-1.9, 0.09, -1.75],
+  [-1.3, 0.09, -1.75],
+  [-0.7, 0.09, -1.75],
+  [-2.1, 0.09, -0.8],
   [-0.9, 1.0, -1.95],
   [-0.3, 1.0, -1.95],
 ];
