@@ -90,8 +90,8 @@ const GamingCorner = ({time}: {time: number}) => {
       </group>
       {/* Dosen ohne Marke: auf dem Tisch + am Boden (eine umgekippt) */}
       {[
-        [desk.x0 + 0.12, desk.h, desk.z1 - 0.12, '#2fd0a0', 0],
-        [desk.x0 + 0.2, desk.h, desk.z1 - 0.2, '#ff5a3c', 0],
+        [desk.x0 + 0.08, desk.h, desk.z0 + 0.08, '#2fd0a0', 0],
+        [desk.x1 - 0.08, desk.h, desk.z1 - 0.09, '#ff5a3c', 0],
         [desk.x1 - 0.1, desk.h, desk.z0 + 0.14, '#7a5cff', 0],
         [desk.x1 - 0.18, desk.h, desk.z0 + 0.1, '#2fd0a0', 0],
         [desk.x0 + 0.16, 0, desk.z1 + 0.25, '#ff5a3c', 0],
@@ -106,21 +106,23 @@ const GamingCorner = ({time}: {time: number}) => {
         <PiratePoster />
       </group>
       {/* RGB-Leisten an der Rückwand (über dem Tisch) und unter der Decke */}
-      <mesh position={[cx, 2.38, desk.z0 + 0.01]}>
-        <boxGeometry args={[3.0, 0.025, 0.01]} />
+      <mesh position={[cx, 2.38, desk.z0 + 0.012]}>
+        <planeGeometry args={[3.0, 0.025]} />
         <meshBasicMaterial color={ledB} toneMapped={false} />
       </mesh>
       <mesh position={[-1.79, 2.38, 0]}>
         <boxGeometry args={[0.01, 0.025, 3.6]} />
         <meshBasicMaterial color={ledA} toneMapped={false} />
       </mesh>
-      <mesh position={[cx, 1.07, desk.z0 + 0.01]}>
-        <boxGeometry args={[W - 0.1, 0.018, 0.01]} />
+      <mesh position={[cx, 1.07, desk.z0 + 0.012]}>
+        <planeGeometry args={[W - 0.1, 0.018]} />
         <meshBasicMaterial color={ledA} toneMapped={false} />
       </mesh>
       <pointLight position={[cx, 1.2, desk.z0 + 0.35]} intensity={1.6} color={ledA} distance={3.2} decay={1.6} />
       <pointLight position={[cx + 0.6, 2.2, desk.z0 + 0.6]} intensity={1.2} color={ledB} distance={4} decay={1.5} />
       <pointLight position={[0.8, 2.2, 0.4]} intensity={0.9} color="#8a5cff" distance={5} decay={1.4} />
+      {/* RGB-Schein unter dem Tisch (Laptop-Stapel gut sichtbar) */}
+      <pointLight position={[-0.8, 0.35, desk.z1 - 0.05]} intensity={0.9} color={ledB} distance={1.6} decay={1.6} />
     </group>
   );
 };
@@ -290,7 +292,7 @@ const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gam
       </group>
       {gaming && <GamingCorner time={frame / 30} />}
       {gaming && (
-        <group position={[GAMING.chair[0], 0, GAMING.chair[1] + 0.02]}>
+        <group position={[GAMING.chair[0], 0, GAMING.chair[1] + 0.02]} rotation={[0, Math.PI, 0]}>
           <GamingChair />
         </group>
       )}

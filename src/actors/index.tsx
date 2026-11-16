@@ -786,7 +786,7 @@ export const Actor = ({
       )}
       {name === 'waschmaschine' && <WashingMachine door={v.door} />}
       {(name === 'gaminglaptop' || name === 'gaminglaptop2') && (
-        <GamingLaptop lid={v.lid} count={v.fill} rate={v.mark} steam={v.smoke} keys={v.glow} coin={v.good} time={zt} />
+        <GamingLaptop lid={v.lid} count={v.fill} rate={v.mark} steam={v.smoke} keys={v.glow} coin={v.good} time={zt} phase={v.turn} />
       )}
       {name === 'laptopstapel' && <LaptopStack count={v.fill} />}
       {name === 'waeschekorb' && <LaundryBasket />}

@@ -1,5 +1,6 @@
 import {useEffect, useMemo, useState} from 'react';
 import {continueRender, delayRender} from 'remotion';
+import {useThree} from '@react-three/fiber';
 import * as THREE from 'three';
 import {T} from '../ui/theme';
 import {clamp, rng} from '../lib/anim';
@@ -9,7 +10,8 @@ import {clamp, rng} from '../lib/anim';
  * KEIN Logo, KEIN echtes Token-Motiv (Vorgabe Inhaber, Spezial-Regel 4).
  *  - GamingLaptop ("gaminglaptop", "gaminglaptop2"): dunkler Gaming-Laptop mit RGB-Streifen. Auf dem Bildschirm ein eigenes, buntes
  *    Insel-Spiel (kleine runde Spielfigur, Palmen, Meer, Schatztruhen, die aufklappen und golden leuchten) + Zähler "Truhen geöffnet".
- *    Werte: lid 0 zu … 1 offen, fill = Zählerstand (Zahl), mark = Truhen pro Sekunde (0 = Standard 0,75), smoke 0 … 2 = comichafte
+ *    Werte: lid 0 zu … 1 offen, fill = Zählerstand (Zahl), mark = Truhen pro Sekunde (0 = Standard 0,75), turn = Phase des Truhen-Zyklus
+ *    (0 … 1; Truhe springt auf, wenn Abschnittszeit·mark + turn ganzzahlig ist), smoke 0 … 2 = comichafte
  *    Dampfwolken (kein Feuer), glow 0 … 1 = Tasten glühen rot, good 0 … 1 = goldene Piratenmünze leuchtet auf dem Bildschirm auf.
  *    Ursprung = Mitte unten, Tastatur vorn (+z), Scharnier hinten (z −0.13), Bildschirm schaut nach +z.
  *  - LaptopStack ("laptopstapel"): Stapel zugeklappter Laptops, fill = Anzahl (ganzzahlig gerundet).
@@ -25,14 +27,20 @@ let fontsReady = false;
 const useFonts = () => {
   const [ready, setReady] = useState(fontsReady);
   const [handle] = useState(() => (fontsReady ? null : delayRender('Schrift Gaming')));
+  const advance = useThree((st) => st.advance);
   useEffect(() => {
-    if (fontsReady) return;
+    if (ready) return;
     document.fonts.load(`800 80px "Barlow Condensed"`).finally(() => {
       fontsReady = true;
       setReady(true);
-      if (handle !== null) continueRender(handle);
     });
-  }, [handle]);
+  }, [ready]);
+  // nach dem Zeichnen der Leinwand die 3D-Szene einmal neu malen, dann erst weiter rendern
+  useEffect(() => {
+    if (!ready) return;
+    advance(performance.now());
+    if (handle !== null) continueRender(handle);
+  }, [ready, advance, handle]);
   return ready;
 };
 
@@ -240,7 +248,7 @@ const drawChest = (g: CanvasRenderingContext2D, x: number, y: number, s: number,
   g.fillRect(x - s * 0.08, y - s * 0.6, s * 0.16, s * 0.16);
 };
 
-const drawGame = (g: CanvasRenderingContext2D, W: number, H: number, time: number, count: number, rate: number, coin: number, steam: number) => {
+const drawGame = (g: CanvasRenderingContext2D, W: number, H: number, time: number, count: number, rate: number, coin: number, steam: number, phase: number) => {
   // Himmel + Meer
   const sky = g.createLinearGradient(0, 0, 0, H);
   sky.addColorStop(0, '#6ec8ff');
@@ -293,7 +301,7 @@ const drawGame = (g: CanvasRenderingContext2D, W: number, H: number, time: numbe
   }
   // Truhe: Zyklus (Truhe auf – leer – Truhe zu – nächste)
   const r = rate > 0 ? rate : 0.75;
-  const cyc = (time * r) % 1;
+  const cyc = (((time * r + phase) % 1) + 1) % 1;
   const open = cyc < 0.15 ? cyc / 0.15 : cyc < 0.7 ? 1 : cyc < 0.85 ? 1 - (cyc - 0.7) / 0.15 : 0;
   const glow = cyc < 0.1 ? 0 : cyc < 0.3 ? (cyc - 0.1) / 0.2 : cyc < 0.6 ? 1 - (cyc - 0.3) / 0.3 : 0;
   drawChest(g, W * 0.6, H * 0.71, 64, coin > 0.3 ? 1 : open, coin > 0.3 ? 1 : glow * 0.8);
@@ -375,13 +383,13 @@ const drawGame = (g: CanvasRenderingContext2D, W: number, H: number, time: numbe
   }
 };
 
-const LidScreen = ({time, count, rate, coin, steam}: {time: number; count: number; rate: number; coin: number; steam: number}) => {
+const LidScreen = ({time, count, rate, coin, steam, phase}: {time: number; count: number; rate: number; coin: number; steam: number; phase: number}) => {
   const ready = useFonts();
   const live = useLiveCanvas(512, 320);
   // nur bei Änderungen neu zeichnen (30 Bilder/s)
-  const key = `${Math.round(time * 30)}|${Math.round(count)}|${rate}|${coin.toFixed(2)}|${steam.toFixed(1)}|${ready}`;
+  const key = `${Math.round(time * 30)}|${Math.round(count)}|${rate}|${phase}|${coin.toFixed(2)}|${steam.toFixed(1)}|${ready}`;
   if (ready && live.key !== key) {
-    drawGame(live.g, 512, 320, time, count, rate, coin, steam);
+    drawGame(live.g, 512, 320, time, count, rate, coin, steam, phase);
     live.tex.needsUpdate = true;
     live.key = key;
   }
@@ -406,7 +414,7 @@ export const SteamPuffs = ({amount, time, height = 0.55}: {amount: number; time:
     <group>
       {PUFFS.slice(0, n).map((p, i) => {
         const u = (time * p.sp * (0.8 + 0.3 * amount) + p.ph) % 1;
-        const s = (0.035 + 0.075 * u) * p.s * (0.7 + 0.45 * amount);
+        const s = (0.03 + 0.06 * u) * p.s * (0.7 + 0.4 * amount);
         const op = Math.sin(Math.PI * u);
         return (
           <mesh key={i} material={mat} position={[p.x * (1 + u * 0.6), 0.02 + u * height * (0.7 + 0.4 * amount), p.z + u * 0.04]} scale={s * (0.4 + 0.6 * op)}>
@@ -422,7 +430,7 @@ export const SteamPuffs = ({amount, time, height = 0.55}: {amount: number; time:
 /** Deckelwinkel (Grad aus der Senkrechten, + = zur Tastatur hin): offen −16° … zu +90° */
 export const lidAngle = (lid: number) => -16 + (1 - clamp(lid)) * 106;
 export const GLAPTOP = {w: 0.42, d: 0.29, hinge: -0.135, lidLen: 0.27, base: 0.024};
-export const GamingLaptop = ({lid = 1, count = 0, rate = 0, steam = 0, keys = 0, coin = 0, time = 0}: {lid?: number; count?: number; rate?: number; steam?: number; keys?: number; coin?: number; time?: number}) => {
+export const GamingLaptop = ({lid = 1, count = 0, rate = 0, steam = 0, keys = 0, coin = 0, time = 0, phase = 0}: {lid?: number; count?: number; rate?: number; steam?: number; keys?: number; coin?: number; time?: number; phase?: number}) => {
   const m = useMemo(
     () => ({
       shell: std('#262a33', {roughness: 0.45, metalness: 0.3}),
@@ -432,7 +440,7 @@ export const GamingLaptop = ({lid = 1, count = 0, rate = 0, steam = 0, keys = 0,
     [],
   );
   const k = clamp(keys);
-  const keyMat = useMemo(() => new THREE.MeshStandardMaterial({color: new THREE.Color('#1b1d22').lerp(new THREE.Color('#ff3a1a'), k), emissive: new THREE.Color('#ff2a00'), emissiveIntensity: 1.6 * k, flatShading: true}), [k]);
+  const keyMat = useMemo(() => new THREE.MeshStandardMaterial({color: new THREE.Color('#1b1d22').lerp(new THREE.Color('#ff2200'), k), emissive: new THREE.Color('#ff1a00'), emissiveIntensity: 2.6 * k, flatShading: true, toneMapped: false}), [k]);
   const hue = (time * 0.12) % 1;
   const rgb = useMemo(() => new THREE.MeshBasicMaterial({color: new THREE.Color().setHSL(hue, 0.9, 0.55), toneMapped: false}), [Math.round(hue * 60)]);
   const a = (lidAngle(lid) * Math.PI) / 180;
@@ -472,7 +480,7 @@ export const GamingLaptop = ({lid = 1, count = 0, rate = 0, steam = 0, keys = 0,
         </mesh>
         {lid > 0.2 && (
           <group position={[0, lidLen / 2 + 0.005, 0.0015]}>
-            <LidScreen time={time} count={count} rate={rate} coin={coin} steam={steam} />
+            <LidScreen time={time} count={count} rate={rate} coin={coin} steam={steam} phase={phase} />
           </group>
         )}
         {lid > 0.2 && <pointLight position={[0, lidLen / 2, 0.15]} intensity={0.5 + 1.8 * coin} color={coin > 0.1 ? '#ffd040' : '#9fd8ff'} distance={1.6} decay={2} />}
@@ -485,7 +493,7 @@ export const GamingLaptop = ({lid = 1, count = 0, rate = 0, steam = 0, keys = 0,
 };
 
 // ---------- Stapel zugeklappter Laptops ----------
-const STACK_COLORS = ['#2c313b', '#3b2f45', '#24343a', '#3a3328', '#2f2f33', '#33283a'];
+const STACK_COLORS = ['#55606f', '#6a5578', '#4b6a73', '#6d5f4a', '#5a5a63', '#64506e'];
 export const LaptopStack = ({count = 4}: {count?: number}) => {
   const n = Math.max(0, Math.round(count));
   return (
@@ -645,8 +653,9 @@ export const PiratePoster = () => {
   const mat = useMemo(() => new THREE.MeshStandardMaterial({map: live.tex, roughness: 0.8, emissive: '#ffffff', emissiveMap: live.tex, emissiveIntensity: 0.45}), [live]);
   return (
     <group>
-      <mesh position={[0, 0, -0.006]}>
-        <boxGeometry args={[POSTER.w + 0.04, POSTER.h + 0.04, 0.012]} />
+      {/* Rahmen nur von vorn sichtbar (Kamera darf hinter der Wand stehen) */}
+      <mesh position={[0, 0, -0.002]}>
+        <planeGeometry args={[POSTER.w + 0.04, POSTER.h + 0.04]} />
         <meshStandardMaterial color="#111318" />
       </mesh>
       <mesh material={mat} position={[0, 0, 0.001]}>
