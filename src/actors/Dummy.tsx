@@ -4810,8 +4810,106 @@ const gamePose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+
+/** Schwarze Sonnenbrille (Regierungs-Dummy): zwei dunkle, leicht glänzende Gläser + Steg, vorn am Kopf (Ursprung = Kopfmitte) */
+const SunGlasses = () => (
+  <group position={[0, 0.02, 0]}>
+    {[-1, 1].map((s) => (
+      <group key={s}>
+        <mesh position={[s * 0.05, 0, 0.118]} scale={[1.25, 0.8, 0.35]}>
+          <sphereGeometry args={[0.036, 12, 8]} />
+          <meshStandardMaterial color="#0b0c0e" roughness={0.12} metalness={0.6} />
+        </mesh>
+        <mesh position={[s * 0.113, 0.005, 0.06]} rotation={[0, s * 0.2, 0]}>
+          <boxGeometry args={[0.007, 0.008, 0.12]} />
+          <meshStandardMaterial color="#111" />
+        </mesh>
+      </group>
+    ))}
+    <mesh position={[0, 0.008, 0.128]}>
+      <boxGeometry args={[0.035, 0.008, 0.008]} />
+      <meshStandardMaterial color="#111" />
+    </mesh>
+  </group>
+);
+
+// ---------- Spezial Tauben ----------
+/**
+ * Tauben-Video (alle Figuren mit Dummy-Körper):
+ *  - callwait:  genervt telefonieren in der Warteschleife – Handy rechts am Ohr, linke Hand in der Hüfte, Fuß tippt, Kopf rollt, Seufzer alle 2,6 s
+ *  - callnod:   telefonieren + deutlich nicken (Regierungs-Dummy), Kopf nickt alle 0,9 s
+ *  - seattalk:  sitzend am Tisch verhandeln: Hände gestikulieren abwechselnd über dem Tisch, Kopf nickt/schüttelt
+ *  - seatstamp: sitzend Stempel kräftig auf den Tisch drücken (Treffer 0,58 s, Tisch 0,42 m vor ihm auf 0,8 m), danach Hand wieder hoch
+ *  - seatshake: sitzend die rechte Hand über den Tisch reichen + schütteln (Hand 0,55 m vor ihm auf 0,98 m)
+ */
+const pigeonPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'callwait': {
+      const p = gardenPose('call', time, 0)!;
+      const k = easeInOut(clamp(time / 0.5));
+      reachL(p, lerp3t([0.22, 0.92, 0.08], [0.25, 1.0, -0.03], k), 0.33, [0.8, -0.2, -0.8]);
+      const c = time % 2.6;
+      const sigh = Math.sin(Math.PI * clamp((c - 1.6) / 0.9));
+      p.headX = 0.05 + 0.18 * sigh * k;
+      p.headY = 0.12 + 0.12 * Math.sin(time * 1.1) * k;
+      p.torsoX = -0.04 + 0.06 * sigh + breathe;
+      p.chest = 0.6 * Math.max(0, sigh);
+      const tap = Math.max(0, Math.sin(time * 9)) * k;
+      p.legR = L3(-0.18 * tap, -0.05, 0.05 + 0.2 * tap);
+      return p;
+    }
+    case 'callnod': {
+      const p = gardenPose('call', time, 0)!;
+      const nod = Math.max(0, Math.sin((time * TAU) / 0.9));
+      p.headX = 0.08 + 0.22 * nod;
+      p.torsoX = 0.03 + 0.03 * nod + breathe;
+      return p;
+    }
+    case 'seattalk': {
+      const p = chairSit(time);
+      const a = Math.sin(time * 3.1);
+      const b = Math.sin(time * 2.3 + 1.2);
+      p.torsoX = 0.12 + 0.05 * Math.sin(time * 1.4) + breathe;
+      p.headX = 0.1 + 0.06 * Math.sin(time * 2.6);
+      p.headY = 0.18 * Math.sin(time * 1.7);
+      reachR(p, [-0.16 + 0.05 * a, 0.92 + 0.1 * Math.max(0, a), 0.4], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.16 + 0.05 * b, 0.9 + 0.12 * Math.max(0, b), 0.4], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'seatstamp': {
+      const p = chairSit(time);
+      const up = easeInOut(clamp(time / 0.45));
+      const down = clamp((time - 0.45) / 0.13);
+      const lift = easeInOut(clamp((time - 0.9) / 0.4));
+      p.torsoX = 0.15 + 0.2 * down * (1 - lift) + breathe;
+      p.headX = 0.3;
+      const rest: P3 = [-0.14, 0.86, 0.36];
+      const high: P3 = [-0.1, 1.3, 0.36];
+      const hit: P3 = [-0.04, 0.83, 0.42];
+      const R = time < 0.45 ? lerp3t(rest, high, up) : lerp3t(lerp3t(high, hit, down * down), [-0.1, 1.05, 0.38], lift);
+      reachR(p, R, 0.36, [0.6, -1, -0.3]);
+      reachL(p, [0.16, 0.8, 0.4], 0.33, [0.6, -1, -0.3]);
+      p.item = 'stamp';
+      p.fists = true;
+      return p;
+    }
+    case 'seatshake': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.45));
+      const shake = Math.sin(time * 10) * 0.045 * clamp((time - 0.45) / 0.2);
+      p.torsoX = 0.1 + 0.25 * k + breathe;
+      p.headX = 0.12 + 0.05 * Math.sin(time * 3.5) * k;
+      reachR(p, lerp3t([-0.14, 0.86, 0.36], [-0.04, 0.98 + shake, 0.55], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.16, 0.8, 0.4], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -5271,7 +5369,7 @@ export const dummyPoseBlended = (
  * Uniform für Figuren mit Dummy-Körper (Bahnmitarbeiterin, Bundespolizist …): Farben für Jacke, Säume, Kragen, Hose,
  * Mütze (Schirmmütze) + Mützenband, optional Halstuch und Zopf. Ohne Logos und ohne echte Abzeichen.
  */
-export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; /** Krawatte (Farbe) */ tie?: string; /** ohne Schirmmütze (z. B. Anzug) */ nocap?: boolean; noCap?: boolean; /** Bademantel: Jacke wird zum Mantel bis übers Knie, Gürtel in Kragenfarbe, keine Hose */ robe?: boolean; /** Hausschuhe (Farbe) statt Schuhen */ slippers?: string; /** Rennhelm (Farbe), z. B. Monstertruck-Fahrer */ helmet?: string};
+export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; /** Krawatte (Farbe) */ tie?: string; /** ohne Schirmmütze (z. B. Anzug) */ nocap?: boolean; noCap?: boolean; /** Bademantel: Jacke wird zum Mantel bis übers Knie, Gürtel in Kragenfarbe, keine Hose */ robe?: boolean; /** Hausschuhe (Farbe) statt Schuhen */ slippers?: string; /** Rennhelm (Farbe), z. B. Monstertruck-Fahrer */ helmet?: string; /** schwarze Sonnenbrille (z. B. Regierungs-Dummy im Tauben-Video) */ shades?: boolean};
 const useMats = (color = YELLOW, coat = false, uni?: Uniform, pantsColor?: string) =>
   useMemo(
     () => ({
@@ -6945,6 +7043,7 @@ export const Dummy = ({
             {brow > 0.01 && <Brows m={m} raise={clamp((brow - 0.1) / 0.9)} />}
             <Foam amount={foam} time={fxTime} />
             <ReadingGlasses amount={glasses} />
+            {uniform?.shades && <SunGlasses />}
             <HeadSplat amount={splat} />
           </group>
           <BodyHint lunge={lunge} blut={blut} time={fxTime} />

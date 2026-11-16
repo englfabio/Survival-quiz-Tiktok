@@ -292,6 +292,18 @@ export type Motion =
   | 'lidopen' // klappt den Deckel mit beiden Händen auf (0,15–0,85 s)
   | 'closelean' // klappt den Deckel langsam zu (0,2–1,5 s), lehnt sich zurück, Hände hinter den Kopf (1,7–2,9 s)
   | 'seatcheer' // reißt sitzend triumphierend beide Arme hoch, wippt
+  // ---- Spezial Tauben ----
+  | 'callwait' // Dummy: genervt telefonieren in der Warteschleife (Hand in der Hüfte, Fuß tippt)
+  | 'callnod' // Dummy: telefonieren + nicken
+  | 'seattalk' // Dummy: sitzend am Tisch verhandeln (gestikulieren)
+  | 'seatstamp' // Dummy: sitzend stempeln (Treffer 0,58 s)
+  | 'seatshake' // Dummy: sitzend Hand über den Tisch reichen + schütteln
+  | 'perch' // Taube: sitzen, Kopf nicken/picken, gurren
+  | 'flap' // Taube: auf der Stelle flattern
+  | 'talk' // Tauben-Anführer: mit den Flügeln gestikulieren
+  | 'nod' // Tauben-Anführer: nicken
+  | 'wingshake' // Tauben-Anführer: Flügel nach vorn reichen + schütteln
+  | 'wingpush' // Tauben-Anführer: mit dem Flügel Papier über den Tisch schieben (alle 1,6 s)
   // ---- Spezial Chef (Details: chefPose in Dummy.tsx) ----
   | 'seatthrow' // sitzt (z. B. im Bagger), holt mit rechts über dem Kopf aus, wirft nach vorn (Abwurf 0,7 s), zeigt danach zufrieden
   | 'slapcard' // Karte hoch (bis 0,5 s), schwungvoll 0,45 m vor sich auf den Tisch (0,78 m) knallen (0,75 s), danach Arme verschränken
