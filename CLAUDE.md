@@ -833,7 +833,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Texte Buchstabe für Buchstabe vom Inhaber; Abstimmung + Outro auf seinen Nachtrag hin: „in die Kommentare“ nur EINMAL (Outro wie T-Rex mit markieren + folgen).
   Weil die Texte allein schon 64,3 s dauern, ging ≤ 66 s nur ohne Abstimmungs-Teil (`noVote`, sonst über 66 s auch ohne jede Pause) → `padAfter` 0,05 s, Video 65,7 s.
   Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-waschmaschine-choreo.py`. Maschine immer aus (Kinder sollen es nicht
-  nachmachen), XXL-Maschine comichaft. Standbilder in review/spezial-waschmaschine/phase1/. Finales Video: review/final/spezial-waschmaschine.mp4.
+  nachmachen), XXL-Maschine comichaft. Standbilder in review/spezial-waschmaschine/phase1/. Finales Video: review/final/spezial-waschmaschine.mp4. **Vom Inhaber freigegeben.**
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
