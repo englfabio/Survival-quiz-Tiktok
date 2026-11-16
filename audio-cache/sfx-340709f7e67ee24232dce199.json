@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "A flock of pigeons taking off at once, many wings flapping loudly then fading away, outdoors, no music",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-16T21:19:07.895Z"
+}

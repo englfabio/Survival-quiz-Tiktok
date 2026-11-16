@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Single crisp mechanical click of a button being pressed, close up, no music",
+  "duration": 0.6,
+  "loop": false,
+  "promptInfluence": 0.8,
+  "createdAt": "2026-11-16T21:19:12.685Z"
+}

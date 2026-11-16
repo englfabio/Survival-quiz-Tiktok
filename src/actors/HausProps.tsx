@@ -81,7 +81,7 @@ const HOUSE_LOOK = [
 ];
 export const HOUSE_DIM = {w: 7, d: 7, wallH: 5, roofH: 2.6};
 
-export const FamilyHouse = ({look = 0, squish = 0, seed = 1}: {look?: number; squish?: number; seed?: number}) => {
+export const FamilyHouse = ({look = 0, squish = 0, seed = 1, open = 0}: {look?: number; squish?: number; seed?: number; /** Fenster offen (dunkle Öffnungen, Tauben fliegen heraus) */ open?: number}) => {
   const L = HOUSE_LOOK[Math.max(0, Math.min(HOUSE_LOOK.length - 1, Math.round(look)))];
   const {w, d, wallH, roofH} = HOUSE_DIM;
   const m = useMemo(
@@ -90,6 +90,7 @@ export const FamilyHouse = ({look = 0, squish = 0, seed = 1}: {look?: number; sq
       roof: std(L.roof, {roughness: 0.8}),
       trim: std(L.trim, {roughness: 0.6}),
       glass: std('#7aa3bd', {roughness: 0.2, metalness: 0.25}),
+      hole: std('#2a2730', {roughness: 1}),
       door: std(L.door, {roughness: 0.6}),
       step: std('#bdb7ad'),
       chimney: std('#9c5a45'),
@@ -112,12 +113,14 @@ export const FamilyHouse = ({look = 0, squish = 0, seed = 1}: {look?: number; sq
       <mesh material={m.trim}>
         <boxGeometry args={[1.25, 1.35, 0.06]} />
       </mesh>
-      <mesh material={m.glass} position={[0, 0, 0.035]}>
+      <mesh material={open > 0.5 ? m.hole : m.glass} position={[0, 0, 0.035]}>
         <boxGeometry args={[1.05, 1.15, 0.03]} />
       </mesh>
-      <mesh material={m.trim} position={[0, 0, 0.055]}>
-        <boxGeometry args={[0.06, 1.15, 0.02]} />
-      </mesh>
+      {open < 0.5 && (
+        <mesh material={m.trim} position={[0, 0, 0.055]}>
+          <boxGeometry args={[0.06, 1.15, 0.02]} />
+        </mesh>
+      )}
     </group>
   );
   return (

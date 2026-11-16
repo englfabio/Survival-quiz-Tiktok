@@ -36,6 +36,43 @@ export const SIEDLUNG = {
   walkBack: -5,
   walkFront: 5,
 };
+/**
+ * Variante "taubenstrasse" (TAUBEN, Spezial Tauben): wie "siedlung", aber das Grundstück des Dummys ist bebaut (Haus = Objekt `haus`
+ * bei TAUBEN.house, face 180, Tür bei z −9), dazu auf dem vorderen Gehweg Holz-Strommasten mit drei Leitungen (Querträger entlang z,
+ * Leitungen entlang x bei z TAUBEN.wireZ ± 0,45, Höhe TAUBEN.wireY(x), leicht durchhängend) und gegenüber vom Haus ein großer Baum mit
+ * drei waagerechten Ästen (Sitzplätze TAUBEN.perches, Blick zum Haus = face 0).
+ */
+const WIRE_POLES = [-20, -8, 4, 16];
+const WIRE_H = 6.5;
+const WIRE_SAG = 0.28;
+const wireY = (x: number) => {
+  for (let i = 0; i < WIRE_POLES.length - 1; i++) {
+    const a = WIRE_POLES[i];
+    const b = WIRE_POLES[i + 1];
+    if (x >= a && x <= b) {
+      const u = (x - (a + b) / 2) / ((b - a) / 2);
+      return WIRE_H - WIRE_SAG * (1 - u * u);
+    }
+  }
+  return WIRE_H;
+};
+const TREE = {x: 6.2, z: 9.2};
+const BRANCHES = [
+  {y: 3.1, dir: -1, len: 2.4},
+  {y: 3.9, dir: 1, len: 2.1},
+  {y: 4.7, dir: -1, len: 1.9},
+];
+export const TAUBEN = {
+  house: [0, -12.5] as [number, number],
+  poles: WIRE_POLES,
+  wireZ: 5.6,
+  wireY,
+  tree: TREE,
+  branches: BRANCHES,
+  /** Sitzplätze auf den Ästen (x, y, z) – oben auf dem Ast */
+  perches: BRANCHES.flatMap((b) => Array.from({length: 5}, (_, i) => [TREE.x + b.dir * (0.45 + i * (b.len - 0.6) / 4), b.y + 0.09, TREE.z] as [number, number, number])),
+};
+
 export const SHED_HALL = {house: [0, -12] as [number, number], door: [0, 8] as [number, number], halfW: 24, backZ: -34, height: 18};
 
 const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters> = {}) =>
@@ -81,7 +118,7 @@ const useGeos = () =>
 
 const LEAF = ['#4f7d35', '#5d8c3c', '#46702f', '#679a43'];
 
-const SettlementScene = (_: {cam?: StageCam}) => {
+const SettlementScene = ({pigeons = false}: {cam?: StageCam; pigeons?: boolean}) => {
   const g = useGeos();
   const L = useMemo(() => {
     const r = rng(53);
@@ -165,7 +202,7 @@ const SettlementScene = (_: {cam?: StageCam}) => {
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.004, -14.8]} receiveShadow material={m.lawn}>
         <planeGeometry args={[96, 18.8]} />
       </mesh>
-      {/* Erdfläche, wo das Haus des Dummys stand */}
+      {/* Erdfläche, wo das Haus des Dummys stand (bei den Tauben steht das Haus dort) */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, SIEDLUNG.houseZ]} receiveShadow material={m.soilEdge}>
         <planeGeometry args={[7.4, 7.4]} />
       </mesh>
@@ -228,6 +265,7 @@ const SettlementScene = (_: {cam?: StageCam}) => {
           </mesh>
         </group>
       ))}
+      {pigeons && <PigeonStreetExtras />}
       {/* Laternen vorn */}
       {[-30, -6, 18, 42].map((x) => (
         <group key={x} position={[x, 0, 5.3]}>
@@ -235,6 +273,77 @@ const SettlementScene = (_: {cam?: StageCam}) => {
         </group>
       ))}
     </>
+  );
+};
+
+const PigeonStreetExtras = () => {
+  const m = useMemo(
+    () => ({
+      pole: std('#7a5a3e'),
+      arm: std('#6a4c33'),
+      ins: std('#e8eef2', {roughness: 0.3}),
+      wire: new THREE.MeshStandardMaterial({color: '#202326', roughness: 0.6}),
+      bark: std('#6b4a30'),
+      leaf: std('#5d8c3c'),
+      leaf2: std('#4f7d35'),
+    }),
+    [],
+  );
+  const wires = useMemo(() => {
+    const out: THREE.TubeGeometry[] = [];
+    for (const dz of [-0.45, 0, 0.45]) {
+      const pts: THREE.Vector3[] = [];
+      for (let x = WIRE_POLES[0] - 30; x <= WIRE_POLES[WIRE_POLES.length - 1] + 30; x += 0.5) pts.push(new THREE.Vector3(x, wireY(x), TAUBEN.wireZ + dz));
+      out.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 400, 0.022, 5, false));
+    }
+    return out;
+  }, []);
+  return (
+    <group>
+      {WIRE_POLES.map((x) => (
+        <group key={x} position={[x, 0, TAUBEN.wireZ]}>
+          <mesh material={m.pole} position={[0, (WIRE_H + 0.6) / 2, 0]} castShadow>
+            <cylinderGeometry args={[0.12, 0.17, WIRE_H + 0.6, 8]} />
+          </mesh>
+          <mesh material={m.arm} position={[0, WIRE_H - 0.06, 0]} castShadow>
+            <boxGeometry args={[0.14, 0.12, 1.3]} />
+          </mesh>
+          {[-0.45, 0, 0.45].map((dz) => (
+            <mesh key={dz} material={m.ins} position={[0, WIRE_H + 0.02, dz]}>
+              <cylinderGeometry args={[0.04, 0.05, 0.1, 8]} />
+            </mesh>
+          ))}
+        </group>
+      ))}
+      {wires.map((g, i) => (
+        <mesh key={i} geometry={g} material={m.wire} />
+      ))}
+      {/* Baum gegenüber vom Haus mit drei waagerechten Ästen */}
+      <group position={[TREE.x, 0, TREE.z]}>
+        <mesh material={m.bark} position={[0, 2.9, 0]} castShadow>
+          <cylinderGeometry args={[0.24, 0.42, 5.8, 8]} />
+        </mesh>
+        {BRANCHES.map((b, i) => (
+          <group key={i}>
+            <mesh material={m.bark} position={[(b.dir * b.len) / 2, b.y, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+              <cylinderGeometry args={[0.07, 0.12, b.len, 6]} />
+            </mesh>
+            <mesh material={i % 2 ? m.leaf : m.leaf2} position={[b.dir * (b.len + 0.25), b.y + 0.25, 0]} scale={[0.6, 0.5, 0.6]} castShadow>
+              <icosahedronGeometry args={[1, 0]} />
+            </mesh>
+          </group>
+        ))}
+        <mesh material={m.leaf} position={[0, 6.4, 0]} scale={[2.3, 1.7, 2.3]} castShadow>
+          <icosahedronGeometry args={[1, 0]} />
+        </mesh>
+        <mesh material={m.leaf2} position={[0.9, 5.7, 0.6]} scale={[1.4, 1.1, 1.4]} castShadow>
+          <icosahedronGeometry args={[1, 0]} />
+        </mesh>
+        <mesh material={m.leaf2} position={[-1.0, 5.8, -0.5]} scale={[1.3, 1.0, 1.3]} castShadow>
+          <icosahedronGeometry args={[1, 0]} />
+        </mesh>
+      </group>
+    </group>
   );
 };
 
@@ -420,4 +529,5 @@ const HallScene = (_: {cam?: StageCam}) => {
 };
 
 export const settlementStage: StageDef = {id: 'siedlung', Component: SettlementScene, climbTrees: [], groundHeight: () => 0, ambience: 'wald-atmo'};
+export const pigeonStreetStage: StageDef = {id: 'taubenstrasse', Component: (p: {cam?: StageCam}) => <SettlementScene {...p} pigeons />, climbTrees: [], groundHeight: () => 0, ambience: 'wald-atmo'};
 export const shedHallStage: StageDef = {id: 'gartenhaus-innen', Component: HallScene, climbTrees: [], groundHeight: () => 0, ambience: 'museum-atmo'};

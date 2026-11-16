@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Short electronic beeping, several small devices beeping in sync three times, cute robotic, no music",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-16T21:19:15.125Z"
+}

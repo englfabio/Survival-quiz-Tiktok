@@ -1081,6 +1081,48 @@
       "duration": 2.5,
       "loop": false,
       "promptInfluence": 0.5
+    },
+    {
+      "id": "tauben-gurren",
+      "prompt": "Several pigeons cooing softly and calmly indoors, gentle rhythmic coo coo, close up, no music",
+      "duration": 3.0,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "fluegelschlag",
+      "prompt": "A flock of pigeons taking off at once, many wings flapping loudly then fading away, outdoors, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "warteschleife",
+      "prompt": "Cheesy telephone hold music heard through a phone speaker, tinny cheerful elevator melody, slightly lo-fi, original, no voice",
+      "duration": 4.0,
+      "loop": false,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "klick",
+      "prompt": "Single crisp mechanical click of a button being pressed, close up, no music",
+      "duration": 0.6,
+      "loop": false,
+      "promptInfluence": 0.8
+    },
+    {
+      "id": "piep",
+      "prompt": "Short electronic beeping, several small devices beeping in sync three times, cute robotic, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "laden",
+      "prompt": "Cartoon electronic charging up sound, rising hum with soft sparkle, gadget powering up, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

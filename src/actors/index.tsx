@@ -45,6 +45,7 @@ import {BrickHouse, BrickPile, DoormatMesh, FamilyHouse, GardenShedProp} from '.
 import {TRex, trexPose, Raptor, raptorPose, RAPTOR_COLORS} from './DinoProps';
 import {BigBang, BuildSet, TrafficJam} from './BuildProps';
 import {GamingLaptop, LaptopStack} from './GamingProps';
+import {ChargeBadge, CleaningPlan, HoldNotes, HouseRules, leaderPose, Pigeon, PigeonFlock, RentContract, TvSet} from './PigeonProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
@@ -285,7 +286,23 @@ export const ACTORS = {
   kollege1: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   kollege2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   kollege3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  // ---- Spezial: Tauben ----
+  tauben: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  tauben2: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  tauben3: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  taubenchef: {height: 0.35, climbOffset: 0, speedLineHeight: 0},
+  agent: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  mietvertrag: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  putzplan: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  hausordnung: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  fernseher: {height: 0.8, climbOffset: 0, speedLineHeight: 0},
+  warteschleife: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  ladesymbol: {height: 0, climbOffset: 0, speedLineHeight: 0},
 } as const;
+
+/** Regierungs-Dummy (Spezial Tauben): Dummy-Körper dunkelgrau, schwarzer Anzug, weißes Hemd, schwarze Krawatte, Sonnenbrille, ohne Mütze – kein Abzeichen */
+const AGENT_COLOR = '#6b7078';
+const AGENT_SUIT: Uniform = {jacket: '#16181c', dark: '#0d0e10', collar: '#f4f6f8', pants: '#16181c', cap: '#16181c', band: '#16181c', trim: '#16181c', tie: '#0b0b0d', nocap: true, shades: true};
 
 /** Auto des Dummys im Monstertruck-Video (Wert mark 1): himmelblau, damit es platt gut zu erkennen ist */
 const DUMMY_CAR_BLUE = '#3f9be0';
@@ -343,7 +360,7 @@ const ROBE: Uniform = {jacket: '#9c4a5a', dark: '#7a3343', collar: '#efe0d2', pa
 const COURIER_COLOR = '#c4d0bf';
 const COURIER_UNIFORM: Uniform = {jacket: '#5b7389', dark: '#3e5164', collar: '#dfe6ec', pants: '#3a434d', cap: '#5b7389', band: '#3e5164', trim: '#8fa5b8'};
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3', 'stiefbruder'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3', 'stiefbruder', 'agent'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
@@ -617,6 +634,16 @@ export const Actor = ({
         <SweatDrops amount={v.sweat} time={zt} />
       </group>
     )}
+    {name === 'warteschleife' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <HoldNotes time={state.motionTime} visible={state.motion === 'show'} size={v.size} />
+      </group>
+    )}
+    {name === 'ladesymbol' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <ChargeBadge time={state.motionTime} visible={state.motion === 'show'} size={v.size} />
+      </group>
+    )}
     {name === 'boxglocke' && state.motion === 'show' && (
       <group position={pos} quaternion={billboard(pos, camPos)} scale={(1 + v.size) * popScale(state.motionTime)}>
         <BoxingBell ring={v.ring} time={zt} />
@@ -799,7 +826,7 @@ export const Actor = ({
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={COLLEAGUES[name].color} uniform={COLLEAGUES[name].uniform} brow={v.brow} />
       )}
       {name === 'fussmatte' && <DoormatMesh />}
-      {/^haus\d?$/.test(name) && <FamilyHouse look={v.mark} squish={v.squish} seed={name.length + (name.charCodeAt(name.length - 1) % 7)} />}
+      {/^haus\d?$/.test(name) && <FamilyHouse look={v.mark} squish={v.squish} open={v.door} seed={name.length + (name.charCodeAt(name.length - 1) % 7)} />}
       {name === 'klemmhaus' && <BrickHouse fill={v.fill} />}
       {name === 'klemmsteine' && <BrickPile fill={v.fill > 0 ? v.fill : 1} />}
       {name === 'gartenhaus' && <GardenShedProp door={v.door} />}
@@ -1022,6 +1049,19 @@ export const Actor = ({
       {name === 'paragraf' && <ParagraphBadge text={actor.text ?? '§ 246'} time={state.motionTime} visible={state.motion === 'show'} size={v.size} />}
       {name === 'absperrband' && <CordonTape fill={v.fill} size={v.size} />}
       {name === 'rechnung' && <Bill size={v.size} />}
+      {name === 'agent' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={AGENT_COLOR} uniform={AGENT_SUIT} brow={v.brow} />
+      )}
+      {(name === 'tauben' || name === 'tauben2' || name === 'tauben3') && <PigeonFlock text={actor.text} fill={v.fill} mark={v.mark} blink={v.blink} size={v.size} time={clock} />}
+      {name === 'taubenchef' && (
+        <group scale={1.35 * (1 + v.size)}>
+          <Pigeon pose={leaderPose(state.motion, state.motionTime)} leader light={v.blink} time={clock} />
+        </group>
+      )}
+      {name === 'mietvertrag' && <RentContract mark={v.mark} />}
+      {name === 'putzplan' && <CleaningPlan />}
+      {name === 'hausordnung' && <HouseRules />}
+      {name === 'fernseher' && <TvSet />}
       {name === 'chef' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BOSS_COLOR} uniform={BOSS_SUIT} brow={v.brow} gloves={v.gloves} teeth={v.teeth} />
       )}
