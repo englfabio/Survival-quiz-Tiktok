@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Quiet bedroom at night with a gaming laptop: steady soft laptop cooling fan whirring, faint electronic hum, occasional quiet keyboard click, calm, no music, no voices",
+  "duration": 10,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-16T16:01:36.959Z"
+}

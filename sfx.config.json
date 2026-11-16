@@ -1046,6 +1046,41 @@
       "duration": 3,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "gaming-atmo",
+      "prompt": "Quiet bedroom at night with a gaming laptop: steady soft laptop cooling fan whirring, faint electronic hum, occasional quiet keyboard click, calm, no music, no voices",
+      "duration": 10,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "truhe-auf",
+      "prompt": "Cartoon wooden treasure chest lid creaking open followed by a short bright magical sparkle shimmer, playful video game style, no music, no voice",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "zaehler-rattern",
+      "prompt": "Very fast rattling digital counter ticking up, rapid electronic clicks like a slot machine score counter speeding up, comedic, no music",
+      "duration": 3,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "laptop-zuklappen",
+      "prompt": "Laptop lid being slowly closed and shutting with a soft plastic clack, followed by quiet, close up, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "gold-fanfare",
+      "prompt": "Short triumphant cartoon victory jingle with bright bells and a rising sparkle, cheerful generic game reward sound, original, no voice",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.5
     }
   ]
 }

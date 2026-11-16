@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Very fast rattling digital counter ticking up, rapid electronic clicks like a slot machine score counter speeding up, comedic, no music",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-16T16:01:42.270Z"
+}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Short triumphant cartoon victory jingle with bright bells and a rising sparkle, cheerful generic game reward sound, original, no voice",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-16T16:01:47.646Z"
+}

@@ -3,6 +3,7 @@ import {useCurrentFrame} from 'remotion';
 import * as THREE from 'three';
 import {Chair, Plant, plankTexture, Room, std} from './Rooms';
 import type {StageDef} from './types';
+import {EnergyCan, GamingChair, PiratePoster} from '../actors/GamingProps';
 
 /**
  * Bühnen für das Panikattacken-Video (wiederverwendbar):
@@ -18,6 +19,111 @@ import type {StageDef} from './types';
  * "bahn" – volle U-/S-Bahn: Wagen entlang z (x −1.3 … 1.3), Sitzbänke an beiden Seiten, Haltestangen, Haltegriffe
  *   (Höhe ca. 1,95 m bei x ±0.45), Fenster mit vorbeihuschenden Tunnel-Lichtern, viele stilisierte Fahrgäste.
  */
+
+/**
+ * "gamingzimmer" (Spezial Pirat-Token) = Schlafzimmer am Abend, aber statt Schreibtisch/Leseecke/Nachttisch eine Gaming-Ecke an der
+ * Rückwand links: Gaming-Schreibtisch x −1.75 … −0.45, z −1.9 … −1.25, Platte 0,75 m (schwarz, RGB-Leiste vorn), Mauspad, Maus, Headset,
+ * Dosen ohne Marke; Gaming-Stuhl (Objekt-frei, Bühne) bei GAMING.chair (Dummy sitzt dort face 0, Laptop 0,43 m vor ihm);
+ * Plakat „PIRAT-TOKEN“ (eigene Münze) über dem Tisch, RGB-Leisten an Wand + Decke (Farbwechsel), lila/türkises Licht.
+ * Platz für den Laptop-Stapel unter dem Tisch: GAMING.stack. Wände von außen unsichtbar → Kamera darf hinter die Rückwand.
+ */
+export const GAMING = {desk: {x0: -1.75, x1: -0.45, z0: -1.9, z1: -1.25, h: 0.75}, laptop: [-1.1, 0.75, -1.5] as [number, number, number], chair: [-1.1, -0.95] as [number, number], stack: [-0.66, -1.58] as [number, number], poster: [-1.1, 1.68, -1.885] as [number, number, number]};
+
+const GamingCorner = ({time}: {time: number}) => {
+  const {desk} = GAMING;
+  const W = desk.x1 - desk.x0;
+  const Dp = desk.z1 - desk.z0;
+  const cx = (desk.x0 + desk.x1) / 2;
+  const cz = (desk.z0 + desk.z1) / 2;
+  const hue = (time * 0.08) % 1;
+  const ledA = new THREE.Color().setHSL(hue, 0.95, 0.55);
+  const ledB = new THREE.Color().setHSL((hue + 0.5) % 1, 0.95, 0.55);
+  return (
+    <group>
+      {/* Tischplatte + Beine (schwarz, Kante mit RGB) */}
+      <mesh position={[cx, desk.h - 0.02, cz]} castShadow receiveShadow>
+        <boxGeometry args={[W, 0.04, Dp]} />
+        <meshStandardMaterial color="#1c1e24" roughness={0.5} />
+      </mesh>
+      <mesh position={[cx, desk.h - 0.045, desk.z1 + 0.003]}>
+        <boxGeometry args={[W - 0.02, 0.012, 0.006]} />
+        <meshBasicMaterial color={ledA} toneMapped={false} />
+      </mesh>
+      {[desk.x0 + 0.05, desk.x1 - 0.05].map((x) => (
+        <group key={x}>
+          <mesh position={[x, (desk.h - 0.04) / 2, cz]}>
+            <boxGeometry args={[0.05, desk.h - 0.04, Dp - 0.08]} />
+            <meshStandardMaterial color="#2a2d35" />
+          </mesh>
+        </group>
+      ))}
+      {/* großes Mauspad, Maus, Headset */}
+      <mesh position={[cx + 0.05, desk.h + 0.002, cz + 0.08]} receiveShadow>
+        <boxGeometry args={[W * 0.86, 0.004, 0.4]} />
+        <meshStandardMaterial color="#2b2140" roughness={0.9} />
+      </mesh>
+      <mesh position={[cx + 0.05, desk.h + 0.005, cz + 0.08]}>
+        <boxGeometry args={[W * 0.86 + 0.01, 0.002, 0.41]} />
+        <meshBasicMaterial color={ledB} toneMapped={false} />
+      </mesh>
+      <group position={[GAMING.laptop[0] + 0.36, desk.h + 0.004, GAMING.laptop[2] + 0.12]}>
+        <mesh position={[0, 0.018, 0]} scale={[1, 0.6, 1.4]} castShadow>
+          <sphereGeometry args={[0.035, 10, 8]} />
+          <meshStandardMaterial color="#15161a" roughness={0.4} />
+        </mesh>
+        <mesh position={[0, 0.032, 0.0]}>
+          <boxGeometry args={[0.006, 0.004, 0.03]} />
+          <meshBasicMaterial color={ledA} toneMapped={false} />
+        </mesh>
+      </group>
+      <group position={[desk.x0 + 0.2, desk.h, desk.z0 + 0.2]} rotation={[0, 0.5, 0]}>
+        <mesh position={[0, 0.11, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <torusGeometry args={[0.09, 0.012, 6, 16, Math.PI]} />
+          <meshStandardMaterial color="#18191d" />
+        </mesh>
+        {[-1, 1].map((s) => (
+          <mesh key={s} position={[s * 0.09, 0.06, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+            <cylinderGeometry args={[0.05, 0.05, 0.035, 12]} />
+            <meshStandardMaterial color="#18191d" emissive={ledB} emissiveIntensity={0.4} />
+          </mesh>
+        ))}
+      </group>
+      {/* Dosen ohne Marke: auf dem Tisch + am Boden (eine umgekippt) */}
+      {[
+        [desk.x0 + 0.12, desk.h, desk.z1 - 0.12, '#2fd0a0', 0],
+        [desk.x0 + 0.2, desk.h, desk.z1 - 0.2, '#ff5a3c', 0],
+        [desk.x1 - 0.1, desk.h, desk.z0 + 0.14, '#7a5cff', 0],
+        [desk.x1 - 0.18, desk.h, desk.z0 + 0.1, '#2fd0a0', 0],
+        [desk.x0 + 0.16, 0, desk.z1 + 0.25, '#ff5a3c', 0],
+        [desk.x0 + 0.32, 0.032, desk.z1 + 0.36, '#7a5cff', Math.PI / 2],
+      ].map(([x, y, z, c, t], i) => (
+        <group key={i} position={[x as number, y as number, z as number]} rotation={[0, i * 0.7, 0]}>
+          <EnergyCan color={c as string} tilt={t as number} />
+        </group>
+      ))}
+      {/* Plakat über dem Tisch */}
+      <group position={GAMING.poster}>
+        <PiratePoster />
+      </group>
+      {/* RGB-Leisten an der Rückwand (über dem Tisch) und unter der Decke */}
+      <mesh position={[cx, 2.38, desk.z0 + 0.01]}>
+        <boxGeometry args={[3.0, 0.025, 0.01]} />
+        <meshBasicMaterial color={ledB} toneMapped={false} />
+      </mesh>
+      <mesh position={[-1.79, 2.38, 0]}>
+        <boxGeometry args={[0.01, 0.025, 3.6]} />
+        <meshBasicMaterial color={ledA} toneMapped={false} />
+      </mesh>
+      <mesh position={[cx, 1.07, desk.z0 + 0.01]}>
+        <boxGeometry args={[W - 0.1, 0.018, 0.01]} />
+        <meshBasicMaterial color={ledA} toneMapped={false} />
+      </mesh>
+      <pointLight position={[cx, 1.2, desk.z0 + 0.35]} intensity={1.6} color={ledA} distance={3.2} decay={1.6} />
+      <pointLight position={[cx + 0.6, 2.2, desk.z0 + 0.6]} intensity={1.2} color={ledB} distance={4} decay={1.5} />
+      <pointLight position={[0.8, 2.2, 0.4]} intensity={0.9} color="#8a5cff" distance={5} decay={1.4} />
+    </group>
+  );
+};
 
 export const BEDROOM = {W: 3.6, D: 3.8, H: 2.5, desk: {x: -1.525, z: -0.4, h: 0.75}, chair: {x: -1.25, z: 0.55, face: 145}, sideTable: {x: -1.6, z: 1.0, h: 0.72}, nightstand: {x: -0.3, z: -1.7, h: 0.52}};
 
@@ -132,7 +238,8 @@ const MorningView = ({x}: {x: number}) => {
   );
 };
 
-const BedroomScene = ({morning = false}: {morning?: boolean}) => {
+const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gaming?: boolean}) => {
+  const frame = useCurrentFrame();
   const mats = useMemo(
     () => ({
       floor: new THREE.MeshStandardMaterial({map: plankTexture([2.5, 5]), roughness: 0.7}),
@@ -154,7 +261,7 @@ const BedroomScene = ({morning = false}: {morning?: boolean}) => {
       backWall={mats.back}
       ceiling="#f6efe4"
       window={morning ? {side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: '#8fcdf4', open: true} : {side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: '#3b4f86'}}
-      light={morning ? {ambient: 0.62, hemi: 0.75, sun: 2.4, sunColor: '#fff0d2', lamp: 1.6, lampColor: '#fff1dc'} : {ambient: 0.48, hemi: 0.6, sun: 0.9, sunColor: '#c9d6ff', lamp: 3.6, lampColor: '#ffdcae'}}
+      light={morning ? {ambient: 0.62, hemi: 0.75, sun: 2.4, sunColor: '#fff0d2', lamp: 1.6, lampColor: '#fff1dc'} : gaming ? {ambient: 0.36, hemi: 0.45, sun: 0.7, sunColor: '#b9c6ff', lamp: 2.2, lampColor: '#ffd9b8'} : {ambient: 0.48, hemi: 0.6, sun: 0.9, sunColor: '#c9d6ff', lamp: 3.6, lampColor: '#ffdcae'}}
       sunPos={morning ? [-5.5, 3.4, -0.2] : [-4, 3.5, 0.5]}
       bg={morning ? '#cfe6f5' : '#2b3558'}
     >
@@ -181,8 +288,14 @@ const BedroomScene = ({morning = false}: {morning?: boolean}) => {
       <group position={[0.85, 0, -D / 2 + 0.475]}>
         <Bed />
       </group>
+      {gaming && <GamingCorner time={frame / 30} />}
+      {gaming && (
+        <group position={[GAMING.chair[0], 0, GAMING.chair[1] + 0.02]}>
+          <GamingChair />
+        </group>
+      )}
       {/* Nachttisch mit Lampe */}
-      <group position={[nightstand.x, 0, nightstand.z]}>
+      {!gaming && <group position={[nightstand.x, 0, nightstand.z]}>
         <mesh material={mats.wood} position={[0, nightstand.h / 2, 0]} castShadow receiveShadow>
           <boxGeometry args={[0.42, nightstand.h, 0.38]} />
         </mesh>
@@ -192,9 +305,9 @@ const BedroomScene = ({morning = false}: {morning?: boolean}) => {
         <group position={[0.05, nightstand.h, -0.05]}>
           <Lamp h={0.22} light={morning ? 0.3 : 1.4} />
         </group>
-      </group>
+      </group>}
       {/* Schreibtisch an der linken Wand (unter dem Fenster) */}
-      <group position={[desk.x, 0, desk.z]}>
+      {!gaming && <><group position={[desk.x, 0, desk.z]}>
         <mesh material={mats.wood} position={[0, desk.h - 0.025, 0]} castShadow receiveShadow>
           <boxGeometry args={[0.55, 0.05, 1.2]} />
         </mesh>
@@ -238,7 +351,7 @@ const BedroomScene = ({morning = false}: {morning?: boolean}) => {
         <mesh material={mats.woodDark} position={[0, 0.015, 0]}>
           <cylinderGeometry args={[0.18, 0.2, 0.03, 12]} />
         </mesh>
-      </group>
+      </group></>}
       {/* Teppich */}
       <mesh position={[0.1, 0.006, -0.1]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <circleGeometry args={[0.95, 20]} />
@@ -260,7 +373,7 @@ const BedroomScene = ({morning = false}: {morning?: boolean}) => {
         </mesh>
       </group>
       {/* Poster an der Rückwand über dem Bett + Regalbrett */}
-      <mesh position={[0.55, 1.6, -D / 2 + 0.015]}>
+      {!gaming && <><mesh position={[0.55, 1.6, -D / 2 + 0.015]}>
         <boxGeometry args={[0.6, 0.8, 0.02]} />
         <meshStandardMaterial color="#f3ede0" />
       </mesh>
@@ -271,7 +384,7 @@ const BedroomScene = ({morning = false}: {morning?: boolean}) => {
       <mesh position={[0.55, 1.48, -D / 2 + 0.035]}>
         <circleGeometry args={[0.14, 12]} />
         <meshStandardMaterial color="#fbe2a6" />
-      </mesh>
+      </mesh></>}
       <mesh position={[1.35, 1.75, -D / 2 + 0.11]} castShadow>
         <boxGeometry args={[0.55, 0.03, 0.2]} />
         <meshStandardMaterial color="#a87b52" />
@@ -532,6 +645,7 @@ const TrainScene = () => {
 
 export const bedroomStage: StageDef = {id: 'schlafzimmer', Component: () => <BedroomScene />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 /** "schlafzimmer-morgen": dasselbe Schlafzimmer am Morgen – helles Sonnenlicht, Fenster offen (ohne Mittelsteg), draußen Rasen, Zaun, Nachbarhaus */
+export const gamingRoomStage: StageDef = {id: 'gamingzimmer', Component: () => <BedroomScene gaming />, climbTrees: [], groundHeight: () => 0, ambience: 'gaming-atmo'};
 export const bedroomMorningStage: StageDef = {id: 'schlafzimmer-morgen', Component: () => <BedroomScene morning />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 export const elevatorStage: StageDef = {id: 'aufzug', Component: ElevatorScene, climbTrees: [], groundHeight: () => 0, ambience: 'aufzug-summen'};
 export const trainStage: StageDef = {id: 'bahn', Component: TrainScene, climbTrees: [], groundHeight: () => 0, ambience: 'bahn-atmo'};

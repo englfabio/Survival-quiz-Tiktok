@@ -4662,8 +4662,156 @@ const waschPose = (motion: Motion, time: number, speed: number): DummyPose | nul
   return null;
 };
 
+// ---------- Spezial: Pirat-Token (Gaming-Zimmer) ----------
+/**
+ * Alle sitzend auf dem Gaming-Stuhl (Sitz 0,45 m, wie chairSit), Laptop-Tastatur 0,43 m vor ihm auf 0,78 m (GamingLaptop, Scharnier
+ * 0,565 m vor ihm auf 0,774 m, Deckel 0,27 m):
+ *  - keyhammer:  hämmert hektisch abwechselnd mit beiden Händen auf die Tastatur, vorgebeugt, Kopf wippt, Körper zittert leicht
+ *  - screenstare: vorgebeugt, Gesicht nah am Bildschirm, starrt wie gebannt (kaum Bewegung, Finger zucken auf den Tasten)
+ *  - fansteam:   lehnt sich zurück und wedelt mit rechts hektisch Dampf vor dem Gesicht weg, links bleibt auf der Tastatur
+ *  - pushaside:  schiebt den Laptop mit beiden Händen 0,4 m nach links (Hände am Laptop 0,15 s, Schub 0,2–0,9 s), Hände zurück bis 1,2 s
+ *  - grablaptop: beugt sich nach rechts unten (0–0,8 s), greift einen Laptop vom Stapel (0,48 m vor ihm, 0,4 m rechts, ca. 0,18 m hoch,
+ *                Griff 0,85 s), hebt ihn hoch (bis 1,7 s) und setzt ihn vor sich auf den Tisch (0,43 m vor ihm, abgesetzt 2,0 s)
+ *  - lidopen:    klappt mit beiden Händen den Deckel auf (0,15–0,85 s, Deckel-Wert lid 0 → 1 genau dann), danach Hände auf die Tasten
+ *  - closelean:  klappt den Deckel mit rechts LANGSAM zu (0,2–1,5 s, lid 1 → 0), lehnt sich dann zurück (1,7–2,9 s), Hände hinter den Kopf,
+ *                Blick nach oben zum Plakat über dem Tisch
+ *  - seatcheer:  reißt triumphierend beide Arme hoch (Fäuste, 0–0,35 s), wippt vor Freude
+ */
+export const GAME_KEYS: P3 = [0, 0.8, 0.43];
+const GL_HINGE: [number, number] = [0.565, 0.774];
+const glLidTop = (lid: number, side: number): P3 => {
+  const a = ((-16 + (1 - clamp(lid)) * 106) * Math.PI) / 180;
+  return [side * 0.15, GL_HINGE[1] + 0.27 * Math.cos(a) + 0.01, GL_HINGE[0] - 0.27 * Math.sin(a) - 0.01];
+};
+const gamePose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const keysAt = (p: DummyPose, tapR: number, tapL: number, spread = 0.11) => {
+    reachR(p, [-spread + 0.03 * Math.sin(time * 7.1), 0.8 + 0.06 * tapR, 0.42], 0.33, [0.6, -1, -0.3]);
+    reachL(p, [spread + 0.03 * Math.sin(time * 6.3), 0.8 + 0.06 * tapL, 0.42], 0.33, [0.6, -1, -0.3]);
+  };
+  switch (motion) {
+    case 'keyhammer': {
+      const p = chairSit(time);
+      const sh = Math.sin(time * 27) * 0.012;
+      p.torsoX = 0.24 + sh;
+      p.torsoZ = 0.03 * Math.sin(time * 5.1);
+      p.headX = 0.22 + 0.05 * Math.sin(time * 9);
+      p.headY = 0.06 * Math.sin(time * 3.3);
+      keysAt(p, Math.abs(Math.sin(time * 17)), Math.abs(Math.sin(time * 17 + 1.4)));
+      p.chest = 0.3 + 0.2 * Math.sin(time * 6);
+      return p;
+    }
+    case 'screenstare': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = 0.15 + 0.3 * k + breathe * 0.4;
+      p.headX = 0.15 - 0.12 * k + Math.sin(time * 31) * 0.006;
+      keysAt(p, 0.3 * Math.max(0, Math.sin(time * 23)), 0.3 * Math.max(0, Math.sin(time * 19 + 1)), 0.1);
+      return p;
+    }
+    case 'fansteam': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.35));
+      p.torsoX = 0.12 - 0.22 * k + breathe;
+      p.headX = 0.1 - 0.12 * k;
+      p.headY = -0.18 * k + 0.05 * Math.sin(time * 4);
+      const w = Math.sin(time * 13);
+      reachR(p, lerp3t([-0.11, 0.8, 0.42], [-0.08 + 0.17 * w, 1.28 + 0.04 * Math.abs(w), 0.36], k), 0.33, [0.6, -0.6, -0.6]);
+      reachL(p, [0.11, 0.8, 0.42], 0.33, [0.6, -1, -0.3]);
+      p.chest = 0.3;
+      return p;
+    }
+    case 'pushaside': {
+      const p = chairSit(time);
+      const go = easeInOut(clamp(time / 0.2));
+      const sh = easeInOut(clamp((time - 0.2) / 0.7));
+      const back = easeInOut(clamp((time - 0.95) / 0.35));
+      p.torsoX = 0.2 + breathe;
+      p.torsoY = 0.25 * sh * (1 - back);
+      p.headX = 0.2;
+      p.headY = 0.3 * sh * (1 - back);
+      const dx = 0.4 * sh;
+      const R: P3 = lerp3t(lerp3t([-0.11, 0.8, 0.42], [-0.2 + dx, 0.82, 0.42], go), [-0.11, 0.8, 0.42], back);
+      const L: P3 = lerp3t(lerp3t([0.11, 0.8, 0.42], [0.2 + dx, 0.82, 0.42], go), [0.11, 0.8, 0.42], back);
+      reachR(p, R, 0.33, [0.6, -1, -0.3]);
+      reachL(p, L, 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'grablaptop': {
+      const p = chairSit(time);
+      const down = easeInOut(clamp(time / 0.8));
+      const up = easeInOut(clamp((time - 0.9) / 0.8));
+      const set = easeInOut(clamp((time - 1.7) / 0.3));
+      const rel = easeInOut(clamp((time - 2.05) / 0.35));
+      const bend = down * (1 - up);
+      p.torsoX = 0.15 + 0.75 * bend + 0.1 * up * (1 - set) + breathe;
+      p.torsoZ = 0.35 * bend;
+      p.torsoY = -0.25 * bend;
+      p.headX = 0.2 + 0.2 * bend;
+      const low = (s: number): P3 => [-0.4 + s * 0.13, 0.2, 0.42];
+      const high = (s: number): P3 => [s * 0.17, 0.95, 0.38];
+      const desk = (s: number): P3 => [s * 0.17, 0.81, 0.43];
+      const rest = (s: number): P3 => [s * 0.11, 0.8, 0.42];
+      const at = (s: number): P3 => {
+        if (time < 0.9) return lerp3t(rest(s), low(s), down);
+        if (time < 1.7) return lerp3t(low(s), high(s), up);
+        if (time < 2.05) return lerp3t(high(s), desk(s), set);
+        return lerp3t(desk(s), rest(s), rel);
+      };
+      reachR(p, at(-1), 0.33, [0.6, -1, -0.3]);
+      reachL(p, at(1), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'lidopen': {
+      const p = chairSit(time);
+      p.torsoX = 0.18 + breathe;
+      p.headX = 0.22;
+      const go = easeInOut(clamp(time / 0.15));
+      const lift = easeInOut(clamp((time - 0.15) / 0.7));
+      const back = easeInOut(clamp((time - 0.95) / 0.35));
+      const lid = lift;
+      const at = (s: number): P3 => lerp3t(lerp3t([s * 0.11, 0.8, 0.42], glLidTop(lid, s), go), [s * 0.11, 0.8, 0.42], back);
+      reachR(p, at(-1), 0.33, [0.6, -1, -0.3]);
+      reachL(p, at(1), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'closelean': {
+      const p = chairSit(time);
+      const go = easeInOut(clamp(time / 0.2));
+      const shut = easeInOut(clamp((time - 0.2) / 1.3));
+      const lean = easeInOut(clamp((time - 1.7) / 1.2));
+      const sigh = Math.sin(time * 1.3);
+      p.torsoX = 0.2 * (1 - lean) - 0.42 * lean + 0.015 * sigh;
+      p.headX = 0.2 * (1 - lean) - 0.42 * lean;
+      const up = 0.6;
+      const behind = (side: number): P3 => [side * 0.14, 0.56 + 0.06 + up * Math.cos(-0.42) - 0.03, up * Math.sin(-0.42) - 0.08];
+      const R0: P3 = [-0.11, 0.8, 0.42];
+      const Rlid = glLidTop(1 - shut, -0.3);
+      reachR(p, lean > 0 ? lerp3t(glLidTop(0, -0.3), behind(-1), lean) : lerp3t(R0, Rlid, go), 0.33, lean > 0.3 ? [1, 0.5, -0.5] : [0.6, -1, -0.3]);
+      reachL(p, lean > 0 ? lerp3t([0.2, 0.68, 0.3], behind(1), lean) : lerp3t([0.11, 0.8, 0.42], [0.2, 0.68, 0.3], go), 0.33, lean > 0.3 ? [1, 0.5, -0.5] : [0.6, -1, -0.3]);
+      p.chest = 0.2 + 0.3 * lean * (0.5 + 0.5 * sigh);
+      return p;
+    }
+    case 'seatcheer': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.35));
+      const pump = 0.5 + 0.5 * Math.sin(time * 8);
+      p.torsoX = 0.15 * (1 - k) - 0.2 * k + breathe;
+      p.hipY = 0.56 + 0.03 * pump * k;
+      reachR(p, lerp3t([-0.11, 0.8, 0.42], [-0.27, 1.72 + 0.12 * pump, 0.12], k), 0.33, [0.7, -0.4, -0.6]);
+      reachL(p, lerp3t([0.11, 0.8, 0.42], [0.27, 1.72 + 0.12 * (1 - pump), 0.12], k), 0.33, [0.7, -0.4, -0.6]);
+      p.fists = true;
+      p.headX = -0.3 * k;
+      p.headY = 0.1 * Math.sin(time * 4.1);
+      p.chest = 0.8 * k;
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;

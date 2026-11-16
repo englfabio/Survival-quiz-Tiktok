@@ -283,6 +283,15 @@ export type Motion =
   | 'wmopen' // Waschmaschinen-Tür mit links aufziehen (Griff 0,5 m vor ihm, 0,27 m links, 1,25 m)
   | 'helphand' // beugt sich in die Öffnung, rechte Hand helfend hineingestreckt
   | 'pullback' // zieht mit der rechten Hand zurück, lehnt sich nach hinten
+  // ---- Spezial Pirat-Token (Details: gamePose in Dummy.tsx), alle sitzend auf dem Gaming-Stuhl ----
+  | 'keyhammer' // hämmert hektisch mit beiden Händen auf die Tastatur (0,43 m vor ihm)
+  | 'screenstare' // vorgebeugt, starrt wie gebannt auf den Bildschirm
+  | 'fansteam' // lehnt sich zurück, wedelt mit rechts den Dampf aus dem Gesicht
+  | 'pushaside' // schiebt den Laptop mit beiden Händen 0,4 m nach links (0,2–0,9 s)
+  | 'grablaptop' // beugt sich nach rechts unten, holt einen Laptop vom Stapel und setzt ihn vor sich (abgesetzt 2,0 s)
+  | 'lidopen' // klappt den Deckel mit beiden Händen auf (0,15–0,85 s)
+  | 'closelean' // klappt den Deckel langsam zu (0,2–1,5 s), lehnt sich zurück, Hände hinter den Kopf (1,7–2,9 s)
+  | 'seatcheer' // reißt sitzend triumphierend beide Arme hoch, wippt
   // ---- Spezial Chef (Details: chefPose in Dummy.tsx) ----
   | 'seatthrow' // sitzt (z. B. im Bagger), holt mit rechts über dem Kopf aus, wirft nach vorn (Abwurf 0,7 s), zeigt danach zufrieden
   | 'slapcard' // Karte hoch (bis 0,5 s), schwungvoll 0,45 m vor sich auf den Tisch (0,78 m) knallen (0,75 s), danach Arme verschränken

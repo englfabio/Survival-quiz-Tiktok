@@ -44,6 +44,7 @@ import {DishRack, FoodArc, KitchenClock, SinkMess} from './SpueleProps';
 import {BrickHouse, BrickPile, DoormatMesh, FamilyHouse, GardenShedProp} from './HausProps';
 import {TRex, trexPose, Raptor, raptorPose, RAPTOR_COLORS} from './DinoProps';
 import {BigBang, BuildSet, TrafficJam} from './BuildProps';
+import {GamingLaptop, LaptopStack} from './GamingProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
@@ -261,6 +262,10 @@ export const ACTORS = {
   lieblingssocke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   socke: {height: 0.0, climbOffset: 0, speedLineHeight: 0},
   stiefbruder: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  // ---- Spezial: Pirat-Token ----
+  gaminglaptop: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
+  gaminglaptop2: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
+  laptopstapel: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
   // ---- Spezial: T-Rex-Stau ----
   trex: {height: 6.2, climbOffset: 0, speedLineHeight: 0},
   raptor1: {height: 1.2, climbOffset: 0, speedLineHeight: 0.8},
@@ -780,6 +785,10 @@ export const Actor = ({
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={STEPBRO_COLOR} uniform={STEPBRO_UNIFORM} brow={v.brow} />
       )}
       {name === 'waschmaschine' && <WashingMachine door={v.door} />}
+      {(name === 'gaminglaptop' || name === 'gaminglaptop2') && (
+        <GamingLaptop lid={v.lid} count={v.fill} rate={v.mark} steam={v.smoke} keys={v.glow} coin={v.good} time={zt} />
+      )}
+      {name === 'laptopstapel' && <LaptopStack count={v.fill} />}
       {name === 'waeschekorb' && <LaundryBasket />}
       {name === 'weichspueler' && <SoftenerBottle smoke={v.smoke} time={zt} size={v.size} />}
       {name === 'handtuchdecke' && <TowelBlanket fill={v.fill} />}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon wooden treasure chest lid creaking open followed by a short bright magical sparkle shimmer, playful video game style, no music, no voice",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-16T16:01:39.192Z"
+}
