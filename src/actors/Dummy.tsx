@@ -4745,8 +4745,8 @@ const gamePose = (motion: Motion, time: number): DummyPose | null => {
       const rel = easeInOut(clamp((time - 2.05) / 0.35));
       const bend = down * (1 - up);
       p.torsoX = 0.15 + 0.75 * bend + 0.1 * up * (1 - set) + breathe;
-      p.torsoZ = 0.35 * bend;
-      p.torsoY = -0.25 * bend;
+      p.torsoZ = -0.35 * bend;
+      p.torsoY = -0.2 * bend;
       p.headX = 0.2 + 0.2 * bend;
       const low = (s: number): P3 => [-0.4 + s * 0.13, 0.2, 0.42];
       const high = (s: number): P3 => [s * 0.17, 0.95, 0.38];

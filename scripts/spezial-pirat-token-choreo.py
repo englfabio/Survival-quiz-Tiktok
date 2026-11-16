@@ -29,10 +29,12 @@ vote="Also, was machst du?",
 outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr.",
 )
 EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.0))}
-TAIL = float(os.environ.get('TAIL', 0.15))         # Pause nach jedem Clip (nur Pausen kürzen, Texte bleiben)
+TAIL = float(os.environ.get('TAIL', 0.1))         # Pause nach jedem Clip (nur Pausen kürzen, Texte bleiben)
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))  # bei Bedarf: Schlussbild 2–3 s länger stehen lassen (Ziel ≥ 61 s)
 VOTE_LEN = 5.6                                  # fest im Zeitplan (src/data/timeline.ts)
-NO_VOTE = os.environ.get('NO_VOTE', '0') == '1'
+# Gesprochene Texte allein ca. 65 s → mit Abstimmung (5,6 s) wären es über 70 s, auch ohne Pausen. Texte bleiben unverändert,
+# daher entfällt der Abstimmungs-Teil (wie bei Waschmaschine/Chef/Haus weg); „in die Kommentare“ kommt genau einmal im Outro.
+NO_VOTE = os.environ.get('NO_VOTE', '1') == '1'
 
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'countdown': 0.1, 'outro': 0.3}   # wie src/data/timeline.ts
 MINLEN = {'situation': 5, 'explain1': 6, 'explain2': 6, 'explain3': 7, 'countdown': 5, 'outro': 3}
@@ -139,7 +141,7 @@ CAM_S = ([-0.42, 1.36, -0.95], [-1.02, 0.9, -1.53], 38)          # über die rec
 CAM_F = ([-0.85, 1.8, -3.3], [-1.1, 1.05, -1.0], 30)         # von vorn durch die (unsichtbare) Rückwand, unter dem Plakat durch
 CAM_U = ([-0.2, 0.26, -0.78], [-0.70, 0.1, -1.45], 42)      # ganz tief: unter den Tisch auf den Stapel
 CAM_K = ([-0.45, 1.05, -1.0], [-1.1, 0.8, -1.4], 36)          # nah an Tastatur + Dampf (von rechts)
-CAM_L = ([0.6, 0.85, -0.25], [-1.0, 1.35, -1.5], 50)        # tief rechts: zurückgelehnt, Blick hoch zum Plakat
+CAM_L = ([-0.95, 1.8, 0.75], [-1.1, 1.5, -1.88], 40)        # hinter dem zurückgelehnten Dummy, Blick zum Plakat        # tief rechts: zurückgelehnt, Blick hoch zum Plakat
 def cs(t0, t1, c, push=0.06):
     return mshot(t0, t1, c[0], c[1], c[2], push=push)
 
@@ -194,11 +196,11 @@ c_naech = cue(A, 'explain1', 'nächster')
 c_truhe = cue(A, 'explain1', 'Truhe auf')
 c_unter = cue(A, 'explain1', 'Und unter')
 t_push = sA
-t_grab = r3(t_push + sa(1.0))
+t_grab = r3(t_push + sa(0.9))
 t_take = r3(t_grab + sa(0.85))     # Griff: Laptop vom Stapel
 t_high = r3(t_grab + sa(1.7))
 t_set = r3(t_grab + sa(2.0))
-t_open = r3(t_grab + sa(2.25))
+t_open = r3(t_grab + sa(2.1))
 t_play = r3(t_open + sa(1.25))
 G_HIGH = (D[0], D[1] - 0.38)
 dumA = [sit(0, 'keyhammer'), sit(r3(t_push - 0.003), 'keyhammer'), sit(t_push, 'pushaside', cut=True), sit(r3(t_grab - 0.003), 'pushaside'),
@@ -217,11 +219,11 @@ camA = [
   # Karte: Dummy hämmert auf den dampfenden Laptop (ruhige Einstellung, schräg von hinten rechts)
   *cs(0, r3(sA - 0.003), CAM_W, push=0.05),
   # Laptop zur Seite: von oben rechts, man sieht den Laptop nach links rutschen
-  *mshot(t_push, r3(c_naech - 0.003), [-2.6, 1.6, -0.6], [-1.2, 0.85, -1.4], 40, push=0.06),
+  *mshot(t_push, r3(t_grab + sa(0.15) - 0.003), [-2.6, 1.6, -0.6], [-1.2, 0.85, -1.4], 40, push=0.06),
   # nächster Laptop auf: tief von rechts – er greift unter den Tisch, hebt den Laptop hoch, klappt ihn auf
-  *mshot(c_naech, r3(max(c_truhe, t_open + sa(0.9)) - 0.003), [0.9, 0.8, -0.5], [-0.85, 0.5, -1.35], 40, push=0.06),
+  *mshot(t_grab + sa(0.15), r3(c_truhe - 0.003), [0.15, 0.55, -3.1], [-0.8, 0.42, -1.3], 36, push=0.06),
   # Truhe auf, Truhe zu: der neue Bildschirm über die Schulter
-  *cs(max(c_truhe, t_open + sa(0.9)), r3(c_unter - 0.003), CAM_S, push=0.12),
+  *cs(c_truhe, r3(c_unter - 0.003), CAM_S, push=0.12),
   # Und unter dem Tisch warten noch drei weitere: ganz tief, Blick unter den Tisch auf den Stapel
   *cs(c_unter, 1, CAM_U, push=0.12),
 ]
@@ -230,7 +232,7 @@ expA = {
  'actors': aA,
  'sfx': [{'t': r3(t_push + sa(0.2)), 'id': 'papier-schieben', 'volume': 0.5}, {'t': r3(t_take), 'id': 'geschenk-rascheln', 'volume': 0.35},
          {'t': r3(t_open + sa(0.1)), 'id': 'laptop-auf', 'volume': 0.6}, {'t': r3(t_play), 'id': 'tastatur', 'volume': 0.5},
-         {'t': r3(max(c_truhe, t_open + sa(0.9))), 'id': 'truhe-auf', 'volume': 0.55}],
+         {'t': r3(c_truhe), 'id': 'truhe-auf', 'volume': 0.55}],
 }
 
 # =====================================================================================================
@@ -245,7 +247,7 @@ c_ruhe = cue(B, 'explain2', 'Ruhe')
 c_dampf = cue(B, 'explain2', 'Der Dampf')
 c_token = cue(B, 'explain2', 'Das Token')
 c_irg = cue(B, 'explain2', 'Irgendwo')
-t_close = r3(max(sB, c_klapp - sb(1.2)))       # Deckel ist zu, wenn „Klapp.“ gesprochen wird
+t_close = r3(max(sB - sb(0.5), c_klapp - sb(1.2)))   # Deckel fällt kurz nach „Klapp.“ zu (langsam zuklappen)
 t_shut = r3(t_close + sb(1.5))
 dumB = [sit(0, 'keyhammer'), sit(r3(t_close - 0.003), 'keyhammer'), sit(t_close, 'closelean', cut=True), sit(1, 'closelean')]
 lapB = [lap(0, lid=1.0, fill=float(COUNT0 + 16), mark=0.8, smoke=1.1, glow=0.55), lap(r3(t_close + sb(0.2)), lid=1.0),
@@ -255,9 +257,9 @@ camB = [
   # Karte: Dummy am dampfenden Laptop, ruhig von schräg vorn rechts
   *cs(0, r3(sB - 0.003), CAM_F, push=0.04),
   # Klapp.: nah am Laptop, Deckel klappt langsam zu
-  *cs(sB, r3(c_ruhe - 0.003), CAM_S, push=0.08),
+  *cs(sB, r3(c_ruhe - 0.003), CAM_R, push=0.08),
   # Ruhe. Der Dampf verzieht sich: zugeklappter Laptop, letzte Dampfwolken
-  *cs(c_ruhe, r3(c_token - 0.003), CAM_R, push=0.1),
+  *cs(c_ruhe, r3(c_token - 0.003), CAM_W, push=0.08),
   # Das Token bleibt, wo es ist: hinter dem zurückgelehnten Dummy, Blick hoch zum Plakat
   *cs(c_token, r3(c_irg - 0.003), CAM_L, push=0.06),
   # Irgendwo in Truhe Nummer 137.500: das Plakat ganz nah

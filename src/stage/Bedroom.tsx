@@ -49,14 +49,13 @@ const GamingCorner = ({time}: {time: number}) => {
         <boxGeometry args={[W - 0.02, 0.012, 0.006]} />
         <meshBasicMaterial color={ledA} toneMapped={false} />
       </mesh>
-      {[desk.x0 + 0.05, desk.x1 - 0.05].map((x) => (
-        <group key={x}>
-          <mesh position={[x, (desk.h - 0.04) / 2, cz]}>
-            <boxGeometry args={[0.05, desk.h - 0.04, Dp - 0.08]} />
-            <meshStandardMaterial color="#2a2d35" />
-          </mesh>
-        </group>
-      ))}
+      {/* vier schlanke Beine (unter dem Tisch frei für den Laptop-Stapel) */}
+      {[desk.x0 + 0.04, desk.x1 - 0.04].flatMap((x) => [desk.z0 + 0.04, desk.z1 - 0.04].map((z) => (
+        <mesh key={`${x}${z}`} position={[x, (desk.h - 0.04) / 2, z]}>
+          <boxGeometry args={[0.04, desk.h - 0.04, 0.04]} />
+          <meshStandardMaterial color="#2a2d35" />
+        </mesh>
+      )))}
       {/* großes Mauspad, Maus, Headset */}
       <mesh position={[cx + 0.05, desk.h + 0.002, cz + 0.08]} receiveShadow>
         <boxGeometry args={[W * 0.86, 0.004, 0.4]} />
