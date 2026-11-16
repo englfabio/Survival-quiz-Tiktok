@@ -894,7 +894,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Kontrolle scribe_v2 (alle Clips): korrekt. Choreografie: `python3 scripts/spezial-tauben-choreo.py` (Helfer `Cast` = Figur je Bühne ein-/ausblenden; prüft mit
   `check_c`, dass bei C alle Tauben auf dem Baum sind, BEVOR der Truck losfährt: gelandet 2,4 s, Truck 2,7 s, Haus platt ab 3,4 s der Szene). Comichaft, den Tauben
   passiert nichts; A ohne echte Politiker/Regierungsgebäude (anonyme Hotline, Regierungs-Dummy mit Sonnenbrille in neutralem Büro). Standbilder in
-  review/spezial-tauben/phase1/. Finales Video: review/final/spezial-tauben.mp4.
+  review/spezial-tauben/phase1/. Finales Video: review/final/spezial-tauben.mp4 (65,9 s). **Vom Inhaber freigegeben.**
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
