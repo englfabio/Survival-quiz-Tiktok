@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -331,6 +331,17 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   3,0 m, Kniestock 0,9 m), Holzdielen, Sparren, Lichterkette am First, rundes Giebelfenster (−0.55, 2.05), Holztür rechts (Mitte x 0.92) – Schilder an der Tür bei
   z −2.125 (face 180: `hausordnung` y 1.33, `putzplan` y 0.72), Nester (Holzkisten mit Stroh, Bauteil `NestBox`) in einer Reihe vor der Rückwand + Brett darüber
   (`ATTIC.nests`), Teppich, Futternapf. Kamera z. B. [0.6, 1.05, 3.4] Blick [−1.0, 0.5, −1.4] (fov 40) für die Nester.
+  Goldfisch-Bühnen (`src/stage/Goldfish.tsx`): Supermarkt-Parkplatz am Tag (`parkplatz`, `PARKPLATZ`, Atmo `wald-atmo`): Fahrgasse entlang x bei z 0
+  (z −3 … 3), Zufahrt von links (x < −22), Parkbuchten hinten (z −3 … −8) + vorn (z 3 … 8), neutraler Supermarkt (Front z −16.5) mit Schild „SUPERMARKT“
+  (keine Marke), Einkaufswagen-Häuschen, Laternen, Pflanzinseln; vorn (z > 9) Grünstreifen, Bäume erst ab z 22 → Kamera frei; Platz fürs Futterhäufchen
+  `PARKPLATZ.pile` (1.5, 0). Variante `parkplatz-ring`: Boxring aus dem Känguru-Video (`Ring` aus Outback.tsx jetzt exportiert) mitten auf dem Parkplatz
+  (Mitte (0, 0), Boden 0,5 m, Ecken ±2,6), Auto parkt bei `PARKPLATZ.ringCar` (−9.3, −5.6). Kurvige Landstraße (`kurvenstrasse`, `KURVE`, Atmo `wald-atmo`):
+  Mittellinie `kurveZ(x)` (Sinus A 7, Wellenlänge 64, ab x 18 gerade bei z 0; gleiche Formel `kurve_z` im Choreo-Skript), Fahrbahn ±3,2, Spur für +x bei
+  +1,6 (Helfer `lane`/`lane_face`), Leitpfosten, Felder, Hügel, Bäume ≥ 9 m neben der Straße; am Ende rechts ein Parkplatz mit 6 Querbuchten
+  (`KURVE.spots`, Mitten x 44 … 64, z 7.6; rückwärts eingeparkt = face 0). Aquarium von innen (`aquarium-innen`, `AQUA`, Atmo `aquarium-atmo`):
+  riesiger Raum (x ±22, Rückwand z −30, Wasseroberfläche y 16), bunter Kies, riesige Plastikpflanzen, Taucherfigur (ca. 4 m) bei (5.2, −6.5),
+  Luftblasen-Pumpe mit Blasensäule bei (−7.5, −8), Lichtstrahlen, Schwebeteilchen; Platz des Dummys `AQUA.home` (0, 0). `DayLight` + `useTreeGeos`
+  aus Monstertruck.tsx jetzt exportiert.
   Stilisierte Mitmenschen ohne Gesicht als Bühnen-Bauteil: `Commuter` (Farben, Arm hoch zum Haltegriff) in `src/stage/Bedroom.tsx`.
   Weihnachts-Bühnen in `src/stage/Christmas.tsx` (Bausteine `HoleWall` = Wand mit Tür-/Fensteröffnungen, `Snowfall`, `SnowyPine`).
   Die drei Innenräume entstehen aus dem Raum-Baukasten in `src/stage/Rooms.tsx` (Möbel `Chair`, `Sofa` wiederverwendbar).
@@ -476,6 +487,24 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   telefonieren + nicken (`callnod`, auch Regierungs-Dummy), sitzend am Tisch verhandeln/gestikulieren (`seattalk`), sitzend stempeln (`seatstamp`, Treffer 0,58 s,
   Tisch 0,42 m vor ihm), sitzend die rechte Hand über den Tisch reichen + schütteln (`seatshake`, Hand ca. 0,55 m vor ihm auf 0,98 m). Wiederverwendet: `call`,
   `gape`, `lookaround`, `chairsit`, `pushstack`, `drinkcoffee`, `pressbutton`, `seatdrive`, `seattriumph`, `wave`, `stand`.
+  Goldfisch (Spezial, Details in `fishPose` in Dummy.tsx): gehen + Fischfutter aus der Dose streuen (`scatter`, Weg über Zeitpunkte, Dose + Flocken
+  automatisch), Boxhandschuhe anziehen (`gloveon`, Wert `gloves` 0 → 1 bei 0,6–1,4 s, Handschuhe zusammenklopfen 1,7 s, dann Deckung), in Boxhaltung
+  tänzeln (`boxbounce`, Zyklus 0,7 s, kleine Finten), im Bagger verzweifelt Vollgas geben – vorgebeugt, Hebel pumpen (`seatfloor`, mit `sweat`).
+  Wiederverwendet: `carshock` (fassungslos), `carrywalk` (Aquarium tragen), `drumlounge` (im Aquarium wohnen), `armscross`, `proud`, `lookaround`,
+  `seatdrive`, `wave`, `stand`.
+- **Goldfisch** (`goldfisch`, `src/actors/FishProps.tsx`, comichaft, dem Fisch geht es immer gut): orangefarbener Low-Poly-Goldfisch mit großen Augen +
+  schrägen Augenbrauen (sehr konzentrierter Blick) in einem runden Glas voll Wasser mit buntem Kies (Ursprung = Glasboden). Im Auto: `"attach": "car",
+  x 0.3, y 0.7, z −0.05, face 0` + Wert `side` 1 = Sitzerhöhung + Sicherheitsgurt quer übers Glas (so sieht man ihn durch Seiten- und Frontscheibe).
+  Bewegungen: `fishswim`, `steer` (lenkt mit beiden Brustflossen am Lenkrad; Wert `turn` = Lenkwinkel in Grad, beim Auto `turn` gleich setzen),
+  `fishblink` (linke Flosse drückt den Blinkerhebel, 0,25–0,6 s), `fisheat` (schnappt Flocken an der Oberfläche, Wert `fill` = Flocken im Glas),
+  `fishguard` / `fishpunch` (Boxhaltung / boxt in die Luft, mit `gloves` 1 = winzige rote Boxhandschuhe), `fishhappy` (zufrieden; im Auto Flossen am
+  Lenkrad), `fishback` (dreht sich im Glas um, schaut nach hinten – rückwärts einparken). `size` = größer (z. B. 0,25 auf dem Podest).
+- **Objekte (Goldfisch, `src/actors/FishProps.tsx`, alle ohne Marken):** Aquarium-Becken 0,9 × 0,5 × 0,42 m mit Wasser, Kies, Plastikpflanzen, kleiner
+  Taucherfigur, Luftblasen-Pumpe (`aquarium`, Ursprung = Boden-Mitte; tragen: `"attach": "dummy", x 0, y 0.92, z 0.42, face 0` mit `carrywalk`),
+  Dose Fischfutter (bei `scatter` in der Hand), Futterspur auf dem Boden (`futterspur`, WELT-Koordinaten, Figur bei (0, 0) face 180, Feld `text`
+  = Punkte "x z;x z;…", `fill` = Anteil der Spur, `mark` = Häufchen am Ende), Autoschlüssel ohne Logo (`autoschluessel`, dreht sich, `glow` = funkelt),
+  rot-goldenes Siegerpodest 0,55 m (`podest`, `podest2`, `size`). Bauteile `PlasticPlant`, `DiverFigure`, `BubblePump`, `FoodCan`. **Auto `car`
+  erweitert:** Wert `turn` = Lenkrad dreht sich (Grad), `blink` 1 = links / 2 = rechts blinken (orange Lichter + Hebel an der Lenksäule).
 - **Tauben (`src/actors/PigeonProps.tsx`, comichaft, den Tauben passiert nie etwas):** Taube im Low-Poly-Look (`Pigeon`: blaugrau, grün-lila schillernder Hals,
   helle Flügel mit zwei dunklen Binden, rote Füße, Kulleraugen; Wert `blink` = kleines rotes Blinklicht auf dem Rücken). **Schwarm** (`tauben`, `tauben2`, `tauben3`):
   ganze Gruppe in WELT-Koordinaten (Figur bei (0, 0), face 180; y −30 = weg), Feld `text` = Tauben getrennt mit „;“, je „x y z face“ (sitzt: wippt, schaut
@@ -752,7 +781,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -895,6 +924,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `check_c`, dass bei C alle Tauben auf dem Baum sind, BEVOR der Truck losfährt: gelandet 2,4 s, Truck 2,7 s, Haus platt ab 3,4 s der Szene). Comichaft, den Tauben
   passiert nichts; A ohne echte Politiker/Regierungsgebäude (anonyme Hotline, Regierungs-Dummy mit Sonnenbrille in neutralem Büro). Standbilder in
   review/spezial-tauben/phase1/. Finales Video: review/final/spezial-tauben.mp4 (65,9 s). **Vom Inhaber freigegeben.**
+- Spezial Goldfisch-Auto: 787 neue Zeichen (ca. 315 Credits laut ElevenLabs; Abstimmung + Outro wortgleich mit Tauben → aus Cache). Texte Buchstabe
+  für Buchstabe vom Inhaber; Outro + „Neue Video-Ideen? Ab in die Kommentare!“ (stand schon im Tauben-Outro, gleicher Text). Texte allein 66,95 s → selbst
+  ohne Abstimmung und Pausen über 66 s; **Inhaber hat ca. 70 s erlaubt** (`noVote`, `padAfter` 0,05 s → 70,2 s). Kontrolle scribe_v2 (alle neuen Clips):
+  korrekt. Choreografie: `python3 scripts/spezial-goldfisch-auto-choreo.py` (Helfer `car_path`, `lane`, `track` = Kamera fährt mit dem Auto; `Cast` kann
+  jetzt direkt aneinandergrenzende Einstellungen ohne Wegblenden). Comichaft: Fisch immer im vollen, angeschnallten Glas; Boxkampf = Show, beide boxen
+  nur in die Luft in ihren Ecken. Standbilder in review/spezial-goldfisch-auto/phase1/. Finales Video: review/final/spezial-goldfisch-auto.mp4 (70,2 s).
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -946,6 +981,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   wiederverwendet: `tastatur`, `dampf`, `laptop-auf`, `papier-schieben`, `geschenk-rascheln`, `himmel-chor`).
   `tauben-gurren`, `fluegelschlag` (Schwarm hebt ab), `warteschleife` (Telefon-Wartemusik), `klick`, `piep`, `laden` (Spezial Tauben; wiederverwendet:
   `handy-waehlen`, `kuehlschrank-auf`, `papier-schieben`, `stempel`, `kaffee-schluerfen`, `monstertruck-motor`, `haus-knautschen`; Dachboden nutzt `uhr-ticken`).
+  `aquarium-atmo` (Bühne Aquarium innen, Schleife), `blinker`, `futter-streuen`, `fisch-schnappen`, `schluessel-klimpern`, `handschuhe-anziehen` (Spezial
+  Goldfisch; wiederverwendet: `auto-motor`, `blubbern`, `eimer-schwappen`, `bagger-motor`, `boxglocke`, `staunen`; neue Bühnen draußen nutzen `wald-atmo`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1146,7 +1183,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Railway.tsx = Bahnstrecke + Landstraße mit Bürogebäude; Monstertruck.tsx = Wohnstraße, Museumshalle, Acker am Stadtrand;
                       Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle; OpenOffice.tsx = Büro-Etage;
                       Highway.tsx = Autobahn + Weltraum; Laundry.tsx = Waschkeller + riesiges Trommel-Inneres;
-                      Settlement.tsx auch Tauben-Straße mit Strommasten + Baum; Attic.tsx = Dachboden)
+                      Settlement.tsx auch Tauben-Straße mit Strommasten + Baum; Attic.tsx = Dachboden;
+                      Goldfish.tsx = Supermarkt-Parkplatz (+ Boxring), kurvige Landstraße mit Parkplatz, Aquarium von innen)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -1170,6 +1208,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       DinoProps.tsx = T-Rex/Raptoren, BuildProps.tsx = Holz-Bauteile/Bau-Figur/Stau/Urknall,
                       GamingProps.tsx = Gaming-Laptop mit eigenem Spiel/Zähler/Dampf/Plakat/Laptop-Stapel/Dosen/Gaming-Stuhl,
                       PigeonProps.tsx = Tauben/Schwarm/Anführer/Mietvertrag/Putzplan/Hausordnung/Fernseher/Warteschleife/Lade-Symbol/Nest,
+                      FishProps.tsx = Goldfisch im Glas/Aquarium/Futterdose/Futterspur/Autoschlüssel/Podest/Plastikpflanze/Taucher/Blasenpumpe,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)

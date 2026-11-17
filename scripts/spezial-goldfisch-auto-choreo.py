@@ -26,7 +26,7 @@ vote="Also, was machst du?",
 outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
 )
 EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.0))}
-TAIL = float(os.environ.get('TAIL', 0.1))
+TAIL = float(os.environ.get('TAIL', 0.05))  # Texte allein 66,95 s → ca. 70 s, vom Inhaber erlaubt
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))
 VOTE_LEN = 5.6
 NO_VOTE = os.environ.get('NO_VOTE', '1') == '1'
