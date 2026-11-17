@@ -12,7 +12,8 @@ import {BoxingGlove} from './ToothProps';
  *      mit großen Augen + schräg gestellten Augenbrauen (sehr konzentrierter Blick). Ursprung = Boden des Glases, Fisch schaut nach +z.
  *      Werte: `side` 1 = Sicherheitsgurt quer übers Glas (im Auto), `gloves` 1 = winzige rote Boxhandschuhe an den Brustflossen,
  *      `fill` 0 … 1 = Futterflocken auf dem Wasser, `turn` = Lenkwinkel in Grad (wie beim Auto, damit die Flossen am Lenkrad bleiben).
- *      Im Auto: `"attach": "car", x 0.3, y 0.44, z −0.05, face 0` (Glas auf dem Fahrersitz, Flossen erreichen das Lenkrad = BOWL_WHEEL).
+ *      Im Auto: `"attach": "car", x 0.3, y 0.7, z −0.05, face 0` (Glas auf einer Sitzerhöhung auf dem Fahrersitz – so sieht man den Fisch durch die
+ *      Scheiben; Flossen erreichen das Lenkrad = BOWL_WHEEL). Mit `side` 1 erscheinen Gurt + Sitzerhöhung.
  *      Bewegungen: fishswim, steer, fishblink, fisheat, fishguard, fishpunch, fishhappy, fishback (Details in goldfishPose).
  *  - Aquarium ("aquarium"): Glasbecken 0,9 × 0,5 × 0,42 m mit Wasser, Kies, Plastikpflanzen, kleiner Taucherfigur und Luftblasen-Pumpe
  *      (Ursprung = Boden-Mitte, Vorderseite +z). Ohne Fisch (der fährt ja Auto). Zum Tragen `"attach": "dummy", x 0, y 0.72, z 0.42, face 0`.
@@ -29,10 +30,10 @@ const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters>
 export const BOWL_R = 0.24;
 /** Höhe des Fisch-Mittelpunkts über dem Glasboden (ruhig) */
 const FISH_Y = 0.24;
-/** Lenkrad im System des Glases (Glas auf dem Fahrersitz: attach car x 0.3, y 0.44, z −0.05) – Mitte + Neigung */
-export const BOWL_WHEEL = {pos: [0, 0.46, 0.41] as [number, number, number], tilt: -0.45, r: 0.17};
+/** Lenkrad im System des Glases (Glas auf Sitzerhöhung auf dem Fahrersitz: attach car x 0.3, y 0.7, z −0.05) – Mitte + Neigung */
+export const BOWL_WHEEL = {pos: [0, 0.2, 0.41] as [number, number, number], tilt: -0.45, r: 0.17};
 /** Blinkerhebel (links an der Lenksäule) im System des Glases */
-const BOWL_LEVER: [number, number, number] = [0.2, 0.43, 0.34];
+const BOWL_LEVER: [number, number, number] = [0.2, 0.17, 0.34];
 export const PODIUM_H = 0.55;
 
 const ORANGE = '#ff8a1c';
@@ -73,7 +74,7 @@ const wheelPoint = (a: number, steer: number): [number, number, number] => {
 };
 
 /** Bewegungen des Goldfischs. turnDeg = Lenkwinkel (Wert turn), time = Sekunden seit Beginn der Bewegung */
-export const goldfishPose = (motion: Motion, time: number, turnDeg = 0): FishPose => {
+export const goldfishPose = (motion: Motion, time: number, turnDeg = 0, inCar = false): FishPose => {
   const p = rest();
   const wag = Math.sin(time * 9);
   p.tail = 0.35 * wag;
@@ -160,6 +161,14 @@ export const goldfishPose = (motion: Motion, time: number, turnDeg = 0): FishPos
       p.smile = 1;
       p.mouth = 0.1;
       p.tail = 0.55 * Math.sin(time * 13);
+      if (inCar) {
+        // zufrieden fahren: Flossen bleiben am Lenkrad
+        p.pos = [0, 0.3 + 0.01 * Math.sin(time * 4), 0.05];
+        p.roll = 0.08 * Math.sin(time * 5);
+        p.yaw = 0.08 * Math.sin(time * 2.4);
+        p.tipL = wheelPoint(Math.PI / 2 + 0.75, steer);
+        p.tipR = wheelPoint(Math.PI / 2 - 0.75, steer);
+      }
       return p;
     }
     default: {
@@ -279,6 +288,7 @@ const useFishMats = () =>
       surface: new THREE.MeshStandardMaterial({color: '#bfeaff', roughness: 0.05, transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide}),
       belt: std('#2d3138', {roughness: 0.8}),
       buckle: std('#c9ccd0', {metalness: 0.6, roughness: 0.3}),
+      cushion: std('#2f6fd6', {roughness: 0.8}),
     }),
     [],
   );
@@ -384,7 +394,11 @@ export const GoldfishBowl = ({
             </mesh>
           </group>
           {/* Gurtband zur Säule (oben links) + Schloss (unten rechts) */}
-          <FinBlade a={new THREE.Vector3(0.18, 0.43, 0.04)} b={new THREE.Vector3(0.42, 0.95, -0.22)} mat={m.belt} w={0.06} />
+          <FinBlade a={new THREE.Vector3(0.18, 0.43, 0.04)} b={new THREE.Vector3(0.44, 0.62, -0.28)} mat={m.belt} w={0.06} />
+          {/* Sitzerhöhung (blaues Kissen) */}
+          <mesh material={m.cushion} position={[0, -0.13, -0.02]} castShadow>
+            <boxGeometry args={[0.44, 0.26, 0.46]} />
+          </mesh>
           <mesh material={m.buckle} position={[-0.19, 0.08, 0.05]}>
             <boxGeometry args={[0.05, 0.05, 0.03]} />
           </mesh>
@@ -678,7 +692,7 @@ export const FlakeTrail = ({points, fill = 1, pile = 0}: {points: [number, numbe
     for (let i = 1; i < points.length; i++) segs.push(segs[i - 1] + Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]));
     const total = segs[segs.length - 1] || 1;
     const flakes: {x: number; z: number; rot: number; c: number; s: number; at: number}[] = [];
-    const per = 9; // Flocken pro Meter
+    const per = 16; // Flocken pro Meter
     for (let i = 1; i < points.length; i++) {
       const [ax, az] = points[i - 1];
       const [bx, bz] = points[i];
@@ -686,19 +700,19 @@ export const FlakeTrail = ({points, fill = 1, pile = 0}: {points: [number, numbe
       const n = Math.max(1, Math.round(len * per));
       for (let k = 0; k < n; k++) {
         const u = (k + r()) / n;
-        flakes.push({x: ax + (bx - ax) * u + (r() - 0.5) * 0.35, z: az + (bz - az) * u + (r() - 0.5) * 0.35, rot: r() * 6, c: Math.floor(r() * FLAKE_COLS.length), s: 0.6 + r() * 0.8, at: (segs[i - 1] + len * u) / total});
+        flakes.push({x: ax + (bx - ax) * u + (r() - 0.5) * 0.7, z: az + (bz - az) * u + (r() - 0.5) * 0.7, rot: r() * 6, c: Math.floor(r() * FLAKE_COLS.length), s: 0.6 + r() * 0.8, at: (segs[i - 1] + len * u) / total});
       }
     }
     const end = points[points.length - 1] ?? [0, 0];
-    const heap = Array.from({length: 60}, () => {
+    const heap = Array.from({length: 160}, () => {
       const a = r() * 6.28;
-      const d = Math.sqrt(r()) * 0.32;
-      return {x: end[0] + Math.cos(a) * d, z: end[1] + Math.sin(a) * d, y: 0.012 + (0.32 - d) * 0.35 * r(), rot: r() * 6, c: Math.floor(r() * FLAKE_COLS.length)};
+      const d = Math.sqrt(r()) * 0.55;
+      return {x: end[0] + Math.cos(a) * d, z: end[1] + Math.sin(a) * d, y: 0.012 + (0.55 - d) * 0.5 * r(), rot: r() * 6, c: Math.floor(r() * FLAKE_COLS.length)};
     });
     return {flakes, heap};
   }, [points]);
   const mats = useMemo(() => FLAKE_COLS.map((c) => new THREE.MeshStandardMaterial({color: c, roughness: 0.7, side: THREE.DoubleSide})), []);
-  const geo = useMemo(() => new THREE.PlaneGeometry(0.05, 0.035), []);
+  const geo = useMemo(() => new THREE.PlaneGeometry(0.11, 0.075), []);
   return (
     <group>
       {data.flakes

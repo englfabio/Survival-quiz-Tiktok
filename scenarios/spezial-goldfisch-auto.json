@@ -1,0 +1,4000 @@
+{
+  "id": "spezial-goldfisch-auto",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "wohnstrasse",
+  "padAfter": 0.1,
+  "situation": {
+    "speech": "Dein Goldfisch hat mal wieder dein Auto geklaut. Er sitzt in seinem Glas auf dem Fahrersitz und fährt einfach los. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Sein Aquarium klauen",
+      "speech": "A: Du klaust zurück und nimmst sein Aquarium.",
+      "dummyAction": "Der Goldfisch fährt im Auto des Dummys vorbei, der Dummy trägt dafür das Aquarium des Fischs davon. Danach wohnt der Dummy im riesigen Aquarium zwischen Plastikpflanzen, neben einer Taucherfigur, Luftblasen steigen auf. Draußen fährt der Goldfisch zufrieden Auto.",
+      "explanation": "Er nimmt dein Auto, du nimmst sein Aquarium. Ab jetzt wohnst du zwischen Plastikpflanzen und einem kleinen Taucher. Und er hat ein Auto. Fairer Tausch.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              1.95,
+              2.17,
+              7.17
+            ],
+            "look": [
+              0.63,
+              0.63,
+              -0.32
+            ]
+          },
+          {
+            "t": 0.2253,
+            "pos": [
+              1.884,
+              2.093,
+              6.795
+            ],
+            "look": [
+              0.63,
+              0.63,
+              -0.32
+            ]
+          },
+          {
+            "t": 0.2284,
+            "pos": [
+              -3.0,
+              1.6,
+              13.5
+            ],
+            "look": [
+              -1.0,
+              1.0,
+              0.5
+            ]
+          },
+          {
+            "t": 0.374,
+            "pos": [
+              -2.94,
+              1.582,
+              13.11
+            ],
+            "look": [
+              -1.0,
+              1.0,
+              0.5
+            ]
+          },
+          {
+            "t": 0.3775,
+            "pos": [
+              0.71,
+              2.23,
+              5.02
+            ],
+            "look": [
+              -0.95,
+              0.68,
+              -6.77
+            ]
+          },
+          {
+            "t": 0.5096,
+            "pos": [
+              0.61,
+              2.137,
+              4.313
+            ],
+            "look": [
+              -0.95,
+              0.68,
+              -6.77
+            ]
+          },
+          {
+            "t": 0.5132,
+            "pos": [
+              1.2,
+              1.5,
+              5.2
+            ],
+            "look": [
+              -0.2,
+              1.0,
+              -3.0
+            ],
+            "fov": 48
+          },
+          {
+            "t": 0.7615,
+            "pos": [
+              1.088,
+              1.46,
+              4.544
+            ],
+            "look": [
+              -0.2,
+              1.0,
+              -3.0
+            ],
+            "fov": 48
+          },
+          {
+            "t": 0.7647,
+            "pos": [
+              -7.1,
+              5.42,
+              17.55
+            ],
+            "look": [
+              1.5,
+              0.8,
+              -3.65
+            ]
+          },
+          {
+            "t": 0.8663,
+            "pos": [
+              -6.498,
+              5.097,
+              16.066
+            ],
+            "look": [
+              1.5,
+              0.8,
+              -3.65
+            ]
+          },
+          {
+            "t": 0.8691,
+            "pos": [
+              2.45,
+              1.45,
+              -0.45
+            ],
+            "look": [
+              1.95,
+              1.02,
+              1.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.8832,
+            "pos": [
+              2.95,
+              1.45,
+              -0.45
+            ],
+            "look": [
+              2.45,
+              1.02,
+              1.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.8969,
+            "pos": [
+              3.45,
+              1.45,
+              -0.45
+            ],
+            "look": [
+              2.95,
+              1.02,
+              1.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.9102,
+            "pos": [
+              3.95,
+              1.45,
+              -0.45
+            ],
+            "look": [
+              3.45,
+              1.02,
+              1.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.9232,
+            "pos": [
+              4.45,
+              1.45,
+              -0.45
+            ],
+            "look": [
+              3.95,
+              1.02,
+              1.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.9357,
+            "pos": [
+              4.95,
+              1.45,
+              -0.45
+            ],
+            "look": [
+              4.45,
+              1.02,
+              1.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.9479,
+            "pos": [
+              5.45,
+              1.45,
+              -0.45
+            ],
+            "look": [
+              4.95,
+              1.02,
+              1.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.9502,
+            "pos": [
+              -2.5,
+              1.0,
+              5.5
+            ],
+            "look": [
+              0.5,
+              1.2,
+              -4.0
+            ],
+            "fov": 46
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -2.32,
+              1.012,
+              4.93
+            ],
+            "look": [
+              0.5,
+              1.2,
+              -4.0
+            ],
+            "fov": 46
+          }
+        ],
+        "actors": {
+          "aquarium": [
+            {
+              "t": 0,
+              "x": 0.1,
+              "z": -0.45,
+              "motion": "park",
+              "face": 180,
+              "y": 0.405
+            },
+            {
+              "t": 0.264,
+              "x": 0.1,
+              "z": -0.45,
+              "motion": "park",
+              "face": 180,
+              "y": 0.405
+            },
+            {
+              "t": 0.266,
+              "x": 0.1,
+              "z": -0.45,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0
+            },
+            {
+              "t": 0.3951,
+              "x": 0,
+              "z": 0.42,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0
+            },
+            {
+              "t": 0.3971,
+              "x": 0,
+              "z": 0.42,
+              "motion": "park",
+              "face": 0,
+              "y": 0.92,
+              "attach": "dummy"
+            },
+            {
+              "t": 0.511,
+              "x": 0,
+              "z": 0.42,
+              "motion": "park",
+              "face": 0,
+              "y": 0.92,
+              "attach": "dummy"
+            },
+            {
+              "t": 0.513,
+              "x": 0,
+              "z": 0.42,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.15,
+              "z": -0.25,
+              "motion": "armscross",
+              "face": 255,
+              "y": 0.0
+            },
+            {
+              "t": 0.264,
+              "x": 1.15,
+              "z": -0.25,
+              "motion": "armscross",
+              "face": 255,
+              "y": 0.0
+            },
+            {
+              "t": 0.266,
+              "x": 1.15,
+              "z": -0.25,
+              "motion": "armscross",
+              "face": 255,
+              "y": -30.0
+            },
+            {
+              "t": 0.3951,
+              "x": -2.6,
+              "z": -6.8,
+              "motion": "carrywalk",
+              "face": 90,
+              "y": -30.0
+            },
+            {
+              "t": 0.3971,
+              "x": -2.6,
+              "z": -6.8,
+              "motion": "carrywalk",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.5095,
+              "x": 0.6,
+              "z": -6.8,
+              "motion": "carrywalk",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.511,
+              "x": 0,
+              "z": 0,
+              "motion": "drumlounge",
+              "face": 165,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.8343,
+              "x": 0,
+              "z": 0,
+              "motion": "drumlounge",
+              "face": 165,
+              "y": 0.0
+            },
+            {
+              "t": 0.8363,
+              "x": 0,
+              "z": 0,
+              "motion": "drumlounge",
+              "face": 165,
+              "y": -30.0
+            },
+            {
+              "t": 0.9279,
+              "x": 0,
+              "z": 0,
+              "motion": "drumlounge",
+              "face": 165,
+              "y": -30.0
+            },
+            {
+              "t": 0.9299,
+              "x": 0,
+              "z": 0,
+              "motion": "drumlounge",
+              "face": 165,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "z": 0,
+              "motion": "drumlounge",
+              "face": 165,
+              "y": 0.0
+            }
+          ],
+          "car": [
+            {
+              "t": 0.0,
+              "x": -11,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.262,
+              "x": -11,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.264,
+              "x": -11,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3971,
+              "x": 6,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3991,
+              "x": 6,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.8323,
+              "x": 2.0,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90,
+              "turn": 4.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.8343,
+              "x": 2.0,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90,
+              "turn": 4.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.9299,
+              "x": 5.0,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90,
+              "turn": -4.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.9319,
+              "x": 5.0,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90,
+              "turn": -4.0,
+              "mark": 1.0,
+              "window": 1.0,
+              "blink": 0.0,
+              "y": -30.0
+            }
+          ],
+          "goldfisch": [
+            {
+              "t": 0.0,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 6.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.262,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 6.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.264,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 6.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.3971,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": -6.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.3991,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": -6.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.8323,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishhappy",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 4.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.8343,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishhappy",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 4.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.9299,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishhappy",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": -4.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.9319,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishhappy",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": -4.0,
+              "fill": 0.0
+            }
+          ]
+        },
+        "stage": [
+          {
+            "t": 0,
+            "stage": "wohnzimmer"
+          },
+          {
+            "t": 0.264,
+            "stage": "wohnstrasse"
+          },
+          {
+            "t": 0.511,
+            "stage": "aquarium-innen"
+          },
+          {
+            "t": 0.8343,
+            "stage": "wohnstrasse"
+          },
+          {
+            "t": 0.9299,
+            "stage": "aquarium-innen"
+          }
+        ],
+        "sfx": [
+          {
+            "t": 0.269,
+            "id": "auto-motor",
+            "volume": 0.5
+          },
+          {
+            "t": 0.4071,
+            "id": "eimer-schwappen",
+            "volume": 0.45
+          },
+          {
+            "t": 0.516,
+            "id": "blubbern",
+            "volume": 0.5
+          },
+          {
+            "t": 0.8393,
+            "id": "auto-motor",
+            "volume": 0.4
+          },
+          {
+            "t": 0.9349,
+            "id": "blubbern",
+            "volume": 0.4
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Anlocken, dann Boxkampf",
+      "speech": "B: Du lockst ihn mit Fischfutter an und forderst ihn zum Boxkampf um das Auto heraus.",
+      "dummyAction": "Der Dummy streut eine Spur aus Fischfutter bis zum Supermarkt-Parkplatz, das Auto rollt heran und hält am Futterhäufchen, der Goldfisch frisst. Dann ein Boxring auf dem Parkplatz: der Dummy zieht Boxhandschuhe an, der Goldfisch steht in seinem Glas auf einem Podest mit Mini-Handschuhen, in der Mitte der Autoschlüssel auf einem Podest. Die Glocke klingelt, beide gehen in Boxhaltung (Show-Kampf, niemand trifft).",
+      "explanation": "Eine Spur aus Fischfutter, direkt bis zum Parkplatz. Er hält an und frisst. Und dann: Handschuhe an. Eins gegen eins. Wer gewinnt, kriegt das Auto. Ring frei.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -1.09,
+              3.57,
+              17.35
+            ],
+            "look": [
+              -1.88,
+              -0.61,
+              -4.44
+            ]
+          },
+          {
+            "t": 0.3304,
+            "pos": [
+              -1.13,
+              3.361,
+              16.261
+            ],
+            "look": [
+              -1.88,
+              -0.61,
+              -4.44
+            ]
+          },
+          {
+            "t": 0.3338,
+            "pos": [
+              -28.0,
+              1.5,
+              5.6
+            ],
+            "look": [
+              -33.5,
+              0.7,
+              0.0
+            ]
+          },
+          {
+            "t": 0.4927,
+            "pos": [
+              -28.66,
+              1.404,
+              4.928
+            ],
+            "look": [
+              -33.5,
+              0.7,
+              0.0
+            ]
+          },
+          {
+            "t": 0.4963,
+            "pos": [
+              -6.0,
+              9.5,
+              14.0
+            ],
+            "look": [
+              -12.0,
+              0.0,
+              -1.0
+            ]
+          },
+          {
+            "t": 0.6103,
+            "pos": [
+              -6.3,
+              9.025,
+              13.25
+            ],
+            "look": [
+              -12.0,
+              0.0,
+              -1.0
+            ]
+          },
+          {
+            "t": 0.6138,
+            "pos": [
+              -4.0,
+              2.2,
+              9.5
+            ],
+            "look": [
+              -6.0,
+              0.6,
+              -0.5
+            ]
+          },
+          {
+            "t": 0.6588,
+            "pos": [
+              -4.08,
+              2.136,
+              9.1
+            ],
+            "look": [
+              -6.0,
+              0.6,
+              -0.5
+            ]
+          },
+          {
+            "t": 0.6623,
+            "pos": [
+              -0.6,
+              1.5,
+              -2.1
+            ],
+            "look": [
+              -1.15,
+              1.05,
+              -0.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.7104,
+            "pos": [
+              -0.644,
+              1.464,
+              -1.956
+            ],
+            "look": [
+              -1.15,
+              1.05,
+              -0.3
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.7138,
+            "pos": [
+              3.95,
+              2.54,
+              -7.05
+            ],
+            "look": [
+              -0.96,
+              1.06,
+              -1.03
+            ]
+          },
+          {
+            "t": 0.8113,
+            "pos": [
+              3.655,
+              2.451,
+              -6.689
+            ],
+            "look": [
+              -0.96,
+              1.06,
+              -1.03
+            ]
+          },
+          {
+            "t": 0.8143,
+            "pos": [
+              7.23,
+              3.05,
+              7.23
+            ],
+            "look": [
+              1.19,
+              0.74,
+              -1.01
+            ]
+          },
+          {
+            "t": 0.8734,
+            "pos": [
+              6.928,
+              2.934,
+              6.818
+            ],
+            "look": [
+              1.19,
+              0.74,
+              -1.01
+            ]
+          },
+          {
+            "t": 0.8762,
+            "pos": [
+              1.9,
+              1.55,
+              -1.1
+            ],
+            "look": [
+              0.0,
+              1.35,
+              0.0
+            ],
+            "fov": 36
+          },
+          {
+            "t": 0.9673,
+            "pos": [
+              1.71,
+              1.53,
+              -0.99
+            ],
+            "look": [
+              0.0,
+              1.35,
+              0.0
+            ],
+            "fov": 36
+          },
+          {
+            "t": 0.9695,
+            "pos": [
+              10.86,
+              2.99,
+              9.78
+            ],
+            "look": [
+              1.13,
+              0.73,
+              -0.98
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              10.373,
+              2.877,
+              9.242
+            ],
+            "look": [
+              1.13,
+              0.73,
+              -0.98
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -4.0,
+              "z": -1.0,
+              "motion": "proud",
+              "face": 160,
+              "y": 0.0
+            },
+            {
+              "t": 0.3579,
+              "x": -4.0,
+              "z": -1.0,
+              "motion": "proud",
+              "face": 160,
+              "y": 0.0
+            },
+            {
+              "t": 0.3594,
+              "x": -36.0,
+              "z": 0.15,
+              "motion": "scatter",
+              "face": 90,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.4954,
+              "x": -27.0,
+              "z": 0.15,
+              "motion": "scatter",
+              "face": 90,
+              "y": 0.0
+            },
+            {
+              "t": 0.4969,
+              "x": 4.2,
+              "z": -2.2,
+              "motion": "proud",
+              "face": 250,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6372,
+              "x": 4.2,
+              "z": -2.2,
+              "motion": "proud",
+              "face": 250,
+              "y": 0.0
+            },
+            {
+              "t": 0.6392,
+              "x": 4.2,
+              "z": -2.2,
+              "motion": "proud",
+              "face": 250,
+              "y": -30.0
+            },
+            {
+              "t": 0.6807,
+              "x": -1.55,
+              "z": -1.55,
+              "motion": "gloveon",
+              "face": 135,
+              "gloves": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.6827,
+              "x": -1.55,
+              "z": -1.55,
+              "motion": "gloveon",
+              "face": 135,
+              "gloves": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7179,
+              "x": -1.55,
+              "z": -1.55,
+              "motion": "gloveon",
+              "face": 135,
+              "gloves": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7647,
+              "x": -1.55,
+              "z": -1.55,
+              "motion": "gloveon",
+              "face": 135,
+              "gloves": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.776,
+              "x": -1.55,
+              "z": -1.55,
+              "motion": "gloveon",
+              "face": 135,
+              "gloves": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7775,
+              "x": -1.55,
+              "z": -1.55,
+              "motion": "boxbounce",
+              "face": 135,
+              "gloves": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -1.55,
+              "z": -1.55,
+              "motion": "boxbounce",
+              "face": 135,
+              "gloves": 1.0,
+              "y": 0.0
+            }
+          ],
+          "futterspur": [
+            {
+              "t": 0.0,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "text": "-44.0 0.0;-30.0 0.3;-20.0 -0.3;-10.0 0.2;1.5 0.0",
+              "fill": 0.165,
+              "mark": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.3574,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "text": "-44.0 0.0;-30.0 0.3;-20.0 -0.3;-10.0 0.2;1.5 0.0",
+              "fill": 0.165,
+              "mark": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.3594,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "text": "-44.0 0.0;-30.0 0.3;-20.0 -0.3;-10.0 0.2;1.5 0.0",
+              "fill": 0.165,
+              "mark": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4939,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.363,
+              "mark": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4969,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "mark": 1.0,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 0.594,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "mark": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5955,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "text": "-44.0 0.0;-30.0 0.3;-20.0 -0.3;-10.0 0.2;1.5 0.0",
+              "fill": 1.0,
+              "mark": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6827,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.85,
+              "mark": 0.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.6847,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.85,
+              "mark": 0.6,
+              "y": -30.0
+            }
+          ],
+          "car": [
+            {
+              "t": 0.0,
+              "x": -22.0,
+              "z": 0.0,
+              "motion": "drive",
+              "face": 90,
+              "window": 1.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.5935,
+              "x": -22.0,
+              "z": 0.0,
+              "motion": "drive",
+              "face": 90,
+              "window": 1.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.5955,
+              "x": -22.0,
+              "z": 0.0,
+              "motion": "drive",
+              "face": 90,
+              "window": 1.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6284,
+              "x": -1.1,
+              "z": 0.0,
+              "motion": "drive",
+              "face": 90,
+              "mark": 1.0,
+              "window": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.629,
+              "x": -1.1,
+              "z": 0.0,
+              "motion": "park",
+              "face": 90,
+              "mark": 1.0,
+              "window": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6812,
+              "x": -1.1,
+              "z": 0.0,
+              "motion": "park",
+              "face": 90,
+              "mark": 1.0,
+              "window": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6827,
+              "x": -9.3,
+              "z": -5.6,
+              "motion": "park",
+              "face": 0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -9.3,
+              "z": -5.6,
+              "motion": "park",
+              "face": 0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            }
+          ],
+          "goldfisch": [
+            {
+              "t": 0.0,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.5935,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.5955,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.6342,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.6372,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fisheat",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "fill": 1.0,
+              "cut": true,
+              "turn": 0.0
+            },
+            {
+              "t": 0.6827,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fisheat",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "fill": 0.35,
+              "turn": 0.0
+            },
+            {
+              "t": 0.6847,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fisheat",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "fill": 0.35,
+              "turn": 0.0
+            },
+            {
+              "t": 0.7755,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "fishguard",
+              "face": 315,
+              "y": -30.0,
+              "gloves": 1.0,
+              "side": 0.0,
+              "size": 0.25
+            },
+            {
+              "t": 0.7775,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "fishguard",
+              "face": 315,
+              "y": 0.55,
+              "gloves": 1.0,
+              "side": 0.0,
+              "size": 0.25
+            },
+            {
+              "t": 0.9527,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "fishguard",
+              "face": 315,
+              "y": 0.55,
+              "gloves": 1.0,
+              "side": 0.0,
+              "size": 0.25
+            },
+            {
+              "t": 0.9557,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "fishpunch",
+              "face": 315,
+              "y": 0.55,
+              "gloves": 1.0,
+              "side": 0.0,
+              "size": 0.25
+            },
+            {
+              "t": 1,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "fishpunch",
+              "face": 315,
+              "y": 0.55,
+              "gloves": 1.0,
+              "side": 0.0,
+              "size": 0.25
+            }
+          ],
+          "podest2": [
+            {
+              "t": 0.0,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "park",
+              "face": 315,
+              "y": -30.0
+            },
+            {
+              "t": 0.7755,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "park",
+              "face": 315,
+              "y": -30.0
+            },
+            {
+              "t": 0.7775,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "park",
+              "face": 315,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 1.6,
+              "z": 1.6,
+              "motion": "park",
+              "face": 315,
+              "y": 0.0
+            }
+          ],
+          "podest": [
+            {
+              "t": 0.0,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0
+            },
+            {
+              "t": 0.6807,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0
+            },
+            {
+              "t": 0.6827,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "autoschluessel": [
+            {
+              "t": 0.0,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.6807,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.6827,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.85,
+              "glow": 0.0
+            },
+            {
+              "t": 0.842,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.85,
+              "glow": 1.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 0.0,
+              "motion": "park",
+              "face": 180,
+              "y": 0.85,
+              "glow": 1.0
+            }
+          ],
+          "boxglocke": [
+            {
+              "t": 0.0,
+              "x": 2.7,
+              "z": -2.7,
+              "motion": "show",
+              "y": -30.0,
+              "ring": 1.0,
+              "size": 0.6
+            },
+            {
+              "t": 0.9537,
+              "x": 2.7,
+              "z": -2.7,
+              "motion": "show",
+              "y": -30.0,
+              "ring": 1.0,
+              "size": 0.6
+            },
+            {
+              "t": 0.9557,
+              "x": 2.7,
+              "z": -2.7,
+              "motion": "show",
+              "y": 1.9,
+              "ring": 1.0,
+              "size": 0.6
+            },
+            {
+              "t": 1,
+              "x": 2.7,
+              "z": -2.7,
+              "motion": "show",
+              "y": 1.9,
+              "ring": 1.0,
+              "size": 0.6
+            }
+          ]
+        },
+        "stage": [
+          {
+            "t": 0,
+            "stage": "parkplatz"
+          },
+          {
+            "t": 0.6827,
+            "stage": "parkplatz-ring"
+          }
+        ],
+        "sfx": [
+          {
+            "t": 0.3644,
+            "id": "futter-streuen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.6005,
+            "id": "auto-motor",
+            "volume": 0.45
+          },
+          {
+            "t": 0.6422,
+            "id": "fisch-schnappen",
+            "volume": 0.75
+          },
+          {
+            "t": 0.6877,
+            "id": "handschuhe-anziehen",
+            "volume": 0.75
+          },
+          {
+            "t": 0.847,
+            "id": "schluessel-klimpern",
+            "volume": 0.7
+          },
+          {
+            "t": 0.9657,
+            "id": "boxglocke",
+            "volume": 0.85
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Mit dem Bagger hinterher",
+      "speech": "C: Du steigst in deinen Bagger und fährst ihm hinterher.",
+      "dummyAction": "Der Dummy gibt im Bagger Vollgas und kriecht trotzdem nur langsam voran. Der Goldfisch nimmt jede Kurve der Landstraße sauber, setzt den Blinker (Flosse am Hebel) und parkt rückwärts perfekt ein. Der Bagger ist weit abgeschlagen.",
+      "explanation": "Vollgas. Also, Bagger-Vollgas. Er nimmt jede Kurve sauber, setzt den Blinker und parkt rückwärts ein. Du kommst einfach nicht hinterher. Er ist der bessere Fahrer.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -123.37,
+              6.14,
+              1.23
+            ],
+            "look": [
+              -97.19,
+              0.41,
+              -1.29
+            ]
+          },
+          {
+            "t": 0.2437,
+            "pos": [
+              -122.323,
+              5.911,
+              1.129
+            ],
+            "look": [
+              -97.19,
+              0.41,
+              -1.29
+            ]
+          },
+          {
+            "t": 0.247,
+            "pos": [
+              -91.024,
+              4.1,
+              -5.118
+            ],
+            "look": [
+              -95.93,
+              3.15,
+              -0.958
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.3276,
+            "pos": [
+              -91.416,
+              4.024,
+              -4.786
+            ],
+            "look": [
+              -95.93,
+              3.15,
+              -0.958
+            ],
+            "fov": 40
+          },
+          {
+            "t": 0.331,
+            "pos": [
+              -76.97,
+              5.39,
+              -21.61
+            ],
+            "look": [
+              -96.91,
+              2.4,
+              -1.32
+            ]
+          },
+          {
+            "t": 0.4339,
+            "pos": [
+              -77.568,
+              5.3,
+              -21.001
+            ],
+            "look": [
+              -96.91,
+              2.4,
+              -1.32
+            ]
+          },
+          {
+            "t": 0.4375,
+            "pos": [
+              -61.407,
+              24.0,
+              24.015
+            ],
+            "look": [
+              -49.407,
+              0.0,
+              7.015
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.451,
+            "pos": [
+              -58.108,
+              24.0,
+              24.563
+            ],
+            "look": [
+              -46.108,
+              0.0,
+              7.563
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.4644,
+            "pos": [
+              -53.687,
+              24.0,
+              24.268
+            ],
+            "look": [
+              -41.687,
+              0.0,
+              7.268
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.4779,
+            "pos": [
+              -49.361,
+              24.0,
+              22.878
+            ],
+            "look": [
+              -37.361,
+              0.0,
+              5.878
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.4915,
+            "pos": [
+              -45.171,
+              24.0,
+              20.668
+            ],
+            "look": [
+              -33.171,
+              0.0,
+              3.668
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.505,
+            "pos": [
+              -41.097,
+              24.0,
+              18.007
+            ],
+            "look": [
+              -29.097,
+              0.0,
+              1.007
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.5185,
+            "pos": [
+              -38.106,
+              24.0,
+              15.961
+            ],
+            "look": [
+              -26.106,
+              0.0,
+              -1.039
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.532,
+            "pos": [
+              -34.206,
+              24.0,
+              13.5
+            ],
+            "look": [
+              -22.206,
+              0.0,
+              -3.5
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.5455,
+            "pos": [
+              -30.429,
+              24.0,
+              11.674
+            ],
+            "look": [
+              -18.429,
+              0.0,
+              -5.326
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.559,
+            "pos": [
+              -26.787,
+              24.0,
+              10.72
+            ],
+            "look": [
+              -14.787,
+              0.0,
+              -6.28
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.5724,
+            "pos": [
+              -23.213,
+              24.0,
+              10.72
+            ],
+            "look": [
+              -11.213,
+              0.0,
+              -6.28
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.576,
+            "pos": [
+              26.65,
+              1.8,
+              0.6
+            ],
+            "look": [
+              23.95,
+              1.0,
+              1.3
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.5901,
+            "pos": [
+              27.65,
+              1.8,
+              0.6
+            ],
+            "look": [
+              24.95,
+              1.0,
+              1.3
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.6041,
+            "pos": [
+              28.65,
+              1.8,
+              0.6
+            ],
+            "look": [
+              25.95,
+              1.0,
+              1.3
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.6181,
+            "pos": [
+              29.65,
+              1.8,
+              0.6
+            ],
+            "look": [
+              26.95,
+              1.0,
+              1.3
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.632,
+            "pos": [
+              30.65,
+              1.8,
+              0.6
+            ],
+            "look": [
+              27.95,
+              1.0,
+              1.3
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.6458,
+            "pos": [
+              31.65,
+              1.8,
+              0.6
+            ],
+            "look": [
+              28.95,
+              1.0,
+              1.3
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.6595,
+            "pos": [
+              32.65,
+              1.8,
+              0.6
+            ],
+            "look": [
+              29.95,
+              1.0,
+              1.3
+            ],
+            "fov": 34
+          },
+          {
+            "t": 0.663,
+            "pos": [
+              50.0,
+              11.0,
+              -6.5
+            ],
+            "look": [
+              52.0,
+              0.0,
+              5.0
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.7737,
+            "pos": [
+              50.08,
+              10.56,
+              -6.04
+            ],
+            "look": [
+              52.0,
+              0.0,
+              5.0
+            ],
+            "fov": 42
+          },
+          {
+            "t": 0.7768,
+            "pos": [
+              -24.01,
+              3.69,
+              15.01
+            ],
+            "look": [
+              -34.13,
+              1.94,
+              -0.48
+            ]
+          },
+          {
+            "t": 0.9118,
+            "pos": [
+              -24.415,
+              3.62,
+              14.39
+            ],
+            "look": [
+              -34.13,
+              1.94,
+              -0.48
+            ]
+          },
+          {
+            "t": 0.9144,
+            "pos": [
+              52.1,
+              1.75,
+              4.75
+            ],
+            "look": [
+              51.7,
+              1.02,
+              7.65
+            ],
+            "fov": 36
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              52.068,
+              1.692,
+              4.982
+            ],
+            "look": [
+              51.7,
+              1.02,
+              7.65
+            ],
+            "fov": 36
+          }
+        ],
+        "actors": {
+          "bagger": [
+            {
+              "t": 0,
+              "x": -96.906,
+              "z": -1.319,
+              "motion": "park",
+              "face": 55.5,
+              "smoke": 0.3,
+              "rumble": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.2784,
+              "x": -96.906,
+              "z": -1.319,
+              "motion": "park",
+              "face": 55.5,
+              "smoke": 0.3,
+              "rumble": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.2814,
+              "x": -96.906,
+              "z": -1.319,
+              "motion": "drive",
+              "face": 55.5,
+              "smoke": 1.8,
+              "rumble": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.4478,
+              "x": -94.894,
+              "z": -2.692,
+              "motion": "drive",
+              "face": 56.02,
+              "smoke": 1.6,
+              "rumble": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.4498,
+              "x": -94.894,
+              "z": -2.692,
+              "motion": "drive",
+              "face": 56.02,
+              "smoke": 1.6,
+              "rumble": 0.4,
+              "y": -30.0
+            },
+            {
+              "t": 0.739,
+              "x": -34.894,
+              "z": 0.039,
+              "motion": "drive",
+              "face": 56.02,
+              "smoke": 1.8,
+              "rumble": 0.4,
+              "y": -30.0
+            },
+            {
+              "t": 0.741,
+              "x": -34.894,
+              "z": 0.039,
+              "motion": "drive",
+              "face": 56.02,
+              "smoke": 1.8,
+              "rumble": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.8855,
+              "x": -33.903,
+              "z": -0.635,
+              "motion": "drive",
+              "face": 55.63,
+              "smoke": 1.8,
+              "rumble": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.8875,
+              "x": -33.903,
+              "z": -0.635,
+              "motion": "drive",
+              "face": 55.63,
+              "smoke": 1.8,
+              "rumble": 0.4,
+              "y": -30.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatdrive",
+              "face": 0,
+              "y": 2.6,
+              "attach": "bagger"
+            },
+            {
+              "t": 0.2784,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatdrive",
+              "face": 0,
+              "y": 2.6,
+              "attach": "bagger"
+            },
+            {
+              "t": 0.2814,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatfloor",
+              "face": 0,
+              "y": 2.6,
+              "attach": "bagger",
+              "sweat": 1.0
+            },
+            {
+              "t": 0.4478,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatfloor",
+              "face": 0,
+              "y": 2.6,
+              "attach": "bagger",
+              "sweat": 1.0
+            },
+            {
+              "t": 0.4498,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatfloor",
+              "face": 0,
+              "y": -30.0,
+              "sweat": 1.0
+            },
+            {
+              "t": 0.739,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatfloor",
+              "face": 0,
+              "y": -30.0,
+              "sweat": 1.6
+            },
+            {
+              "t": 0.741,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatfloor",
+              "face": 0,
+              "y": 2.6,
+              "attach": "bagger",
+              "sweat": 1.6
+            },
+            {
+              "t": 0.8855,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatfloor",
+              "face": 0,
+              "y": 2.6,
+              "attach": "bagger",
+              "sweat": 1.6
+            },
+            {
+              "t": 0.8875,
+              "x": -0.85,
+              "z": 0.55,
+              "motion": "seatfloor",
+              "face": 0,
+              "y": -30.0,
+              "sweat": 1.6
+            }
+          ],
+          "car": [
+            {
+              "t": 0.0,
+              "x": -52.407,
+              "z": 8.015,
+              "motion": "drive",
+              "face": 103.03,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.4458,
+              "x": -52.407,
+              "z": 8.015,
+              "motion": "drive",
+              "face": 103.03,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.4478,
+              "x": -52.407,
+              "z": 8.015,
+              "motion": "drive",
+              "face": 103.03,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4509,
+              "x": -51.313,
+              "z": 8.268,
+              "motion": "drive",
+              "face": 99.47,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.454,
+              "x": -50.213,
+              "z": 8.451,
+              "motion": "drive",
+              "face": 95.75,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4571,
+              "x": -49.108,
+              "z": 8.563,
+              "motion": "drive",
+              "face": 91.93,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4602,
+              "x": -48.0,
+              "z": 8.6,
+              "motion": "drive",
+              "face": 88.07,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4632,
+              "x": -46.892,
+              "z": 8.563,
+              "motion": "drive",
+              "face": 84.25,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4663,
+              "x": -45.787,
+              "z": 8.451,
+              "motion": "drive",
+              "face": 80.53,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4694,
+              "x": -44.687,
+              "z": 8.268,
+              "motion": "drive",
+              "face": 76.97,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4725,
+              "x": -43.593,
+              "z": 8.015,
+              "motion": "drive",
+              "face": 73.63,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4756,
+              "x": -42.507,
+              "z": 7.696,
+              "motion": "drive",
+              "face": 70.55,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4788,
+              "x": -41.429,
+              "z": 7.315,
+              "motion": "drive",
+              "face": 67.75,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.482,
+              "x": -40.361,
+              "z": 6.878,
+              "motion": "drive",
+              "face": 65.24,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4852,
+              "x": -39.301,
+              "z": 6.389,
+              "motion": "drive",
+              "face": 63.03,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4885,
+              "x": -38.249,
+              "z": 5.854,
+              "motion": "drive",
+              "face": 61.11,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4918,
+              "x": -37.206,
+              "z": 5.278,
+              "motion": "drive",
+              "face": 59.49,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4952,
+              "x": -36.171,
+              "z": 4.668,
+              "motion": "drive",
+              "face": 58.16,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4985,
+              "x": -35.142,
+              "z": 4.03,
+              "motion": "drive",
+              "face": 57.11,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5019,
+              "x": -34.121,
+              "z": 3.369,
+              "motion": "drive",
+              "face": 56.32,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5053,
+              "x": -33.106,
+              "z": 2.692,
+              "motion": "drive",
+              "face": 55.8,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5086,
+              "x": -32.097,
+              "z": 2.007,
+              "motion": "drive",
+              "face": 55.55,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.512,
+              "x": -31.094,
+              "z": 1.319,
+              "motion": "drive",
+              "face": 55.55,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5154,
+              "x": -30.097,
+              "z": 0.635,
+              "motion": "drive",
+              "face": 55.8,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5187,
+              "x": -29.106,
+              "z": -0.039,
+              "motion": "drive",
+              "face": 56.32,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.522,
+              "x": -28.121,
+              "z": -0.695,
+              "motion": "drive",
+              "face": 57.11,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5252,
+              "x": -27.142,
+              "z": -1.328,
+              "motion": "drive",
+              "face": 58.16,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5284,
+              "x": -26.171,
+              "z": -1.931,
+              "motion": "drive",
+              "face": 59.49,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5315,
+              "x": -25.206,
+              "z": -2.5,
+              "motion": "drive",
+              "face": 61.11,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5345,
+              "x": -24.249,
+              "z": -3.028,
+              "motion": "drive",
+              "face": 63.02,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5374,
+              "x": -23.301,
+              "z": -3.511,
+              "motion": "drive",
+              "face": 65.23,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5403,
+              "x": -22.361,
+              "z": -3.944,
+              "motion": "drive",
+              "face": 67.74,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5431,
+              "x": -21.429,
+              "z": -4.326,
+              "motion": "drive",
+              "face": 70.55,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5458,
+              "x": -20.507,
+              "z": -4.651,
+              "motion": "drive",
+              "face": 73.63,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5485,
+              "x": -19.593,
+              "z": -4.92,
+              "motion": "drive",
+              "face": 76.97,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.551,
+              "x": -18.687,
+              "z": -5.129,
+              "motion": "drive",
+              "face": 80.52,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5536,
+              "x": -17.787,
+              "z": -5.28,
+              "motion": "drive",
+              "face": 84.24,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5561,
+              "x": -16.892,
+              "z": -5.37,
+              "motion": "drive",
+              "face": 88.07,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5585,
+              "x": -16.0,
+              "z": -5.4,
+              "motion": "drive",
+              "face": 91.93,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.561,
+              "x": -15.108,
+              "z": -5.37,
+              "motion": "drive",
+              "face": 95.76,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.562,
+              "x": -14.213,
+              "z": -5.28,
+              "motion": "drive",
+              "face": 95.76,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5635,
+              "x": 24.0,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90,
+              "blink": 2.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6363,
+              "x": 30.0,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90,
+              "blink": 2.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6378,
+              "x": 42.0,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90.0,
+              "window": 0.0,
+              "blink": 2.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6708,
+              "x": 56.5,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 90.0,
+              "window": 0.0,
+              "blink": 2.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6748,
+              "x": 56.5,
+              "z": 1.6,
+              "motion": "drive",
+              "face": 85.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6794,
+              "x": 55.719,
+              "z": 1.668,
+              "motion": "drive",
+              "face": 75.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.684,
+              "x": 54.961,
+              "z": 1.871,
+              "motion": "drive",
+              "face": 65.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6886,
+              "x": 54.25,
+              "z": 2.203,
+              "motion": "drive",
+              "face": 55.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6932,
+              "x": 53.607,
+              "z": 2.653,
+              "motion": "drive",
+              "face": 45.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6978,
+              "x": 53.053,
+              "z": 3.207,
+              "motion": "drive",
+              "face": 35.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7024,
+              "x": 52.603,
+              "z": 3.85,
+              "motion": "drive",
+              "face": 25.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.707,
+              "x": 52.271,
+              "z": 4.561,
+              "motion": "drive",
+              "face": 15.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7116,
+              "x": 52.068,
+              "z": 5.319,
+              "motion": "drive",
+              "face": 5.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7162,
+              "x": 52.0,
+              "z": 6.1,
+              "motion": "drive",
+              "face": 0.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.725,
+              "x": 52.0,
+              "z": 7.6,
+              "motion": "drive",
+              "face": 0.0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.741,
+              "x": 52.0,
+              "z": 7.6,
+              "motion": "park",
+              "face": 0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.743,
+              "x": 52.0,
+              "z": 7.6,
+              "motion": "park",
+              "face": 0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.8835,
+              "x": 52.0,
+              "z": 7.6,
+              "motion": "park",
+              "face": 0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": -30.0
+            },
+            {
+              "t": 0.8855,
+              "x": 52.0,
+              "z": 7.6,
+              "motion": "park",
+              "face": 0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 52.0,
+              "z": 7.6,
+              "motion": "park",
+              "face": 0,
+              "window": 0.0,
+              "mark": 1.0,
+              "turn": 0.0,
+              "blink": 0.0,
+              "y": 0.0
+            }
+          ],
+          "goldfisch": [
+            {
+              "t": 0.0,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 10.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.4458,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 10.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.4478,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 10.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.562,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": -10.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.5635,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishblink",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6363,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishblink",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.6378,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6708,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "steer",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.6748,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishback",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": -25.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.741,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishback",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": -25.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.743,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishback",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": -25.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.8835,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishhappy",
+              "face": 0,
+              "y": -30.0,
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.8855,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishhappy",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.3,
+              "z": -0.05,
+              "motion": "fishhappy",
+              "face": 0,
+              "y": 0.7,
+              "attach": "car",
+              "side": 1.0,
+              "gloves": 0.0,
+              "turn": 0.0,
+              "fill": 0.0
+            }
+          ]
+        },
+        "stage": "kurvenstrasse",
+        "sfx": [
+          {
+            "t": 0.01,
+            "id": "bagger-motor",
+            "volume": 0.45
+          },
+          {
+            "t": 0.2864,
+            "id": "bagger-motor",
+            "volume": 0.75
+          },
+          {
+            "t": 0.4528,
+            "id": "auto-motor",
+            "volume": 0.6
+          },
+          {
+            "t": 0.5685,
+            "id": "blinker",
+            "volume": 0.8
+          },
+          {
+            "t": 0.746,
+            "id": "bagger-motor",
+            "volume": 0.55
+          },
+          {
+            "t": 0.8905,
+            "id": "staunen",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du?",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
+    "screen": "Kommentieren & folgen!",
+    "extra": "Neue Video-Ideen? Ab in die Kommentare!",
+    "extraCue": "Neue Video-Ideen"
+  },
+  "publishing": {
+    "description": "Dein Goldfisch hat mal wieder dein Auto geklaut – was machst du? 🐠🚗 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Dem Goldfisch geht es gut. 😄\n\n#waswürdestdutun #goldfisch #auto #fisch #boxen #spezial #comedy #quiz\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team ___. Und du? 👇 Wer gewinnt den Boxkampf?"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            6.52,
+            4.99,
+            23.62
+          ],
+          "look": [
+            1.96,
+            -1.3,
+            -4.96
+          ]
+        },
+        {
+          "t": 0.3734,
+          "pos": [
+            6.246,
+            4.613,
+            21.905
+          ],
+          "look": [
+            1.96,
+            -1.3,
+            -4.96
+          ]
+        },
+        {
+          "t": 0.3769,
+          "pos": [
+            7.45,
+            1.45,
+            -3.55
+          ],
+          "look": [
+            6.95,
+            1.02,
+            -1.9
+          ],
+          "fov": 40
+        },
+        {
+          "t": 0.4391,
+          "pos": [
+            7.783,
+            1.45,
+            -3.55
+          ],
+          "look": [
+            7.283,
+            1.02,
+            -1.9
+          ],
+          "fov": 40
+        },
+        {
+          "t": 0.5021,
+          "pos": [
+            8.117,
+            1.45,
+            -3.55
+          ],
+          "look": [
+            7.617,
+            1.02,
+            -1.9
+          ],
+          "fov": 40
+        },
+        {
+          "t": 0.565,
+          "pos": [
+            8.45,
+            1.45,
+            -3.55
+          ],
+          "look": [
+            7.95,
+            1.02,
+            -1.9
+          ],
+          "fov": 40
+        },
+        {
+          "t": 0.6271,
+          "pos": [
+            8.783,
+            1.45,
+            -3.55
+          ],
+          "look": [
+            8.283,
+            1.02,
+            -1.9
+          ],
+          "fov": 40
+        },
+        {
+          "t": 0.6877,
+          "pos": [
+            9.117,
+            1.45,
+            -3.55
+          ],
+          "look": [
+            8.617,
+            1.02,
+            -1.9
+          ],
+          "fov": 40
+        },
+        {
+          "t": 0.7459,
+          "pos": [
+            9.45,
+            1.45,
+            -3.55
+          ],
+          "look": [
+            8.95,
+            1.02,
+            -1.9
+          ],
+          "fov": 40
+        },
+        {
+          "t": 0.7492,
+          "pos": [
+            -6.6,
+            1.75,
+            -5.0
+          ],
+          "look": [
+            8.0,
+            0.9,
+            -2.6
+          ]
+        },
+        {
+          "t": 0.9118,
+          "pos": [
+            -6.016,
+            1.716,
+            -4.904
+          ],
+          "look": [
+            8.0,
+            0.9,
+            -2.6
+          ]
+        },
+        {
+          "t": 0.9143,
+          "pos": [
+            -0.2,
+            2.25,
+            10.71
+          ],
+          "look": [
+            -0.2,
+            -0.28,
+            -5.46
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -0.2,
+            2.098,
+            9.74
+          ],
+          "look": [
+            -0.2,
+            -0.28,
+            -5.46
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -1.6,
+            "z": -6.7,
+            "motion": "carshock",
+            "face": 110,
+            "y": 0.0
+          },
+          {
+            "t": 0.8839,
+            "x": -1.6,
+            "z": -6.7,
+            "motion": "carshock",
+            "face": 110,
+            "y": 0.0
+          },
+          {
+            "t": 0.8854,
+            "x": -0.4,
+            "z": -6.7,
+            "motion": "lookaround",
+            "face": 180,
+            "question": 1.0,
+            "y": 0.0,
+            "cut": true
+          },
+          {
+            "t": 1,
+            "x": -0.4,
+            "z": -6.7,
+            "motion": "lookaround",
+            "face": 180,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ],
+        "car": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -4.4,
+            "motion": "drive",
+            "face": 90,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.1785,
+            "x": 2.6,
+            "z": -3.0,
+            "motion": "drive",
+            "face": 70,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.3936,
+            "x": 5.8,
+            "z": -1.7,
+            "motion": "drive",
+            "face": 88,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.3966,
+            "x": 7.0,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "cut": true,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.3966,
+            "x": 7.0,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "turn": 0.0,
+            "mark": 1.0,
+            "window": 1.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.4595,
+            "x": 7.395,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "turn": 11.9,
+            "mark": 1.0,
+            "window": 1.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.5224,
+            "x": 7.79,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "turn": -3.066,
+            "mark": 1.0,
+            "window": 1.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.5852,
+            "x": 8.185,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "turn": -11.11,
+            "mark": 1.0,
+            "window": 1.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.6481,
+            "x": 8.58,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "turn": 5.929,
+            "mark": 1.0,
+            "window": 1.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.711,
+            "x": 8.975,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "turn": 9.582,
+            "mark": 1.0,
+            "window": 1.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.712,
+            "x": 9.0,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.715,
+            "x": 9.0,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "cut": true,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.8049,
+            "x": 13,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.8824,
+            "x": 32,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.8854,
+            "x": 32,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.8874,
+            "x": 32,
+            "z": -1.6,
+            "motion": "drive",
+            "face": 90,
+            "mark": 1.0,
+            "window": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": -30.0
+          }
+        ],
+        "goldfisch": [
+          {
+            "t": 0,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": 0.7,
+            "attach": "car",
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": 0.0,
+            "fill": 0.0
+          },
+          {
+            "t": 0.3966,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": 0.7,
+            "attach": "car",
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": 0.0,
+            "fill": 0.0
+          },
+          {
+            "t": 0.4595,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": 0.7,
+            "attach": "car",
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": 11.9,
+            "fill": 0.0
+          },
+          {
+            "t": 0.5224,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": 0.7,
+            "attach": "car",
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": -3.066,
+            "fill": 0.0
+          },
+          {
+            "t": 0.5852,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": 0.7,
+            "attach": "car",
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": -11.11,
+            "fill": 0.0
+          },
+          {
+            "t": 0.6481,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": 0.7,
+            "attach": "car",
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": 5.929,
+            "fill": 0.0
+          },
+          {
+            "t": 0.711,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": 0.7,
+            "attach": "car",
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": 9.582,
+            "fill": 0.0
+          },
+          {
+            "t": 0.8854,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": 0.7,
+            "attach": "car",
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": 0.0,
+            "fill": 0.0
+          },
+          {
+            "t": 0.8874,
+            "x": 0.3,
+            "z": -0.05,
+            "motion": "steer",
+            "face": 0,
+            "y": -30.0,
+            "side": 1.0,
+            "gloves": 0.0,
+            "turn": 0.0,
+            "fill": 0.0
+          }
+        ]
+      },
+      "stage": "wohnstrasse",
+      "sfx": [
+        {
+          "t": 0.01,
+          "id": "auto-motor",
+          "volume": 0.5
+        },
+        {
+          "t": 0.4066,
+          "id": "blubbern",
+          "volume": 0.35
+        },
+        {
+          "t": 0.725,
+          "id": "auto-motor",
+          "volume": 0.6
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            2.63,
+            3.11,
+            25.78
+          ],
+          "look": [
+            -2.93,
+            3.27,
+            -5.73
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            2.408,
+            3.116,
+            24.52
+          ],
+          "look": [
+            -2.93,
+            3.27,
+            -5.73
+          ]
+        }
+      ],
+      "actors": {
+        "car": [
+          {
+            "t": 0,
+            "x": -5.6,
+            "z": -4.4,
+            "motion": "park",
+            "face": 90,
+            "window": 0.0,
+            "mark": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -5.6,
+            "z": -4.4,
+            "motion": "park",
+            "face": 90,
+            "window": 0.0,
+            "mark": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          }
+        ],
+        "podest": [
+          {
+            "t": 0,
+            "x": 0.45,
+            "z": -6.75,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.45,
+            "z": -6.75,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "goldfisch": [
+          {
+            "t": 0,
+            "x": 0.45,
+            "z": -6.75,
+            "motion": "fishswim",
+            "face": 180,
+            "y": 0.55,
+            "side": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.45,
+            "z": -6.75,
+            "motion": "fishswim",
+            "face": 180,
+            "y": 0.55,
+            "side": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.75,
+            "z": -6.7,
+            "motion": "stand",
+            "face": 160,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.75,
+            "z": -6.7,
+            "motion": "stand",
+            "face": 160,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "wohnstrasse",
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.33,
+            4.04,
+            23.77
+          ],
+          "look": [
+            -2.9,
+            0.89,
+            -5.56
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.018,
+            3.882,
+            22.303
+          ],
+          "look": [
+            -2.9,
+            0.89,
+            -5.56
+          ]
+        }
+      ],
+      "actors": {
+        "car": [
+          {
+            "t": 0,
+            "x": -5.6,
+            "z": -4.4,
+            "motion": "park",
+            "face": 90,
+            "window": 0.0,
+            "mark": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -5.6,
+            "z": -4.4,
+            "motion": "park",
+            "face": 90,
+            "window": 0.0,
+            "mark": 1.0,
+            "turn": 0.0,
+            "blink": 0.0,
+            "y": 0.0
+          }
+        ],
+        "podest": [
+          {
+            "t": 0,
+            "x": 0.45,
+            "z": -6.75,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.45,
+            "z": -6.75,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "goldfisch": [
+          {
+            "t": 0,
+            "x": 0.45,
+            "z": -6.75,
+            "motion": "fishhappy",
+            "face": 180,
+            "y": 0.55,
+            "side": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.45,
+            "z": -6.75,
+            "motion": "fishhappy",
+            "face": 180,
+            "y": 0.55,
+            "side": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.75,
+            "z": -6.7,
+            "motion": "stand",
+            "face": 160,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.12,
+            "x": -0.75,
+            "z": -6.7,
+            "motion": "wave",
+            "face": 160,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.75,
+            "z": -6.7,
+            "motion": "wave",
+            "face": 160,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "wohnstrasse",
+      "sharpCuts": true
+    }
+  },
+  "noVote": true
+}

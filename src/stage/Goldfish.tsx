@@ -115,7 +115,7 @@ const ParkingScene = ({ring = false}: {ring?: boolean}) => {
       crowns.push({pos: [x + 0.4, 2.8 * s, z + 0.3], scale: [1.1 * s, 0.9 * s, 1.1 * s], rotY: r() * 6, color: col});
     };
     for (const x of [-22, 22]) for (const z of [-8, 6]) tree(x, z, 1.0 + r() * 0.2);
-    for (let x = -40; x <= 40; x += 8) tree(x, 12 + r() * 2, 1.1);
+    for (let x = -40; x <= 40; x += 8) tree(x, 22 + r() * 3, 1.1);
     for (let x = -46; x <= 46; x += 2.2) hedges.push({pos: [x, 0.4, 9.8], scale: [1.3, 0.8, 0.9], rotY: r() * 0.3, color: ['#4f7d35', '#5d8c3c', '#3f6a2c'][Math.floor(r() * 3)]});
     for (let i = 0; i < 700; i++) {
       const x = -60 + r() * 120;
@@ -467,10 +467,10 @@ const AquariumHall = (_: {cam?: StageCam}) => {
   const L = useMemo(() => {
     const r = rng(29);
     const pebbles: Inst[] = [];
-    for (let i = 0; i < 2600; i++) {
+    for (let i = 0; i < 6000; i++) {
       const x = (r() - 0.5) * AQUA.halfW * 2;
       const z = AQUA.back + r() * (AQUA.front - AQUA.back);
-      const s = 0.12 + r() * 0.28;
+      const s = 0.07 + r() * 0.14;
       pebbles.push({pos: [x, s * 0.35, z], scale: [s, s * 0.7, s * 0.9], rotY: r() * 6, color: PEBBLES[Math.floor(r() * PEBBLES.length)]});
     }
     const specks = Array.from({length: 70}, () => [(r() - 0.5) * 30, 0.5 + r() * 14, -24 + r() * 32, r() * 6] as [number, number, number, number]);
@@ -482,7 +482,7 @@ const AquariumHall = (_: {cam?: StageCam}) => {
     [3.4, -3.6, 7.5, '#e0559a', 3],
     [6.5, -9, 10, '#7be04a', 4],
     [-9, -13, 11, '#3fcf5a', 5],
-    [-2.0, 2.6, 4.2, '#7be04a', 6],
+    [-4.2, 1.2, 4.2, '#7be04a', 6],
     [10, -3, 8, '#3fcf5a', 7],
     [-12, -2, 7, '#e0559a', 8],
     [1.5, -14, 12, '#2fb36a', 9],

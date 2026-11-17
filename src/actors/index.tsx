@@ -1070,7 +1070,7 @@ export const Actor = ({
       )}
       {name === 'goldfisch' && (
         <group scale={1 + v.size}>
-          <GoldfishBowl pose={goldfishPose(state.motion, state.motionTime, v.turn)} belt={v.side} gloves={v.gloves} food={v.fill} time={clock} />
+          <GoldfishBowl pose={goldfishPose(state.motion, state.motionTime, v.turn, v.side > 0.5)} belt={v.side} gloves={v.gloves} food={v.fill} time={clock} />
         </group>
       )}
       {name === 'aquarium' && <Aquarium time={clock} />}
