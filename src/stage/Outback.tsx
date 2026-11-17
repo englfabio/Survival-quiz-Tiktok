@@ -65,7 +65,7 @@ const Ground = () => {
 };
 
 // ---------- Boxring ----------
-const Ring = () => {
+export const Ring = () => {
   const {floor, post, apron, ringHalf} = OUTBACK;
   const mats = useMemo(
     () => ({

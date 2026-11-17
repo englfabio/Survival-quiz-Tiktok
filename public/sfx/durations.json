@@ -158,5 +158,11 @@
   "warteschleife": 4.049,
   "klick": 0.627,
   "piep": 1.515,
-  "laden": 2.508
+  "laden": 2.508,
+  "aquarium-atmo": 10.031,
+  "blinker": 3.03,
+  "futter-streuen": 2.508,
+  "fisch-schnappen": 2.038,
+  "schluessel-klimpern": 1.515,
+  "handschuhe-anziehen": 2.508
 }

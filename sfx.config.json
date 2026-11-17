@@ -1123,6 +1123,48 @@
       "duration": 2.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "aquarium-atmo",
+      "prompt": "Calm underwater aquarium ambience, gentle air pump humming, soft continuous bubbling and water movement, peaceful, no music",
+      "duration": 10.0,
+      "loop": true,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "blinker",
+      "prompt": "Car turn signal indicator ticking inside a car, steady tick tock relay clicks, close up, no music",
+      "duration": 3.0,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "futter-streuen",
+      "prompt": "Shaking a small plastic can of dry fish food flakes, light rattling and sprinkling onto asphalt, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "fisch-schnappen",
+      "prompt": "Cartoon goldfish gulping food at the water surface, cute little blub blub pops and tiny splashes, playful, no music",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schluessel-klimpern",
+      "prompt": "Car keys jingling on a key ring, short bright metallic jingle, no music",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "handschuhe-anziehen",
+      "prompt": "Boxing gloves being pulled on, leather rubbing and a velcro strap closing, then two gloves punched together with a thud, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Boxing gloves being pulled on, leather rubbing and a velcro strap closing, then two gloves punched together with a thud, no music",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-17T00:16:57.022Z"
+}

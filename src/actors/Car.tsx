@@ -142,6 +142,9 @@ const useCarMats = (color: string) =>
       }),
       head: new THREE.MeshStandardMaterial({color: '#fff6d8', emissive: '#fff1b8', emissiveIntensity: 0.35, flatShading: true}),
       tail: new THREE.MeshStandardMaterial({color: '#c8282a', emissive: '#7a1010', emissiveIntensity: 0.3, flatShading: true}),
+      blinkOff: new THREE.MeshStandardMaterial({color: '#e89a3a', roughness: 0.3, flatShading: true}),
+      blinkOn: new THREE.MeshStandardMaterial({color: '#ffb02e', emissive: '#ff9a00', emissiveIntensity: 2.2, flatShading: true}),
+      blinkGlow: new THREE.MeshBasicMaterial({color: '#ffb540', transparent: true, opacity: 0.45, depthWrite: false}),
       water: new THREE.MeshStandardMaterial({
         color: '#3f9aa4',
         roughness: 0.2,
@@ -307,7 +310,13 @@ export const Car = ({
   pressure = 0,
   window2 = 0,
   color = BODY,
+  steer = 0,
+  blink = 0,
 }: {
+  /** Lenkwinkel des Lenkrads (Bogenmaß, + = nach links) */
+  steer?: number;
+  /** Blinker: 0 = aus, 1 = links (+x, Fahrerseite), 2 = rechts; der Hebel an der Lenksäule bewegt sich mit */
+  blink?: number;
   /** Beifahrerfenster 0 = zu … 1 = offen */
   window2?: number;
   pose: CarPose;
@@ -425,9 +434,24 @@ export const Car = ({
         <boxGeometry args={[1.48, 0.2, 0.26]} />
       </mesh>
       <group position={[CAR.driverSeat.x, 0.9, 0.36]} rotation={[-0.45, 0, 0]}>
-        <mesh material={m.dark}>
-          <torusGeometry args={[0.17, 0.022, 5, 14]} />
-        </mesh>
+        <group rotation={[0, 0, -steer]}>
+          <mesh material={m.dark}>
+            <torusGeometry args={[0.17, 0.022, 5, 14]} />
+          </mesh>
+          {/* Speichen (man sieht, wie sich das Lenkrad dreht) */}
+          <mesh material={m.dark} position={[0, -0.07, 0]}>
+            <boxGeometry args={[0.03, 0.14, 0.02]} />
+          </mesh>
+          <mesh material={m.dark}>
+            <boxGeometry args={[0.32, 0.03, 0.02]} />
+          </mesh>
+        </group>
+        {/* Blinkerhebel links an der Lenksäule */}
+        <group position={[0.06, -0.02, 0.06]} rotation={[0, 0, blink > 0.5 ? (blink > 1.5 ? -0.35 : 0.35) : 0]}>
+          <mesh material={m.trim} position={[0.1, 0, 0]}>
+            <boxGeometry args={[0.2, 0.022, 0.022]} />
+          </mesh>
+        </group>
         <mesh material={m.dark} position={[0, 0, -0.01]}>
           <cylinderGeometry args={[0.04, 0.04, 0.05, 6]} />
         </mesh>
@@ -472,6 +496,29 @@ export const Car = ({
           </mesh>
         </group>
       ))}
+      {/* Blinker (orange, blinken im Takt) */}
+      {[1, -1].map((sx) => {
+        const on = ((blink > 0.5 && blink < 1.5 && sx > 0) || (blink > 1.5 && sx < 0)) && Math.floor(pose.time * 3) % 2 === 0;
+        const mat = on ? m.blinkOn : m.blinkOff;
+        return (
+          <group key={`b${sx}`}>
+            <mesh material={mat} position={[sx * 0.77, 0.64, 1.8]}>
+              <boxGeometry args={[0.1, 0.12, 0.08]} />
+            </mesh>
+            <mesh material={mat} position={[sx * 0.77, 0.78, -1.83]}>
+              <boxGeometry args={[0.1, 0.14, 0.06]} />
+            </mesh>
+            <mesh material={mat} position={[sx * 0.81, 0.72, 1.2]}>
+              <boxGeometry args={[0.03, 0.05, 0.12]} />
+            </mesh>
+            {on && (
+              <mesh material={m.blinkGlow} position={[sx * 0.8, 0.64, 1.86]}>
+                <icosahedronGeometry args={[0.13, 1]} />
+              </mesh>
+            )}
+          </group>
+        );
+      })}
       {/* Außenspiegel */}
       {[1, -1].map((s) => (
         <mesh key={s} material={m.trim} position={[s * 0.9, 1.06, 0.6]}>

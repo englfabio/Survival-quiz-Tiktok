@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Calm underwater aquarium ambience, gentle air pump humming, soft continuous bubbling and water movement, peaceful, no music",
+  "duration": 10,
+  "loop": true,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-17T00:16:44.088Z"
+}

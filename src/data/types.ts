@@ -298,6 +298,19 @@ export type Motion =
   | 'seattalk' // Dummy: sitzend am Tisch verhandeln (gestikulieren)
   | 'seatstamp' // Dummy: sitzend stempeln (Treffer 0,58 s)
   | 'seatshake' // Dummy: sitzend Hand über den Tisch reichen + schütteln
+  // ---- Spezial Goldfisch (Details: fishPose in Dummy.tsx, goldfishPose in FishProps.tsx) ----
+  | 'scatter' // Dummy: geht (Weg über Zeitpunkte) und streut mit rechts Fischfutter aus der Dose in der linken Hand (alle 0,8 s)
+  | 'gloveon' // Dummy: zieht sich Boxhandschuhe an (Wert gloves 0 → 1 bei 0,6–1,4 s), klopft sie zusammen (1,7 s)
+  | 'boxbounce' // Dummy: Boxhaltung + tänzelt von einem Fuß auf den anderen, kleine Finten
+  | 'seatfloor' // Dummy: sitzt (z. B. im Bagger), vorgebeugt, drückt verzweifelt beide Hebel nach vorn + wippt
+  | 'fishswim' // Goldfisch: schwimmt ruhig im Glas, Flossen wedeln, blinzelt
+  | 'steer' // Goldfisch: lenkt sehr konzentriert mit beiden Brustflossen am Lenkrad (Lenkwinkel = Wert turn, wie beim Auto)
+  | 'fishblink' // Goldfisch: lenkt mit rechts, linke Flosse drückt den Blinkerhebel hoch (0,25–0,6 s)
+  | 'fisheat' // Goldfisch: schwimmt an die Oberfläche und schnappt Flocken (Wert fill = Flocken im Glas)
+  | 'fishguard' // Goldfisch: Boxhaltung mit Mini-Handschuhen (Wert gloves), wippt
+  | 'fishpunch' // Goldfisch: boxt mit den Mini-Handschuhen in die Luft (alle 0,5 s abwechselnd)
+  | 'fishhappy' // Goldfisch: zufrieden, wackelt, große Augen, kleines Lächeln
+  | 'fishback' // Goldfisch: dreht sich im Glas um und schaut nach hinten (Rückwärts-Einparken), eine Flosse am Lenkrad
   | 'perch' // Taube: sitzen, Kopf nicken/picken, gurren
   | 'flap' // Taube: auf der Stelle flattern
   | 'talk' // Tauben-Anführer: mit den Flügeln gestikulieren

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Shaking a small plastic can of dry fish food flakes, light rattling and sprinkling onto asphalt, no music",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-17T00:16:49.279Z"
+}

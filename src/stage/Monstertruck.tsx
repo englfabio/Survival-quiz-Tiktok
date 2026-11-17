@@ -47,7 +47,7 @@ export const ackerHeight = (x: number, z: number) => {
 const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters> = {}) =>
   new THREE.MeshStandardMaterial({color, roughness: 0.85, flatShading: true, ...extra});
 
-const DayLight = ({fog = '#e6e8e4', near = 50, far = 180, sun = [-14, 16, 12] as [number, number, number], shadow = 22}: {fog?: string; near?: number; far?: number; sun?: [number, number, number]; shadow?: number}) => (
+export const DayLight = ({fog = '#e6e8e4', near = 50, far = 180, sun = [-14, 16, 12] as [number, number, number], shadow = 22}: {fog?: string; near?: number; far?: number; sun?: [number, number, number]; shadow?: number}) => (
   <>
     <color attach="background" args={[fog]} />
     <fog attach="fog" args={[fog, near, far]} />
@@ -74,7 +74,7 @@ const DayLight = ({fog = '#e6e8e4', near = 50, far = 180, sun = [-14, 16, 12] as
   </>
 );
 
-const useTreeGeos = () =>
+export const useTreeGeos = () =>
   useMemo(() => {
     const trunk = new THREE.CylinderGeometry(0.7, 1, 1, 6);
     trunk.translate(0, 0.5, 0);

@@ -1,3 +1,4 @@
+import {FoodCan} from './FishProps';
 import type {ThreeElements} from '@react-three/fiber';
 import {useMemo} from 'react';
 import {useCurrentFrame} from 'remotion';
@@ -75,7 +76,7 @@ export type DummyPose = {
   /** Brustkorb hebt sich (schnelles Atmen): 0 = normal … 1 = ganz eingeatmet */
   chest: number;
   /** Gegenstand in der rechten Hand (Erste Hilfe): Pflaster, Desinfektionsspray, Kompresse, Impfpass */
-  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread' | 'saw' | 'letter' | 'parcelR' | 'stir' | 'mug' | 'wine' | 'foodbit' | 'gunk' | 'washup';
+  item: '' | 'plaster' | 'spray' | 'compress' | 'pass' | 'towel' | 'tooth' | 'tissue' | 'box' | 'tab' | 'milk' | 'paper' | 'tabpack' | 'finger' | 'coolpack' | 'water' | 'wad' | 'pen' | 'syringe' | 'recap' | 'photo' | 'spraycan' | 'emptycup' | 'spoon' | 'marker' | 'stamp' | 'folder' | 'cupnote' | 'coin' | 'letterread' | 'saw' | 'letter' | 'parcelR' | 'stir' | 'mug' | 'wine' | 'foodbit' | 'gunk' | 'washup' | 'foodcan';
   /** Beschriftung des Gegenstands in der Hand (z. B. Brief "1. Mahnung") */
   label?: string;
   /** Glas in der Hand kippen (Trinken): 0 = aufrecht … 1 = stark gekippt */
@@ -4908,8 +4909,97 @@ const pigeonPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+/**
+ * Spezial Goldfisch (alle Figuren mit Dummy-Körper):
+ *  - scatter:   geht (Weg über Zeitpunkte), hält die Dose Fischfutter mit rechts vor sich und schüttelt (Flocken rieseln automatisch)
+ *  - gloveon:   zieht sich die Boxhandschuhe an (Hände vor dem Bauch, rechts zieht links 0,5–1,0 s, links zieht rechts 1,0–1,4 s; Dummy-Wert
+ *               gloves dazu bei 0,6–1,4 s von 0 auf 1), klopft die Handschuhe bei 1,7 s vor der Brust zusammen, dann Deckung
+ *  - boxbounce: Boxhaltung und tänzelt locker von einem Fuß auf den anderen (Zyklus 0,7 s), kleine Finten
+ *  - seatfloor: sitzt (z. B. im Bagger), weit vorgebeugt, drückt verzweifelt beide Hebel nach vorn, wippt, atmet schnell
+ */
+const fishPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  switch (motion) {
+    case 'scatter': {
+      const p = dummyPose('walk', time, speed || 1);
+      const shake = Math.sin(time * 15);
+      reachR(p, [-0.16, 1.08 + 0.035 * shake, 0.4], 0.33, [0.6, -1, -0.3]);
+      p.headX = 0.25;
+      p.headY = -0.1;
+      p.item = 'foodcan';
+      p.mist = 1;
+      return p;
+    }
+    case 'gloveon': {
+      const p = base();
+      p.torsoX = 0.08 + breathe;
+      p.headX = 0.35 * (1 - easeInOut(clamp((time - 1.5) / 0.3)));
+      const pullL = Math.sin(Math.PI * clamp((time - 0.5) / 0.5));
+      const pullR = Math.sin(Math.PI * clamp((time - 1.0) / 0.4));
+      const clap = Math.sin(Math.PI * clamp((time - 1.55) / 0.3));
+      const toGuard = easeInOut(clamp((time - 1.9) / 0.35));
+      const k = easeInOut(clamp(time / 0.45));
+      const restR: P3 = [-0.2, 0.95, 0.12];
+      const restL: P3 = [0.2, 0.95, 0.12];
+      let R: P3 = lerp3t(restR, [-0.06 - 0.06 * pullL, 1.0 + 0.04 * pullL, 0.36], k);
+      let L: P3 = lerp3t(restL, [0.07 + 0.06 * pullR, 1.0 + 0.04 * pullR, 0.36], k);
+      if (time > 1.5) {
+        R = lerp3t([-0.08 + 0.05 * clap, 1.22, 0.4], [-0.1, 1.42, 0.28], toGuard);
+        L = lerp3t([0.08 - 0.05 * clap, 1.22, 0.4], [0.12, 1.5, 0.36], toGuard);
+      } else if (time > 1.4) {
+        const q = easeInOut(clamp((time - 1.4) / 0.15));
+        R = lerp3t(R, [-0.08, 1.22, 0.4], q);
+        L = lerp3t(L, [0.08, 1.22, 0.4], q);
+      }
+      reachR(p, R, 0.3, [0.6, -1, 0.1]);
+      reachL(p, L, 0.3, [0.6, -1, 0.1]);
+      p.fists = time > 1.4;
+      if (toGuard > 0) {
+        p.legL = L3(-0.28 * toGuard, 0.08, 0.3 * toGuard);
+        p.legR = L3(0.2 * toGuard, -0.08, 0.28 * toGuard);
+        p.hipY = 0.98 - 0.05 * toGuard;
+      }
+      return p;
+    }
+    case 'boxbounce': {
+      const p = base();
+      const ph = (time * Math.PI * 2) / 0.7;
+      const side = Math.sin(ph);
+      const hop = Math.abs(Math.sin(ph));
+      p.hipY = 0.92 + 0.045 * hop;
+      p.torsoX = 0.12 + breathe;
+      p.torsoZ = 0.08 * side;
+      p.torsoY = 0.12 + 0.1 * Math.sin(ph * 0.5);
+      p.headX = 0.12;
+      p.legL = L3(-0.28 + 0.12 * side, 0.1 + 0.05 * side, 0.3 + 0.25 * Math.max(0, side));
+      p.legR = L3(0.2 + 0.12 * side, -0.1 + 0.05 * side, 0.28 + 0.25 * Math.max(0, -side));
+      const feint = Math.max(0, Math.sin(time * 2.3)) ** 6;
+      reachL(p, [0.12, 1.5, 0.36 + 0.22 * feint], 0.28, [0.6, -1, 0.1]);
+      reachR(p, [-0.1, 1.42 + 0.03 * side, 0.28], 0.28, [0.6, -1, 0.1]);
+      p.fists = true;
+      return p;
+    }
+    case 'seatfloor': {
+      const p = chairSit(time);
+      const pump = Math.sin(time * 9);
+      const rock = Math.sin(time * 4.5);
+      p.torsoX = 0.42 + 0.06 * rock + breathe;
+      p.headX = -0.2 + 0.08 * Math.sin(time * 6);
+      p.headY = 0.1 * Math.sin(time * 1.9);
+      reachL(p, [0.16, 0.92, 0.5 + 0.06 * pump], 0.33, [0.6, -1, -0.3]);
+      reachR(p, [-0.16, 0.92, 0.5 - 0.06 * pump], 0.33, [0.6, -1, -0.3]);
+      p.fists = true;
+      p.chest = 0.5 + 0.4 * Math.max(0, Math.sin(time * 7));
+      p.legL = {...p.legL, bend: p.legL.bend - 0.25};
+      p.legR = {...p.legR, bend: p.legR.bend - 0.25 + 0.08 * pump};
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -6331,6 +6421,17 @@ const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; t
       <group position={tip} quaternion={level}>
         <group position={[0.0, -0.06, 0.04]} rotation={[-pose.cup * 0.95, 0, 0]} scale={1.5}>
           <WineGlass fill={0.6 - 0.3 * pose.cup} />
+        </group>
+      </group>
+    );
+  }
+  if (pose.item === 'foodcan') {
+    // Dose Fischfutter in der rechten Hand, Öffnung nach vorn gekippt, Flocken rieseln
+    const tip = armPoint(pose.armR, -1, pose.foreZ, 0.33);
+    return (
+      <group position={tip} quaternion={level}>
+        <group position={[0.0, -0.06, 0.03]} rotation={[0.9, 0, 0]} scale={1.3}>
+          <FoodCan sprinkle={pose.mist} time={time} />
         </group>
       </group>
     );

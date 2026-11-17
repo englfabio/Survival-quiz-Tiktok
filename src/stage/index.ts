@@ -5,6 +5,7 @@ import {railwayStage, roadStage} from './Railway';
 import {fieldStage, museumStage, streetHomeStage} from './Monstertruck';
 import {pigeonStreetStage, settlementStage, shedHallStage} from './Settlement';
 import {atticStage} from './Attic';
+import {aquariumHallStage, curvyRoadStage, parkingRingStage, parkingStage} from './Goldfish';
 import {castleStage} from './Castle';
 import {christmasRoomStage, hallStage, outsideStage, plainHallStage} from './Christmas';
 import {diningKitchenStage, kitchenStage, wgKitchenNightStage, wgKitchenStage} from './Kitchen';
@@ -86,4 +87,8 @@ export const STAGES: Record<string, StageDef> = {
   weltraum: spaceStage,
   waschkeller: laundryRoomStage,
   'trommel-innen': drumHallStage,
+  parkplatz: parkingStage,
+  'parkplatz-ring': parkingRingStage,
+  kurvenstrasse: curvyRoadStage,
+  'aquarium-innen': aquariumHallStage,
 };

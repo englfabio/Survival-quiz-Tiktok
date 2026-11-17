@@ -46,6 +46,7 @@ import {TRex, trexPose, Raptor, raptorPose, RAPTOR_COLORS} from './DinoProps';
 import {BigBang, BuildSet, TrafficJam} from './BuildProps';
 import {GamingLaptop, LaptopStack} from './GamingProps';
 import {ChargeBadge, CleaningPlan, HoldNotes, HouseRules, leaderPose, Pigeon, PigeonFlock, RentContract, TvSet} from './PigeonProps';
+import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
@@ -298,6 +299,13 @@ export const ACTORS = {
   fernseher: {height: 0.8, climbOffset: 0, speedLineHeight: 0},
   warteschleife: {height: 0, climbOffset: 0, speedLineHeight: 0},
   ladesymbol: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Goldfisch klaut das Auto ----
+  goldfisch: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  aquarium: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  futterspur: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  autoschluessel: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  podest: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  podest2: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Regierungs-Dummy (Spezial Tauben): Dummy-Körper dunkelgrau, schwarzer Anzug, weißes Hemd, schwarze Krawatte, Sonnenbrille, ohne Mütze – kein Abzeichen */
@@ -954,6 +962,8 @@ export const Actor = ({
           water={v.water}
           pressure={v.pressure}
           window2={v.window2}
+          steer={deg(v.turn)}
+          blink={v.blink}
         />
       )}
       {name === 'splash' && state.motion === 'splash' && <Splash time={state.motionTime} size={1 + v.size} />}
@@ -1058,6 +1068,25 @@ export const Actor = ({
           <Pigeon pose={leaderPose(state.motion, state.motionTime)} leader light={v.blink} time={clock} />
         </group>
       )}
+      {name === 'goldfisch' && (
+        <group scale={1 + v.size}>
+          <GoldfishBowl pose={goldfishPose(state.motion, state.motionTime, v.turn)} belt={v.side} gloves={v.gloves} food={v.fill} time={clock} />
+        </group>
+      )}
+      {name === 'aquarium' && <Aquarium time={clock} />}
+      {name === 'futterspur' && (
+        <FlakeTrail
+          points={(actor.text ?? '').split(';').filter(Boolean).map((q) => q.trim().split(/\s+/).map(Number) as [number, number])}
+          fill={v.fill}
+          pile={v.mark}
+        />
+      )}
+      {name === 'autoschluessel' && (
+        <group scale={1 + v.size}>
+          <CarKey glow={v.glow} time={clock} />
+        </group>
+      )}
+      {(name === 'podest' || name === 'podest2') && <Podium size={v.size} />}
       {name === 'mietvertrag' && <RentContract mark={v.mark} />}
       {name === 'putzplan' && <CleaningPlan />}
       {name === 'hausordnung' && <HouseRules />}
