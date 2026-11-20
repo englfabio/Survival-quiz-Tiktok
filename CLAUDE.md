@@ -929,7 +929,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   ohne Abstimmung und Pausen über 66 s; **Inhaber hat ca. 70 s erlaubt** (`noVote`, `padAfter` 0,05 s → 70,2 s). Kontrolle scribe_v2 (alle neuen Clips):
   korrekt. Choreografie: `python3 scripts/spezial-goldfisch-auto-choreo.py` (Helfer `car_path`, `lane`, `track` = Kamera fährt mit dem Auto; `Cast` kann
   jetzt direkt aneinandergrenzende Einstellungen ohne Wegblenden). Comichaft: Fisch immer im vollen, angeschnallten Glas; Boxkampf = Show, beide boxen
-  nur in die Luft in ihren Ecken. Standbilder in review/spezial-goldfisch-auto/phase1/. Finales Video: review/final/spezial-goldfisch-auto.mp4 (70,2 s).
+  nur in die Luft in ihren Ecken. Standbilder in review/spezial-goldfisch-auto/phase1/. Finales Video: review/final/spezial-goldfisch-auto.mp4 (70,2 s). **Vom Inhaber freigegeben.**
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
