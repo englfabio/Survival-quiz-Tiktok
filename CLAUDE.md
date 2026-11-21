@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -248,6 +248,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Flügel nach innen), draußen Rasen, Zaun, Nachbarhaus, Baum, Sonne (flache Kulisse). Bett: Kissen rechts (x ≈ 1.47), Dummy im Bett Hüfte (0.8, −1.425), face 270.
   Nachbarrasen (`nachbarrasen`, `src/stage/Garden.tsx`): Garten wie `garten`, dazu hinter dem Zaun der perfekte, leuchtend grüne Mährasen des Nachbarn
   (`NEIGHBOR_LAWN` x −9 … 10, z −12.4 … −7.15), Blumenbeet vor dem Nachbarhaus, Buchskugeln. Kamera z. B. hoch über dem eigenen Rasen über den Zaun.
+  Große Wohnküche / Altbau-Loft (`kueche-gross`, `src/stage/Kitchen.tsx`, `KG`, Atmo `uhr-ticken`, Spezial Schwarzes Loch): W 10, D 8 (Rückwand z −4), H 5,2,
+  Holzbalken, Hängelampe; Küchenzeile LINKS an der Rückwand (x −4.2 … −0.6, Platte 0,9) mit Kühlschrank (x −4.55), Spüle `KG.sink` (−3.4), Kochfeld (−1.5),
+  Toaster, Oberschränke; freie Plätze auf der Platte `KG.pile` (−2.5, y 0.92, −3.7) und `KG.cups` (−0.95, y 0.92, −3.7). Rückwand RECHTS ist ein Objekt
+  (`kuechenwand` bei (2.4, −4.0), face 180, durchbrechbar, Öffnung x 0.05 … 4.75, 4,9 m hoch) – dahinter Rasen, Hecken, Bäume, Häuser (Fahrzeuge warten
+  bei x 2.4, z −5 … −35). Boden + Decke laufen nach vorn/seitlich weiter (Kameras dürfen weit vorn und außerhalb der Seitenwände stehen, Kamera-Höhe
+  unter 5,2 halten, sonst sieht man über die Decke). Raummitte frei (Schwarzes Loch im Video bei (1.3, 2.4, 1.0)). `Room` (Rooms.tsx) kann jetzt
+  `backX` = Rückwand nur zwischen zwei x-Werten.
   Chef-Büro (`buero`, `src/stage/Office.tsx`, Atmo `uhr-ticken`): W 4.4, D 4.4, Chef-Schreibtisch mit Bildschirm/Tischtelefon/Akten, Chefsessel, Aktenregal,
   Fenster mit Hochhäusern; Platz für den Wandkalender `OFFICE.calendar` (1.15, 1.45, −2.19), Chef davor (1.36, −1.72) face 0.
   Kamera-Trick: Wände sind von außen unsichtbar → Kamera darf hinter die linke Schlafzimmerwand (x < −1.8, aber z außerhalb des Fensters).
@@ -494,6 +501,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   tänzeln (`boxbounce`, Zyklus 0,7 s, kleine Finten), im Bagger verzweifelt Vollgas geben – vorgebeugt, Hebel pumpen (`seatfloor`, mit `sweat`).
   Wiederverwendet: `carshock` (fassungslos), `carrywalk` (Aquarium tragen), `drumlounge` (im Aquarium wohnen), `armscross`, `proud`, `lookaround`,
   `seatdrive`, `wave`, `stand`.
+  Schwarzes Loch (Spezial, Details in `blackHolePose` in Dummy.tsx): Notizblock rechts vor der Brust halten + tief durchatmen (`notebreath`, Objekt
+  `notizblock` mit `hand` 1, `drop` −0.06), Kopfsprung (`bhleap`: Hocke 0–0,35 s, ab 0,5 s gestreckt nach vorn gekippt; Weg + Höhe über Zeitpunkte, mit
+  `shrink` ins Loch), entspannt auf dem Rücken schweben, Hände hinter dem Kopf (`floatrelax`, Höhe = y), Riesen-Last vom Tisch über den Kopf stemmen
+  (`heavelift`: greift 0,45–0,55 m vor sich auf 0,95 m bis 0,5 s, oben bei 1,2 s; Last mit `"attach": "dummy"`: bei 0,5 s `x 0, y 0.92, z 0.5`, bei 1,2 s
+  `x 0, y 2.04, z 0.1`), von über dem Kopf nach vorn werfen (`heavethrow`, Abwurf 0,45 s, Last dann bei `y 1.62, z 0.56`), Daumen hoch + Hand in der Hüfte (`thumbsup`).
+  Dummy-Wert `goggles` 0 … 1 = Forscher-Schutzbrille rutscht von der Stirn auf die Augen. Wiederverwendet: `aghast`, `gape`, `stand`, `wave`.
   Taube angekackt (Spezial, Details in `kleckerPose` in Dummy.tsx): zusammenzucken + ungläubig auf den Klecks auf der linken Schulter schauen,
   rechter Zeigefinger zeigt darauf (`splatshock`), Arme seitlich ausbreiten, stolz (`wingpose`, Flügel über Wert `wings`), mit Flügeln fliegen/schweben –
   Höhe über y, Körper vorgeneigt, Arme ausgebreitet (`flyhover`; Kreisbahn im Skript), Schreibblock links + mit rechts die Rechnung schreiben
@@ -527,6 +540,18 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Holzrahmen-Schild mit 5 lustigen Regeln), Fernseher auf Lowboard (`fernseher`, Bild mit Himmel + Wolken, Oberkante 1,08 m), Warteschleife (`warteschleife`:
   schwebende gelbe Musiknoten + Schild „Bitte warten …“, `show`, schaut zur Kamera), Lade-Symbol (`ladesymbol`: grüne Batterie mit Blitz, füllt sich in Schleife,
   `show`, `size`), Nest (Bauteil `NestBox`). Haus (`haus`) jetzt mit Wert `door` 1 = Fenster offen. Knopf `knopf` mit Schild „ZURÜCK“ wiederverwendet.
+- **Schwarzes Loch in der Küche (Spezial, `src/actors/BlackHoleProps.tsx`, comichaft + bunt, niemand wird verletzt):** schwebendes Cartoon-Schwarzes-Loch
+  (`schwarzesloch`: schwarze Kugel r 0,55, leuchtender Ring, wirbelnde Scheibe aus orange/pink/lila Spiralarmen, die nach innen strudeln, Sternchen, Halo zur
+  Kamera; Scheibe zeigt nach +z, oben 26° nach hinten gekippt, Radius ca. 1,75; Werte `fill` 0 → 1 = öffnet sich mit Überschwingen, `rumble` = pulsiert beim
+  Schlucken, `size`; Mitte = Ursprung, also `y` = Höhe der Lochmitte). **Allgemeiner Wert `shrink` 0 … 1 an JEDER Figur** = wird eingesaugt (schrumpft zum
+  Ursprung + dreht sich; Weg der Figur ins Lochzentrum legen). Durchbrechbare Küchenwand (`kuechenwand`, 5,4 × 5,2 m, Innenseite hell mit Bild + Regal,
+  `fill` 0 → 1 linear über 2,2 s, Teile fliegen ≤ 3 m nach +z). Sprungschanze aus Holz mit gelb-schwarzer Kante (`schanze`: 3,6 m breit, steigt auf 3,0 m nach
+  +z auf 1,25 m, Ursprung = unteres Ende; `fill` = ploppt aus dem Boden; Fahrzeuge: Höhe/Neigung aus Vorder- + Hinterachse, Formel `ramp_h` im Skript).
+  Riesiger Abwasch-Berg (`abwasch`: Tellertürme, Töpfe, Pfanne, Tassen, Schüsseln, Besteck, Nudeln/Erbsen, comichaft; im Video 1,5-fach ≈ 1,2 × 0,8 m,
+  1,6 m hoch; `fill` = Teile fliegen auseinander, `rumble` = klirrt, `size`). Tassen + Servietten im Sog (`sogkram`, Zug nach +z des eigenen Systems,
+  `fill`). Glitzer über der Küchenzeile (`glanz`, 4,4 × 1,2 m, `fill`). Notizblock „FORSCHUNG“ mit Bleistift (`notizblock`). Forscherbrille = Dummy-Wert
+  `goggles`. **Erweitert:** Monstertruck in zwei weiteren Farben `monstertruck3` (blau/weiß) + `monstertruck4` (grün/orange), Bagger in Gelb `bagger2`;
+  Bagger kippen jetzt über Wert `pitch` (Grad, + = Nase runter; `tilt` bleibt der Arm). Alle ohne Logos/Marken.
 - **Taube angekackt (Spezial, `src/actors/KleckerProps.tsx` + Erweiterungen in `PigeonProps.tsx`, comichaft + sauber, den Tauben passiert nie etwas):**
   Dummy-Werte `klecks` 0 … 1 = stilisierter weißer Cartoon-Fleck oben auf der LINKEN Schulter (Bauteil `ShoulderSplat`), `wings` 0 … 1 = große weiße
   Cartoon-Flügel wachsen + öffnen sich, bis 2 = kräftiger Flügelschlag (Bauteil `AngelWings`). Einzel-Taube `taube` (Bewegungen `perch`, `fly` = Flügelschlag,
@@ -804,7 +829,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -959,6 +984,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Choreografie: `python3 scripts/spezial-taube-angekackt-choreo.py` (prüft mit `check_c`, dass die Tauben in C die ganze Zeit sitzen bleiben und der Stecker
   draußen ist, BEVOR die Akkus leer werden). Comichaft: Klecks = sauberer weißer Cartoon-Fleck, Tauben nur verdutzt bzw. im Energiesparmodus; Reverse-Karte
   und Posttasche ohne Logos. Standbilder in review/spezial-taube-angekackt/phase1/. Finales Video: review/final/spezial-taube-angekackt.mp4 (65,8 s). **Vom Inhaber freigegeben.**
+- Spezial Schwarzes Loch: 689 neue Zeichen (ca. 276 Credits laut ElevenLabs; Abstimmung + Outro wortgleich mit Tauben/Goldfisch/Taube → aus Cache). Texte
+  Buchstabe für Buchstabe vom Inhaber; Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5, stand nicht im gelieferten Outro).
+  Mit Pause 0,3 s + Zusatzzeit wären es 69,1 s → `padAfter` 0,12 s, `sceneExtra` A 0,3 s → Video 66,0 s, Abstimmung „Also, was machst du?“ bleibt drin.
+  Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-schwarzes-loch-choreo.py` (prüft mit `check_c`: genau 3 Trucks + 2 Bagger,
+  alle über die Schanze, alle im Loch, Abstand zum Dummy ≥ 3 m). Bühne `kueche-gross` statt `kueche` (lebensgroße Fahrzeuge passen nicht in die kleine Küche).
+  Comichaft: Dummy springt rein und ploppt unversehrt wieder heraus, niemand sitzt in den Fahrzeugen. Hinweis Choreo-Helfer `Cast`: Teil mit nur EINEM Zeitpunkt
+  wird jetzt bis zum Ende gehalten (vorher rutschte er ans Ende → Objekt unsichtbar). Standbilder in review/spezial-schwarzes-loch/phase1/.
+  Finales Video: review/final/spezial-schwarzes-loch.mp4 (66,0 s).
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -1015,6 +1048,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `klecks-platsch` (kleiner Cartoon-Platsch), `stecker-ziehen` (Comic-Stecker mit Saug-Plopp + Boing), `akku-leer` (Geräte schalten mit fallenden Piepsern ab)
   (Spezial Taube angekackt; wiederverwendet: `tauben-gurren`, `fluegelschlag`, `karte-klatsch`, `plopp`, `himmel-chor`, `whoosh`, `stift-kritzeln`, `stempel`,
   `papier-schieben`, `laden`, `socken-stapfen`).
+  `loch-oeffnen` (Cartoon-Portal öffnet sich), `loch-summen` (wirbelndes Summen, 6 s), `einsaugen` (Cartoon-Schlürfen + Plopp) (Spezial Schwarzes Loch;
+  wiederverwendet: `teller-klirren`, `plopp`, `stift-kritzeln`, `whoosh`, `himmel-chor`, `rasen-zauber`, `monstertruck-motor`, `bagger-motor`, `wand-krachen`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1241,6 +1276,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       GamingProps.tsx = Gaming-Laptop mit eigenem Spiel/Zähler/Dampf/Plakat/Laptop-Stapel/Dosen/Gaming-Stuhl,
                       PigeonProps.tsx = Tauben/Schwarm/Anführer/Mietvertrag/Putzplan/Hausordnung/Fernseher/Warteschleife/Lade-Symbol/Nest,
                       FishProps.tsx = Goldfisch im Glas/Aquarium/Futterdose/Futterspur/Autoschlüssel/Podest/Plastikpflanze/Taucher/Blasenpumpe,
+                      BlackHoleProps.tsx = Schwarzes Loch/Küchenwand/Schanze/Abwasch-Berg/Tassen im Sog/Glitzer/Notizblock/Forscherbrille,
                       KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
