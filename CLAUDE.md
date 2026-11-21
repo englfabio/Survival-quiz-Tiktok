@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -327,6 +327,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   bei (0, −12.5), face 180, Vorderseite z −9; Wert `door` 1 = Fenster offen/dunkel), Holz-Strommasten auf dem vorderen Gehweg (x −20/−8/4/16, z 5.6) mit drei
   Leitungen (Höhe `wireY(x)`, ca. 6,2–6,5 m, durchhängend; Tauben-Reihe auf der mittleren Leitung x −6.9 … 3), großer Baum gegenüber (6.2, 9.2) mit drei
   waagerechten Ästen (y 3.1/3.9/4.7) → 15 Sitzplätze `TAUBEN.perches`, Blick zum Haus face 0.
+  Für „Park“-Szenen dort: Parkbank als Objekt `parkbank` auf der Wiese vorn (im Taube-angekackt-Video bei (−1.6, 6.5), face 180; Lehne oben y 0,875
+  bei z −0,23, Armlehnen y 0,68 bei x ±0,78), Tauben-Ladestation `ladestation` am Mast x 4 (face 90). Bahn der Tauben-Reihe dort x −4.5 … 3.3.
   Dachboden (`dachboden`, `src/stage/Attic.tsx`, `ATTIC`, Atmo `uhr-ticken`): gemütlicher Dachboden unter dem Satteldach (x ±2.6, Rückwand/Giebel z −2.2, First
   3,0 m, Kniestock 0,9 m), Holzdielen, Sparren, Lichterkette am First, rundes Giebelfenster (−0.55, 2.05), Holztür rechts (Mitte x 0.92) – Schilder an der Tür bei
   z −2.125 (face 180: `hausordnung` y 1.33, `putzplan` y 0.72), Nester (Holzkisten mit Stroh, Bauteil `NestBox`) in einer Reihe vor der Rückwand + Brett darüber
@@ -492,6 +494,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   tänzeln (`boxbounce`, Zyklus 0,7 s, kleine Finten), im Bagger verzweifelt Vollgas geben – vorgebeugt, Hebel pumpen (`seatfloor`, mit `sweat`).
   Wiederverwendet: `carshock` (fassungslos), `carrywalk` (Aquarium tragen), `drumlounge` (im Aquarium wohnen), `armscross`, `proud`, `lookaround`,
   `seatdrive`, `wave`, `stand`.
+  Taube angekackt (Spezial, Details in `kleckerPose` in Dummy.tsx): zusammenzucken + ungläubig auf den Klecks auf der linken Schulter schauen,
+  rechter Zeigefinger zeigt darauf (`splatshock`), Arme seitlich ausbreiten, stolz (`wingpose`, Flügel über Wert `wings`), mit Flügeln fliegen/schweben –
+  Höhe über y, Körper vorgeneigt, Arme ausgebreitet (`flyhover`; Kreisbahn im Skript), Schreibblock links + mit rechts die Rechnung schreiben
+  (`padwrite`, both 'notepad', Zeilen 0,3–2,5 s), Riesen-Stecker packen (0,52 m vor ihm, 1,0 m hoch, bis 0,55 s) und 0,7–1,05 s kräftig 0,4 m herausziehen,
+  ab 1,3 s nach oben schauen (`pullplug`). Wiederverwendet: `walk`, `holdcard` (Reverse-Karte), `handover`, `proud`, `armscross`, `lookup`, `sockstomp`
+  (entschlossen stapfen), `stand`, `wave`.
 - **Goldfisch** (`goldfisch`, `src/actors/FishProps.tsx`, comichaft, dem Fisch geht es immer gut): orangefarbener Low-Poly-Goldfisch mit großen Augen +
   schrägen Augenbrauen (sehr konzentrierter Blick) in einem runden Glas voll Wasser mit buntem Kies (Ursprung = Glasboden). Im Auto: `"attach": "car",
   x 0.3, y 0.7, z −0.05, face 0` + Wert `side` 1 = Sitzerhöhung + Sicherheitsgurt quer übers Glas (so sieht man ihn durch Seiten- und Frontscheibe).
@@ -519,6 +527,21 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Holzrahmen-Schild mit 5 lustigen Regeln), Fernseher auf Lowboard (`fernseher`, Bild mit Himmel + Wolken, Oberkante 1,08 m), Warteschleife (`warteschleife`:
   schwebende gelbe Musiknoten + Schild „Bitte warten …“, `show`, schaut zur Kamera), Lade-Symbol (`ladesymbol`: grüne Batterie mit Blitz, füllt sich in Schleife,
   `show`, `size`), Nest (Bauteil `NestBox`). Haus (`haus`) jetzt mit Wert `door` 1 = Fenster offen. Knopf `knopf` mit Schild „ZURÜCK“ wiederverwendet.
+- **Taube angekackt (Spezial, `src/actors/KleckerProps.tsx` + Erweiterungen in `PigeonProps.tsx`, comichaft + sauber, den Tauben passiert nie etwas):**
+  Dummy-Werte `klecks` 0 … 1 = stilisierter weißer Cartoon-Fleck oben auf der LINKEN Schulter (Bauteil `ShoulderSplat`), `wings` 0 … 1 = große weiße
+  Cartoon-Flügel wachsen + öffnen sich, bis 2 = kräftiger Flügelschlag (Bauteil `AngelWings`). Einzel-Taube `taube` (Bewegungen `perch`, `fly` = Flügelschlag,
+  Weg über Zeitpunkte, `flap`, `nod`, `walk`; Wert `splat` = weißer Cartoon-Fleck auf dem Kopf, `question` = Fragezeichen, `size` draußen 0,4) und Brieftaube
+  `brieftaube` (gleich + blaue Posttasche + Postmütze, KEIN echtes Post-Logo; Umschlag in der Tasche: `"attach": "brieftaube", x −0.16, y 0.2, z 0, face 90`,
+  `size` −0,4). Fallender Cartoon-Klecks `klecks`, `klecks2` (Bewegung `fall` = Tropfen mit Fall-Strichen, Weg über Zeitpunkte; `park` = flacher Fleck).
+  Schwarm (`tauben`…) jetzt mit Akku-Symbolen: Wert `glow` 1 = über jeder Taube eine grüne Batterie, die lädt; `lock` 0 … 1 = Akkus springen nacheinander
+  auf rot „0 %“, die Tauben gehen in den Energiesparmodus (Kopf sinkt, Lider halb zu, sitzen still – kein Fall). Rechnungsblock (Dummy both 'notepad':
+  „RECHNUNG – REINIGUNG“, Zeilen 1× Schulter reinigen / 1× Klecks entfernen / Express-Zuschlag / SUMME: 19,90 €) + Kuli, Umschlag `umschlag`
+  („RECHNUNG – REINIGUNG“, „An: Frau Taube, Oberleitung 1“; `mark` 1 = Briefmarke mit Comic-Taube „85“ + Poststempel ploppt drauf; halten mit `hand` 1).
+  Tauben-Ladestation `ladestation` (Ursprung = Mastachse am Boden, Vorderseite +z; am Mast x 4 face 90): Steckdosen-Kasten (Mitte y 1,0, Front 0,27 m vor
+  der Achse), Schild „TAUBEN-LADESTATION“ mit Blitz (zeigt bei face 90 zur Straße/Kamera), Status-Lämpchen (`glow` 1 grün / 0 rot), riesiger weißer
+  Stecker mit Griffrillen + dickem Kabel am Mast hoch zur Oberleitung; `fill` 0 = steckt … 1 = 0,4 m herausgezogen (Dummy dafür 0,965 m vor der Mastachse,
+  face 270, Bewegung `pullplug`). Parkbank als Objekt `parkbank` (Bauteil `ParkBench` aus dem Park). UNO-Reverse-Effekt = vorhandene Reverse-Karte
+  `reversekarte` (ohne Logo/Schrift) mit `glow` 1 + `holdcard`. Lesebrille (`glasses`) für „ganz offiziell“.
 - **Objekte (Pirat-Token, `src/actors/GamingProps.tsx`, alles selbst gestaltet – KEINE echte Spielgrafik/Oberfläche, KEIN Logo, KEIN echtes Token):**
   Gaming-Laptop (`gaminglaptop`, `gaminglaptop2`: dunkel mit RGB-Streifen; Bildschirm = eigenes buntes Insel-Spiel mit kleiner runder Spielfigur, Palmen, Schatztruhe,
   die aufklappt + golden leuchtet, Zähler „TRUHEN GEÖFFNET: 48.213“; Werte `lid` 0 zu … 1 offen (IMMER setzen, Standard 0), `fill` = Zählerstand, `mark` = Truhen
@@ -781,7 +804,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -930,6 +953,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   korrekt. Choreografie: `python3 scripts/spezial-goldfisch-auto-choreo.py` (Helfer `car_path`, `lane`, `track` = Kamera fährt mit dem Auto; `Cast` kann
   jetzt direkt aneinandergrenzende Einstellungen ohne Wegblenden). Comichaft: Fisch immer im vollen, angeschnallten Glas; Boxkampf = Show, beide boxen
   nur in die Luft in ihren Ecken. Standbilder in review/spezial-goldfisch-auto/phase1/. Finales Video: review/final/spezial-goldfisch-auto.mp4 (70,2 s). **Vom Inhaber freigegeben.**
+- Spezial Taube angekackt: 650 neue Zeichen (ca. 260 Credits laut ElevenLabs; Abstimmung + Outro wortgleich mit Tauben/Goldfisch → aus Cache). Texte Buchstabe
+  für Buchstabe vom Inhaber; Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5, stand nicht im gelieferten Outro). Mit Pause 0,3 s
+  wären es 67,2 s → `padAfter` 0,12 s → Video 65,8 s, Abstimmung „Also, was machst du?“ bleibt drin. Kontrolle scribe_v2 (alle neuen Clips): korrekt.
+  Choreografie: `python3 scripts/spezial-taube-angekackt-choreo.py` (prüft mit `check_c`, dass die Tauben in C die ganze Zeit sitzen bleiben und der Stecker
+  draußen ist, BEVOR die Akkus leer werden). Comichaft: Klecks = sauberer weißer Cartoon-Fleck, Tauben nur verdutzt bzw. im Energiesparmodus; Reverse-Karte
+  und Posttasche ohne Logos. Standbilder in review/spezial-taube-angekackt/phase1/. Finales Video: review/final/spezial-taube-angekackt.mp4 (65,8 s).
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
@@ -983,6 +1012,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `handy-waehlen`, `kuehlschrank-auf`, `papier-schieben`, `stempel`, `kaffee-schluerfen`, `monstertruck-motor`, `haus-knautschen`; Dachboden nutzt `uhr-ticken`).
   `aquarium-atmo` (Bühne Aquarium innen, Schleife), `blinker`, `futter-streuen`, `fisch-schnappen`, `schluessel-klimpern`, `handschuhe-anziehen` (Spezial
   Goldfisch; wiederverwendet: `auto-motor`, `blubbern`, `eimer-schwappen`, `bagger-motor`, `boxglocke`, `staunen`; neue Bühnen draußen nutzen `wald-atmo`).
+  `klecks-platsch` (kleiner Cartoon-Platsch), `stecker-ziehen` (Comic-Stecker mit Saug-Plopp + Boing), `akku-leer` (Geräte schalten mit fallenden Piepsern ab)
+  (Spezial Taube angekackt; wiederverwendet: `tauben-gurren`, `fluegelschlag`, `karte-klatsch`, `plopp`, `himmel-chor`, `whoosh`, `stift-kritzeln`, `stempel`,
+  `papier-schieben`, `laden`, `socken-stapfen`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1209,6 +1241,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       GamingProps.tsx = Gaming-Laptop mit eigenem Spiel/Zähler/Dampf/Plakat/Laptop-Stapel/Dosen/Gaming-Stuhl,
                       PigeonProps.tsx = Tauben/Schwarm/Anführer/Mietvertrag/Putzplan/Hausordnung/Fernseher/Warteschleife/Lade-Symbol/Nest,
                       FishProps.tsx = Goldfisch im Glas/Aquarium/Futterdose/Futterspur/Autoschlüssel/Podest/Plastikpflanze/Taucher/Blasenpumpe,
+                      KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
