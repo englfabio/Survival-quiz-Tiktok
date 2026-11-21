@@ -1,3 +1,4 @@
+import {ResearchGoggles} from './BlackHoleProps';
 import {AngelWings, InvoicePad, ShoulderSplat} from './KleckerProps';
 import {FoodCan} from './FishProps';
 import type {ThreeElements} from '@react-three/fiber';
@@ -4911,6 +4912,111 @@ const pigeonPose = (motion: Motion, time: number): DummyPose | null => {
 };
 
 /**
+ * Spezial „Schwarzes Loch in der Küche“ (alle Figuren mit Dummy-Körper):
+ *  - notebreath: hält den Notizblock (Objekt "notizblock" mit hand 1) rechts vor der Brust, links locker, atmet tief durch (Zyklus 1,6 s)
+ *  - bhleap:     Kopfsprung: Hocke 0–0,35 s, Arme schwingen hoch, ab 0,5 s gestreckt (Körper ca. 80° nach vorn gekippt), Weg + Höhe über y
+ *  - floatrelax: schwebt entspannt auf dem Rücken (Kopf Richtung −z des eigenen Systems), Hände hinter dem Kopf, Beine übereinander, wippt
+ *  - heavelift:  greift den Abwasch-Berg 0,45–0,55 m vor sich auf 0,95 m (bis 0,5 s), stemmt ihn über den Kopf (0,5–1,2 s), balanciert wackelnd
+ *  - heavethrow: von über dem Kopf ausholen (0–0,3 s), Abwurf nach vorn oben (0,45 s), Arme bleiben kurz vorn, ab 1,0 s locker
+ *  - thumbsup:   rechter Daumen hoch vor der Brust, linke Hand in der Hüfte, nickt zufrieden
+ */
+const blackHolePose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  switch (motion) {
+    case 'notebreath': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.35));
+      const br = 0.5 - 0.5 * Math.cos((2 * Math.PI * time) / 1.6);
+      p.chest = 0.9 * br * k;
+      p.torsoX = -0.06 * br + breathe;
+      p.headX = -0.22 * br * k + 0.12 * (1 - br) * k;
+      p.hipY = 0.98 + 0.01 * br;
+      reachR(p, lerp3t(rest, [-0.1, 1.16 + 0.03 * br, 0.32], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.26, 0.98 + 0.05 * br, 0.04], k), 0.33, [0.8, -0.2, -0.8]);
+      return p;
+    }
+    case 'bhleap': {
+      const p = base();
+      const c = easeInOut(clamp(time / 0.35));
+      const go = easeInOut(clamp((time - 0.35) / 0.25));
+      const crouch = c * (1 - go);
+      p.hipY = 0.98 - 0.26 * crouch;
+      p.legL = L3(-0.6 * crouch, 0.05, 1.1 * crouch);
+      p.legR = L3(-0.6 * crouch, -0.05, 1.1 * crouch);
+      p.torsoX = 0.45 * crouch;
+      p.pitch = 1.38 * go;
+      p.headX = -0.2 * crouch - 0.35 * go;
+      const back: P3 = [-0.25, 0.85, -0.3];
+      const up: P3 = [-0.1, 2.12, 0.18];
+      reachR(p, lerp3t(lerp3t(rest, back, c), up, go), 0.33, [0.6, 0.2, -0.6]);
+      reachL(p, lerp3t(lerp3t(restL, [0.25, 0.85, -0.3], c), [0.1, 2.12, 0.18], go), 0.33, [0.6, 0.2, -0.6]);
+      return p;
+    }
+    case 'floatrelax': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      const bob = Math.sin(time * 2.4);
+      p.pitch = -1.25 * k;
+      p.headX = 0.35 * k + 0.05 * bob;
+      p.headY = 0.25 * Math.sin(time * 0.8) * k;
+      p.legL = L3(0.25 * k, 0.1 * k, 0.5 * k);
+      p.legR = L3(0.05 * k, -0.18 * k, 0.15 * k);
+      reachR(p, lerp3t(rest, [-0.16, 1.86, -0.12], k), 0.33, [0.2, 1, -0.6]);
+      reachL(p, lerp3t(restL, [0.16, 1.86, -0.12], k), 0.33, [0.2, 1, -0.6]);
+      return p;
+    }
+    case 'heavelift': {
+      const p = base();
+      const g = easeInOut(clamp(time / 0.5));
+      const up = easeInOut(clamp((time - 0.5) / 0.7));
+      const dip = Math.sin(Math.PI * clamp((time - 0.4) / 0.5));
+      const sway = Math.sin(Math.max(0, time - 1.2) * 4.2) * clamp((time - 1.2) / 0.3);
+      p.hipY = 0.98 - 0.12 * dip;
+      p.legL = L3(-0.3 * dip, 0.08, 0.6 * dip);
+      p.legR = L3(-0.3 * dip, -0.08, 0.6 * dip);
+      p.torsoX = 0.3 * g * (1 - up) - 0.12 * up + breathe;
+      p.torsoZ = 0.07 * sway;
+      p.headX = 0.35 * g * (1 - up) - 0.4 * up;
+      const low = (sd: number): P3 => [sd * 0.27, 0.95, 0.47];
+      const high = (sd: number): P3 => [sd * 0.27 + 0.03 * sway, 2.06, 0.1];
+      reachR(p, lerp3t(lerp3t(rest, low(-1), g), high(-1), up), 0.33, [0.6, 0.2, -0.6]);
+      reachL(p, lerp3t(lerp3t(restL, low(1), g), high(1), up), 0.33, [0.6, 0.2, -0.6]);
+      return p;
+    }
+    case 'heavethrow': {
+      const p = base();
+      const back = easeInOut(clamp(time / 0.3));
+      const thr = easeInOut(clamp((time - 0.3) / 0.18));
+      const relax = easeInOut(clamp((time - 1.0) / 0.5));
+      const H = (sd: number): P3 => [sd * 0.27, 2.06, 0.1];
+      const B = (sd: number): P3 => [sd * 0.27, 1.98, -0.12];
+      const F = (sd: number): P3 => [sd * 0.24, 1.6, 0.58];
+      const hand = (sd: number, r: P3) => lerp3t(lerp3t(lerp3t(H(sd), B(sd), back), F(sd), thr), r, relax);
+      p.torsoX = -0.18 * back * (1 - thr) + 0.32 * thr * (1 - relax) + breathe;
+      p.headX = -0.35 * (1 - thr) - 0.2 * thr;
+      p.legL = L3(-0.25 * thr * (1 - relax), 0.06, 0.25 * thr * (1 - relax));
+      p.legR = L3(0.25 * thr * (1 - relax), -0.06, 0.1);
+      reachR(p, hand(-1, rest), 0.33, [0.6, 0.2, -0.6]);
+      reachL(p, hand(1, restL), 0.33, [0.6, 0.2, -0.6]);
+      return p;
+    }
+    case 'thumbsup': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.4));
+      p.torsoX = -0.04 + breathe;
+      p.headX = 0.06 * Math.sin(Math.max(0, time - 0.4) * 5) * k;
+      reachR(p, lerp3t(rest, [-0.16, 1.3, 0.32], k), 0.33, [0.4, -0.6, -0.8]);
+      reachL(p, lerp3t(restL, [0.26, 0.98, 0.04], k), 0.33, [0.8, -0.2, -0.8]);
+      p.fists = k > 0.5;
+      return p;
+    }
+  }
+  return null;
+};
+
+/**
  * Spezial „Von einer Taube angekackt“ (alle Figuren mit Dummy-Körper):
  *  - splatshock: zuckt zusammen (0–0,25 s, Schultern hoch), dreht den Kopf zur LINKEN Schulter und schaut ungläubig auf den Klecks,
  *                rechte Hand zeigt mit spitzem Finger darauf (ab 0,5 s), linker Arm leicht abgespreizt
@@ -5097,7 +5203,7 @@ const fishPose = (motion: Motion, time: number, speed: number): DummyPose | null
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -6989,7 +7095,10 @@ export const Dummy = ({
   lokcap = 0,
   jogger = 0,
   hazmat = 0,
+  goggles = 0,
 }: {
+  /** Forscher-Schutzbrille 0 … 1 (rutscht von der Stirn auf die Augen) */
+  goggles?: number;
   /** weißer Ganzkörper-Schutzanzug mit Kapuze, Atemschutzmaske, Schutzbrille, Gummihandschuhen + Überschuhen (0/1) */
   hazmat?: number;
   /** Lokführermütze 0 … 1 (bei < 1 schwebt sie noch über dem Kopf = wird aufgesetzt) */
@@ -7258,6 +7367,7 @@ export const Dummy = ({
             {brow > 0.01 && <Brows m={m} raise={clamp((brow - 0.1) / 0.9)} />}
             <Foam amount={foam} time={fxTime} />
             <ReadingGlasses amount={glasses} />
+            <ResearchGoggles amount={goggles} />
             {uniform?.shades && <SunGlasses />}
             <HeadSplat amount={splat} />
           </group>

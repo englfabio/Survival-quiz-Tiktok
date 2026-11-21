@@ -8,7 +8,7 @@ import {atticStage} from './Attic';
 import {aquariumHallStage, curvyRoadStage, parkingRingStage, parkingStage} from './Goldfish';
 import {castleStage} from './Castle';
 import {christmasRoomStage, hallStage, outsideStage, plainHallStage} from './Christmas';
-import {diningKitchenStage, kitchenStage, wgKitchenNightStage, wgKitchenStage} from './Kitchen';
+import {bigKitchenStage, diningKitchenStage, kitchenStage, wgKitchenNightStage, wgKitchenStage} from './Kitchen';
 import {outbackStage} from './Outback';
 import {dentalStage} from './Dental';
 import {bedroomMorningStage, bedroomStage, elevatorStage, gamingRoomStage, trainStage} from './Bedroom';
@@ -46,6 +46,7 @@ export const STAGES: Record<string, StageDef> = {
   flur: hallStage,
   hauseingang: outsideStage,
   kueche: kitchenStage,
+  'kueche-gross': bigKitchenStage,
   wohnkueche: diningKitchenStage,
   hausflur: plainHallStage,
   outback: outbackStage,

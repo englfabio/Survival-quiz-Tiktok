@@ -318,6 +318,13 @@ export type Motion =
   | 'fishpunch' // Goldfisch: boxt mit den Mini-Handschuhen in die Luft (alle 0,5 s abwechselnd)
   | 'fishhappy' // Goldfisch: zufrieden, wackelt, große Augen, kleines Lächeln
   | 'fishback' // Goldfisch: dreht sich im Glas um und schaut nach hinten (Rückwärts-Einparken), eine Flosse am Lenkrad
+  // ---- Spezial Schwarzes Loch in der Küche (Details: blackHolePose in Dummy.tsx) ----
+  | 'notebreath' // Dummy: hält den Notizblock mit rechts vor der Brust (0,32 m vor ihm, 1,15 m hoch) und atmet tief durch (Brust hebt sich, Zyklus 1,6 s)
+  | 'bhleap' // Dummy: Kopfsprung – geht in die Hocke (0–0,35 s), reißt die Arme nach oben, ab 0,5 s gestreckt waagerecht (Weg/Höhe über Zeitpunkte)
+  | 'floatrelax' // Dummy: schwebt entspannt auf dem Rücken, Hände hinter dem Kopf, Beine übereinander, wippt (Höhe = y)
+  | 'heavelift' // Dummy: greift den Abwasch-Berg 0,45 m vor sich auf 0,95 m (bis 0,5 s), stemmt ihn über den Kopf (0,5–1,2 s), balanciert
+  | 'heavethrow' // Dummy: wirft das Gewicht von über dem Kopf nach vorn oben (Ausholen 0–0,3 s, Abwurf 0,45 s), danach Arme vorn
+  | 'thumbsup' // Dummy: rechter Daumen hoch vor der Brust, links in der Hüfte, nickt zufrieden
   | 'perch' // Taube: sitzen, Kopf nicken/picken, gurren
   | 'flap' // Taube: auf der Stelle flattern
   | 'talk' // Tauben-Anführer: mit den Flügeln gestikulieren
@@ -592,10 +599,14 @@ export type ActorKey = {
   pitch?: number;
   /** T-Rex: Maul zusätzlich öffnen 0 … 1 */
   jaw?: number;
+  /** jede Figur: wird ins Schwarze Loch gesaugt – schrumpft 0 … 1 (1 = weg) und dreht sich dabei */
+  shrink?: number;
+  /** Dummy: Forscher-Schutzbrille 0 … 1 (rutscht von der Stirn auf die Augen) */
+  goggles?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

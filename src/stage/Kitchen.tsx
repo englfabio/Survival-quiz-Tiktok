@@ -4,6 +4,7 @@ import {Broom, Cable, Socket, Toaster} from '../actors/ShockProps';
 import {Binder, Putzplan} from '../actors/WgProps';
 import {Chair, Room, std, tileTexture} from './Rooms';
 import type {StageDef} from './types';
+import {FarHouses} from './Park';
 
 /**
  * Küche ("kueche"), aus dem Innenraum-Baukasten (Rooms.tsx): W 5, D 4.6, H 2.6 → Rückwand bei z = −2.3.
@@ -476,3 +477,220 @@ export const wgKitchenNightStage: StageDef = {id: 'wg-kueche-nacht', Component: 
 export const diningKitchenStage: StageDef = {id: 'wohnkueche', Component: () => <KitchenScene dining />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 
 export const kitchenStage: StageDef = {id: 'kueche', Component: () => <KitchenScene />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+
+/**
+ * Große Wohnküche (Altbau-Loft) für das Schwarze-Loch-Spezial ("kueche-gross", `KG`): W 10, D 8 (Rückwand z −4), H 5,2.
+ *  - Küchenzeile an der Rückwand LINKS (x −4.2 … −0.6, Tiefe 0,6, Platte 0,9): Kühlschrank ganz links (x −4.55), Spüle KG.sink
+ *    (Objekt "spuele" passt dort bei (−3.4, y 0.92, −3.68)), Kochfeld x −1.5, Oberschränke, Fliesenspiegel, Toaster.
+ *    Freie Plätze auf der Platte: Abwasch-Berg KG.pile (−2.5, y 0.92, −3.7), Tassen/Servietten KG.cups (−0.95, y 0.92, −3.7).
+ *  - Rückwand RECHTS (x −0.3 … 5.1) ist ein Objekt: "kuechenwand" bei KG.wall (2.4, −4.0), face 180 (durchbrechbar, Öffnung x 0.05 … 4.75).
+ *    Dahinter draußen: Rasen, Hecke, Bäume, Häuser in der Ferne (Fahrzeuge warten dort, z. B. x 2.4, z −9 … −30).
+ *  - Fenster in der linken Wand, Deckenlampe, Hängepflanze. Mitte des Raums frei (Schwarzes Loch schwebt z. B. bei KG.hole).
+ * Seitenwände von außen unsichtbar → Kameras dürfen außerhalb stehen.
+ */
+export const KG = {
+  W: 10, D: 8, H: 5.2, zb: -4,
+  sink: {x: -3.4, y: 0.92, z: -3.68},
+  pile: {x: -2.5, y: 0.92, z: -3.7},
+  cups: {x: -0.95, y: 0.92, z: -3.7},
+  wall: {x: 2.4, z: -4.0},
+  hole: {x: 1.3, y: 2.3, z: 0.2},
+};
+
+const BigKitchenScene = () => {
+  const {W, D, H, zb} = KG;
+  const mats = useMemo(
+    () => ({
+      floor: new THREE.MeshStandardMaterial({map: tileTexture('#e6dfd3', '#b9ae9f', [14, 16]), roughness: 0.6}),
+      wall: std('#f4ecdc', {roughness: 0.95, flatShading: false}),
+      back: std('#eadcc0', {roughness: 0.95, flatShading: false}),
+      splash: new THREE.MeshStandardMaterial({map: tileTexture('#f8f8f4', '#c8cfd3', [24, 3.5]), roughness: 0.35}),
+      front: std('#86a68f', {roughness: 0.55}),
+      frontDark: std('#6f8f78', {roughness: 0.55}),
+      top: std('#c99a63', {roughness: 0.6}),
+      plinth: std('#3b3f45'),
+      handle: std('#d9dde2', {roughness: 0.25, metalness: 0.7}),
+      steel: std('#cfd4d9', {roughness: 0.25, metalness: 0.75}),
+      glass: std('#1c1f24', {roughness: 0.15}),
+      fridge: std('#eef0f2', {roughness: 0.35}),
+      ring: std('#4a4e55', {roughness: 0.5}),
+      lawn: std('#7cc35a', {roughness: 1}),
+      lawnDark: std('#5fa244', {roughness: 1}),
+      hedge: std('#3f8a3c'),
+      trunk: std('#7a5434'),
+      leaf: std('#4f9e45'),
+      leaf2: std('#6bb84f'),
+      hill: std('#9fd27a', {roughness: 1}),
+      beam: std('#b98a5a'),
+    }),
+    [],
+  );
+  const x0 = -4.2;
+  const x1 = -0.6;
+  const depth = 0.6;
+  const handles = [];
+  for (let x = x0 + 0.3; x < x1 - 0.1; x += 0.6) handles.push(x);
+  return (
+    <Room
+      W={W}
+      D={D}
+      H={H}
+      floor={mats.floor}
+      wall={mats.wall}
+      backWall={mats.back}
+      ceiling="#f8f5ef"
+      window={{side: -1, z: -0.6, w: 2.0, y: 1.0, h: 1.8, sky: '#bfe0ff'}}
+      light={{ambient: 0.55, hemi: 0.75, sun: 1.5, sunColor: '#fff0d8', lamp: 5.5, lampColor: '#fff1dc'}}
+      bg="#bfe0ff"
+      backX={[-W / 2, -0.3]}
+      sunPos={[-6, 7, 3]}
+    >
+      {/* Raum läuft nach vorn weiter (Kameras weit vorn sehen keine Kante): Boden, Decke, Seitenwände bis z 45 */}
+      <mesh material={mats.floor} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.002, 26]} receiveShadow>
+        <planeGeometry args={[W, 40]} />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, H, 27]}>
+        <planeGeometry args={[W, 36]} />
+        <meshStandardMaterial color="#f8f5ef" />
+      </mesh>
+      {[-1, 1].map((s) => (
+        <mesh key={s} material={mats.wall} position={[(s * W) / 2, H / 2, 27]} rotation={[0, -s * Math.PI / 2, 0]}>
+          <planeGeometry args={[36, H]} />
+        </mesh>
+      ))}
+      {/* ---- draußen hinter der Rückwand ---- */}
+      <mesh material={mats.lawn} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.006, zb - 30.1]} receiveShadow>
+        <planeGeometry args={[140, 60]} />
+      </mesh>
+      <mesh material={mats.lawnDark} rotation={[-Math.PI / 2, 0, 0]} position={[2.4, 0.008, zb - 14]}>
+        <planeGeometry args={[5.2, 20]} />
+      </mesh>
+      {[-1, 1].map((s) => (
+        <mesh key={s} material={mats.hedge} position={[2.4 + s * 6.5, 0.7, zb - 8]} castShadow>
+          <boxGeometry args={[6, 1.4, 1.2]} />
+        </mesh>
+      ))}
+      {[
+        [-8, -14, 1.1],
+        [-3, -19, 1.3],
+        [9, -13, 1.2],
+        [13, -22, 1.4],
+        [-12, -24, 1.5],
+        [6, -28, 1.3],
+      ].map(([x, z, s], i) => (
+        <group key={i} position={[x, 0, zb + z]} scale={s}>
+          <mesh material={mats.trunk} position={[0, 1.0, 0]}>
+            <cylinderGeometry args={[0.18, 0.25, 2, 6]} />
+          </mesh>
+          <mesh material={i % 2 ? mats.leaf : mats.leaf2} position={[0, 2.9, 0]} castShadow>
+            <icosahedronGeometry args={[1.5, 0]} />
+          </mesh>
+        </group>
+      ))}
+      {[-30, 0, 32].map((x, i) => (
+        <mesh key={i} material={mats.hill} position={[x, -6, zb - 70]} scale={[30, 12, 10]}>
+          <icosahedronGeometry args={[1, 1]} />
+        </mesh>
+      ))}
+      <FarHouses z={zb - 46} face={1} seed={5} day />
+      {/* ---- Unterschränke + Arbeitsplatte ---- */}
+      <group position={[0, 0, zb + depth / 2]}>
+        <mesh material={mats.plinth} position={[(x0 + x1) / 2, 0.05, 0.02]}>
+          <boxGeometry args={[x1 - x0, 0.1, depth - 0.06]} />
+        </mesh>
+        <group position={[0, 0.48, 0]} scale={[1, 0.76, depth - 0.02]}>
+          <CabinetRow x0={x0} x1={x1} front={mats.front} />
+        </group>
+        {handles.map((x) => (
+          <mesh key={x} material={mats.handle} position={[x, 0.78, depth / 2 + 0.01]}>
+            <boxGeometry args={[0.16, 0.02, 0.025]} />
+          </mesh>
+        ))}
+        <mesh material={mats.glass} position={[-1.5, 0.47, depth / 2]}>
+          <boxGeometry args={[0.5, 0.4, 0.02]} />
+        </mesh>
+        <mesh material={mats.top} position={[(x0 + x1) / 2, 0.9, 0.02]} castShadow receiveShadow>
+          <boxGeometry args={[x1 - x0 + 0.03, 0.04, depth + 0.04]} />
+        </mesh>
+        <mesh material={mats.steel} position={[KG.sink.x, 0.921, 0.02]}>
+          <boxGeometry args={[0.52, 0.006, 0.42]} />
+        </mesh>
+        <group position={[KG.sink.x, 0.92, -0.2]}>
+          <mesh material={mats.steel} position={[0, 0.15, 0]}>
+            <cylinderGeometry args={[0.018, 0.022, 0.3, 8]} />
+          </mesh>
+          <mesh material={mats.steel} position={[0, 0.3, 0.08]} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.015, 0.015, 0.18, 8]} />
+          </mesh>
+        </group>
+        <mesh material={mats.glass} position={[-1.5, 0.922, 0.02]}>
+          <boxGeometry args={[0.56, 0.006, 0.5]} />
+        </mesh>
+        {[
+          [-0.13, -0.11],
+          [0.13, -0.11],
+          [-0.13, 0.13],
+          [0.13, 0.13],
+        ].map(([x, z], i) => (
+          <mesh key={i} material={mats.ring} position={[-1.5 + x, 0.927, 0.02 + z]} rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.07, 0.085, 20]} />
+          </mesh>
+        ))}
+      </group>
+      <group position={[-4.0, 0.92, zb + 0.28]} rotation={[0, 0.15, 0]}>
+        <Toaster />
+      </group>
+      <mesh material={mats.splash} position={[(x0 + x1) / 2, 1.2, zb + 0.005]}>
+        <planeGeometry args={[x1 - x0, 0.56]} />
+      </mesh>
+      <group position={[0, 1.82, zb + 0.18]}>
+        <group scale={[1, 0.62, 0.35]}>
+          <CabinetRow x0={x0} x1={x1} front={mats.frontDark} />
+        </group>
+        {handles.map((x) => (
+          <mesh key={x} material={mats.handle} position={[x, -0.24, 0.185]}>
+            <boxGeometry args={[0.16, 0.02, 0.025]} />
+          </mesh>
+        ))}
+      </group>
+      {/* Kühlschrank */}
+      <group position={[-4.55, 0, zb + 0.34]}>
+        <mesh material={mats.fridge} position={[0, 0.93, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.66, 1.86, 0.66]} />
+        </mesh>
+        <mesh material={mats.ring} position={[0, 1.25, 0.332]}>
+          <boxGeometry args={[0.64, 0.012, 0.004]} />
+        </mesh>
+        {[1.45, 0.95].map((y) => (
+          <mesh key={y} material={mats.handle} position={[0.26, y, 0.35]}>
+            <boxGeometry args={[0.025, 0.28, 0.03]} />
+          </mesh>
+        ))}
+        <mesh position={[-0.12, 1.55, 0.335]}>
+          <planeGeometry args={[0.14, 0.18]} />
+          <meshStandardMaterial color="#fff7b0" />
+        </mesh>
+      </group>
+      {/* Holzbalken unter der hohen Decke */}
+      {[-3, 0, 3].map((z) => (
+        <mesh key={z} material={mats.beam} position={[0, H - 0.15, z]}>
+          <boxGeometry args={[W, 0.3, 0.3]} />
+        </mesh>
+      ))}
+      {/* Hängelampe über der Raummitte-links */}
+      <group position={[-2.4, H - 0.3, -2.2]}>
+        <mesh position={[0, -0.6, 0]}>
+          <cylinderGeometry args={[0.008, 0.008, 1.2, 4]} />
+          <meshStandardMaterial color="#333" />
+        </mesh>
+        <mesh position={[0, -1.25, 0]}>
+          <coneGeometry args={[0.28, 0.25, 12, 1, true]} />
+          <meshStandardMaterial color="#2f6b5a" side={THREE.DoubleSide} flatShading />
+        </mesh>
+        <pointLight position={[0, -1.35, 0]} intensity={2.2} color="#fff1dc" distance={6} decay={1.5} />
+      </group>
+    </Room>
+  );
+};
+
+export const bigKitchenStage: StageDef = {id: 'kueche-gross', Component: () => <BigKitchenScene />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};

@@ -72,6 +72,8 @@ type RoomCfg = {
   children?: ReactNode;
   /** false = keine Standard-Wände (der Raum baut eigene Wände mit Öffnungen, siehe HoleWall) */
   walls?: boolean;
+  /** Rückwand nur zwischen diesen x-Werten (Rest offen, z. B. für eine durchbrechbare Wand als Objekt) */
+  backX?: [number, number];
   /** Hintergrundfarbe (sonst hellblau) */
   bg?: string;
   /** Position der Hauptlampe (Licht von "draußen"), sonst automatisch */
@@ -80,7 +82,7 @@ type RoomCfg = {
   ceilingLamp?: boolean;
 };
 
-export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children, walls = true, bg = '#dde6ee', sunPos, ceilingLamp = true}: RoomCfg) => {
+export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children, walls = true, bg = '#dde6ee', sunPos, ceilingLamp = true, backX}: RoomCfg) => {
   const winX = window ? (window.side * W) / 2 : 0;
   return (
     <>
@@ -111,8 +113,8 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
       </mesh>
       {/* Rückwand, Seitenwände, Decke */}
       {walls && (<>
-      <mesh material={backWall ?? wall} position={[0, H / 2, -D / 2]} receiveShadow>
-        <planeGeometry args={[W, H]} />
+      <mesh material={backWall ?? wall} position={[backX ? (backX[0] + backX[1]) / 2 : 0, H / 2, -D / 2]} receiveShadow>
+        <planeGeometry args={[backX ? backX[1] - backX[0] : W, H]} />
       </mesh>
       {[-1, 1].map((s) => (
         <group key={s}>
@@ -193,8 +195,8 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
           </mesh>
         </group>
       ))}
-      <mesh position={[0, 0.05, -D / 2 + 0.01]}>
-        <boxGeometry args={[W, 0.1, 0.02]} />
+      <mesh position={[backX ? (backX[0] + backX[1]) / 2 : 0, 0.05, -D / 2 + 0.01]}>
+        <boxGeometry args={[backX ? backX[1] - backX[0] : W, 0.1, 0.02]} />
         <meshStandardMaterial color="#f2efe9" />
       </mesh>
       </>)}

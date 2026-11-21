@@ -1186,6 +1186,27 @@
       "duration": 2.0,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "loch-oeffnen",
+      "prompt": "Cartoon magical portal opening, a deep swirling whoosh rising into a shimmering cosmic hum with sparkly chimes, comedic and friendly, no music",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "loch-summen",
+      "prompt": "Low friendly swirling cosmic vortex hum with soft wind spinning around, cartoon black hole ambience, steady, no music",
+      "duration": 6.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "einsaugen",
+      "prompt": "Funny cartoon vacuum suck-in slurp that ends with a small pop, something being sucked into a portal, short, no music",
+      "duration": 1.2,
+      "loop": false,
+      "promptInfluence": 0.7
     }
   ]
 }

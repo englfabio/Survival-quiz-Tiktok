@@ -47,6 +47,7 @@ import {BigBang, BuildSet, TrafficJam} from './BuildProps';
 import {GamingLaptop, LaptopStack} from './GamingProps';
 import {ChargeBadge, CleaningPlan, flyPose, HoldNotes, HouseRules, leaderPose, Pigeon, PigeonFlock, RentContract, TvSet} from './PigeonProps';
 import {FallingBlob, InvoiceEnvelope, PlugStation} from './KleckerProps';
+import {BlackHoleDisk, BlackHoleHalo, DishMountain, JumpRamp, KitchenWall, LabNotepad, Sparkles, SuckItems} from './BlackHoleProps';
 import {ParkBench} from '../stage/Park';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
@@ -316,6 +317,17 @@ export const ACTORS = {
   umschlag: {height: 0, climbOffset: 0, speedLineHeight: 0},
   ladestation: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
   parkbank: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Schwarzes Loch in der Küche ----
+  schwarzesloch: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  kuechenwand: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
+  schanze: {height: 0.6, climbOffset: 0, speedLineHeight: 0},
+  abwasch: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  sogkram: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  glanz: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  notizblock: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  monstertruck3: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
+  monstertruck4: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
+  bagger2: {height: 3.5, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Regierungs-Dummy (Spezial Tauben): Dummy-Körper dunkelgrau, schwarzer Anzug, weißes Hemd, schwarze Krawatte, Sonnenbrille, ohne Mütze – kein Abzeichen */
@@ -677,7 +689,13 @@ export const Actor = ({
         <ColdBadge amount={v.cold} time={state.motionTime} />
       </group>
     )}
+    {name === 'schwarzesloch' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <BlackHoleHalo fill={v.fill} time={clock} size={v.size} />
+      </group>
+    )}
     <group matrix={matrix} matrixAutoUpdate={false}>
+    <group scale={Math.max(0.0005, 1 - clamp(v.shrink))} rotation={[v.shrink * 2.5, v.shrink * 9, v.shrink * 4]}>
     <group position={shake.pos} rotation={shake.rot}>
       {name === 'dummy' && (
         <Dummy
@@ -720,6 +738,7 @@ export const Actor = ({
           lokcap={v.lokcap}
           jogger={v.jogger}
           hazmat={v.hazmat}
+          goggles={v.goggles}
         />
       )}
       {name === 'gartennachbar' && (
@@ -809,7 +828,11 @@ export const Actor = ({
       {name === 'laptop' && <Laptop fill={v.fill} lid={state.values.lid > 0 || v.mark > 0 ? v.lid : 1} call={v.mark} hi={v.glow} />}
       {name === 'zug' && <Train speed={state.speed} time={zt} display={actor.text} pantograph={v.side < 0.5} />}
       {name === 'lok' && <Loco dist={pos.x + pos.z} ring={v.ring} time={zt} lights={v.blink} />}
-      {name === 'bagger' && <Excavator dist={pos.x + pos.z} arm={v.tilt} smoke={v.smoke} time={zt} />}
+      {(name === 'bagger' || name === 'bagger2') && (
+        <group rotation={[deg(v.pitch), 0, 0]}>
+          <Excavator dist={pos.x + pos.z} arm={v.tilt} smoke={v.smoke} time={zt} yellow={name === 'bagger2'} />
+        </group>
+      )}
       {name === 'signal' && <RailSignal green={v.good} time={clock} />}
       {name === 'kaffeetasse' && <CoffeeMug smoke={v.smoke} time={clock} />}
       {name === 'autoschlange' && <CarQueue count={v.fill > 0 ? v.fill * 8 : 6} dist={pos.x + pos.z} time={zt} rumble={v.rumble} />}
@@ -1094,6 +1117,17 @@ export const Actor = ({
       {name === 'umschlag' && <InvoiceEnvelope mark={v.mark} size={v.size} time={zt} />}
       {name === 'ladestation' && <PlugStation fill={v.fill} glow={v.glow} time={zt} />}
       {name === 'parkbank' && <ParkBench />}
+      {name === 'schwarzesloch' && <BlackHoleDisk fill={v.fill} time={clock} rumble={v.rumble} size={v.size} />}
+      {name === 'kuechenwand' && <KitchenWall fill={v.fill} />}
+      {name === 'schanze' && <JumpRamp fill={v.fill} time={zt} />}
+      {name === 'abwasch' && (
+        <group scale={1.5 * (1 + v.size)}>
+          <DishMountain fill={v.fill} rumble={v.rumble} time={clock} />
+        </group>
+      )}
+      {name === 'sogkram' && <SuckItems fill={v.fill} time={clock} />}
+      {name === 'glanz' && <Sparkles fill={v.fill} time={clock} big />}
+      {name === 'notizblock' && <LabNotepad />}
       {name === 'taubenchef' && (
         <group scale={1.35 * (1 + v.size)}>
           <Pigeon pose={leaderPose(state.motion, state.motionTime)} leader light={v.blink} time={clock} />
@@ -1131,9 +1165,9 @@ export const Actor = ({
       {name === 'truckfahrer' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={TRUCKER_COLOR} uniform={TRUCKER_UNIFORM} brow={v.brow} />
       )}
-      {(name === 'monstertruck' || name === 'monstertruck2') && (
+      {(name === 'monstertruck' || name === 'monstertruck2' || name === 'monstertruck3' || name === 'monstertruck4') && (
         <group rotation={[deg(v.tilt), 0, 0]}>
-          <MonsterTruck big={name === 'monstertruck2'} dist={pos.x * Math.sin(deg(state.face)) - pos.z * Math.cos(deg(state.face))} time={zt} squish={v.squish} smoke={v.smoke} spray={v.spray} mud={v.splat} rumble={v.rumble} />
+          <MonsterTruck big={name === 'monstertruck2'} variant={name === 'monstertruck3' ? 'blue' : name === 'monstertruck4' ? 'green' : undefined} dist={pos.x * Math.sin(deg(state.face)) - pos.z * Math.cos(deg(state.face))} time={zt} squish={v.squish} smoke={v.smoke} spray={v.spray} mud={v.splat} rumble={v.rumble} />
         </group>
       )}
       {(name === 'unimog1' || name === 'unimog2' || name === 'unimog3') && (
@@ -1178,6 +1212,7 @@ export const Actor = ({
           <Broom />
         </group>
       )}
+    </group>
     </group>
     </group>
     </>

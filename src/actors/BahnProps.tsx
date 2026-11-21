@@ -307,11 +307,11 @@ export const EXC = {
 };
 const EX = {orange: '#ff8a1f', orangeDark: '#c9620d', grey: '#3d4147', greyLight: '#6b7078', black: '#1d1f22', white: '#f2f2ee', stripeY: '#ffd21a'};
 
-export const Excavator = ({dist = 0, arm = 0, smoke = 0, time = 0}: {dist?: number; arm?: number; smoke?: number; time?: number}) => {
+export const Excavator = ({dist = 0, arm = 0, smoke = 0, time = 0, yellow = false}: {dist?: number; arm?: number; smoke?: number; time?: number; yellow?: boolean}) => {
   const m = useMemo(
     () => ({
-      orange: std(EX.orange),
-      orangeDark: std(EX.orangeDark),
+      orange: std(yellow ? '#ffc61a' : EX.orange),
+      orangeDark: std(yellow ? '#c99a0a' : EX.orangeDark),
       grey: std(EX.grey, {roughness: 0.7}),
       greyLight: std(EX.greyLight, {metalness: 0.3}),
       black: std(EX.black, {roughness: 0.8}),
@@ -320,7 +320,7 @@ export const Excavator = ({dist = 0, arm = 0, smoke = 0, time = 0}: {dist?: numb
       glass: new THREE.MeshStandardMaterial({color: '#bfe4f2', transparent: true, opacity: 0.22, roughness: 0.1}),
       puff: new THREE.MeshStandardMaterial({color: '#cfd3d8', transparent: true, opacity: 0.6, roughness: 1}),
     }),
-    [],
+    [yellow],
   );
   const {trackL, trackW, gauge, trackH, deck, cab} = EXC;
   // Kettenglieder laufen mit der Fahrt

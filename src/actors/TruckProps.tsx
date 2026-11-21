@@ -136,6 +136,9 @@ export const MONSTER = {
 const TRUCK_LOOK = {
   normal: {body: '#d8392b', dark: '#9e2a20', stripe: '#ffd21a', frame: '#3a3d42', shock: '#ffd21a'},
   big: {body: '#f3bf12', dark: '#b88f0a', stripe: '#1b1b1d', frame: '#2b2d31', shock: '#e2442f'},
+  /** Farbvarianten (Spezial Schwarzes Loch): blau mit weißen Streifen, grün mit orangen Streifen – keine echten Truck-Designs */
+  blue: {body: '#2f7fe0', dark: '#1f5aa6', stripe: '#f4f6f8', frame: '#2b2d31', shock: '#f4f6f8'},
+  green: {body: '#3fb35a', dark: '#2a7f3f', stripe: '#ff8a1f', frame: '#2b2d31', shock: '#ff8a1f'},
 };
 
 export const MonsterTruck = ({
@@ -147,7 +150,10 @@ export const MonsterTruck = ({
   spray = 0,
   mud = 0,
   rumble = 0,
+  variant,
 }: {
+  /** Farbvariante (blue/green), sonst rot bzw. gelb (big) */
+  variant?: 'blue' | 'green';
   big?: boolean;
   /** gefahrener Weg (Räder drehen) */
   dist?: number;
@@ -163,7 +169,7 @@ export const MonsterTruck = ({
   /** Motor rüttelt 0 … 1 */
   rumble?: number;
 }) => {
-  const L = big ? TRUCK_LOOK.big : TRUCK_LOOK.normal;
+  const L = variant ? TRUCK_LOOK[variant] : big ? TRUCK_LOOK.big : TRUCK_LOOK.normal;
   const m = useMemo(
     () => ({
       body: std(L.body, {roughness: 0.35, metalness: 0.15}),
