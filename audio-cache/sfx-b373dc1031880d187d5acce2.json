@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Classic cartoon fight dust cloud scuffle, comedic bonks, boings, whooshes and slide whistles, playful slapstick, no voices, no music",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T21:46:51.913Z"
+}
