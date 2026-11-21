@@ -502,6 +502,7 @@ const BigKitchenScene = () => {
   const mats = useMemo(
     () => ({
       floor: new THREE.MeshStandardMaterial({map: tileTexture('#e6dfd3', '#b9ae9f', [14, 16]), roughness: 0.6}),
+      floorWide: new THREE.MeshStandardMaterial({map: tileTexture('#e6dfd3', '#b9ae9f', [84, 70]), roughness: 0.6}),
       wall: std('#f4ecdc', {roughness: 0.95, flatShading: false}),
       back: std('#eadcc0', {roughness: 0.95, flatShading: false}),
       splash: new THREE.MeshStandardMaterial({map: tileTexture('#f8f8f4', '#c8cfd3', [24, 3.5]), roughness: 0.35}),
@@ -546,11 +547,11 @@ const BigKitchenScene = () => {
       sunPos={[-6, 7, 3]}
     >
       {/* Raum läuft nach vorn weiter (Kameras weit vorn sehen keine Kante): Boden, Decke, Seitenwände bis z 45 */}
-      <mesh material={mats.floor} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.002, 26]} receiveShadow>
-        <planeGeometry args={[W, 40]} />
+      <mesh material={mats.floorWide} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.002, 21]} receiveShadow>
+        <planeGeometry args={[60, 50]} />
       </mesh>
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, H, 27]}>
-        <planeGeometry args={[W, 36]} />
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, H + 0.002, 21]}>
+        <planeGeometry args={[60, 50]} />
         <meshStandardMaterial color="#f8f5ef" />
       </mesh>
       {[-1, 1].map((s) => (

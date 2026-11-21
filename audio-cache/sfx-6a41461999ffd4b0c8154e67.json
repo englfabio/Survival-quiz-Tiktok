@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon magical portal opening, a deep swirling whoosh rising into a shimmering cosmic hum with sparkly chimes, comedic and friendly, no music",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T11:37:18.579Z"
+}

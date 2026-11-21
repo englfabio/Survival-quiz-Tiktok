@@ -28,8 +28,9 @@ vote="Also, was machst du?",
 # Outro des Inhabers Buchstabe für Buchstabe + (Spezial-Regel 5, Wunsch Inhaber) angehängt: „Neue Video-Ideen? Ab in die Kommentare!“
 outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
 )
-EXTRA = {1: float(os.environ.get('EXA', 1.4)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.6))}
-TAIL = float(os.environ.get('TAIL', 0.3))
+EXTRA = {1: float(os.environ.get('EXA', 0.3)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.0))}
+# mit Pause 0,3 s + Zusatzzeit wären es 69,1 s → Pausen + Zusatzzeit gekürzt (Spezial-Regel 1, Texte unverändert)
+TAIL = float(os.environ.get('TAIL', 0.12))
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))
 VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.6))
 NO_VOTE = os.environ.get('NO_VOTE', '0') == '1'
@@ -121,6 +122,8 @@ class Cast:
             parts.sort(key=lambda p: p[0]); ks = []
             for pi, (t0, t1, keys) in enumerate(parts):
                 keys = sorted(keys, key=lambda k: k['t'])
+                if len(keys) == 1:                                   # nur ein Zeitpunkt: bis zum Ende halten
+                    k2 = dict(keys[0]); k2['t'] = t1; k2.pop('cut', None); keys = keys + [k2]
                 first = dict(keys[0]); last = dict(keys[-1])
                 joinP = pi > 0 and parts[pi - 1][1] >= t0 - 0.004
                 joinN = pi + 1 < len(parts) and parts[pi + 1][0] <= t1 + 0.004
@@ -196,7 +199,7 @@ cs_.add('dummy', 0, 1, [K(0, *D0, 'stand', 150), K(r3(t_open0 + ss(0.15)), *D0, 
 situation = {
  'camera': [
    *shot(0, c_schw - 0.003, F([[D0[0] - 0.5, 0, D0[1]], [D0[0] + 0.5, 1.95, D0[1]], *HOLE_PTS], 8, 6, SIT), push=0.05),
-   *shot(c_schw, c_was - 0.003, F([[CUPS[0] - 0.5, 0.9, CUPS[2]], [CUPS[0] + 0.3, 1.3, CUPS[2]], [HOLE[0] - 1.2, HOLE[1] - 0.6, HOLE[2]], [HOLE[0] + 1.2, HOLE[1] + 0.7, HOLE[2]]], -32, 6, SIT), push=0.08),
+   *shot(c_schw, c_was - 0.003, F([[CUPS[0] - 0.5, 0.9, CUPS[2]], [CUPS[0] + 0.3, 1.3, CUPS[2]], [HOLE[0] - 1.2, HOLE[1] - 0.6, HOLE[2]], [HOLE[0] + 1.2, HOLE[1] + 0.7, HOLE[2]]], 16, 4, SIT), push=0.08),
    *shot(c_was, 1, F([[D0[0] - 0.55, 0, D0[1]], [D0[0] + 0.55, 2.0, D0[1]], [HOLE[0] - 0.8, HOLE[1] - 0.4, HOLE[2]], [HOLE[0] + 0.8, HOLE[1] + 0.5, HOLE[2]]], -6, 4, SIT), push=0.06),
  ],
  'actors': cs_.build(), 'stage': STAGE,
@@ -224,7 +227,7 @@ cA.add('notizblock', sA, c_und, [K(sA, *DA, 'park', 165, y=1.2, hand=1, drop=-0.
 # Absprung: Dummy steht 2,1 m vor dem Loch (Blick zum Loch), Kopfsprung hinein
 DJ = (HOLE[0] - 1.1, HOLE[2] + 1.75)
 FJ = face_to(DJ, (HOLE[0], HOLE[2]))
-t_jump = r3(max(c_und + sa(0.15), c_rein - sa(0.25)))
+t_jump = r3(max(c_und + sa(0.3), c_rein - sa(1.2)))
 t_lift = r3(t_jump + sa(0.45))
 t_in = r3(t_lift + sa(0.55))
 t_out0 = r3(t_in + sa(0.45)); t_out1 = r3(t_out0 + sa(0.5))
@@ -247,8 +250,8 @@ cA.add('schwarzesloch', 0, 1, [hole(0), hole(r3(t_in - sa(0.2))), hole(t_in, rum
                                hole(t_out0, rumble=1.0), hole(r3(t_out0 + sa(0.3)), rumble=0.0), hole(1)])
 camA = [
   *shot(0, sA - 0.003, F(CARD_PTS, 10, 5, ANS), push=0.04),
-  *shot(sA, c_tief - 0.003, M([DA[0] + 0.4, 1.55, DA[1] + 3.1], [DA[0] - 0.05, 1.3, DA[1]], push=0.1)),
-  *shot(c_tief, c_und - 0.003, M([DA[0] + 0.25, 1.7, DA[1] + 2.1], [DA[0] - 0.02, 1.45, DA[1]], 34, push=0.1)),
+  *shot(sA, c_tief - 0.003, F([[DA[0] - 0.45, 0.55, DA[1]], [DA[0] + 0.45, 1.95, DA[1]]], 12, 4, ANS), push=0.08),
+  *shot(c_tief, c_und - 0.003, F([[DA[0] - 0.35, 0.95, DA[1]], [DA[0] + 0.35, 1.95, DA[1]]], -8, 3, ANS), push=0.1),
   *shot(c_und, t_out0 - 0.003, F([[DJ[0] - 0.4, 0, DJ[1]], [DJ[0] + 0.4, 2.1, DJ[1]], *HOLE_PTS], -28, 7, ANS), push=0.05),
   *shot(t_out0, 1, F([[HOLE[0] - 1.6, HOLE[1] - 1.5, HOLE[2] + 1.4], [HOLE[0] + 1.5, HOLE[1] + 0.9, HOLE[2]], [HOLE[0] + 1.2, HOLE[1] - 1.3, HOLE[2] + 1.4]], 4, 5, ANS), push=0.05),
 ]
@@ -304,7 +307,7 @@ cB.parts['schwarzesloch'] = []
 cB.add('schwarzesloch', 0, 1, [hole(0), hole(r3(t_hit - sb(0.2))), hole(t_hit, rumble=1.0), hole(r3(t_hit + sb(0.35)), rumble=0.0), hole(1)])
 camB = [
   *shot(0, sB - 0.003, F(CARD_PTS, 4, 5, ANS), push=0.04),
-  *shot(sB, c_ab - 0.003, F([[DB[0] - 0.55, 0, DB[1]], [DB[0] + 0.55, 2.55, DB[1]], [PILE[0] - 0.45, 0.9, PILE[2]], [PILE[0] + 0.45, 2.0, PILE[2]]], 22, 6, ANS), push=0.07),
+  *shot(sB, c_ab - 0.003, F([[DB[0] - 0.6, 0, DB[1]], [DB[0] + 0.6, 3.3, DB[1]], [PILE[0] - 0.6, 0.9, PILE[2]], [PILE[0] + 0.6, 2.0, PILE[2]]], 22, 4, ANS), push=0.07),
   *shot(c_ab, c_prob - 0.003, F([[DT[0] - 0.4, 0, DT[1]], [DT[0] + 0.5, 3.2, DT[1]], *HOLE_PTS], -32, 7, ANS), push=0.05),
   *shot(c_prob, 1, F([[-4.2, 0.4, -3.4], [-0.6, 2.1, -3.4], [DS[0] - 0.4, 0, DS[1]], [DS[0] + 0.4, 1.95, DS[1]]], 8, 6, ANS), push=0.06),
 ]
@@ -391,16 +394,17 @@ cC.add('schwarzesloch', 0, 1, sorted(hk, key=lambda k: k['t']))
 cC.add('dummy', 0, 1, [K(0, *D0, 'stand', 160), K(r3(t_burst - 0.003), *D0, 'stand', 160), K(t_burst, *D0, 'aghast', 160),
                        K(r3(t_burst + sc(0.6)), *D0, 'aghast', 140), K(r3(t_burst + sc(0.65)), *D0, 'gape', 120), K(1, *D0, 'gape', 120)])
 R_PTS = [[RAMP_X - 1.8, 0, RAMP_Z0], [RAMP_X + 1.8, 1.4, RAMP_Z0 + RAMP_LEN]]
+ANS_C = (100, 980, 470, 1040)   # langer Untertitel in C → Geschehen höher halten
 camC = [
   *shot(0, sC - 0.003, F(CARD_PTS, 10, 5, ANS), push=0.04),
   # Dummy vorn links, Wand hinten rechts kracht auf
-  *shot(sC, c_sch - 0.003, F([[D0[0] - 0.5, 0, D0[1]], [D0[0] + 0.5, 1.9, D0[1]], [WALL[0] - 2.4, 0, WALL[1]], [WALL[0] + 2.4, 4.9, WALL[1]]], 14, 6, ANS), push=0.04),
+  *shot(sC, c_sch - 0.003, F([[D0[0] - 0.5, 0, D0[1]], [D0[0] + 0.5, 1.9, D0[1]], [WALL[0] - 2.4, 0, WALL[1]], [WALL[0] + 2.4, 3.4, WALL[1]]], 12, 2, ANS_C), push=0.04),
   # Schanze ploppt auf, Truck 1 steht in der Öffnung
-  *shot(c_sch, c_und3 - 0.003, F([*R_PTS, [RAMP_X - 1.3, 0, z0s[0] + 2.3], [RAMP_X + 1.3, 3.2, z0s[0]], *HOLE_PTS], 24, 9, ANS), push=0.05),
+  *shot(c_sch, c_und3 - 0.003, F([*R_PTS, [RAMP_X - 1.3, 0, z0s[0] + 2.3], [RAMP_X + 1.3, 3.0, z0s[0]], *HOLE_PTS], 24, 2, ANS_C), push=0.05),
   # Seitenansicht: alle fünf Fahrzeuge springen nacheinander über die Schanze ins Loch
-  *shot(c_und3, c_dir - 0.003, F([[RAMP_X, 0, -9.5], [RAMP_X, 3.4, RAMP_Z0], *HOLE_PTS, [RAMP_X, 0, LIP]], 72, 8, ANS), push=0.03),
+  *shot(c_und3, c_dir - 0.003, F([[RAMP_X - 1.5, 0, -7.0], [RAMP_X + 1.5, 3.0, -4.0], [HOLE[0] - 1.6, HOLE[1] - 1.0, HOLE[2]], [HOLE[0] + 1.6, HOLE[1] + 1.2, HOLE[2]], [HOLE[0], HOLE[1], HOLE[2] + 1.0], [RAMP_X + 1.8, 0, LIP]], 40, 3, ANS_C), push=0.03),
   # von vorn: der Dummy staunt, die letzten verschwinden im Loch
-  *shot(c_dir, 1, F([[D0[0] - 0.5, 0, D0[1]], [D0[0] + 0.5, 1.95, D0[1]], *HOLE_PTS, [RAMP_X + 1.8, 0, RAMP_Z0]], 4, 7, ANS), push=0.04),
+  *shot(c_dir, 1, F([[D0[0] - 0.5, 0, D0[1]], [D0[0] + 0.5, 1.95, D0[1]], *HOLE_PTS, [RAMP_X + 1.8, 0, RAMP_Z0]], 4, 7, ANS_C), push=0.04),
 ]
 expC = {
  'camera': camC, 'actors': cC.build(), 'stage': STAGE,
@@ -432,7 +436,7 @@ def endcast(wave=False):
     kitchen(c)
     c.add('dummy', 0, 1, [K(0, *D0, 'stand', 160, question=0.0 if wave else 1.0)] + ([K(0.12, *D0, 'wave', 160), K(1, *D0, 'wave', 160)] if wave else []))
     return c.build()
-V_PTS = [[D0[0] - 0.55, 0, D0[1]], [D0[0] + 0.5, 1.95, D0[1]], [HOLE[0] - 1.0, HOLE[1] - 0.5, HOLE[2]], [HOLE[0] + 1.0, HOLE[1] + 0.6, HOLE[2]]]
+V_PTS = [[D0[0] - 0.45, 0, D0[1]], [D0[0] + 0.45, 1.95, D0[1]], [HOLE[0] - 0.6, HOLE[1] - 0.6, HOLE[2]], [HOLE[0] + 0.6, HOLE[1] + 0.6, HOLE[2]]]
 vote = {'camera': shot(0, 1, F(V_PTS, 6, 3, (120, 960, 1060, 1320)), push=0.04), 'actors': endcast(), 'stage': STAGE}
 outro = {'camera': shot(0, 1, F(V_PTS, 8, 6, (100, 980, 780, 1110)), push=0.05), 'actors': endcast(True), 'stage': STAGE}
 if OUTRO_MIN > 0:
