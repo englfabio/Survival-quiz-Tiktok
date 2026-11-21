@@ -6,17 +6,18 @@ import type {StageDef} from './types';
 
 /**
  * Bühne „eingangshalle“ (Spezial „Tür drücken“): heller Eingangsbereich eines Hauses (Foyer) am Tag.
- *  - Raum W 8 × D 6 (Rückwand z −3), Höhe 3,4, großes Schachbrett-Fliesenmuster, warme Wände mit Holz-Sockelleiste,
+ *  - Raum W 10 × D 6 (Rückwand z −3), Höhe 3,4, großes Schachbrett-Fliesenmuster, warme Wände mit Holz-Sockelleiste,
  *    zwei Deckenleuchten, Wandlampen.
  *  - Mitten in der Rückwand die Türöffnung (FOYER.door: x −0.5 … 0.5, 2,2 m hoch) – das Türblatt + Zarge ist das Objekt
  *    „druecktuer“ bei (0, −3), face 180. Dahinter ein sonniger Innenhof (Rasen, Hecke, Himmel), damit man bei offener Tür hinaussieht.
  *  - Zwei Säulen (FOYER.pillars) bei x ±2.3, z −0.4 (0,5 × 0,5 m) – hinter der linken Säule ist der sichere Deckungsplatz
  *    FOYER.cover (−2.75, 0.15).
- *  - Pflanzen in Kübeln links/rechts neben der Tür (x ±1.95) und vorn an den Seiten, Bank links an der Wand, Fußmatte vor der Tür.
+ *  - Pflanzen in Kübeln links/rechts neben der Tür (x ±2.9) und vorn an den Seiten (x ±4.4), Bank links an der Wand, Fußmatte vor der Tür.
+ *  - Seitenwände (x ±5) samt Sockel sind von außen unsichtbar → Kameras dürfen außerhalb stehen.
  *  - Platz rechts neben der Tür bis x 1.75 frei (Schiebetür rollt dorthin), vorn offen für Kameras (z bis ca. 9).
  */
 export const FOYER = {
-  W: 8,
+  W: 10,
   D: 6,
   H: 3.4,
   back: -3,
@@ -98,13 +99,13 @@ const FoyerScene = () => {
             <mesh material={m.trim} position={[k * (0.6 + (W / 2 - 0.6) / 2), 0.96, 0.03]}>
               <boxGeometry args={[W / 2 - 0.6, 0.04, 0.05]} />
             </mesh>
-            <group position={[k * 2.05, 2.45, 0]}>
+            <group position={[k * 1.95, 2.45, 0]}>
               <WallLamp m={m} />
             </group>
           </group>
         ))}
         {/* Bild über der Bank links */}
-        <group position={[-3.0, 1.75, 0.02]}>
+        <group position={[-3.9, 1.75, 0.02]}>
           <mesh material={m.wood}>
             <boxGeometry args={[0.9, 0.65, 0.04]} />
           </mesh>
@@ -129,7 +130,7 @@ const FoyerScene = () => {
             <planeGeometry args={[D + 6, H]} />
           </mesh>
           <mesh material={m.wood} position={[0, 0.475, 0.012]}>
-            <boxGeometry args={[D + 6, 0.95, 0.02]} />
+            <planeGeometry args={[D + 6, 0.95]} />
           </mesh>
         </group>
       ))}
@@ -161,17 +162,17 @@ const FoyerScene = () => {
       </mesh>
       {/* Pflanzen */}
       {[
-        [-1.95, FOYER.back + 0.4, 1.1],
-        [1.95, FOYER.back + 0.4, 1.1],
-        [-3.55, 1.6, 1.3],
-        [3.55, 1.6, 1.3],
+        [-2.9, FOYER.back + 0.4, 1.1],
+        [2.9, FOYER.back + 0.4, 1.1],
+        [-4.4, 1.6, 1.3],
+        [4.4, 1.6, 1.3],
       ].map(([x, z, s]) => (
         <group key={`${x}${z}`} position={[x, 0, z]}>
           <Plant s={s} />
         </group>
       ))}
       {/* Bank links an der Wand */}
-      <group position={[-3.0, 0, FOYER.back + 0.35]}>
+      <group position={[-3.9, 0, FOYER.back + 0.35]}>
         <mesh material={m.bench} position={[0, 0.45, 0]} castShadow receiveShadow>
           <boxGeometry args={[1.4, 0.06, 0.4]} />
         </mesh>

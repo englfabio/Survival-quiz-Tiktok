@@ -180,7 +180,7 @@ TS = seclen(L0); ss = lambda s: s / TS
 c_obw = cue(L0, 'situation', 'obwohl'); c_vol = cue(L0, 'situation', 'Volle'); c_was = cue(L0, 'situation', 'Was machst')
 cs_ = Cast()
 cs_.add('druecktuer', 0, 1, [door(0, rumble=1.0), door(r3(c_was - 0.003), rumble=1.0), door(c_was, rumble=0.0), door(1, rumble=0.0)])
-DQ = (0.75, -1.75)
+DQ = (0.95, -1.45)
 cs_.add('dummy', 0, c_was, [K(0, *DP, 'pulldoor', 0, sweat=0.0), K(c_vol, *DP, 'pulldoor', 0, sweat=0.4), K(r3(c_vol + ss(0.6)), *DP, 'pulldoor', 0, sweat=1.2),
                             K(c_was, *DP, 'pulldoor', 0, sweat=1.2)])
 cs_.add('dummy', c_was, 1, [K(c_was, *DQ, 'gape', 195, sweat=0.6, question=0.0), K(r3(c_was + ss(0.35)), *DQ, 'gape', 195, question=1.0, sweat=0.0), K(1, *DQ, 'gape', 195, question=1.0, sweat=0.0)])
@@ -188,8 +188,8 @@ situation = {
  'camera': [
    *shot(0, c_obw - 0.003, F([*body(*DP), *DOOR_PTS], -30, 6, SIT), push=0.05),
    *shot(c_obw, c_vol - 0.003, F([*SIGN_PTS, [DP[0] - 0.3, 1.25, DP[1]], [DP[0] + 0.3, 1.9, DP[1]]], -14, 4, SIT), push=0.06),
-   *shot(c_vol, c_was - 0.003, F([*body(*DP), [0.6, 0.0, WALL_Z], [0.6, 2.2, WALL_Z], *SIGN_PTS], 38, 0, SIT), push=0.07),
-   *shot(c_was, 1, F([*body(*DQ, 2.15), *DOOR_PTS], 6, 5, SIT), push=0.05),
+   *shot(c_vol, c_was - 0.003, F([*body(*DP), [0.6, 0.0, WALL_Z], [0.6, 2.15, WALL_Z]], 26, 1, SIT), push=0.07),
+   *shot(c_was, 1, F([*body(*DQ, 2.15), *DOOR_PTS], -10, 5, SIT), push=0.05),
  ],
  'actors': cs_.build(), 'stage': STAGE,
  'sfx': [{'t': 0.02, 'id': 'tuer-ruetteln', 'volume': 0.7}, {'t': r3(c_vol), 'id': 'tuer-ruetteln', 'volume': 0.85}],
@@ -255,13 +255,13 @@ def check_a():
 P_COV = [[COVER[0] - 0.4, 0, COVER[1]], [COVER[0] + 0.4, 1.5, COVER[1]]]
 camA = [
   # Karte: eine ruhige Einstellung – Tür, Säule und Deckungsplatz im Bild
-  *shot(0, sA - 0.003, F([*DOOR_PTS, *body(*DA), [PILLAR[0] - 0.3, 0, PILLAR[1]], [PILLAR[0] + 0.3, 2.2, PILLAR[1]], *P_COV], -18, 7, ANS), push=0.03),
+  *shot(0, sA - 0.003, F([*DOOR_PTS, *body(*DA), [PILLAR[0] - 0.3, 0, PILLAR[1]], [PILLAR[0] + 0.3, 2.2, PILLAR[1]], *P_COV], 36, 8, ANS), push=0.03),
   # BUMM: Säule + Dummy in Deckung vorn links, Tür fliegt hinten weg
-  *shot(sA, c_weg - 0.003, F([*DOOR_PTS, [0, 2.9, WALL_Z], *P_COV, [PILLAR[0] - 0.3, 0, PILLAR[1]], [PILLAR[0] + 0.3, 2.0, PILLAR[1]]], -24, 8, ANS), push=0.04),
+  *shot(sA, c_weg - 0.003, F([*DOOR_PTS, [0, 2.9, WALL_Z], *P_COV, [PILLAR[0] - 0.3, 0, PILLAR[1]], [PILLAR[0] + 0.3, 2.0, PILLAR[1]]], 42, 8, ANS), push=0.04),
   # Tür weg: leere Öffnung, Rauch verzieht sich, dahinter liegt das Türblatt im Hof
   *shot(c_weg, c_muss - 0.003, F([*DOOR_PTS, [0, 0.1, WALL_Z - 4.4]], 4, 6, ANS), push=0.07),
   # er spaziert los zur Öffnung
-  *shot(c_muss, c_prob - 0.003, F([*P_COV, *body(*DW1), *body(*DW2), *DOOR_PTS], -32, 7, ANS), push=0.05),
+  *shot(c_muss, c_prob - 0.003, F([*P_COV, *body(*DW1), *body(*DW2), *DOOR_PTS], -12, 7, ANS), push=0.05),
   # Daumen hoch in der leeren Türöffnung
   *shot(c_prob, 1, F([*body(*DTH, 2.0), *DOOR_PTS], 6, 4, ANS), push=0.06),
 ]
@@ -312,7 +312,7 @@ t_z1 = r3(c_zieh + sb(math.hypot(DZ1[0] - DZ0[0], DZ1[1] - DZ0[1]) / 1.4))
 cB.add('dummy', c_zieh, 1, [K(c_zieh, *DZ0, 'walk', face_to(DZ0, DZ1)), K(t_z1, *DZ1, 'walk', face_to(DZ0, DZ1)), K(r3(t_z1 + 0.003), *DZ1, 'thumbsup', 180), K(1, *DZ1, 'thumbsup', 180)])
 RAIL_PTS = [[-0.7, 2.3, WALL_Z], [1.8, 2.42, WALL_Z]]
 camB = [
-  *shot(0, sB - 0.003, F([*body(*DB0), *body(*DB1), *DOOR_PTS, [-1.2, 0, WALL_Z]], -16, 6, ANS), push=0.03),
+  *shot(0, sB - 0.003, F([*body(*DB0), *body(*DB1), *DOOR_PTS, [-1.2, 0, WALL_Z]], 2, 6, ANS), push=0.03),
   *shot(sB, c_seit - 0.003, F([*body(DSTOOL[0], DSTOOL[1], 2.5), *RAIL_PTS], 24, 2, ANS), push=0.06),
   *shot(c_seit, c_fert - 0.003, F([*DOOR_PTS, [1.7, 0, WALL_Z], [1.7, 2.4, WALL_Z], *body(*DS0), *body(*DS1)], -12, 4, ANS), push=0.05),
   *shot(c_fert, c_zieh - 0.003, F([*body(*DF), [-0.62, 0, WALL_Z], [1.75, 2.45, WALL_Z]], 14, 5, ANS), push=0.05),
@@ -332,14 +332,15 @@ C = 'answer3'
 cardC, sceneC, TC = answer_parts(3)
 sC = r3(cardC / TC); sc = lambda s: s / TC
 c_ab = cue(C, 'explain3', 'Ab sofort'); c_vor = cue(C, 'explain3', 'Vornehm'); c_rot = cue(C, 'explain3', 'roten'); c_nie = cue(C, 'explain3', 'nie wieder')
-DCW = (0.0, 2.0)                                    # Dummy wartet am Ende des Teppichs
+DCW = (0.0, 2.2)                                    # Dummy wartet am Ende des Teppichs
 CARPET0 = (0.0, WALL_Z + 0.05)
 cC = Cast()
 # Tür: Butler drückt sie mit links auf (doorhold: drücken 0,3–1,0 s), danach schwingt sie vornehm ganz auf
 BD = (HANDLE[0] + 0.35, HANDLE[2] + 0.5)            # Butler vor der Tür, linke Hand am Griff
 t_dh = r3(c_vor - sc(0.05)); t_open1 = r3(t_dh + sc(1.0)); t_open2 = r3(t_open1 + sc(0.6))
 cC.add('druecktuer', 0, 1, [door(0), door(t_dh + sc(0.3)), door(t_open1, door=0.25), door(t_open2, door=1.0), door(1, door=1.0)])
-cC.add('dummy', 0, sC, [K(0, 0.35, -1.2, 'stand', 185), K(r3(sC * 0.25), 0.35, -1.2, 'armscross', 185), K(sC, 0.35, -1.2, 'armscross', 185)])
+DCC = (1.0, -1.35)
+cC.add('dummy', 0, sC, [K(0, *DCC, 'stand', 200), K(r3(sC * 0.25), *DCC, 'armscross', 200), K(sC, *DCC, 'armscross', 200)])
 BB = (-0.8, WALL_Z + 0.55)
 cC.add('butler', sC, c_vor, [K(sC, *BB, 'butlerstand', 160, shrink=1.0), K(r3(sC + sc(0.35)), *BB, 'butlerstand', 160, shrink=0.0),
                              K(r3(c_ab + sc(0.55)), *BB, 'bow', 160), K(c_vor, *BB, 'bow', 160)])
@@ -358,10 +359,10 @@ cC.add('butler', c_nie, 1, [K(c_nie, *BN, 'butlerstand', 205), K(r3(c_nie + sc(0
 cC.add('dummy', c_nie, 1, [K(c_nie, 0.0, 0.9, 'walk', 0), K(1, *DN1, 'walk', 0)])
 CAR_PTS = [[-0.6, 0, WALL_Z], [0.6, 0, WALL_Z + 4.7]]
 camC = [
-  *shot(0, sC - 0.003, F([*body(0.35, -1.2), *DOOR_PTS], 10, 5, ANS), push=0.03),
+  *shot(0, sC - 0.003, F([*body(*DCC), *DOOR_PTS], 0, 5, ANS), push=0.03),
   *shot(sC, c_vor - 0.003, F([*body(*BB), *DOOR_PTS], 22, 4, ANS), push=0.07),
   *shot(c_vor, c_rot - 0.003, F([*body(*BD), *DOOR_PTS], -26, 4, ANS), push=0.06),
-  *shot(c_rot, c_nie - 0.003, F([*body(*BCP), *DOOR_PTS, *CAR_PTS], 8, 12, ANS), push=0.04),
+  *shot(c_rot, c_nie - 0.003, F([*body(*BCP), *DOOR_PTS, *CAR_PTS, *body(*DCW)], 26, 14, ANS), push=0.04),
   *shot(c_nie, 1, F([*body(0.0, 0.9), *body(*BN), *DOOR_PTS, [0, 0, 1.2]], 26, 8, ANS), push=0.05),
 ]
 expC = {

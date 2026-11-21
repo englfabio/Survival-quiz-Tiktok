@@ -5236,7 +5236,8 @@ const doorPose = (motion: Motion, time: number): DummyPose | null => {
       const yank = Math.max(0, Math.sin((time * 2 * Math.PI) / 0.5)) ** 3;
       const sh = Math.sin(time * 38) * 0.018;
       p.hipY = 0.98 - (0.14 + 0.03 * yank) * k;
-      p.torsoX = (-0.2 - 0.12 * yank) * k + sh;
+      p.torsoX = (-0.26 - 0.12 * yank) * k + sh;
+      p.pitch = -0.1 * k;
       p.torsoZ = sh * 0.6;
       p.legL = L3(-0.55 * k, 0.08, 0.3 * k);
       p.legR = L3(0.3 * k, -0.08, 0.6 * k);

@@ -29,7 +29,7 @@ import {canvasTex, fitText, TextPlane} from './WgProps';
 const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters> = {}) =>
   new THREE.MeshStandardMaterial({color, roughness: 0.7, flatShading: true, ...extra});
 
-export const PDOOR = {w: 1.0, h: 2.2, leafT: 0.05, handleX: 0.36, handleY: 1.02, signY: 1.93};
+export const PDOOR = {w: 1.0, h: 2.2, leafT: 0.05, handleX: 0.36, handleY: 1.02, signY: 1.92};
 /** Laufschiene: von x −0.62 bis +1.72, Unterkante y 2.3 */
 export const PRAIL = {x0: -0.62, x1: 1.72, y: 2.3, slide: 1.08};
 
@@ -43,27 +43,27 @@ const signTex = canvasTex(640, 220, (g) => {
   fitText(g, 'DRÜCKEN', 320, 116, 560, 190, 800);
 });
 
-/** Schild „DRÜCKEN“ (0,8 × 0,275 m) mit Leuchten */
+/** Schild „DRÜCKEN“ (0,88 × 0,3 m) mit Leuchten */
 const PushSign = ({glow = 0, time = 0}: {glow?: number; time?: number}) => {
   const pulse = 0.55 + 0.45 * Math.sin(time * 7.5);
   const g = clamp(glow) * pulse;
   const halo = useMemo(() => new THREE.MeshBasicMaterial({color: '#fff27a', transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending}), []);
-  halo.opacity = 0.55 * g;
+  halo.opacity = 0.5 * g;
   return (
     <group>
       <mesh position={[0, 0, -0.004]}>
-        <boxGeometry args={[0.82, 0.295, 0.008]} />
+        <boxGeometry args={[0.9, 0.32, 0.008]} />
         <meshStandardMaterial color="#1b1b1b" />
       </mesh>
       <group position={[0, 0, 0.002]}>
-        <TextPlane draw={signTex} k="schild-druecken" w={0.8} h={0.275} glow={0.45 + 0.55 * g} />
+        <TextPlane draw={signTex} k="schild-druecken" w={0.88} h={0.3} glow={0.3 + 0.2 * g} />
       </group>
       {g > 0.01 && (
         <>
           <mesh material={halo} position={[0, 0, -0.002]}>
-            <planeGeometry args={[1.05, 0.5]} />
+            <planeGeometry args={[1.0, 0.44]} />
           </mesh>
-          <pointLight position={[0, 0, 0.35]} intensity={1.6 * g} color="#ffe45c" distance={2.2} decay={1.6} />
+          <pointLight position={[0, 0, 0.45]} intensity={1.2 * g} color="#ffe45c" distance={2.0} decay={1.6} />
         </>
       )}
     </group>
@@ -80,9 +80,9 @@ const Leaf = ({m, glow, time, rumble, rollers}: {m: Record<string, THREE.Materia
         <boxGeometry args={[w - 0.02, h - 0.02, leafT]} />
       </mesh>
       {/* zwei Kassetten (Füllungen) */}
-      {[0.55, -0.45].map((y, i) => (
+      {[0.27, -0.5].map((y, i) => (
         <mesh key={i} material={m.panel} position={[0, y, leafT / 2 + 0.004]}>
-          <boxGeometry args={[w - 0.26, i ? 0.75 : 0.62, 0.012]} />
+          <boxGeometry args={[w - 0.26, i ? 0.7 : 0.5, 0.012]} />
         </mesh>
       ))}
       {/* Griffstange rechts (rüttelt) */}
@@ -96,7 +96,7 @@ const Leaf = ({m, glow, time, rumble, rollers}: {m: Record<string, THREE.Materia
           <cylinderGeometry args={[0.02, 0.02, 0.42, 10]} />
         </mesh>
       </group>
-      <group position={[0, signY - h / 2, leafT / 2 + 0.006]}>
+      <group position={[0, signY - h / 2, leafT / 2 + 0.02]}>
         <PushSign glow={glow} time={time} />
       </group>
       {/* Laufrollen oben (Schiebetür) */}
