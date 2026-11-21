@@ -28,7 +28,7 @@ vote="Also, was machst du?",
 outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
 )
 EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.0))}
-TAIL = float(os.environ.get('TAIL', 0.3))
+TAIL = float(os.environ.get('TAIL', 0.12))  # mit echter Stimme 67,2 s bei 0,3 → Pausen gekürzt (Spezial-Regel 1)
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))
 VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.6))
 NO_VOTE = os.environ.get('NO_VOTE', '0') == '1'
@@ -394,7 +394,7 @@ cC.add('dummy', c_einm, 1, [K(c_einm, *PULL, 'stand', 270, klecks=1.0), K(r3(t_p
 camC = [
   *shot(0, sC - 0.003, F([[-1.2, 6.1, WIRE_Z], [1.2, 6.95, WIRE_Z], [POLE_X - 0.3, 6.6, WIRE_Z]], 30, -14, ANS), push=0.04),
   *shot(sC, c_einm - 0.003, F([[WALK0[0] + 1.2, 0, WALK0[1]], [POLE_X + 1.3, 2.3, WIRE_Z], [POLE_X - 0.6, 2.3, WIRE_Z]], 10, 4, ANS), push=0.05),
-  *shot(c_einm, c_und3 - 0.003, M([POLE_X + 0.75, 1.5, WIRE_Z + 4.3], [POLE_X + 0.5, 1.32, WIRE_Z], push=0.1)),
+  *shot(c_einm, c_und3 - 0.003, M([POLE_X + 1.0, 1.45, WIRE_Z + 5.0], [POLE_X + 0.6, 1.2, WIRE_Z], push=0.08)),
   *shot(c_und3, 1, F([[-0.6, 6.1, WIRE_Z], [2.6, 7.05, WIRE_Z], [POLE_X - 0.2, 6.6, WIRE_Z]], 22, -12, ANS), push=0.04),
 ]
 expC = {
