@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -535,6 +535,26 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `hand` 1), Comic-Knall (`knallwolke`: Zackenstern „BUMM!“ + weiße Rauchwölkchen, kein Feuer, `fill` 0 → 1 ≈ 2,6 s, schaut zur Kamera), roter Teppich
   (`teppich`, rollt ab Ursprung nach +z aus, Länge 4,6 m, `fill`), Werkzeugkasten (`werkzeugkasten`, tragen `hand` 1 + `drop` 0.34), Tritt (`tritt`, oben 0,42 m),
   Akkuschrauber (Bauteil `Drill`). Konfetti (`konfetti`, `burst`) wiederverwendet.
+  Homeoffice mit offenem Fenster + Garten (`homeoffice-usb`, `src/stage/Rooms.tsx`, `USB_GARDEN`, Atmo `uhr-ticken`, Spezial USB-Kabel): wie
+  `wohnzimmer-homeoffice` (Schreibtisch am Fenster, Stuhl, Dummy sitzend (−1.5, −0.4) face 270), aber hohes offenes Fenster (Unterkante 0,75, Oberkante 2,4 m,
+  z −1.05 … 0.25, Rahmen nur von innen sichtbar → Kameras dürfen draußen vor dem Fenster stehen und sehen durch die Wand), Pflanze nach rechts (1.95, 0.35);
+  draußen Garten: Rasen ab x −2.56, Trittsteine, Holzzaun x −8.4, Hecke x −10.2, Baum (−9, −11), Büsche. Variante `homeoffice-usb-aussen` = zusätzlich Hauswand
+  von außen (Putz, Sockel, Laibung, Fensterbank, Dach, Blumenbeet) nur für Einstellungen VON DRAUSSEN (Bühnenwechsel per Shot-Feld `stage`). Room-Fenster
+  kann jetzt `outside` (kein Himmelbild, Rahmen nur innen) und `hingeBack` (Flügel hinten angeschlagen).
+  USB-Kabel (Spezial, Details in `usbPose` in Dummy.tsx, Anschluss lokal `USB_PORT` [−0.18, 0.751, 0.47] beim sitzenden Dummy): Stecker drehen –
+  5 Fehlversuche im Takt 0,95 s (Stoß bei 0,3·P, Umdrehen 0,52–0,85·P), ab 5·P gleitet er hinein (`twistplug`, Stecker mit `hand` 1 + `tilt` je Versuch +180°),
+  fassungslos Arme hoch + Achselzucken (`physikshrug`), Fäuste + Zittern vor Wut (`ragefists`, dazu Figur `kopfdampf`), Stecker herausziehen + auf Augenhöhe
+  heben (`liftplug`), streng heranbeugen (`stareplug`), mit dem linken Zeigefinger auf den Stecker tippen (`tapplug`, neues Pose-Feld `fingerL`), zufrieden
+  nicken (`nodplug`); stehend: Gummihammer drohend bereit (`malletready`), Zeigefinger „nein“ (`nofinger`), Krocket-Schlag mit senkrechtem Hammer
+  (`croquet`, Hand bei `USB_CROQ`, Treffer 0,55 s; Hammer-Neigung `croquet_tilt()` im Skript), Laptop vor der Brust halten (`holdlaptop`), falschrum klappen +
+  stemmen (`foldlaptop`), über den Kopf ausholen + werfen (`throwlaptop`, Abwurf 0,62 s, Hand dort `USB_REL_HAND`). Dummy-Wert `angry` = strenge Brauen.
+- **Objekte (USB-Kabel, `src/actors/UsbProps.tsx`, ohne Marken/Logos):** markenloser Laptop (`usblaptop`, blaugrau, Rückseite nur gelber Streifen, Bildschirm
+  selbst gestaltet; großer USB-Anschluss rechts `USBL.port`; Werte `lid`, `fold` 0 … 1 = Deckel falschrum nach hinten bis unter den Boden, `squish` = Treffer-
+  Wackeln, `glow` = Anschluss leuchtet grün, `tilt` = Überschlag im Flug, `size`), dicker USB-Stecker (`usbstecker`, Ursprung = Griff am Knickschutz, Spitze
+  0,155 m nach +z; `tilt` = Drehung um die eigene Achse, `rope` 0 flach/1 hängend, `belt` Mini-Sicherheitsgurt, `helm` Mini-Helm, `nod` nickt, `size`; in der
+  Hand `hand` 1), kleiner Cartoon-Gummihammer (`gummihammer`, Griff am Ursprung, Kopf 0,29 m darunter, `tilt` = Neigung, `hand` 1), weiche grüne Mülltonne mit
+  Kissen (`muelltonne`, `lid`, `squish`), Comic-Funken (`funken`, Bewegung `burst`, `mark` 1 = weiß, `size`), Kopf-Dampf (`kopfdampf`, `fill`). Neue Werte
+  `fold`, `belt`, `helm`, `nod`, `angry`. Neues Shot-Feld `counter`: [{t, text}] = runde Zähler-Plakette oben („1x“ … „5x“, leerer Text blendet aus).
 - **Goldfisch** (`goldfisch`, `src/actors/FishProps.tsx`, comichaft, dem Fisch geht es immer gut): orangefarbener Low-Poly-Goldfisch mit großen Augen +
   schrägen Augenbrauen (sehr konzentrierter Blick) in einem runden Glas voll Wasser mit buntem Kies (Ursprung = Glasboden). Im Auto: `"attach": "car",
   x 0.3, y 0.7, z −0.05, face 0` + Wert `side` 1 = Sitzerhöhung + Sicherheitsgurt quer übers Glas (so sieht man ihn durch Seiten- und Frontscheibe).
@@ -851,7 +871,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -1022,6 +1042,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (prüft mit `check_a`: Dummy beim Knall hinter der Säule, 4,2 m weg, steht frühestens 1,4 s nach dem Knall auf; Knall-Kamera sieht die Tür an der Säule vorbei).
   A: Knallfrosch wird in der Karte angeklebt, der Knall kommt mit „Ein lauter Knall“; Tür fliegt vom Dummy weg in den Hof. Standbilder in
   review/spezial-tuer-druecken/phase1/. Finales Video: review/final/spezial-tuer-druecken.mp4 (62,4 s). **Vom Inhaber freigegeben.**
+- Spezial USB-Kabel (Durchlauf-Modus): 676 neue Zeichen (ca. 270 Credits laut ElevenLabs; Outro aus Cache), Texte Buchstabe für Buchstabe vom Inhaber;
+  Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5). Texte allein 60,6 s → mit Abstimmungsteil 70,4 s, daher `noVote` (wie
+  Waschmaschine/Pirat-Token), `padAfter` 0,3 s, `sceneExtra` C 0,9 s (Landung in der Tonne) → Video 64,8 s. Kartentext A/B/C wiederholt sich im Szenentext
+  (vom Inhaber so geliefert, wie bei Tür drücken) – im Bild keine Dopplung (Karte = Vorbereitung, Szene = Aktion). Kontrolle scribe_v2 (alle neuen Clips): korrekt.
+  Choreografie: `python3 scripts/spezial-usb-kabel-choreo.py` (prüft `check_a`: Hammerkopf trifft das Steckerende entlang der Achse, nicht im Tisch; `check_c`:
+  Flugbahn frei durchs Fenster, über die Lampe, Landung rechtzeitig). Bühnenwechsel in C zur Außenansicht. Standbilder in review/spezial-usb-kabel/phase1/.
+  Finales Video: review/final/spezial-usb-kabel.mp4 (64,8 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -1081,6 +1108,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `tuer-ruetteln` (verschlossene Tür rütteln), `zuendschnur` (Zündschnur zischt), `cartoon-bumm` (Comic-Knall mit Rauch-Puff), `akkuschrauber`, `schiebetuer`,
   `teppich-rollen` (Spezial Tür drücken; wiederverwendet: `klick`, `schritte-rennen`, `konfetti-knall`, `himmel-chor`, `paket-abstellen`, `plopp`, `gold-fanfare`,
   `tuer-knarren`; Bühne nutzt `treppenhaus-atmo`).
+  `usb-stoss` (Stecker stößt an, passt nicht), `gummi-bonk` (Cartoon-Gummihammer), `laptop-knacken` (Scharnier knackt falschrum) (Spezial USB-Kabel;
+  wiederverwendet: `plopp`, `klick`, `rasen-zauber`, `whoosh`, `strom-knistern`, `konfetti-knall`, `gold-fanfare`, `stecker-ziehen`, `gurt-klick`, `himmel-chor`,
+  `dampf`, `kissen-plumps`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1309,6 +1339,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       FishProps.tsx = Goldfisch im Glas/Aquarium/Futterdose/Futterspur/Autoschlüssel/Podest/Plastikpflanze/Taucher/Blasenpumpe,
                       BlackHoleProps.tsx = Schwarzes Loch/Küchenwand/Schanze/Abwasch-Berg/Tassen im Sog/Glitzer/Notizblock/Forscherbrille,
                       KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
+                      UsbProps.tsx = USB-Laptop/USB-Stecker mit Gurt+Helm/Gummihammer/weiche Mülltonne/Funken,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
