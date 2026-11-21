@@ -45,7 +45,9 @@ import {BrickHouse, BrickPile, DoormatMesh, FamilyHouse, GardenShedProp} from '.
 import {TRex, trexPose, Raptor, raptorPose, RAPTOR_COLORS} from './DinoProps';
 import {BigBang, BuildSet, TrafficJam} from './BuildProps';
 import {GamingLaptop, LaptopStack} from './GamingProps';
-import {ChargeBadge, CleaningPlan, HoldNotes, HouseRules, leaderPose, Pigeon, PigeonFlock, RentContract, TvSet} from './PigeonProps';
+import {ChargeBadge, CleaningPlan, flyPose, HoldNotes, HouseRules, leaderPose, Pigeon, PigeonFlock, RentContract, TvSet} from './PigeonProps';
+import {FallingBlob, InvoiceEnvelope, PlugStation} from './KleckerProps';
+import {ParkBench} from '../stage/Park';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
@@ -306,6 +308,14 @@ export const ACTORS = {
   autoschluessel: {height: 0, climbOffset: 0, speedLineHeight: 0},
   podest: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
   podest2: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Taube angekackt ----
+  taube: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  brieftaube: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  klecks: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  klecks2: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  umschlag: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  ladestation: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  parkbank: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Regierungs-Dummy (Spezial Tauben): Dummy-Körper dunkelgrau, schwarzer Anzug, weißes Hemd, schwarze Krawatte, Sonnenbrille, ohne Mütze – kein Abzeichen */
@@ -616,6 +626,11 @@ export const Actor = ({
         <QuestionMark amount={v.question} />
       </group>
     )}
+    {name === 'taube' && v.question > 0.01 && (
+      <group position={pos.clone().add(new THREE.Vector3(0, 0.62 * (1 + v.size), 0))} quaternion={billboard(pos, camPos)} scale={0.55 * (1 + v.size)}>
+        <QuestionMark amount={v.question} />
+      </group>
+    )}
     {name === 'durchsage' && (
       <group position={pos} quaternion={billboard(pos, camPos)}>
         <SoundWaves time={state.motionTime} visible={state.motion === 'show'} left={v.side > 0.5} size={v.size} />
@@ -700,6 +715,8 @@ export const Actor = ({
           uniform={v.suit > 0.5 ? SUIT_UNIFORM : undefined}
           glasses={v.glasses}
           splat={v.splat}
+          klecks={v.klecks}
+          wings={v.wings}
           lokcap={v.lokcap}
           jogger={v.jogger}
           hazmat={v.hazmat}
@@ -1062,7 +1079,21 @@ export const Actor = ({
       {name === 'agent' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={AGENT_COLOR} uniform={AGENT_SUIT} brow={v.brow} />
       )}
-      {(name === 'tauben' || name === 'tauben2' || name === 'tauben3') && <PigeonFlock text={actor.text} fill={v.fill} mark={v.mark} blink={v.blink} size={v.size} time={clock} />}
+      {(name === 'tauben' || name === 'tauben2' || name === 'tauben3') && <PigeonFlock text={actor.text} fill={v.fill} mark={v.mark} blink={v.blink} size={v.size} time={clock} charge={v.glow} empty={v.lock} />}
+      {(name === 'taube' || name === 'brieftaube') && (
+        <group scale={1 + v.size}>
+          <Pigeon
+            pose={state.motion === 'fly' ? flyPose(zt, name.length, 1) : leaderPose(state.motion, state.motionTime)}
+            time={clock}
+            spot={v.splat}
+            bag={name === 'brieftaube'}
+          />
+        </group>
+      )}
+      {(name === 'klecks' || name === 'klecks2') && <FallingBlob falling={state.motion === 'fall'} time={zt} size={v.size} />}
+      {name === 'umschlag' && <InvoiceEnvelope mark={v.mark} size={v.size} time={zt} />}
+      {name === 'ladestation' && <PlugStation fill={v.fill} glow={v.glow} time={zt} />}
+      {name === 'parkbank' && <ParkBench />}
       {name === 'taubenchef' && (
         <group scale={1.35 * (1 + v.size)}>
           <Pigeon pose={leaderPose(state.motion, state.motionTime)} leader light={v.blink} time={clock} />

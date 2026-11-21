@@ -1,3 +1,4 @@
+import {AngelWings, InvoicePad, ShoulderSplat} from './KleckerProps';
 import {FoodCan} from './FishProps';
 import type {ThreeElements} from '@react-three/fiber';
 import {useMemo} from 'react';
@@ -84,7 +85,7 @@ export type DummyPose = {
   /** Füllstand des Glases in der Hand: 1 = voll … 0 = leer */
   fill: number;
   /** Gegenstand in beiden Händen (Feuer): Eimer mit Wasser, Geschenkpaket */
-  both: '' | 'bucket' | 'gift' | 'broom' | 'parcel' | 'stack' | 'stackL' | 'stackL2' | 'parcelL' | 'mat' | 'brick';
+  both: '' | 'bucket' | 'gift' | 'broom' | 'parcel' | 'stack' | 'stackL' | 'stackL2' | 'parcelL' | 'mat' | 'brick' | 'notepad';
   /** Baustein in den Händen (both 'brick'): Farbe = BRICK_COLS[brickColor % n] */
   brickColor?: number;
   /** offener Mund (staunen, „Mund offen“): 0 … 1 – dunkles Oval vorn am Kopf */
@@ -4910,6 +4911,103 @@ const pigeonPose = (motion: Motion, time: number): DummyPose | null => {
 };
 
 /**
+ * Spezial „Von einer Taube angekackt“ (alle Figuren mit Dummy-Körper):
+ *  - splatshock: zuckt zusammen (0–0,25 s, Schultern hoch), dreht den Kopf zur LINKEN Schulter und schaut ungläubig auf den Klecks,
+ *                rechte Hand zeigt mit spitzem Finger darauf (ab 0,5 s), linker Arm leicht abgespreizt
+ *  - wingpose:   breitet die Arme seitlich aus (0–0,5 s), Brust raus, schaut stolz über die Schulter (Flügel über Wert wings)
+ *  - flyhover:   fliegt/schwebt (Höhe über y der Zeitpunkte): Körper nach vorn geneigt, Beine locker nach hinten, Arme seitlich
+ *                ausgebreitet, wippt; Kopf schaut nach vorn unten (Ziel suchen)
+ *  - padwrite:   hält mit links einen Schreibblock vor der Brust (0,33 m vor ihm, 1,12 m hoch) und schreibt mit rechts (Kuli),
+ *                Zeilen der Rechnung erscheinen 0,3–2,5 s (Block „RECHNUNG – REINIGUNG“, both 'notepad')
+ *  - pullplug:   beugt sich vor und packt mit beiden Händen den Riesen-Stecker 0,52 m vor ihm auf 1,0 m Höhe (bis 0,55 s), reißt ihn
+ *                0,7–1,05 s kräftig 0,4 m zu sich heran (lehnt sich zurück, Knie leicht gebeugt), hält ihn danach vor sich und schaut
+ *                ab 1,3 s nach oben zur Oberleitung
+ */
+const kleckerPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  switch (motion) {
+    case 'splatshock': {
+      const p = base();
+      const jolt = Math.sin(Math.PI * clamp(time / 0.3));
+      const k = easeInOut(clamp((time - 0.15) / 0.45));
+      p.hipY = 0.98 - 0.03 * jolt;
+      p.torsoX = -0.05 * jolt + 0.06 * k + breathe;
+      p.torsoY = 0.12 * k;
+      p.headY = 0.75 * k;
+      p.headX = 0.42 * k - 0.1 * jolt;
+      p.chest = 0.4 * jolt;
+      const pt = easeInOut(clamp((time - 0.5) / 0.4));
+      reachR(p, lerp3t(rest, [0.05, 1.32, 0.3], pt), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.42, 0.9, 0.05], k), 0.33, [0.8, -0.2, -0.8]);
+      return p;
+    }
+    case 'wingpose': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.armL = L3(-0.15 * k, 0.1 + 1.15 * k, -0.15 - 0.2 * k);
+      p.armR = L3(-0.15 * k, -0.1 - 1.15 * k, -0.15 - 0.2 * k);
+      p.torsoX = -0.08 * k + breathe;
+      p.chest = 0.8 * k;
+      p.headX = -0.15 * k;
+      p.headY = 0.35 * Math.sin(time * 1.2) * k;
+      return p;
+    }
+    case 'flyhover': {
+      const p = base();
+      const bob = Math.sin(time * 6);
+      p.pitch = 0.42;
+      p.hipY = 0.98 + 0.02 * bob;
+      p.legL = L3(0.45 + 0.08 * Math.sin(time * 3), 0.06, 0.55);
+      p.legR = L3(0.35 + 0.08 * Math.sin(time * 3 + 1.2), -0.06, 0.7);
+      p.armL = L3(-0.25, 1.2 + 0.12 * bob, -0.25);
+      p.armR = L3(-0.25, -1.2 - 0.12 * bob, -0.25);
+      p.torsoX = 0.05;
+      p.headX = 0.05 + 0.05 * Math.sin(time * 1.7);
+      p.headY = 0.15 * Math.sin(time * 0.9);
+      return p;
+    }
+    case 'padwrite': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.4));
+      p.torsoX = 0.12 * k + breathe;
+      p.headX = 0.45 * k;
+      const pad: P3 = [0.07, 1.1, 0.34];
+      reachL(p, lerp3t(restL, pad, k), 0.33, [0.6, -1, -0.3]);
+      const s = Math.max(0, time - 0.3);
+      const line = Math.min(3, Math.floor(s / 0.55));
+      const u = (s % 0.55) / 0.55;
+      const pen: P3 = [0.12 - 0.12 * u, 1.13 + 0.008 * Math.abs(Math.sin(s * 22)) + 0.04 - line * 0.025, 0.36 - 0.02 * line];
+      reachR(p, lerp3t(rest, pen, k), 0.34, [0.6, -1, -0.3]);
+      p.both = 'notepad';
+      p.item = 'pen';
+      p.fill = clamp(s / 2.2);
+      return p;
+    }
+    case 'pullplug': {
+      const p = base();
+      const grab = easeInOut(clamp(time / 0.55));
+      const yank = easeInOut(clamp((time - 0.7) / 0.35));
+      const look = easeInOut(clamp((time - 1.3) / 0.5));
+      const z = 0.52 - 0.4 * yank;
+      const sag = 0.04 * clamp((time - 1.05) / 0.3);
+      p.torsoX = 0.32 * grab * (1 - yank) - 0.22 * yank + 0.12 * yank * look + breathe;
+      p.hipY = 0.98 - 0.06 * yank * (1 - 0.5 * look);
+      p.legL = L3(-0.3 * yank, 0.06, 0.45 * yank);
+      p.legR = L3(0.18 * yank, -0.06, 0.3 * yank);
+      p.headX = 0.3 * grab * (1 - yank) - 0.65 * look;
+      p.headY = 0.12 * look;
+      reachR(p, lerp3t(rest, [-0.075, 1.02 - sag, z], grab), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.075, 1.04 - sag, z], grab), 0.33, [0.6, -1, -0.3]);
+      p.fists = true;
+      return p;
+    }
+  }
+  return null;
+};
+
+/**
  * Spezial Goldfisch (alle Figuren mit Dummy-Körper):
  *  - scatter:   geht (Weg über Zeitpunkte), hält die Dose Fischfutter mit rechts vor sich und schüttelt (Flocken rieseln automatisch)
  *  - gloveon:   zieht sich die Boxhandschuhe an (Hände vor dem Bauch, rechts zieht links 0,5–1,0 s, links zieht rechts 1,0–1,4 s; Dummy-Wert
@@ -4999,7 +5097,7 @@ const fishPose = (motion: Motion, time: number, speed: number): DummyPose | null
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -6658,6 +6756,16 @@ const BothHandsItem = ({pose, time}: {pose: DummyPose; time: number}) => {
       </group>
     );
   }
+  if (pose.both === 'notepad') {
+    // Schreibblock in der linken Hand, liegt schräg (Schrift zum Dummy, oben = weiter weg), bleibt in der Welt ruhig
+    return (
+      <group position={l} rotation={rot}>
+        <group position={[-0.04, 0.03, 0.02]} rotation={[1.13, Math.PI, 0]}>
+          <InvoicePad progress={pose.fill ?? 1} />
+        </group>
+      </group>
+    );
+  }
   if (pose.both === 'mat') {
     // Fußmatte senkrecht vor der Brust, Schrift nach vorn (+z)
     return (
@@ -6876,6 +6984,8 @@ export const Dummy = ({
   paint = 0,
   glasses = 0,
   splat = 0,
+  klecks = 0,
+  wings = 0,
   lokcap = 0,
   jogger = 0,
   hazmat = 0,
@@ -6898,6 +7008,10 @@ export const Dummy = ({
   glasses?: number;
   /** Joghurt-Kleckse am Kopf 0 … 1 */
   splat?: number;
+  /** weißer Cartoon-Fleck (Tauben-Klecks) auf der linken Schulter 0 … 1 */
+  klecks?: number;
+  /** weiße Cartoon-Flügel am Rücken: 0 … 1 wachsen + öffnen, bis 2 = kräftig schlagen */
+  wings?: number;
   /** Kinder-Dummy: größerer Kopf + Kappe oder Zöpfe in bunten Farben (Figur wird außen auf ca. 0,6 verkleinert) */
   kid?: Kid;
   /** Wind/Sog an der Jacke: 0 … 1 (Saum flattert), windDir = Richtung im Dummy-System (Bogenmaß, 0 = nach vorn) */
@@ -7148,6 +7262,8 @@ export const Dummy = ({
             <HeadSplat amount={splat} />
           </group>
           <BodyHint lunge={lunge} blut={blut} time={fxTime} />
+          <ShoulderSplat amount={klecks} />
+          <AngelWings amount={wings} time={time} />
           {uniform?.tie && (
             <group position={[0, 0.47, 0.205]} rotation={[-0.25, 0, 0]}>
               <mesh material={m.fur} position={[0, 0.03, -0.01]} rotation={[0, 0, Math.PI]}>

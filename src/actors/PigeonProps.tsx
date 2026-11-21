@@ -200,7 +200,26 @@ const Wing = ({side, pose, m}: {side: 1 | -1; pose: PigeonPose; m: ReturnType<ty
 };
 
 /** Eine Taube (Ursprung zwischen den Füßen, Blick +z) */
-export const Pigeon = ({pose, leader = false, light = 0, time = 0}: {pose: PigeonPose; leader?: boolean; light?: number; time?: number}) => {
+export const Pigeon = ({
+  pose,
+  leader = false,
+  light = 0,
+  time = 0,
+  spot = 0,
+  bag = false,
+  sleepy = 0,
+}: {
+  pose: PigeonPose;
+  leader?: boolean;
+  light?: number;
+  time?: number;
+  /** weißer Cartoon-Fleck oben auf dem Kopf 0 … 1 (Spezial Taube angekackt – harmlos, comichaft) */
+  spot?: number;
+  /** Brieftaube: kleine blaue Posttasche am Gurt + Postmütze (ohne echtes Logo) */
+  bag?: boolean;
+  /** Energiesparmodus: Augenlider halb zu 0 … 1 */
+  sleepy?: number;
+}) => {
   const m = usePigeonMats(leader);
   const legY = 0.09 * (1 - 0.7 * pose.tuck);
   const on = light > 0.5 && Math.sin(time * Math.PI * 2 * 1.6) > -0.1;
@@ -230,6 +249,7 @@ export const Pigeon = ({pose, leader = false, light = 0, time = 0}: {pose: Pigeo
             {on && <mesh geometry={sphere} material={m.halo} position={[0, 0.018, 0]} scale={0.06} />}
           </group>
         )}
+        {bag && <PostBag />}
         {leader && (
           <group position={[0, 0.03, 0.175]} rotation={[-0.35, 0, 0]}>
             <mesh geometry={box} material={m.tie} position={[0, 0.03, 0]} scale={[0.03, 0.025, 0.02]} />
@@ -255,10 +275,91 @@ export const Pigeon = ({pose, leader = false, light = 0, time = 0}: {pose: Pigeo
               <ReadingGlasses amount={1} />
             </group>
           )}
+          {sleepy > 0.01 &&
+            [-1, 1].map((s) => (
+              <mesh key={`lid${s}`} material={m.head} position={[s * 0.044, 0.016 + 0.012 * (1 - sleepy), 0.043]} scale={[0.029, 0.029 * sleepy, 0.029]}>
+                <sphereGeometry args={[1, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
+              </mesh>
+            ))}
+          {bag && <PostCap />}
+          {spot > 0.01 && <HeadSpot amount={spot} />}
         </group>
       </group>
     </group>
   );
+};
+
+/** Weißer Cartoon-Fleck oben auf dem Taubenkopf (stilisiert, sauber, harmlos) */
+const HeadSpot = ({amount}: {amount: number}) => {
+  const k = clamp(amount);
+  const w = useMemo(() => std('#fbfbf6', {roughness: 0.35}), []);
+  return (
+    <group position={[0, 0.062, -0.005]} scale={k}>
+      <mesh material={w} scale={[0.05, 0.018, 0.045]}>
+        <sphereGeometry args={[1, 10, 6]} />
+      </mesh>
+      <mesh material={w} position={[0.02, -0.006, 0.03]} scale={[0.022, 0.012, 0.02]}>
+        <sphereGeometry args={[1, 8, 6]} />
+      </mesh>
+      <mesh material={w} position={[-0.028, -0.01, -0.02]} scale={[0.018, 0.012, 0.018]}>
+        <sphereGeometry args={[1, 8, 6]} />
+      </mesh>
+      <mesh material={w} position={[0.008, 0.012, 0]} scale={[0.026, 0.014, 0.024]}>
+        <sphereGeometry args={[1, 8, 6]} />
+      </mesh>
+    </group>
+  );
+};
+
+/** Posttasche der Brieftaube: blaue Umhängetasche an der rechten Seite + Gurt über der Brust (kein echtes Post-Logo) */
+const PostBag = () => {
+  const m = useMemo(() => ({bag: std('#2f5fb8', {roughness: 0.6}), flap: std('#244b93'), strap: std('#c9a25a'), env: std('#ffffff', {roughness: 0.8})}), []);
+  return (
+    <group>
+      <group position={[-0.125, -0.045, 0.01]} rotation={[0, 0, 0.12]}>
+        <mesh material={m.bag} castShadow>
+          <boxGeometry args={[0.05, 0.075, 0.1]} />
+        </mesh>
+        <mesh material={m.flap} position={[-0.026, 0.02, 0]}>
+          <boxGeometry args={[0.006, 0.04, 0.104]} />
+        </mesh>
+        {/* weißes Briefsymbol auf der Klappe */}
+        <mesh material={m.env} position={[-0.0295, 0.018, 0]}>
+          <boxGeometry args={[0.002, 0.022, 0.034]} />
+        </mesh>
+      </group>
+      <mesh material={m.strap} position={[-0.02, 0.04, 0.07]} rotation={[0.3, 0, 0.75]}>
+        <boxGeometry args={[0.018, 0.2, 0.012]} />
+      </mesh>
+    </group>
+  );
+};
+
+/** kleine Postmütze (dunkelblau, gelbes Band, ohne Logo) */
+const PostCap = () => {
+  const m = useMemo(() => ({cap: std('#1f3a73', {roughness: 0.6}), band: std('#ffc400'), visor: std('#14264d')}), []);
+  return (
+    <group position={[0, 0.058, -0.004]} rotation={[-0.15, 0, 0]}>
+      <mesh material={m.cap}>
+        <cylinderGeometry args={[0.042, 0.048, 0.032, 10]} />
+      </mesh>
+      <mesh material={m.band} position={[0, -0.01, 0]}>
+        <cylinderGeometry args={[0.0485, 0.0485, 0.01, 10]} />
+      </mesh>
+      <mesh material={m.visor} position={[0, -0.014, 0.045]} rotation={[0.25, 0, 0]}>
+        <boxGeometry args={[0.07, 0.006, 0.035]} />
+      </mesh>
+    </group>
+  );
+};
+
+/** Energiesparmodus: Kopf sinkt, Körper ruhig (eingefroren), keine Bewegung */
+export const sleepPose = (seed: number): PigeonPose => {
+  const p = restPose();
+  p.headPitch = 0.5 + 0.08 * hash(seed);
+  p.headYaw = (hash(seed + 2) - 0.5) * 0.4;
+  p.pitch = -0.08;
+  return p;
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -313,23 +414,98 @@ export const flockProgress = (i: number, fill: number, mark: number) => {
   return clamp(fill * (1 + S) - d);
 };
 
-export const PigeonFlock = ({text, fill = 0, mark = 0, blink = 0, size = 0, time = 0}: {text?: string; fill?: number; mark?: number; blink?: number; size?: number; time?: number}) => {
+/**
+ * Schwarm. Zusätzlich (Spezial Taube angekackt): `charge` > 0 = über jeder Taube ein Akku-Symbol (grün, lädt in Schleife),
+ * `empty` 0 … 1 = Akkus springen nacheinander auf „0 %“ (rot) und die Taube geht in den Energiesparmodus (Kopf sinkt, Lider halb zu,
+ * sitzt still auf der Leitung – ihr passiert nichts).
+ */
+export const PigeonFlock = ({
+  text,
+  fill = 0,
+  mark = 0,
+  blink = 0,
+  size = 0,
+  time = 0,
+  charge = 0,
+  empty = 0,
+}: {
+  text?: string;
+  fill?: number;
+  mark?: number;
+  blink?: number;
+  size?: number;
+  time?: number;
+  charge?: number;
+  empty?: number;
+}) => {
   const birds = useMemo(() => parseFlock(text), [text]);
+  const bat = useBatterySprites(charge > 0.01);
   return (
     <group>
       {birds.map((bird, i) => {
         const p = flockProgress(i, fill, mark);
         const at = flockBirdAt(bird, p, i);
-        const pose = at.fly > 0 ? flyPose(time, i, at.fly) : perchPose(time, i);
+        // Akku leer: nacheinander (Staffelung 0,35), schnell hintereinander
+        const off = clamp(empty * 1.35 - 0.35 * hash(i * 5.1 + 2)) ;
+        const isEmpty = off > 0.02;
+        const sleep = clamp((off - 0.02) / 0.25);
+        let pose = at.fly > 0 ? flyPose(time, i, at.fly) : perchPose(time, i);
+        if (isEmpty) {
+          const sp = sleepPose(i);
+          const k = easeInOut(sleep);
+          pose = {...pose, headPitch: pose.headPitch + (sp.headPitch - pose.headPitch) * k, headYaw: pose.headYaw * (1 - k) + sp.headYaw * k, pitch: pose.pitch + (sp.pitch - pose.pitch) * k, bob: pose.bob * (1 - k)};
+        }
         const sc = (0.92 + 0.16 * hash(i + 0.5)) * (1 + size);
+        const q = Math.round(clamp(0.15 + ((time * 0.45 + hash(i * 2.3)) % 1)) * 10) / 10;
+        const badge = bat ? (isEmpty ? bat.empty : bat.levels[Math.round(q * 10)]) : null;
+        const pop = isEmpty ? 1 + 0.25 * Math.sin(Math.PI * clamp((off - 0.02) / 0.15)) : 1;
         return (
-          <group key={i} position={at.pos} rotation={[0, THREE.MathUtils.degToRad(180 - at.face), 0]} scale={sc}>
-            <Pigeon pose={pose} light={blink} time={time + hash(i) * 0.3} />
+          <group key={i}>
+            <group position={at.pos} rotation={[0, THREE.MathUtils.degToRad(180 - at.face), 0]} scale={sc}>
+              <Pigeon pose={pose} light={blink} time={time + hash(i) * 0.3} sleepy={isEmpty ? 0.75 * sleep : 0} />
+            </group>
+            {badge && charge > 0.01 && (
+              <sprite material={badge} position={[at.pos[0], at.pos[1] + 0.5 * sc + 0.12, at.pos[2]]} scale={[0.5 * charge * pop, 0.28 * charge * pop, 1]} renderOrder={42} />
+            )}
           </group>
         );
       })}
     </group>
   );
+};
+
+const emptyBatteryTexture = () => () => {
+  const {c, g} = paperBase(320, 180);
+  g.fillStyle = 'rgba(20,24,28,0.88)';
+  g.beginPath();
+  g.roundRect(8, 8, 304, 164, 34);
+  g.fill();
+  g.strokeStyle = '#ff3b2f';
+  g.lineWidth = 12;
+  g.beginPath();
+  g.roundRect(42, 42, 210, 96, 16);
+  g.stroke();
+  g.fillStyle = '#ff3b2f';
+  g.fillRect(256, 72, 20, 36);
+  g.fillRect(54, 54, 14, 72);
+  g.fillStyle = '#ffffff';
+  g.font = `800 74px ${T.font}`;
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  g.fillText('0 %', 154, 94);
+  return finish(c);
+};
+
+/** Sprite-Materialien für die Akku-Symbole über dem Schwarm (grün 0 … 100 % in 10er-Schritten + leer „0 %“) */
+const useBatterySprites = (on: boolean) => {
+  const levels = useMemo(
+    () => (on ? Array.from({length: 11}, (_, i) => new THREE.SpriteMaterial({map: batteryTexture(i / 10)(), transparent: true, depthTest: false})) : null),
+    [on],
+  );
+  const etex = useFontTexture(emptyBatteryTexture(), 'Akku leer');
+  const empty = useMemo(() => (etex ? new THREE.SpriteMaterial({map: etex, transparent: true, depthTest: false}) : null), [etex]);
+  if (!levels || !empty) return null;
+  return {levels, empty};
 };
 
 // ------------------------------------------------------------------------------------------------

@@ -298,6 +298,13 @@ export type Motion =
   | 'seattalk' // Dummy: sitzend am Tisch verhandeln (gestikulieren)
   | 'seatstamp' // Dummy: sitzend stempeln (Treffer 0,58 s)
   | 'seatshake' // Dummy: sitzend Hand über den Tisch reichen + schütteln
+  // ---- Spezial Taube angekackt (Details: kleckerPose in Dummy.tsx) ----
+  | 'splatshock' // Dummy: zuckt zusammen, schaut auf den Klecks auf der linken Schulter, zeigt mit spitzem Finger darauf
+  | 'wingpose' // Dummy: Arme seitlich ausbreiten, stolz (Flügel über Wert wings)
+  | 'flyhover' // Dummy: fliegt/schwebt mit Flügeln (Höhe = y), Körper vorgeneigt, Arme ausgebreitet
+  | 'padwrite' // Dummy: Schreibblock links, schreibt mit rechts die Reinigungsrechnung (Zeilen 0,3–2,5 s)
+  | 'pullplug' // Dummy: packt den Riesen-Stecker 0,52 m vor sich (1,0 m hoch), reißt ihn 0,7–1,05 s 0,4 m heraus, schaut ab 1,3 s nach oben
+  | 'fall' // Klecks: fällt (Weg über Zeitpunkte)
   // ---- Spezial Goldfisch (Details: fishPose in Dummy.tsx, goldfishPose in FishProps.tsx) ----
   | 'scatter' // Dummy: geht (Weg über Zeitpunkte) und streut mit rechts Fischfutter aus der Dose in der linken Hand (alle 0,8 s)
   | 'gloveon' // Dummy: zieht sich Boxhandschuhe an (Wert gloves 0 → 1 bei 0,6–1,4 s), klopft sie zusammen (1,7 s)
@@ -565,6 +572,10 @@ export type ActorKey = {
   glasses?: number;
   /** Figur mit Dummy-Körper: Joghurt-Kleckse am Kopf 0 … 1 */
   splat?: number;
+  /** Dummy: weißer Cartoon-Klecks auf der linken Schulter 0 … 1 */
+  klecks?: number;
+  /** Dummy: Engels-/Taubenflügel 0 … 1 (wachsen/öffnen) … 2 (kräftig schlagen) */
+  wings?: number;
   /** Großer roter Knopf: gedrückt 0 … 1 */
   press?: number;
   /** Leuchten (Knopf, Kühlschrank-Innenlicht nachts) 0 … 1 */
@@ -584,7 +595,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
