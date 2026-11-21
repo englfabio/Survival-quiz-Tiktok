@@ -991,7 +991,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   alle über die Schanze, alle im Loch, Abstand zum Dummy ≥ 3 m). Bühne `kueche-gross` statt `kueche` (lebensgroße Fahrzeuge passen nicht in die kleine Küche).
   Comichaft: Dummy springt rein und ploppt unversehrt wieder heraus, niemand sitzt in den Fahrzeugen. Hinweis Choreo-Helfer `Cast`: Teil mit nur EINEM Zeitpunkt
   wird jetzt bis zum Ende gehalten (vorher rutschte er ans Ende → Objekt unsichtbar). Standbilder in review/spezial-schwarzes-loch/phase1/.
-  Finales Video: review/final/spezial-schwarzes-loch.mp4 (66,0 s).
+  Finales Video: review/final/spezial-schwarzes-loch.mp4 (66,0 s). **Vom Inhaber freigegeben.**
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
