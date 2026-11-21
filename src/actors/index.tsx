@@ -50,6 +50,8 @@ import {FallingBlob, InvoiceEnvelope, PlugStation} from './KleckerProps';
 import {BlackHoleDisk, BlackHoleHalo, DishMountain, JumpRamp, KitchenWall, LabNotepad, Sparkles, SuckItems} from './BlackHoleProps';
 import {ParkBench} from '../stage/Park';
 import {BoomCloud, Firecracker, PushDoor, RedCarpet, StepStool, Toolbox} from './DoorProps';
+import {CartoonMallet, SoftBin, SparkBurst, UsbLaptop, UsbPlug} from './UsbProps';
+import {SteamPuffs} from './GamingProps';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
@@ -329,6 +331,13 @@ export const ACTORS = {
   monstertruck3: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   monstertruck4: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   bagger2: {height: 3.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: USB-Kabel ----
+  usblaptop: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
+  usbstecker: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  gummihammer: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  muelltonne: {height: 0.9, climbOffset: 0, speedLineHeight: 0},
+  funken: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  kopfdampf: {height: 0, climbOffset: 0, speedLineHeight: 0},
   // ---- Spezial: Tür drücken statt ziehen ----
   druecktuer: {height: 1.2, climbOffset: 0, speedLineHeight: 0},
   knallfrosch: {height: 0, climbOffset: 0, speedLineHeight: 0},
@@ -743,6 +752,7 @@ export const Actor = ({
           fxTime={zt}
           stash={v.stash}
           brow={v.brow}
+          angry={v.angry}
           wind={v.wind}
           windDir={windLocal(state.face, v.drift)}
           partyhat={v.partyhat}
@@ -1120,6 +1130,28 @@ export const Actor = ({
       {name === 'butler' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BUTLER_COLOR} uniform={BUTLER_UNIFORM} brow={v.brow} />
       )}
+      {name === 'usblaptop' && (
+        <group scale={1 + v.size} rotation={[(v.tilt * Math.PI) / 180, 0, 0]}>
+          <UsbLaptop lid={v.lid} fold={v.fold} squish={v.squish} glow={v.glow} time={clock} />
+        </group>
+      )}
+      {name === 'usbstecker' && (
+        <group scale={1 + v.size}>
+          <UsbPlug tilt={v.tilt} rope={v.rope} belt={v.belt} helm={v.helm} nod={v.nod} time={clock} />
+        </group>
+      )}
+      {name === 'gummihammer' && (
+        <group rotation={[(v.tilt * Math.PI) / 180, 0, 0]}>
+          <CartoonMallet />
+        </group>
+      )}
+      {name === 'muelltonne' && (
+        <group scale={1 + v.size}>
+          <SoftBin lid={v.lid} squish={v.squish} time={clock} />
+        </group>
+      )}
+      {name === 'funken' && state.motion === 'burst' && <SparkBurst time={state.motionTime} white={v.mark > 0.5} size={v.size} />}
+      {name === 'kopfdampf' && <SteamPuffs amount={v.fill} time={clock} height={0.5} />}
       {name === 'druecktuer' && <PushDoor door={v.door} glow={v.glow} rumble={v.rumble} fill={v.fill} rail={v.rail} slide={v.slide} time={clock} />}
       {name === 'knallfrosch' && <Firecracker fill={v.fill} time={clock} size={v.size} />}
       {name === 'teppich' && <RedCarpet fill={v.fill} />}

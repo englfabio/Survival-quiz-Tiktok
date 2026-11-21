@@ -1,0 +1,3083 @@
+{
+  "id": "spezial-usb-kabel",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "homeoffice-usb",
+  "padAfter": 0.3,
+  "situation": {
+    "speech": "Du hast das USB-Kabel mal wieder fünfmal gedreht, bevor es endlich in den Laptop passt. Physik existiert einfach nicht. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Was nicht passt, wird passend gemacht",
+      "speech": "A: Was nicht passt, wird passend gemacht – du stöpselst es komplett aggressiv rein.",
+      "dummyAction": "Der Dummy fackelt nicht lange: Mit einem kleinen Cartoon-Gummihammer schlägt er wie beim Krocket gegen das Ende des (falsch herum liegenden) Steckers – unter Funken und Konfetti knallt er in den Anschluss und sitzt bombenfest. Niemand wird verletzt.",
+      "explanation": "Kein Drehen mehr. Was nicht passt, wird passend gemacht. Einmal richtig reindrücken – sitzt bombenfest.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -7.96,
+              1.96,
+              -5.45
+            ],
+            "look": [
+              -1.85,
+              0.68,
+              -0.68
+            ]
+          },
+          {
+            "t": 0.4271,
+            "pos": [
+              -7.777,
+              1.922,
+              -5.307
+            ],
+            "look": [
+              -1.85,
+              0.68,
+              -0.68
+            ]
+          },
+          {
+            "t": 0.4307,
+            "pos": [
+              -5.95,
+              1.88,
+              -2.47
+            ],
+            "look": [
+              -1.72,
+              1.17,
+              -0.93
+            ]
+          },
+          {
+            "t": 0.5812,
+            "pos": [
+              -5.696,
+              1.837,
+              -2.378
+            ],
+            "look": [
+              -1.72,
+              1.17,
+              -0.93
+            ]
+          },
+          {
+            "t": 0.5847,
+            "pos": [
+              -4.77,
+              1.39,
+              0.79
+            ],
+            "look": [
+              -1.97,
+              0.94,
+              -0.69
+            ]
+          },
+          {
+            "t": 0.7911,
+            "pos": [
+              -4.63,
+              1.367,
+              0.716
+            ],
+            "look": [
+              -1.97,
+              0.94,
+              -0.69
+            ]
+          },
+          {
+            "t": 0.7942,
+            "pos": [
+              -5.75,
+              2.25,
+              -7.45
+            ],
+            "look": [
+              -1.85,
+              0.67,
+              -0.7
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -5.555,
+              2.171,
+              -7.112
+            ],
+            "look": [
+              -1.85,
+              0.67,
+              -0.7
+            ]
+          }
+        ],
+        "actors": {
+          "usblaptop": [
+            {
+              "t": 0,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 0.0,
+              "glow": 0.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.6778,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 0.0,
+              "glow": 0.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.6798,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 1.0,
+              "glow": 1.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.7436,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 0.0,
+              "glow": 1.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 1,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 0.0,
+              "glow": 1.0,
+              "tilt": 0.0
+            }
+          ],
+          "usbstecker": [
+            {
+              "t": 0,
+              "x": -1.97,
+              "z": -0.667,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "tilt": 180.0,
+              "rope": 0.0
+            },
+            {
+              "t": 0.6778,
+              "x": -1.97,
+              "z": -0.667,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "tilt": 180.0
+            },
+            {
+              "t": 0.6848,
+              "x": -1.97,
+              "z": -0.61,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "tilt": 180.0
+            },
+            {
+              "t": 1,
+              "x": -1.97,
+              "z": -0.61,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "tilt": 180.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "malletready",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.4826,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "malletready",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.4846,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "nofinger",
+              "face": 270,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 0.5694,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "nofinger",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.5709,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "stand",
+              "face": 270,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6388,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "stand",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.6408,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "croquet",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.7562,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "croquet",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.7577,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "proud",
+              "face": 200,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "proud",
+              "face": 200,
+              "y": 0.0
+            }
+          ],
+          "gummihammer": [
+            {
+              "t": 0,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "drop": 0.0,
+              "tilt": 180.0
+            },
+            {
+              "t": 0.4826,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 180.0
+            },
+            {
+              "t": 0.4846,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.5689,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.5709,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6408,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.6432,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 0.74
+            },
+            {
+              "t": 0.6455,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 2.93
+            },
+            {
+              "t": 0.6479,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 6.43
+            },
+            {
+              "t": 0.6503,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 11.08
+            },
+            {
+              "t": 0.6526,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 16.61
+            },
+            {
+              "t": 0.655,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 22.72
+            },
+            {
+              "t": 0.6573,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 29.1
+            },
+            {
+              "t": 0.6597,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 35.39
+            },
+            {
+              "t": 0.6621,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 41.25
+            },
+            {
+              "t": 0.6644,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 46.37
+            },
+            {
+              "t": 0.6668,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 50.48
+            },
+            {
+              "t": 0.6692,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 53.34
+            },
+            {
+              "t": 0.6715,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 54.81
+            },
+            {
+              "t": 0.6739,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 45.83
+            },
+            {
+              "t": 0.6763,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 27.5
+            },
+            {
+              "t": 0.6786,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 9.17
+            },
+            {
+              "t": 0.681,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -0.34
+            },
+            {
+              "t": 0.6834,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -2.93
+            },
+            {
+              "t": 0.6857,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -7.41
+            },
+            {
+              "t": 0.6881,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -12.59
+            },
+            {
+              "t": 0.6904,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -17.07
+            },
+            {
+              "t": 0.6928,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -19.66
+            },
+            {
+              "t": 0.6952,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -19.95
+            },
+            {
+              "t": 0.6975,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -19.55
+            },
+            {
+              "t": 0.6999,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -18.77
+            },
+            {
+              "t": 0.7023,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -17.65
+            },
+            {
+              "t": 0.7046,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -16.25
+            },
+            {
+              "t": 0.707,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -14.65
+            },
+            {
+              "t": 0.7094,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -12.94
+            },
+            {
+              "t": 0.7117,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -11.2
+            },
+            {
+              "t": 0.7141,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -9.53
+            },
+            {
+              "t": 0.7165,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -8.02
+            },
+            {
+              "t": 0.7188,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -6.75
+            },
+            {
+              "t": 0.7212,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -5.8
+            },
+            {
+              "t": 0.7235,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -5.2
+            },
+            {
+              "t": 0.7259,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -5.0
+            },
+            {
+              "t": 0.7557,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": -5.0
+            },
+            {
+              "t": 0.7577,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -1.52,
+              "z": -0.95,
+              "motion": "park",
+              "face": 180,
+              "y": 1.0,
+              "hand": 1.0,
+              "tilt": 0.0
+            }
+          ],
+          "funken": [
+            {
+              "t": 0.0,
+              "x": -1.97,
+              "z": -0.63,
+              "motion": "burst",
+              "face": 180,
+              "y": -30.0,
+              "size": 0.3,
+              "hand": 0
+            },
+            {
+              "t": 0.6778,
+              "x": -1.97,
+              "z": -0.63,
+              "motion": "burst",
+              "face": 180,
+              "y": -30.0,
+              "size": 0.3,
+              "hand": 0
+            },
+            {
+              "t": 0.6798,
+              "x": -1.97,
+              "z": -0.63,
+              "motion": "burst",
+              "face": 180,
+              "y": 0.781,
+              "size": 0.3
+            },
+            {
+              "t": 1,
+              "x": -1.97,
+              "z": -0.63,
+              "motion": "burst",
+              "face": 180,
+              "y": 0.781,
+              "size": 0.3
+            }
+          ],
+          "konfetti": [
+            {
+              "t": 0.0,
+              "x": -1.87,
+              "z": -0.63,
+              "motion": "burst",
+              "face": 180,
+              "y": -30.0,
+              "size": -0.55,
+              "hand": 0
+            },
+            {
+              "t": 0.6778,
+              "x": -1.87,
+              "z": -0.63,
+              "motion": "burst",
+              "face": 180,
+              "y": -30.0,
+              "size": -0.55,
+              "hand": 0
+            },
+            {
+              "t": 0.6798,
+              "x": -1.87,
+              "z": -0.63,
+              "motion": "burst",
+              "face": 180,
+              "y": 0.751,
+              "size": -0.55
+            },
+            {
+              "t": 1,
+              "x": -1.87,
+              "z": -0.63,
+              "motion": "burst",
+              "face": 180,
+              "y": 0.751,
+              "size": -0.55
+            }
+          ]
+        },
+        "stage": "homeoffice-usb",
+        "sfx": [
+          {
+            "t": 0.0284,
+            "id": "gummi-bonk",
+            "volume": 0.25
+          },
+          {
+            "t": 0.0851,
+            "id": "gummi-bonk",
+            "volume": 0.25
+          },
+          {
+            "t": 0.6479,
+            "id": "whoosh",
+            "volume": 0.5
+          },
+          {
+            "t": 0.6798,
+            "id": "gummi-bonk",
+            "volume": 0.95
+          },
+          {
+            "t": 0.6812,
+            "id": "strom-knistern",
+            "volume": 0.35
+          },
+          {
+            "t": 0.6833,
+            "id": "konfetti-knall",
+            "volume": 0.45
+          },
+          {
+            "t": 0.9254,
+            "id": "gold-fanfare",
+            "volume": 0.3
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Kabel eine Ansage machen",
+      "speech": "B: Du schaust das Kabel streng an und sagst: Schnall dich warm an!",
+      "dummyAction": "Der Dummy zieht den Stecker heraus, hält ihn auf Augenhöhe, schaut ihn streng an und tippt ihm mit dem Zeigefinger auf den Stecker. Das Kabel bekommt einen winzigen Sicherheitsgurt und einen Mini-Helm – und nickt.",
+      "explanation": "Ein strenger Blick direkt auf den Stecker. Eine klare Ansage: Schnall dich warm an. Das Kabel hat verstanden.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -6.56,
+              1.96,
+              -4.13
+            ],
+            "look": [
+              -2.23,
+              0.44,
+              0.03
+            ]
+          },
+          {
+            "t": 0.3635,
+            "pos": [
+              -6.43,
+              1.914,
+              -4.005
+            ],
+            "look": [
+              -2.23,
+              0.44,
+              0.03
+            ]
+          },
+          {
+            "t": 0.367,
+            "pos": [
+              -2.37,
+              1.28,
+              1.04
+            ],
+            "look": [
+              -1.84,
+              1.17,
+              -0.41
+            ]
+          },
+          {
+            "t": 0.6715,
+            "pos": [
+              -2.338,
+              1.273,
+              0.953
+            ],
+            "look": [
+              -1.84,
+              1.17,
+              -0.41
+            ]
+          },
+          {
+            "t": 0.6749,
+            "pos": [
+              -3.31,
+              1.36,
+              -0.01
+            ],
+            "look": [
+              -1.83,
+              1.16,
+              -0.41
+            ]
+          },
+          {
+            "t": 0.8839,
+            "pos": [
+              -3.221,
+              1.348,
+              -0.034
+            ],
+            "look": [
+              -1.83,
+              1.16,
+              -0.41
+            ]
+          },
+          {
+            "t": 0.8866,
+            "pos": [
+              -3.3,
+              1.5,
+              -0.56
+            ],
+            "look": [
+              -1.75,
+              1.11,
+              -0.42
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -3.222,
+              1.48,
+              -0.553
+            ],
+            "look": [
+              -1.75,
+              1.11,
+              -0.42
+            ]
+          }
+        ],
+        "actors": {
+          "usblaptop": [
+            {
+              "t": 0,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 0.0,
+              "glow": 0.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 1,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 0.0,
+              "glow": 0.0,
+              "tilt": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "liftplug",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.4313,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "liftplug",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.4328,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "stareplug",
+              "face": 270,
+              "angry": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6467,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "stareplug",
+              "face": 270,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6482,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "tapplug",
+              "face": 270,
+              "angry": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.852,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "tapplug",
+              "face": 270,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8535,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "nodplug",
+              "face": 270,
+              "angry": 0.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "nodplug",
+              "face": 270,
+              "angry": 0.0,
+              "y": 0.0
+            }
+          ],
+          "usbstecker": [
+            {
+              "t": 0,
+              "x": -1.97,
+              "z": -0.616,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "hand": 1.0,
+              "drop": 0.0,
+              "tilt": 180.0,
+              "rope": 0.0
+            },
+            {
+              "t": 0.041,
+              "x": -1.97,
+              "z": -0.616,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "hand": 1.0,
+              "rope": 0.0
+            },
+            {
+              "t": 0.0896,
+              "x": -1.8,
+              "z": -0.43,
+              "motion": "park",
+              "face": 90,
+              "y": 1.17,
+              "hand": 1.0,
+              "rope": 1.0
+            },
+            {
+              "t": 0.7413,
+              "x": -1.8,
+              "z": -0.43,
+              "motion": "park",
+              "face": 90,
+              "y": 1.17,
+              "hand": 1.0,
+              "belt": 0.0,
+              "helm": 0.0
+            },
+            {
+              "t": 0.7732,
+              "x": -1.8,
+              "z": -0.43,
+              "motion": "park",
+              "face": 90,
+              "y": 1.17,
+              "hand": 1.0,
+              "belt": 1.0,
+              "helm": 0.0
+            },
+            {
+              "t": 0.8064,
+              "x": -1.8,
+              "z": -0.43,
+              "motion": "park",
+              "face": 90,
+              "y": 1.17,
+              "hand": 1.0,
+              "belt": 1.0,
+              "helm": 0.0
+            },
+            {
+              "t": 0.8345,
+              "x": -1.8,
+              "z": -0.43,
+              "motion": "park",
+              "face": 90,
+              "y": 1.17,
+              "hand": 1.0,
+              "belt": 1.0,
+              "helm": 1.0
+            },
+            {
+              "t": 0.8722,
+              "x": -1.8,
+              "z": -0.43,
+              "motion": "park",
+              "face": 90,
+              "y": 1.17,
+              "hand": 1.0,
+              "belt": 1.0,
+              "helm": 1.0,
+              "nod": 0.0
+            },
+            {
+              "t": 0.8945,
+              "x": -1.8,
+              "z": -0.43,
+              "motion": "park",
+              "face": 90,
+              "y": 1.17,
+              "hand": 1.0,
+              "belt": 1.0,
+              "helm": 1.0,
+              "nod": 1.0
+            },
+            {
+              "t": 1,
+              "x": -1.8,
+              "z": -0.43,
+              "motion": "park",
+              "face": 90,
+              "y": 1.17,
+              "hand": 1.0,
+              "belt": 1.0,
+              "helm": 1.0,
+              "nod": 1.0
+            }
+          ]
+        },
+        "stage": "homeoffice-usb",
+        "sfx": [
+          {
+            "t": 0.0299,
+            "id": "stecker-ziehen",
+            "volume": 0.6
+          },
+          {
+            "t": 0.7657,
+            "id": "gurt-klick",
+            "volume": 0.8
+          },
+          {
+            "t": 0.8271,
+            "id": "plopp",
+            "volume": 0.6
+          },
+          {
+            "t": 0.8908,
+            "id": "himmel-chor",
+            "volume": 0.3
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Laptop falschrum zuklappen und weg",
+      "speech": "C: Du klappst den Laptop in die andere Richtung zusammen und schmeißt ihn weg.",
+      "dummyAction": "Nach dem siebten Versuch reißt dem Dummy der Geduldsfaden: Er klappt den Laptop falschrum nach hinten zusammen (Knack!) und wirft ihn im hohen Bogen durchs offene Fenster – draußen landet er weich in einer Cartoon-Mülltonne voller Kissen. Draußen steht niemand.",
+      "explanation": "Genug gedreht. Laptop einfach komplett falschrum nach hinten zuklappen und im hohen Bogen wegschmeißen.",
+      "sceneExtra": 0.9,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -8.01,
+              2.33,
+              -5.32
+            ],
+            "look": [
+              -2.35,
+              0.55,
+              0.12
+            ]
+          },
+          {
+            "t": 0.3816,
+            "pos": [
+              -7.84,
+              2.277,
+              -5.157
+            ],
+            "look": [
+              -2.35,
+              0.55,
+              0.12
+            ]
+          },
+          {
+            "t": 0.3851,
+            "pos": [
+              -10.16,
+              2.05,
+              -0.36
+            ],
+            "look": [
+              -1.61,
+              0.72,
+              -0.48
+            ]
+          },
+          {
+            "t": 0.5125,
+            "pos": [
+              -9.647,
+              1.97,
+              -0.367
+            ],
+            "look": [
+              -1.61,
+              0.72,
+              -0.48
+            ]
+          },
+          {
+            "t": 0.5161,
+            "pos": [
+              -2.14,
+              1.57,
+              2.57
+            ],
+            "look": [
+              -1.75,
+              1.22,
+              0.38
+            ]
+          },
+          {
+            "t": 0.8044,
+            "pos": [
+              -2.117,
+              1.549,
+              2.439
+            ],
+            "look": [
+              -1.75,
+              1.22,
+              0.38
+            ]
+          },
+          {
+            "t": 0.8075,
+            "pos": [
+              4.09,
+              2.36,
+              7.19
+            ],
+            "look": [
+              -2.03,
+              0.78,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.8507,
+            "pos": [
+              3.845,
+              2.297,
+              6.898
+            ],
+            "look": [
+              -2.03,
+              0.78,
+              -0.1
+            ]
+          },
+          {
+            "t": 0.8536,
+            "pos": [
+              -12.15,
+              2.26,
+              6.68
+            ],
+            "look": [
+              -3.62,
+              0.52,
+              -0.48
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -11.809,
+              2.19,
+              6.394
+            ],
+            "look": [
+              -3.62,
+              0.52,
+              -0.48
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "twistplug",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.1341,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "twistplug",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.1361,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "ragefists",
+              "face": 270,
+              "angry": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.1633,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "ragefists",
+              "face": 270,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4021,
+              "x": -1.5,
+              "z": -0.4,
+              "motion": "ragefists",
+              "face": 270,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4036,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "holdlaptop",
+              "face": 304.4,
+              "angry": 1.0,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 0.5769,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "holdlaptop",
+              "face": 304.4,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5789,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "foldlaptop",
+              "face": 304.4,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7522,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "foldlaptop",
+              "face": 304.4,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7537,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "throwlaptop",
+              "face": 304.4,
+              "angry": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.8571,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "throwlaptop",
+              "face": 304.4,
+              "angry": 0.6,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "throwlaptop",
+              "face": 304.4,
+              "angry": 0.0,
+              "y": 0.0
+            }
+          ],
+          "usbstecker": [
+            {
+              "t": 0,
+              "x": -1.97,
+              "z": -0.73,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "hand": 1.0,
+              "drop": 0.0,
+              "tilt": 0.0,
+              "rope": 0.0
+            },
+            {
+              "t": 0.0336,
+              "x": -1.97,
+              "z": -0.73,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "hand": 1.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.0549,
+              "x": -1.97,
+              "z": -0.73,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "hand": 1.0,
+              "tilt": 180.0
+            },
+            {
+              "t": 0.0982,
+              "x": -1.97,
+              "z": -0.73,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "hand": 1.0,
+              "tilt": 180.0
+            },
+            {
+              "t": 0.1196,
+              "x": -1.97,
+              "z": -0.73,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "hand": 1.0,
+              "tilt": 360.0
+            },
+            {
+              "t": 0.1341,
+              "x": -1.97,
+              "z": -0.73,
+              "motion": "park",
+              "face": 180,
+              "y": 0.751,
+              "hand": 1.0,
+              "tilt": 360.0
+            },
+            {
+              "t": 0.1531,
+              "x": -1.85,
+              "z": -0.8,
+              "motion": "park",
+              "face": 160,
+              "y": 0.755,
+              "hand": 0.0,
+              "tilt": 360.0
+            },
+            {
+              "t": 1,
+              "x": -1.85,
+              "z": -0.8,
+              "motion": "park",
+              "face": 160,
+              "y": 0.755,
+              "hand": 0.0,
+              "tilt": 360.0
+            }
+          ],
+          "kopfdampf": [
+            {
+              "t": 0.0,
+              "x": -1.55,
+              "z": -0.4,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.1341,
+              "x": -1.55,
+              "z": -0.4,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.1361,
+              "x": -1.55,
+              "z": -0.4,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "fill": 0.0
+            },
+            {
+              "t": 0.1905,
+              "x": -1.55,
+              "z": -0.4,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "fill": 1.0
+            },
+            {
+              "t": 0.4021,
+              "x": -1.55,
+              "z": -0.4,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "fill": 1.0
+            },
+            {
+              "t": 0.4036,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "park",
+              "face": 0,
+              "y": 1.86,
+              "fill": 1.0,
+              "cut": true
+            },
+            {
+              "t": 0.7959,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "park",
+              "face": 0,
+              "y": 1.86,
+              "fill": 1.0
+            },
+            {
+              "t": 0.7979,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 1.0,
+              "hand": 0
+            }
+          ],
+          "usblaptop": [
+            {
+              "t": 0,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 0.0,
+              "glow": 0.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.4021,
+              "x": -2.0,
+              "z": -0.4,
+              "motion": "park",
+              "face": 90,
+              "y": 0.74,
+              "lid": 1.0,
+              "fold": 0.0,
+              "squish": 0.0,
+              "glow": 0.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.4036,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.1,
+              "hand": 1.0,
+              "drop": 0.0,
+              "lid": 1.0,
+              "fold": 0.0,
+              "tilt": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.5789,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.1,
+              "hand": 1.0,
+              "fold": 0.0
+            },
+            {
+              "t": 0.7401,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.1,
+              "hand": 1.0,
+              "fold": 1.0
+            },
+            {
+              "t": 0.7939,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.1,
+              "hand": 1.0,
+              "fold": 1.0
+            },
+            {
+              "t": 0.7959,
+              "x": -1.74,
+              "z": 0.1,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.72,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -0.0
+            },
+            {
+              "t": 0.7981,
+              "x": -1.848,
+              "z": 0.081,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.802,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -12.5
+            },
+            {
+              "t": 0.8004,
+              "x": -1.956,
+              "z": 0.063,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.876,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -25.0
+            },
+            {
+              "t": 0.8026,
+              "x": -2.064,
+              "z": 0.044,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.943,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -37.5
+            },
+            {
+              "t": 0.8048,
+              "x": -2.173,
+              "z": 0.025,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.003,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -50.0
+            },
+            {
+              "t": 0.8071,
+              "x": -2.281,
+              "z": 0.006,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.055,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -62.5
+            },
+            {
+              "t": 0.8093,
+              "x": -2.389,
+              "z": -0.012,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.1,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -75.0
+            },
+            {
+              "t": 0.8115,
+              "x": -2.497,
+              "z": -0.031,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.138,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -87.5
+            },
+            {
+              "t": 0.8138,
+              "x": -2.605,
+              "z": -0.05,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.167,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -100.0
+            },
+            {
+              "t": 0.816,
+              "x": -2.713,
+              "z": -0.069,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.19,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -112.5
+            },
+            {
+              "t": 0.8182,
+              "x": -2.821,
+              "z": -0.087,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.205,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -125.0
+            },
+            {
+              "t": 0.8205,
+              "x": -2.929,
+              "z": -0.106,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.213,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -137.5
+            },
+            {
+              "t": 0.8227,
+              "x": -3.038,
+              "z": -0.125,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.213,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -150.0
+            },
+            {
+              "t": 0.8249,
+              "x": -3.146,
+              "z": -0.144,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.206,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -162.5
+            },
+            {
+              "t": 0.8272,
+              "x": -3.254,
+              "z": -0.162,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.191,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -175.0
+            },
+            {
+              "t": 0.8294,
+              "x": -3.362,
+              "z": -0.181,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.169,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -187.5
+            },
+            {
+              "t": 0.8316,
+              "x": -3.47,
+              "z": -0.2,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.14,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -200.0
+            },
+            {
+              "t": 0.8338,
+              "x": -3.578,
+              "z": -0.219,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.103,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -212.5
+            },
+            {
+              "t": 0.8361,
+              "x": -3.686,
+              "z": -0.237,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.059,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -225.0
+            },
+            {
+              "t": 0.8383,
+              "x": -3.794,
+              "z": -0.256,
+              "motion": "park",
+              "face": 124.4,
+              "y": 2.007,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -237.5
+            },
+            {
+              "t": 0.8405,
+              "x": -3.903,
+              "z": -0.275,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.948,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -250.0
+            },
+            {
+              "t": 0.8428,
+              "x": -4.011,
+              "z": -0.294,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.882,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -262.5
+            },
+            {
+              "t": 0.845,
+              "x": -4.119,
+              "z": -0.312,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.808,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -275.0
+            },
+            {
+              "t": 0.8472,
+              "x": -4.227,
+              "z": -0.331,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.726,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -287.5
+            },
+            {
+              "t": 0.8495,
+              "x": -4.335,
+              "z": -0.35,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.637,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -300.0
+            },
+            {
+              "t": 0.8517,
+              "x": -4.443,
+              "z": -0.369,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.541,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -312.5
+            },
+            {
+              "t": 0.8539,
+              "x": -4.551,
+              "z": -0.387,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.438,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -325.0
+            },
+            {
+              "t": 0.8562,
+              "x": -4.659,
+              "z": -0.406,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.327,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -337.5
+            },
+            {
+              "t": 0.8584,
+              "x": -4.768,
+              "z": -0.425,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.208,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -350.0
+            },
+            {
+              "t": 0.8606,
+              "x": -4.876,
+              "z": -0.444,
+              "motion": "park",
+              "face": 124.4,
+              "y": 1.082,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -362.5
+            },
+            {
+              "t": 0.8629,
+              "x": -4.984,
+              "z": -0.462,
+              "motion": "park",
+              "face": 124.4,
+              "y": 0.949,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -375.0
+            },
+            {
+              "t": 0.8651,
+              "x": -5.092,
+              "z": -0.481,
+              "motion": "park",
+              "face": 124.4,
+              "y": 0.808,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -387.5
+            },
+            {
+              "t": 0.8673,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 124.4,
+              "y": 0.66,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -400.0
+            },
+            {
+              "t": 0.8911,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 124.4,
+              "y": 0.6,
+              "hand": 0.0,
+              "fold": 1.0,
+              "tilt": -400.0
+            },
+            {
+              "t": 1,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 124.4,
+              "y": 0.6,
+              "fold": 1.0,
+              "tilt": -400.0
+            }
+          ],
+          "funken": [
+            {
+              "t": 0.0,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "burst",
+              "face": 0,
+              "y": -30.0,
+              "mark": 1.0,
+              "size": -0.2,
+              "hand": 0
+            },
+            {
+              "t": 0.7381,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "burst",
+              "face": 0,
+              "y": -30.0,
+              "mark": 1.0,
+              "size": -0.2,
+              "hand": 0
+            },
+            {
+              "t": 0.7401,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "burst",
+              "face": 0,
+              "y": 1.1,
+              "mark": 1.0,
+              "size": -0.2
+            },
+            {
+              "t": 1,
+              "x": -1.45,
+              "z": 0.42,
+              "motion": "burst",
+              "face": 0,
+              "y": 1.1,
+              "mark": 1.0,
+              "size": -0.2
+            }
+          ],
+          "muelltonne": [
+            {
+              "t": 0.0,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 90,
+              "lid": 1.0,
+              "squish": 0.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.8157,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 90,
+              "lid": 1.0,
+              "squish": 0.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.8177,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 90,
+              "lid": 1.0,
+              "squish": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8653,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 90,
+              "lid": 1.0,
+              "squish": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8673,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 90,
+              "lid": 1.0,
+              "squish": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8979,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 90,
+              "lid": 1.0,
+              "squish": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.9183,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 90,
+              "lid": 0.15,
+              "squish": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -5.2,
+              "z": -0.5,
+              "motion": "park",
+              "face": 90,
+              "lid": 0.15,
+              "squish": 0.0,
+              "y": 0.0
+            }
+          ]
+        },
+        "stage": [
+          {
+            "t": 0,
+            "stage": "homeoffice-usb"
+          },
+          {
+            "t": 0.8177,
+            "stage": "homeoffice-usb-aussen"
+          }
+        ],
+        "counter": [
+          {
+            "t": 0.0549,
+            "text": "6x"
+          },
+          {
+            "t": 0.1196,
+            "text": "7x"
+          },
+          {
+            "t": 0.4036,
+            "text": ""
+          }
+        ],
+        "sfx": [
+          {
+            "t": 0.0194,
+            "id": "usb-stoss",
+            "volume": 0.75
+          },
+          {
+            "t": 0.084,
+            "id": "usb-stoss",
+            "volume": 0.75
+          },
+          {
+            "t": 0.0549,
+            "id": "plopp",
+            "volume": 0.35
+          },
+          {
+            "t": 0.1196,
+            "id": "plopp",
+            "volume": 0.35
+          },
+          {
+            "t": 0.1565,
+            "id": "dampf",
+            "volume": 0.6
+          },
+          {
+            "t": 0.6129,
+            "id": "laptop-knacken",
+            "volume": 0.8
+          },
+          {
+            "t": 0.7367,
+            "id": "laptop-knacken",
+            "volume": 0.9
+          },
+          {
+            "t": 0.7891,
+            "id": "whoosh",
+            "volume": 0.7
+          },
+          {
+            "t": 0.8673,
+            "id": "kissen-plumps",
+            "volume": 0.9
+          },
+          {
+            "t": 0.9081,
+            "id": "plopp",
+            "volume": 0.6
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du?",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
+    "screen": "Kommentieren & folgen!",
+    "extra": "Neue Video-Ideen? Ab in die Kommentare!",
+    "extraCue": "Neue Video-Ideen"
+  },
+  "publishing": {
+    "description": "Du hast das USB-Kabel mal wieder fünfmal gedreht, bevor es passt – was machst du? 🔌💻 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Alles bleibt rein comichaft und harmlos. 😄\n\n#waswürdestdutun #usb #laptop #technik #comedy #quiz #dummy #spezial\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team _. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -5.45,
+            1.92,
+            -3.29
+          ],
+          "look": [
+            -1.92,
+            0.44,
+            -0.54
+          ]
+        },
+        {
+          "t": 0.2237,
+          "pos": [
+            -5.274,
+            1.846,
+            -3.152
+          ],
+          "look": [
+            -1.92,
+            0.44,
+            -0.54
+          ]
+        },
+        {
+          "t": 0.2268,
+          "pos": [
+            -2.19,
+            1.05,
+            -1.49
+          ],
+          "look": [
+            -2.0,
+            0.75,
+            -0.76
+          ]
+        },
+        {
+          "t": 0.3555,
+          "pos": [
+            -2.177,
+            1.029,
+            -1.439
+          ],
+          "look": [
+            -2.0,
+            0.75,
+            -0.76
+          ]
+        },
+        {
+          "t": 0.359,
+          "pos": [
+            -2.69,
+            1.38,
+            -1.73
+          ],
+          "look": [
+            -2.01,
+            0.71,
+            -0.56
+          ]
+        },
+        {
+          "t": 0.6698,
+          "pos": [
+            -2.649,
+            1.34,
+            -1.66
+          ],
+          "look": [
+            -2.01,
+            0.71,
+            -0.56
+          ]
+        },
+        {
+          "t": 0.6732,
+          "pos": [
+            -8.17,
+            1.87,
+            -2.1
+          ],
+          "look": [
+            -1.79,
+            0.45,
+            -0.74
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -7.851,
+            1.799,
+            -2.032
+          ],
+          "look": [
+            -1.79,
+            0.45,
+            -0.74
+          ]
+        }
+      ],
+      "actors": {
+        "usblaptop": [
+          {
+            "t": 0,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 0.0,
+            "tilt": 0.0
+          },
+          {
+            "t": 0.5288,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 0.0,
+            "tilt": 0.0
+          },
+          {
+            "t": 0.5308,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 1.0,
+            "tilt": 0.0
+          },
+          {
+            "t": 0.5946,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 1.0,
+            "tilt": 0.0
+          },
+          {
+            "t": 0.6478,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 0.0,
+            "tilt": 0.0
+          },
+          {
+            "t": 1,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 0.0,
+            "tilt": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -1.5,
+            "z": -0.4,
+            "motion": "twistplug",
+            "face": 270,
+            "y": 0.0
+          },
+          {
+            "t": 0.6452,
+            "x": -1.5,
+            "z": -0.4,
+            "motion": "twistplug",
+            "face": 270,
+            "y": 0.0
+          },
+          {
+            "t": 0.6467,
+            "x": -1.5,
+            "z": -0.4,
+            "motion": "physikshrug",
+            "face": 270,
+            "question": 0.0,
+            "y": 0.0,
+            "cut": true
+          },
+          {
+            "t": 0.8702,
+            "x": -1.5,
+            "z": -0.4,
+            "motion": "physikshrug",
+            "face": 270,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.9074,
+            "x": -1.5,
+            "z": -0.4,
+            "motion": "physikshrug",
+            "face": 270,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -1.5,
+            "z": -0.4,
+            "motion": "physikshrug",
+            "face": 270,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ],
+        "usbstecker": [
+          {
+            "t": 0,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "drop": 0.0,
+            "tilt": 0.0,
+            "rope": 0.0
+          },
+          {
+            "t": 0.0526,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 0.0
+          },
+          {
+            "t": 0.0859,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 180.0
+          },
+          {
+            "t": 0.1536,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 180.0
+          },
+          {
+            "t": 0.187,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 360.0
+          },
+          {
+            "t": 0.2547,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 360.0
+          },
+          {
+            "t": 0.288,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 540.0
+          },
+          {
+            "t": 0.3557,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 540.0
+          },
+          {
+            "t": 0.3891,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 720.0
+          },
+          {
+            "t": 0.4568,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 720.0
+          },
+          {
+            "t": 0.4902,
+            "x": -1.97,
+            "z": -0.73,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 900.0
+          },
+          {
+            "t": 0.5414,
+            "x": -1.97,
+            "z": -0.616,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 1.0,
+            "tilt": 900.0
+          },
+          {
+            "t": 0.5436,
+            "x": -1.97,
+            "z": -0.616,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 0.0,
+            "tilt": 900.0
+          },
+          {
+            "t": 1,
+            "x": -1.97,
+            "z": -0.616,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "hand": 0.0,
+            "tilt": 900.0
+          }
+        ],
+        "funken": [
+          {
+            "t": 0.0,
+            "x": -1.95,
+            "z": -0.58,
+            "motion": "burst",
+            "face": 180,
+            "y": -30.0,
+            "mark": 1.0,
+            "size": -0.4,
+            "hand": 0
+          },
+          {
+            "t": 0.5288,
+            "x": -1.95,
+            "z": -0.58,
+            "motion": "burst",
+            "face": 180,
+            "y": -30.0,
+            "mark": 1.0,
+            "size": -0.4,
+            "hand": 0
+          },
+          {
+            "t": 0.5308,
+            "x": -1.95,
+            "z": -0.58,
+            "motion": "burst",
+            "face": 180,
+            "y": 0.771,
+            "mark": 1.0,
+            "size": -0.4
+          },
+          {
+            "t": 1,
+            "x": -1.95,
+            "z": -0.58,
+            "motion": "burst",
+            "face": 180,
+            "y": 0.771,
+            "mark": 1.0,
+            "size": -0.4
+          }
+        ]
+      },
+      "stage": "homeoffice-usb",
+      "counter": [
+        {
+          "t": 0.0859,
+          "text": "1x"
+        },
+        {
+          "t": 0.187,
+          "text": "2x"
+        },
+        {
+          "t": 0.288,
+          "text": "3x"
+        },
+        {
+          "t": 0.3891,
+          "text": "4x"
+        },
+        {
+          "t": 0.4902,
+          "text": "5x"
+        },
+        {
+          "t": 0.6467,
+          "text": ""
+        }
+      ],
+      "sfx": [
+        {
+          "t": 0.0303,
+          "id": "usb-stoss",
+          "volume": 0.75
+        },
+        {
+          "t": 0.1314,
+          "id": "usb-stoss",
+          "volume": 0.75
+        },
+        {
+          "t": 0.2324,
+          "id": "usb-stoss",
+          "volume": 0.75
+        },
+        {
+          "t": 0.3335,
+          "id": "usb-stoss",
+          "volume": 0.75
+        },
+        {
+          "t": 0.4346,
+          "id": "usb-stoss",
+          "volume": 0.75
+        },
+        {
+          "t": 0.0859,
+          "id": "plopp",
+          "volume": 0.35
+        },
+        {
+          "t": 0.187,
+          "id": "plopp",
+          "volume": 0.35
+        },
+        {
+          "t": 0.288,
+          "id": "plopp",
+          "volume": 0.35
+        },
+        {
+          "t": 0.3891,
+          "id": "plopp",
+          "volume": 0.35
+        },
+        {
+          "t": 0.4902,
+          "id": "plopp",
+          "volume": 0.35
+        },
+        {
+          "t": 0.5244,
+          "id": "klick",
+          "volume": 0.8
+        },
+        {
+          "t": 0.5308,
+          "id": "rasen-zauber",
+          "volume": 0.3
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            11.71,
+            2.16,
+            23.38
+          ],
+          "look": [
+            -1.92,
+            3.45,
+            -0.22
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            11.165,
+            2.212,
+            22.436
+          ],
+          "look": [
+            -1.92,
+            3.45,
+            -0.22
+          ]
+        }
+      ],
+      "actors": {
+        "usblaptop": [
+          {
+            "t": 0,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 0.0,
+            "tilt": 0.0
+          },
+          {
+            "t": 1,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 0.0,
+            "tilt": 0.0
+          }
+        ],
+        "usbstecker": [
+          {
+            "t": 0,
+            "x": -1.97,
+            "z": -0.616,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "tilt": 0.0,
+            "rope": 0.0
+          },
+          {
+            "t": 1,
+            "x": -1.97,
+            "z": -0.616,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "tilt": 0.0,
+            "rope": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -1.35,
+            "z": 0.5,
+            "motion": "stand",
+            "face": 215,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -1.35,
+            "z": 0.5,
+            "motion": "stand",
+            "face": 215,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "homeoffice-usb",
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            8.16,
+            2.62,
+            14.74
+          ],
+          "look": [
+            -3.34,
+            0.74,
+            0.91
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            7.585,
+            2.526,
+            14.049
+          ],
+          "look": [
+            -3.34,
+            0.74,
+            0.91
+          ]
+        }
+      ],
+      "actors": {
+        "usblaptop": [
+          {
+            "t": 0,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 0.0,
+            "tilt": 0.0
+          },
+          {
+            "t": 1,
+            "x": -2.0,
+            "z": -0.4,
+            "motion": "park",
+            "face": 90,
+            "y": 0.74,
+            "lid": 1.0,
+            "fold": 0.0,
+            "squish": 0.0,
+            "glow": 0.0,
+            "tilt": 0.0
+          }
+        ],
+        "usbstecker": [
+          {
+            "t": 0,
+            "x": -1.97,
+            "z": -0.616,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "tilt": 0.0,
+            "rope": 0.0
+          },
+          {
+            "t": 1,
+            "x": -1.97,
+            "z": -0.616,
+            "motion": "park",
+            "face": 180,
+            "y": 0.751,
+            "tilt": 0.0,
+            "rope": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -1.35,
+            "z": 0.5,
+            "motion": "stand",
+            "face": 215,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.12,
+            "x": -1.35,
+            "z": 0.5,
+            "motion": "wave",
+            "face": 215,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -1.35,
+            "z": 0.5,
+            "motion": "wave",
+            "face": 215,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "homeoffice-usb",
+      "sharpCuts": true
+    }
+  }
+}

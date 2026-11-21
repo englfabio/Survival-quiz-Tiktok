@@ -67,7 +67,7 @@ type RoomCfg = {
   backWall?: THREE.Material;
   ceiling: string;
   /** Fenster in der linken (−x) oder rechten (+x) Wand: Mitte z, Breite, Unterkante, Höhe */
-  window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string; /** offen: kein Mittelsteg, ein Flügel steht nach innen offen */ open?: boolean};
+  window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string; /** offen: kein Mittelsteg, ein Flügel steht nach innen offen */ open?: boolean; /** echte Außenwelt (eigene Kulisse): kein Himmel-Bild hinter dem Fenster */ outside?: boolean; /** offener Flügel am hinteren (−z) Ende angeschlagen */ hingeBack?: boolean};
   light: {ambient: number; hemi: number; sun: number; sunColor: string; lamp: number; lampColor: string};
   children?: ReactNode;
   /** false = keine Standard-Wände (der Raum baut eigene Wände mit Öffnungen, siehe HoleWall) */
@@ -134,10 +134,12 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
                 <planeGeometry args={[window.w, H - window.y - window.h]} />
               </mesh>
               {/* Himmel hinter dem Fenster + Rahmen */}
+              {!window.outside && (
               <mesh position={[(s * W) / 2 + s * 1.4, window.y + window.h / 2, window.z]} rotation={[0, -s * Math.PI / 2, 0]}>
                 <planeGeometry args={[window.w + 3, window.h + 3]} />
                 <meshBasicMaterial color={window.sky} />
               </mesh>
+              )}
               {[
                 [0, window.h / 2 + 0.03, window.w + 0.12, 0.08],
                 [0, -window.h / 2 - 0.03, window.w + 0.12, 0.08],
@@ -149,6 +151,7 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
                 </mesh>
               ))}
               {window.open && (
+                <group position={[0, 0, window.hingeBack ? 2 * window.z : 0]} scale={[1, 1, window.hingeBack ? -1 : 1]}>
                 <group position={[(s * W) / 2 - s * 0.03, window.y + window.h / 2, window.z + window.w / 2]} rotation={[0, -s * 1.9, 0]}>
                   {/* offener Fensterflügel (Rahmen + Glas), steht nach innen */}
                   <mesh position={[0, 0, -window.w / 4]}>
@@ -174,6 +177,7 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
                     <boxGeometry args={[0.008, window.h - 0.08, window.w / 2 - 0.08]} />
                     <meshStandardMaterial color="#cfe8f7" transparent opacity={0.35} roughness={0.05} metalness={0.2} />
                   </mesh>
+                </group>
                 </group>
               )}
               {[-1, 1].map((k) => (
@@ -424,7 +428,143 @@ export const LIVING = {W: 5, D: 4.6};
  *  Stuhl/Dummy sitzend bei HOMEOFFICE.chair (Blick zum Fenster = face 270), Laptop-Platz HOMEOFFICE.laptop, Uhr/Tasse daneben. */
 export const HOMEOFFICE = {deskH: 0.74, chair: [-1.5, -0.4] as [number, number], laptop: [-2.12, 0.74, -0.4] as [number, number, number], clock: [-2.32, 0.74, -0.88] as [number, number, number], mug: [-2.08, 0.74, 0.02] as [number, number, number]};
 
-const LivingScene = ({homeOffice = false}: {homeOffice?: boolean; cam?: unknown}) => {
+
+/**
+ * Spezial USB: Garten hinter dem offenen Homeoffice-Fenster (linke Wand x −2.5). Fenster (offen, hoch: Unterkante 0,75, Oberkante 2,4 m). Rasen ab x −2.56 nach −x, Hecke bei x −10,
+ * Holzzaun bei x −8.4, Baum hinten, Büsche. Mit `facade`: Hauswand von außen (Putz, Sockel, Fensterlaibung, Dachkante) –
+ * nur für Einstellungen VON DRAUSSEN (von innen unsichtbar, von außen blockiert sie den Blick durch die Wand).
+ */
+export const USB_GARDEN = {wallX: -2.5, outX: -2.56, bin: [-5.2, -0.5] as [number, number], win: {z: -0.4, w: 1.3, y: 0.75, h: 1.65}};
+const UsbGarden = ({facade}: {facade: boolean}) => {
+  const m = useMemo(
+    () => ({
+      lawn: std('#86c063', {roughness: 0.95}),
+      lawn2: std('#79b358', {roughness: 0.95}),
+      hedge: std('#3f7d3a'),
+      hedge2: std('#4c8c44'),
+      wood: std('#b98552'),
+      trunk: std('#7a5233'),
+      leaf: std('#5aa04a'),
+      leaf2: std('#6cb556'),
+      plaster: std('#f2dfc4', {roughness: 0.95}),
+      base: std('#a9a39a'),
+      roof: std('#b4553f'),
+      roofDark: std('#8f3f2e'),
+      sill: std('#e8e6e1'),
+      flower: [std('#ff6f91'), std('#ffd21a'), std('#7fb8ff'), std('#ffffff')],
+      stone: std('#cfcac0'),
+    }),
+    [],
+  );
+  const {outX} = USB_GARDEN;
+  const win = {z: -0.4, w: 1.3, y: 0.75, h: 1.65};
+  const H = 2.6;
+  const z0 = -2.6;
+  const z1 = 8.3;
+  const fx = outX;
+  const face = (key: string, y: number, h: number, za: number, zb: number) => (
+    <mesh key={key} material={m.plaster} position={[fx, y + h / 2, (za + zb) / 2]} rotation={[0, -Math.PI / 2, 0]} receiveShadow>
+      <planeGeometry args={[zb - za, h]} />
+    </mesh>
+  );
+  return (
+    <group>
+      {/* Rasen */}
+      <mesh material={m.lawn} rotation={[-Math.PI / 2, 0, 0]} position={[outX + 0.06 - 20, -0.002, 2]} receiveShadow>
+        <planeGeometry args={[40, 60]} />
+      </mesh>
+      {[[-5.5, 3.2, 2.2], [-6.8, -3.6, 1.6], [-3.9, 5.4, 1.2]].map(([x, z, r], i) => (
+        <mesh key={i} material={m.lawn2} rotation={[-Math.PI / 2, 0, 0]} position={[x, 0.001, z]}>
+          <circleGeometry args={[r, 14]} />
+        </mesh>
+      ))}
+      {/* Trittsteine */}
+      {[[-3.4, 1.6], [-4.2, 2.3], [-5.0, 2.9], [-5.9, 3.4]].map(([x, z], i) => (
+        <mesh key={`s${i}`} material={m.stone} position={[x, 0.012, z]} rotation={[0, i * 0.7, 0]}>
+          <cylinderGeometry args={[0.26, 0.28, 0.025, 7]} />
+        </mesh>
+      ))}
+      {/* Holzzaun */}
+      {Array.from({length: 26}, (_, i) => -9 + i * 0.75).map((z) => (
+        <mesh key={`p${z}`} material={m.wood} position={[-8.4, 0.5, z]} castShadow>
+          <boxGeometry args={[0.07, 1.0, 0.1]} />
+        </mesh>
+      ))}
+      {[0.35, 0.8].map((y) => (
+        <mesh key={`r${y}`} material={m.wood} position={[-8.42, y, 0.4]}>
+          <boxGeometry args={[0.05, 0.08, 19]} />
+        </mesh>
+      ))}
+      {/* Hecke */}
+      {Array.from({length: 12}, (_, i) => -10 + i * 2).map((z, i) => (
+        <mesh key={`h${z}`} material={i % 2 ? m.hedge : m.hedge2} position={[-10.2, 0.85, z]} castShadow>
+          <boxGeometry args={[1.2, 1.7, 2.1]} />
+        </mesh>
+      ))}
+      {/* Baum + Büsche */}
+      <group position={[-7.2, 0, -4.6]}>
+        <mesh material={m.trunk} position={[0, 1.1, 0]} castShadow>
+          <cylinderGeometry args={[0.16, 0.22, 2.2, 7]} />
+        </mesh>
+        <mesh material={m.leaf} position={[0, 2.9, 0]} castShadow>
+          <icosahedronGeometry args={[1.5, 0]} />
+        </mesh>
+        <mesh material={m.leaf2} position={[0.6, 2.4, 0.6]} castShadow>
+          <icosahedronGeometry args={[0.9, 0]} />
+        </mesh>
+      </group>
+      {[[-6.6, 5.6, 0.7], [-7.6, 1.2, 0.55], [-5.8, -7.4, 0.8]].map(([x, z, r], i) => (
+        <mesh key={`b${i}`} material={i % 2 ? m.leaf : m.leaf2} position={[x, r * 0.75, z]} castShadow>
+          <icosahedronGeometry args={[r, 0]} />
+        </mesh>
+      ))}
+      {facade && (
+        <group>
+          {/* Hauswand von außen mit Fensteröffnung */}
+          {face('a', 0, H, z0, win.z - win.w / 2)}
+          {face('b', 0, H, win.z + win.w / 2, z1)}
+          {face('c', 0, win.y, win.z - win.w / 2, win.z + win.w / 2)}
+          {face('d', win.y + win.h, H - win.y - win.h, win.z - win.w / 2, win.z + win.w / 2)}
+          {/* Laibung (Wanddicke) */}
+          {[-1, 1].map((k) => (
+            <mesh key={`l${k}`} material={m.plaster} position={[(fx - 2.5) / 2, win.y + win.h / 2, win.z + (k * win.w) / 2]} rotation={[0, k > 0 ? Math.PI : 0, 0]}>
+              <planeGeometry args={[2.5 - -fx, win.h]} />
+            </mesh>
+          ))}
+          <mesh material={m.plaster} position={[(fx - 2.5) / 2, win.y + win.h, win.z]} rotation={[Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[2.5 - -fx, win.w]} />
+          </mesh>
+          {/* Fensterbank außen */}
+          <mesh material={m.sill} position={[fx - 0.06, win.y - 0.02, win.z]} castShadow>
+            <boxGeometry args={[0.16, 0.04, win.w + 0.14]} />
+          </mesh>
+          {/* Sockel */}
+          <mesh material={m.base} position={[fx - 0.02, 0.15, (z0 + z1) / 2]}>
+            <boxGeometry args={[0.04, 0.3, z1 - z0]} />
+          </mesh>
+          {/* Dach: Traufe + Dachfläche nach hinten */}
+          <mesh material={m.roofDark} position={[fx - 0.25, H + 0.06, (z0 + z1) / 2]} castShadow>
+            <boxGeometry args={[0.6, 0.12, z1 - z0 + 0.6]} />
+          </mesh>
+          <mesh material={m.roof} position={[fx + 1.35, H + 0.75, (z0 + z1) / 2]} rotation={[0, 0, -0.42]} castShadow>
+            <boxGeometry args={[3.5, 0.1, z1 - z0 + 0.6]} />
+          </mesh>
+          {/* Blumenbeet an der Wand */}
+          <mesh material={m.lawn2} position={[fx - 0.35, 0.05, 2.0]}>
+            <boxGeometry args={[0.5, 0.1, 3.2]} />
+          </mesh>
+          {Array.from({length: 12}, (_, i) => (
+            <mesh key={`f${i}`} material={m.flower[i % 4]} position={[fx - 0.25 - (i % 3) * 0.12, 0.2, 0.55 + i * 0.25]}>
+              <icosahedronGeometry args={[0.07, 0]} />
+            </mesh>
+          ))}
+        </group>
+      )}
+    </group>
+  );
+};
+
+const LivingScene = ({homeOffice = false, usb = 0}: {homeOffice?: boolean; usb?: 0 | 1 | 2; cam?: unknown}) => {
   const mats = useMemo(
     () => ({
       floor: new THREE.MeshStandardMaterial({map: plankTexture([3, 6]), roughness: 0.7}),
@@ -443,9 +583,11 @@ const LivingScene = ({homeOffice = false}: {homeOffice?: boolean; cam?: unknown}
       wall={mats.wall}
       backWall={mats.back}
       ceiling="#f7f3ec"
-      window={{side: -1, z: -0.4, w: 1.3, y: 0.9, h: 1.3, sky: '#bfe0ff'}}
+      window={{side: -1, z: -0.4, w: 1.3, y: usb > 0 ? 0.75 : 0.9, h: usb > 0 ? 1.65 : 1.3, sky: '#bfe0ff', open: usb > 0, outside: usb > 0, hingeBack: usb > 0}}
       light={{ambient: 0.5, hemi: 0.7, sun: 1.5, sunColor: '#ffe9c9', lamp: 4.5, lampColor: '#ffe7c4'}}
+      bg={usb > 0 ? '#a8d8f7' : undefined}
     >
+      {usb > 0 && <UsbGarden facade={usb === 2} />}
       <group position={[0, 0, -1.82]}>
         <Sofa />
       </group>
@@ -510,7 +652,7 @@ const LivingScene = ({homeOffice = false}: {homeOffice?: boolean; cam?: unknown}
           )),
         )}
       </group>
-      <group position={[-1.95, 0, -1.6]}>
+      <group position={usb > 0 ? [1.95, 0, 0.35] : [-1.95, 0, -1.6]}>
         <Plant s={1.3} />
       </group>
       {/* Bilderrahmen über dem Sofa */}
@@ -705,5 +847,10 @@ const PraxisScene = () => {
 export const bathroomStage: StageDef = {id: 'badezimmer', Component: BathroomScene, climbTrees: [], groundHeight: () => 0};
 export const livingRoomStage: StageDef = {id: 'wohnzimmer', Component: LivingScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 const HomeOfficeScene = () => <LivingScene homeOffice />;
+const UsbOfficeScene = () => <LivingScene homeOffice usb={1} />;
+const UsbOfficeOutsideScene = () => <LivingScene homeOffice usb={2} />;
+/** Spezial USB: Homeoffice mit offenem Fenster + Garten (innen) / zusätzlich Hauswand von außen ("-aussen") */
+export const usbOfficeStage: StageDef = {id: 'homeoffice-usb', Component: UsbOfficeScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+export const usbOfficeOutsideStage: StageDef = {id: 'homeoffice-usb-aussen', Component: UsbOfficeOutsideScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 export const homeOfficeStage: StageDef = {id: 'wohnzimmer-homeoffice', Component: HomeOfficeScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 export const praxisStage: StageDef = {id: 'arztpraxis', Component: PraxisScene, climbTrees: [], groundHeight: () => 0};

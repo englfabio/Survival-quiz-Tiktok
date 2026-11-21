@@ -325,6 +325,19 @@ export type Motion =
   | 'heavelift' // Dummy: greift den Abwasch-Berg 0,45 m vor sich auf 0,95 m (bis 0,5 s), stemmt ihn über den Kopf (0,5–1,2 s), balanciert
   | 'heavethrow' // Dummy: wirft das Gewicht von über dem Kopf nach vorn oben (Ausholen 0–0,3 s, Abwurf 0,45 s), danach Arme vorn
   | 'thumbsup' // Dummy: rechter Daumen hoch vor der Brust, links in der Hüfte, nickt zufrieden
+  | 'twistplug' // Dummy (sitzend): Stecker zum Laptop-Anschluss schieben, passt nicht, zurück, umdrehen (Takt 0,95 s); nach 5 Fehlversuchen gleitet er rein
+  | 'physikshrug' // Dummy (sitzend): Arme fassungslos hoch, dann Achselzucken
+  | 'ragefists' // Dummy (sitzend): Fäuste vor der Brust, zittert vor Wut (immer stärker)
+  | 'liftplug' // Dummy (sitzend): Stecker aus dem Anschluss ziehen (0,3–0,55 s) und auf Augenhöhe heben (bis 1,2 s)
+  | 'stareplug' // Dummy (sitzend): Stecker auf Augenhöhe, beugt sich streng heran
+  | 'tapplug' // Dummy (sitzend): Stecker auf Augenhöhe, linker Zeigefinger tippt darauf (alle 0,9 s zweimal)
+  | 'nodplug' // Dummy (sitzend): Stecker auf Augenhöhe, nickt zufrieden
+  | 'malletready' // Dummy: Gummihammer rechts, klopft ihn drohend in die linke Hand (Takt 0,8 s)
+  | 'nofinger' // Dummy: wedelt mit dem linken Zeigefinger „nein“, schüttelt den Kopf
+  | 'croquet' // Dummy: Krocket-Schlag mit dem senkrechten Gummihammer (ausholen 0–0,45 s, Treffer 0,55 s)
+  | 'holdlaptop' // Dummy: hält den Laptop waagerecht vor der Brust, zittert
+  | 'foldlaptop' // Dummy: hält den Laptop und stemmt sich (Deckel klappt falschrum nach hinten)
+  | 'throwlaptop' // Dummy: holt über den Kopf aus und wirft im hohen Bogen (Abwurf 0,62 s)
   | 'pulldoor' // Dummy: zieht verzweifelt mit beiden Händen an der Griffstange 0,45 m vor ihm (1,02 m hoch), lehnt sich zurück, ruckt alle 0,5 s
   | 'plantcracker' // Dummy: klebt mit rechts den Knallfrosch 0,5 m vor sich auf 1,12 m an die Tür (angedrückt 0,55–0,85 s), tritt zurück
   | 'coverears' // Dummy: geht hinter der Säule in die Hocke, hält sich die Ohren zu, lugt hervor; zuckt beim Knall (Wert-Zeit 0 = Hocke ab 0,4 s)
@@ -611,6 +624,16 @@ export type ActorKey = {
   shrink?: number;
   /** Dummy: Forscher-Schutzbrille 0 … 1 (rutscht von der Stirn auf die Augen) */
   goggles?: number;
+  /** USB-Laptop: Deckel falschrum nach hinten klappen 0 … 1 */
+  fold?: number;
+  /** USB-Stecker: winziger Sicherheitsgurt 0 … 1 */
+  belt?: number;
+  /** USB-Stecker: winziger Helm 0 … 1 */
+  helm?: number;
+  /** USB-Stecker: nickt 0 … 1 */
+  nod?: number;
+  /** Dummy: strenger/wütender Blick (Brauen) 0 … 1 */
+  angry?: number;
   /** Tür „druecktuer“: Laufschiene wird angeschraubt 0 … 1 (ab 0,85 hängt das Blatt in der Schiene) */
   rail?: number;
   /** Tür „druecktuer“: Schiebetür rollt zur Seite 0 … 1 */
@@ -618,7 +641,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
@@ -671,6 +694,8 @@ export type Shot = {
   hud?: [number, number];
   /** Bau-Auswahl in der Spiel-Anzeige: Liste {t, sel} mit sel = "wall" | "stair" | "floor" | "roof" | "" */
   hudSel?: {t: number; sel: string}[];
+  /** Zähler oben (Spezial USB, z. B. „1x“ … „5x“): Liste {t, text}; leerer Text = ausblenden. Neuer Text ploppt auf */
+  counter?: {t: number; text: string}[];
   /** Alles zieht sich in einen leuchtenden Punkt zusammen: [t Beginn, t Punkt, t schwarz] (Urknall rückwärts) */
   implode?: [number, number, number];
 };

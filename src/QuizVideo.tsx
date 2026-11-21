@@ -19,6 +19,7 @@ import {
   SourceLine,
   StepList,
   Stopwatch,
+  CounterBadge,
   Subtitle,
   AnswerHeader,
   LETTERS,
@@ -314,6 +315,11 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
       {/* Stoppuhr (optional, aus der Szenario-Datei: "timer") */}
       {shot.timer && (
         <Stopwatch t={t} timer={shot.timer} sectionFrames={sec.duration} fps={fps} top={sec.kind === 'explain' ? 525 : sec.kind === 'answer' ? 450 : 300} left={T.rightTop - 215} />
+      )}
+
+      {/* Zähler (optional, "counter": [{t, text}]) */}
+      {shot.counter && (
+        <CounterBadge items={shot.counter} t={t} sectionFrames={sec.duration} top={sec.kind === 'answer' ? 470 : 300} left={sec.kind === 'answer' ? 870 : 540} />
       )}
 
       {sec.kind === 'outro' && !spezial && <OutroPanel text={s.outro.screen} frame={local} />}

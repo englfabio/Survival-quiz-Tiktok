@@ -982,3 +982,65 @@ export const ExtraLine = ({text, frame, top}: {text: string; frame: number; top:
     </div>
   );
 };
+
+/**
+ * Zähler (Spezial USB, Shot-Feld "counter"): runde gelbe Plakette mit schwarzem Text (z. B. „3x“), Warnschild-Rand.
+ * Jeder neue Text ploppt auf (Feder), leerer Text blendet aus.
+ */
+export const CounterBadge = ({items, t, sectionFrames, top, left}: {items: {t: number; text: string}[]; t: number; sectionFrames: number; top: number; left: number}) => {
+  const {fps} = useVideoConfig();
+  let cur: {t: number; text: string} | undefined;
+  let prev: {t: number; text: string} | undefined;
+  for (const it of items) {
+    if (it.t <= t + 1e-6) {
+      prev = cur;
+      cur = it;
+    }
+  }
+  if (!cur) return null;
+  const since = (t - cur.t) * sectionFrames;
+  const hiding = !cur.text;
+  const text = hiding ? prev?.text ?? '' : cur.text;
+  if (!text) return null;
+  const pop = spring({frame: since, fps, config: {damping: 9, stiffness: 170}});
+  const out = hiding ? 1 - clamp(since / 6) : 1;
+  if (out <= 0) return null;
+  const scale = hiding ? out : 0.55 + 0.45 * pop + 0.12 * Math.max(0, 1 - since / 5);
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: left - 105,
+        top,
+        width: 210,
+        height: 210,
+        borderRadius: '50%',
+        background: hazardStripes(13),
+        padding: 10,
+        boxSizing: 'border-box',
+        boxShadow: '0 10px 28px rgba(0,0,0,0.45)',
+        transform: `scale(${scale}) rotate(${(1 - pop) * -14}deg)`,
+        opacity: out,
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          borderRadius: '50%',
+          background: T.yellow,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontFamily: T.font,
+          fontWeight: 800,
+          fontSize: 104,
+          color: T.black,
+          lineHeight: 1,
+        }}
+      >
+        {text}
+      </div>
+    </div>
+  );
+};

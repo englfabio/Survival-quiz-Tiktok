@@ -113,6 +113,8 @@ export type DummyPose = {
   phoneL?: boolean;
   /** Armbanduhr am linken Handgelenk zeigen */
   watchL?: boolean;
+  /** ausgestreckter Zeigefinger an der LINKEN Hand (Spezial USB: tippt auf den Stecker) */
+  fingerL?: boolean;
   /** ganzer Körper um die Hochachse drehen (Bogenmaß, z. B. Drehung vor dem Roundhouse-Kick) */
   yaw?: number;
 };
@@ -5348,8 +5350,215 @@ const doorPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+/**
+ * Spezial „USB-Kabel“ (Dummy, sitzend am Schreibtisch = chairSit, Laptop-Anschluss 0,47 m vor ihm, 0,18 m rechts, 0,751 m hoch):
+ *  - twistplug:   Stecker (rechte Hand) zum Anschluss schieben – passt nicht (Stoß bei 0,3·P, Kopf zuckt) – zurückziehen – umdrehen
+ *                 (0,52–0,85·P), Takt P = USB_TWIST s. Genau 5 Fehlversuche, dann (ab 5·P) gleitet er beim sechsten Versuch hinein
+ *                 (0,22 s) und bleibt drin. Linke Hand hält den Laptop. Griffpunkt: zurück x −0.32, Stoß −0.262, drin −0.215.
+ *  - physikshrug: sitzt, wirft beide Arme fassungslos hoch (0–0,35 s), Kopf in den Nacken, Arme sinken bis 1,4 s zu einem Achselzucken
+ *  - ragefists:   sitzt, ballt beide Fäuste vor der Brust und zittert vor Wut (immer stärker), Schultern hochgezogen
+ *  - liftplug:    zieht den Stecker aus dem Anschluss (0,3–0,55 s) und hebt ihn bis 1,2 s auf Augenhöhe (0,3 m vor ihm, 1,17 m hoch)
+ *  - stareplug:   hält den Stecker auf Augenhöhe und beugt sich streng ganz nah heran (Kopf 0,12 m näher), Kopf leicht schief
+ *  - tapplug:     hält den Stecker auf Augenhöhe, linker Zeigefinger (fingerL) tippt alle 0,9 s zweimal oben auf den Stecker, Kopf nickt mit
+ *  - nodplug:     hält den Stecker auf Augenhöhe und nickt zufrieden (Takt 0,7 s)
+ *  (stehend, Krocket-Schlag mit dem Gummihammer, Hammer als Figur "gummihammer" mit `hand` 1 + Neigung `tilt`):
+ *  - malletready: steht, Hammer rechts locker (Hand 0,42 m vor ihm, 1,0 m hoch), klopft ihn alle 0,8 s drohend in die linke Hand
+ *  - nofinger:    steht, Hammer rechts unten, wedelt mit dem linken Zeigefinger („nein“) und schüttelt den Kopf
+ *  - croquet:     Hammer senkrecht (Kopf unten): Hand bei USB_CROQ (lokal) – ausholen 0–0,45 s, Schlag 0,45–0,55 s (Treffer 0,55 s),
+ *                 durchziehen bis 0,75 s, zurück bis 1,2 s. Neigung des Hammers passend: scripts → croquet_tilt()
+ *  - holdlaptop:  steht, hält den Laptop waagerecht vor der Brust (rechte Hand unter der Mitte 0,36 m vor ihm auf 1,1 m), zittert vor Wut
+ *  - foldlaptop:  wie holdlaptop, stemmt sich, ruckt (Deckel wird falschrum nach hinten geklappt, Laptop-Wert `fold`)
+ *  - throwlaptop: holt mit beiden Händen über den Kopf aus (0–0,45 s), wirft nach vorn oben (Abwurf USB_RELEASE s, Hand dort bei
+ *                 USB_REL_HAND), schwingt bis 1,0 s nach, Arme sinken bis 1,6 s
+ */
+export const USB_TWIST = 0.95;
+export const USB_PORT: P3 = [-0.18, 0.751, 0.47];
+export const USB_CROQ: P3 = [0.147, 1.09, 0.45];
+export const USB_RELEASE = 0.62;
+export const USB_REL_HAND: P3 = [-0.1, 1.72, 0.42];
+const usbPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const restL: P3 = [0.22, 0.92, 0.08];
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const EYE: P3 = [-0.03, 1.17, 0.3];
+  switch (motion) {
+    case 'twistplug': {
+      const p = chairSit(time);
+      const P = USB_TWIST;
+      let x = -0.32;
+      let jolt = 0;
+      if (time < 5 * P) {
+        const c = time % P;
+        const a = easeInOut(clamp(c / (0.3 * P)));
+        const r = easeInOut(clamp((c - 0.38 * P) / (0.14 * P)));
+        x = -0.32 + (-0.262 + 0.32) * a * (1 - r);
+        if (c > 0.3 * P && c < 0.42 * P) jolt = Math.sin(((c - 0.3 * P) / (0.12 * P)) * Math.PI);
+        // Umdrehen: Unterarm dreht mit
+        const fl = clamp((c - 0.52 * P) / (0.33 * P));
+        p.foreZ = 0;
+        x += 0.004 * Math.sin(fl * Math.PI);
+      } else {
+        const u = time - 5 * P;
+        x = -0.32 + (-0.215 + 0.32) * easeInOut(clamp(u / 0.22));
+      }
+      p.torsoX = 0.3 + breathe - 0.04 * jolt;
+      p.headX = 0.42 - 0.12 * jolt;
+      p.headY = -0.18 + 0.05 * jolt;
+      reachR(p, [x, USB_PORT[1], USB_PORT[2]], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.11, 0.775, 0.43], 0.33, [0.6, -1, -0.3]);
+      p.fists = false;
+      return p;
+    }
+    case 'physikshrug': {
+      const p = chairSit(time);
+      const up = easeInOut(clamp(time / 0.35));
+      const down = easeInOut(clamp((time - 0.6) / 0.8));
+      const hi = (s: number): P3 => [s * 0.36, 1.62, 0.12];
+      const shrug = (s: number): P3 => [s * 0.36, 1.02, 0.28];
+      reachR(p, lerp3t(lerp3t([-0.2, 0.85, 0.3], hi(-1), up), shrug(-1), down), 0.33, [0.8, -0.4, -0.4]);
+      reachL(p, lerp3t(lerp3t([0.2, 0.85, 0.3], hi(1), up), shrug(1), down), 0.33, [0.8, -0.4, -0.4]);
+      p.torsoX = -0.12 * up * (1 - down) - 0.04 + breathe;
+      p.headX = -0.35 * up * (1 - down) + 0.05 * down;
+      p.headY = 0.12 * Math.sin(time * 1.6) * down;
+      p.chest = 0.5 * up * (1 - down);
+      return p;
+    }
+    case 'ragefists': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.4));
+      const amp = 0.012 + 0.03 * clamp(time / 2);
+      const sh = Math.sin(time * 41) * amp;
+      reachR(p, lerp3t([-0.2, 0.85, 0.3], [-0.13 + sh, 1.02 + sh, 0.3], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.2, 0.85, 0.3], [0.13 - sh, 1.02 + sh, 0.3], k), 0.33, [0.6, -1, -0.3]);
+      p.fists = true;
+      p.torsoX = 0.12 * k + sh;
+      p.torsoZ = sh * 0.8;
+      p.headX = 0.2 * k + sh;
+      p.chest = 0.6 * k;
+      return p;
+    }
+    case 'liftplug':
+    case 'stareplug':
+    case 'tapplug':
+    case 'nodplug': {
+      const p = chairSit(time);
+      const t2 = motion === 'liftplug' ? time : 2 + time;
+      const pull = easeInOut(clamp((t2 - 0.3) / 0.25));
+      const lift = easeInOut(clamp((t2 - 0.6) / 0.6));
+      const inn: P3 = [-0.215, USB_PORT[1], USB_PORT[2]];
+      const out: P3 = [-0.33, USB_PORT[1] + 0.02, USB_PORT[2] - 0.02];
+      let R = lerp3t(lerp3t(inn, out, pull), EYE, lift);
+      const lean = motion === 'stareplug' ? easeInOut(clamp(time / 0.5)) : motion === 'tapplug' ? 0.6 : 0;
+      p.torsoX = (motion === 'liftplug' ? 0.3 * (1 - lift) + 0.05 * lift : 0.05) + 0.22 * lean + breathe;
+      p.headX = (motion === 'liftplug' ? 0.42 * (1 - lift) : 0) + 0.12 * lean;
+      p.headY = motion === 'stareplug' ? 0.12 * Math.sin(time * 0.9) * lean : 0;
+      p.torsoZ = motion === 'stareplug' ? 0.04 * lean : 0;
+      if (motion === 'nodplug') {
+        const n = Math.sin((time * 2 * Math.PI) / 0.7);
+        p.headX = 0.12 * Math.max(0, n);
+        p.torsoX = 0.04 + 0.03 * Math.max(0, n) + breathe;
+        R = [EYE[0], EYE[1] - 0.04, EYE[2] + 0.04];
+      }
+      reachR(p, R, 0.33, [0.7, -1, -0.4]);
+      if (motion === 'tapplug') {
+        const c = time % 0.9;
+        const tap = Math.max(0, Math.sin((c / 0.22) * Math.PI)) * (c < 0.44 ? 1 : 0);
+        const k = easeInOut(clamp(time / 0.3));
+        reachL(p, lerp3t([0.2, 0.85, 0.3], [0.04, EYE[1] + 0.09 - 0.05 * tap, EYE[2] + 0.06], k), 0.36, [0.7, -1, -0.4]);
+        p.fingerL = k > 0.4;
+        p.headX += 0.08 * tap;
+      } else {
+        reachL(p, lerp3t([0.12, 0.775, 0.43], [0.18, 0.78, 0.3], lift), 0.33, [0.6, -1, -0.3]);
+      }
+      return p;
+    }
+    case 'malletready': {
+      const p = base();
+      const c = (time % 0.8) / 0.8;
+      const beat = Math.max(0, Math.sin(c * Math.PI * 2));
+      const k = easeInOut(clamp(time / 0.3));
+      reachR(p, lerp3t(rest, [-0.06, 1.12 + 0.12 * beat, 0.36], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.12, 0.98, 0.36], k), 0.33, [0.6, -1, -0.3]);
+      p.torsoX = 0.05 + breathe;
+      p.headX = 0.15;
+      p.headY = -0.05;
+      return p;
+    }
+    case 'nofinger': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.3));
+      const w = Math.sin(time * 11);
+      reachR(p, lerp3t(rest, [-0.2, 0.95, 0.22], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.12 + 0.05 * w, 1.42, 0.3], k), 0.36, [0.6, -1, -0.3]);
+      p.fingerL = k > 0.4;
+      p.headY = 0.3 * Math.sin(time * 7) * k;
+      p.torsoX = 0.03 + breathe;
+      return p;
+    }
+    case 'croquet': {
+      const p = base();
+      const wind = easeInOut(clamp(time / 0.45));
+      const hit = clamp((time - 0.45) / 0.1);
+      const fol = easeInOut(clamp((time - 0.55) / 0.2));
+      const ret = easeInOut(clamp((time - 0.75) / 0.45));
+      // Hand: beim Ausholen 0,1 m nach rechts hinten (lokal −x = zur Laptop-Rückseite hin ist +x … Schlag Richtung +x)
+      const back: P3 = [USB_CROQ[0] - 0.1, USB_CROQ[1] + 0.06, USB_CROQ[2]];
+      const thru: P3 = [USB_CROQ[0] + 0.05, USB_CROQ[1] + 0.02, USB_CROQ[2]];
+      let R = lerp3t(USB_CROQ, back, wind);
+      if (time >= 0.45) R = lerp3t(back, USB_CROQ, hit);
+      if (time >= 0.55) R = lerp3t(lerp3t(USB_CROQ, thru, fol), USB_CROQ, ret);
+      reachR(p, R, 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.24, 0.98, 0.25], 0.33, [0.6, -1, -0.3]);
+      p.torsoX = 0.22 + 0.06 * (time >= 0.55 && time < 0.75 ? 1 : 0) + breathe;
+      p.torsoY = -0.25 * wind * (1 - hit) + 0.1 * fol * (1 - ret);
+      p.headX = 0.4;
+      p.legL = L3(-0.2, 0.1, 0.25);
+      p.legR = L3(0.15, -0.1, 0.2);
+      p.hipY = 0.95;
+      return p;
+    }
+    case 'holdlaptop':
+    case 'foldlaptop': {
+      const p = base();
+      const amp = motion === 'foldlaptop' ? 0.012 + 0.012 * Math.max(0, Math.sin(time * 5)) : 0.008;
+      const sh = Math.sin(time * 39) * amp;
+      const strain = motion === 'foldlaptop' ? easeInOut(clamp(time / 0.4)) : 0;
+      reachR(p, [-0.02 + sh, 1.1 + sh, 0.36], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.2 - sh, 1.12 + sh, 0.3 - 0.04 * strain], 0.33, [0.6, -1, -0.3]);
+      p.torsoX = -0.08 * strain + 0.04 + sh;
+      p.headX = 0.25;
+      p.legL = L3(-0.15 * strain, 0.1, 0.15 * strain);
+      p.legR = L3(0.12 * strain, -0.1, 0.1);
+      p.chest = 0.5 * strain;
+      return p;
+    }
+    case 'throwlaptop': {
+      const p = base();
+      const wind = easeInOut(clamp(time / 0.45));
+      const thr = easeInOut(clamp((time - 0.45) / (USB_RELEASE - 0.45)));
+      const fol = easeInOut(clamp((time - USB_RELEASE) / 0.38));
+      const down = easeInOut(clamp((time - 1.0) / 0.6));
+      const hold: P3 = [-0.02, 1.1, 0.36];
+      const over: P3 = [-0.06, 1.95, -0.08];
+      const end: P3 = [-0.12, 1.35, 0.55];
+      let R = lerp3t(hold, over, wind);
+      if (time >= 0.45) R = lerp3t(over, USB_REL_HAND, thr);
+      if (time >= USB_RELEASE) R = lerp3t(lerp3t(USB_REL_HAND, end, fol), rest, down);
+      const L: P3 = [R[0] + 0.22, R[1] + 0.02, R[2] - 0.04];
+      reachR(p, R, 0.33, [0.6, -0.6, -0.5]);
+      reachL(p, L, 0.33, [0.6, -0.6, -0.5]);
+      p.torsoX = -0.25 * wind * (1 - thr) + 0.3 * thr * (1 - down) + breathe;
+      p.headX = -0.2 * wind * (1 - thr) - 0.1 * fol;
+      p.legL = L3(-0.3 * thr * (1 - down), 0.1, 0.2);
+      p.legR = L3(0.25 * wind, -0.1, 0.2);
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -6427,6 +6636,22 @@ const armPoint = (limb: Limb, side: 1 | -1, foreZ: number, along: number, up = 0
     .applyEuler(new THREE.Euler(limb.sx, 0, limb.sz))
     .add(new THREE.Vector3(0.27 * side, 0.44, 0));
 
+/** Ausgestreckter linker Zeigefinger (pose.fingerL) in Verlängerung des linken Unterarms */
+const FingerLItem = ({pose}: {pose: DummyPose}) => {
+  if (!pose.fingerL) return null;
+  const tip = armPoint(pose.armL, 1, pose.foreZL, 0.37);
+  const far = armPoint(pose.armL, 1, pose.foreZL, 0.5);
+  const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), far.clone().sub(tip).normalize());
+  return (
+    <group position={tip} quaternion={q}>
+      <mesh position={[0, 0.035, 0]}>
+        <capsuleGeometry args={[0.014, 0.05, 3, 6]} />
+        <meshStandardMaterial color={YELLOW} roughness={0.45} flatShading />
+      </mesh>
+    </group>
+  );
+};
+
 /** Werkzeug als Verlängerung des rechten Unterarms (Hammer, Konfetti-Kanone) + Konfetti (im Oberkörper-System) */
 const ToolItem = ({pose}: {pose: DummyPose}) => {
   if (!pose.tool) return null;
@@ -7135,6 +7360,17 @@ const StrawHat = () => {
   );
 };
 
+/** strenge/wütende Brauen (Wert "angry" 0 … 1): beide innen tief, außen hoch */
+const AngryBrows = ({m, k}: {m: Mats; k: number}) => (
+  <group>
+    {[-1, 1].map((sd) => (
+      <mesh key={sd} material={m.joint} position={[sd * 0.056, 0.04 - 0.008 * k, 0.114]} rotation={[-0.2, sd * 0.45, sd * 0.5 * k]}>
+        <boxGeometry args={[0.055, 0.022, 0.022]} />
+      </mesh>
+    ))}
+  </group>
+);
+
 const Brows = ({m, raise}: {m: Mats; raise: number}) => (
   <group>
     <mesh material={m.joint} position={[0.058, 0.035, 0.113]} rotation={[-0.2, 0.45, -0.08 * raise]}>
@@ -7227,6 +7463,7 @@ export const Dummy = ({
   fxTime = 0,
   heave = 0,
   brow = 0,
+  angry = 0,
   stash = 0,
   wind = 0,
   windDir = 0,
@@ -7275,6 +7512,8 @@ export const Dummy = ({
   windDir?: number;
   /** Augenbrauen (für Figuren ohne Gesicht): ab 0,01 sichtbar, bis 1 = rechte Braue hochgezogen ("Hm?") */
   brow?: number;
+  /** strenger/wütender Blick: Brauen schräg nach innen unten 0 … 1 (Spezial USB) */
+  angry?: number;
   /** Geldbündel, die vorn aus der Jacke schauen (0 … 3, braucht jacket) */
   stash?: number;
   /** Brustkorb hebt sich mit jedem Atemzug (Phase breathPhase), 0 … 1 */
@@ -7429,6 +7668,7 @@ export const Dummy = ({
             </group>
           )}
           <ToolItem pose={pose} />
+          <FingerLItem pose={pose} />
           <HandItem pose={pose} time={time} zap={zap} zapTime={zapTime} tooth={tooth} />
           {zap > 0.01 && (
             <ZapAura
@@ -7511,7 +7751,8 @@ export const Dummy = ({
                 <GardenHat />
               </group>
             )}
-            {brow > 0.01 && <Brows m={m} raise={clamp((brow - 0.1) / 0.9)} />}
+            {brow > 0.01 && angry < 0.01 && <Brows m={m} raise={clamp((brow - 0.1) / 0.9)} />}
+            {angry > 0.01 && <AngryBrows m={m} k={clamp(angry)} />}
             <Foam amount={foam} time={fxTime} />
             <ReadingGlasses amount={glasses} />
             <ResearchGoggles amount={goggles} />

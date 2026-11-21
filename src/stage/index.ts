@@ -28,7 +28,7 @@ import {policeStationStage} from './PoliceStation';
 import {graveyardStage} from './Graveyard';
 import {lakeStage} from './Lake';
 import {foyerStage} from './Foyer';
-import {bathroomStage, homeOfficeStage, livingRoomStage, praxisStage} from './Rooms';
+import {bathroomStage, homeOfficeStage, livingRoomStage, praxisStage, usbOfficeOutsideStage, usbOfficeStage} from './Rooms';
 import type {StageDef} from './types';
 
 /** Alle Bühnen. Neue Bühne = neue Datei + hier eintragen. */
@@ -78,6 +78,8 @@ export const STAGES: Record<string, StageDef> = {
   bahnstrecke: railwayStage,
   landstrasse: roadStage,
   'wohnzimmer-homeoffice': homeOfficeStage,
+  'homeoffice-usb': usbOfficeStage,
+  'homeoffice-usb-aussen': usbOfficeOutsideStage,
   eingangshalle: foyerStage,
   wohnstrasse: streetHomeStage,
   siedlung: settlementStage,
