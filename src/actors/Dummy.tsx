@@ -5315,7 +5315,7 @@ const doorPose = (motion: Motion, time: number): DummyPose | null => {
       const p = base();
       const k = easeInOut(clamp(time / 0.3));
       const bw = motion === 'bow' ? easeInOut(clamp((time - 0.3) / 0.6)) * (1 - easeInOut(clamp((time - 1.5) / 0.6))) : 0;
-      p.torsoX = 0.78 * bw - 0.03 * (1 - bw) + breathe * 0.5;
+      p.torsoX = 0.95 * bw - 0.03 * (1 - bw) + breathe * 0.5;
       p.hipY = 0.98 - 0.02 * bw;
       p.headX = 0.25 * bw - 0.1 * (1 - bw);
       p.legL = L3(0.12 * bw, 0.04, 0.05 * bw);
@@ -7537,10 +7537,18 @@ export const Dummy = ({
             </group>
           )}
           {uniform?.bowtie && (
-            <group position={[0, 0.505, 0.19]} rotation={[-0.3, 0, 0]}>
+            <group position={[0, 0.47, 0.205]} rotation={[-0.25, 0, 0]}>
+              {/* weiße Hemdbrust (V) wie bei der Krawatte */}
+              <mesh material={m.fur} position={[0, -0.005, -0.008]} rotation={[0, 0, Math.PI]} scale={[1.05, 1.25, 1]}>
+                <circleGeometry args={[0.085, 3]} />
+              </mesh>
+            </group>
+          )}
+          {uniform?.bowtie && (
+            <group position={[0, 0.515, 0.222]} rotation={[-0.3, 0, 0]}>
               {[-1, 1].map((k) => (
                 <mesh key={k} position={[k * 0.045, 0, 0]} rotation={[0, 0, (k * Math.PI) / 2]} scale={[1, 1, 0.45]}>
-                  <coneGeometry args={[0.032, 0.075, 4, 1]} />
+                  <coneGeometry args={[0.034, 0.08, 4, 1]} />
                   <meshStandardMaterial color={uniform.bowtie} flatShading />
                 </mesh>
               ))}

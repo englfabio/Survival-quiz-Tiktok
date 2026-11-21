@@ -99,6 +99,8 @@ def F(points, az, el, box=ANS, push=0.06, fov=38):
         _fits[key] = r
     c, l, _ = _fits[key]
     return (c, l, fov if fov != 38 else None, push)
+def M(pos, look, fov=None, push=0.06):
+    return (pos, look, fov, push)
 def shot(t0, t1, f, push=None):
     c, l, fv, p = f
     p = p if push is None else push
@@ -251,13 +253,20 @@ def check_a():
     assert dist > 3.5 and t_cov < t_boom, ('A: zu nah / zu spät', dist, t_cov, t_boom)
     # ab dem Knall bis zum Verziehen des Rauchs bleibt er in der Deckung
     assert t_up >= r3(t_boom + sa(1.3)) - 0.01, ('A: steht zu früh auf', t_up, t_boom)
+    # Knall-Kamera: Blick zur Tür nicht von der Säule verdeckt
+    for xd in (-0.45, 0.0, 0.45):
+        for u in [i / 100 for i in range(101)]:
+            x = CAM_BOOM[0] + (xd - CAM_BOOM[0]) * u; z = CAM_BOOM[2] + (WALL_Z - CAM_BOOM[2]) * u
+            assert not (abs(x - PILLAR[0]) < PW / 2 + 0.03 and abs(z - PILLAR[1]) < PW / 2 + 0.03), ('A: Säule verdeckt die Tür', xd)
     return round(dist, 2), round((t_boom - t_cov) * TA, 2)
 P_COV = [[COVER[0] - 0.4, 0, COVER[1]], [COVER[0] + 0.4, 1.5, COVER[1]]]
+CAM_BOOM = [-4.3, 1.7, 4.6]
 camA = [
   # Karte: eine ruhige Einstellung – Tür, Säule und Deckungsplatz im Bild
-  *shot(0, sA - 0.003, F([*DOOR_PTS, *body(*DA), [PILLAR[0] - 0.3, 0, PILLAR[1]], [PILLAR[0] + 0.3, 2.2, PILLAR[1]], *P_COV], 36, 8, ANS), push=0.03),
+  *shot(0, sA - 0.003, F([*DOOR_PTS, *body(*DA), [PILLAR[0] - 0.3, 0, PILLAR[1]], [PILLAR[0] + 0.3, 2.2, PILLAR[1]], *P_COV], 6, 6, ANS, fov=44), push=0.03),
   # BUMM: Säule + Dummy in Deckung vorn links, Tür fliegt hinten weg
-  *shot(sA, c_weg - 0.003, F([*DOOR_PTS, [0, 2.9, WALL_Z], *P_COV, [PILLAR[0] - 0.3, 0, PILLAR[1]], [PILLAR[0] + 0.3, 2.0, PILLAR[1]]], 42, 8, ANS), push=0.04),
+  # (Kamera schräg hinter dem Dummy: Säule schützt ihn, Sichtlinie zur Tür läuft frei an der Säule vorbei – geprüft in check_a)
+  *shot(sA, c_weg - 0.003, M(CAM_BOOM, [-1.4, 1.0, -1.6], 40), push=0.05),
   # Tür weg: leere Öffnung, Rauch verzieht sich, dahinter liegt das Türblatt im Hof
   *shot(c_weg, c_muss - 0.003, F([*DOOR_PTS, [0, 0.1, WALL_Z - 4.4]], 4, 6, ANS), push=0.07),
   # er spaziert los zur Öffnung
@@ -341,10 +350,11 @@ t_dh = r3(c_vor - sc(0.05)); t_open1 = r3(t_dh + sc(1.0)); t_open2 = r3(t_open1 
 cC.add('druecktuer', 0, 1, [door(0), door(t_dh + sc(0.3)), door(t_open1, door=0.25), door(t_open2, door=1.0), door(1, door=1.0)])
 DCC = (1.0, -1.35)
 cC.add('dummy', 0, sC, [K(0, *DCC, 'stand', 200), K(r3(sC * 0.25), *DCC, 'armscross', 200), K(sC, *DCC, 'armscross', 200)])
-BB = (-0.8, WALL_Z + 0.55)
-cC.add('butler', sC, c_vor, [K(sC, *BB, 'butlerstand', 160, shrink=1.0), K(r3(sC + sc(0.35)), *BB, 'butlerstand', 160, shrink=0.0),
-                             K(r3(c_ab + sc(0.55)), *BB, 'bow', 160), K(c_vor, *BB, 'bow', 160)])
-cC.add('dummy', sC, c_vor, [K(sC, *DCW, 'armscross', 180), K(c_vor, *DCW, 'armscross', 180)])
+BB = (-1.05, WALL_Z + 0.75)
+FB = 112                                            # Butler schaut zur Raummitte → Verbeugung im Profil
+cC.add('butler', sC, c_vor, [K(sC, *BB, 'butlerstand', FB, shrink=1.0), K(r3(sC + sc(0.35)), *BB, 'butlerstand', FB, shrink=0.0),
+                             K(r3(c_ab + sc(0.55)), *BB, 'bow', FB), K(c_vor, *BB, 'bow', FB)])
+# (Dummy wartet in den ersten beiden Einstellungen außerhalb des Bildes am Teppich-Ende)
 cC.add('butler', c_vor, c_rot, [K(c_vor, *BD, 'butlerstand', 0), K(t_dh, *BD, 'doorhold', 0), K(c_rot, *BD, 'doorhold', 0)])
 # Teppich: Butler steht in der offenen Tür und gibt der Rolle einen Schubs
 BCP = (0.0, WALL_Z - 0.38)
@@ -360,7 +370,7 @@ cC.add('dummy', c_nie, 1, [K(c_nie, 0.0, 0.9, 'walk', 0), K(1, *DN1, 'walk', 0)]
 CAR_PTS = [[-0.6, 0, WALL_Z], [0.6, 0, WALL_Z + 4.7]]
 camC = [
   *shot(0, sC - 0.003, F([*body(*DCC), *DOOR_PTS], 0, 5, ANS), push=0.03),
-  *shot(sC, c_vor - 0.003, F([*body(*BB), *DOOR_PTS], 22, 4, ANS), push=0.07),
+  *shot(sC, c_vor - 0.003, F([*body(*BB), *DOOR_PTS], 12, 4, ANS), push=0.06),
   *shot(c_vor, c_rot - 0.003, F([*body(*BD), *DOOR_PTS], -26, 4, ANS), push=0.06),
   *shot(c_rot, c_nie - 0.003, F([*body(*BCP), *DOOR_PTS, *CAR_PTS, *body(*DCW)], 26, 14, ANS), push=0.04),
   *shot(c_nie, 1, F([*body(0.0, 0.9), *body(*BN), *DOOR_PTS, [0, 0, 1.2]], 26, 8, ANS), push=0.05),
