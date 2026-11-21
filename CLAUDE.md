@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -255,6 +255,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   bei x 2.4, z −5 … −35). Boden + Decke laufen nach vorn/seitlich weiter (Kameras dürfen weit vorn und außerhalb der Seitenwände stehen, Kamera-Höhe
   unter 5,2 halten, sonst sieht man über die Decke). Raummitte frei (Schwarzes Loch im Video bei (1.3, 2.4, 1.0)). `Room` (Rooms.tsx) kann jetzt
   `backX` = Rückwand nur zwischen zwei x-Werten.
+  Eingangshalle / Foyer (`eingangshalle`, `src/stage/Foyer.tsx`, `FOYER`, Atmo `treppenhaus-atmo`, Spezial Tür drücken): W 10 × D 6 (Rückwand z −3), H 3,4,
+  Schachbrett-Fliesen, Holzsockel, Wandlampen; Türöffnung mitten in der Rückwand (x −0.5 … 0.5, 2,2 m hoch) für das Objekt `druecktuer` bei (0, −3), face 180;
+  dahinter sonniger Hof (Rasen, Hecken) – bei offener/gesprengter Tür sichtbar. Zwei Säulen 0,5 × 0,5 bei (±2.3, −0.4); sicherer Deckungsplatz hinter der
+  linken Säule `FOYER.cover` (−2.75, 0.15) (Säule liegt auf der Linie Tür → Deckung, 4,2 m Abstand). Pflanzen bei x ±2.9 (neben der Tür) + ±4.4 vorn, Bank links.
+  Rechts neben der Tür bis x 1.75 frei (Schiebetür). Seitenwände + Sockel von außen unsichtbar → Kameras dürfen außerhalb stehen.
   Chef-Büro (`buero`, `src/stage/Office.tsx`, Atmo `uhr-ticken`): W 4.4, D 4.4, Chef-Schreibtisch mit Bildschirm/Tischtelefon/Akten, Chefsessel, Aktenregal,
   Fenster mit Hochhäusern; Platz für den Wandkalender `OFFICE.calendar` (1.15, 1.45, −2.19), Chef davor (1.36, −1.72) face 0.
   Kamera-Trick: Wände sind von außen unsichtbar → Kamera darf hinter die linke Schlafzimmerwand (x < −1.8, aber z außerhalb des Fensters).
@@ -513,6 +518,23 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (`padwrite`, both 'notepad', Zeilen 0,3–2,5 s), Riesen-Stecker packen (0,52 m vor ihm, 1,0 m hoch, bis 0,55 s) und 0,7–1,05 s kräftig 0,4 m herausziehen,
   ab 1,3 s nach oben schauen (`pullplug`). Wiederverwendet: `walk`, `holdcard` (Reverse-Karte), `handover`, `proud`, `armscross`, `lookup`, `sockstomp`
   (entschlossen stapfen), `stand`, `wave`.
+  Tür drücken (Spezial, Details in `doorPose` in Dummy.tsx): verzweifelt mit beiden Händen an einer senkrechten Griffstange ziehen, 0,45 m vor ihm,
+  in die Knie, alle 0,5 s rucken, zittern (`pulldoor`; dazu Tür-Wert `rumble` + `sweat`), Knallfrosch rechts halten und 0,5 m vor sich auf 1,12 m an die Tür
+  drücken (`plantcracker`, angedrückt 0,55–0,85 s → Objekt `hand` 1 → 0), in Deckung hocken + Ohren zuhalten (`coverears`), mit dem Akkuschrauber über dem Kopf
+  schrauben, links hält die Schiene (`drillrail`, Dummy-Werkzeug `tool: 'drill'`, z. B. auf dem Tritt y 0.42), Schiebetür locker mit rechts zur Seite schieben +
+  mitschlurfen (`slidepush`, Weg über Zeitpunkte). Butler: vornehme Verbeugung (`bow`, unten 0,9–1,5 s – im Profil filmen, frontal wirkt sie schwach),
+  kerzengerade stehen (`butlerstand`), Teppichrolle anschubsen + einladend zeigen (`carpetpush`). Helfer `fromTorso` (Punkt im Oberkörper-System → Boden-System).
+  Wiederverwendet: `doorhold` (Tür mit links aufdrücken), `run`, `walk`, `carrycase` (Werkzeugkasten tragen), `armscross`, `thumbsup`, `gape`, `wave`, `stand`.
+- **Butler** (`butler`): Dummy-Körper hellgrau, schwarzer Frack mit Schößen, weiße Hemdbrust, schwarze Fliege, weiße Handschuhe, ohne Mütze (Uniform-Felder
+  `bowtie` = Fliegenfarbe, `gloveColor` = Handschuhe mit Stulpe, `tails` = Frack-Schöße – für jede Dummy-Figur nutzbar). Kann alle Dummy-Bewegungen.
+- **Objekte (Tür drücken, `src/actors/DoorProps.tsx`, alles comichaft, niemand wird verletzt):** Tür mit Zarge + großem gelbem Schild „DRÜCKEN“ (`druecktuer`,
+  Ursprung = Mitte der Öffnung am Boden, Wand-Vorderseite z 0; Bänder links, Griffstange rechts x 0.36 auf 1,02 m; Werte `door` 0 … 1 = geht nach HINTEN auf,
+  `glow` = Schild leuchtet + pulsiert (Standard im Skript 1), `rumble` = Griff rüttelt, `fill` 0 … 1 = aus den Angeln gesprengt – fliegt nach hinten in den Hof,
+  `rail` 0 … 1 = Laufschiene wird angeschraubt (ab 0,85 hängt das Blatt mit Laufrollen davor), `slide` 0 … 1 = Schiebetür rollt 1,08 m nach rechts; neue
+  Werte `rail`/`slide` in ACTOR_VALUES), Cartoon-Knallfrosch (`knallfrosch`: drei rote Stangen, gelbes Band, Zündschnur; `fill` = Schnur brennt ab mit Funken;
+  `hand` 1), Comic-Knall (`knallwolke`: Zackenstern „BUMM!“ + weiße Rauchwölkchen, kein Feuer, `fill` 0 → 1 ≈ 2,6 s, schaut zur Kamera), roter Teppich
+  (`teppich`, rollt ab Ursprung nach +z aus, Länge 4,6 m, `fill`), Werkzeugkasten (`werkzeugkasten`, tragen `hand` 1 + `drop` 0.34), Tritt (`tritt`, oben 0,42 m),
+  Akkuschrauber (Bauteil `Drill`). Konfetti (`konfetti`, `burst`) wiederverwendet.
 - **Goldfisch** (`goldfisch`, `src/actors/FishProps.tsx`, comichaft, dem Fisch geht es immer gut): orangefarbener Low-Poly-Goldfisch mit großen Augen +
   schrägen Augenbrauen (sehr konzentrierter Blick) in einem runden Glas voll Wasser mit buntem Kies (Ursprung = Glasboden). Im Auto: `"attach": "car",
   x 0.3, y 0.7, z −0.05, face 0` + Wert `side` 1 = Sitzerhöhung + Sicherheitsgurt quer übers Glas (so sieht man ihn durch Seiten- und Frontscheibe).
@@ -829,7 +851,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -994,6 +1016,12 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Finales Video: review/final/spezial-schwarzes-loch.mp4 (66,0 s). **Vom Inhaber freigegeben.**
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
+- Spezial Tür drücken (Durchlauf-Modus): 584 neue Zeichen (233 Credits laut ElevenLabs; Abstimmung + Outro aus Cache), Texte Buchstabe für Buchstabe vom
+  Inhaber; Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5). Video 62,4 s (`padAfter` 0,3 s, `sceneExtra` A 0,4 s, Karte A min.
+  5,4 s für Ankleben + In-Deckung-Rennen). Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-tuer-druecken-choreo.py`
+  (prüft mit `check_a`: Dummy beim Knall hinter der Säule, 4,2 m weg, steht frühestens 1,4 s nach dem Knall auf; Knall-Kamera sieht die Tür an der Säule vorbei).
+  A: Knallfrosch wird in der Karte angeklebt, der Knall kommt mit „Ein lauter Knall“; Tür fliegt vom Dummy weg in den Hof. Standbilder in
+  review/spezial-tuer-druecken/phase1/. Finales Video: review/final/spezial-tuer-druecken.mp4 (62,4 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -1050,6 +1078,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `papier-schieben`, `laden`, `socken-stapfen`).
   `loch-oeffnen` (Cartoon-Portal öffnet sich), `loch-summen` (wirbelndes Summen, 6 s), `einsaugen` (Cartoon-Schlürfen + Plopp) (Spezial Schwarzes Loch;
   wiederverwendet: `teller-klirren`, `plopp`, `stift-kritzeln`, `whoosh`, `himmel-chor`, `rasen-zauber`, `monstertruck-motor`, `bagger-motor`, `wand-krachen`).
+  `tuer-ruetteln` (verschlossene Tür rütteln), `zuendschnur` (Zündschnur zischt), `cartoon-bumm` (Comic-Knall mit Rauch-Puff), `akkuschrauber`, `schiebetuer`,
+  `teppich-rollen` (Spezial Tür drücken; wiederverwendet: `klick`, `schritte-rennen`, `konfetti-knall`, `himmel-chor`, `paket-abstellen`, `plopp`, `gold-fanfare`,
+  `tuer-knarren`; Bühne nutzt `treppenhaus-atmo`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
