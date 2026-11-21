@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon tug of war, thick rope creaking and straining, shoes scuffing on grass, comedic effort without voices, no music",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-21T21:46:49.659Z"
+}

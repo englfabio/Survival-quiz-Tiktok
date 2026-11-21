@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Tiny cartoon feet scurrying very fast on a wooden floor, comedic rapid pitter-patter running away, playful, no music, no voice",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T21:46:43.975Z"
+}

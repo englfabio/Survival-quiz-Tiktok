@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Ceramic cereal bowl with milk set down gently on a wooden desk, soft clunk and a tiny slosh of milk, close, no music",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T21:46:45.860Z"
+}
