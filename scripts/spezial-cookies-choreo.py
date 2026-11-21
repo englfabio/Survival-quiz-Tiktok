@@ -269,11 +269,11 @@ camA = [
   # Karte: Handy zittert auf dem Tisch, Dummy entspannt
   *shot(0, sA - 0.003, F([*seated(), *PH_PTS, *DESK_PTS], -118, 14, ANS), push=0.03),
   # Tipp + Beine wachsen: nah am Handy
-  *shot(sA, c_und - 0.003, F([[PH_C[0] - 0.2, 0.74, PH_C[2] - 0.15], [PH_C[0] + 0.25, 1.05, PH_C[2] + 0.15], [P0[0], 1.0 + 0.0, P0[1]]], -150, 22, ANS), push=0.06),
+  *shot(sA, c_und - 0.003, F([[PH_C[0] - 0.25, 0.72, PH_C[2] - 0.25], [P0[0] + 0.15, 1.25, P0[1] + 0.25], [CH[0], 1.3, CH[1]]], -125, 12, ANS), push=0.05),
   # weg rennt es: Tisch, Boden, Tür
   *shot(c_und, c_ohneA - 0.003, F([*seated(), *DESK_PTS, [LAND[0], 0, LAND[1]], *DOOR_PTS], 55, 14, ANS), push=0.04),
   # ohne dich: hinter dem Dummy Richtung Tür, Handy rennt in den Garten
-  *shot(c_ohneA, 1, F([[CH[0] - 0.3, 0.2, CH[1]], [CH[0] + 0.3, 1.5, CH[1] + 0.2], *DOOR_PTS, [OUT1[0], 0, OUT1[1]]], 140, 10, ANS), push=0.05),
+  *shot(c_ohneA, 1, F([[CH[0] - 0.3, 0.2, CH[1]], [CH[0] + 0.3, 1.5, CH[1] + 0.2], *DOOR_PTS, [OUT1[0], 0, OUT1[1]]], 75, 16, ANS), push=0.05),
 ]
 expA = {
  'camera': camA, 'actors': cA.build(), 'stage': STAGE,
@@ -329,7 +329,7 @@ camB = [
   # warten: Kinn in den Händen, Handy + Schüssel vorn
   *shot(sB, c_irg - 0.003, F([[CH[0] - 0.4, 0.7, CH[1] - 0.35], [CH[0] + 0.1, 1.5, CH[1] + 0.35], *PH_PTS, *BOWL_PTS], -100, 12, ANS), push=0.06),
   # irgendwann: nah Handy + Schüssel, Keks hüpft
-  *shot(c_irg, 1, F([*PH_PTS, *BOWL_PTS, [PH_C[0], 1.1, (PH_C[2] + BOWL[1]) / 2], [CH[0] - 0.2, 1.4, CH[1]]], -125, 20, ANS), push=0.05),
+  *shot(c_irg, 1, F([*PH_PTS, *BOWL_PTS, [PH_C[0], 1.08, (PH_C[2] + BOWL[1]) / 2]], -115, 22, ANS), push=0.05),
 ]
 expB = {
  'camera': camB, 'actors': cB.build(), 'stage': STAGE,
@@ -406,7 +406,7 @@ camC = [
   # draußen: Schlange vor der Tür
   *shot(c_sof, c_str - 0.003, F([*body(*Q[0], 1.95, 0.3), *body(*Q[2], 1.95, 0.3), *OUT_PTS], -38, 8, ANS), push=0.05),
   # Tauziehen + Kekse + Wolke (Hauswand mit Fenster + Tür dahinter)
-  *shot(c_str, 1, F([[TX - 0.3, 0, TZ - GAP - 0.45], [TX + 0.3, 1.9, TZ + GAP + 0.45], [A3[0], 2.0, A3[1]], [HEAP[0], 0, HEAP[1]]], -90, 9, ANS), push=0.04),
+  *shot(c_str, 1, F([[TX - 0.3, 0, TZ - GAP - 0.45], [TX + 0.3, 1.9, TZ + GAP + 0.45], [A3[0], 2.0, A3[1]], [HEAP[0], 0, HEAP[1]]], -62, 12, ANS), push=0.04),
 ]
 inv_c = None
 def inv_te(y):
