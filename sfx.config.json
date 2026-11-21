@@ -1249,6 +1249,27 @@
       "duration": 1.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "usb-stoss",
+      "prompt": "Small plastic USB plug bumping against a laptop port and not fitting, short dull plastic clack with a tiny comedic boing, close, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "gummi-bonk",
+      "prompt": "Cartoon rubber mallet hitting, big comedic bonk sound, bouncy and soft, slapstick, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "laptop-knacken",
+      "prompt": "Plastic laptop hinge bending the wrong way, comedic creaking and a cartoon crack, short, no music",
+      "duration": 1.0,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

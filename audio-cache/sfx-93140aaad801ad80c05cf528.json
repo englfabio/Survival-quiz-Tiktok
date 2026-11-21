@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon rubber mallet hitting, big comedic bonk sound, bouncy and soft, slapstick, no music",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T19:40:19.728Z"
+}

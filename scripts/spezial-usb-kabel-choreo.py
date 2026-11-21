@@ -35,7 +35,7 @@ EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.
 TAIL = float(os.environ.get('TAIL', 0.3))
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))
 VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.6))
-NO_VOTE = os.environ.get('NO_VOTE', '0') == '1'
+NO_VOTE = os.environ.get('NO_VOTE', '1') == '1'   # Texte allein 60,6 s → mit Abstimmung 70,4 s (> 66 s), daher ohne (wie Waschmaschine/Pirat-Token)
 
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'countdown': 0.1, 'outro': 0.3}
 MINLEN = {'situation': 5, 'option1': 3.6, 'option2': 3.6, 'option3': 4.2, 'explain1': 6, 'explain2': 6, 'explain3': 6, 'countdown': 5, 'outro': 3}
@@ -168,10 +168,10 @@ P_TW = 0.95                                   # USB_TWIST
 CH = (-1.5, -0.4); FS = 270                   # sitzender Dummy (Blick zum Fenster)
 LAP = (-2.0, -0.4); LAP_Y = 0.74; LAP_F = 90  # Laptop (Bildschirm zum Dummy)
 PORT = (LAP[0] + 0.03, 0.751, LAP[1] - 0.18)  # Anschluss-Öffnung (Welt), Stecker steckt entlang +z hinein
-D_IN, D_TOUCH = 0.036, 0.087                  # Griffpunkt hinter der Öffnung: steckt / Spitze berührt
+D_IN, D_TOUCH = 0.106, 0.157                  # Griffpunkt hinter der Öffnung: steckt / Spitze berührt
 def plug_at(d):
     return (PORT[0], PORT[2] - d)
-EYE_L = [-0.03, 1.17, 0.3]                    # Stecker auf Augenhöhe (lokal, sitzend)
+EYE_L = [-0.03, 1.2, 0.4]                    # Stecker auf Augenhöhe (lokal, sitzend)
 def lap(t, **kw):
     v = dict(lid=1.0, fold=0.0, squish=0.0, glow=0.0, tilt=0.0); v.update(kw)
     return K(t, LAP[0], LAP[1], 'park', LAP_F, y=LAP_Y, **v)
@@ -198,11 +198,11 @@ cs_.add('dummy', 0, c_phys, [K(0, *CH, 'twistplug', FS), K(r3(c_phys - 0.002), *
 cs_.add('dummy', c_phys, 1, [K(c_phys, *CH, 'physikshrug', FS, question=0.0), K(r3(max(c_was, c_phys + ss(0.6))), *CH, 'physikshrug', FS, question=0.0),
                              K(r3(max(c_was, c_phys + ss(0.6)) + ss(0.35)), *CH, 'physikshrug', FS, question=1.0), K(1, *CH, 'physikshrug', FS, question=1.0)])
 # Stecker: in der rechten Hand (hand 1), dreht sich nach jedem Stoß um 180° (Umdrehen 0,52–0,85·P), gleitet bei 5·P hinein
-plugK = [K(0, *plug_at(0.15), 'park', 180, y=PORT[1], hand=1.0, drop=0.0, tilt=0.0, rope=0.0)]
+plugK = [K(0, *plug_at(0.22), 'park', 180, y=PORT[1], hand=1.0, drop=0.0, tilt=0.0, rope=0.0)]
 counter = []
 for k in range(5):
     a = r3(t_tw0 + ss(k * P_TW + 0.52 * P_TW)); b = r3(t_tw0 + ss(k * P_TW + 0.85 * P_TW))
-    plugK += [K(a, *plug_at(0.15), 'park', 180, y=PORT[1], hand=1.0, tilt=float(k * 180)), K(b, *plug_at(0.15), 'park', 180, y=PORT[1], hand=1.0, tilt=float((k + 1) * 180))]
+    plugK += [K(a, *plug_at(0.22), 'park', 180, y=PORT[1], hand=1.0, tilt=float(k * 180)), K(b, *plug_at(0.22), 'park', 180, y=PORT[1], hand=1.0, tilt=float((k + 1) * 180))]
     counter.append({'t': b, 'text': f'{k + 1}x'})
 plugK += [K(r3(t_in1 + ss(0.1)), *plug_at(D_IN), 'park', 180, y=PORT[1], hand=1.0, tilt=900.0), K(r3(t_in1 + ss(0.12)), *plug_at(D_IN), 'park', 180, y=PORT[1], hand=0.0, tilt=900.0),
           K(1, *plug_at(D_IN), 'park', 180, y=PORT[1], hand=0.0, tilt=900.0)]
@@ -212,13 +212,13 @@ counter.append({'t': r3(c_phys), 'text': ''})
 situation = {
  'camera': [
    # Totale: Dummy am Schreibtisch, Laptop, Stecker an der Seite (Zähler zählt mit)
-   *shot(0, c_fuenf - 0.003, F([*seated(), *LAP_PTS, *PORT_PTS], -128, 14, SIT), push=0.05),
+   *shot(0, c_fuenf - 0.003, F([*seated(), *LAP_PTS, *PORT_PTS], -108, 12, SIT), push=0.05),
    # nah: Stecker + Anschluss (dreht sich, passt nicht)
-   *shot(c_fuenf, c_bevor - 0.003, F([*PORT_PTS, [PORT[0] - 0.05, 0.95, PORT[2] - 0.35]], -165, 16, SIT), push=0.07),
+   *shot(c_fuenf, c_bevor - 0.003, F([*PORT_PTS, [PORT[0] - 0.05, 0.95, PORT[2] - 0.45]], -160, 18, SIT), push=0.07),
    # 6. Versuch: gleitet hinein
-   *shot(c_bevor, c_phys - 0.003, F([*PORT_PTS, *LAP_PTS], -150, 22, SIT), push=0.06),
+   *shot(c_bevor, c_phys - 0.003, F([*PORT_PTS, *LAP_PTS], -140, 22, SIT), push=0.06),
    # Physik existiert nicht: Arme hoch – „Was machst du?“
-   *shot(c_phys, 1, F([[CH[0] - 0.5, 0, CH[1] - 0.45], [CH[0] + 0.25, 2.05, CH[1] + 0.45], *LAP_PTS], -105, 8, SIT), push=0.05),
+   *shot(c_phys, 1, F([[CH[0] - 0.5, 0, CH[1] - 0.45], [CH[0] + 0.25, 2.05, CH[1] + 0.45], *LAP_PTS], -100, 8, SIT), push=0.05),
  ],
  'actors': cs_.build(), 'stage': STAGE, 'counter': counter,
  'sfx': [*[{'t': r3(t_tw0 + ss(k * P_TW + 0.3 * P_TW)), 'id': 'usb-stoss', 'volume': 0.75} for k in range(5)],
@@ -268,7 +268,7 @@ HAND_HIT = W(DA, FA, [0.147, 1.09, 0.45])
 def check_a():
     """Treffer: Hammerkopf (0,29 m unter der Hand) trifft das hintere Ende des Steckers entlang +z; nicht im Tisch."""
     head = [HAND_HIT[0], HAND_HIT[1] - 0.29, HAND_HIT[2]]
-    back_end = PORT[2] - D_TOUCH - 0.055
+    back_end = PORT[2] - D_TOUCH + 0.015
     gap = (back_end) - (head[2] + 0.081)
     assert abs(gap) < 0.02, ('A: Hammer trifft den Stecker nicht', gap)
     assert head[1] - 0.058 >= 0.738, ('A: Hammerkopf im Tisch', head)
@@ -277,13 +277,13 @@ def check_a():
 P_HAM = [[HAND_HIT[0] - 0.1, 0.72, HAND_HIT[2] - 0.3], [HAND_HIT[0] + 0.1, 1.2, HAND_HIT[2] + 0.1]]
 camA = [
   # Karte: eine ruhige Einstellung – Dummy mit Hammer, Tisch, Laptop, Stecker
-  *shot(0, sA - 0.003, F([*body(*DA, 1.95), *LAP_PTS, *PORT_PTS], -128, 8, ANS), push=0.03),
+  *shot(0, sA - 0.003, F([*body(*DA, 1.95), *LAP_PTS, *PORT_PTS], -105, 8, ANS), push=0.03),
   # „Kein Drehen mehr“: nah, Zeigefinger
-  *shot(sA, c_was1 - 0.003, F([[DA[0] - 0.45, 0.85, DA[1] - 0.3], [DA[0] + 0.1, 1.95, DA[1] + 0.35]], -110, 6, ANS), push=0.06),
+  *shot(sA, c_was1 - 0.003, F([[DA[0] - 0.45, 0.85, DA[1] - 0.3], [DA[0] + 0.1, 1.95, DA[1] + 0.35], *PORT_PTS], -100, 6, ANS), push=0.06),
   # Krocket-Schlag seitlich: Hammer, Stecker, Anschluss
-  *shot(c_was1, c_ein - 0.003, F([*P_HAM, *PORT_PTS, *LAP_PTS, [DA[0] - 0.4, 1.4, DA[1]]], -62, 8, ANS), push=0.05),
+  *shot(c_was1, c_ein - 0.003, F([*P_HAM, *PORT_PTS, *LAP_PTS, [DA[0] - 0.3, 1.5, DA[1]]], -95, 12, ANS), push=0.05),
   # sitzt bombenfest: Anschluss leuchtet, Dummy stolz
-  *shot(c_ein, 1, F([*body(*DA, 1.95), *LAP_PTS, *PORT_PTS], -150, 10, ANS), push=0.05),
+  *shot(c_ein, 1, F([[DA[0] - 0.4, 0.7, DA[1] - 0.3], [DA[0] + 0.3, 1.95, DA[1] + 0.3], *PORT_PTS], -118, 10, ANS), push=0.05),
 ]
 expA = {
  'camera': camA, 'actors': cA.build(), 'stage': STAGE,
@@ -309,8 +309,8 @@ cB.add('dummy', c_streng, c_klar, [K(c_streng, *CH, 'stareplug', FS, angry=1.0),
 cB.add('dummy', c_klar, c_kabel, [K(c_klar, *CH, 'tapplug', FS, angry=1.0), K(c_kabel, *CH, 'tapplug', FS, angry=1.0)])
 cB.add('dummy', c_kabel, 1, [K(c_kabel, *CH, 'nodplug', FS, angry=0.0), K(1, *CH, 'nodplug', FS, angry=0.0)])
 t_pull = r3(sb(0.55)); t_up = r3(sb(1.2))
-plugB = [K(0, *plug_at(D_IN), 'park', 180, y=PORT[1], hand=1.0, drop=0.0, tilt=180.0, rope=0.0), K(t_pull, *plug_at(D_IN), 'park', 180, y=PORT[1], hand=1.0, rope=0.0),
-         K(t_up, EYE_W[0], EYE_W[2], 'park', 90, y=EYE_W[1], hand=1.0, rope=1.0),
+plugB = [K(0, *plug_at(D_IN), 'park', 180, y=PORT[1], hand=1.0, drop=0.0, tilt=180.0, rope=0.0), K(t_pull, *plug_at(D_IN), 'park', 180, y=PORT[1], hand=1.0, rope=0.0, size=0.0),
+         K(t_up, EYE_W[0], EYE_W[2], 'park', 90, y=EYE_W[1], hand=1.0, rope=1.0, size=0.8),
          K(r3(c_schnall - 0.002), EYE_W[0], EYE_W[2], 'park', 90, y=EYE_W[1], hand=1.0, belt=0.0, helm=0.0),
          K(r3(c_schnall + sb(0.4)), EYE_W[0], EYE_W[2], 'park', 90, y=EYE_W[1], hand=1.0, belt=1.0, helm=0.0),
          K(r3(c_warm - 0.002), EYE_W[0], EYE_W[2], 'park', 90, y=EYE_W[1], hand=1.0, belt=1.0, helm=0.0),
@@ -320,16 +320,16 @@ plugB = [K(0, *plug_at(D_IN), 'park', 180, y=PORT[1], hand=1.0, drop=0.0, tilt=1
          K(1, EYE_W[0], EYE_W[2], 'park', 90, y=EYE_W[1], hand=1.0, belt=1.0, helm=1.0, nod=1.0)]
 cB.add('usbstecker', 0, 1, plugB)
 HEAD_W = [CH[0] - 0.08, 1.28, CH[1]]
-P_FACE = [[HEAD_W[0] - 0.2, 1.0, HEAD_W[2] - 0.2], [EYE_W[0] - 0.06, 1.4, HEAD_W[2] + 0.2]]
+P_FACE = [[EYE_W[0] - 0.12, 0.85, HEAD_W[2] - 0.3], [HEAD_W[0] + 0.2, 1.5, HEAD_W[2] + 0.3]]
 camB = [
   # Karte: ruhige Einstellung – Stecker raus, hoch auf Augenhöhe
-  *shot(0, sB - 0.003, F([*seated(), *LAP_PTS, [EYE_W[0], 1.3, EYE_W[2]]], -128, 10, ANS), push=0.03),
+  *shot(0, sB - 0.003, F([*seated(), *LAP_PTS, [EYE_W[0], 1.3, EYE_W[2]]], -105, 10, ANS), push=0.03),
   # strenger Blick im Profil, ganz nah
-  *shot(sB, c_klar - 0.003, F([*P_FACE, [EYE_W[0] - 0.08, 1.12, EYE_W[2]]], -20, 4, ANS), push=0.06),
+  *shot(sB, c_klar - 0.003, F(P_FACE, -62, 6, ANS), push=0.06),
   # Ansage: Finger tippt, Gurt + Helm
-  *shot(c_klar, c_kabel - 0.003, F([*P_FACE, [EYE_W[0] - 0.1, 1.05, EYE_W[2] - 0.12], [EYE_W[0] + 0.05, 1.35, EYE_W[2] + 0.15]], -75, 6, ANS), push=0.06),
+  *shot(c_klar, c_kabel - 0.003, F(P_FACE, -38, 8, ANS), push=0.06),
   # das Kabel hat verstanden: Stecker mit Gurt + Helm nickt
-  *shot(c_kabel, 1, F([[EYE_W[0] - 0.12, 1.02, EYE_W[2] - 0.12], [EYE_W[0] + 0.12, 1.3, EYE_W[2] + 0.12], [HEAD_W[0], 1.35, HEAD_W[2]]], -95, 10, ANS), push=0.05),
+  *shot(c_kabel, 1, F([[EYE_W[0] - 0.12, 1.02, EYE_W[2] - 0.12], [EYE_W[0] + 0.12, 1.3, EYE_W[2] + 0.12], [HEAD_W[0], 1.45, HEAD_W[2]]], -40, 12, ANS), push=0.05),
 ]
 expB = {
  'camera': camB, 'actors': cB.build(), 'stage': STAGE,
@@ -354,13 +354,13 @@ t_rage = r3(sc(2 * P_TW + 0.1))
 cC.add('dummy', 0, sC, [K(0, *CH, 'twistplug', FS), K(r3(t_rage - 0.002), *CH, 'twistplug', FS), K(t_rage, *CH, 'ragefists', FS, angry=0.0),
                         K(r3(t_rage + sc(0.4)), *CH, 'ragefists', FS, angry=1.0), K(sC, *CH, 'ragefists', FS, angry=1.0)])
 DROP = (PORT[0] + 0.12, PORT[2] - 0.22)
-plugC = [K(0, *plug_at(0.15), 'park', 180, y=PORT[1], hand=1.0, drop=0.0, tilt=0.0, rope=0.0)]
+plugC = [K(0, *plug_at(0.22), 'park', 180, y=PORT[1], hand=1.0, drop=0.0, tilt=0.0, rope=0.0)]
 counterC = []
 for k in range(2):
     a = r3(sc(k * P_TW + 0.52 * P_TW)); b = r3(sc(k * P_TW + 0.85 * P_TW))
-    plugC += [K(a, *plug_at(0.15), 'park', 180, y=PORT[1], hand=1.0, tilt=float(k * 180)), K(b, *plug_at(0.15), 'park', 180, y=PORT[1], hand=1.0, tilt=float((k + 1) * 180))]
+    plugC += [K(a, *plug_at(0.22), 'park', 180, y=PORT[1], hand=1.0, tilt=float(k * 180)), K(b, *plug_at(0.22), 'park', 180, y=PORT[1], hand=1.0, tilt=float((k + 1) * 180))]
     counterC.append({'t': b, 'text': f'{k + 6}x'})
-plugC += [K(r3(t_rage - 0.002), *plug_at(0.15), 'park', 180, y=PORT[1], hand=1.0, tilt=360.0),
+plugC += [K(r3(t_rage - 0.002), *plug_at(0.22), 'park', 180, y=PORT[1], hand=1.0, tilt=360.0),
           K(r3(t_rage + sc(0.25)), *DROP, 'park', 160, y=0.755, hand=0.0, tilt=360.0), K(1, *DROP, 'park', 160, y=0.755, hand=0.0, tilt=360.0)]
 cC.add('usbstecker', 0, 1, plugC)
 counterC.append({'t': r3(sC), 'text': ''})
@@ -373,7 +373,7 @@ t_fold0 = r3(c_kompl - sc(0.05)); t_fold1 = r3(max(t_fold0 + sc(1.3), c_und - sc
 t_thr0 = r3(c_und - sc(0.25)); t_rel = r3(t_thr0 + sc(0.62))
 REL = W(DC, FC, [-0.1, 1.72, 0.42])
 BIN = (-5.2, -0.5)
-LAND = [BIN[0], 0.66, BIN[1]]
+LAND = [BIN[0], 0.9, BIN[1]]
 FLIGHT = 1.05
 def arc(u):
     peak = 0.95
@@ -399,7 +399,7 @@ cC.add('usblaptop', sC, 1, lapC)
 cC.add('funken', t_fold1, 1, [K(t_fold1, *DC, 'burst', 0, y=1.1, mark=1.0, size=-0.2)])
 t_cut_out = r3(t_rel + sc(0.32))
 cC.add('muelltonne', t_cut_out, 1, [K(t_cut_out, *BIN, 'park', 90, lid=1.0, squish=0.0), K(r3(t_land - 0.002), *BIN, 'park', 90, lid=1.0, squish=0.0), K(t_land, *BIN, 'park', 90, lid=1.0, squish=1.0),
-                                    K(r3(t_land + sc(0.45)), *BIN, 'park', 90, lid=1.0, squish=0.4), K(r3(t_land + sc(0.75)), *BIN, 'park', 90, lid=0.15, squish=0.0), K(1, *BIN, 'park', 90, lid=0.15, squish=0.0)])
+                                    K(r3(t_land + sc(0.45)), *BIN, 'park', 90, lid=1.0, squish=0.4), K(r3(t_land + sc(0.75)), *BIN, 'park', 90, lid=1.0, squish=0.0), K(1, *BIN, 'park', 90, lid=1.0, squish=0.0)])
 def check_c():
     """Flugbahn: frei durchs offene Fenster (y 0.75 … 2.4, z −1.05 … 0.25, mit Abstand für den Laptop), landet in der Tonne; draußen niemand."""
     best = None
@@ -414,18 +414,19 @@ def check_c():
         if abs(x + 2.32) < 0.15 and abs(z - 0.1) < 0.25: assert y > 1.35, ('C: Lampe im Weg', (x, y, z))
     assert t_land < 1 - sc(0.6), ('C: Landung zu spät', t_land)
     return [round(v, 2) for v in best], round(arc(0.5)[1], 2)
-LAPH_PTS = [[DC[0] - 0.6, 0.95, DC[1] - 0.35], [DC[0] - 0.15, 1.45, DC[1] + 0.2]]
+_LH = W(DC, FC, [0, 1.1, 0.36])
+LAPH_PTS = [[_LH[0] - 0.3, 0.95, _LH[2] - 0.3], [_LH[0] + 0.3, 1.45, _LH[2] + 0.3]]
 camC = [
   # Karte: ruhige Einstellung – weiter drehen, Zähler, Wut + Dampf
-  *shot(0, sC - 0.003, F([*seated(), *LAP_PTS, *PORT_PTS, [CH[0], 1.9, CH[1]]], -128, 10, ANS), push=0.03),
+  *shot(0, sC - 0.003, F([*seated(), *LAP_PTS, *PORT_PTS, [CH[0], 1.9, CH[1]]], -105, 10, ANS), push=0.03),
   # „Genug gedreht“: steht mit dem Laptop
-  *shot(sC, c_lap - 0.003, F([*body(*DC, 2.2), *LAPH_PTS], -95, 6, ANS), push=0.06),
+  *shot(sC, c_lap - 0.003, F([*body(*DC, 2.2), *LAPH_PTS], -80, 6, ANS), push=0.06),
   # falschrum nach hinten zuklappen: nah, seitlich
-  *shot(c_lap, c_und - 0.003, F([*LAPH_PTS, [DC[0] - 0.15, 1.6, DC[1]]], -10, 6, ANS), push=0.06),
+  *shot(c_lap, c_und - 0.003, F([*LAPH_PTS, [DC[0], 1.8, DC[1]]], -65, 6, ANS), push=0.06),
   # Wurf: Dummy + offenes Fenster
-  *shot(c_und, t_cut_out - 0.003, F([*body(*DC, 2.2), *WIN_PTS, *DESK_PTS], 40, 8, ANS), push=0.04),
+  *shot(c_und, t_cut_out - 0.003, F([*body(*DC, 2.2), *WIN_PTS, *DESK_PTS], 55, 8, ANS), push=0.04),
   # draußen: Laptop fliegt im Bogen aus dem Fenster und landet weich in der Tonne
-  *shot(t_cut_out, 1, F([*WIN_PTS, [-2.6, 0, -1.1], [BIN[0] - 0.4, 0, BIN[1] - 0.4], [BIN[0] + 0.4, 1.0, BIN[1] + 0.4], [arc(0.5)[0], arc(0.5)[1] + 0.2, arc(0.5)[2]]], -50, 6, ANS), push=0.04),
+  *shot(t_cut_out, 1, F([*WIN_PTS, [-2.6, 0, -1.1], [BIN[0] - 0.8, 0, BIN[1] - 0.8], [BIN[0] + 0.8, 1.1, BIN[1] + 0.8], [arc(0.4)[0], arc(0.4)[1] + 0.2, arc(0.4)[2]]], -32, 10, ANS), push=0.04),
 ]
 expC = {
  'camera': camC, 'actors': cC.build(), 'stage': [{'t': 0, 'stage': STAGE}, {'t': round(te(t_cut_out), 4), 'stage': STAGE_OUT}], 'counter': counterC,
@@ -434,7 +435,7 @@ expC = {
          {'t': r3(t_rage + sc(0.3)), 'id': 'dampf', 'volume': 0.6},
          {'t': r3(t_fold0 + sc(0.5)), 'id': 'laptop-knacken', 'volume': 0.8}, {'t': r3(t_fold1 - sc(0.05)), 'id': 'laptop-knacken', 'volume': 0.9},
          {'t': r3(t_rel - sc(0.1)), 'id': 'whoosh', 'volume': 0.7}, {'t': r3(t_land), 'id': 'kissen-plumps', 'volume': 0.9},
-         {'t': r3(t_land + sc(0.6)), 'id': 'plopp', 'volume': 0.6}],
+         {'t': r3(t_land + sc(0.5)), 'id': 'himmel-chor', 'volume': 0.25}],
 }
 # Stage-Wechsel: Kamera-Zeit ist geglättet (te), die Bühne schaltet nach Abschnitts-Zeit → Zeitpunkt passend umrechnen
 def inv_te(y):
@@ -456,9 +457,9 @@ def endcast(wave=False):
     c.add('usbstecker', 0, 1, [K(0, *plug_at(D_IN), 'park', 180, y=PORT[1], tilt=0.0, rope=0.0)])
     c.add('dummy', 0, 1, [K(0, *DV, 'stand', 215, question=0.0 if wave else 1.0)] + ([K(0.12, *DV, 'wave', 215), K(1, *DV, 'wave', 215)] if wave else []))
     return c.build()
-V_PTS = [*body(*DV), *DESK_PTS, *LAP_PTS]
-vote = {'camera': shot(0, 1, F(V_PTS, 30, 3, (120, 960, 1060, 1320)), push=0.04), 'actors': endcast(), 'stage': STAGE}
-outro = {'camera': shot(0, 1, F(V_PTS, 34, 6, (100, 980, 780, 1110)), push=0.05), 'actors': endcast(True), 'stage': STAGE}
+V_PTS = [*body(*DV), *LAP_PTS, [-2.3, 0.7, -0.4]]
+vote = {'camera': shot(0, 1, F(V_PTS, 20, 3, (120, 960, 1060, 1320)), push=0.04), 'actors': endcast(), 'stage': STAGE}
+outro = {'camera': shot(0, 1, F(V_PTS, 22, 6, (100, 980, 780, 1110)), push=0.05), 'actors': endcast(True), 'stage': STAGE}
 if OUTRO_MIN > 0:
     outro['fade'] = [round(1 - 1.6 / OUTRO_MIN, 3), 0.99, 0.85]
 
@@ -492,3 +493,5 @@ print('Länge', round(total, 2), 's', 'audio' if dur else 'geschätzt',
 print('A (Spalt Hammer–Stecker m):', check_a(), '| C (Fensterdurchgang, Scheitel y):', check_c(), '| Einfügen bei', round(t_in * TS, 2), 's, „passt“ bei', round(cue(L0, 'situation', 'passt') * TS, 2), 's')
 if total < 61: print('ACHTUNG: unter 61 s')
 if total > 66: print('ACHTUNG: über 66 s')
+_st = {'A': seclen('situation'), 'B': seclen('situation') + TA, 'C': seclen('situation') + TA + TB}
+print('Schlüsselbilder: A-Treffer', round((_st['A'] + t_hit * TA) * 30), '| C-Knack', round((_st['C'] + t_fold1 * TC) * 30), '| C-Abwurf', round((_st['C'] + t_rel * TC) * 30), '| C-Landung', round((_st['C'] + t_land * TC) * 30))

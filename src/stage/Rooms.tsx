@@ -144,13 +144,20 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
                 [0, window.h / 2 + 0.03, window.w + 0.12, 0.08],
                 [0, -window.h / 2 - 0.03, window.w + 0.12, 0.08],
                 ...(window.open ? [] : [[0, 0, 0.06, window.h]]),
-              ].map(([dz, dy, w, h], i) => (
+              ].map(([dz, dy, w, h], i) =>
+                window.outside ? (
+                  // nur von innen sichtbar (Kamera draußen sieht durch die Wand wie bei den anderen Wänden)
+                  <mesh key={i} position={[(s * W) / 2 - s * 0.005, window.y + window.h / 2 + dy, window.z + dz]} rotation={[0, -s * Math.PI / 2, 0]}>
+                    <planeGeometry args={[w, h]} />
+                    <meshStandardMaterial color="#f7f7f5" />
+                  </mesh>
+                ) : (
                 <mesh key={i} position={[(s * W) / 2 - s * 0.03, window.y + window.h / 2 + dy, window.z + dz]} rotation={[0, -s * Math.PI / 2, 0]}>
                   <boxGeometry args={[w, h, 0.06]} />
                   <meshStandardMaterial color="#f7f7f5" />
                 </mesh>
               ))}
-              {window.open && (
+              {window.open && !window.outside && (
                 <group position={[0, 0, window.hingeBack ? 2 * window.z : 0]} scale={[1, 1, window.hingeBack ? -1 : 1]}>
                 <group position={[(s * W) / 2 - s * 0.03, window.y + window.h / 2, window.z + window.w / 2]} rotation={[0, -s * 1.9, 0]}>
                   {/* offener Fensterflügel (Rahmen + Glas), steht nach innen */}
@@ -180,7 +187,13 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
                 </group>
                 </group>
               )}
-              {[-1, 1].map((k) => (
+              {[-1, 1].map((k) =>
+                window.outside ? (
+                  <mesh key={k} position={[(s * W) / 2 - s * 0.005, window.y + window.h / 2, window.z + (k * window.w) / 2]} rotation={[0, -s * Math.PI / 2, 0]}>
+                    <planeGeometry args={[0.08, window.h + 0.12]} />
+                    <meshStandardMaterial color="#f7f7f5" />
+                  </mesh>
+                ) : (
                 <mesh key={k} position={[(s * W) / 2 - s * 0.03, window.y + window.h / 2, window.z + (k * window.w) / 2]} rotation={[0, -s * Math.PI / 2, 0]}>
                   <boxGeometry args={[0.08, window.h + 0.12, 0.06]} />
                   <meshStandardMaterial color="#f7f7f5" />
@@ -502,7 +515,7 @@ const UsbGarden = ({facade}: {facade: boolean}) => {
         </mesh>
       ))}
       {/* Baum + Büsche */}
-      <group position={[-7.2, 0, -4.6]}>
+      <group position={[-9.0, 0, -11.0]}>
         <mesh material={m.trunk} position={[0, 1.1, 0]} castShadow>
           <cylinderGeometry args={[0.16, 0.22, 2.2, 7]} />
         </mesh>
@@ -513,7 +526,7 @@ const UsbGarden = ({facade}: {facade: boolean}) => {
           <icosahedronGeometry args={[0.9, 0]} />
         </mesh>
       </group>
-      {[[-6.6, 5.6, 0.7], [-7.6, 1.2, 0.55], [-5.8, -7.4, 0.8]].map(([x, z, r], i) => (
+      {[[-9.2, 7.5, 0.7], [-9.3, 2.2, 0.55], [-9.0, -7.4, 0.8]].map(([x, z, r], i) => (
         <mesh key={`b${i}`} material={i % 2 ? m.leaf : m.leaf2} position={[x, r * 0.75, z]} castShadow>
           <icosahedronGeometry args={[r, 0]} />
         </mesh>

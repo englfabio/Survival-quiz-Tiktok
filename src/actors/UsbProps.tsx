@@ -12,7 +12,7 @@ import {clamp, easeInOut, rng} from '../lib/anim';
  *      1 = ganz unter den Boden geklappt), `squish` 0 … 1 = staucht + wackelt (Treffer), `glow` 0 … 1 = Anschluss leuchtet grün auf
  *      (Stecker sitzt), `tilt` = Überschlag in Grad um die Querachse (Flug), `size`.
  *  - UsbPlug ("usbstecker"): dicker USB-Stecker (dunkles Gehäuse mit Griffrillen, Metallzunge mit Kunststoff-Zunge auf EINER Hälfte →
- *      man sieht, wie herum er gerade ist) + dickes graues Kabel. Ursprung = Griffpunkt (Gehäusemitte), Spitze zeigt nach +z
+ *      man sieht, wie herum er gerade ist) + dickes graues Kabel. Ursprung = Griffpunkt am Knickschutz (Hand verdeckt das Gehäuse nicht), Spitze zeigt nach +z
  *      (USBP.tip = Abstand Griff → Spitze). Werte: `tilt` = Drehung um die eigene Achse in Grad (180 = umgedreht),
  *      `rope` 0 = Kabel liegt flach nach hinten (auf dem Tisch, fällt an der Kante herunter) … 1 = hängt nach unten (in der Hand),
  *      `belt` 0 … 1 = winziger roter Sicherheitsgurt mit Schnalle, `helm` 0 … 1 = winziger Helm, `nod` 0 … 1 = nickt (versteht),
@@ -28,8 +28,8 @@ const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters>
 
 /** Laptop-Maße: Breite (x) 0,36, Tiefe (z) 0,25, Boden 0,022 hoch; Anschluss (lokal) an der rechten Seite */
 export const USBL = {w: 0.36, d: 0.25, h: 0.022, lidLen: 0.24, port: [0.18, 0.011, 0.03] as [number, number, number], portW: 0.046, portH: 0.017};
-/** Stecker: Spitze 0,085 vor dem Griffpunkt, Gehäuse bis 0,038 */
-export const USBP = {tip: 0.085, body: 0.038};
+/** Stecker: Griffpunkt (Ursprung, Knickschutz hinten) → Gehäusemitte 0,07 → Spitze 0,155 */
+export const USBP = {tip: 0.155, body: 0.038, grip: 0.07};
 
 const screenTex = (() => {
   if (typeof document === 'undefined') return null;
@@ -203,6 +203,7 @@ export const UsbPlug = ({tilt = 0, rope = 0, belt = 0, helm = 0, nod = 0, time =
   const hm = easeInOut(clamp(helm));
   return (
     <group rotation={[nodA, 0, 0]}>
+    <group position={[0, 0, USBP.grip]}>
       <mesh geometry={cableGeo} material={m.cable} castShadow />
       <group rotation={[0, 0, (tilt * Math.PI) / 180]}>
         {/* Gehäuse */}
@@ -259,6 +260,7 @@ export const UsbPlug = ({tilt = 0, rope = 0, belt = 0, helm = 0, nod = 0, time =
           </group>
         )}
       </group>
+    </group>
     </group>
   );
 };

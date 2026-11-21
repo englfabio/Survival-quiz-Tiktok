@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Small plastic USB plug bumping against a laptop port and not fitting, short dull plastic clack with a tiny comedic boing, close, no music",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T19:40:17.706Z"
+}

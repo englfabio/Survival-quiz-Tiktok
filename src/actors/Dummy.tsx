@@ -5354,10 +5354,10 @@ const doorPose = (motion: Motion, time: number): DummyPose | null => {
  * Spezial „USB-Kabel“ (Dummy, sitzend am Schreibtisch = chairSit, Laptop-Anschluss 0,47 m vor ihm, 0,18 m rechts, 0,751 m hoch):
  *  - twistplug:   Stecker (rechte Hand) zum Anschluss schieben – passt nicht (Stoß bei 0,3·P, Kopf zuckt) – zurückziehen – umdrehen
  *                 (0,52–0,85·P), Takt P = USB_TWIST s. Genau 5 Fehlversuche, dann (ab 5·P) gleitet er beim sechsten Versuch hinein
- *                 (0,22 s) und bleibt drin. Linke Hand hält den Laptop. Griffpunkt: zurück x −0.32, Stoß −0.262, drin −0.215.
+ *                 (0,22 s) und bleibt drin. Linke Hand hält den Laptop. Griffpunkt (Knickschutz): zurück x −0.39, Stoß −0.334, drin −0.285.
  *  - physikshrug: sitzt, wirft beide Arme fassungslos hoch (0–0,35 s), Kopf in den Nacken, Arme sinken bis 1,4 s zu einem Achselzucken
  *  - ragefists:   sitzt, ballt beide Fäuste vor der Brust und zittert vor Wut (immer stärker), Schultern hochgezogen
- *  - liftplug:    zieht den Stecker aus dem Anschluss (0,3–0,55 s) und hebt ihn bis 1,2 s auf Augenhöhe (0,3 m vor ihm, 1,17 m hoch)
+ *  - liftplug:    zieht den Stecker aus dem Anschluss (0,3–0,55 s) und hebt ihn bis 1,2 s auf Augenhöhe (Griff 0,4 m vor ihm, 1,2 m hoch)
  *  - stareplug:   hält den Stecker auf Augenhöhe und beugt sich streng ganz nah heran (Kopf 0,12 m näher), Kopf leicht schief
  *  - tapplug:     hält den Stecker auf Augenhöhe, linker Zeigefinger (fingerL) tippt alle 0,9 s zweimal oben auf den Stecker, Kopf nickt mit
  *  - nodplug:     hält den Stecker auf Augenhöhe und nickt zufrieden (Takt 0,7 s)
@@ -5380,18 +5380,18 @@ const usbPose = (motion: Motion, time: number): DummyPose | null => {
   const breathe = Math.sin(time * 2.2) * 0.012;
   const restL: P3 = [0.22, 0.92, 0.08];
   const rest: P3 = [-0.22, 0.92, 0.08];
-  const EYE: P3 = [-0.03, 1.17, 0.3];
+  const EYE: P3 = [-0.03, 1.2, 0.4];
   switch (motion) {
     case 'twistplug': {
       const p = chairSit(time);
       const P = USB_TWIST;
-      let x = -0.32;
+      let x = -0.39;
       let jolt = 0;
       if (time < 5 * P) {
         const c = time % P;
         const a = easeInOut(clamp(c / (0.3 * P)));
         const r = easeInOut(clamp((c - 0.38 * P) / (0.14 * P)));
-        x = -0.32 + (-0.262 + 0.32) * a * (1 - r);
+        x = -0.39 + (-0.334 + 0.39) * a * (1 - r);
         if (c > 0.3 * P && c < 0.42 * P) jolt = Math.sin(((c - 0.3 * P) / (0.12 * P)) * Math.PI);
         // Umdrehen: Unterarm dreht mit
         const fl = clamp((c - 0.52 * P) / (0.33 * P));
@@ -5399,7 +5399,7 @@ const usbPose = (motion: Motion, time: number): DummyPose | null => {
         x += 0.004 * Math.sin(fl * Math.PI);
       } else {
         const u = time - 5 * P;
-        x = -0.32 + (-0.215 + 0.32) * easeInOut(clamp(u / 0.22));
+        x = -0.39 + (-0.285 + 0.39) * easeInOut(clamp(u / 0.22));
       }
       p.torsoX = 0.3 + breathe - 0.04 * jolt;
       p.headX = 0.42 - 0.12 * jolt;
@@ -5445,8 +5445,8 @@ const usbPose = (motion: Motion, time: number): DummyPose | null => {
       const t2 = motion === 'liftplug' ? time : 2 + time;
       const pull = easeInOut(clamp((t2 - 0.3) / 0.25));
       const lift = easeInOut(clamp((t2 - 0.6) / 0.6));
-      const inn: P3 = [-0.215, USB_PORT[1], USB_PORT[2]];
-      const out: P3 = [-0.33, USB_PORT[1] + 0.02, USB_PORT[2] - 0.02];
+      const inn: P3 = [-0.285, USB_PORT[1], USB_PORT[2]];
+      const out: P3 = [-0.4, USB_PORT[1] + 0.02, USB_PORT[2] - 0.02];
       let R = lerp3t(lerp3t(inn, out, pull), EYE, lift);
       const lean = motion === 'stareplug' ? easeInOut(clamp(time / 0.5)) : motion === 'tapplug' ? 0.6 : 0;
       p.torsoX = (motion === 'liftplug' ? 0.3 * (1 - lift) + 0.05 * lift : 0.05) + 0.22 * lean + breathe;
@@ -5464,7 +5464,7 @@ const usbPose = (motion: Motion, time: number): DummyPose | null => {
         const c = time % 0.9;
         const tap = Math.max(0, Math.sin((c / 0.22) * Math.PI)) * (c < 0.44 ? 1 : 0);
         const k = easeInOut(clamp(time / 0.3));
-        reachL(p, lerp3t([0.2, 0.85, 0.3], [0.04, EYE[1] + 0.09 - 0.05 * tap, EYE[2] + 0.06], k), 0.36, [0.7, -1, -0.4]);
+        reachL(p, lerp3t([0.2, 0.85, 0.3], [0.0, EYE[1] + 0.1 - 0.05 * tap, EYE[2] - 0.07], k), 0.36, [0.7, -1, -0.4]);
         p.fingerL = k > 0.4;
         p.headX += 0.08 * tap;
       } else {
