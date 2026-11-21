@@ -1165,6 +1165,27 @@
       "duration": 2.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "klecks-platsch",
+      "prompt": "Single small soft cartoon splat, a little wet blob landing on fabric, funny comedic plop, short, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "stecker-ziehen",
+      "prompt": "Big comedic cartoon plug being yanked out of a wall socket, strong suction pop with a short rubbery boing, no music",
+      "duration": 1.0,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "akku-leer",
+      "prompt": "Cute cartoon electronic power down sound, several small gadgets shutting off one after another with descending beeps and a soft fading whir, no music",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

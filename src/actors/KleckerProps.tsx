@@ -465,18 +465,27 @@ export const PlugStation = ({fill = 0, glow = 1, time = 0}: {fill?: number; glow
       <mesh material={on ? m.green : m.red} position={[0.12, SOCKET_Y + 0.18, SOCKET_Z + 0.002]}>
         <sphereGeometry args={[0.026, 10, 8]} />
       </mesh>
-      {/* Schild */}
+      {/* Schild: hängt an der Seite des Masts, die von der Steckdose aus gesehen nach links zeigt (lokal −x; bei face 90 = Welt +z,
+          also zur Straße/Kamera), damit man Schild + Stecker im Profil gleichzeitig sieht */}
       {signMat && (
-        <group position={[0, SOCKET_Y + 0.62, 0.2]}>
+        <group position={[-0.2, SOCKET_Y + 0.75, 0]} rotation={[0, -Math.PI / 2, 0]}>
           <mesh position={[0, 0, -0.012]}>
-            <boxGeometry args={[0.62, 0.27, 0.02]} />
+            <boxGeometry args={[0.66, 0.29, 0.02]} />
             <meshStandardMaterial color="#1e2226" />
           </mesh>
           <mesh material={signMat} position={[0, 0, 0.0]}>
-            <planeGeometry args={[0.6, 0.246]} />
+            <planeGeometry args={[0.64, 0.263]} />
+          </mesh>
+          {/* Status-Lämpchen am Schild */}
+          <mesh material={on ? m.green : m.red} position={[0.36, -0.1, 0.01]}>
+            <sphereGeometry args={[0.035, 10, 8]} />
           </mesh>
         </group>
       )}
+      {/* Lämpchen auch an der Kasten-Seite zur Kamera */}
+      <mesh material={on ? m.green : m.red} position={[-0.192, SOCKET_Y + 0.15, SOCKET_Z - 0.05]}>
+        <sphereGeometry args={[0.024, 10, 8]} />
+      </mesh>
       {/* Stecker */}
       <group position={[0, SOCKET_Y - sag, plugZ]} rotation={[-sag * 2, 0, 0]}>
         <BigPlug m={m} />

@@ -465,7 +465,7 @@ export const PigeonFlock = ({
               <Pigeon pose={pose} light={blink} time={time + hash(i) * 0.3} sleepy={isEmpty ? 0.75 * sleep : 0} />
             </group>
             {badge && charge > 0.01 && (
-              <sprite material={badge} position={[at.pos[0], at.pos[1] + 0.5 * sc + 0.12, at.pos[2]]} scale={[0.5 * charge * pop, 0.28 * charge * pop, 1]} renderOrder={42} />
+              <sprite material={badge} position={[at.pos[0], at.pos[1] + 0.5 * sc + 0.16, at.pos[2]]} scale={[0.62 * charge * pop, 0.35 * charge * pop, 1]} renderOrder={42} />
             )}
           </group>
         );

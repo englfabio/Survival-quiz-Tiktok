@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cute cartoon electronic power down sound, several small gadgets shutting off one after another with descending beeps and a soft fading whir, no music",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T02:20:41.575Z"
+}

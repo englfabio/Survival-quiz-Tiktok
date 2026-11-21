@@ -1,0 +1,2425 @@
+{
+  "id": "spezial-taube-angekackt",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "taubenstrasse",
+  "padAfter": 0.3,
+  "situation": {
+    "speech": "Du wurdest mal wieder von einer Taube angekackt. Mitten auf die Schulter. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "UNO Reverse und zurückfliegen",
+      "speech": "A: UNO Reverse Karte. Dir wachsen Flügel, du fliegst über sie und kackst einfach zurück.",
+      "dummyAction": "Eine leuchtende UNO-Reverse-Karte (ohne Logo/Schrift) blitzt auf, dem Dummy wachsen große weiße Cartoon-Flügel, er hebt ab, kreist über der Taube auf der Banklehne und lässt im Vorbeiflug einen weißen Cartoon-Fleck auf ihren Kopf fallen. Die Taube schaut verdutzt (Fragezeichen), ihr passiert nichts.",
+      "explanation": "UNO Reverse Karte gezückt. Flügel ausgebreitet, hoch in die Luft und einmal sauber zurückgezahlt.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              0.1,
+              1.73,
+              13.95
+            ],
+            "look": [
+              -0.56,
+              0.71,
+              6.58
+            ]
+          },
+          {
+            "t": 0.4552,
+            "pos": [
+              0.074,
+              1.689,
+              13.655
+            ],
+            "look": [
+              -0.56,
+              0.71,
+              6.58
+            ]
+          },
+          {
+            "t": 0.4588,
+            "pos": [
+              -0.65,
+              1.45,
+              10.95
+            ],
+            "look": [
+              -0.55,
+              1.25,
+              7.35
+            ]
+          },
+          {
+            "t": 0.6613,
+            "pos": [
+              -0.64,
+              1.43,
+              10.59
+            ],
+            "look": [
+              -0.55,
+              1.25,
+              7.35
+            ]
+          },
+          {
+            "t": 0.6647,
+            "pos": [
+              2.27,
+              2.0,
+              14.55
+            ],
+            "look": [
+              -0.34,
+              1.01,
+              7.37
+            ]
+          },
+          {
+            "t": 0.7738,
+            "pos": [
+              2.113,
+              1.941,
+              14.119
+            ],
+            "look": [
+              -0.34,
+              1.01,
+              7.37
+            ]
+          },
+          {
+            "t": 0.777,
+            "pos": [
+              1.0,
+              0.92,
+              23.57
+            ],
+            "look": [
+              -0.45,
+              1.5,
+              6.95
+            ]
+          },
+          {
+            "t": 0.8563,
+            "pos": [
+              0.927,
+              0.949,
+              22.739
+            ],
+            "look": [
+              -0.45,
+              1.5,
+              6.95
+            ]
+          },
+          {
+            "t": 0.8591,
+            "pos": [
+              0.04,
+              4.01,
+              18.53
+            ],
+            "look": [
+              -1.86,
+              1.97,
+              6.38
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.055,
+              3.908,
+              17.922
+            ],
+            "look": [
+              -1.86,
+              1.97,
+              6.38
+            ]
+          }
+        ],
+        "actors": {
+          "haus": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "mark": 0.0,
+              "squish": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1.0,
+              "x": 0.0,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "mark": 0.0,
+              "squish": 0.0,
+              "y": 0.0
+            }
+          ],
+          "parkbank": [
+            {
+              "t": 0,
+              "x": -1.6,
+              "z": 6.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 1.0,
+              "x": -1.6,
+              "z": 6.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "tauben": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "perch",
+              "face": 180,
+              "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+              "size": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 1.0,
+              "x": 0,
+              "z": 0,
+              "motion": "perch",
+              "face": 180,
+              "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+              "size": 0.4,
+              "y": 0.0
+            }
+          ],
+          "ladestation": [
+            {
+              "t": 0,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.0,
+              "glow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 1.0,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.0,
+              "glow": 1.0,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0.4641,
+              "x": -0.25,
+              "z": 7.25,
+              "motion": "armscross",
+              "face": 314.4,
+              "klecks": 1.0,
+              "brow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4656,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "holdcard",
+              "face": 180,
+              "klecks": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6378,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "holdcard",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.6393,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "wingpose",
+              "face": 180,
+              "klecks": 1.0,
+              "wings": 0.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.7034,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "wingpose",
+              "face": 180,
+              "wings": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7396,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "wingpose",
+              "face": 180,
+              "wings": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7411,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "flyhover",
+              "face": 180,
+              "klecks": 1.0,
+              "wings": 2.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.7589,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "flyhover",
+              "face": 200,
+              "y": 0.35
+            },
+            {
+              "t": 0.8221,
+              "x": -0.35,
+              "z": 6.82,
+              "motion": "flyhover",
+              "face": 230,
+              "y": 2.3
+            },
+            {
+              "t": 0.8236,
+              "x": -0.61,
+              "z": 6.661,
+              "motion": "flyhover",
+              "face": 211.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0,
+              "cut": true
+            },
+            {
+              "t": 0.8352,
+              "x": -0.857,
+              "z": 6.909,
+              "motion": "flyhover",
+              "face": 238.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.8468,
+              "x": -1.19,
+              "z": 7.018,
+              "motion": "flyhover",
+              "face": 265.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.8584,
+              "x": -1.536,
+              "z": 6.963,
+              "motion": "flyhover",
+              "face": 292.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.87,
+              "x": -1.82,
+              "z": 6.758,
+              "motion": "flyhover",
+              "face": 319.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.8816,
+              "x": -1.979,
+              "z": 6.446,
+              "motion": "flyhover",
+              "face": 346.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.8932,
+              "x": -1.979,
+              "z": 6.096,
+              "motion": "flyhover",
+              "face": 13.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.9047,
+              "x": -1.821,
+              "z": 5.784,
+              "motion": "flyhover",
+              "face": 40.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.9163,
+              "x": -1.538,
+              "z": 5.577,
+              "motion": "flyhover",
+              "face": 67.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.9279,
+              "x": -1.192,
+              "z": 5.522,
+              "motion": "flyhover",
+              "face": 94.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.9395,
+              "x": -0.859,
+              "z": 5.63,
+              "motion": "flyhover",
+              "face": 121.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.9511,
+              "x": -0.611,
+              "z": 5.877,
+              "motion": "flyhover",
+              "face": 148.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.9627,
+              "x": -0.502,
+              "z": 6.21,
+              "motion": "flyhover",
+              "face": 175.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.9743,
+              "x": -0.557,
+              "z": 6.556,
+              "motion": "flyhover",
+              "face": 202.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 0.9859,
+              "x": -0.762,
+              "z": 6.84,
+              "motion": "flyhover",
+              "face": 229.4,
+              "y": 2.3,
+              "wings": 2.0,
+              "klecks": 1.0
+            },
+            {
+              "t": 1,
+              "x": -0.762,
+              "z": 6.84,
+              "motion": "flyhover",
+              "face": 229.4,
+              "y": 2.3,
+              "wings": 2.0
+            }
+          ],
+          "reversekarte": [
+            {
+              "t": 0.0,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "hand": 0,
+              "drop": -0.1,
+              "size": 0.3,
+              "glow": 0.0
+            },
+            {
+              "t": 0.4636,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "hand": 0,
+              "drop": -0.1,
+              "size": 0.3,
+              "glow": 0.0
+            },
+            {
+              "t": 0.4656,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "park",
+              "face": 180,
+              "y": 1.2,
+              "hand": 1,
+              "drop": -0.1,
+              "size": 0.3,
+              "glow": 0.0
+            },
+            {
+              "t": 0.4977,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "park",
+              "face": 180,
+              "glow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6393,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "park",
+              "face": 180,
+              "glow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6413,
+              "x": -0.35,
+              "z": 7.35,
+              "motion": "park",
+              "face": 180,
+              "glow": 1.0,
+              "y": -30.0,
+              "hand": 0
+            }
+          ],
+          "klecks2": [
+            {
+              "t": 0.0,
+              "x": -1.875,
+              "z": 6.684,
+              "motion": "fall",
+              "face": 0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.871,
+              "x": -1.875,
+              "z": 6.684,
+              "motion": "fall",
+              "face": 0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.873,
+              "x": -1.875,
+              "z": 6.684,
+              "motion": "fall",
+              "face": 0,
+              "y": 3.0
+            },
+            {
+              "t": 0.8908,
+              "x": -1.531,
+              "z": 6.473,
+              "motion": "fall",
+              "face": 0,
+              "y": 2.45
+            },
+            {
+              "t": 0.9086,
+              "x": -1.25,
+              "z": 6.3,
+              "motion": "fall",
+              "face": 0,
+              "y": 1.365
+            },
+            {
+              "t": 0.9106,
+              "x": -1.25,
+              "z": 6.3,
+              "motion": "fall",
+              "face": 0,
+              "y": -30.0,
+              "hand": 0
+            }
+          ],
+          "taube": [
+            {
+              "t": 0,
+              "x": -1.25,
+              "z": 6.27,
+              "motion": "perch",
+              "face": 200,
+              "y": 0.875,
+              "splat": 0.0,
+              "question": 0.0,
+              "size": 0.4
+            },
+            {
+              "t": 0.9066,
+              "x": -1.25,
+              "z": 6.27,
+              "motion": "perch",
+              "face": 200,
+              "y": 0.875,
+              "splat": 0.0,
+              "question": 0.0,
+              "size": 0.4
+            },
+            {
+              "t": 0.9086,
+              "x": -1.25,
+              "z": 6.27,
+              "motion": "perch",
+              "face": 200,
+              "y": 0.875,
+              "splat": 1.0,
+              "question": 0.0,
+              "size": 0.4
+            },
+            {
+              "t": 0.93,
+              "x": -1.25,
+              "z": 6.27,
+              "motion": "nod",
+              "face": 200,
+              "y": 0.875,
+              "question": 1.0,
+              "size": 0.4
+            },
+            {
+              "t": 1,
+              "x": -1.25,
+              "z": 6.27,
+              "motion": "nod",
+              "face": 200,
+              "y": 0.875,
+              "question": 1.0,
+              "size": 0.4
+            }
+          ]
+        },
+        "stage": "taubenstrasse",
+        "sfx": [
+          {
+            "t": 0.4692,
+            "id": "karte-klatsch",
+            "volume": 0.7
+          },
+          {
+            "t": 0.4941,
+            "id": "plopp",
+            "volume": 0.6
+          },
+          {
+            "t": 0.6464,
+            "id": "himmel-chor",
+            "volume": 0.6
+          },
+          {
+            "t": 0.7411,
+            "id": "fluegelschlag",
+            "volume": 0.6
+          },
+          {
+            "t": 0.8521,
+            "id": "whoosh",
+            "volume": 0.5
+          },
+          {
+            "t": 0.9086,
+            "id": "klecks-platsch",
+            "volume": 0.9
+          },
+          {
+            "t": 0.9264,
+            "id": "tauben-gurren",
+            "volume": 0.45
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Rechnung per Brieftaube",
+      "speech": "B: Du schickst der Taube per Brieftaube eine Rechnung für die Reinigung.",
+      "dummyAction": "Der Dummy setzt die Lesebrille auf, schreibt auf einem Block „RECHNUNG – REINIGUNG“, klebt eine Briefmarke auf den Umschlag und übergibt ihn einer kleinen Brieftaube mit Posttasche und Mütze, die damit zur Täter-Taube auf der Oberleitung fliegt (Fragezeichen).",
+      "explanation": "Ganz offiziell in Deutschland. Reinigungsrechnung schreiben, Briefmarke drauf und direkt per Brieftaube zustellen.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -0.15,
+              1.61,
+              14.04
+            ],
+            "look": [
+              -0.56,
+              0.71,
+              6.58
+            ]
+          },
+          {
+            "t": 0.3724,
+            "pos": [
+              -0.166,
+              1.574,
+              13.742
+            ],
+            "look": [
+              -0.56,
+              0.71,
+              6.58
+            ]
+          },
+          {
+            "t": 0.3759,
+            "pos": [
+              -0.35,
+              1.45,
+              10.5
+            ],
+            "look": [
+              -0.27,
+              1.15,
+              7.3
+            ]
+          },
+          {
+            "t": 0.5985,
+            "pos": [
+              -0.342,
+              1.42,
+              10.18
+            ],
+            "look": [
+              -0.27,
+              1.15,
+              7.3
+            ]
+          },
+          {
+            "t": 0.602,
+            "pos": [
+              -1.05,
+              2.4,
+              7.15
+            ],
+            "look": [
+              -0.22,
+              1.12,
+              7.68
+            ],
+            "fov": 26
+          },
+          {
+            "t": 0.7598,
+            "pos": [
+              -0.967,
+              2.272,
+              7.203
+            ],
+            "look": [
+              -0.22,
+              1.12,
+              7.68
+            ],
+            "fov": 26
+          },
+          {
+            "t": 0.763,
+            "pos": [
+              -0.7,
+              1.6,
+              9.2
+            ],
+            "look": [
+              -0.61,
+              1.55,
+              7.3
+            ],
+            "fov": 36
+          },
+          {
+            "t": 0.842,
+            "pos": [
+              -0.691,
+              1.595,
+              9.01
+            ],
+            "look": [
+              -0.61,
+              1.55,
+              7.3
+            ],
+            "fov": 36
+          },
+          {
+            "t": 0.8449,
+            "pos": [
+              0.41,
+              1.48,
+              12.87
+            ],
+            "look": [
+              -0.49,
+              0.87,
+              6.5
+            ]
+          },
+          {
+            "t": 0.9495,
+            "pos": [
+              0.356,
+              1.443,
+              12.488
+            ],
+            "look": [
+              -0.49,
+              0.87,
+              6.5
+            ]
+          },
+          {
+            "t": 0.9518,
+            "pos": [
+              -10.15,
+              3.64,
+              16.08
+            ],
+            "look": [
+              -0.88,
+              4.53,
+              5.78
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -9.687,
+              3.685,
+              15.565
+            ],
+            "look": [
+              -0.88,
+              4.53,
+              5.78
+            ]
+          }
+        ],
+        "actors": {
+          "haus": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "mark": 0.0,
+              "squish": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "mark": 0.0,
+              "squish": 0.0,
+              "y": 0.0
+            }
+          ],
+          "parkbank": [
+            {
+              "t": 0,
+              "x": -1.6,
+              "z": 6.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -1.6,
+              "z": 6.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "tauben": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "perch",
+              "face": 180,
+              "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+              "size": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "z": 0,
+              "motion": "perch",
+              "face": 180,
+              "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+              "size": 0.4,
+              "y": 0.0
+            }
+          ],
+          "ladestation": [
+            {
+              "t": 0,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.0,
+              "glow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.0,
+              "glow": 1.0,
+              "y": 0.0
+            }
+          ],
+          "taube": [
+            {
+              "t": 0,
+              "x": -1.5,
+              "z": 5.6,
+              "motion": "perch",
+              "face": 180,
+              "y": 6.242,
+              "question": 0.0,
+              "size": 0.4
+            },
+            {
+              "t": 0.9467,
+              "x": -1.5,
+              "z": 5.6,
+              "motion": "perch",
+              "face": 180,
+              "y": 6.242,
+              "question": 0.0,
+              "size": 0.4
+            },
+            {
+              "t": 0.9609,
+              "x": -1.5,
+              "z": 5.6,
+              "motion": "nod",
+              "face": 100,
+              "y": 6.242,
+              "question": 1.0,
+              "size": 0.4
+            },
+            {
+              "t": 1,
+              "x": -1.5,
+              "z": 5.6,
+              "motion": "nod",
+              "face": 100,
+              "y": 6.242,
+              "question": 1.0,
+              "size": 0.4
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0.3942,
+              "x": -0.25,
+              "z": 7.25,
+              "motion": "armscross",
+              "face": 315,
+              "klecks": 1.0,
+              "brow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3957,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "padwrite",
+              "face": 180,
+              "klecks": 1.0,
+              "glasses": 0.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.4312,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "padwrite",
+              "face": 180,
+              "glasses": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7264,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "padwrite",
+              "face": 180,
+              "glasses": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7279,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "holdcard",
+              "face": 180,
+              "klecks": 1.0,
+              "glasses": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.8071,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "holdcard",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.8086,
+              "x": 0.03,
+              "z": 6.52,
+              "motion": "handover",
+              "face": 270,
+              "klecks": 1.0,
+              "glasses": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.8882,
+              "x": 0.03,
+              "z": 6.52,
+              "motion": "handover",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.8904,
+              "x": 0.03,
+              "z": 6.52,
+              "motion": "proud",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.03,
+              "z": 6.52,
+              "motion": "proud",
+              "face": 270,
+              "y": 0.0
+            }
+          ],
+          "umschlag": [
+            {
+              "t": 0.0,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "hand": 0,
+              "drop": -0.08,
+              "size": 0.15,
+              "mark": 0.0
+            },
+            {
+              "t": 0.7259,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "hand": 0,
+              "drop": -0.08,
+              "size": 0.15,
+              "mark": 0.0
+            },
+            {
+              "t": 0.7279,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "park",
+              "face": 180,
+              "y": 1.2,
+              "hand": 1,
+              "drop": -0.08,
+              "size": 0.15,
+              "mark": 0.0
+            },
+            {
+              "t": 0.7563,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "park",
+              "face": 180,
+              "mark": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7578,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "park",
+              "face": 180,
+              "mark": 0.55,
+              "y": 0.0
+            },
+            {
+              "t": 0.7706,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "park",
+              "face": 180,
+              "mark": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8071,
+              "x": -0.25,
+              "z": 7.3,
+              "motion": "park",
+              "face": 180,
+              "mark": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8086,
+              "x": 0.03,
+              "z": 6.52,
+              "motion": "park",
+              "face": 90,
+              "y": 1.2,
+              "hand": 1,
+              "drop": -0.08,
+              "size": 0.15,
+              "mark": 1.0,
+              "holder": "dummy",
+              "cut": true
+            },
+            {
+              "t": 0.8578,
+              "x": 0.03,
+              "z": 6.52,
+              "motion": "park",
+              "face": 90,
+              "hand": 1,
+              "size": 0.15,
+              "y": 0.0
+            },
+            {
+              "t": 0.8598,
+              "x": -0.16,
+              "z": 0.0,
+              "motion": "park",
+              "face": 90,
+              "y": 0.2,
+              "hand": 0,
+              "size": -0.4,
+              "attach": "brieftaube",
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -0.16,
+              "z": 0.0,
+              "motion": "park",
+              "face": 90,
+              "y": 0.2,
+              "size": -0.4,
+              "attach": "brieftaube"
+            }
+          ],
+          "brieftaube": [
+            {
+              "t": 0.0,
+              "x": -0.82,
+              "z": 6.5,
+              "motion": "perch",
+              "face": 90,
+              "y": -30.0,
+              "size": 0.25,
+              "hand": 0
+            },
+            {
+              "t": 0.8066,
+              "x": -0.82,
+              "z": 6.5,
+              "motion": "perch",
+              "face": 90,
+              "y": -30.0,
+              "size": 0.25,
+              "hand": 0
+            },
+            {
+              "t": 0.8086,
+              "x": -0.82,
+              "z": 6.5,
+              "motion": "perch",
+              "face": 90,
+              "y": 0.68,
+              "size": 0.25
+            },
+            {
+              "t": 0.8193,
+              "x": -0.82,
+              "z": 6.5,
+              "motion": "perch",
+              "face": 90,
+              "y": 0.68,
+              "size": 0.4
+            },
+            {
+              "t": 0.8228,
+              "x": -0.82,
+              "z": 6.5,
+              "motion": "flap",
+              "face": 90,
+              "y": 0.68,
+              "size": 0.4
+            },
+            {
+              "t": 0.8477,
+              "x": -0.47,
+              "z": 6.46,
+              "motion": "flap",
+              "face": 90,
+              "y": 0.84,
+              "size": 0.4
+            },
+            {
+              "t": 0.8776,
+              "x": -0.47,
+              "z": 6.46,
+              "motion": "flap",
+              "face": 90,
+              "y": 0.84,
+              "size": 0.4
+            },
+            {
+              "t": 0.8811,
+              "x": -0.47,
+              "z": 6.46,
+              "motion": "fly",
+              "face": 330.8,
+              "y": 0.84,
+              "size": 0.4
+            },
+            {
+              "t": 0.936,
+              "x": -0.95,
+              "z": 5.6,
+              "motion": "fly",
+              "face": 270,
+              "y": 6.249,
+              "size": 0.4
+            },
+            {
+              "t": 0.9382,
+              "x": -0.95,
+              "z": 5.6,
+              "motion": "perch",
+              "face": 270,
+              "y": 6.249,
+              "size": 0.4
+            },
+            {
+              "t": 0.9406,
+              "x": -0.71,
+              "z": 6.03,
+              "motion": "fly",
+              "face": 300,
+              "y": 4.344,
+              "size": 0.4
+            },
+            {
+              "t": 1,
+              "x": -0.95,
+              "z": 5.6,
+              "motion": "perch",
+              "face": 270,
+              "y": 6.249,
+              "size": 0.4
+            }
+          ]
+        },
+        "stage": "taubenstrasse",
+        "sfx": [
+          {
+            "t": 0.4241,
+            "id": "stift-kritzeln",
+            "volume": 0.6
+          },
+          {
+            "t": 0.5997,
+            "id": "stift-kritzeln",
+            "volume": 0.6
+          },
+          {
+            "t": 0.7578,
+            "id": "stempel",
+            "volume": 0.7
+          },
+          {
+            "t": 0.8228,
+            "id": "fluegelschlag",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8598,
+            "id": "papier-schieben",
+            "volume": 0.5
+          },
+          {
+            "t": 0.9573,
+            "id": "tauben-gurren",
+            "volume": 0.5
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "An der Ladestation den Stecker ziehen",
+      "speech": "C: Du gehst zur Aufladestation der Tauben auf der Oberleitung und ziehst einfach den Stecker.",
+      "dummyAction": "Die Tauben sitzen auf der Oberleitung und laden (grüne Akku-Symbole). Der Dummy stapft zum Strommast mit dem Schild „TAUBEN-LADESTATION“ und zieht den riesigen Stecker aus der Steckdose. Die Akku-Symbole springen nacheinander auf „0 %“, die Tauben gehen in den Energiesparmodus und bleiben einfach ruhig sitzen – ihnen passiert nichts.",
+      "explanation": "Ab zur Oberleitung. Einmal kräftig am Stecker ziehen – und schon ist bei den Tauben der Akku leer.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              8.39,
+              2.98,
+              17.99
+            ],
+            "look": [
+              1.19,
+              6.19,
+              5.52
+            ]
+          },
+          {
+            "t": 0.4644,
+            "pos": [
+              8.102,
+              3.108,
+              17.491
+            ],
+            "look": [
+              1.19,
+              6.19,
+              5.52
+            ]
+          },
+          {
+            "t": 0.468,
+            "pos": [
+              5.85,
+              2.56,
+              20.54
+            ],
+            "look": [
+              3.33,
+              0.44,
+              6.23
+            ]
+          },
+          {
+            "t": 0.6269,
+            "pos": [
+              5.724,
+              2.454,
+              19.825
+            ],
+            "look": [
+              3.33,
+              0.44,
+              6.23
+            ]
+          },
+          {
+            "t": 0.6304,
+            "pos": [
+              4.75,
+              1.5,
+              9.9
+            ],
+            "look": [
+              4.5,
+              1.32,
+              5.6
+            ]
+          },
+          {
+            "t": 0.8091,
+            "pos": [
+              4.725,
+              1.482,
+              9.47
+            ],
+            "look": [
+              4.5,
+              1.32,
+              5.6
+            ]
+          },
+          {
+            "t": 0.8121,
+            "pos": [
+              7.08,
+              3.66,
+              18.34
+            ],
+            "look": [
+              1.88,
+              5.9,
+              5.46
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              6.872,
+              3.75,
+              17.825
+            ],
+            "look": [
+              1.88,
+              5.9,
+              5.46
+            ]
+          }
+        ],
+        "actors": {
+          "haus": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "mark": 0.0,
+              "squish": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -12.5,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "mark": 0.0,
+              "squish": 0.0,
+              "y": 0.0
+            }
+          ],
+          "parkbank": [
+            {
+              "t": 0,
+              "x": -1.6,
+              "z": 6.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -1.6,
+              "z": 6.5,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "tauben": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "perch",
+              "face": 180,
+              "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+              "glow": 1.0,
+              "lock": 0.0,
+              "size": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.7927,
+              "x": 0,
+              "z": 0,
+              "motion": "perch",
+              "face": 180,
+              "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+              "glow": 1.0,
+              "lock": 0.0,
+              "size": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.9655,
+              "x": 0,
+              "z": 0,
+              "motion": "perch",
+              "face": 180,
+              "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+              "glow": 1.0,
+              "lock": 1.0,
+              "size": 0.4,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "z": 0,
+              "motion": "perch",
+              "face": 180,
+              "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+              "glow": 1.0,
+              "lock": 1.0,
+              "size": 0.4,
+              "y": 0.0
+            }
+          ],
+          "ladestation": [
+            {
+              "t": 0,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.0,
+              "glow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7257,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 0.0,
+              "glow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7501,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 1.0,
+              "glow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7521,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 1.0,
+              "glow": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 4.0,
+              "z": 5.6,
+              "motion": "park",
+              "face": 90,
+              "fill": 1.0,
+              "glow": 0.0,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0.4718,
+              "x": -0.25,
+              "z": 7.25,
+              "motion": "lookup",
+              "face": 20,
+              "klecks": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4733,
+              "x": 0.05,
+              "z": 7.25,
+              "motion": "sockstomp",
+              "face": 79.6,
+              "klecks": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6082,
+              "x": 5.215,
+              "z": 6.3,
+              "motion": "sockstomp",
+              "face": 79.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.6097,
+              "x": 4.965,
+              "z": 5.6,
+              "motion": "stand",
+              "face": 270,
+              "klecks": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.674,
+              "x": 4.965,
+              "z": 5.6,
+              "motion": "stand",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.677,
+              "x": 4.965,
+              "z": 5.6,
+              "motion": "pullplug",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 4.965,
+              "z": 5.6,
+              "motion": "pullplug",
+              "face": 270,
+              "y": 0.0
+            }
+          ]
+        },
+        "stage": "taubenstrasse",
+        "sfx": [
+          {
+            "t": 0.02,
+            "id": "laden",
+            "volume": 0.45
+          },
+          {
+            "t": 0.4803,
+            "id": "socken-stapfen",
+            "volume": 0.45
+          },
+          {
+            "t": 0.7361,
+            "id": "stecker-ziehen",
+            "volume": 0.9
+          },
+          {
+            "t": 0.7927,
+            "id": "akku-leer",
+            "volume": 0.75
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du?",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
+    "screen": "Kommentieren & folgen!",
+    "extra": "Neue Video-Ideen? Ab in die Kommentare!",
+    "extraCue": "Neue Video-Ideen"
+  },
+  "publishing": {
+    "description": "Du wurdest mal wieder von einer Taube angekackt – was machst du? 🐦🔌 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Den Tauben ist nichts passiert. 😄\n\n#waswürdestdutun #taube #birdsarentreal #unoreverse #comedy #quiz #dummy #spezial\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team _. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -0.83,
+            3.03,
+            20.86
+          ],
+          "look": [
+            1.26,
+            0.47,
+            7.48
+          ]
+        },
+        {
+          "t": 0.5583,
+          "pos": [
+            -0.725,
+            2.902,
+            20.191
+          ],
+          "look": [
+            1.26,
+            0.47,
+            7.48
+          ]
+        },
+        {
+          "t": 0.5619,
+          "pos": [
+            -1.52,
+            1.85,
+            9.965
+          ],
+          "look": [
+            -0.39,
+            1.42,
+            7.415
+          ],
+          "fov": 34
+        },
+        {
+          "t": 0.8436,
+          "pos": [
+            -1.384,
+            1.798,
+            9.659
+          ],
+          "look": [
+            -0.39,
+            1.42,
+            7.415
+          ],
+          "fov": 34
+        },
+        {
+          "t": 0.8465,
+          "pos": [
+            0.31,
+            2.02,
+            15.44
+          ],
+          "look": [
+            -1.23,
+            0.64,
+            6.72
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.218,
+            1.937,
+            14.917
+          ],
+          "look": [
+            -1.23,
+            0.64,
+            6.72
+          ]
+        }
+      ],
+      "actors": {
+        "haus": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "mark": 0.0,
+            "squish": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 0.0,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "mark": 0.0,
+            "squish": 0.0,
+            "y": 0.0
+          }
+        ],
+        "parkbank": [
+          {
+            "t": 0,
+            "x": -1.6,
+            "z": 6.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": -1.6,
+            "z": 6.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "tauben": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0,
+            "motion": "perch",
+            "face": 180,
+            "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+            "size": 0.4,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 0,
+            "z": 0,
+            "motion": "perch",
+            "face": 180,
+            "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+            "size": 0.4,
+            "y": 0.0
+          }
+        ],
+        "ladestation": [
+          {
+            "t": 0,
+            "x": 4.0,
+            "z": 5.6,
+            "motion": "park",
+            "face": 90,
+            "fill": 0.0,
+            "glow": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 4.0,
+            "z": 5.6,
+            "motion": "park",
+            "face": 90,
+            "fill": 0.0,
+            "glow": 1.0,
+            "y": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 2.7,
+            "z": 7.25,
+            "motion": "walk",
+            "face": 270,
+            "y": 0.0
+          },
+          {
+            "t": 0.5112,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "walk",
+            "face": 270,
+            "y": 0.0
+          },
+          {
+            "t": 0.5142,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "splatshock",
+            "face": 270,
+            "klecks": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.5322,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "splatshock",
+            "face": 270,
+            "klecks": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.8103,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "splatshock",
+            "face": 270,
+            "question": 0.0,
+            "cut": true,
+            "y": 0.0
+          },
+          {
+            "t": 0.8553,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "splatshock",
+            "face": 270,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "splatshock",
+            "face": 270,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ],
+        "taube": [
+          {
+            "t": 0,
+            "x": 7.5,
+            "z": 3.2,
+            "motion": "fly",
+            "face": 242.0,
+            "y": 5.2,
+            "size": 0.4
+          },
+          {
+            "t": 0.4317,
+            "x": -0.32,
+            "z": 7.365,
+            "motion": "fly",
+            "face": 242.0,
+            "y": 3.35,
+            "size": 0.4
+          },
+          {
+            "t": 0.5067,
+            "x": -0.92,
+            "z": 7.065,
+            "motion": "fly",
+            "face": 319.7,
+            "y": 2.6,
+            "size": 0.4
+          },
+          {
+            "t": 0.6987,
+            "x": -1.25,
+            "z": 6.27,
+            "motion": "fly",
+            "face": 200,
+            "y": 0.875,
+            "size": 0.4
+          },
+          {
+            "t": 0.7017,
+            "x": -1.25,
+            "z": 6.27,
+            "motion": "perch",
+            "face": 200,
+            "y": 0.875,
+            "size": 0.4
+          },
+          {
+            "t": 1,
+            "x": -1.25,
+            "z": 6.27,
+            "motion": "perch",
+            "face": 200,
+            "y": 0.875,
+            "size": 0.4
+          }
+        ],
+        "klecks": [
+          {
+            "t": 0.0,
+            "x": -0.32,
+            "z": 7.365,
+            "motion": "fall",
+            "face": 0,
+            "y": -30.0,
+            "hand": 0
+          },
+          {
+            "t": 0.4297,
+            "x": -0.32,
+            "z": 7.365,
+            "motion": "fall",
+            "face": 0,
+            "y": -30.0,
+            "hand": 0
+          },
+          {
+            "t": 0.4317,
+            "x": -0.32,
+            "z": 7.365,
+            "motion": "fall",
+            "face": 0,
+            "y": 3.23
+          },
+          {
+            "t": 0.4729,
+            "x": -0.32,
+            "z": 7.385,
+            "motion": "fall",
+            "face": 0,
+            "y": 2.723
+          },
+          {
+            "t": 0.5142,
+            "x": -0.27,
+            "z": 7.415,
+            "motion": "fall",
+            "face": 0,
+            "y": 1.59
+          },
+          {
+            "t": 0.5162,
+            "x": -0.27,
+            "z": 7.415,
+            "motion": "fall",
+            "face": 0,
+            "y": -30.0,
+            "hand": 0
+          }
+        ]
+      },
+      "stage": "taubenstrasse",
+      "sfx": [
+        {
+          "t": 0.02,
+          "id": "tauben-gurren",
+          "volume": 0.35
+        },
+        {
+          "t": 0.3717,
+          "id": "fluegelschlag",
+          "volume": 0.5
+        },
+        {
+          "t": 0.5142,
+          "id": "klecks-platsch",
+          "volume": 0.9
+        },
+        {
+          "t": 0.8253,
+          "id": "tauben-gurren",
+          "volume": 0.45
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.08,
+            2.23,
+            28.52
+          ],
+          "look": [
+            -1.23,
+            2.73,
+            6.59
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            0.988,
+            2.25,
+            27.643
+          ],
+          "look": [
+            -1.23,
+            2.73,
+            6.59
+          ]
+        }
+      ],
+      "actors": {
+        "haus": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "mark": 0.0,
+            "squish": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 0.0,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "mark": 0.0,
+            "squish": 0.0,
+            "y": 0.0
+          }
+        ],
+        "parkbank": [
+          {
+            "t": 0,
+            "x": -1.6,
+            "z": 6.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": -1.6,
+            "z": 6.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "tauben": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0,
+            "motion": "perch",
+            "face": 180,
+            "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+            "size": 0.4,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 0,
+            "z": 0,
+            "motion": "perch",
+            "face": 180,
+            "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+            "size": 0.4,
+            "y": 0.0
+          }
+        ],
+        "ladestation": [
+          {
+            "t": 0,
+            "x": 4.0,
+            "z": 5.6,
+            "motion": "park",
+            "face": 90,
+            "fill": 0.0,
+            "glow": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 4.0,
+            "z": 5.6,
+            "motion": "park",
+            "face": 90,
+            "fill": 0.0,
+            "glow": 1.0,
+            "y": 0.0
+          }
+        ],
+        "taube": [
+          {
+            "t": 0,
+            "x": -1.25,
+            "z": 6.27,
+            "motion": "perch",
+            "face": 200,
+            "y": 0.875,
+            "size": 0.4
+          },
+          {
+            "t": 1,
+            "x": -1.25,
+            "z": 6.27,
+            "motion": "perch",
+            "face": 200,
+            "y": 0.875,
+            "size": 0.4
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "stand",
+            "face": 180,
+            "klecks": 1.0,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "stand",
+            "face": 180,
+            "klecks": 1.0,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "taubenstrasse",
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.39,
+            3.05,
+            25.19
+          ],
+          "look": [
+            -2.15,
+            1.08,
+            6.8
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.213,
+            2.951,
+            24.271
+          ],
+          "look": [
+            -2.15,
+            1.08,
+            6.8
+          ]
+        }
+      ],
+      "actors": {
+        "haus": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "mark": 0.0,
+            "squish": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 0.0,
+            "z": -12.5,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "mark": 0.0,
+            "squish": 0.0,
+            "y": 0.0
+          }
+        ],
+        "parkbank": [
+          {
+            "t": 0,
+            "x": -1.6,
+            "z": 6.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": -1.6,
+            "z": 6.5,
+            "motion": "park",
+            "face": 180,
+            "y": 0.0
+          }
+        ],
+        "tauben": [
+          {
+            "t": 0,
+            "x": 0,
+            "z": 0,
+            "motion": "perch",
+            "face": 180,
+            "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+            "size": 0.4,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 0,
+            "z": 0,
+            "motion": "perch",
+            "face": 180,
+            "text": "-4.50 6.29 5.60 160;-3.90 6.27 5.60 197;-3.30 6.25 5.60 194;-2.70 6.24 5.60 191;-2.10 6.24 5.60 188;-1.50 6.24 5.60 185;-0.90 6.25 5.60 182;-0.30 6.26 5.60 179;0.30 6.28 5.60 176;0.90 6.31 5.60 173;1.50 6.34 5.60 170;2.10 6.37 5.60 167;2.70 6.41 5.60 164;3.30 6.46 5.60 161",
+            "size": 0.4,
+            "y": 0.0
+          }
+        ],
+        "ladestation": [
+          {
+            "t": 0,
+            "x": 4.0,
+            "z": 5.6,
+            "motion": "park",
+            "face": 90,
+            "fill": 0.0,
+            "glow": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1.0,
+            "x": 4.0,
+            "z": 5.6,
+            "motion": "park",
+            "face": 90,
+            "fill": 0.0,
+            "glow": 1.0,
+            "y": 0.0
+          }
+        ],
+        "taube": [
+          {
+            "t": 0,
+            "x": -1.25,
+            "z": 6.27,
+            "motion": "perch",
+            "face": 200,
+            "y": 0.875,
+            "size": 0.4
+          },
+          {
+            "t": 1,
+            "x": -1.25,
+            "z": 6.27,
+            "motion": "perch",
+            "face": 200,
+            "y": 0.875,
+            "size": 0.4
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "stand",
+            "face": 180,
+            "klecks": 1.0,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.12,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "wave",
+            "face": 180,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.25,
+            "z": 7.25,
+            "motion": "wave",
+            "face": 180,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "taubenstrasse",
+      "sharpCuts": true
+    }
+  }
+}
