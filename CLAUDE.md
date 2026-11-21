@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -262,6 +262,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Rechts neben der Tür bis x 1.75 frei (Schiebetür). Seitenwände + Sockel von außen unsichtbar → Kameras dürfen außerhalb stehen.
   Chef-Büro (`buero`, `src/stage/Office.tsx`, Atmo `uhr-ticken`): W 4.4, D 4.4, Chef-Schreibtisch mit Bildschirm/Tischtelefon/Akten, Chefsessel, Aktenregal,
   Fenster mit Hochhäusern; Platz für den Wandkalender `OFFICE.calendar` (1.15, 1.45, −2.19), Chef davor (1.36, −1.72) face 0.
+  Homeoffice mit offener Gartentür (`homeoffice-cookies`, `src/stage/Rooms.tsx`, `COOKIE_DOOR`, Atmo `uhr-ticken`, Spezial Cookies): wie `homeoffice-usb`
+  (Schreibtisch am offenen Fenster, Dummy sitzend (−1.5, −0.4) face 270), dazu eine OFFENE TÜR in derselben Wand (x −2.5) vor dem Fenster: Mitte z 1.45,
+  0,9 m breit, 2,05 m hoch, Türblatt (blaugrau) außen an der Hauswand aufgeklappt, Trittsteine führen in den Garten. Variante `homeoffice-cookies-aussen`
+  (Atmo `wald-atmo`) = Hauswand von außen mit Fenster + Tür (Laibung, Rahmen, Stufe), Blumenbeet nach hinten (z ≥ 2.4) verschoben – Platz vor der Tür frei
+  (Schlange der Agenten bei x −3.15 … −4.55, Tauziehen bei (−4.6, 2.1)). Room-Fenster kann jetzt `door` = zusätzliche Türöffnung in der Fensterwand.
   Kamera-Trick: Wände sind von außen unsichtbar → Kamera darf hinter die linke Schlafzimmerwand (x < −1.8, aber z außerhalb des Fensters).
   Aus dem Park jetzt exportiert und wiederverwendbar: `TrashBin`, `FarHouses` (mit `day` = Tagesansicht).
   Zwei Gärten nebeneinander (`nachbargarten`, `src/stage/NeighborGarden.tsx`, Atmo = `wald-atmo`; Nacht-Variante `nachbargarten-nacht` mit Mond,
@@ -555,6 +560,22 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Hand `hand` 1), kleiner Cartoon-Gummihammer (`gummihammer`, Griff am Ursprung, Kopf 0,29 m darunter, `tilt` = Neigung, `hand` 1), weiche grüne Mülltonne mit
   Kissen (`muelltonne`, `lid`, `squish`), Comic-Funken (`funken`, Bewegung `burst`, `mark` 1 = weiß, `size`), Kopf-Dampf (`kopfdampf`, `fill`). Neue Werte
   `fold`, `belt`, `helm`, `nod`, `angry`. Neues Shot-Feld `counter`: [{t, text}] = runde Zähler-Plakette oben („1x“ … „5x“, leerer Text blendet aus).
+- **Objekte (Spezial Cookies, `src/actors/CookieProps.tsx`, comichaft, ohne Marken/Logos):** Handy mit Low-Poly-Beinen (`cookiehandy`, 0,12 × 0,24 m,
+  Ursprung = Boden unter den Füßen bzw. untere Kante beim Liegen; Bildschirm über Feld `text`: `banner` = erfundene Website „NEWS“ mit Cookie-Banner + grünem
+  Knopf „ALLE AKZEPTIEREN“, `ok` = grüner Haken „AKZEPTIERT“, `cookies` = bunte Kekse, `many` = viele Banner, `off`; Werte `tilt` 90 = liegt flach (Bildschirm
+  oben, Oberkante nach −z) … 0 = steht, `legs` 0 … 1 = Beine mit roten Turnschuhen wachsen (0,2 m), Bewegung `run` = trippelt, `glow`, `rumble`, `size`),
+  Müslischüssel mit Milch (`milchschuessel`, hellblau mit weißen Punkten, Ø 0,22 m, `fill`, `mark` = Wellenringe), bunte Schoko-Kekse (`keks1` … `keks8`,
+  Ø 0,09 m, Farbe nach Nummer, `glow`, `tilt`/`turn` = Drehung, `size`), Haufen Riesen-Kekse (`kekshaufen`), Keksregen (`keksregen`, Bewegung `burst`, `drop` =
+  Höhe über dem Boden), Ordnerstapel „DATEN“ (`ordnerstapel`, `fill` = Anzahl, Feld `text`), großer Daten-Ordner (`datenordner`, Etikett auf beiden Deckeln +
+  Rücken), Lupe (`lupe`, `lupe2`, Griff am Ursprung, Glas 0,2 m vorn; in der Hand `hand` 1 + `holder`), Tauziehseil (`tauziehseil`, 2,6 m entlang z, Mitte =
+  Ursprung, Daten-Ordner hängt in der Mitte, `mark` 1 = ohne Ordner, `rumble`), Comic-Rauferei-Wolke (`raufwolke`, `fill` = Größe, Sternchen + Kekse wirbeln).
+  Weitere Agenten: `agent2`, `agent3` (wie `agent`, etwas andere Grautöne). Neuer Wert `legs`. Neues Shot-Feld `popups`: [{t, text, x, y, big?}] = Browser-
+  Pop-up-Fenster (Keks-Zeichnung + Text + grüner Haken) ploppen auf und bleiben, leerer Text blendet alle aus (Bauteil `PopupWindows`, `CookieIcon`).
+  Bewegungen (Details in `cookiePose` in Dummy.tsx, Handy lokal `COOKIE_PHONE`, Schüssel `COOKIE_BOWL`): sitzend gedankenlos aufs Handy tippen (`tapphone`,
+  Tipp 0,4 s), zurücklehnen mit Händen hinter dem Kopf (`leanback`), wild mit beiden Zeigefingern tippen (`wildtap`), nach links vorn drehen + Arm hinterher
+  strecken (`reachafter`), Schüssel mit beiden Händen abstellen (`setbowl`, 0,15–0,95 s, Weg im Skript gleich), Kinn in den Händen warten (`waitchin`);
+  stehend (auch Agenten): Tauziehen (`tugpull`, ganzer Körper zurückgelehnt, ruckt alle 0,55 s), gebeugt mit Lupe suchen (`magnify`), hüpfen + nach oben
+  greifen (`snatch`).
 - **Goldfisch** (`goldfisch`, `src/actors/FishProps.tsx`, comichaft, dem Fisch geht es immer gut): orangefarbener Low-Poly-Goldfisch mit großen Augen +
   schrägen Augenbrauen (sehr konzentrierter Blick) in einem runden Glas voll Wasser mit buntem Kies (Ursprung = Glasboden). Im Auto: `"attach": "car",
   x 0.3, y 0.7, z −0.05, face 0` + Wert `side` 1 = Sitzerhöhung + Sicherheitsgurt quer übers Glas (so sieht man ihn durch Seiten- und Frontscheibe).
@@ -871,7 +892,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -1049,6 +1070,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Choreografie: `python3 scripts/spezial-usb-kabel-choreo.py` (prüft `check_a`: Hammerkopf trifft das Steckerende entlang der Achse, nicht im Tisch; `check_c`:
   Flugbahn frei durchs Fenster, über die Lampe, Landung rechtzeitig). Bühnenwechsel in C zur Außenansicht. Standbilder in review/spezial-usb-kabel/phase1/.
   Finales Video: review/final/spezial-usb-kabel.mp4 (64,8 s).
+- Spezial Cookies (Durchlauf-Modus): 615 neue Zeichen (246 Credits laut ElevenLabs; Abstimmung + Outro aus Cache), Texte Buchstabe für Buchstabe vom Inhaber;
+  Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5). Video 62,8 s MIT Abstimmung „Also, was machst du?“ (`padAfter` 0,3 s, kein
+  `sceneExtra`). Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-cookies-choreo.py` (prüft `check_a`: Handy spätestens
+  kurz nach „Ohne dich“ an der Tür; `check_c`: Agenten frei auf dem Rasen, Wolke rechtzeitig). Bühnenwechsel in C zur Außenansicht. Standbilder in
+  review/spezial-cookies/phase1/. Finales Video: review/final/spezial-cookies.mp4 (62,8 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -1111,6 +1137,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `usb-stoss` (Stecker stößt an, passt nicht), `gummi-bonk` (Cartoon-Gummihammer), `laptop-knacken` (Scharnier knackt falschrum) (Spezial USB-Kabel;
   wiederverwendet: `plopp`, `klick`, `rasen-zauber`, `whoosh`, `strom-knistern`, `konfetti-knall`, `gold-fanfare`, `stecker-ziehen`, `gurt-klick`, `himmel-chor`,
   `dampf`, `kissen-plumps`).
+  `handy-trippeln` (Comic-Trippelfüße), `schuessel-abstellen`, `milch-plopp`, `tauziehen`, `rauferei` (Comic-Raufwolke) (Spezial Cookies; wiederverwendet:
+  `klick`, `plopp`, `rasen-zauber`, `whoosh`, `leere-wind`, `handy-klingeln`, `himmel-chor`, `schleichen`, `puff`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1340,6 +1368,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       BlackHoleProps.tsx = Schwarzes Loch/Küchenwand/Schanze/Abwasch-Berg/Tassen im Sog/Glitzer/Notizblock/Forscherbrille,
                       KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
                       UsbProps.tsx = USB-Laptop/USB-Stecker mit Gurt+Helm/Gummihammer/weiche Mülltonne/Funken,
+                      CookieProps.tsx = Handy mit Beinen/Milchschüssel/Kekse/Kekshaufen/Keksregen/Ordnerstapel/Daten-Ordner/Lupe/Tauziehseil/Rauferei-Wolke,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
