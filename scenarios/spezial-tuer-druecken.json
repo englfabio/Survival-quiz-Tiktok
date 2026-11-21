@@ -1,0 +1,2027 @@
+{
+  "id": "spezial-tuer-druecken",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "eingangshalle",
+  "padAfter": 0.3,
+  "situation": {
+    "speech": "Du ziehst mal wieder an einer Tür, obwohl groß DRÜCKEN dransteht. Volle Kraft voraus. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Tür einfach wegbomben",
+      "speech": "A: Du sprengst die Tür mit einem lauten Knall – dann muss man weder ziehen noch drücken.",
+      "dummyAction": "Der Dummy klebt einen überzogenen Cartoon-Knallfrosch an die Tür, zündet ihn an und geht hinter der linken Säule in sicherem Abstand in Deckung (Ohren zuhalten). Mit einem comichaften „BUMM!“ samt Rauchwölkchen und Konfetti fliegt die Tür nach hinten in den Hof – niemand wird getroffen. Der Dummy kommt unversehrt hervor, spaziert durch die leere Öffnung und zeigt Daumen hoch.",
+      "explanation": "Ein lauter Knall, Tür weg. Muss man weder ziehen noch drücken. Problem erledigt.",
+      "sceneExtra": 0.4,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -4.63,
+              2.32,
+              8.87
+            ],
+            "look": [
+              -1.31,
+              0.45,
+              -1.36
+            ]
+          },
+          {
+            "t": 0.4801,
+            "pos": [
+              -4.53,
+              2.264,
+              8.563
+            ],
+            "look": [
+              -1.31,
+              0.45,
+              -1.36
+            ]
+          },
+          {
+            "t": 0.4837,
+            "pos": [
+              -7.12,
+              3.21,
+              11.4
+            ],
+            "look": [
+              -2.13,
+              0.54,
+              -1.55
+            ]
+          },
+          {
+            "t": 0.6444,
+            "pos": [
+              -6.92,
+              3.103,
+              10.882
+            ],
+            "look": [
+              -2.13,
+              0.54,
+              -1.55
+            ]
+          },
+          {
+            "t": 0.6479,
+            "pos": [
+              0.75,
+              1.92,
+              6.2
+            ],
+            "look": [
+              0.54,
+              0.53,
+              -4.48
+            ]
+          },
+          {
+            "t": 0.6979,
+            "pos": [
+              0.735,
+              1.823,
+              5.452
+            ],
+            "look": [
+              0.54,
+              0.53,
+              -4.48
+            ]
+          },
+          {
+            "t": 0.7013,
+            "pos": [
+              -6.99,
+              2.32,
+              8.01
+            ],
+            "look": [
+              -2.13,
+              0.41,
+              -1.87
+            ]
+          },
+          {
+            "t": 0.8886,
+            "pos": [
+              -6.747,
+              2.224,
+              7.516
+            ],
+            "look": [
+              -2.13,
+              0.41,
+              -1.87
+            ]
+          },
+          {
+            "t": 0.8913,
+            "pos": [
+              0.96,
+              1.72,
+              6.03
+            ],
+            "look": [
+              0.0,
+              0.84,
+              -3.13
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.902,
+              1.667,
+              5.48
+            ],
+            "look": [
+              0.0,
+              0.84,
+              -3.13
+            ]
+          }
+        ],
+        "actors": {
+          "druecktuer": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5764,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5794,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 0.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6501,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 0.0,
+              "rumble": 0.0,
+              "fill": 1.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 0.0,
+              "rumble": 0.0,
+              "fill": 1.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.1,
+              "z": -2.43,
+              "motion": "stand",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.0231,
+              "x": -0.1,
+              "z": -2.43,
+              "motion": "stand",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.0261,
+              "x": -0.1,
+              "z": -2.43,
+              "motion": "plantcracker",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.131,
+              "x": -0.1,
+              "z": -2.43,
+              "motion": "plantcracker",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.134,
+              "x": -0.1,
+              "z": -2.43,
+              "motion": "run",
+              "face": 215.7,
+              "y": 0.0
+            },
+            {
+              "t": 0.173,
+              "x": -1.2,
+              "z": -0.9,
+              "motion": "run",
+              "face": 207.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.2044,
+              "x": -1.9,
+              "z": 0.45,
+              "motion": "run",
+              "face": 289.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.2201,
+              "x": -2.75,
+              "z": 0.15,
+              "motion": "run",
+              "face": 289.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.2231,
+              "x": -2.75,
+              "z": 0.15,
+              "motion": "coverears",
+              "face": 150,
+              "y": 0.0
+            },
+            {
+              "t": 0.6508,
+              "x": -2.75,
+              "z": 0.15,
+              "motion": "coverears",
+              "face": 150,
+              "y": 0.0
+            },
+            {
+              "t": 0.6836,
+              "x": -2.75,
+              "z": 0.15,
+              "motion": "stand",
+              "face": 150,
+              "y": 0.0
+            },
+            {
+              "t": 0.7178,
+              "x": -2.75,
+              "z": 0.15,
+              "motion": "stand",
+              "face": 68.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.7208,
+              "x": -2.75,
+              "z": 0.15,
+              "motion": "walk",
+              "face": 68.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.7686,
+              "x": -1.6,
+              "z": -0.3,
+              "motion": "walk",
+              "face": 35.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.8558,
+              "x": -0.25,
+              "z": -2.2,
+              "motion": "walk",
+              "face": 35.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.8588,
+              "x": 0.0,
+              "z": -3.3,
+              "motion": "thumbsup",
+              "face": 180,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -3.3,
+              "motion": "thumbsup",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "knallfrosch": [
+            {
+              "t": 0,
+              "x": -0.1,
+              "z": -2.43,
+              "motion": "park",
+              "face": 0,
+              "y": 1.1,
+              "hand": 1.0,
+              "drop": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.0819,
+              "x": -0.1,
+              "z": -2.43,
+              "motion": "park",
+              "face": 0,
+              "y": 1.1,
+              "hand": 1.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.0893,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": 1.12,
+              "hand": 0.0,
+              "fill": 0.0
+            },
+            {
+              "t": 0.1154,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": 1.12,
+              "fill": 0.0
+            },
+            {
+              "t": 0.5794,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": 1.12,
+              "fill": 1.0
+            },
+            {
+              "t": 0.5814,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "fill": 1.0,
+              "hand": 0
+            }
+          ],
+          "knallwolke": [
+            {
+              "t": 0.0,
+              "x": 0.0,
+              "z": -2.65,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "fill": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.5774,
+              "x": 0.0,
+              "z": -2.65,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "fill": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.5794,
+              "x": 0.0,
+              "z": -2.65,
+              "motion": "park",
+              "face": 180,
+              "y": 1.15,
+              "fill": 0.0
+            },
+            {
+              "t": 0.7729,
+              "x": 0.0,
+              "z": -2.65,
+              "motion": "park",
+              "face": 180,
+              "y": 1.15,
+              "fill": 1.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -2.65,
+              "motion": "park",
+              "face": 180,
+              "y": 1.15,
+              "fill": 1.0
+            }
+          ],
+          "konfetti": [
+            {
+              "t": 0.0,
+              "x": 0.0,
+              "z": -2.5,
+              "motion": "burst",
+              "face": 180,
+              "y": -30.0,
+              "size": 0.4,
+              "hand": 0
+            },
+            {
+              "t": 0.5774,
+              "x": 0.0,
+              "z": -2.5,
+              "motion": "burst",
+              "face": 180,
+              "y": -30.0,
+              "size": 0.4,
+              "hand": 0
+            },
+            {
+              "t": 0.5794,
+              "x": 0.0,
+              "z": -2.5,
+              "motion": "burst",
+              "face": 180,
+              "y": 0.9,
+              "size": 0.4
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -2.5,
+              "motion": "burst",
+              "face": 180,
+              "y": 0.9,
+              "size": 0.4
+            }
+          ]
+        },
+        "stage": "eingangshalle",
+        "sfx": [
+          {
+            "t": 0.0856,
+            "id": "klick",
+            "volume": 0.5
+          },
+          {
+            "t": 0.1154,
+            "id": "zuendschnur",
+            "volume": 0.55
+          },
+          {
+            "t": 0.134,
+            "id": "schritte-rennen",
+            "volume": 0.5
+          },
+          {
+            "t": 0.2305,
+            "id": "zuendschnur",
+            "volume": 0.5
+          },
+          {
+            "t": 0.5794,
+            "id": "cartoon-bumm",
+            "volume": 0.95
+          },
+          {
+            "t": 0.5831,
+            "id": "konfetti-knall",
+            "volume": 0.5
+          },
+          {
+            "t": 0.8588,
+            "id": "himmel-chor",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Schiebetür daraus machen",
+      "speech": "B: Du baust daraus einfach eine Schiebetür.",
+      "dummyAction": "Der Dummy holt den Werkzeugkasten, schraubt auf einem Tritt mit dem Akkuschrauber eine Laufschiene über die Tür, hängt das Türblatt mit Laufrollen ein und schiebt es ganz entspannt zur Seite. Stolz spaziert er hindurch – Schilder egal.",
+      "explanation": "Schiene dran, seitlich aufschieben. Fertig ist die Schiebetür. Ziehen und Drücken sind Geschichte.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -3.97,
+              2.04,
+              8.41
+            ],
+            "look": [
+              -1.49,
+              0.61,
+              -2.23
+            ]
+          },
+          {
+            "t": 0.3041,
+            "pos": [
+              -3.896,
+              1.997,
+              8.091
+            ],
+            "look": [
+              -1.49,
+              0.61,
+              -2.23
+            ]
+          },
+          {
+            "t": 0.3075,
+            "pos": [
+              4.32,
+              2.15,
+              6.28
+            ],
+            "look": [
+              0.74,
+              0.81,
+              -2.97
+            ]
+          },
+          {
+            "t": 0.4633,
+            "pos": [
+              4.105,
+              2.07,
+              5.725
+            ],
+            "look": [
+              0.74,
+              0.81,
+              -2.97
+            ]
+          },
+          {
+            "t": 0.4669,
+            "pos": [
+              -1.16,
+              1.77,
+              7.02
+            ],
+            "look": [
+              0.9,
+              0.83,
+              -2.67
+            ]
+          },
+          {
+            "t": 0.6197,
+            "pos": [
+              -1.057,
+              1.723,
+              6.535
+            ],
+            "look": [
+              0.9,
+              0.83,
+              -2.67
+            ]
+          },
+          {
+            "t": 0.6232,
+            "pos": [
+              2.65,
+              2.13,
+              8.88
+            ],
+            "look": [
+              0.39,
+              0.81,
+              -2.64
+            ]
+          },
+          {
+            "t": 0.7981,
+            "pos": [
+              2.537,
+              2.064,
+              8.304
+            ],
+            "look": [
+              0.39,
+              0.81,
+              -2.64
+            ]
+          },
+          {
+            "t": 0.8012,
+            "pos": [
+              0.6,
+              2.32,
+              7.68
+            ],
+            "look": [
+              -0.13,
+              0.51,
+              -2.7
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              0.564,
+              2.229,
+              7.161
+            ],
+            "look": [
+              -0.13,
+              0.51,
+              -2.7
+            ]
+          }
+        ],
+        "actors": {
+          "druecktuer": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3363,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3582,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4417,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 1.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4856,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 1.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5991,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 1.0,
+              "slide": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 1.0,
+              "slide": 1.0,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -2.2,
+              "z": -0.6,
+              "motion": "carrycase",
+              "face": 45.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.1681,
+              "x": -0.53,
+              "z": -2.27,
+              "motion": "carrycase",
+              "face": 45.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.19,
+              "x": -0.53,
+              "z": -2.27,
+              "motion": "stand",
+              "face": 200,
+              "y": 0.0
+            },
+            {
+              "t": 0.3348,
+              "x": -0.53,
+              "z": -2.27,
+              "motion": "stand",
+              "face": 200,
+              "y": 0.0
+            },
+            {
+              "t": 0.3363,
+              "x": 0.0,
+              "z": -2.6,
+              "motion": "drillrail",
+              "face": 0,
+              "y": 0.42,
+              "cut": true
+            },
+            {
+              "t": 0.4709,
+              "x": 0.0,
+              "z": -2.6,
+              "motion": "drillrail",
+              "face": 0,
+              "y": 0.42
+            },
+            {
+              "t": 0.4724,
+              "x": 0.41,
+              "z": -2.375,
+              "motion": "slidepush",
+              "face": 0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.4856,
+              "x": 0.41,
+              "z": -2.375,
+              "motion": "slidepush",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5991,
+              "x": 1.49,
+              "z": -2.375,
+              "motion": "slidepush",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.602,
+              "x": 1.49,
+              "z": -2.375,
+              "motion": "slidepush",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6035,
+              "x": -0.95,
+              "z": -2.05,
+              "motion": "armscross",
+              "face": 165,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.763,
+              "x": -0.95,
+              "z": -2.05,
+              "motion": "armscross",
+              "face": 165,
+              "y": 0.0
+            },
+            {
+              "t": 0.7645,
+              "x": -0.4,
+              "z": -1.3,
+              "motion": "walk",
+              "face": 8.4,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.9355,
+              "x": 0.0,
+              "z": -4.0,
+              "motion": "walk",
+              "face": 8.4,
+              "y": 0.0
+            },
+            {
+              "t": 0.9385,
+              "x": 0.0,
+              "z": -4.0,
+              "motion": "thumbsup",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -4.0,
+              "motion": "thumbsup",
+              "face": 180,
+              "y": 0.0
+            }
+          ],
+          "werkzeugkasten": [
+            {
+              "t": 0,
+              "x": -2.2,
+              "z": -0.6,
+              "motion": "park",
+              "face": 45.0,
+              "hand": 1.0,
+              "drop": 0.34,
+              "y": 0.0
+            },
+            {
+              "t": 0.1681,
+              "x": -0.53,
+              "z": -2.27,
+              "motion": "park",
+              "face": 45.0,
+              "hand": 1.0,
+              "drop": 0.34,
+              "y": 0.0
+            },
+            {
+              "t": 0.3348,
+              "x": -0.85,
+              "z": -2.55,
+              "motion": "park",
+              "face": 200,
+              "hand": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3363,
+              "x": -0.85,
+              "z": -2.55,
+              "motion": "park",
+              "face": 200,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -0.85,
+              "z": -2.55,
+              "motion": "park",
+              "face": 200,
+              "y": 0.0
+            }
+          ],
+          "tritt": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -2.67,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4709,
+              "x": 0.0,
+              "z": -2.67,
+              "motion": "park",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.4724,
+              "x": -1.45,
+              "z": -2.55,
+              "motion": "park",
+              "face": 160,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -1.45,
+              "z": -2.55,
+              "motion": "park",
+              "face": 160,
+              "y": 0.0
+            }
+          ]
+        },
+        "stage": "eingangshalle",
+        "sfx": [
+          {
+            "t": 0.1856,
+            "id": "paket-abstellen",
+            "volume": 0.5
+          },
+          {
+            "t": 0.367,
+            "id": "akkuschrauber",
+            "volume": 0.7
+          },
+          {
+            "t": 0.4329,
+            "id": "plopp",
+            "volume": 0.5
+          },
+          {
+            "t": 0.4856,
+            "id": "schiebetuer",
+            "volume": 0.8
+          },
+          {
+            "t": 0.6123,
+            "id": "gold-fanfare",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Butler öffnet ab jetzt",
+      "speech": "C: Du lässt dir ab jetzt jede Tür von deinem Butler aufmachen.",
+      "dummyAction": "Ein Butler-Dummy mit Frack, Fliege und weißen Handschuhen ploppt auf, verbeugt sich, drückt die Tür vornehm auf und rollt einen kleinen roten Teppich aus. Der Dummy schreitet hindurch, der Butler verbeugt sich – alles comichaft und harmlos.",
+      "explanation": "Ab sofort übernimmt der Butler. Vornehm aufmachen, roten Teppich ausrollen – nie wieder falsch an der Tür ziehen.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              1.9,
+              1.93,
+              7.71
+            ],
+            "look": [
+              1.17,
+              0.56,
+              -2.23
+            ]
+          },
+          {
+            "t": 0.3422,
+            "pos": [
+              1.878,
+              1.889,
+              7.412
+            ],
+            "look": [
+              1.17,
+              0.56,
+              -2.23
+            ]
+          },
+          {
+            "t": 0.3457,
+            "pos": [
+              2.94,
+              1.69,
+              5.55
+            ],
+            "look": [
+              -0.39,
+              0.84,
+              -2.71
+            ]
+          },
+          {
+            "t": 0.5844,
+            "pos": [
+              2.707,
+              1.63,
+              4.972
+            ],
+            "look": [
+              -0.39,
+              0.84,
+              -2.71
+            ]
+          },
+          {
+            "t": 0.5879,
+            "pos": [
+              -3.8,
+              1.73,
+              5.8
+            ],
+            "look": [
+              0.35,
+              0.83,
+              -2.7
+            ]
+          },
+          {
+            "t": 0.6941,
+            "pos": [
+              -3.551,
+              1.676,
+              5.29
+            ],
+            "look": [
+              0.35,
+              0.83,
+              -2.7
+            ]
+          },
+          {
+            "t": 0.6974,
+            "pos": [
+              2.01,
+              3.78,
+              11.94
+            ],
+            "look": [
+              0.02,
+              -0.01,
+              -2.19
+            ]
+          },
+          {
+            "t": 0.8312,
+            "pos": [
+              1.93,
+              3.628,
+              11.375
+            ],
+            "look": [
+              0.02,
+              -0.01,
+              -2.19
+            ]
+          },
+          {
+            "t": 0.8341,
+            "pos": [
+              5.37,
+              2.53,
+              9.36
+            ],
+            "look": [
+              0.26,
+              0.59,
+              -1.11
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              5.115,
+              2.433,
+              8.836
+            ],
+            "look": [
+              0.26,
+              0.59,
+              -1.11
+            ]
+          }
+        ],
+        "actors": {
+          "druecktuer": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5922,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6443,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 0.25,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.689,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 1.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -3.0,
+              "motion": "park",
+              "face": 180,
+              "door": 1.0,
+              "glow": 1.0,
+              "rumble": 0.0,
+              "fill": 0.0,
+              "rail": 0.0,
+              "slide": 0.0,
+              "y": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.35,
+              "z": -1.2,
+              "motion": "stand",
+              "face": 185,
+              "y": 0.0
+            },
+            {
+              "t": 0.0924,
+              "x": 0.35,
+              "z": -1.2,
+              "motion": "armscross",
+              "face": 185,
+              "y": 0.0
+            },
+            {
+              "t": 0.3682,
+              "x": 0.35,
+              "z": -1.2,
+              "motion": "armscross",
+              "face": 185,
+              "y": 0.0
+            },
+            {
+              "t": 0.3697,
+              "x": 0.0,
+              "z": 2.0,
+              "motion": "armscross",
+              "face": 180,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.5721,
+              "x": 0.0,
+              "z": 2.0,
+              "motion": "armscross",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.5736,
+              "x": 0.0,
+              "z": 2.0,
+              "motion": "armscross",
+              "face": 180,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.796,
+              "x": 0.0,
+              "z": 2.0,
+              "motion": "armscross",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.7975,
+              "x": 0.0,
+              "z": 0.9,
+              "motion": "walk",
+              "face": 0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -3.9,
+              "motion": "walk",
+              "face": 0,
+              "y": 0.0
+            }
+          ],
+          "butler": [
+            {
+              "t": 0.0,
+              "x": -0.8,
+              "z": -2.45,
+              "motion": "butlerstand",
+              "face": 160,
+              "shrink": 1.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.3677,
+              "x": -0.8,
+              "z": -2.45,
+              "motion": "butlerstand",
+              "face": 160,
+              "shrink": 1.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.3697,
+              "x": -0.8,
+              "z": -2.45,
+              "motion": "butlerstand",
+              "face": 160,
+              "shrink": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3958,
+              "x": -0.8,
+              "z": -2.45,
+              "motion": "butlerstand",
+              "face": 160,
+              "shrink": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4553,
+              "x": -0.8,
+              "z": -2.45,
+              "motion": "bow",
+              "face": 160,
+              "y": 0.0
+            },
+            {
+              "t": 0.5721,
+              "x": -0.8,
+              "z": -2.45,
+              "motion": "bow",
+              "face": 160,
+              "y": 0.0
+            },
+            {
+              "t": 0.5736,
+              "x": 0.71,
+              "z": -2.43,
+              "motion": "doorhold",
+              "face": 0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.5736,
+              "x": 0.71,
+              "z": -2.43,
+              "motion": "butlerstand",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6666,
+              "x": 0.71,
+              "z": -2.43,
+              "motion": "doorhold",
+              "face": 0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6681,
+              "x": 0.0,
+              "z": -3.38,
+              "motion": "carpetpush",
+              "face": 180,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6681,
+              "x": 0.0,
+              "z": -3.38,
+              "motion": "butlerstand",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.796,
+              "x": 0.0,
+              "z": -3.38,
+              "motion": "carpetpush",
+              "face": 180,
+              "y": 0.0
+            },
+            {
+              "t": 0.7975,
+              "x": 0.85,
+              "z": -2.5,
+              "motion": "butlerstand",
+              "face": 205,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.8161,
+              "x": 0.85,
+              "z": -2.5,
+              "motion": "bow",
+              "face": 205,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.85,
+              "z": -2.5,
+              "motion": "bow",
+              "face": 205,
+              "y": 0.0
+            }
+          ],
+          "teppich": [
+            {
+              "t": 0.0,
+              "x": 0.0,
+              "z": -2.95,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.6661,
+              "x": 0.0,
+              "z": -2.95,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.6681,
+              "x": 0.0,
+              "z": -2.95,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6942,
+              "x": 0.0,
+              "z": -2.95,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.791,
+              "x": 0.0,
+              "z": -2.95,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": -2.95,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "y": 0.0
+            }
+          ]
+        },
+        "stage": "eingangshalle",
+        "sfx": [
+          {
+            "t": 0.3734,
+            "id": "plopp",
+            "volume": 0.7
+          },
+          {
+            "t": 0.5922,
+            "id": "tuer-knarren",
+            "volume": 0.5
+          },
+          {
+            "t": 0.6942,
+            "id": "teppich-rollen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.8049,
+            "id": "gold-fanfare",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du?",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
+    "screen": "Kommentieren & folgen!",
+    "extra": "Neue Video-Ideen? Ab in die Kommentare!",
+    "extraCue": "Neue Video-Ideen"
+  },
+  "publishing": {
+    "description": "Du ziehst mal wieder an einer Tür, obwohl „Drücken“ dransteht – was machst du? 🚪💥 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Niemand wurde verletzt. 😄\n\n#waswürdestdutun #tür #drücken #ziehen #butler #comedy #quiz #dummy #spezial\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team _. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -3.5,
+            1.84,
+            3.63
+          ],
+          "look": [
+            0.15,
+            0.51,
+            -2.69
+          ]
+        },
+        {
+          "t": 0.3344,
+          "pos": [
+            -3.317,
+            1.774,
+            3.314
+          ],
+          "look": [
+            0.15,
+            0.51,
+            -2.69
+          ]
+        },
+        {
+          "t": 0.3378,
+          "pos": [
+            -0.83,
+            2.05,
+            1.33
+          ],
+          "look": [
+            0.17,
+            1.33,
+            -2.71
+          ]
+        },
+        {
+          "t": 0.6715,
+          "pos": [
+            -0.77,
+            2.007,
+            1.088
+          ],
+          "look": [
+            0.17,
+            1.33,
+            -2.71
+          ]
+        },
+        {
+          "t": 0.6749,
+          "pos": [
+            4.6,
+            1.33,
+            2.65
+          ],
+          "look": [
+            0.32,
+            0.64,
+            -2.83
+          ]
+        },
+        {
+          "t": 0.8644,
+          "pos": [
+            4.3,
+            1.282,
+            2.266
+          ],
+          "look": [
+            0.32,
+            0.64,
+            -2.83
+          ]
+        },
+        {
+          "t": 0.8672,
+          "pos": [
+            1.16,
+            1.77,
+            5.06
+          ],
+          "look": [
+            0.38,
+            0.55,
+            -2.33
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.121,
+            1.709,
+            4.69
+          ],
+          "look": [
+            0.38,
+            0.55,
+            -2.33
+          ]
+        }
+      ],
+      "actors": {
+        "druecktuer": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -3.0,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 1.0,
+            "rumble": 1.0,
+            "fill": 0.0,
+            "rail": 0.0,
+            "slide": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.8292,
+            "x": 0.0,
+            "z": -3.0,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 1.0,
+            "rumble": 1.0,
+            "fill": 0.0,
+            "rail": 0.0,
+            "slide": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.8322,
+            "x": 0.0,
+            "z": -3.0,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 1.0,
+            "rumble": 0.0,
+            "fill": 0.0,
+            "rail": 0.0,
+            "slide": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": -3.0,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 1.0,
+            "rumble": 0.0,
+            "fill": 0.0,
+            "rail": 0.0,
+            "slide": 0.0,
+            "y": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.36,
+            "z": -2.48,
+            "motion": "pulldoor",
+            "face": 0,
+            "sweat": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.6482,
+            "x": 0.36,
+            "z": -2.48,
+            "motion": "pulldoor",
+            "face": 0,
+            "sweat": 0.4,
+            "y": 0.0
+          },
+          {
+            "t": 0.7296,
+            "x": 0.36,
+            "z": -2.48,
+            "motion": "pulldoor",
+            "face": 0,
+            "sweat": 1.2,
+            "y": 0.0
+          },
+          {
+            "t": 0.8307,
+            "x": 0.36,
+            "z": -2.48,
+            "motion": "pulldoor",
+            "face": 0,
+            "sweat": 1.2,
+            "y": 0.0
+          },
+          {
+            "t": 0.8322,
+            "x": 0.75,
+            "z": -1.75,
+            "motion": "gape",
+            "face": 195,
+            "sweat": 0.6,
+            "question": 0.0,
+            "y": 0.0,
+            "cut": true
+          },
+          {
+            "t": 0.8797,
+            "x": 0.75,
+            "z": -1.75,
+            "motion": "gape",
+            "face": 195,
+            "question": 1.0,
+            "sweat": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.75,
+            "z": -1.75,
+            "motion": "gape",
+            "face": 195,
+            "question": 1.0,
+            "sweat": 0.0,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "eingangshalle",
+      "sfx": [
+        {
+          "t": 0.02,
+          "id": "tuer-ruetteln",
+          "volume": 0.7
+        },
+        {
+          "t": 0.6482,
+          "id": "tuer-ruetteln",
+          "volume": 0.85
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            2.28,
+            2.74,
+            30.19
+          ],
+          "look": [
+            -0.01,
+            3.48,
+            -2.51
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            2.188,
+            2.77,
+            28.882
+          ],
+          "look": [
+            -0.01,
+            3.48,
+            -2.51
+          ]
+        }
+      ],
+      "actors": {
+        "druecktuer": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -3.0,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 1.0,
+            "rumble": 0.0,
+            "fill": 0.0,
+            "rail": 0.0,
+            "slide": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": -3.0,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 1.0,
+            "rumble": 0.0,
+            "fill": 0.0,
+            "rail": 0.0,
+            "slide": 0.0,
+            "y": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.95,
+            "z": -1.95,
+            "motion": "stand",
+            "face": 200,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.95,
+            "z": -1.95,
+            "motion": "stand",
+            "face": 200,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ],
+        "butler": [
+          {
+            "t": 0,
+            "x": -0.95,
+            "z": -2.2,
+            "motion": "butlerstand",
+            "face": 160,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.95,
+            "z": -2.2,
+            "motion": "butlerstand",
+            "face": 160,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "eingangshalle",
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            2.13,
+            3.17,
+            17.84
+          ],
+          "look": [
+            0.0,
+            1.03,
+            -2.38
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            2.023,
+            3.063,
+            16.829
+          ],
+          "look": [
+            0.0,
+            1.03,
+            -2.38
+          ]
+        }
+      ],
+      "actors": {
+        "druecktuer": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -3.0,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 1.0,
+            "rumble": 0.0,
+            "fill": 0.0,
+            "rail": 0.0,
+            "slide": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": -3.0,
+            "motion": "park",
+            "face": 180,
+            "door": 0.0,
+            "glow": 1.0,
+            "rumble": 0.0,
+            "fill": 0.0,
+            "rail": 0.0,
+            "slide": 0.0,
+            "y": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.95,
+            "z": -1.95,
+            "motion": "stand",
+            "face": 200,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.12,
+            "x": 0.95,
+            "z": -1.95,
+            "motion": "wave",
+            "face": 200,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.95,
+            "z": -1.95,
+            "motion": "wave",
+            "face": 200,
+            "y": 0.0
+          }
+        ],
+        "butler": [
+          {
+            "t": 0,
+            "x": -0.95,
+            "z": -2.2,
+            "motion": "butlerstand",
+            "face": 160,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.95,
+            "z": -2.2,
+            "motion": "butlerstand",
+            "face": 160,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "eingangshalle",
+      "sharpCuts": true
+    }
+  }
+}

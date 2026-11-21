@@ -27,6 +27,7 @@ import {playgroundStage} from './Playground';
 import {policeStationStage} from './PoliceStation';
 import {graveyardStage} from './Graveyard';
 import {lakeStage} from './Lake';
+import {foyerStage} from './Foyer';
 import {bathroomStage, homeOfficeStage, livingRoomStage, praxisStage} from './Rooms';
 import type {StageDef} from './types';
 
@@ -77,6 +78,7 @@ export const STAGES: Record<string, StageDef> = {
   bahnstrecke: railwayStage,
   landstrasse: roadStage,
   'wohnzimmer-homeoffice': homeOfficeStage,
+  eingangshalle: foyerStage,
   wohnstrasse: streetHomeStage,
   siedlung: settlementStage,
   taubenstrasse: pigeonStreetStage,

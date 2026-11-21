@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Big cartoon comedy explosion BOOM with a puffy smoke poof and a wooden door clattering away, slapstick, harmless, no screams, no music",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T12:41:34.777Z"
+}

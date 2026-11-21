@@ -1,4 +1,5 @@
 import {ResearchGoggles} from './BlackHoleProps';
+import {Drill} from './DoorProps';
 import {AngelWings, InvoicePad, ShoulderSplat} from './KleckerProps';
 import {FoodCan} from './FishProps';
 import type {ThreeElements} from '@react-three/fiber';
@@ -105,7 +106,7 @@ export type DummyPose = {
   /** Handy-Foto (item 'photo'): Blitz 0 … 1 */
   snap?: number;
   /** Wecker-Video: Werkzeug in der rechten Hand als Verlängerung des Unterarms ('hammer' | 'cannon') */
-  tool?: '' | 'hammer' | 'cannon';
+  tool?: '' | 'hammer' | 'cannon' | 'drill';
   /** Konfetti: Sekunden seit dem Schuss der Konfetti-Kanone (0 = noch kein Schuss) */
   confetti?: number;
   /** Smartphone in der LINKEN Hand (z. B. im Bett telefonieren, wenn die linke Seite zur Kamera zeigt) */
@@ -5202,8 +5203,152 @@ const fishPose = (motion: Motion, time: number, speed: number): DummyPose | null
   return null;
 };
 
+/**
+ * Spezial „Tür drücken statt ziehen“ (alle Figuren mit Dummy-Körper):
+ *  - pulldoor:     zieht verzweifelt mit beiden Händen an einer senkrechten Griffstange 0,45 m vor ihm (Hände 0,94 / 1,1 m hoch),
+ *                  sitzt in den Knien nach hinten, ruckt alle 0,5 s, zittert vor Anstrengung (Tür gibt nicht nach)
+ *  - plantcracker: hält den Knallfrosch rechts vor sich (bis 0,3 s), drückt ihn 0,5 m vor sich auf 1,12 m an die Tür (0,35–0,85 s),
+ *                  lässt los (ab 0,9 s) und tritt einen halben Schritt zurück; Gegenstand dazu mit `hand` 1 → 0 bei ca. 0,85 s
+ *  - coverears:    geht in 0,4 s in die Hocke (Hüfte 0,58 m), hält sich mit beiden Händen die Ohren zu, Kopf eingezogen, zittert leicht
+ *  - drillrail:    steht, schaut nach oben, rechts der Akkuschrauber über dem Kopf (Hand 0,22 m vor ihm auf 1,95 m, wandert alle 1,2 s
+ *                  von Schraube zu Schraube, Bit dreht), links hält die Schiene (0,25 m vor ihm auf 2,0 m)
+ *  - slidepush:    steht locker, rechte Hand 0,42 m vor ihm auf 1,0 m (schiebt die Schiebetür), links in der Hosentasche, schlurft
+ *                  seitlich mit (Weg über Zeitpunkte), schaut entspannt zur Seite
+ *  - bow:          Butler-Verbeugung: rechte Hand auf die Brust, linke hinter den Rücken (0–0,3 s), verbeugt sich 0,3–0,9 s tief,
+ *                  bleibt unten bis 1,5 s, richtet sich bis 2,1 s wieder auf
+ *  - butlerstand:  kerzengerade, Kinn leicht hoch, linke Hand hinter dem Rücken, rechter Unterarm quer vor dem Bauch
+ *  - carpetpush:   beugt sich tief vor (0–0,5 s), gibt mit beiden Händen der Teppichrolle 0,45 m vor ihm am Boden einen Schubs (0,55–0,8 s),
+ *                  richtet sich auf (1,0–1,5 s) und zeigt mit rechts einladend nach vorn
+ */
+/** Punkt im Oberkörper-System (Schulterhöhe 0,44) → Dummy-System (Boden), für Haltungen mit vorgebeugtem Oberkörper */
+const fromTorso = (p: DummyPose, v: P3): P3 => {
+  const w = new THREE.Vector3(...v).applyEuler(new THREE.Euler(p.torsoX, p.torsoY, p.torsoZ)).add(new THREE.Vector3(0, p.hipY + 0.06, 0)).applyEuler(new THREE.Euler(p.pitch, 0, 0));
+  return [w.x, w.y, w.z];
+};
+const doorPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  switch (motion) {
+    case 'pulldoor': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.35));
+      const yank = Math.max(0, Math.sin((time * 2 * Math.PI) / 0.5)) ** 3;
+      const sh = Math.sin(time * 38) * 0.018;
+      p.hipY = 0.98 - (0.14 + 0.03 * yank) * k;
+      p.torsoX = (-0.2 - 0.12 * yank) * k + sh;
+      p.torsoZ = sh * 0.6;
+      p.legL = L3(-0.55 * k, 0.08, 0.3 * k);
+      p.legR = L3(0.3 * k, -0.08, 0.6 * k);
+      p.headX = (0.18 - 0.3 * yank) * k + sh;
+      p.chest = (0.4 + 0.5 * yank) * k;
+      reachR(p, lerp3t(rest, [-0.015, 1.1, 0.45], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.015, 0.94, 0.45], k), 0.33, [0.6, -1, -0.3]);
+      p.fists = k > 0.6;
+      return p;
+    }
+    case 'plantcracker': {
+      const p = base();
+      const hold = easeInOut(clamp(time / 0.3));
+      const go = easeInOut(clamp((time - 0.35) / 0.2));
+      const press = Math.sin(Math.PI * clamp((time - 0.55) / 0.3));
+      const back = easeInOut(clamp((time - 0.9) / 0.4));
+      const held: P3 = [-0.14, 1.05, 0.3];
+      const door: P3 = [-0.1, 1.12, 0.47 + 0.02 * press];
+      reachR(p, lerp3t(lerp3t(lerp3t(rest, held, hold), door, go), rest, back), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.12, 1.1, 0.45], go * (1 - back) * 0.9), 0.33, [0.7, -1, -0.3]);
+      p.torsoX = 0.16 * go * (1 - back) + 0.05 * press + breathe;
+      p.headX = 0.2 * go * (1 - back);
+      p.legL = L3(-0.18 * go * (1 - back), 0.06, 0.12 * go * (1 - back));
+      return p;
+    }
+    case 'coverears': {
+      const p = base();
+      const c = easeInOut(clamp(time / 0.4));
+      const tr = Math.sin(time * 31) * 0.012 * c;
+      p.hipY = 0.98 - 0.4 * c;
+      p.legL = L3(-1.0 * c, 0.14, 1.8 * c);
+      p.legR = L3(-0.95 * c, -0.14, 1.75 * c);
+      p.torsoX = 0.38 * c + tr;
+      p.headX = 0.2 * c;
+      p.headY = 0.25 * c * (0.5 + 0.5 * Math.sin(time * 1.3));
+      const ear = (sd: number) => fromTorso(p, [sd * 0.135, 0.74, 0.0]);
+      reachR(p, lerp3t(rest, ear(-1), c), 0.31, [0.9, -0.6, -0.1]);
+      reachL(p, lerp3t(restL, ear(1), c), 0.31, [0.9, -0.6, -0.1]);
+      p.chest = 0.3 * c;
+      return p;
+    }
+    case 'drillrail': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.4));
+      const cyc = (time % 1.2) / 1.2;
+      const step = Math.floor(time / 1.2) % 2;
+      const sweep = step ? 0.12 - 0.24 * easeInOut(clamp(cyc / 0.25)) : -0.12 + 0.24 * easeInOut(clamp(cyc / 0.25));
+      const buzz = cyc > 0.3 ? Math.sin(time * 70) * 0.006 : 0;
+      p.headX = -0.55 * k;
+      p.headY = -0.15 * sweep;
+      p.torsoX = -0.06 * k + breathe;
+      reachR(p, lerp3t(rest, [-0.05 + sweep, 1.95 + buzz, 0.22], k), 0.3, [0.8, -0.6, -0.4]);
+      reachL(p, lerp3t(restL, [0.25, 2.0, 0.25], k), 0.33, [0.8, -0.6, -0.4]);
+      p.tool = 'drill';
+      p.confetti = cyc > 0.3 ? time * 40 : 0;
+      return p;
+    }
+    case 'slidepush': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.3));
+      const st = Math.sin(time * 7);
+      p.legL = L3(0.12 * st * k, 0.06 + 0.05 * Math.max(0, st), 0.15 * Math.max(0, st));
+      p.legR = L3(-0.12 * st * k, -0.06 - 0.05 * Math.max(0, -st), 0.15 * Math.max(0, -st));
+      p.hipY = 0.98 - 0.01 * Math.abs(st);
+      p.torsoX = 0.04 + breathe;
+      p.torsoY = 0.12 * k;
+      p.headY = -0.55 * k;
+      p.headX = -0.05;
+      reachR(p, lerp3t(rest, [-0.05, 1.0, 0.42], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.21, 0.86, 0.03], k), 0.33, [0.8, -0.4, -0.8]);
+      return p;
+    }
+    case 'bow':
+    case 'butlerstand': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.3));
+      const bw = motion === 'bow' ? easeInOut(clamp((time - 0.3) / 0.6)) * (1 - easeInOut(clamp((time - 1.5) / 0.6))) : 0;
+      p.torsoX = 0.78 * bw - 0.03 * (1 - bw) + breathe * 0.5;
+      p.hipY = 0.98 - 0.02 * bw;
+      p.headX = 0.25 * bw - 0.1 * (1 - bw);
+      p.legL = L3(0.12 * bw, 0.04, 0.05 * bw);
+      p.legR = L3(0.12 * bw, -0.04, 0.05 * bw);
+      p.pitch = -0.06 * bw;
+      const chest = fromTorso(p, motion === 'bow' ? [-0.02, 0.36, 0.2] : [-0.0, 0.16, 0.24]);
+      const back = fromTorso(p, [0.13, 0.08, -0.22]);
+      reachR(p, lerp3t(rest, chest, k), 0.33, [0.7, -0.6, -0.5]);
+      reachL(p, lerp3t(restL, back, k), 0.33, [0.8, -0.6, 0.6]);
+      return p;
+    }
+    case 'carpetpush': {
+      const p = base();
+      const down = easeInOut(clamp(time / 0.5));
+      const push = easeInOut(clamp((time - 0.55) / 0.25));
+      const up = easeInOut(clamp((time - 1.0) / 0.5));
+      const b = down * (1 - up);
+      p.torsoX = 1.05 * b + breathe;
+      p.hipY = 0.98 - 0.16 * b;
+      p.legL = L3(-0.35 * b, 0.08, 0.6 * b);
+      p.legR = L3(-0.2 * b, -0.08, 0.45 * b);
+      p.headX = 0.1 * b - 0.05 * up;
+      const roll = (sd: number): P3 => [sd * 0.17, 0.2, 0.45 + 0.15 * push];
+      const invite: P3 = [-0.4, 1.0, 0.42];
+      reachR(p, up > 0 ? lerp3t(roll(-1), invite, up) : lerp3t(rest, roll(-1), down), 0.33, [0.6, -0.4, -0.6]);
+      reachL(p, up > 0 ? lerp3t(roll(1), fromTorso(p, [0.13, 0.08, -0.22]), up) : lerp3t(restL, roll(1), down), 0.33, [0.6, -0.4, -0.6]);
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -5663,7 +5808,7 @@ export const dummyPoseBlended = (
  * Uniform für Figuren mit Dummy-Körper (Bahnmitarbeiterin, Bundespolizist …): Farben für Jacke, Säume, Kragen, Hose,
  * Mütze (Schirmmütze) + Mützenband, optional Halstuch und Zopf. Ohne Logos und ohne echte Abzeichen.
  */
-export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; /** Krawatte (Farbe) */ tie?: string; /** ohne Schirmmütze (z. B. Anzug) */ nocap?: boolean; noCap?: boolean; /** Bademantel: Jacke wird zum Mantel bis übers Knie, Gürtel in Kragenfarbe, keine Hose */ robe?: boolean; /** Hausschuhe (Farbe) statt Schuhen */ slippers?: string; /** Rennhelm (Farbe), z. B. Monstertruck-Fahrer */ helmet?: string; /** schwarze Sonnenbrille (z. B. Regierungs-Dummy im Tauben-Video) */ shades?: boolean};
+export type Uniform = {jacket: string; dark: string; collar: string; pants: string; cap: string; band: string; scarf?: string; hair?: string; trim?: string; /** Krawatte (Farbe) */ tie?: string; /** ohne Schirmmütze (z. B. Anzug) */ nocap?: boolean; noCap?: boolean; /** Bademantel: Jacke wird zum Mantel bis übers Knie, Gürtel in Kragenfarbe, keine Hose */ robe?: boolean; /** Hausschuhe (Farbe) statt Schuhen */ slippers?: string; /** Rennhelm (Farbe), z. B. Monstertruck-Fahrer */ helmet?: string; /** schwarze Sonnenbrille (z. B. Regierungs-Dummy im Tauben-Video) */ shades?: boolean; /** Fliege (Farbe), z. B. Butler */ bowtie?: string; /** Handschuhe (Farbe) mit Stulpe, z. B. weiße Butler-Handschuhe */ gloveColor?: string; /** Frack-Schöße hinten (Butler) */ tails?: boolean};
 const useMats = (color = YELLOW, coat = false, uni?: Uniform, pantsColor?: string) =>
   useMemo(
     () => ({
@@ -6296,6 +6441,7 @@ const ToolItem = ({pose}: {pose: DummyPose}) => {
           <group position={[0, -0.3, 0]}>
             {pose.tool === 'hammer' && <Hammer />}
             {pose.tool === 'cannon' && <ConfettiCannon />}
+            {pose.tool === 'drill' && <Drill spin={pose.confetti ?? 0} />}
           </group>
         </group>
       </group>
@@ -7182,7 +7328,7 @@ export const Dummy = ({
 }) => {
   if (hazmat > 0.5) uniform = HAZMAT_UNIFORM;
   const m = useMats(color, coat, uniform, jogger > 0.5 ? '#8d939b' : undefined);
-  const rubber = hazmat > 0.5 ? HAZMAT_GLOVE : undefined;
+  const rubber = hazmat > 0.5 ? HAZMAT_GLOVE : uniform?.gloveColor;
   if (jogger > 0.5) pants = 1;
   if (uniform) {
     jacket = 1;
@@ -7389,6 +7535,26 @@ export const Dummy = ({
               </mesh>
             </group>
           )}
+          {uniform?.bowtie && (
+            <group position={[0, 0.505, 0.19]} rotation={[-0.3, 0, 0]}>
+              {[-1, 1].map((k) => (
+                <mesh key={k} position={[k * 0.045, 0, 0]} rotation={[0, 0, (k * Math.PI) / 2]} scale={[1, 1, 0.45]}>
+                  <coneGeometry args={[0.032, 0.075, 4, 1]} />
+                  <meshStandardMaterial color={uniform.bowtie} flatShading />
+                </mesh>
+              ))}
+              <mesh position={[0, 0, 0.008]}>
+                <boxGeometry args={[0.028, 0.03, 0.02]} />
+                <meshStandardMaterial color={uniform.bowtie} flatShading />
+              </mesh>
+            </group>
+          )}
+          {uniform?.tails &&
+            [-1, 1].map((k) => (
+              <mesh key={`tail${k}`} material={m.jacket} position={[k * 0.07, -0.13, -0.15]} rotation={[0.16, 0, k * 0.05]} castShadow>
+                <boxGeometry args={[0.13, 0.42, 0.03]} />
+              </mesh>
+            ))}
           {uniform?.scarf && (
             <mesh material={m.scarf} position={[0, 0.5, 0.15]} rotation={[0.35, 0, Math.PI]}>
               <circleGeometry args={[0.085, 3]} />

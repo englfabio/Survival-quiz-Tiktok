@@ -49,6 +49,7 @@ import {ChargeBadge, CleaningPlan, flyPose, HoldNotes, HouseRules, leaderPose, P
 import {FallingBlob, InvoiceEnvelope, PlugStation} from './KleckerProps';
 import {BlackHoleDisk, BlackHoleHalo, DishMountain, JumpRamp, KitchenWall, LabNotepad, Sparkles, SuckItems} from './BlackHoleProps';
 import {ParkBench} from '../stage/Park';
+import {BoomCloud, Firecracker, PushDoor, RedCarpet, StepStool, Toolbox} from './DoorProps';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
@@ -328,7 +329,19 @@ export const ACTORS = {
   monstertruck3: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   monstertruck4: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   bagger2: {height: 3.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Tür drücken statt ziehen ----
+  druecktuer: {height: 1.2, climbOffset: 0, speedLineHeight: 0},
+  knallfrosch: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  knallwolke: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  teppich: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  werkzeugkasten: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
+  tritt: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
+  butler: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
 } as const;
+
+/** Butler (Spezial Tür drücken): Dummy-Körper hellgrau, schwarzer Frack mit Schößen, weißes Hemd, schwarze Fliege, weiße Handschuhe, ohne Mütze */
+const BUTLER_COLOR = '#c3c8cf';
+const BUTLER_UNIFORM: Uniform = {jacket: '#17181c', dark: '#0e0f12', collar: '#f7f7f3', pants: '#1c1d22', cap: '#17181c', band: '#17181c', trim: '#17181c', nocap: true, bowtie: '#0b0b0d', gloveColor: '#f8f8f4', tails: true};
 
 /** Regierungs-Dummy (Spezial Tauben): Dummy-Körper dunkelgrau, schwarzer Anzug, weißes Hemd, schwarze Krawatte, Sonnenbrille, ohne Mütze – kein Abzeichen */
 const AGENT_COLOR = '#6b7078';
@@ -390,7 +403,7 @@ const ROBE: Uniform = {jacket: '#9c4a5a', dark: '#7a3343', collar: '#efe0d2', pa
 const COURIER_COLOR = '#c4d0bf';
 const COURIER_UNIFORM: Uniform = {jacket: '#5b7389', dark: '#3e5164', collar: '#dfe6ec', pants: '#3a434d', cap: '#5b7389', band: '#3e5164', trim: '#8fa5b8'};
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3', 'stiefbruder', 'agent'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3', 'stiefbruder', 'agent', 'butler'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
@@ -687,6 +700,11 @@ export const Actor = ({
     {name === 'dummy' && v.cold > 0.01 && (
       <group position={coldPos} quaternion={billboard(coldPos, camPos)}>
         <ColdBadge amount={v.cold} time={state.motionTime} />
+      </group>
+    )}
+    {name === 'knallwolke' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <BoomCloud fill={v.fill} size={v.size} />
       </group>
     )}
     {name === 'schwarzesloch' && (
@@ -1099,6 +1117,14 @@ export const Actor = ({
       {name === 'paragraf' && <ParagraphBadge text={actor.text ?? '§ 246'} time={state.motionTime} visible={state.motion === 'show'} size={v.size} />}
       {name === 'absperrband' && <CordonTape fill={v.fill} size={v.size} />}
       {name === 'rechnung' && <Bill size={v.size} />}
+      {name === 'butler' && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BUTLER_COLOR} uniform={BUTLER_UNIFORM} brow={v.brow} />
+      )}
+      {name === 'druecktuer' && <PushDoor door={v.door} glow={v.glow} rumble={v.rumble} fill={v.fill} rail={v.rail} slide={v.slide} time={clock} />}
+      {name === 'knallfrosch' && <Firecracker fill={v.fill} time={clock} size={v.size} />}
+      {name === 'teppich' && <RedCarpet fill={v.fill} />}
+      {name === 'werkzeugkasten' && <Toolbox />}
+      {name === 'tritt' && <StepStool />}
       {name === 'agent' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={AGENT_COLOR} uniform={AGENT_SUIT} brow={v.brow} />
       )}

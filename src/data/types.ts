@@ -325,6 +325,14 @@ export type Motion =
   | 'heavelift' // Dummy: greift den Abwasch-Berg 0,45 m vor sich auf 0,95 m (bis 0,5 s), stemmt ihn über den Kopf (0,5–1,2 s), balanciert
   | 'heavethrow' // Dummy: wirft das Gewicht von über dem Kopf nach vorn oben (Ausholen 0–0,3 s, Abwurf 0,45 s), danach Arme vorn
   | 'thumbsup' // Dummy: rechter Daumen hoch vor der Brust, links in der Hüfte, nickt zufrieden
+  | 'pulldoor' // Dummy: zieht verzweifelt mit beiden Händen an der Griffstange 0,45 m vor ihm (1,02 m hoch), lehnt sich zurück, ruckt alle 0,5 s
+  | 'plantcracker' // Dummy: klebt mit rechts den Knallfrosch 0,5 m vor sich auf 1,12 m an die Tür (angedrückt 0,55–0,85 s), tritt zurück
+  | 'coverears' // Dummy: geht hinter der Säule in die Hocke, hält sich die Ohren zu, lugt hervor; zuckt beim Knall (Wert-Zeit 0 = Hocke ab 0,4 s)
+  | 'drillrail' // Dummy: steht (z. B. auf dem Tritt) und schraubt mit dem Akkuschrauber über dem Kopf (Bit ca. 0,25 m vor ihm auf 2,05 m), links hält die Schiene
+  | 'slidepush' // Dummy: schiebt mit rechts eine Schiebetür locker zur Seite (Hand 0,4 m vor ihm, 1,0 m hoch, wandert nach links), links in der Hosentasche
+  | 'bow' // Butler: vornehme Verbeugung, rechte Hand vor der Brust, linke hinter dem Rücken (runter 0,3–0,9 s, unten bis 1,5 s, wieder hoch bis 2,1 s)
+  | 'butlerstand' // Butler: steht kerzengerade, linke Hand hinter dem Rücken, rechter Arm angewinkelt vor dem Bauch
+  | 'carpetpush' // Butler: beugt sich tief vor (0–0,5 s) und gibt der Teppichrolle 0,45 m vor ihm einen Schubs (0,55–0,8 s), richtet sich auf + zeigt nach vorn
   | 'perch' // Taube: sitzen, Kopf nicken/picken, gurren
   | 'flap' // Taube: auf der Stelle flattern
   | 'talk' // Tauben-Anführer: mit den Flügeln gestikulieren
@@ -603,10 +611,14 @@ export type ActorKey = {
   shrink?: number;
   /** Dummy: Forscher-Schutzbrille 0 … 1 (rutscht von der Stirn auf die Augen) */
   goggles?: number;
+  /** Tür „druecktuer“: Laufschiene wird angeschraubt 0 … 1 (ab 0,85 hängt das Blatt in der Schiene) */
+  rail?: number;
+  /** Tür „druecktuer“: Schiebetür rollt zur Seite 0 … 1 */
+  slide?: number;
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

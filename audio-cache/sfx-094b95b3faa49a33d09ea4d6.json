@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Someone desperately yanking and rattling a locked wooden door by its metal handle, door frame rattling but not opening, comedic, close, no voices, no music",
+  "duration": 2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-21T12:41:29.075Z"
+}
