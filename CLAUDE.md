@@ -1021,7 +1021,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   5,4 s für Ankleben + In-Deckung-Rennen). Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-tuer-druecken-choreo.py`
   (prüft mit `check_a`: Dummy beim Knall hinter der Säule, 4,2 m weg, steht frühestens 1,4 s nach dem Knall auf; Knall-Kamera sieht die Tür an der Säule vorbei).
   A: Knallfrosch wird in der Karte angeklebt, der Knall kommt mit „Ein lauter Knall“; Tür fliegt vom Dummy weg in den Hof. Standbilder in
-  review/spezial-tuer-druecken/phase1/. Finales Video: review/final/spezial-tuer-druecken.mp4 (62,4 s).
+  review/spezial-tuer-druecken/phase1/. Finales Video: review/final/spezial-tuer-druecken.mp4 (62,4 s). **Vom Inhaber freigegeben.**
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
