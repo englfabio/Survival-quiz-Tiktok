@@ -958,7 +958,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   wären es 67,2 s → `padAfter` 0,12 s → Video 65,8 s, Abstimmung „Also, was machst du?“ bleibt drin. Kontrolle scribe_v2 (alle neuen Clips): korrekt.
   Choreografie: `python3 scripts/spezial-taube-angekackt-choreo.py` (prüft mit `check_c`, dass die Tauben in C die ganze Zeit sitzen bleiben und der Stecker
   draußen ist, BEVOR die Akkus leer werden). Comichaft: Klecks = sauberer weißer Cartoon-Fleck, Tauben nur verdutzt bzw. im Energiesparmodus; Reverse-Karte
-  und Posttasche ohne Logos. Standbilder in review/spezial-taube-angekackt/phase1/. Finales Video: review/final/spezial-taube-angekackt.mp4 (65,8 s).
+  und Posttasche ohne Logos. Standbilder in review/spezial-taube-angekackt/phase1/. Finales Video: review/final/spezial-taube-angekackt.mp4 (65,8 s). **Vom Inhaber freigegeben.**
 - Petermännchen: 953 neue Zeichen = 381 Credits (countdown/reveal/outro aus Cache). Wort-Zeitstempel = Text (geprüft);
   Hörprobe/Vorschau vom Inhaber nicht gewünscht. Finales Video: review/final/petermaennchen-stich.mp4 (83,1 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
