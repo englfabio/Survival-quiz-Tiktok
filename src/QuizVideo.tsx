@@ -20,6 +20,7 @@ import {
   StepList,
   Stopwatch,
   CounterBadge,
+  PopupWindows,
   Subtitle,
   AnswerHeader,
   LETTERS,
@@ -321,6 +322,9 @@ export const QuizVideo = ({scenario: s, timeline, showSafeZones, alignment}: Qui
       {shot.counter && (
         <CounterBadge items={shot.counter} t={t} sectionFrames={sec.duration} top={sec.kind === 'answer' ? 470 : 300} left={sec.kind === 'answer' ? 870 : 540} />
       )}
+
+      {/* Pop-up-Fenster (optional, "popups": [{t, text, x, y, big}]) */}
+      {shot.popups && <PopupWindows items={shot.popups} t={t} sectionFrames={sec.duration} />}
 
       {sec.kind === 'outro' && !spezial && <OutroPanel text={s.outro.screen} frame={local} />}
 

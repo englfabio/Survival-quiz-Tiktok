@@ -67,7 +67,8 @@ type RoomCfg = {
   backWall?: THREE.Material;
   ceiling: string;
   /** Fenster in der linken (−x) oder rechten (+x) Wand: Mitte z, Breite, Unterkante, Höhe */
-  window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string; /** offen: kein Mittelsteg, ein Flügel steht nach innen offen */ open?: boolean; /** echte Außenwelt (eigene Kulisse): kein Himmel-Bild hinter dem Fenster */ outside?: boolean; /** offener Flügel am hinteren (−z) Ende angeschlagen */ hingeBack?: boolean};
+  window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string; /** offen: kein Mittelsteg, ein Flügel steht nach innen offen */ open?: boolean; /** echte Außenwelt (eigene Kulisse): kein Himmel-Bild hinter dem Fenster */ outside?: boolean; /** offener Flügel am hinteren (−z) Ende angeschlagen */ hingeBack?: boolean;
+    /** zusätzlich eine offene Tür in DERSELBEN Wand (vor dem Fenster, also größeres z): Mitte z, Breite, Höhe */ door?: {z: number; w: number; h: number}};
   light: {ambient: number; hemi: number; sun: number; sunColor: string; lamp: number; lampColor: string};
   children?: ReactNode;
   /** false = keine Standard-Wände (der Raum baut eigene Wände mit Öffnungen, siehe HoleWall) */
@@ -124,9 +125,30 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
               <mesh material={wall} position={[(s * W) / 2, H / 2, (-D / 2 + window.z - window.w / 2) / 2]} rotation={[0, -s * Math.PI / 2, 0]} receiveShadow>
                 <planeGeometry args={[window.z - window.w / 2 + D / 2, H]} />
               </mesh>
+              {window.door ? (
+                <>
+                  {/* Wand zwischen Fenster und Tür, über der Tür, vor der Tür + Türrahmen (nur von innen) */}
+                  <mesh material={wall} position={[(s * W) / 2, H / 2, (window.door.z - window.door.w / 2 + window.z + window.w / 2) / 2]} rotation={[0, -s * Math.PI / 2, 0]} receiveShadow>
+                    <planeGeometry args={[window.door.z - window.door.w / 2 - window.z - window.w / 2, H]} />
+                  </mesh>
+                  <mesh material={wall} position={[(s * W) / 2, (H + window.door.h) / 2, window.door.z]} rotation={[0, -s * Math.PI / 2, 0]}>
+                    <planeGeometry args={[window.door.w, H - window.door.h]} />
+                  </mesh>
+                  <mesh material={wall} position={[(s * W) / 2, H / 2, (D / 2 + 6 + window.door.z + window.door.w / 2) / 2]} rotation={[0, -s * Math.PI / 2, 0]} receiveShadow>
+                    <planeGeometry args={[D / 2 + 6 - window.door.z - window.door.w / 2, H]} />
+                  </mesh>
+                  {[[0, window.door.h + 0.04, window.door.w + 0.16, 0.08], [-window.door.w / 2 - 0.04, window.door.h / 2, 0.08, window.door.h + 0.08], [window.door.w / 2 + 0.04, window.door.h / 2, 0.08, window.door.h + 0.08]].map(([dz, y, w, h], i) => (
+                    <mesh key={`df${i}`} position={[(s * W) / 2 - s * 0.005, y, window.door!.z + dz]} rotation={[0, -s * Math.PI / 2, 0]}>
+                      <planeGeometry args={[w, h]} />
+                      <meshStandardMaterial color="#f7f7f5" />
+                    </mesh>
+                  ))}
+                </>
+              ) : (
               <mesh material={wall} position={[(s * W) / 2, H / 2, (D / 2 + 6 + window.z + window.w / 2) / 2]} rotation={[0, -s * Math.PI / 2, 0]} receiveShadow>
                 <planeGeometry args={[D / 2 + 6 - window.z - window.w / 2, H]} />
               </mesh>
+              )}
               <mesh material={wall} position={[(s * W) / 2, window.y / 2, window.z]} rotation={[0, -s * Math.PI / 2, 0]}>
                 <planeGeometry args={[window.w, window.y]} />
               </mesh>
@@ -447,8 +469,10 @@ export const HOMEOFFICE = {deskH: 0.74, chair: [-1.5, -0.4] as [number, number],
  * Holzzaun bei x −8.4, Baum hinten, Büsche. Mit `facade`: Hauswand von außen (Putz, Sockel, Fensterlaibung, Dachkante) –
  * nur für Einstellungen VON DRAUSSEN (von innen unsichtbar, von außen blockiert sie den Blick durch die Wand).
  */
+/** Spezial Cookies: offene Tür in der Fensterwand (x −2.5) vor dem Fenster – Mitte z 1.45, 0,9 m breit, 2,05 m hoch; Türblatt außen offen */
+export const COOKIE_DOOR = {z: 1.45, w: 0.9, h: 2.05};
 export const USB_GARDEN = {wallX: -2.5, outX: -2.56, bin: [-5.2, -0.5] as [number, number], win: {z: -0.4, w: 1.3, y: 0.75, h: 1.65}};
-const UsbGarden = ({facade}: {facade: boolean}) => {
+const UsbGarden = ({facade, door}: {facade: boolean; door?: {z: number; w: number; h: number}}) => {
   const m = useMemo(
     () => ({
       lawn: std('#86c063', {roughness: 0.95}),
@@ -531,11 +555,56 @@ const UsbGarden = ({facade}: {facade: boolean}) => {
           <icosahedronGeometry args={[r, 0]} />
         </mesh>
       ))}
+      {door && (
+        <group position={[outX - 0.03, 0, door.z + door.w / 2 + 0.02]} rotation={[0, -0.12, 0]}>
+          {/* Türblatt, nach außen offen an der Hauswand (Scharnier vorn) */}
+          <mesh position={[-0.03, door.h / 2 - 0.01, door.w / 2 - 0.02]} castShadow>
+            <boxGeometry args={[0.05, door.h - 0.03, door.w - 0.04]} />
+            <meshStandardMaterial color="#4f7a8c" flatShading />
+          </mesh>
+          {[0.55, 1.35].map((y) => (
+            <mesh key={y} position={[-0.06, y, door.w / 2 - 0.02]}>
+              <boxGeometry args={[0.012, 0.5, door.w - 0.25]} />
+              <meshStandardMaterial color="#5f8ea2" flatShading />
+            </mesh>
+          ))}
+          <mesh position={[-0.07, 1.0, door.w - 0.14]}>
+            <boxGeometry args={[0.04, 0.03, 0.12]} />
+            <meshStandardMaterial color="#d8c27a" metalness={0.5} roughness={0.3} />
+          </mesh>
+        </group>
+      )}
       {facade && (
         <group>
           {/* Hauswand von außen mit Fensteröffnung */}
           {face('a', 0, H, z0, win.z - win.w / 2)}
-          {face('b', 0, H, win.z + win.w / 2, z1)}
+          {door ? (
+            <>
+              {face('b', 0, H, win.z + win.w / 2, door.z - door.w / 2)}
+              {face('b2', door.h, H - door.h, door.z - door.w / 2, door.z + door.w / 2)}
+              {face('b3', 0, H, door.z + door.w / 2, z1)}
+              {/* Türlaibung + Türrahmen außen */}
+              {[-1, 1].map((k) => (
+                <mesh key={`dl${k}`} material={m.plaster} position={[(fx - 2.5) / 2, door.h / 2, door.z + (k * door.w) / 2]} rotation={[0, k > 0 ? Math.PI : 0, 0]}>
+                  <planeGeometry args={[2.5 - -fx, door.h]} />
+                </mesh>
+              ))}
+              <mesh material={m.plaster} position={[(fx - 2.5) / 2, door.h, door.z]} rotation={[Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[2.5 - -fx, door.w]} />
+              </mesh>
+              {[[0, door.h + 0.05, door.w + 0.2, 0.1], [-door.w / 2 - 0.05, door.h / 2, 0.1, door.h + 0.1], [door.w / 2 + 0.05, door.h / 2, 0.1, door.h + 0.1]].map(([dz, y, w, h], i) => (
+                <mesh key={`dr${i}`} material={m.sill} position={[fx - 0.02, y, door.z + dz]}>
+                  <boxGeometry args={[0.04, h, w]} />
+                </mesh>
+              ))}
+              {/* Stufe vor der Tür */}
+              <mesh material={m.stone} position={[fx - 0.25, 0.04, door.z]} receiveShadow>
+                <boxGeometry args={[0.5, 0.08, door.w + 0.3]} />
+              </mesh>
+            </>
+          ) : (
+            face('b', 0, H, win.z + win.w / 2, z1)
+          )}
           {face('c', 0, win.y, win.z - win.w / 2, win.z + win.w / 2)}
           {face('d', win.y + win.h, H - win.y - win.h, win.z - win.w / 2, win.z + win.w / 2)}
           {/* Laibung (Wanddicke) */}
@@ -563,11 +632,11 @@ const UsbGarden = ({facade}: {facade: boolean}) => {
             <boxGeometry args={[3.5, 0.1, z1 - z0 + 0.6]} />
           </mesh>
           {/* Blumenbeet an der Wand */}
-          <mesh material={m.lawn2} position={[fx - 0.35, 0.05, 2.0]}>
+          <mesh material={m.lawn2} position={[fx - 0.35, 0.05, door ? 4.0 : 2.0]}>
             <boxGeometry args={[0.5, 0.1, 3.2]} />
           </mesh>
           {Array.from({length: 12}, (_, i) => (
-            <mesh key={`f${i}`} material={m.flower[i % 4]} position={[fx - 0.25 - (i % 3) * 0.12, 0.2, 0.55 + i * 0.25]}>
+            <mesh key={`f${i}`} material={m.flower[i % 4]} position={[fx - 0.25 - (i % 3) * 0.12, 0.2, (door ? 2.55 : 0.55) + i * 0.25]}>
               <icosahedronGeometry args={[0.07, 0]} />
             </mesh>
           ))}
@@ -577,7 +646,7 @@ const UsbGarden = ({facade}: {facade: boolean}) => {
   );
 };
 
-const LivingScene = ({homeOffice = false, usb = 0}: {homeOffice?: boolean; usb?: 0 | 1 | 2; cam?: unknown}) => {
+const LivingScene = ({homeOffice = false, usb = 0, cookie = false}: {homeOffice?: boolean; usb?: 0 | 1 | 2; cookie?: boolean; cam?: unknown}) => {
   const mats = useMemo(
     () => ({
       floor: new THREE.MeshStandardMaterial({map: plankTexture([3, 6]), roughness: 0.7}),
@@ -596,11 +665,11 @@ const LivingScene = ({homeOffice = false, usb = 0}: {homeOffice?: boolean; usb?:
       wall={mats.wall}
       backWall={mats.back}
       ceiling="#f7f3ec"
-      window={{side: -1, z: -0.4, w: 1.3, y: usb > 0 ? 0.75 : 0.9, h: usb > 0 ? 1.65 : 1.3, sky: '#bfe0ff', open: usb > 0, outside: usb > 0, hingeBack: usb > 0}}
+      window={{side: -1, z: -0.4, w: 1.3, y: usb > 0 ? 0.75 : 0.9, h: usb > 0 ? 1.65 : 1.3, sky: '#bfe0ff', open: usb > 0, outside: usb > 0, hingeBack: usb > 0, door: cookie ? COOKIE_DOOR : undefined}}
       light={{ambient: 0.5, hemi: 0.7, sun: 1.5, sunColor: '#ffe9c9', lamp: 4.5, lampColor: '#ffe7c4'}}
       bg={usb > 0 ? '#a8d8f7' : undefined}
     >
-      {usb > 0 && <UsbGarden facade={usb === 2} />}
+      {usb > 0 && <UsbGarden facade={usb === 2} door={cookie ? COOKIE_DOOR : undefined} />}
       <group position={[0, 0, -1.82]}>
         <Sofa />
       </group>
@@ -862,6 +931,11 @@ export const livingRoomStage: StageDef = {id: 'wohnzimmer', Component: LivingSce
 const HomeOfficeScene = () => <LivingScene homeOffice />;
 const UsbOfficeScene = () => <LivingScene homeOffice usb={1} />;
 const UsbOfficeOutsideScene = () => <LivingScene homeOffice usb={2} />;
+const CookieOfficeScene = () => <LivingScene homeOffice usb={1} cookie />;
+const CookieOfficeOutsideScene = () => <LivingScene homeOffice usb={2} cookie />;
+/** Spezial Cookies: wie homeoffice-usb + offene Tür zum Garten (COOKIE_DOOR); "-aussen" = mit Hauswand/Tür von außen */
+export const cookieOfficeStage: StageDef = {id: 'homeoffice-cookies', Component: CookieOfficeScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+export const cookieOfficeOutsideStage: StageDef = {id: 'homeoffice-cookies-aussen', Component: CookieOfficeOutsideScene, climbTrees: [], groundHeight: () => 0, ambience: 'wald-atmo'};
 /** Spezial USB: Homeoffice mit offenem Fenster + Garten (innen) / zusätzlich Hauswand von außen ("-aussen") */
 export const usbOfficeStage: StageDef = {id: 'homeoffice-usb', Component: UsbOfficeScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 export const usbOfficeOutsideStage: StageDef = {id: 'homeoffice-usb-aussen', Component: UsbOfficeOutsideScene, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};

@@ -1044,3 +1044,103 @@ export const CounterBadge = ({items, t, sectionFrames, top, left}: {items: {t: n
     </div>
   );
 };
+
+/** Gezeichneter Comic-Keks (nur CSS, kein Emoji): runder Teig + Schoko-Stückchen */
+export const CookieIcon = ({size, color = '#d9a35b'}: {size: number; color?: string}) => {
+  const chips = [
+    [0.3, 0.28, 0.16],
+    [0.62, 0.22, 0.13],
+    [0.5, 0.52, 0.15],
+    [0.24, 0.62, 0.12],
+    [0.7, 0.66, 0.14],
+  ];
+  return (
+    <div style={{position: 'relative', width: size, height: size, borderRadius: '50%', background: color, boxShadow: `inset ${-size * 0.06}px ${-size * 0.08}px 0 rgba(0,0,0,0.18)`, flex: 'none'}}>
+      {chips.map(([x, y, r], i) => (
+        <div key={i} style={{position: 'absolute', left: x * size, top: y * size, width: r * size, height: r * size, borderRadius: '30%', background: '#4a2a17', transform: `rotate(${i * 37}deg)`}} />
+      ))}
+    </div>
+  );
+};
+
+/**
+ * Pop-up-Fenster (Spezial Cookies): Liste {t, text, x, y, w?, big?}. Jedes Fenster ploppt bei t auf (Feder) und bleibt stehen,
+ * bis ein Eintrag mit leerem Text kommt (dann verschwinden alle bis dahin). x/y = Mitte in Pixeln (sichere Bereiche selbst einhalten).
+ * Aussehen: weißes Browser-Fenster mit grauer Titelleiste (drei Punkte), Keks-Zeichnung + Text, grüner Haken. Kein Logo.
+ */
+export type PopupItem = {t: number; text: string; x?: number; y?: number; w?: number; big?: boolean};
+export const PopupWindows = ({items, t, sectionFrames}: {items: PopupItem[]; t: number; sectionFrames: number}) => {
+  const {fps} = useVideoConfig();
+  let clearAt = -1;
+  let clearIdx = -1;
+  items.forEach((it, i) => {
+    if (!it.text && it.t <= t + 1e-6) {
+      clearAt = it.t;
+      clearIdx = i;
+    }
+  });
+  const shown = items.filter((it, i) => it.text && it.t <= t + 1e-6 && i > clearIdx);
+  // gerade weggeräumte Fenster kurz ausblenden
+  const fading = clearIdx >= 0 ? items.filter((it, i) => it.text && i < clearIdx && it.t <= clearAt) : [];
+  const fadeK = clearIdx >= 0 ? 1 - clamp(((t - clearAt) * sectionFrames) / 6) : 0;
+  const render = (it: PopupItem, key: string, out: number) => {
+    const since = (t - it.t) * sectionFrames;
+    const pop = spring({frame: since, fps, config: {damping: 10, stiffness: 190}});
+    const w = it.w ?? (it.big ? 820 : 470);
+    const scale = out < 1 ? out : 0.4 + 0.6 * pop;
+    const fs = it.big ? 86 : 50;
+    return (
+      <div
+        key={key}
+        style={{
+          position: 'absolute',
+          left: (it.x ?? 540) - w / 2,
+          top: (it.y ?? 700) - (it.big ? 150 : 70),
+          width: w,
+          borderRadius: it.big ? 26 : 18,
+          background: '#ffffff',
+          boxShadow: '0 16px 40px rgba(0,0,0,0.5)',
+          border: `${it.big ? 6 : 4}px solid ${T.black}`,
+          overflow: 'hidden',
+          transform: `scale(${scale}) rotate(${(1 - pop) * (it.big ? -6 : 8)}deg)`,
+          opacity: out,
+          fontFamily: T.font,
+        }}
+      >
+        <div style={{height: it.big ? 46 : 30, background: '#d9dde3', display: 'flex', alignItems: 'center', gap: it.big ? 12 : 8, paddingLeft: it.big ? 18 : 12}}>
+          {['#ff6159', '#ffbd2e', '#28c941'].map((c) => (
+            <div key={c} style={{width: it.big ? 20 : 13, height: it.big ? 20 : 13, borderRadius: '50%', background: c}} />
+          ))}
+        </div>
+        <div style={{display: 'flex', alignItems: 'center', gap: it.big ? 26 : 16, padding: it.big ? '26px 30px 30px' : '14px 18px 16px'}}>
+          <CookieIcon size={it.big ? 130 : 72} />
+          <div style={{flex: 1, fontWeight: 800, fontSize: fs, lineHeight: 1.0, color: T.black, textTransform: 'uppercase', whiteSpace: 'pre-line'}}>{it.text}</div>
+          <div
+            style={{
+              width: it.big ? 96 : 58,
+              height: it.big ? 96 : 58,
+              borderRadius: '50%',
+              background: '#2fb34a',
+              color: '#ffffff',
+              fontWeight: 800,
+              fontSize: it.big ? 70 : 42,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 'none',
+            }}
+          >
+            <div style={{width: (it.big ? 96 : 58) * 0.24, height: (it.big ? 96 : 58) * 0.46, borderRight: `${it.big ? 11 : 7}px solid #fff`, borderBottom: `${it.big ? 11 : 7}px solid #fff`, transform: 'translateY(-12%) rotate(45deg)'}} />
+          </div>
+        </div>
+      </div>
+    );
+  };
+  if (!shown.length && fadeK <= 0) return null;
+  return (
+    <>
+      {fadeK > 0 && fading.map((it, i) => render(it, `f${i}`, fadeK))}
+      {shown.map((it, i) => render(it, `s${i}`, 1))}
+    </>
+  );
+};

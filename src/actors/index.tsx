@@ -51,6 +51,7 @@ import {BlackHoleDisk, BlackHoleHalo, DishMountain, JumpRamp, KitchenWall, LabNo
 import {ParkBench} from '../stage/Park';
 import {BoomCloud, Firecracker, PushDoor, RedCarpet, StepStool, Toolbox} from './DoorProps';
 import {CartoonMallet, SoftBin, SparkBurst, UsbLaptop, UsbPlug} from './UsbProps';
+import {Cookie, COOKIE_COLORS, CookieBurst, CookieHeap, DataBinder, FightCloud, FolderStack, LegPhone, Magnifier, MilkBowl, TugRope} from './CookieProps';
 import {SteamPuffs} from './GamingProps';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
@@ -331,6 +332,27 @@ export const ACTORS = {
   monstertruck3: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   monstertruck4: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   bagger2: {height: 3.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Cookies akzeptiert ----
+  cookiehandy: {height: 0.3, climbOffset: 0, speedLineHeight: 0.15},
+  milchschuessel: {height: 0.08, climbOffset: 0, speedLineHeight: 0},
+  keks1: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  keks2: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  keks3: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  keks4: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  keks5: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  keks6: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  keks7: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  keks8: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  kekshaufen: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  keksregen: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  ordnerstapel: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  datenordner: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
+  lupe: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  lupe2: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  tauziehseil: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  raufwolke: {height: 1.5, climbOffset: 0, speedLineHeight: 0},
+  agent2: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  agent3: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
   // ---- Spezial: USB-Kabel ----
   usblaptop: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
   usbstecker: {height: 0, climbOffset: 0, speedLineHeight: 0},
@@ -412,7 +434,7 @@ const ROBE: Uniform = {jacket: '#9c4a5a', dark: '#7a3343', collar: '#efe0d2', pa
 const COURIER_COLOR = '#c4d0bf';
 const COURIER_UNIFORM: Uniform = {jacket: '#5b7389', dark: '#3e5164', collar: '#dfe6ec', pants: '#3a434d', cap: '#5b7389', band: '#3e5164', trim: '#8fa5b8'};
 /** Figuren mit Dummy-Körper (können zittern + Blitze bekommen) */
-const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3', 'stiefbruder', 'agent', 'butler'];
+const DUMMY_LIKE = ['dummy', 'nachbar', 'arzt', 'kumpel', 'bahnmitarbeiterin', 'bundespolizist', 'polizist', 'polizistin', 'chef', 'gartennachbar', 'paketnachbar', 'paketbote', 'fahrgast1', 'fahrgast2', 'fahrgast3', 'truckfahrer', 'besucher1', 'besucher2', 'besucher3', 'kollege1', 'kollege2', 'kollege3', 'stiefbruder', 'agent', 'agent2', 'agent3', 'butler'];
 /** Chef: Dummy-Körper grau, dunkelgrauer Anzug, weißes Hemd, rote Krawatte, ohne Mütze */
 const BOSS_COLOR = '#9aa1a8';
 const BOSS_SUIT: Uniform = {jacket: '#4a5058', dark: '#30353b', collar: '#f4f6f8', pants: '#3a3f46', cap: '#4a5058', band: '#4a5058', trim: '#4a5058', tie: '#c8102e', nocap: true};
@@ -1130,6 +1152,47 @@ export const Actor = ({
       {name === 'butler' && (
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={BUTLER_COLOR} uniform={BUTLER_UNIFORM} brow={v.brow} />
       )}
+      {(name === 'agent2' || name === 'agent3') && (
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={name === 'agent2' ? '#7a7f87' : '#5f646c'} uniform={AGENT_SUIT} brow={v.brow} angry={v.angry} />
+      )}
+      {name === 'cookiehandy' && (
+        <group scale={1 + v.size}>
+          <LegPhone mode={actor.text ?? 'banner'} tilt={v.tilt} legs={v.legs} run={state.motion === 'run'} runTime={state.motionTime} glow={v.glow} rumble={v.rumble} time={clock} />
+        </group>
+      )}
+      {name === 'milchschuessel' && (
+        <group scale={1 + v.size}>
+          <MilkBowl fill={v.fill} ripple={v.mark} time={clock} />
+        </group>
+      )}
+      {name.startsWith('keks') && /^keks\d$/.test(name) && (
+        <group scale={1 + v.size} rotation={[(v.tilt * Math.PI) / 180, (v.turn * Math.PI) / 180, 0]}>
+          <Cookie color={COOKIE_COLORS[(Number(name.slice(4)) - 1) % COOKIE_COLORS.length]} glow={v.glow} seed={Number(name.slice(4))} />
+        </group>
+      )}
+      {name === 'kekshaufen' && (
+        <group scale={1 + v.size}>
+          <CookieHeap />
+        </group>
+      )}
+      {name === 'keksregen' && state.motion === 'burst' && <CookieBurst time={state.motionTime} power={1 + v.size} floor={-(v.drop || 1.0)} />}
+      {name === 'ordnerstapel' && (
+        <group scale={1 + v.size}>
+          <FolderStack count={v.fill || 4} text={actor.text ?? 'DATEN'} />
+        </group>
+      )}
+      {name === 'datenordner' && (
+        <group scale={1 + v.size} rotation={[(v.tilt * Math.PI) / 180, 0, 0]}>
+          <DataBinder text={actor.text ?? 'DATEN'} />
+        </group>
+      )}
+      {(name === 'lupe' || name === 'lupe2') && (
+        <group rotation={[(v.tilt * Math.PI) / 180, 0, 0]} scale={1 + v.size}>
+          <Magnifier />
+        </group>
+      )}
+      {name === 'tauziehseil' && <TugRope rumble={v.rumble} time={clock} folder={v.mark < 0.5} />}
+      {name === 'raufwolke' && <FightCloud fill={v.fill} time={clock} />}
       {name === 'usblaptop' && (
         <group scale={1 + v.size} rotation={[(v.tilt * Math.PI) / 180, 0, 0]}>
           <UsbLaptop lid={v.lid} fold={v.fold} squish={v.squish} glow={v.glow} time={clock} />

@@ -1270,6 +1270,41 @@
       "duration": 1.0,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "handy-trippeln",
+      "prompt": "Tiny cartoon feet scurrying very fast on a wooden floor, comedic rapid pitter-patter running away, playful, no music, no voice",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schuessel-abstellen",
+      "prompt": "Ceramic cereal bowl with milk set down gently on a wooden desk, soft clunk and a tiny slosh of milk, close, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "milch-plopp",
+      "prompt": "Small cookie dropping into a bowl of milk, cartoon plop and gentle splash, playful, no music",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "tauziehen",
+      "prompt": "Cartoon tug of war, thick rope creaking and straining, shoes scuffing on grass, comedic effort without voices, no music",
+      "duration": 3.0,
+      "loop": false,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "rauferei",
+      "prompt": "Classic cartoon fight dust cloud scuffle, comedic bonks, boings, whooshes and slide whistles, playful slapstick, no voices, no music",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

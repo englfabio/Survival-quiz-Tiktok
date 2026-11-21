@@ -325,6 +325,15 @@ export type Motion =
   | 'heavelift' // Dummy: greift den Abwasch-Berg 0,45 m vor sich auf 0,95 m (bis 0,5 s), stemmt ihn über den Kopf (0,5–1,2 s), balanciert
   | 'heavethrow' // Dummy: wirft das Gewicht von über dem Kopf nach vorn oben (Ausholen 0–0,3 s, Abwurf 0,45 s), danach Arme vorn
   | 'thumbsup' // Dummy: rechter Daumen hoch vor der Brust, links in der Hüfte, nickt zufrieden
+  | 'tapphone' // Dummy (sitzend): tippt gedankenlos mit dem Zeigefinger aufs Handy (Tipp 0,4 s)
+  | 'leanback' // Dummy (sitzend): lehnt sich zurück, Hände hinter dem Kopf
+  | 'wildtap' // Dummy (sitzend): tippt mit beiden Zeigefingern wild aufs Handy
+  | 'reachafter' // Dummy (sitzend): dreht sich nach links vorn und streckt den Arm hinterher
+  | 'setbowl' // Dummy (sitzend): stellt die Schüssel mit beiden Händen neben das Handy (0,15–0,95 s)
+  | 'waitchin' // Dummy (sitzend): Kinn in den Händen, wartet gelangweilt
+  | 'tugpull' // Tauziehen: weit zurücklehnen, Hände vorn am Seil, ruckt
+  | 'magnify' // gebeugt mit Lupe vor dem Gesicht, sucht
+  | 'snatch' // hüpft und greift mit beiden Armen nach oben
   | 'twistplug' // Dummy (sitzend): Stecker zum Laptop-Anschluss schieben, passt nicht, zurück, umdrehen (Takt 0,95 s); nach 5 Fehlversuchen gleitet er rein
   | 'physikshrug' // Dummy (sitzend): Arme fassungslos hoch, dann Achselzucken
   | 'ragefists' // Dummy (sitzend): Fäuste vor der Brust, zittert vor Wut (immer stärker)
@@ -634,6 +643,8 @@ export type ActorKey = {
   nod?: number;
   /** Dummy: strenger/wütender Blick (Brauen) 0 … 1 */
   angry?: number;
+  /** Cookie-Handy: Low-Poly-Beine wachsen 0 … 1 */
+  legs?: number;
   /** Tür „druecktuer“: Laufschiene wird angeschraubt 0 … 1 (ab 0,85 hängt das Blatt in der Schiene) */
   rail?: number;
   /** Tür „druecktuer“: Schiebetür rollt zur Seite 0 … 1 */
@@ -641,7 +652,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {
@@ -696,6 +707,8 @@ export type Shot = {
   hudSel?: {t: number; sel: string}[];
   /** Zähler oben (Spezial USB, z. B. „1x“ … „5x“): Liste {t, text}; leerer Text = ausblenden. Neuer Text ploppt auf */
   counter?: {t: number; text: string}[];
+  /** Pop-up-Fenster (Spezial Cookies): Liste {t, text, x, y, w?, big?}; leerer Text = alle bisherigen ausblenden */
+  popups?: {t: number; text: string; x?: number; y?: number; w?: number; big?: boolean}[];
   /** Alles zieht sich in einen leuchtenden Punkt zusammen: [t Beginn, t Punkt, t schwarz] (Urknall rückwärts) */
   implode?: [number, number, number];
 };

@@ -5557,8 +5557,171 @@ const usbPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+
+/**
+ * Spezial „Cookies akzeptiert“ (sitzend am Schreibtisch = chairSit; Handy liegt flach 0,55 m vor ihm, 0,12 m rechts → COOKIE_PHONE,
+ * Schüssel-Platz COOKIE_BOWL 0,3 m links):
+ *  - tapphone:   rechte Hand mit Zeigefinger zum Handy (bis 0,3 s), tippt bei 0,4 s gedankenlos drauf, Hand bleibt locker darüber, Kopf schaut hin
+ *  - leanback:   lehnt sich zurück, beide Hände hinter dem Kopf, wippt entspannt mit dem Kopf („ohne zu lesen“)
+ *  - wildtap:    beide Zeigefinger tippen abwechselnd wild auf das Handy (Takt 0,16 s), Kopf ruckelt
+ *  - reachafter: dreht Oberkörper + Kopf nach links vorn (zur Tür), streckt den rechten Arm hinterher (bis 0,5 s), Arm sinkt ab 1,6 s langsam
+ *  - setbowl:    trägt die Schüssel mit beiden Händen (Mitte COOKIE_BOWL_CARRY) und stellt sie bei COOKIE_BOWL ab (0,15–0,95 s, loslassen 1,0 s),
+ *                Hände zurück in den Schoß (bis 1,5 s). Schüssel-Weg im Choreo-Skript mit gleicher Kurve (ease 0,15–0,95 s)
+ *  - waitchin:   Ellbogen auf dem Tisch, Kinn in beiden Händen, wartet gelangweilt (Kopf kippt langsam hin und her, seufzt)
+ * (stehend, für Agenten + Dummy):
+ *  - tugpull:    Tauziehen: lehnt sich weit zurück (ganzer Körper), Hände vorn am Seil (0,42 / 0,56 m vor ihm auf ca. 0,98 m), ruckt alle 0,55 s
+ *  - magnify:    gebeugt, rechte Hand hält die Lupe vor das Gesicht (0,38 m vor ihm, 1,25 m hoch) und schwenkt suchend hin und her
+ *  - snatch:     hüpft (alle 0,6 s) und greift mit beiden Armen nach oben (fliegende Kekse)
+ */
+export const COOKIE_PHONE: P3 = [-0.12, 0.757, 0.55];
+export const COOKIE_BOWL: P3 = [0.3, 0.74, 0.56];
+export const COOKIE_BOWL_CARRY: P3 = [0.1, 0.9, 0.34];
+export const COOKIE_BOWL_T: [number, number, number] = [0.15, 0.95, 1.0];
+const cookiePose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const lap: P3 = [-0.16, 0.66, 0.32];
+  const lapL: P3 = [0.16, 0.66, 0.32];
+  const above = (d: number): P3 => [COOKIE_PHONE[0] + 0.02, COOKIE_PHONE[1] + 0.07 + d, COOKIE_PHONE[2] - 0.11];
+  switch (motion) {
+    case 'tapphone': {
+      const p = chairSit(time);
+      const go = easeInOut(clamp(time / 0.3));
+      const tap = Math.max(0, Math.sin(clamp((time - 0.3) / 0.22) * Math.PI));
+      const R = lerp3t(lap, above(0.06 - 0.06 * tap), go);
+      reachR(p, R, 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.2, 0.78, 0.36], 0.33, [0.6, -1, -0.3]);
+      p.item = go > 0.3 ? 'finger' : '';
+      p.torsoX = 0.18 * go + breathe;
+      p.headX = 0.38 * go;
+      p.headY = 0.05 * Math.sin(time * 1.3);
+      return p;
+    }
+    case 'leanback': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.5));
+      const bob = Math.sin(time * 5.5) * 0.06 * k;
+      reachR(p, lerp3t(lap, [-0.13, 1.42, -0.12], k), 0.33, [0.9, 0.3, -0.6]);
+      reachL(p, lerp3t(lapL, [0.13, 1.42, -0.12], k), 0.33, [0.9, 0.3, -0.6]);
+      p.torsoX = -0.1 - 0.22 * k + breathe;
+      p.headX = -0.2 * k + bob;
+      p.headY = 0.15 * Math.sin(time * 1.1) * k;
+      p.chest = 0.3 * k;
+      p.legL = L3(-1.45, 0.12, 1.2);
+      p.legR = L3(-1.7, -0.05, 1.7);
+      return p;
+    }
+    case 'wildtap': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.2));
+      const c = time / 0.16;
+      const a = Math.max(0, Math.sin(c * Math.PI));
+      const b = Math.max(0, Math.sin((c + 1) * Math.PI));
+      const jx = Math.sin(time * 13) * 0.04;
+      reachR(p, lerp3t(lap, [COOKIE_PHONE[0] + jx, COOKIE_PHONE[1] + 0.06 + 0.07 * (1 - a), COOKIE_PHONE[2] - 0.1], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(lapL, [COOKIE_PHONE[0] + 0.15 - jx, COOKIE_PHONE[1] + 0.06 + 0.07 * (1 - b), COOKIE_PHONE[2] - 0.14], k), 0.33, [0.6, -1, -0.3]);
+      p.item = 'finger';
+      p.fingerL = true;
+      p.torsoX = 0.26 * k + 0.03 * Math.sin(time * 19);
+      p.headX = 0.32 * k + 0.05 * Math.sin(time * 23);
+      p.headY = 0.1 * Math.sin(time * 7);
+      return p;
+    }
+    case 'reachafter': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.5));
+      const sink = easeInOut(clamp((time - 1.6) / 1.2));
+      p.torsoY = 0.55 * k;
+      p.headY = 0.45 * k;
+      p.headX = 0.05;
+      p.torsoX = 0.12 * k + breathe;
+      const far: P3 = [0.3, 1.12, 0.6];
+      const low: P3 = [0.22, 0.85, 0.45];
+      reachR(p, lerp3t(lerp3t(lap, far, k), low, sink * 0.6), 0.36, [0.6, -1, -0.3]);
+      reachL(p, [0.22, 0.78, 0.36], 0.33, [0.6, -1, -0.3]);
+      p.item = 'finger';
+      p.mouthO = 0.8 * k;
+      return p;
+    }
+    case 'setbowl': {
+      const p = chairSit(time);
+      const [t0, t1, tr] = COOKIE_BOWL_T;
+      const mv = easeInOut(clamp((time - t0) / (t1 - t0)));
+      const back = easeInOut(clamp((time - tr) / 0.5));
+      const C = lerp3t(COOKIE_BOWL_CARRY, [COOKIE_BOWL[0], COOKIE_BOWL[1] + 0.05, COOKIE_BOWL[2]], mv);
+      reachR(p, lerp3t([C[0] - 0.13, C[1], C[2] - 0.02], lap, back), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([C[0] + 0.13, C[1], C[2] - 0.02], lapL, back), 0.33, [0.6, -1, -0.3]);
+      p.torsoX = 0.12 + 0.12 * mv * (1 - back) + breathe;
+      p.torsoY = 0.12 * mv * (1 - back);
+      p.headX = 0.3;
+      p.headY = 0.2 * (1 - back);
+      return p;
+    }
+    case 'waitchin': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.5));
+      const sway = Math.sin(time * 0.9);
+      p.torsoX = -0.1 + 0.42 * k + breathe;
+      reachR(p, lerp3t(lap, [-0.07, 1.06, 0.36], k), 0.3, [0.4, -1, 0.2]);
+      reachL(p, lerp3t(lapL, [0.07, 1.06, 0.36], k), 0.3, [0.4, -1, 0.2]);
+      p.fists = true;
+      p.headX = -0.25 * k;
+      p.headY = 0.12 * sway * k;
+      p.torsoZ = 0.05 * sway * k;
+      p.chest = 0.3 * Math.max(0, Math.sin(time * 0.7)) * k;
+      return p;
+    }
+    case 'tugpull': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.35));
+      const jerk = Math.sin((time * 2 * Math.PI) / 0.55);
+      p.pitch = (-0.26 + 0.07 * jerk) * k;
+      p.hipY = 0.9;
+      p.torsoX = -0.08 * k;
+      reachR(p, [-0.03, 1.0, 0.44], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.05, 1.0, 0.58], 0.33, [0.6, -1, -0.3]);
+      p.fists = true;
+      p.legL = L3(-0.5, 0.08, 0.35);
+      p.legR = L3(0.18, -0.08, 0.15);
+      p.headX = 0.15 + 0.05 * jerk;
+      p.chest = 0.6;
+      return p;
+    }
+    case 'magnify': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.4));
+      const sc = Math.sin(time * 2.4);
+      p.torsoX = 0.38 * k + breathe;
+      p.torsoY = 0.12 * sc * k;
+      p.hipY = 0.94;
+      p.legL = L3(-0.18, 0.1, 0.3);
+      p.legR = L3(0.12, -0.1, 0.25);
+      reachR(p, lerp3t([-0.22, 0.92, 0.08], [-0.06 + 0.1 * sc, 1.2, 0.42], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.22, 0.92, 0.08], [0.16, 0.95, -0.12], k), 0.33, [0.6, 1, -0.3]);
+      p.headX = 0.15 * k;
+      p.headY = 0.15 * sc * k;
+      return p;
+    }
+    case 'snatch': {
+      const p = base();
+      const c = (time % 0.6) / 0.6;
+      const hop = Math.max(0, Math.sin(c * Math.PI));
+      p.hipY = 0.98 + 0.16 * hop;
+      p.legL = L3(-0.35 * hop, 0.08, 0.9 * hop);
+      p.legR = L3(-0.2 * hop, -0.08, 0.7 * hop);
+      const sw = Math.sin(time * 9);
+      reachR(p, [-0.18 + 0.06 * sw, 1.85 + 0.08 * sw, 0.25], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.18 - 0.06 * sw, 1.85 - 0.08 * sw, 0.25], 0.33, [0.6, -1, -0.3]);
+      p.headX = -0.35;
+      p.headY = 0.2 * Math.sin(time * 3);
+      p.chest = 0.5;
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
