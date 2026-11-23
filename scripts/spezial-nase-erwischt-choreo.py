@@ -214,7 +214,7 @@ situation = {
    # erwischt: über die rechte Schulter des Dummys zum Kollegen, der sich umdreht
    *shot(c_erw, c_dir - 0.003, F([*HEAD, [K1[0] - 0.3, 0.6, K1[1] - 0.3], [K1[0] + 0.3, 1.5, K1[1] + 0.3]], 102, 6, SIT), push=0.05),
    # direkt vor allen anderen: weite Einstellung, alle schauen herüber
-   *shot(c_dir, c_was - 0.003, F([*seated(), *seated(*K1), *seated(*K2), [K3[0], 1.4, K3[1]], [K3[0], 0, K3[1]]], 40, 16, SIT), push=0.04),
+   *shot(c_dir, c_was - 0.003, F([*seated(), *seated(*K1), *seated(*K2), [CH[0] + 0.7, 1.5, CH[1] + 0.3], [CH[0] + 0.7, 0, CH[1] - 0.6]], 62, 12, SIT), push=0.05),
    # was machst du: nah, erstarrt mit Finger in der Nase
    *shot(c_was, 1, F([[CH[0] - 0.28, 0.95, CH[1] - 0.3], [CH[0] + 0.28, 1.62, CH[1] + 0.15]], 96, 4, SIT), push=0.05),
  ],
@@ -357,7 +357,7 @@ camC = [
   # Karte: Finger bleibt in der Nase, Kollege starrt
   *shot(0, sC - 0.003, F([*seated(), *seated(*K1), [CH[0] - 0.1, 0.75, CH[1] - 0.7]], 112, 10, ANS), push=0.04),
   # „Finger bleibt einfach stecken“: Nahaufnahme
-  *shot(sC, c_tust - 0.003, F([[CH[0] - 0.22, 1.1, CH[1] - 0.2], [CH[0] + 0.22, 1.55, CH[1] + 0.12]], 100, 6, ANS), push=0.07),
+  *shot(sC, c_tust - 0.003, F([[CH[0] - 0.25, 0.95, CH[1] - 0.25], [CH[0] + 0.2, 1.55, CH[1] + 0.15]], 116, 8, ANS), push=0.07),
   # „Und du tust so“: zurückgelehnt, entspannt (von der Seite)
   *shot(c_tust, c_norm - 0.003, F([*seated(), [CH[0] - 0.1, 0.75, CH[1] - 0.7]], 105, 8, ANS), push=0.05),
   # „als wäre das das Normalste auf der Welt“: weit, Kollege zuckt mit den Schultern, alle arbeiten weiter
