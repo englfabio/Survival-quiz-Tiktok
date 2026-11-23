@@ -34,13 +34,14 @@ vote="Also, was machst du?",
 outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
 )
 EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.0))}
-TAIL = float(os.environ.get('TAIL', 0.3))
+TAIL = float(os.environ.get('TAIL', 0.05))     # Texte + Abstimmung sonst über 66 s (Spezial-Regel 1: Pausen kürzen)
+SCENE_LEAD = float(os.environ.get('SCENE_LEAD', 0.3))
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))
 VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.6))
 NO_VOTE = os.environ.get('NO_VOTE', '0') == '1'
 
-LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': 0.6, 'explain2': 0.6, 'explain3': 0.6, 'countdown': 0.1, 'outro': 0.3}
-MINLEN = {'situation': 5, 'option1': 3.6, 'option2': 3.6, 'option3': 3.6, 'explain1': 6, 'explain2': 6, 'explain3': 6, 'countdown': 5, 'outro': 3}
+LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': SCENE_LEAD, 'explain2': SCENE_LEAD, 'explain3': SCENE_LEAD, 'countdown': 0.1, 'outro': 0.3}
+MINLEN = {'situation': 5, 'explain1': 6, 'explain2': 6, 'explain3': 7, 'countdown': 5, 'outro': 3}   # wie MIN_LEN in src/data/timeline.ts
 TEXT = {'situation': S['situation'], 'option1': S['o1s'], 'option2': S['o2s'], 'option3': S['o3s'],
         'explain1': S['e1'], 'explain2': S['e2'], 'explain3': S['e3'], 'countdown': S['vote'], 'outro': S['outro']}
 vd = f'{ROOT}/public/voice/{ID}'
@@ -476,7 +477,7 @@ DESC = ("Dir ist mal wieder Flüssigkeit über die Hand gelaufen, während du de
         "#waswürdestdutun #müll #nachbarn #protein #comedy #quiz #dummy #spezial\n\n"
         "Hinweis: Das gesamte Video ist KI-generiert.")
 scen = {
- 'id': ID, 'format': 'spezial', 'category': 'spezial', 'stage': STAGE, 'padAfter': TAIL,
+ 'id': ID, 'format': 'spezial', 'category': 'spezial', 'stage': STAGE, 'padAfter': TAIL, 'sceneLead': SCENE_LEAD,
  'situation': {'speech': S['situation']},
  'options': [
   {'card': S['o1c'], 'speech': S['o1s'], 'dummyAction': 'Der Dummy dreht sich auf dem Gehweg zur Straße, hält den tropfenden Müllsack hoch und peilt das Nachbarhaus an. Dann wirft er ihn hoch, dreht sich und verpasst ihm einen überzogenen Roundhouse-Kick – der Sack fliegt im hohen Bogen über die Straße, klatscht an die helle Fassade, ein großer grüner Klecks, der Saft läuft bis zum Boden. Rein comichaft, niemand ist in der Nähe, niemand wird verletzt.', 'explanation': S['e1'], 'sceneExtra': EXTRA[1], 'choreography': expA},

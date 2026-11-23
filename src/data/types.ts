@@ -757,6 +757,8 @@ export type Scenario = {
   format?: 'quiz' | 'spezial';
   /** Pause nach jedem Sprach-Clip in Sekunden (Standard 0,5). Kleiner = kürzeres Video (Spezial-Regel: max. 66 s, Texte nie ändern) */
   padAfter?: number;
+  /** Spezial: Vorlauf (s) vor den Szenen-Sätzen explain1–3 (Standard 0,6) – kürzer, wenn das Video sonst über 66 s käme */
+  sceneLead?: number;
   /** nur Spezial: Abstimmungs-Abschnitt weglassen (Outro fordert selbst zum Kommentieren auf) */
   noVote?: boolean;
   /** nur Spezial: Outro mindestens so viele Sekunden (Bild klingt länger aus, z. B. für die 61-s-Regel) */

@@ -114,9 +114,11 @@ export const buildTimeline = (
 ): Timeline => {
   const usesAudio = !!audioSeconds && Object.keys(audioSeconds).length > 0;
   const texts = clipTexts(s);
+  // Spezial: Vorlauf vor den Szenen-Sätzen (explain1–3) kann per "sceneLead" gekürzt werden (Standard 0,6 s)
+  const lead = (id: ClipId) => (s.sceneLead !== undefined && id.startsWith('explain') ? s.sceneLead : LEAD[id]);
   const len = (id: ClipId) => {
     const a = audioSeconds?.[id] ?? estimateSpeechSeconds(texts[id] ?? '');
-    const base = LEAD[id] + a + (s.padAfter ?? PAD_AFTER);
+    const base = lead(id) + a + (s.padAfter ?? PAD_AFTER);
     return Math.round(Math.max(base, MIN_LEN[id] ?? 0) * FPS);
   };
 
@@ -127,7 +129,7 @@ export const buildTimeline = (
     cursor += sec.duration;
   };
 
-  const at = (id: ClipId, offset = 0) => ({clip: id, at: offset + Math.round(LEAD[id] * FPS)});
+  const at = (id: ClipId, offset = 0) => ({clip: id, at: offset + Math.round(lead(id) * FPS)});
   push({kind: 'situation', duration: len('situation'), voice: [at('situation')]});
 
   if (isSpezial(s)) {

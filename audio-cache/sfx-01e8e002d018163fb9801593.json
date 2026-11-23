@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Garbage truck diesel engine revving and rumbling, rattling metal body, short reverse beeping, no music",
+  "duration": 4,
+  "loop": false,
+  "promptInfluence": 0.5,
+  "createdAt": "2026-11-23T13:15:23.508Z"
+}
