@@ -1305,6 +1305,69 @@
       "duration": 2.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "muellsack-reissen",
+      "prompt": "Cartoon plastic garbage bag tearing open with a short wet squelch, comedic, close",
+      "duration": 1.2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schleim-tropfen",
+      "prompt": "Cartoon slime dripping, a few gooey wet plops falling, comedic, no voice",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "sack-klatsch",
+      "prompt": "Big comedic wet splat of a soft bag hitting a house wall, cartoon slime splash, no explosion",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schnuppern",
+      "prompt": "Short cartoon sniffing sound, two quick curious sniffs, no voice words",
+      "duration": 1.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schluck",
+      "prompt": "Exaggerated cartoon gulp, one big comedic swallow followed by a satisfied ahh breath, no words",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "muskel-pump",
+      "prompt": "Cartoon muscles inflating, rubbery stretching and quick pumping boings with a short power swell, comedic",
+      "duration": 1.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "muellwagen-motor",
+      "prompt": "Garbage truck diesel engine revving and rumbling, rattling metal body, short reverse beeping, no music",
+      "duration": 4,
+      "loop": false,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "hydraulik",
+      "prompt": "Hydraulic arm of a garbage truck lifting with whirring hiss and a clunk, mechanical, short",
+      "duration": 2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "moebel-rutschen",
+      "prompt": "Furniture scraping and sliding across a wooden floor, a lamp wobbling, comedic short",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

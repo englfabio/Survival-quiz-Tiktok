@@ -29,6 +29,7 @@ import {CoffeeMug, LocoCap, WristWatch} from './BahnProps';
 import {RaceHelmet, WineGlass} from './TruckProps';
 import {FoodBit, type FoodKind} from './SpueleProps';
 import {BRICK_COLS, BrickPiece, DoormatMesh} from './HausProps';
+import {ShotCup} from './MuellProps';
 
 /**
  * Crashtest-Dummy aus einfachen Körperformen. Kein Gesicht.
@@ -117,6 +118,8 @@ export type DummyPose = {
   fingerL?: boolean;
   /** ganzer Körper um die Hochachse drehen (Bogenmaß, z. B. Drehung vor dem Roundhouse-Kick) */
   yaw?: number;
+  /** Gegenstand in der LINKEN Hand (Spezial Müll: Shot-Becher, kippt mit pose.cup, Füllstand pose.fill) */
+  itemL?: '' | 'shot';
 };
 
 const base = (): DummyPose => ({
@@ -196,6 +199,8 @@ const mix = (a: DummyPose, b: DummyPose, k: number): DummyPose => {
     yaw: L(a.yaw ?? 0, b.yaw ?? 0),
     mouthO: L(a.mouthO ?? 0, b.mouthO ?? 0),
     brickColor: k < 0.5 ? a.brickColor : b.brickColor,
+    itemL: k < 0.5 ? a.itemL : b.itemL,
+    fingerL: k < 0.5 ? a.fingerL : b.fingerL,
   };
 };
 
@@ -5720,8 +5725,193 @@ const cookiePose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+/**
+ * Spezial „Müll-Flüssigkeit“ (stehend; Müllsack = Objekt "muellsack" mit hand 1 / drop MUELL_DROP an der rechten Hand):
+ *  - bagwalk:     gehen, rechte Hand hält den Sack etwas vom Körper weg (BAG_HOLD)
+ *  - bagstand:    stehen, Sack seitlich vom Körper weg
+ *  - bagick:      Ekel: Sack + schleimige Hand weit nach rechts weghalten (zittert/schüttelt), Oberkörper + Kopf nach links weg,
+ *                 linke Hand vor dem Mund, leicht in die Knie
+ *  - bagaim:      Sack mit rechts vor sich auf Brusthöhe (BAG_AIM), Blick nach rechts zum Ziel
+ *  - bagkick:     Sack hochwerfen (Hand oben bei 0,35 s = Abwurf BAGKICK_REL), dann schnelle Drehung + Roundhouse-Kick mit rechts zur
+ *                 rechten Seite: Fuß ganz gestreckt bei BAGKICK_HIT ca. 1,0 m rechts neben ihm auf 0,93 m Höhe (BAGKICK_FOOT), Deckung
+ *  - handinspect: schleimige rechte Hand vor die Augen, prüfender Blick, schnuppern (0,9–1,5 s), anerkennend nicken, links Kinn reiben
+ *  - shotfill:    links hält den Becher (SHOT_CUP), rechte Hand tropft darüber, Blick in den Becher
+ *  - shotdrink:   Becher links zum Mund (0–0,35 s), Kopf in den Nacken, auf ex (0,35–0,9 s, pose.cup + pose.fill), Becher runter, rechte Faust
+ *  - flexpose:    Doppelbizeps, Fäuste über den Schultern, pumpt alle 0,8 s
+ *  - bagtoss:     mit dem Sack rechts nach hinten ausholen (0–0,35 s), von unten nach vorn oben werfen (Abwurf BAGTOSS_REL), nachschwingen
+ *  - swear:       Schwurhand: rechte Hand flach erhoben neben dem Kopf, linke Hand aufs Herz, Kinn hoch
+ */
+export const MUELL_DROP = 0.6;
+export const BAG_HOLD: P3 = [-0.36, 0.8, 0.06];
+export const BAG_AIM: P3 = [-0.16, 1.22, 0.42];
+export const BAGKICK_REL = 0.35;
+export const BAGKICK_RATE = 1.8;
+export const BAGKICK_HIT = BAGKICK_REL + 1.8 / BAGKICK_RATE;
+export const BAGKICK_FOOT: P3 = [-1.0, 0.93, 0.01];
+export const BAGTOSS_REL = 0.52;
+export const SHOT_CUP: P3 = [0.06, 1.1, 0.38];
+/** shotfill: Becher füllt sich von 0,4 bis 1,8 s */
+export const SHOTFILL_T = [0.4, 1.8];
+const muellPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const rest: P3 = [-0.22, 0.92, 0.08];
+  const restL: P3 = [0.22, 0.92, 0.08];
+  switch (motion) {
+    case 'bagwalk': {
+      const p = dummyPose('walk', time, speed);
+      reachR(p, [BAG_HOLD[0], BAG_HOLD[1] + 0.02 * Math.sin(time * 9), BAG_HOLD[2]], 0.33, [0.6, -1, -0.2]);
+      p.torsoZ = -0.04;
+      return p;
+    }
+    case 'bagstand': {
+      const p = base();
+      p.torsoX = 0.02 + breathe;
+      p.torsoZ = -0.04;
+      reachR(p, BAG_HOLD, 0.33, [0.6, -1, -0.2]);
+      return p;
+    }
+    case 'bagick': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.35));
+      const sh = Math.sin(time * 15) * 0.035 * k;
+      p.hipY = 0.98 - 0.05 * k;
+      p.legL = L3(-0.12 * k, 0.16 * k, 0.25 * k);
+      p.legR = L3(0.1 * k, -0.2 * k, 0.15 * k);
+      p.torsoZ = -0.04 - 0.2 * k;
+      p.torsoX = -0.06 * k + breathe;
+      p.headY = 0.55 * k + 0.05 * Math.sin(time * 5);
+      p.headX = -0.1 * k;
+      reachR(p, lerp3t(BAG_HOLD, [-0.66 + sh, 1.02 + sh, 0.22], k), 0.33, [0.6, -1, -0.2]);
+      reachL(p, lerp3t(restL, [0.05, 1.62, 0.2], k), 0.3, [0.7, -1, -0.2]);
+      p.mouthO = 0.35 * k;
+      return p;
+    }
+    case 'bagaim': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.legL = L3(-0.08 * k, 0.12 * k, 0.12 * k);
+      p.legR = L3(0.05 * k, -0.14 * k, 0.08 * k);
+      p.torsoX = 0.03 + breathe;
+      p.headY = -0.75 * k;
+      p.headX = 0.05;
+      reachR(p, lerp3t(BAG_HOLD, BAG_AIM, k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.2, 1.1, 0.22], k), 0.33, [0.7, -1, -0.2]);
+      p.fists = k > 0.5;
+      return p;
+    }
+    case 'bagkick': {
+      // Wurf (0–BAGKICK_REL), dann Roundhouse-Kick aus dem Spüle-Video im Zeitraffer (Rate BAGKICK_RATE, ab Normalzeit 0,4 s)
+      const up: P3 = [-0.18, 1.62, 0.42];
+      const toss = (() => {
+        const p = base();
+        const k = easeInOut(clamp(time / BAGKICK_REL));
+        p.hipY = 0.98 - 0.08 * Math.sin(Math.PI * k);
+        p.legL = L3(-0.1, 0.1, 0.25 * Math.sin(Math.PI * k));
+        p.legR = L3(0.05, -0.1, 0.25 * Math.sin(Math.PI * k));
+        p.headX = -0.25 * k;
+        p.headY = -0.2 * k;
+        reachR(p, lerp3t(BAG_AIM, up, k), 0.33, [0.6, -1, -0.3]);
+        reachL(p, [0.2, 1.1, 0.22], 0.33, [0.7, -1, -0.2]);
+        return p;
+      })();
+      if (time <= BAGKICK_REL) return toss;
+      const T = 0.4 + (time - BAGKICK_REL) * BAGKICK_RATE;
+      const rh = spuelePose('roundhouse', T * 1.5)!;
+      rh.headX = -0.05;
+      return mix(toss, rh, easeInOut(clamp((time - BAGKICK_REL) / 0.18)));
+    }
+    case 'handinspect': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const sn = Math.sin(clamp((time - 0.9) / 0.6) * Math.PI);
+      const nod = time > 1.6 ? Math.sin((time - 1.6) * 9) * 0.12 * clamp((time - 1.6) / 0.3) * (1 - clamp((time - 2.6) / 0.4)) : 0;
+      p.torsoX = 0.05 + 0.08 * sn + breathe;
+      p.headX = 0.1 * k + 0.15 * sn + nod;
+      p.headY = -0.12 * k * (1 - sn);
+      reachR(p, lerp3t(BAG_HOLD, lerp3t([-0.1, 1.58, 0.36], [-0.05, 1.7, 0.24], sn), k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.04, 1.66, 0.17], k), 0.3, [0.7, -1, -0.2]);
+      p.fists = false;
+      return p;
+    }
+    case 'shotfill': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      const wig = Math.sin(time * 7) * 0.012;
+      p.torsoX = 0.16 * k + breathe;
+      p.headX = 0.45 * k;
+      reachL(p, lerp3t(restL, SHOT_CUP, k), 0.33, [0.7, -1, -0.2]);
+      reachR(p, lerp3t(rest, [SHOT_CUP[0] - 0.04 + wig, SHOT_CUP[1] + 0.2, SHOT_CUP[2] + 0.01], k), 0.33, [0.6, -1, -0.3]);
+      p.itemL = 'shot';
+      p.fill = 0.04 + 0.96 * easeInOut(clamp((time - SHOTFILL_T[0]) / (SHOTFILL_T[1] - SHOTFILL_T[0])));
+      return p;
+    }
+    case 'shotdrink': {
+      const p = base();
+      const up = easeInOut(clamp(time / 0.35));
+      const ex = easeInOut(clamp((time - 0.35) / 0.55));
+      const dn = easeInOut(clamp((time - 1.0) / 0.4));
+      const mouth: P3 = [0.04, 1.74, 0.2];
+      const low: P3 = [0.3, 1.0, 0.26];
+      reachL(p, dn > 0 ? lerp3t(mouth, low, dn) : lerp3t(SHOT_CUP, mouth, up), 0.3, [0.8, -1, -0.1]);
+      p.headX = -0.65 * ex * (1 - dn) + 0.05 * dn;
+      p.torsoX = -0.14 * ex * (1 - dn) + breathe;
+      p.cup = ex * (1 - dn);
+      p.fill = 1 - easeInOut(clamp((time - 0.4) / 0.45));
+      const pump = easeInOut(clamp((time - 1.05) / 0.3));
+      reachR(p, lerp3t(rest, [-0.32, 1.42, 0.22 + 0.04 * Math.sin(time * 10) * pump], pump), 0.33, [0.8, -1, -0.2]);
+      p.fists = pump > 0.5;
+      p.itemL = 'shot';
+      p.chest = 0.5 * dn;
+      return p;
+    }
+    case 'flexpose': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      const pump = 0.5 - 0.5 * Math.cos((time * 2 * Math.PI) / 0.8);
+      p.hipY = 0.96;
+      p.legL = L3(-0.05, 0.2, 0.12);
+      p.legR = L3(-0.05, -0.2, 0.12);
+      p.chest = (0.9 + 0.3 * pump) * k;
+      p.torsoX = -0.05 * k;
+      p.headX = -0.12 * k;
+      p.headY = 0.12 * Math.sin(time * 1.6) * k;
+      reachL(p, lerp3t(restL, [0.6, 1.8 - 0.05 * pump, 0.06], k), 0.33, [1, -0.35, -0.1]);
+      reachR(p, lerp3t(rest, [-0.6, 1.8 - 0.05 * pump, 0.06], k), 0.33, [1, -0.35, -0.1]);
+      p.fists = true;
+      return p;
+    }
+    case 'bagtoss': {
+      const p = base();
+      const back = easeInOut(clamp(time / 0.35));
+      const fw = easeInOut(clamp((time - 0.35) / (BAGTOSS_REL - 0.3)));
+      const bk: P3 = [-0.3, 0.72, -0.34];
+      const fr: P3 = [-0.16, 1.46, 0.56];
+      reachR(p, fw > 0 ? lerp3t(bk, fr, fw) : lerp3t(BAG_HOLD, bk, back), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t(restL, [0.3, 1.0, 0.25], back), 0.33, [0.7, -1, -0.2]);
+      p.torsoY = -0.3 * back * (1 - fw) + 0.15 * fw;
+      p.torsoX = 0.08 * back + 0.12 * fw + breathe;
+      p.hipY = 0.98 - 0.06 * back * (1 - fw);
+      p.legL = L3(-0.25 * fw, 0.08, 0.2 * back);
+      p.legR = L3(0.15 * fw, -0.08, 0.2 * back);
+      p.headX = 0.05 - 0.1 * fw;
+      return p;
+    }
+    case 'swear': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = -0.05 * k + breathe;
+      p.headX = -0.2 * k;
+      p.chest = 0.6 * k;
+      reachR(p, lerp3t(rest, [-0.4, 1.86, 0.12], k), 0.3, [1, -0.4, -0.3]);
+      reachL(p, lerp3t(restL, [-0.04, 1.36, 0.19], k), 0.3, [0.8, -1, 0.1]);
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = muellPose(motion, time, speed) ?? cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -6269,8 +6459,11 @@ const Arm = ({
   glove = false,
   fist = false,
   rubber,
+  muscle = 0,
 }: {
   m: Mats;
+  /** Cartoon-Muskeln 0 … 1 (Bizeps, Schulter, Unterarm wachsen) */
+  muscle?: number;
   /** Gummihandschuh (Farbe) mit Stulpe statt nackter Hand */
   rubber?: string;
   /** geballte Faust (runder, Knöchel-Kante) */
@@ -6293,6 +6486,16 @@ const Arm = ({
   <group position={[0.27 * side, 0.44, 0]} rotation={[limb.sx, 0, limb.sz]}>
     <Joint m={m} r={0.09} />
     <Seg m={m} len={0.3} r={0.08} />
+    {muscle > 0.01 && (
+      <>
+        <mesh material={m.body} position={[0.01 * side, -0.02, 0]} scale={1 + 0.75 * muscle} castShadow>
+          <icosahedronGeometry args={[0.1, 1]} />
+        </mesh>
+        <mesh material={m.body} position={[0, -0.15, 0.045 + 0.04 * muscle]} scale={[1 + 0.5 * muscle, 1 + 0.35 * muscle, 1 + 0.9 * muscle]} castShadow>
+          <icosahedronGeometry args={[0.085, 1]} />
+        </mesh>
+      </>
+    )}
     {sleeve > 0.5 && (
       <group position={[0, -(1 - sleeve) * 0.3, 0]}>
         <mesh material={m.jacket} position={[0, -0.13, 0]} castShadow>
@@ -6303,6 +6506,11 @@ const Arm = ({
     <group position={[0, -0.31, 0]} rotation={[limb.bend, 0, foreZ]}>
       <Joint m={m} r={0.07} />
       <Seg m={m} len={0.27} r={0.07} r2={0.058} />
+      {muscle > 0.01 && (
+        <mesh material={m.body} position={[0, -0.09, 0]} scale={[1 + 0.45 * muscle, 1 + 0.2 * muscle, 1 + 0.45 * muscle]} castShadow>
+          <icosahedronGeometry args={[0.075, 1]} />
+        </mesh>
+      )}
       {wound && <ForearmWound w={wound} />}
       {sleeve > 0.03 && (
         <group position={[0, -Math.min(1, 1 - sleeve) * 0.2, 0]}>
@@ -6929,6 +7137,56 @@ const WgHandItem = ({item, label, right, left, level}: {item: DummyPose['item'];
 
 /** Gegenstand in der rechten Hand (Pflaster, Spray, Kompresse, Impfpass) */
 const FOOD_SEQ: FoodKind[] = ['noodle', 'paprika', 'blob'];
+/** Spezial Müll: grüner Cartoon-Schleim an der rechten Hand, Tropfen fallen alle 0,55 s (im Oberkörper-System, Tropfen fallen „nach unten“) */
+const SLIME_GREEN = '#86d93a';
+const HandSlime = ({pose, amount, time}: {pose: DummyPose; amount: number; time: number}) => {
+  const tip = armPoint(pose.armR, -1, pose.foreZ, 0.33);
+  const down = new THREE.Vector3(0, -1, 0)
+    .applyEuler(new THREE.Euler(-pose.pitch, 0, 0))
+    .applyQuaternion(new THREE.Quaternion().setFromEuler(new THREE.Euler(pose.torsoX, pose.torsoY, pose.torsoZ)).invert());
+  const a = clamp(amount);
+  return (
+    <group position={tip}>
+      <mesh scale={[0.85 * a + 0.05, 1.15 * a + 0.05, 0.75 * a + 0.05]}>
+        <icosahedronGeometry args={[0.085, 1]} />
+        <meshStandardMaterial color={SLIME_GREEN} roughness={0.15} metalness={0.05} transparent opacity={0.82} flatShading />
+      </mesh>
+      {[[0.04, 0.03, 0.05], [-0.05, -0.02, 0.04], [0.0, 0.05, -0.05]].map((q, i) => (
+        <mesh key={i} position={q as [number, number, number]} scale={a}>
+          <icosahedronGeometry args={[0.035, 0]} />
+          <meshStandardMaterial color={i === 1 ? '#d9e83a' : SLIME_GREEN} roughness={0.15} flatShading />
+        </mesh>
+      ))}
+      {a > 0.3 &&
+        [0, 1, 2].map((i) => {
+          const ph = (time / 0.55 + i / 3) % 1;
+          const d = down.clone().multiplyScalar(0.08 + ph * ph * 0.9);
+          return (
+            <mesh key={`d${i}`} position={[d.x + (i - 1) * 0.02, d.y, d.z]} scale={[0.7, 1.25, 0.7].map((v) => v * (1 - ph * 0.3)) as [number, number, number]}>
+              <sphereGeometry args={[0.022, 6, 5]} />
+              <meshStandardMaterial color={i === 2 ? '#d9e83a' : SLIME_GREEN} roughness={0.15} />
+            </mesh>
+          );
+        })}
+    </group>
+  );
+};
+/** Spezial Müll: Shot-Becher in der linken Hand (bleibt aufrecht, kippt mit pose.cup zum Trinken, Füllstand pose.fill) */
+const LeftShot = ({pose, time}: {pose: DummyPose; time: number}) => {
+  const tip = armPoint(pose.armL, 1, pose.foreZL, 0.33);
+  const level = new THREE.Quaternion()
+    .setFromEuler(new THREE.Euler(pose.torsoX, pose.torsoY, pose.torsoZ))
+    .invert()
+    .multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-pose.pitch, 0, 0)));
+  return (
+    <group position={tip} quaternion={level}>
+      <group position={[0.02, -0.06, 0.05]} rotation={[-pose.cup * 1.9, 0, 0]}>
+        <ShotCup fill={pose.fill ?? 1} time={time} />
+      </group>
+    </group>
+  );
+};
+
 const HandItem = ({pose, time, zap = 0, zapTime = 0, tooth}: {pose: DummyPose; time: number; zap?: number; zapTime?: number; tooth?: ToothLook}) => {
   const hand = armPoint(pose.armR, -1, pose.foreZ, 0.33);
   if (!pose.item) return null;
@@ -7643,7 +7901,13 @@ export const Dummy = ({
   jogger = 0,
   hazmat = 0,
   goggles = 0,
+  slime = 0,
+  muscle = 0,
 }: {
+  /** grüner Cartoon-Schleim an der rechten Hand + Tropfen 0 … 1 (Spezial Müll) */
+  slime?: number;
+  /** Cartoon-Muskeln 0 … 1: Bizeps, Schultern, Unterarme, Brust wachsen (Spezial Müll, Protein-Shot) */
+  muscle?: number;
   /** Forscher-Schutzbrille 0 … 1 (rutscht von der Stirn auf die Augen) */
   goggles?: number;
   /** weißer Ganzkörper-Schutzanzug mit Kapuze, Atemschutzmaske, Schutzbrille, Gummihandschuhen + Überschuhen (0/1) */
@@ -7820,7 +8084,7 @@ export const Dummy = ({
           )}
           <Marker m={m} r={0.06} position={[0, 0.36, 0.147]} />
           <ShoulderBelt m={m} amount={pose.belt} />
-          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} smartphone={pose.phoneL} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} fist={pose.fists} rubber={rubber} />
+          <Arm m={m} limb={pose.armL} side={1} foreZ={pose.foreZL} ice={pose.ice} smartphone={pose.phoneL} sleeve={clamp((jacket - 0.5) * 2)} wound={wound} glove={gloves > 0.5} fist={pose.fists} rubber={rubber} muscle={muscle} />
           {pose.watchL && (
             <group position={[0.27, 0.44, 0]} rotation={[pose.armL.sx, 0, pose.armL.sz]}>
               <group position={[0, -0.31, 0]} rotation={[pose.armL.bend, 0, pose.foreZL]}>
@@ -7874,8 +8138,17 @@ export const Dummy = ({
             glove={gloves > 0.5}
             fist={pose.fists}
             rubber={rubber}
+            muscle={muscle}
           />
           {pose.spade && <HeldSpade pose={pose} />}
+          {slime > 0.01 && <HandSlime pose={pose} amount={slime} time={time} />}
+          {pose.itemL === 'shot' && <LeftShot pose={pose} time={time} />}
+          {muscle > 0.01 &&
+            [-1, 1].map((k) => (
+              <mesh key={`pec${k}`} material={m.body} position={[k * 0.1, 0.4, 0.11 + 0.03 * muscle]} scale={[1 + 0.6 * muscle, 0.75 + 0.3 * muscle, 0.5 + 0.6 * muscle]} castShadow>
+                <icosahedronGeometry args={[0.1, 1]} />
+              </mesh>
+            ))}
           {/* Hals + Kopf (ohne Gesicht) */}
           <mesh material={m.joint} position={[0, 0.58, 0]} castShadow>
             <cylinderGeometry args={[0.045, 0.055, 0.1, 6]} />

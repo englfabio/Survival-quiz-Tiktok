@@ -81,7 +81,7 @@ const HOUSE_LOOK = [
 ];
 export const HOUSE_DIM = {w: 7, d: 7, wallH: 5, roofH: 2.6};
 
-export const FamilyHouse = ({look = 0, squish = 0, seed = 1, open = 0}: {look?: number; squish?: number; seed?: number; /** Fenster offen (dunkle Öffnungen, Tauben fliegen heraus) */ open?: number}) => {
+export const FamilyHouse = ({look = 0, squish = 0, seed = 1, open = 0, doorOpen = 0}: {look?: number; squish?: number; seed?: number; /** Fenster offen (dunkle Öffnungen, Tauben fliegen heraus) */ open?: number; /** Haustür offen 0 … 1 (Türblatt schwenkt nach außen, dahinter warmer dunkler Flur) – Wert "lid" */ doorOpen?: number}) => {
   const L = HOUSE_LOOK[Math.max(0, Math.min(HOUSE_LOOK.length - 1, Math.round(look)))];
   const {w, d, wallH, roofH} = HOUSE_DIM;
   const m = useMemo(
@@ -135,12 +135,20 @@ export const FamilyHouse = ({look = 0, squish = 0, seed = 1, open = 0}: {look?: 
         </mesh>
         {/* Vorderseite (+z): Tür mit Vordach, Fenster unten/oben */}
         <group position={[0, 0, d / 2 + 0.01]}>
-          <mesh material={m.door} position={[0, 1.1, 0.03]}>
-            <boxGeometry args={[1.1, 2.2, 0.06]} />
-          </mesh>
-          <mesh material={m.knob} position={[0.38, 1.05, 0.08]}>
-            <sphereGeometry args={[0.05, 6, 4]} />
-          </mesh>
+          {doorOpen > 0.01 && (
+            <mesh position={[0, 1.1, 0.008]}>
+              <planeGeometry args={[1.1, 2.2]} />
+              <meshStandardMaterial color="#4a3426" emissive="#3a2412" emissiveIntensity={0.5} roughness={1} />
+            </mesh>
+          )}
+          <group position={[-0.55, 0, 0.03]} rotation={[0, -1.75 * clamp(doorOpen), 0]}>
+            <mesh material={m.door} position={[0.55, 1.1, 0]}>
+              <boxGeometry args={[1.1, 2.2, 0.06]} />
+            </mesh>
+            <mesh material={m.knob} position={[0.93, 1.05, 0.05]}>
+              <sphereGeometry args={[0.05, 6, 4]} />
+            </mesh>
+          </group>
           <mesh material={m.trim} position={[0, 2.5, 0.4]} rotation={[0.25, 0, 0]} castShadow>
             <boxGeometry args={[1.7, 0.08, 0.9]} />
           </mesh>

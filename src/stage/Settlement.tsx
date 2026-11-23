@@ -4,6 +4,8 @@ import {rng} from '../lib/anim';
 import {Instances, Sky, type Inst} from './Forest';
 import {FarHouses, ParkLantern} from './Park';
 import type {StageCam, StageDef} from './types';
+import {NeighborHouse, NHOUSE} from '../actors/MuellProps';
+import {FamilyHouse} from '../actors/HausProps';
 
 /**
  * Zwei Bühnen für das Spezial „Haus weg“ (wiederverwendbar, freundlich, Tageslicht, ohne Logos):
@@ -73,6 +75,13 @@ export const TAUBEN = {
   perches: BRANCHES.flatMap((b) => Array.from({length: 5}, (_, i) => [TREE.x + b.dir * (0.45 + i * (b.len - 0.6) / 4), b.y + 0.09, TREE.z] as [number, number, number])),
 };
 
+/**
+ * Variante "muellstrasse" (MUELL, Spezial Müll-Flüssigkeit): wie "siedlung", das Grundstück des Dummys ist bebaut (Haus = Objekt `haus`
+ * bei MUELL.house, face 180, Tür bei (0, −9)), und GEGENÜBER (vorn, z > 5) steht das moderne Nachbarhaus mit heller Fassade
+ * (Bauteil NeighborHouse, fest in der Bühne) bei MUELL.neighbor, Fassade bei z MUELL.facadeZ (8,5) Richtung Straße, dazu zwei
+ * Einfamilienhäuser gegenüber bei x ±12. Vorgärten gegenüber mit niedriger Hecke (z 5.8) und Weg zur Nachbartür (x 0.25).
+ */
+export const MUELL = {house: [0, -12.5] as [number, number], door: [0, -9] as [number, number], neighbor: [0, 12] as [number, number], facadeZ: 12 - NHOUSE.d / 2};
 export const SHED_HALL = {house: [0, -12] as [number, number], door: [0, 8] as [number, number], halfW: 24, backZ: -34, height: 18};
 
 const std = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters> = {}) =>
@@ -118,7 +127,7 @@ const useGeos = () =>
 
 const LEAF = ['#4f7d35', '#5d8c3c', '#46702f', '#679a43'];
 
-const SettlementScene = ({pigeons = false}: {cam?: StageCam; pigeons?: boolean}) => {
+const SettlementScene = ({pigeons = false, trash = false}: {cam?: StageCam; pigeons?: boolean; trash?: boolean}) => {
   const g = useGeos();
   const L = useMemo(() => {
     const r = rng(53);
@@ -170,6 +179,7 @@ const SettlementScene = ({pigeons = false}: {cam?: StageCam; pigeons?: boolean})
       const x = -55 + r() * 110;
       const z = front ? 5.6 + r() * 30 : -6 - r() * 18;
       if (!front && Math.abs(x) < 4.2 && z > -16.5 && z < -8.5) continue; // Erdfläche des Dummys frei halten
+      if (trash && front && z < 17 && Math.abs(x) < 17) continue; // Vorgärten gegenüber (Müll-Straße) frei halten
       const s = 0.09 + r() * 0.13;
       grass.push({pos: [x, 0, z], scale: [s * 0.5, s, s * 0.5], rotY: r() * 6, color: ['#6f9e44', '#5f8e3a', '#86b456'][Math.floor(r() * 3)]});
     }
@@ -266,6 +276,7 @@ const SettlementScene = ({pigeons = false}: {cam?: StageCam; pigeons?: boolean})
         </group>
       ))}
       {pigeons && <PigeonStreetExtras />}
+      {trash && <TrashStreetExtras />}
       {/* Laternen vorn */}
       {[-30, -6, 18, 42].map((x) => (
         <group key={x} position={[x, 0, 5.3]}>
@@ -273,6 +284,53 @@ const SettlementScene = ({pigeons = false}: {cam?: StageCam; pigeons?: boolean})
         </group>
       ))}
     </>
+  );
+};
+
+const TrashStreetExtras = () => {
+  const m = useMemo(
+    () => ({
+      lawn: std('#86b552', {roughness: 1}),
+      path: std('#cbbfa8', {roughness: 0.95}),
+      hedge: std('#4f7d35'),
+      hedge2: std('#5d8c3c'),
+      flower: [std('#e85d75'), std('#f2c14e'), std('#ffffff'), std('#b07ad8')],
+    }),
+    [],
+  );
+  return (
+    <group>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.004, 11]} receiveShadow material={m.lawn}>
+        <planeGeometry args={[40, 12]} />
+      </mesh>
+      {[-0.25, -12, 12].map((x) => (
+        <mesh key={x} rotation={[-Math.PI / 2, 0, 0]} position={[x, 0.012, 7.0]} receiveShadow material={m.path}>
+          <planeGeometry args={[1.3, 3.2]} />
+        </mesh>
+      ))}
+      {/* niedrige Hecke vorn an den Vorgärten (Lücken für die Wege) */}
+      {Array.from({length: 34}, (_, i) => -18 + i * 1.1)
+        .filter((x) => Math.abs(x + 0.25) > 1.0 && Math.abs(x - 12) > 1.0 && Math.abs(x + 12) > 1.0)
+        .map((x, i) => (
+          <mesh key={x} material={i % 2 ? m.hedge : m.hedge2} position={[x, 0.35, 5.75]} scale={[1.15, 0.7, 0.6]} castShadow>
+            <boxGeometry args={[1, 1, 1]} />
+          </mesh>
+        ))}
+      {/* Blumen vor der Nachbarfassade */}
+      {Array.from({length: 18}, (_, i) => i).map((i) => (
+        <mesh key={`f${i}`} material={m.flower[i % 4]} position={[-3.6 + (i % 9) * 0.42 + (i > 8 ? 4.6 : 0), 0.14, 7.9 + (i % 2) * 0.25]} scale={[0.13, 0.2, 0.13]}>
+          <icosahedronGeometry args={[1, 0]} />
+        </mesh>
+      ))}
+      <group position={[MUELL.neighbor[0], 0, MUELL.neighbor[1]]} rotation={[0, Math.PI, 0]}>
+        <NeighborHouse />
+      </group>
+      {[-12, 12].map((x, i) => (
+        <group key={x} position={[x, 0, 12.5]} rotation={[0, Math.PI, 0]}>
+          <FamilyHouse look={i ? 3 : 1} seed={5 + i} />
+        </group>
+      ))}
+    </group>
   );
 };
 
@@ -530,4 +588,5 @@ const HallScene = (_: {cam?: StageCam}) => {
 
 export const settlementStage: StageDef = {id: 'siedlung', Component: SettlementScene, climbTrees: [], groundHeight: () => 0, ambience: 'wald-atmo'};
 export const pigeonStreetStage: StageDef = {id: 'taubenstrasse', Component: (p: {cam?: StageCam}) => <SettlementScene {...p} pigeons />, climbTrees: [], groundHeight: () => 0, ambience: 'wald-atmo'};
+export const trashStreetStage: StageDef = {id: 'muellstrasse', Component: (p: {cam?: StageCam}) => <SettlementScene {...p} trash />, climbTrees: [], groundHeight: () => 0, ambience: 'wald-atmo'};
 export const shedHallStage: StageDef = {id: 'gartenhaus-innen', Component: HallScene, climbTrees: [], groundHeight: () => 0, ambience: 'museum-atmo'};

@@ -3,7 +3,8 @@ import {canalStage} from './Canal';
 import {stationDelayStage, stationFullStage, stationPlatformStage, stationStage} from './Station';
 import {railwayStage, roadStage} from './Railway';
 import {fieldStage, museumStage, streetHomeStage} from './Monstertruck';
-import {pigeonStreetStage, settlementStage, shedHallStage} from './Settlement';
+import {pigeonStreetStage, settlementStage, shedHallStage, trashStreetStage} from './Settlement';
+import {bigLivingStage} from './TrashLiving';
 import {atticStage} from './Attic';
 import {aquariumHallStage, curvyRoadStage, parkingRingStage, parkingStage} from './Goldfish';
 import {castleStage} from './Castle';
@@ -86,6 +87,8 @@ export const STAGES: Record<string, StageDef> = {
   wohnstrasse: streetHomeStage,
   siedlung: settlementStage,
   taubenstrasse: pigeonStreetStage,
+  muellstrasse: trashStreetStage,
+  'wohnzimmer-gross': bigLivingStage,
   dachboden: atticStage,
   'gartenhaus-innen': shedHallStage,
   museum: museumStage,

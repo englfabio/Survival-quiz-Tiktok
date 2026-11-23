@@ -355,6 +355,18 @@ export type Motion =
   | 'bow' // Butler: vornehme Verbeugung, rechte Hand vor der Brust, linke hinter dem Rücken (runter 0,3–0,9 s, unten bis 1,5 s, wieder hoch bis 2,1 s)
   | 'butlerstand' // Butler: steht kerzengerade, linke Hand hinter dem Rücken, rechter Arm angewinkelt vor dem Bauch
   | 'carpetpush' // Butler: beugt sich tief vor (0–0,5 s) und gibt der Teppichrolle 0,45 m vor ihm einen Schubs (0,55–0,8 s), richtet sich auf + zeigt nach vorn
+  // ---- Spezial Müll-Flüssigkeit (Details: muellPose in Dummy.tsx) ----
+  | 'bagwalk' // Dummy: gehen, rechte Hand hält den Müllsack (Objekt mit hand 1) etwas vom Körper weg
+  | 'bagstand' // Dummy: stehen, rechte Hand hält den Müllsack seitlich vom Körper weg
+  | 'bagick' // Dummy: ekelt sich – Sack + schleimige Hand weit weghalten, Oberkörper + Kopf weg, linke Hand vor dem Mund, Hand schütteln
+  | 'bagaim' // Dummy: Sack mit rechts vor sich auf Brusthöhe halten, Blick zur Seite (Ziel), Gewicht auf dem linken Bein
+  | 'bagkick' // Dummy: Sack hochwerfen (Abwurf 0,35 s) + schnelle Drehung + Roundhouse-Kick mit rechts zur rechten Seite (Treffer BAGKICK_HIT), Deckung
+  | 'handinspect' // Dummy: hebt die schleimige rechte Hand vor die Augen, schaut prüfend, schnuppert (0,9–1,5 s), nickt anerkennend
+  | 'shotfill' // Dummy: linke Hand hält den Becher (SHOT_CUP), rechte Hand tropft darüber, Blick in den Becher
+  | 'shotdrink' // Dummy: Becher links zum Mund (0–0,35 s), Kopf in den Nacken + auf ex (0,35–0,9 s), Becher runter, rechte Faust ballen
+  | 'flexpose' // Dummy: Doppelbizeps-Pose, Fäuste hoch, pumpt im Takt 0,8 s, Brust raus
+  | 'bagtoss' // Dummy: holt mit dem Sack rechts nach hinten aus und wirft ihn von unten nach vorn (Abwurf BAGTOSS_REL)
+  | 'swear' // Dummy: Schwurhand – rechte Hand flach erhoben neben dem Kopf, linke Hand auf dem Herzen, Kopf erhoben
   | 'perch' // Taube: sitzen, Kopf nicken/picken, gurren
   | 'flap' // Taube: auf der Stelle flattern
   | 'talk' // Tauben-Anführer: mit den Flügeln gestikulieren
@@ -645,6 +657,10 @@ export type ActorKey = {
   angry?: number;
   /** Cookie-Handy: Low-Poly-Beine wachsen 0 … 1 */
   legs?: number;
+  /** Spezial Müll: grüner Cartoon-Schleim an der rechten Dummy-Hand 0 … 1 */
+  slime?: number;
+  /** Spezial Müll: Cartoon-Muskeln am Dummy 0 … 1 */
+  muscle?: number;
   /** Tür „druecktuer“: Laufschiene wird angeschraubt 0 … 1 (ab 0,85 hängt das Blatt in der Schiene) */
   rail?: number;
   /** Tür „druecktuer“: Schiebetür rollt zur Seite 0 … 1 */
@@ -652,7 +668,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs', 'slime', 'muscle'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

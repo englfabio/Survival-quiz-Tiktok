@@ -54,6 +54,7 @@ import {CartoonMallet, SoftBin, SparkBurst, UsbLaptop, UsbPlug} from './UsbProps
 import {Cookie, COOKIE_COLORS, CookieBurst, CookieHeap, DataBinder, FightCloud, FolderStack, LegPhone, Magnifier, MilkBowl, TugRope} from './CookieProps';
 import {SteamPuffs} from './GamingProps';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
+import {FacadeSplat, GarbageTruck, HouseDoorWall, LivingFurniture, NeighborHouse, ShotCup, TrashBag} from './MuellProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
@@ -368,6 +369,14 @@ export const ACTORS = {
   werkzeugkasten: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
   tritt: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
   butler: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  // ---- Spezial: Müll-Flüssigkeit ----
+  muellsack: {height: 0.4, climbOffset: 0, speedLineHeight: 0.3},
+  fassadenklecks: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  shotbecher: {height: 0.05, climbOffset: 0, speedLineHeight: 0},
+  muellwagen: {height: 2.0, climbOffset: 0, speedLineHeight: 1.2},
+  haustuerwand: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
+  nachbarhaus: {height: 3.0, climbOffset: 0, speedLineHeight: 0},
+  wohnmoebel: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Butler (Spezial Tür drücken): Dummy-Körper hellgrau, schwarzer Frack mit Schößen, weißes Hemd, schwarze Fliege, weiße Handschuhe, ohne Mütze */
@@ -789,6 +798,8 @@ export const Actor = ({
           jogger={v.jogger}
           hazmat={v.hazmat}
           goggles={v.goggles}
+          slime={v.slime}
+          muscle={v.muscle}
         />
       )}
       {name === 'gartennachbar' && (
@@ -924,7 +935,7 @@ export const Actor = ({
         <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={COLLEAGUES[name].color} uniform={COLLEAGUES[name].uniform} brow={v.brow} />
       )}
       {name === 'fussmatte' && <DoormatMesh />}
-      {/^haus\d?$/.test(name) && <FamilyHouse look={v.mark} squish={v.squish} open={v.door} seed={name.length + (name.charCodeAt(name.length - 1) % 7)} />}
+      {/^haus\d?$/.test(name) && <FamilyHouse look={v.mark} squish={v.squish} open={v.door} doorOpen={v.lid} seed={name.length + (name.charCodeAt(name.length - 1) % 7)} />}
       {name === 'klemmhaus' && <BrickHouse fill={v.fill} />}
       {name === 'klemmsteine' && <BrickPile fill={v.fill > 0 ? v.fill : 1} />}
       {name === 'gartenhaus' && <GardenShedProp door={v.door} />}
@@ -1215,6 +1226,23 @@ export const Actor = ({
       )}
       {name === 'funken' && state.motion === 'burst' && <SparkBurst time={state.motionTime} white={v.mark > 0.5} size={v.size} />}
       {name === 'kopfdampf' && <SteamPuffs amount={v.fill} time={clock} height={0.5} />}
+      {name === 'muellsack' && (
+        <group scale={1 + v.size} rotation={[(v.tilt * Math.PI) / 180, (v.turn * Math.PI) / 180, 0]}>
+          <TrashBag tear={v.fill} drip={v.mark} squish={v.squish} time={clock} />
+        </group>
+      )}
+      {name === 'fassadenklecks' && <FacadeSplat fill={v.fill} time={clock} height={v.drop || 3.2} size={v.size} />}
+      {name === 'shotbecher' && (
+        <group position={[0, 0.06, 0]}>
+          <ShotCup fill={state.values.fill > 0 ? v.fill : 1} time={clock} />
+        </group>
+      )}
+      {name === 'muellwagen' && (
+        <GarbageTruck arm={v.fill} dist={pos.x * Math.sin(deg(state.face)) - pos.z * Math.cos(deg(state.face))} time={zt} blink={v.blink} rumble={v.rumble} />
+      )}
+      {name === 'haustuerwand' && <HouseDoorWall fill={v.fill} />}
+      {name === 'nachbarhaus' && <NeighborHouse />}
+      {name === 'wohnmoebel' && <LivingFurniture fill={v.fill} rumble={v.rumble} time={clock} />}
       {name === 'druecktuer' && <PushDoor door={v.door} glow={v.glow} rumble={v.rumble} fill={v.fill} rail={v.rail} slide={v.slide} time={clock} />}
       {name === 'knallfrosch' && <Firecracker fill={v.fill} time={clock} size={v.size} />}
       {name === 'teppich' && <RedCarpet fill={v.fill} />}
