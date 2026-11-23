@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-muell-fluessigkeit: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -268,6 +268,16 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   (Atmo `wald-atmo`) = Hauswand von außen mit Fenster + Tür (Laibung, Rahmen, Stufe), Blumenbeet nach hinten (z ≥ 2.4) verschoben – Platz vor der Tür frei
   (Schlange der Agenten bei x −3.15 … −4.55, Tauziehen bei (−4.6, 2.1)). Room-Fenster kann jetzt `door` = zusätzliche Türöffnung in der Fensterwand.
   Kamera-Trick: Wände sind von außen unsichtbar → Kamera darf hinter die linke Schlafzimmerwand (x < −1.8, aber z außerhalb des Fensters).
+  Müll-Straße (`muellstrasse`, `src/stage/Settlement.tsx`, `MUELL`, Atmo `wald-atmo`, Spezial Müll-Flüssigkeit): wie `siedlung`, das Haus des Dummys ist das
+  Objekt `haus` bei (0, −12.5), face 180 (Tür (0, −9), Gartenweg x 0 bis zum Gehweg, Zaun z −5.45), GEGENÜBER fest das moderne Nachbarhaus mit heller Fassade
+  (Bauteil `NeighborHouse`, Mitte (0, 12), Fassade z 8,5, Haustür bei x −0.25, Fenster unten x ±2.4, oben y 3,8–5,1) + zwei Einfamilienhäuser bei x ±12,
+  niedrige Hecke z 5.75, Blumen vor der Fassade. Kameras: nicht hinter die Hecke (z > 5.3) und nicht in die Hecken zwischen den Grundstücken (x ±6/±18) –
+  das Choreo-Skript prüft das (`check_cams`). Gute Totale „Flug zum Nachbarhaus“: hoch hinter dem Dummy aus seinem Vorgarten (−0.6, 6.5, −8.6) Blick (0.6, 1, 1), fov 62.
+  Großes Wohnzimmer (`wohnzimmer-gross`, `src/stage/TrashLiving.tsx`, `WZG`, Atmo `uhr-ticken`): W 11, D 9 (Rückwand z −4,5), H 3,8, Dielen, Tapete, Fenster links;
+  Rückwand rechts ist das Objekt `haustuerwand` bei (1.65, −4.5), face 180 (durchbrechbar, Öffnung x −0.05 … 3.35, 3,3 m hoch); draußen Einfahrt x 1.65, Straße,
+  Häuser gegenüber. Möbel = Objekt `wohnmoebel` bei (0, 0), face 180. Müllwagen fährt bei x 1.65 nach +z bis WZG.truckStop (1.65, 0.5), Greifer packt bei WZG.bag (−0.95, 0.8).
+  Kamera unter der Decke halten (y < 3,6), Seitenwände von außen unsichtbar.
+  Einfamilienhaus (`haus`): neuer Wert `lid` 0 … 1 = Haustür geht nach außen auf, dahinter warmer dunkler Flur.
   Aus dem Park jetzt exportiert und wiederverwendbar: `TrashBin`, `FarHouses` (mit `day` = Tagesansicht).
   Zwei Gärten nebeneinander (`nachbargarten`, `src/stage/NeighborGarden.tsx`, Atmo = `wald-atmo`; Nacht-Variante `nachbargarten-nacht` mit Mond,
   Sternen, warmen Fensterlichtern + Gartenlampen, Atmo = `nacht-atmo`): Doppelhaus hinten (Hauswände zum Garten z −7.8), niedriger weißer Lattenzaun
@@ -560,6 +570,21 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Hand `hand` 1), kleiner Cartoon-Gummihammer (`gummihammer`, Griff am Ursprung, Kopf 0,29 m darunter, `tilt` = Neigung, `hand` 1), weiche grüne Mülltonne mit
   Kissen (`muelltonne`, `lid`, `squish`), Comic-Funken (`funken`, Bewegung `burst`, `mark` 1 = weiß, `size`), Kopf-Dampf (`kopfdampf`, `fill`). Neue Werte
   `fold`, `belt`, `helm`, `nod`, `angry`. Neues Shot-Feld `counter`: [{t, text}] = runde Zähler-Plakette oben („1x“ … „5x“, leerer Text blendet aus).
+- **Objekte (Spezial Müll-Flüssigkeit, `src/actors/MuellProps.tsx`, comichaft, ohne Logos/Aufdruck):** voller Müllsack (`muellsack`, Ursprung = Boden,
+  Knoten oben 0,62 m; `fill` = Ecke reißt + Schleim quillt, `mark` = grün-gelbe Tropfen fallen, `squish` = platt an die Wand geklatscht, `tilt`/`turn` = Drehung,
+  in der Hand `hand` 1 + `drop` 0.6), Fassaden-Klecks (`fassadenklecks`, x-y-Ebene, zeigt nach +z → an einer Fassade Richtung −z: face 0; `fill` 0–0,12 klatscht auf,
+  bis 1 laufen 9 Saftnasen bis zum Boden, `drop` = Höhe der Mitte, `size`), Shot-Becher (`shotbecher`, `fill`, gelbes Blitz-Symbol), Müllwagen (`muellwagen`,
+  orange/weiß, 6,2 × 2,4 × 3,1 m, Front +z; `fill` = Greifarm-Zyklus rechts (−x): 0–0,3 ausfahren zum Boden bei lokal (−2.55, 0.3), 0,34–0,86 Sack im Greifer
+  (freies Objekt dann ausblenden), 0,78–0,9 in die Dachluke, `blink` Rundumleuchten, `rumble`), durchbrechbare Haustür-Wand (`haustuerwand`, 7,7 × 3,8 m, innen
+  Tapete/Holztür/Garderobe/Bild, außen gelber Putz, `fill` 0 → 1 = Teile + Tür fliegen nach +z), Nachbarhaus (`nachbarhaus`, `NeighborHouse`, 8 × 7 × 6,2 m,
+  Fassade fast weiß), Wohnzimmermöbel (`wohnmoebel`: Sofa, Sessel, Couchtisch, Stehlampe, Pflanze, Fernseher, Teppich; `fill` = verrutscht/verdreht, `rumble`).
+  Dummy-Werte: `slime` 0 … 1 = grüner Cartoon-Schleim an der rechten Hand + Tropfen, `muscle` 0 … 1 = Cartoon-Muskeln (Bizeps, Schultern, Unterarme, Brust).
+  Neues Pose-Feld `itemL: 'shot'` = Becher in der linken Hand (kippt mit `cup`, Füllstand `fill`).
+  Bewegungen (Details in `muellPose` in Dummy.tsx): mit dem Sack gehen/stehen (`bagwalk`/`bagstand`, Sack seitlich weg), Ekel (`bagick`: Sack weit weghalten,
+  Kopf weg, linke Hand vor dem Mund), Sack vor sich hochhalten + zur Seite peilen (`bagaim`), Sack hochwerfen + schnelle Drehung + Roundhouse-Kick zur rechten
+  Seite (`bagkick`: Abwurf 0,35 s, Treffer 1,35 s, Fuß ca. 1,0 m rechts auf 0,93 m), Schleim-Hand prüfen wie ein Kenner + schnuppern (`handinspect`), Becher links
+  halten + Hand tropft hinein (`shotfill`, Becher füllt sich 0,4–1,8 s), auf ex trinken (`shotdrink`), Doppelbizeps (`flexpose`), Sack von unten nach vorn werfen
+  (`bagtoss`, Abwurf 0,52 s), Schwurhand (`swear`). Wiederverwendet: `proud`, `armscross`, `stand`, `wave`, Roundhouse aus dem Spüle-Video (in `bagkick`).
 - **Objekte (Spezial Cookies, `src/actors/CookieProps.tsx`, comichaft, ohne Marken/Logos):** Handy mit Low-Poly-Beinen (`cookiehandy`, 0,12 × 0,24 m,
   Ursprung = Boden unter den Füßen bzw. untere Kante beim Liegen; Bildschirm über Feld `text`: `banner` = erfundene Website „NEWS“ mit Cookie-Banner + grünem
   Knopf „ALLE AKZEPTIEREN“, `ok` = grüner Haken „AKZEPTIERT“, `cookies` = bunte Kekse, `many` = viele Banner, `off`; Werte `tilt` 90 = liegt flach (Bildschirm
@@ -1075,6 +1100,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `sceneExtra`). Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-cookies-choreo.py` (prüft `check_a`: Handy spätestens
   kurz nach „Ohne dich“ an der Tür; `check_c`: Agenten frei auf dem Rasen, Wolke rechtzeitig). Bühnenwechsel in C zur Außenansicht. Standbilder in
   review/spezial-cookies/phase1/. Finales Video: review/final/spezial-cookies.mp4 (62,8 s).
+- Spezial Müll-Flüssigkeit (Durchlauf-Modus): 723 neue Zeichen (ca. 288 Credits laut ElevenLabs; Abstimmung + Outro aus Cache), Texte Buchstabe für Buchstabe
+  vom Inhaber; Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5, stand nicht im gelieferten Outro). Mit Abstimmung wären es 68,3 s →
+  Pausen gekürzt: `padAfter` 0,05 s + neuer Szenario-Wert `sceneLead` 0,3 s (Vorlauf vor den Szenen-Sätzen statt 0,6 s, `src/data/timeline.ts`) → 66,0 s MIT
+  Abstimmung. Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-muell-fluessigkeit-choreo.py` (prüft `check_a`: Kick
+  zeigt zum Nachbarhaus, Klecks ≥ 1,3 m neben der Nachbartür; `check_c`: Greifer trifft den Sack, Wand bricht erst nach dem Schnitt ins leere Wohnzimmer;
+  `check_cams`: keine Kamera in Hecke/Haus/unter dem Boden). Standbilder in review/spezial-muell-fluessigkeit/phase1/.
+  Finales Video: review/final/spezial-muell-fluessigkeit.mp4 (66,0 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -1139,6 +1171,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `dampf`, `kissen-plumps`).
   `handy-trippeln` (Comic-Trippelfüße), `schuessel-abstellen`, `milch-plopp`, `tauziehen`, `rauferei` (Comic-Raufwolke) (Spezial Cookies; wiederverwendet:
   `klick`, `plopp`, `rasen-zauber`, `whoosh`, `leere-wind`, `handy-klingeln`, `himmel-chor`, `schleichen`, `puff`).
+  `muellsack-reissen`, `schleim-tropfen`, `sack-klatsch`, `schnuppern`, `schluck`, `muskel-pump`, `muellwagen-motor`, `hydraulik`, `moebel-rutschen`
+  (Spezial Müll-Flüssigkeit; wiederverwendet: `glitsch`, `kick-whoosh`, `reste-platsch`, `whoosh`, `plopp`, `rasen-zauber`, `gold-fanfare`, `himmel-chor`,
+  `kissen-plumps`, `auto-hupen`, `wand-krachen`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1164,6 +1199,7 @@ Beschreibung und angepinnter Kommentar.
 | `options[].steps` | optional: Kurzschritte zum Einblenden, `{text, cue}` – `cue` ist die Stelle im Erklärtext, bei der der Schritt erscheint (synchron zur Sprache) |
 | `correctOption` | 1, 2 oder 3 (nicht bei Spezial) |
 | `options[].sceneExtra` | nur Spezial: Szene um so viele Sekunden rein visuell verlängern |
+| `sceneLead` | nur Spezial: Vorlauf (s) vor den Szenen-Sätzen explain1–3 (Standard 0,6) – kürzer, wenn das Video sonst über 66 s käme |
 | `countdown` / `reveal` / `outro` | `speech` (gesprochen) + `screen` (eingeblendet) |
 | `sourceLine` | Quellenzeile im Video |
 | `sources[]` | Name + Link für die Beschreibung |
@@ -1340,7 +1376,8 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Settlement.tsx = Siedlung mit Grundstücken + riesige Gartenhaus-Halle; OpenOffice.tsx = Büro-Etage;
                       Highway.tsx = Autobahn + Weltraum; Laundry.tsx = Waschkeller + riesiges Trommel-Inneres;
                       Settlement.tsx auch Tauben-Straße mit Strommasten + Baum; Attic.tsx = Dachboden;
-                      Goldfish.tsx = Supermarkt-Parkplatz (+ Boxring), kurvige Landstraße mit Parkplatz, Aquarium von innen)
+                      Goldfish.tsx = Supermarkt-Parkplatz (+ Boxring), kurvige Landstraße mit Parkplatz, Aquarium von innen;
+                      Settlement.tsx auch Müll-Straße mit Nachbarhaus gegenüber; TrashLiving.tsx = großes Wohnzimmer mit Haustür-Wand)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -1368,6 +1405,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       BlackHoleProps.tsx = Schwarzes Loch/Küchenwand/Schanze/Abwasch-Berg/Tassen im Sog/Glitzer/Notizblock/Forscherbrille,
                       KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
                       UsbProps.tsx = USB-Laptop/USB-Stecker mit Gurt+Helm/Gummihammer/weiche Mülltonne/Funken,
+                      MuellProps.tsx = Müllsack/Fassaden-Klecks/Shot-Becher/Müllwagen mit Greifarm/Haustür-Wand/Nachbarhaus/Wohnzimmermöbel,
                       CookieProps.tsx = Handy mit Beinen/Milchschüssel/Kekse/Kekshaufen/Keksregen/Ordnerstapel/Daten-Ordner/Lupe/Tauziehseil/Rauferei-Wolke,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
