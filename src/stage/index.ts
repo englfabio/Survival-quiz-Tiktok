@@ -11,7 +11,7 @@ import {christmasRoomStage, hallStage, outsideStage, plainHallStage} from './Chr
 import {bigKitchenStage, diningKitchenStage, kitchenStage, wgKitchenNightStage, wgKitchenStage} from './Kitchen';
 import {outbackStage} from './Outback';
 import {dentalStage} from './Dental';
-import {bedroomMorningStage, bedroomStage, elevatorStage, gamingRoomStage, trainStage} from './Bedroom';
+import {bedroomMorningStage, bedroomNightStage, bedroomStage, elevatorStage, gamingRoomStage, trainStage} from './Bedroom';
 import {officeStage} from './Office';
 import {highwayStage, spaceStage} from './Highway';
 import {drumHallStage, laundryRoomStage} from './Laundry';
@@ -54,6 +54,7 @@ export const STAGES: Record<string, StageDef> = {
   zahnarztpraxis: dentalStage,
   schlafzimmer: bedroomStage,
   'schlafzimmer-morgen': bedroomMorningStage,
+  'schlafzimmer-nacht': bedroomNightStage,
   gamingzimmer: gamingRoomStage,
   nachbarrasen: neighborLawnStage,
   buero: officeStage,

@@ -56,6 +56,7 @@ import {SteamPuffs} from './GamingProps';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
+import {FlightTicket, InkPrinter, MiniSuitcase, PaperStack, Passport, Pen, PrintObject, Printer3D, PrintSheet, RoomLight, SheetBurst, ZzzBadge} from './DruckerProps';
 import {AlarmClock, ConfettiBurst, DigitalClock, GearBurst, MonthCalendar, RingLines, TearCalendar, WateringCan} from './WeckerProps';
 import {CompressPad, FirstAidKit, PlasterStrip, Sink, SprayBottle, VaccinationPass, WallCalendar, WallClock} from './FirstAidProps';
 
@@ -368,6 +369,30 @@ export const ACTORS = {
   werkzeugkasten: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
   tritt: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
   butler: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  // ---- Spezial: Drucker macht sich selbstständig ----
+  drucker: {height: 0.15, climbOffset: 0, speedLineHeight: 0.1},
+  drucker3d: {height: 0.25, climbOffset: 0, speedLineHeight: 0},
+  blatt: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  blatt2: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  blatt3: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  blatt4: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  blatt5: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  blatt6: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  blattregen: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  papierstapel: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  kuli: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  reisepass: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  flugticket: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  minikoffer: {height: 0.08, climbOffset: 0, speedLineHeight: 0},
+  druckobjekt1: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  druckobjekt2: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  druckobjekt3: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  druckobjekt4: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  druckobjekt5: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  druckobjekt6: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  druckobjekt7: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  druckobjekt8: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  zimmerlicht: {height: 0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Butler (Spezial Tür drücken): Dummy-Körper hellgrau, schwarzer Frack mit Schößen, weißes Hemd, schwarze Fliege, weiße Handschuhe, ohne Mütze */
@@ -514,7 +539,20 @@ const ownMotionMatrix = (name: string, s: ActorState) =>
     ? rumbleMatrix(s).multiply(carLocalMatrix(carPose(s.motion, s.motionTime, s.speed), s.values.tilt))
     : name === 'zugbruecke'
       ? bridgeLocalMatrix(s.values.tilt)
-      : new THREE.Matrix4();
+      : name === 'drucker'
+        ? printerHopMatrix(s)
+        : new THREE.Matrix4();
+
+/** Drucker hüpft (Bewegung "hop": alle 0,42 s ein Hüpfer, 0,1 m hoch, kippt dabei leicht nach vorn) + Neigung "tilt" */
+export const PRINTER_HOP = {period: 0.42, height: 0.1};
+const printerHopMatrix = (s: ActorState) => {
+  const hop = s.motion === 'hop' ? Math.abs(Math.sin((Math.PI * s.motionTime) / PRINTER_HOP.period)) : 0;
+  return new THREE.Matrix4().compose(
+    new THREE.Vector3(0, PRINTER_HOP.height * hop, 0),
+    new THREE.Quaternion().setFromEuler(new THREE.Euler(deg(s.values.tilt) + 0.18 * hop, 0, 0)),
+    new THREE.Vector3(1, 1, 1),
+  );
+};
 
 /** Rumpeln über Kopfsteinpflaster (Wert "rumble"): kleine schnelle Stöße + Wanken */
 const rumbleMatrix = (s: ActorState) => {
@@ -677,6 +715,16 @@ export const Actor = ({
         <QuestionMark amount={Math.min(1, state.motionTime / 0.5)} />
       </group>
     )}
+    {DUMMY_LIKE.includes(name) && v.zzz > 0.01 && (() => {
+      // Kopf: im Bett liegend Richtung Kissen (lokal −z), stehend über dem Kopf
+      const inBed = state.motion.startsWith('bed');
+      const zp = new THREE.Vector3(...(inBed ? [0, 0.95, -0.75] : [0.12, 1.95, 0.1]) as [number, number, number]).applyMatrix4(matrix);
+      return (
+        <group position={zp} quaternion={billboard(zp, camPos)}>
+          <ZzzBadge amount={v.zzz} time={zt} />
+        </group>
+      );
+    })()}
     {DUMMY_LIKE.includes(name) && v.question > 0.01 && (
       <group position={qPos} quaternion={billboard(qPos, camPos)}>
         <QuestionMark amount={v.question} />
@@ -1306,6 +1354,49 @@ export const Actor = ({
           <AlarmClock ring={v.ring} broken={v.broken} time={zt} />
         </group>
       )}
+      {name === 'drucker' && (
+        <group scale={1 + v.size}>
+          <InkPrinter rumble={v.rumble} glow={v.glow} mark={v.mark} glasses={v.glasses} lei={v.lei} hat={v.gardenhat} good={v.good} squish={v.squish} time={zt} />
+        </group>
+      )}
+      {name === 'drucker3d' && (
+        <group scale={1 + v.size}>
+          <Printer3D fill={v.fill} mark={v.mark} glow={v.glow} rumble={v.rumble} time={zt} />
+        </group>
+      )}
+      {/^blatt\d?$/.test(name) && (
+        <group scale={1 + v.size} rotation={[deg(v.tilt), deg(v.turn), 0]}>
+          <PrintSheet mode={actor.text ?? 'text'} sign={v.fill} />
+        </group>
+      )}
+      {name === 'blattregen' && state.motion === 'burst' && <SheetBurst time={state.motionTime} power={1 + v.size} floor={-(v.drop || 0.75)} />}
+      {name === 'papierstapel' && <PaperStack fill={v.fill} />}
+      {name === 'kuli' && (
+        <group rotation={[deg(v.tilt), deg(v.turn), 0]}>
+          <Pen />
+        </group>
+      )}
+      {name === 'reisepass' && (
+        <group scale={1 + v.size} rotation={[deg(v.tilt), deg(v.turn), 0]}>
+          <Passport />
+        </group>
+      )}
+      {name === 'flugticket' && (
+        <group scale={1 + v.size} rotation={[deg(v.tilt), deg(v.turn), 0]}>
+          <FlightTicket />
+        </group>
+      )}
+      {name === 'minikoffer' && (
+        <group scale={1 + v.size} rotation={[deg(v.tilt), 0, 0]}>
+          <MiniSuitcase />
+        </group>
+      )}
+      {/^druckobjekt\d$/.test(name) && (
+        <group scale={1 + v.size} rotation={[deg(v.tilt), deg(v.turn), 0]}>
+          <PrintObject kind={actor.text ?? 'ente'} fill={v.fill} glow={v.glow} />
+        </group>
+      )}
+      {name === 'zimmerlicht' && <RoomLight glow={v.glow} />}
       {name === 'digitaluhr' && (
         <group scale={1 + v.size}>
           <DigitalClock text={actor.text ?? '8:47'} blink={v.blink} time={zt} />

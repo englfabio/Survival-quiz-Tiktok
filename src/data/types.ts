@@ -355,6 +355,9 @@ export type Motion =
   | 'bow' // Butler: vornehme Verbeugung, rechte Hand vor der Brust, linke hinter dem Rücken (runter 0,3–0,9 s, unten bis 1,5 s, wieder hoch bis 2,1 s)
   | 'butlerstand' // Butler: steht kerzengerade, linke Hand hinter dem Rücken, rechter Arm angewinkelt vor dem Bauch
   | 'carpetpush' // Butler: beugt sich tief vor (0–0,5 s) und gibt der Teppichrolle 0,45 m vor ihm einen Schubs (0,55–0,8 s), richtet sich auf + zeigt nach vorn
+  | 'sleepwalk' // Dummy (Spezial Drucker): schlaftrunken tapsen – kleine schlurfende Schritte, Kopf hängt + nickt, Arme baumeln leicht vor dem Körper (Weg über Zeitpunkte)
+  | 'signsleepy' // Dummy: steht am Schreibtisch (Platte 0,75 m), beugt sich vor (0–0,5 s), linke Hand hält das Blatt 0,42 m vor ihm, rechte Hand kritzelt mit Kuli 0,6–1,8 s eine Unterschrift (links → rechts), ab 2,1 s sackt der Kopf weg (eingenickt)
+  | 'sleepstand' // Dummy: steht schlafend, Kopf hängt vornüber, schwankt leicht, Arme hängen
   | 'perch' // Taube: sitzen, Kopf nicken/picken, gurren
   | 'flap' // Taube: auf der Stelle flattern
   | 'talk' // Tauben-Anführer: mit den Flügeln gestikulieren
@@ -645,6 +648,10 @@ export type ActorKey = {
   angry?: number;
   /** Cookie-Handy: Low-Poly-Beine wachsen 0 … 1 */
   legs?: number;
+  /** Spezial Drucker: Blumenkette am Drucker 0 … 1 */
+  lei?: number;
+  /** Spezial Drucker: Comic-„Zzz“ über dem Kopf (Figuren mit Dummy-Körper) 0 … 1 */
+  zzz?: number;
   /** Tür „druecktuer“: Laufschiene wird angeschraubt 0 … 1 (ab 0,85 hängt das Blatt in der Schiene) */
   rail?: number;
   /** Tür „druecktuer“: Schiebetür rollt zur Seite 0 … 1 */
@@ -652,7 +659,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs', 'lei', 'zzz'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

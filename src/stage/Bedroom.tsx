@@ -239,7 +239,46 @@ const MorningView = ({x}: {x: number}) => {
   );
 };
 
-const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gaming?: boolean}) => {
+/**
+ * "schlafzimmer-nacht" (Spezial Drucker): dasselbe Schlafzimmer mitten in der Nacht – Licht AUS (nur Mondlicht durchs Fenster), Schreibtisch
+ * leer geräumt (Platz für Drucker + 3D-Drucker), Lampen aus, Tür in der rechten Wand steht OFFEN (Öffnung z 0.56 … 1.44, 2,0 m hoch, dunkler
+ * Flur dahinter). Das Zimmerlicht geht über das Objekt "zimmerlicht" (Wert glow 0 … 1) an. Plätze in NIGHT.
+ */
+export const NIGHT = {door: {z: 1.0, w: 0.88, h: 2.0}, deskTop: 0.75, desk: {x0: -1.8, x1: -1.25, z0: -1.0, z1: 0.2}, bedHip: [0.8, -1.425] as [number, number], nightstand: [-0.3, -1.7] as [number, number]};
+
+const NightHall = ({x}: {x: number}) => (
+  <group position={[x, 0, NIGHT.door.z]}>
+    <mesh position={[0.7, 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[1.4, 2.4]} />
+      <meshStandardMaterial color="#3a3026" />
+    </mesh>
+    <mesh position={[1.4, 1.25, 0]} rotation={[0, -Math.PI / 2, 0]}>
+      <planeGeometry args={[2.4, 2.5]} />
+      <meshStandardMaterial color="#4a4f63" />
+    </mesh>
+    {[-1, 1].map((k) => (
+      <mesh key={k} position={[0.7, 1.25, k * 1.2]} rotation={[0, k > 0 ? Math.PI : 0, 0]}>
+        <planeGeometry args={[1.4, 2.5]} />
+        <meshStandardMaterial color="#454a5c" />
+      </mesh>
+    ))}
+    {/* Türblatt nach außen in den Flur aufgeschwungen, Zarge */}
+    <group position={[0.02, 0, NIGHT.door.w / 2]} rotation={[0, -1.75, 0]}>
+      <mesh position={[0, 1.0, -0.44]}>
+        <boxGeometry args={[0.04, 2.0, 0.86]} />
+        <meshStandardMaterial color="#e9e3d6" flatShading />
+      </mesh>
+    </group>
+    {[[0, NIGHT.door.h + 0.04, NIGHT.door.w + 0.16, 0.08], [-NIGHT.door.w / 2 - 0.04, NIGHT.door.h / 2, 0.08, NIGHT.door.h + 0.08], [NIGHT.door.w / 2 + 0.04, NIGHT.door.h / 2, 0.08, NIGHT.door.h + 0.08]].map(([dz, y, w, h], i) => (
+      <mesh key={i} position={[-0.012, y, dz]} rotation={[0, -Math.PI / 2, 0]}>
+        <planeGeometry args={[w, h]} />
+        <meshStandardMaterial color="#f7f7f5" />
+      </mesh>
+    ))}
+  </group>
+);
+
+const BedroomScene = ({morning = false, gaming = false, night = false}: {morning?: boolean; gaming?: boolean; night?: boolean}) => {
   const frame = useCurrentFrame();
   const mats = useMemo(
     () => ({
@@ -261,11 +300,14 @@ const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gam
       wall={mats.wall}
       backWall={mats.back}
       ceiling="#f6efe4"
-      window={morning ? {side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: '#8fcdf4', open: true} : {side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: '#3b4f86'}}
-      light={morning ? {ambient: 0.62, hemi: 0.75, sun: 2.4, sunColor: '#fff0d2', lamp: 1.6, lampColor: '#fff1dc'} : gaming ? {ambient: 0.36, hemi: 0.45, sun: 0.7, sunColor: '#b9c6ff', lamp: 2.2, lampColor: '#ffd9b8'} : {ambient: 0.48, hemi: 0.6, sun: 0.9, sunColor: '#c9d6ff', lamp: 3.6, lampColor: '#ffdcae'}}
+      window={morning ? {side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: '#8fcdf4', open: true} : {side: -1, z: -0.4, w: 1.0, y: 1.05, h: 1.0, sky: night ? '#1d2a52' : '#3b4f86'}}
+      sideDoor={night ? {side: 1, ...NIGHT.door} : undefined}
+      ceilingLamp={!night}
+      light={night ? {ambient: 0.13, hemi: 0.16, sun: 0.75, sunColor: '#8fa6ff', lamp: 0, lampColor: '#ffdcae'} : morning ? {ambient: 0.62, hemi: 0.75, sun: 2.4, sunColor: '#fff0d2', lamp: 1.6, lampColor: '#fff1dc'} : gaming ? {ambient: 0.36, hemi: 0.45, sun: 0.7, sunColor: '#b9c6ff', lamp: 2.2, lampColor: '#ffd9b8'} : {ambient: 0.48, hemi: 0.6, sun: 0.9, sunColor: '#c9d6ff', lamp: 3.6, lampColor: '#ffdcae'}}
       sunPos={morning ? [-5.5, 3.4, -0.2] : [-4, 3.5, 0.5]}
-      bg={morning ? '#cfe6f5' : '#2b3558'}
+      bg={morning ? '#cfe6f5' : night ? '#141a30' : '#2b3558'}
     >
+      {night && <NightHall x={W / 2} />}
       {/* Morgens: Blick nach draußen (Rasen, Zaun, Nachbarhaus, Baum) */}
       {morning && <MorningView x={-W / 2 - 1.3} />}
       {/* Mond + Sterne hinter dem Fenster */}
@@ -304,7 +346,7 @@ const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gam
           <boxGeometry args={[0.34, 0.012, 0.005]} />
         </mesh>
         <group position={[0.05, nightstand.h, -0.05]}>
-          <Lamp h={0.22} light={morning ? 0.3 : 1.4} />
+          <Lamp h={0.22} light={morning ? 0.3 : night ? 0 : 1.4} />
         </group>
       </group>}
       {/* Schreibtisch an der linken Wand (unter dem Fenster) */}
@@ -322,8 +364,8 @@ const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gam
             <boxGeometry args={[0.04, desk.h - 0.05, 0.04]} />
           </mesh>
         ))}
-        {/* Lampe, Bücher, Laptop, Tasse */}
-        <group position={[-0.12, desk.h, -0.45]}>
+        {/* Lampe, Bücher, Laptop, Tasse (nachts leer geräumt für die Drucker) */}
+        {!night && <><group position={[-0.12, desk.h, -0.45]}>
           <Lamp h={0.32} light={morning ? 0.25 : 1.2} />
         </group>
         {[0, 1, 2].map((i) => (
@@ -335,7 +377,7 @@ const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gam
         <mesh position={[0.02, desk.h + 0.012, -0.05]} rotation={[0, 0.2, 0]} castShadow>
           <boxGeometry args={[0.26, 0.018, 0.36]} />
           <meshStandardMaterial color="#9aa3ad" metalness={0.4} roughness={0.4} />
-        </mesh>
+        </mesh></>}
       </group>
       {/* Schreibtischstuhl (zur Kamera gedreht) */}
       <group position={[chair.x, 0, chair.z]} rotation={[0, ((180 - chair.face) * Math.PI) / 180, 0]}>
@@ -358,8 +400,8 @@ const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gam
         <circleGeometry args={[0.95, 20]} />
         <meshStandardMaterial color="#e6b7a0" />
       </mesh>
-      {/* Tür in der rechten Wand vorn */}
-      <group position={[W / 2 - 0.02, 0, 1.0]}>
+      {/* Tür in der rechten Wand vorn (nachts offen, siehe NightHall) */}
+      {!night && <group position={[W / 2 - 0.02, 0, 1.0]}>
         <mesh position={[0, 1.02, 0]}>
           <boxGeometry args={[0.04, 2.08, 1.0]} />
           <meshStandardMaterial color="#f4f1ea" />
@@ -372,7 +414,7 @@ const BedroomScene = ({morning = false, gaming = false}: {morning?: boolean; gam
           <boxGeometry args={[0.05, 0.03, 0.14]} />
           <meshStandardMaterial color="#c0c6cc" metalness={0.7} roughness={0.3} />
         </mesh>
-      </group>
+      </group>}
       {/* Poster an der Rückwand über dem Bett + Regalbrett */}
       {!gaming && <><mesh position={[0.55, 1.6, -D / 2 + 0.015]}>
         <boxGeometry args={[0.6, 0.8, 0.02]} />
@@ -650,3 +692,4 @@ export const gamingRoomStage: StageDef = {id: 'gamingzimmer', Component: () => <
 export const bedroomMorningStage: StageDef = {id: 'schlafzimmer-morgen', Component: () => <BedroomScene morning />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 export const elevatorStage: StageDef = {id: 'aufzug', Component: ElevatorScene, climbTrees: [], groundHeight: () => 0, ambience: 'aufzug-summen'};
 export const trainStage: StageDef = {id: 'bahn', Component: TrainScene, climbTrees: [], groundHeight: () => 0, ambience: 'bahn-atmo'};
+export const bedroomNightStage: StageDef = {id: 'schlafzimmer-nacht', Component: () => <BedroomScene night />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};

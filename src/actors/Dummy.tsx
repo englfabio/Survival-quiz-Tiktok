@@ -5577,6 +5577,66 @@ export const COOKIE_PHONE: P3 = [-0.12, 0.757, 0.55];
 export const COOKIE_BOWL: P3 = [0.3, 0.74, 0.56];
 export const COOKIE_BOWL_CARRY: P3 = [0.1, 0.9, 0.34];
 export const COOKIE_BOWL_T: [number, number, number] = [0.15, 0.95, 1.0];
+// ---------- Spezial Drucker (schlaftrunken) ----------
+/**
+ *  - sleepwalk:  schlaftrunken tapsen: kleine schlurfende Schritte (Takt aus der Geschwindigkeit), Oberkörper leicht vor, Kopf hängt + nickt,
+ *                Arme baumeln locker vor dem Körper
+ *  - signsleepy: steht am Schreibtisch (Platte 0,75 m), beugt sich vor (0–0,5 s); linke Hand hält das Blatt (0,4 m vor ihm), rechte Hand
+ *                kritzelt mit dem Kuli 0,6–1,8 s eine Unterschrift von links nach rechts (Punkte SIGN_FROM → SIGN_TO, 0,42 m vor ihm),
+ *                ab 2,1 s sackt der Kopf weg (eingenickt), Kuli bleibt in der Hand
+ *  - sleepstand: steht schlafend, Kopf hängt vornüber, schwankt leicht
+ */
+export const SIGN_FROM: P3 = [0.06, 0.765, 0.43];
+export const SIGN_TO: P3 = [-0.075, 0.765, 0.43];
+const druckerPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  switch (motion) {
+    case 'sleepwalk': {
+      const ph = time * TAU * Math.max(0.6, speed * 1.4);
+      const s = Math.sin(ph);
+      const p = base();
+      p.hipY = 0.95 + 0.015 * Math.abs(s);
+      p.legL = L3(-0.32 * s, 0.05, 0.25 * Math.max(0, s));
+      p.legR = L3(0.32 * s, -0.05, 0.25 * Math.max(0, -s));
+      p.torsoX = 0.16;
+      p.torsoZ = 0.06 * s;
+      p.torsoY = 0.05 * s;
+      p.headX = 0.5 + 0.12 * Math.sin(time * 2.1);
+      p.headY = 0.15 * Math.sin(time * 0.8);
+      reachR(p, [-0.2 - 0.03 * s, 0.78, 0.22 + 0.04 * s], 0.33, [0.6, -1, -0.3]);
+      reachL(p, [0.2 + 0.03 * s, 0.78, 0.22 - 0.04 * s], 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+    case 'signsleepy': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const nod = easeInOut(clamp((time - 2.1) / 0.6));
+      p.torsoX = 0.42 * k + 0.08 * nod + Math.sin(time * 1.6) * 0.01;
+      p.headX = 0.3 * k + 0.35 * nod + 0.05 * Math.sin(time * 2.3) * (1 - nod);
+      p.headY = 0.2 * nod;
+      p.hipY = 0.97 - 0.03 * k;
+      const u = clamp((time - 0.6) / 1.2);
+      const w = Math.sin(u * Math.PI * 7) * 0.012;
+      const pen: P3 = [SIGN_FROM[0] + (SIGN_TO[0] - SIGN_FROM[0]) * u, SIGN_FROM[1] + (u > 0 && u < 1 ? 0 : 0.03), SIGN_FROM[2] + w];
+      const rest: P3 = [-0.18, 0.85, 0.2];
+      reachR(p, lerp3t(rest, [pen[0], pen[1] + 0.035, pen[2] - 0.02], k), 0.36, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.2, 0.85, 0.15], [0.16, 0.78, 0.38], k), 0.33, [0.6, -1, -0.3]);
+      p.item = k > 0.2 ? 'pen' : '';
+      return p;
+    }
+    case 'sleepstand': {
+      const p = base();
+      p.torsoX = 0.12 + Math.sin(time * 0.9) * 0.03;
+      p.torsoZ = Math.sin(time * 0.7) * 0.04;
+      p.headX = 0.6 + 0.06 * Math.sin(time * 1.7);
+      p.headY = 0.12 * Math.sin(time * 0.5);
+      p.armL = L3(0.05, 0.12, -0.1);
+      p.armR = L3(0.05, -0.12, -0.1);
+      return p;
+    }
+  }
+  return null;
+};
+
 const cookiePose = (motion: Motion, time: number): DummyPose | null => {
   const breathe = Math.sin(time * 2.2) * 0.012;
   const lap: P3 = [-0.16, 0.66, 0.32];
@@ -5721,7 +5781,7 @@ const cookiePose = (motion: Motion, time: number): DummyPose | null => {
 };
 
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = druckerPose(motion, time, speed) ?? cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;

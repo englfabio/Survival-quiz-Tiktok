@@ -81,9 +81,11 @@ type RoomCfg = {
   sunPos?: [number, number, number];
   /** Deckenleuchte zeigen */
   ceilingLamp?: boolean;
+  /** offene Türöffnung in der Seitenwand OHNE Fenster (side ±1): Mitte z, Breite, Höhe (Spezial Drucker) */
+  sideDoor?: {side: 1 | -1; z: number; w: number; h: number};
 };
 
-export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children, walls = true, bg = '#dde6ee', sunPos, ceilingLamp = true, backX}: RoomCfg) => {
+export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, children, walls = true, bg = '#dde6ee', sunPos, ceilingLamp = true, backX, sideDoor}: RoomCfg) => {
   const winX = window ? (window.side * W) / 2 : 0;
   return (
     <>
@@ -221,6 +223,19 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
                   <meshStandardMaterial color="#f7f7f5" />
                 </mesh>
               ))}
+            </>
+          ) : sideDoor && sideDoor.side === s ? (
+            <>
+              {/* Wand mit offener Türöffnung: hinter der Tür, über der Tür, vor der Tür */}
+              <mesh material={wall} position={[(s * W) / 2, H / 2, (-D / 2 + sideDoor.z - sideDoor.w / 2) / 2]} rotation={[0, -s * Math.PI / 2, 0]} receiveShadow>
+                <planeGeometry args={[sideDoor.z - sideDoor.w / 2 + D / 2, H]} />
+              </mesh>
+              <mesh material={wall} position={[(s * W) / 2, (H + sideDoor.h) / 2, sideDoor.z]} rotation={[0, -s * Math.PI / 2, 0]}>
+                <planeGeometry args={[sideDoor.w, H - sideDoor.h]} />
+              </mesh>
+              <mesh material={wall} position={[(s * W) / 2, H / 2, (D / 2 + 6 + sideDoor.z + sideDoor.w / 2) / 2]} rotation={[0, -s * Math.PI / 2, 0]} receiveShadow>
+                <planeGeometry args={[D / 2 + 6 - sideDoor.z - sideDoor.w / 2, H]} />
+              </mesh>
             </>
           ) : (
             <mesh material={wall} position={[(s * W) / 2, H / 2, 3]} rotation={[0, -s * Math.PI / 2, 0]} receiveShadow>
