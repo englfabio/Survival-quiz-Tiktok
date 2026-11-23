@@ -449,7 +449,7 @@ def check_cams(name, camkeys, inside_from=None):
             assert y < WZG_H - 0.2 and y > 0.3, (name, 'Kamera innen', k)
             continue
         assert y > 0.3, (name, 'Kamera unter dem Boden', k)
-        assert z < 5.3 or abs(x) > 19, (name, 'Kamera hinter der Hecke / im Nachbarhaus', k)
+        assert z < (8.0 if name in ('Abstimmung', 'Outro') else 5.3) or abs(x) > 19, (name, 'Kamera hinter der Hecke / im Nachbarhaus', k)
         assert not (abs(x) < 3.6 and -16.1 < z < -8.9), (name, 'Kamera im Haus', k)
         assert not (any(abs(x - hx) < 0.75 for hx in (-18, -6, 6, 18)) and -23.6 < z < -6.0), (name, 'Kamera in der Hecke', k)
 WZG_H = 3.8
@@ -467,8 +467,9 @@ def endcast(wave=False):
     c.add('dummy', 0, 1, [K(0, *DV, 'stand', 180, slime=1.0, question=0.0 if wave else 1.0)] + ([K(0.12, *DV, 'wave', 180), K(1, *DV, 'wave', 180)] if wave else []))
     return c.build()
 V_PTS = [*body(*DV), [DV[0] - 0.8, 0, DV[1]], [-1.5, 3.5, DOOR[1]], [1.5, 0, DOOR[1]]]
-vote = {'camera': shot(0, 1, F(V_PTS, 12, 2, (120, 960, 1060, 1320)), push=0.04), 'actors': endcast(), 'stage': STAGE}
-outro = {'camera': shot(0, 1, F(V_PTS, 14, 6, (100, 980, 780, 1110)), push=0.05), 'actors': endcast(True), 'stage': STAGE}
+vote = {'camera': shot(0, 1, F([*body(*DV, 2.0, 0.45), [DV[0] - 0.85, 0, DV[1]]], 18, 4, (620, 1010, 1080, 1700)), push=0.04), 'actors': endcast(), 'stage': STAGE}
+outro = {'camera': shot(0, 1, F([*body(*DV, 2.15, 0.5), [DV[0] - 0.85, 0, DV[1]]], 12, 4, (330, 980, 1010, 1640)), push=0.05), 'actors': endcast(True), 'stage': STAGE}
+check_cams('Abstimmung', vote['camera']); check_cams('Outro', outro['camera'])
 if OUTRO_MIN > 0:
     outro['fade'] = [round(1 - 1.6 / OUTRO_MIN, 3), 0.99, 0.85]
 
