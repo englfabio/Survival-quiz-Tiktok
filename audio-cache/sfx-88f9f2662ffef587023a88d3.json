@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Single rubber duck squeak, cute cartoon squeeze toy, short, no music",
+  "duration": 0.6,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-23T13:02:36.816Z"
+}

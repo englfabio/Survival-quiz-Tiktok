@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Short cheerful Hawaiian ukulele strum jingle, sunny holiday vibe, playful, about two seconds, no voice",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-23T13:02:38.762Z"
+}

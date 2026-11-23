@@ -29,13 +29,13 @@ vote="Also, was machst du?",
 # Outro des Inhabers Buchstabe für Buchstabe + (Spezial-Regel 5, Wunsch Inhaber) angehängt: „Neue Video-Ideen? Ab in die Kommentare!“
 outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
 )
-EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.0))}
-TAIL = float(os.environ.get('TAIL', 0.3))
+EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.4))}
+TAIL = float(os.environ.get('TAIL', 0.05))
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))
-VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.6))
+VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.0))
 NO_VOTE = os.environ.get('NO_VOTE', '0') == '1'
 
-ELEAD = float(os.environ.get('ELEAD', 0.6))
+ELEAD = float(os.environ.get('ELEAD', 0.35))
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': ELEAD, 'explain2': ELEAD, 'explain3': ELEAD, 'countdown': 0.1, 'outro': 0.3}
 MINLEN = {'situation': 5, 'option1': 3.6, 'option2': 3.6, 'option3': 3.6, 'explain1': 6, 'explain2': 6, 'explain3': 6, 'countdown': 5, 'outro': 3}
 TEXT = {'situation': S['situation'], 'option1': S['o1s'], 'option2': S['o2s'], 'option3': S['o3s'],
@@ -164,9 +164,9 @@ class Cast:
 # =====================================================================================================
 STAGE = 'schlafzimmer-nacht'
 DESK_Y = 0.75
-PR = (-1.55, -0.55); PF = 90                       # Drucker auf dem Schreibtisch, Vorderseite zum Raum (+x)
+PR = (-1.62, -0.55); PF = 90                       # Drucker auf dem Schreibtisch, Vorderseite zum Raum (+x)
 SLOT = (PR[0] + 0.17, DESK_Y + 0.075, PR[1])       # Ausgabeschlitz (Welt)
-TRAY = (PR[0] + 0.26, DESK_Y + 0.044, PR[1])       # Blatt im Ausgabefach (Mitte)
+TRAY = (PR[0] + 0.17 + 0.155, DESK_Y + 0.044, PR[1])  # Blatt ganz draußen vor dem Schlitz (Mitte), liegt auf Fachhöhe
 P3D = (-1.53, -0.03)                               # 3D-Drucker
 BED3 = (P3D[0], DESK_Y + 0.085, P3D[1] + 0.02)     # dessen Druckplatte (Welt, face 0 → lokal z = Welt z)
 BED = (0.8, -1.425); BF = 270                      # Dummy im Bett (Hüfte), Kopf zum Kissen (+x)
@@ -184,7 +184,7 @@ def clock(t): return K(t, *CLOCK, 'park', 185, y=NS_H, text='3:00')
 def bedd(t, motion='bedsleep', **kw): return K(t, *BED, motion, BF, **kw)
 def body(x, z, h=1.95, w=0.42): return [[x - w, 0, z], [x + w, h, z]]
 BED_PTS = [[0.0, 0.0, -1.9], [1.75, 0.95, -0.95]]
-DESK_PTS = [[-1.8, 0.0, -1.0], [-1.25, 0.75, 0.2]]
+DESK_PTS = [[-1.8, 0.0, -1.0], [-1.05, 0.75, 0.2]]
 PR_PTS = [[PR[0] - 0.17, DESK_Y, PR[1] - 0.23], [PR[0] + 0.35, DESK_Y + 0.33, PR[1] + 0.23]]
 P3_PTS = [[P3D[0] - 0.18, DESK_Y, P3D[1] - 0.18], [P3D[0] + 0.18, DESK_Y + 0.6, P3D[1] + 0.18]]
 CLOCK_PTS = [[CLOCK[0] - 0.1, NS_H, CLOCK[1] - 0.04], [CLOCK[0] + 0.1, NS_H + 0.11, CLOCK[1] + 0.04]]
@@ -214,7 +214,7 @@ situation = {
    # Drucker rattert und spuckt Blatt um Blatt
    *shot(c_mit, c_was - 0.003, F([*PR_PTS, [PR[0] + 1.3, 0.0, PR[1] - 0.4], [PR[0] + 1.3, 0.0, PR[1] + 0.4]], 62, 16, SIT), push=0.07),
    # Dummy schreckt hoch
-   *shot(c_was, 1, F([[0.0, 0.3, -1.9], [1.6, 1.4, -0.95], [-0.2, 0, -0.2]], 40, 10, SIT), push=0.05),
+   *shot(c_was, 1, F([[0.0, 0.3, -1.9], [1.6, 1.4, -0.95], [-0.2, 0, -0.2]], 8, 10, SIT), push=0.05),
  ],
  'actors': cs_.build(), 'stage': STAGE,
  'sfx': [{'t': r3(t_on), 'id': 'klick', 'volume': 1.0}, {'t': r3(t_on + ss(0.1)), 'id': 'drucker-rattern', 'volume': 0.9},
@@ -262,15 +262,15 @@ def check_a():
     return round((1 - t_s1) * TA, 2)
 camA = [
   # Karte: Dummy schläft im Bett, Drucker druckt im Hintergrund
-  *shot(0, sA - 0.003, F([*BED_PTS, *PR_PTS, [-0.2, 1.3, -1.0]], 30, 12, ANS), push=0.03),
+  *shot(0, sA - 0.003, F([*BED_PTS, *PR_PTS, [-0.2, 1.3, -1.0]], 10, 12, ANS), push=0.03),
   # Drei Uhr nachts: Digitaluhr groß, Dummy schläft dahinter
-  *shot(sA, c_eine - 0.003, F([*CLOCK_PTS, [0.3, 0.6, -1.6], [1.0, 0.75, -1.2]], -55, 14, ANS), push=0.06),
+  *shot(sA, c_eine - 0.003, F([*CLOCK_PTS, [0.3, 0.6, -1.6], [1.0, 0.75, -1.2]], 12, 14, ANS), push=0.06),
   # Kündigung kommt raus
   *shot(c_eine, c_noch - 0.003, F([*SHEET_PTS, [PR[0] - 0.1, DESK_Y + 0.25, PR[1] - 0.2], [PR[0] - 0.1, DESK_Y + 0.25, PR[1] + 0.2]], 95, 32, ANS), push=0.06),
   # schlaftrunken zum Tisch
   *shot(c_noch, c_unt - 0.003, F([*body(*WALK0), *body(*SIGN), *PR_PTS], 30, 8, ANS), push=0.04),
   # unterschreibt im Halbschlaf: Blatt + Hand + Kopf
-  *shot(c_unt, 1, F([*SHEET_PTS, [SIGN[0] - 0.1, 1.75, SIGN[1]], [SIGN[0] + 0.1, 1.2, SIGN[1] + 0.25]], 120, 26, ANS), push=0.04),
+  *shot(c_unt, 1, F([*SHEET_PTS, [SIGN[0] - 0.1, 1.75, SIGN[1]], [SIGN[0] + 0.1, 1.2, SIGN[1] + 0.25]], -25, 34, ANS), push=0.04),
 ]
 expA = {
  'camera': camA, 'actors': cA.build(), 'stage': STAGE,
@@ -340,7 +340,7 @@ for i, (nm, kind, src) in enumerate(OBJ):
     obj_t.append((r3(t0 + sb(0.55)), kind))
     tt = r3(tt + sb(0.42))
 # Dummy: Karte sitzt im Bett und schaut; Szene steht im Raum und staunt
-DB = (0.15, 0.35)
+DB = (0.25, -0.5)
 fdb = face_to(DB, (PR[0], PR[1] + 0.3))
 cB.add('dummy', 0, sB, [bedd(0, 'bedsit'), bedd(sB, 'bedsit')])
 cB.add('dummy', sB, 1, [K(sB, *DB, 'stand', fdb, cut=True), K(r3(c_ent), *DB, 'gape', fdb), K(1, *DB, 'gape', fdb)])
@@ -352,9 +352,9 @@ camB = [
   # Karte: Drucker rattert, Papierstapel wächst; Dummy sitzt im Bett
   *shot(0, sB - 0.003, F([*PR_PTS, *P3_PTS, [0.3, 1.25, -1.4]], 38, 12, ANS), push=0.03),
   # Blatt für Blatt entsteht der 3D-Drucker
-  *shot(sB, c_ab - 0.003, F([*P3_PTS, *PR_PTS], 75, 18, ANS), push=0.06),
+  *shot(sB, c_ab - 0.003, F([*P3_PTS, *PR_PTS], 50, 18, ANS), push=0.06),
   # die beiden drucken Pizza, Gold, Enten
-  *shot(c_ab, c_lust - 0.003, F([*P3_PTS, *PR_PTS, [-0.4, 0, -1.0], [-0.4, 0, 0.5]], 68, 22, ANS), push=0.05),
+  *shot(c_ab, c_lust - 0.003, F([*P3_PTS, *PR_PTS, [-0.4, 0, -1.0], [-0.4, 0, 0.5]], 38, 22, ANS), push=0.05),
   # worauf sie Lust haben: Totale mit staunendem Dummy + Haufen
   *shot(c_lust, 1, F([*P3_PTS, *PR_PTS, *body(*DB), [-0.4, 0, -1.0]], 35, 10, ANS), push=0.04),
 ]
@@ -407,11 +407,11 @@ cC.add('reisepass', t_pass, r3(t_pack + sc(0.4)), pass_keys)
 tick_keys = slide('flugticket', t_tick, sc(0.8), y_end=TRAY[1] + 0.016, x_end=TRAY[0] - 0.01) + [K(r3(t_pack + sc(0.1) - 0.002), TRAY[0] - 0.01, PR[1], 'park', PF, y=TRAY[1] + 0.016)] + into_suit('flugticket', r3(t_pack + sc(0.1)), (TRAY[0], 0), TRAY[1] + 0.016)
 cC.add('flugticket', t_tick, r3(t_pack + sc(0.5)), tick_keys)
 # Hüpf-Weg: Schreibtisch entlang (+z), Sprung runter, durchs Zimmer zur Tür hinaus
-t_hop0 = r3(max(t_pack + sc(0.55), c_und - sc(0.5)))
+t_hop0 = r3(max(t_pack + sc(0.5), c_und - sc(0.35)))
 H1 = (PR[0], 0.05)                     # vordere Schreibtischkante
 H2 = (-1.0, 0.45)                      # Landung auf dem Boden
-H3 = (0.6, 0.9); H4 = (DOOR[0] - 0.1, DOOR[1]); H5 = (2.7, DOOR[1])
-VH = 1.25
+H3 = (0.4, 0.85); H4 = (DOOR[0] - 0.1, DOOR[1]); H5 = (2.7, DOOR[1])
+VH = 1.7
 t_h1 = r3(t_hop0 + sc(dist(PR, H1) / VH)); t_h2 = r3(t_h1 + sc(0.45))
 t_h3 = r3(t_h2 + sc(dist(H2, H3) / VH)); t_h4 = r3(t_h3 + sc(dist(H3, H4) / VH)); t_h5 = r3(t_h4 + sc(dist(H4, H5) / VH))
 f1 = face_to(PR, H1); f3 = face_to(H2, H3); f4 = face_to(H3, H4)
@@ -434,7 +434,7 @@ cC.add('drucker', 0, 1, drk)
 cC.add('minikoffer', t_suit, 1, [K(t_suit, -0.33, 0.0, 'park', 90, attach='drucker', y=0.0, size=-1.0), K(r3(t_suit + sc(0.25)), -0.33, 0.0, 'park', 90, attach='drucker', y=0.0, size=0.0),
                                  K(1, -0.33, 0.0, 'park', 90, attach='drucker', y=0.0, size=0.0)])
 # Dummy: Karte sitzt im Bett; Szene steht im Zimmer, staunt, winkt zum Schluss
-DC = (0.15, -0.35)
+DC = (0.35, -0.6)
 cC.add('dummy', 0, sC, [bedd(0, 'bedsit'), bedd(sC, 'bedsit')])
 fdc = face_to(DC, PR)
 cC.add('dummy', sC, 1, [K(sC, *DC, 'gape', fdc, cut=True), K(r3(c_und - 0.002), *DC, 'gape', fdc), K(c_und, *DC, 'stand', face_to(DC, H3)),
@@ -454,9 +454,9 @@ camC = [
   # Ticket + Sonnenbrille + Blumenkette
   *shot(c_tic, c_kof - 0.003, F([*PR_PTS, *SHEET_PTS], 70, 18, ANS), push=0.06),
   # Koffer gepackt + Strohhut
-  *shot(c_kof, c_und - 0.003, F([*PR_PTS, *SUIT_PTS, [PR[0], DESK_Y + 0.45, PR[1]]], 55, 14, ANS), push=0.05),
+  *shot(c_kof, c_und - 0.003, F([*PR_PTS, *SUIT_PTS, [PR[0], DESK_Y + 0.6, PR[1]], [PR[0] + 0.5, DESK_Y, PR[1] + 0.3]], 40, 22, ANS), push=0.04),
   # und weg: hüpft durchs Zimmer zur Tür hinaus, Dummy winkt
-  *shot(c_und, 1, F([[H2[0], 0, H2[1]], [H4[0], 0.6, H4[1] - 0.45], [H4[0], 2.0, H4[1] + 0.45], *body(*DC)], 5, 12, ANS), push=0.04),
+  *shot(c_und, 1, F([[H1[0], DESK_Y, H1[1]], [H2[0], 0, H2[1]], [H4[0], 0.6, H4[1] - 0.45], [H4[0], 2.0, H4[1] + 0.45], *body(*DC)], -35, 16, ANS), push=0.04),
 ]
 expC = {
  'camera': camC, 'actors': cC.build(), 'stage': STAGE,
@@ -471,7 +471,7 @@ expC['sfx'] = [s for s in expC['sfx'] if s['t'] < 1]
 # =====================================================================================================
 # Abstimmung + Outro: Dummy steht neben dem Schreibtisch, Drucker (grinst) + 3D-Drucker, Kündigung im Fach, Ente + Pizza auf dem Tisch
 # =====================================================================================================
-DV = (-0.45, 0.55)
+DV = (-0.7, 0.6)
 def endcast(wave=False):
     c = Cast()
     c.add('zimmerlicht', 0, 1, [light(0, 1.0)])
@@ -485,8 +485,8 @@ def endcast(wave=False):
     c.add('dummy', 0, 1, [K(0, *DV, 'stand', 235, question=0.0 if wave else 1.0)] + ([K(0.12, *DV, 'wave', 215), K(1, *DV, 'wave', 215)] if wave else []))
     return c.build()
 V_PTS = [*body(*DV), *PR_PTS, *P3_PTS, [-1.4, DESK_Y, 0.32]]
-vote = {'camera': shot(0, 1, F(V_PTS, 40, 3, (120, 960, 1060, 1320)), push=0.04), 'actors': endcast(), 'stage': STAGE}
-outro = {'camera': shot(0, 1, F(V_PTS, 42, 6, (100, 980, 780, 1110)), push=0.05), 'actors': endcast(True), 'stage': STAGE}
+vote = {'camera': shot(0, 1, F(V_PTS, -6, 6, (120, 960, 1060, 1320)), push=0.04), 'actors': endcast(), 'stage': STAGE}
+outro = {'camera': shot(0, 1, F(V_PTS, -4, 8, (100, 980, 780, 1110)), push=0.05), 'actors': endcast(True), 'stage': STAGE}
 if OUTRO_MIN > 0:
     outro['fade'] = [round(1 - 1.6 / OUTRO_MIN, 3), 0.99, 0.85]
 
@@ -509,6 +509,8 @@ scen = {
 }
 if OUTRO_MIN > 0: scen['outroMin'] = OUTRO_MIN
 if NO_VOTE: scen['noVote'] = True
+scen['explainLead'] = ELEAD
+scen['voteLen'] = VOTE_LEN
 for _sh in [situation, vote, outro, expA, expB, expC]:
     _sh['sharpCuts'] = True
     for keys in _sh['actors'].values():

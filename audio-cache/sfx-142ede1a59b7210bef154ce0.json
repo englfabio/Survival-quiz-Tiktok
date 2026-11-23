@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "3D printer working, stepper motors whirring and buzzing in quick melodic patterns, small mechanical clicks, playful, close, no music, no voice",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-23T13:02:34.791Z"
+}

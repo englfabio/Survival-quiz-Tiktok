@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Old inkjet printer printing frantically, loud mechanical rattling print head zipping back and forth, paper feeding and ejecting, comedic and busy, close, no music, no voice",
+  "duration": 3,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-23T13:02:32.573Z"
+}

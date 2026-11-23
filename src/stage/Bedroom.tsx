@@ -244,31 +244,20 @@ const MorningView = ({x}: {x: number}) => {
  * leer geräumt (Platz für Drucker + 3D-Drucker), Lampen aus, Tür in der rechten Wand steht OFFEN (Öffnung z 0.56 … 1.44, 2,0 m hoch, dunkler
  * Flur dahinter). Das Zimmerlicht geht über das Objekt "zimmerlicht" (Wert glow 0 … 1) an. Plätze in NIGHT.
  */
-export const NIGHT = {door: {z: 1.0, w: 0.88, h: 2.0}, deskTop: 0.75, desk: {x0: -1.8, x1: -1.25, z0: -1.0, z1: 0.2}, bedHip: [0.8, -1.425] as [number, number], nightstand: [-0.3, -1.7] as [number, number]};
+export const NIGHT = {door: {z: 1.0, w: 0.88, h: 2.0}, deskTop: 0.75, desk: {x0: -1.8, x1: -1.05, z0: -1.0, z1: 0.2}, bedHip: [0.8, -1.425] as [number, number], nightstand: [-0.3, -1.7] as [number, number]};
 
 const NightHall = ({x}: {x: number}) => (
   <group position={[x, 0, NIGHT.door.z]}>
-    <mesh position={[0.7, 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-      <planeGeometry args={[1.4, 2.4]} />
+    {/* schmaler dunkler Flur direkt hinter der Türöffnung (nur von innen durch die Tür zu sehen) */}
+    <mesh position={[0.6, 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[1.2, 1.1]} />
       <meshStandardMaterial color="#3a3026" />
     </mesh>
-    <mesh position={[1.4, 1.25, 0]} rotation={[0, -Math.PI / 2, 0]}>
-      <planeGeometry args={[2.4, 2.5]} />
+    <mesh position={[1.2, 1.25, 0]} rotation={[0, -Math.PI / 2, 0]}>
+      <planeGeometry args={[1.1, 2.5]} />
       <meshStandardMaterial color="#4a4f63" />
     </mesh>
-    {[-1, 1].map((k) => (
-      <mesh key={k} position={[0.7, 1.25, k * 1.2]} rotation={[0, k > 0 ? Math.PI : 0, 0]}>
-        <planeGeometry args={[1.4, 2.5]} />
-        <meshStandardMaterial color="#454a5c" />
-      </mesh>
-    ))}
-    {/* Türblatt nach außen in den Flur aufgeschwungen, Zarge */}
-    <group position={[0.02, 0, NIGHT.door.w / 2]} rotation={[0, -1.75, 0]}>
-      <mesh position={[0, 1.0, -0.44]}>
-        <boxGeometry args={[0.04, 2.0, 0.86]} />
-        <meshStandardMaterial color="#e9e3d6" flatShading />
-      </mesh>
-    </group>
+    {/* Zarge (Türblatt steht unsichtbar weit offen im Flur) */}
     {[[0, NIGHT.door.h + 0.04, NIGHT.door.w + 0.16, 0.08], [-NIGHT.door.w / 2 - 0.04, NIGHT.door.h / 2, 0.08, NIGHT.door.h + 0.08], [NIGHT.door.w / 2 + 0.04, NIGHT.door.h / 2, 0.08, NIGHT.door.h + 0.08]].map(([dz, y, w, h], i) => (
       <mesh key={i} position={[-0.012, y, dz]} rotation={[0, -Math.PI / 2, 0]}>
         <planeGeometry args={[w, h]} />
@@ -350,16 +339,16 @@ const BedroomScene = ({morning = false, gaming = false, night = false}: {morning
         </group>
       </group>}
       {/* Schreibtisch an der linken Wand (unter dem Fenster) */}
-      {!gaming && <><group position={[desk.x, 0, desk.z]}>
+      {!gaming && <><group position={[night ? -1.425 : desk.x, 0, desk.z]}>
         <mesh material={mats.wood} position={[0, desk.h - 0.025, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.55, 0.05, 1.2]} />
+          <boxGeometry args={[night ? 0.75 : 0.55, 0.05, 1.2]} />
         </mesh>
         {[
           [-0.23, -0.55],
           [0.23, -0.55],
           [-0.23, 0.55],
           [0.23, 0.55],
-        ].map(([x, z], i) => (
+        ].map(([x, z]) => [night ? x * 1.4 : x, z]).map(([x, z], i) => (
           <mesh key={i} material={mats.woodDark} position={[x, (desk.h - 0.05) / 2, z]}>
             <boxGeometry args={[0.04, desk.h - 0.05, 0.04]} />
           </mesh>

@@ -114,9 +114,11 @@ export const buildTimeline = (
 ): Timeline => {
   const usesAudio = !!audioSeconds && Object.keys(audioSeconds).length > 0;
   const texts = clipTexts(s);
+  // Spezial: Vorlauf vor dem Szenentext (explain1–3) optional kürzer ("explainLead", z. B. für ≤ 66 s)
+  const lead = (id: ClipId) => (id.startsWith('explain') && s.explainLead !== undefined ? s.explainLead : LEAD[id]);
   const len = (id: ClipId) => {
     const a = audioSeconds?.[id] ?? estimateSpeechSeconds(texts[id] ?? '');
-    const base = LEAD[id] + a + (s.padAfter ?? PAD_AFTER);
+    const base = lead(id) + a + (s.padAfter ?? PAD_AFTER);
     return Math.round(Math.max(base, MIN_LEN[id] ?? 0) * FPS);
   };
 
@@ -127,7 +129,7 @@ export const buildTimeline = (
     cursor += sec.duration;
   };
 
-  const at = (id: ClipId, offset = 0) => ({clip: id, at: offset + Math.round(LEAD[id] * FPS)});
+  const at = (id: ClipId, offset = 0) => ({clip: id, at: offset + Math.round(lead(id) * FPS)});
   push({kind: 'situation', duration: len('situation'), voice: [at('situation')]});
 
   if (isSpezial(s)) {
@@ -141,7 +143,7 @@ export const buildTimeline = (
       push({kind: 'answer', option: n, duration: card + scene, sceneStart: card, voice: [at(`option${n}` as ClipId), at(ex, card)]});
     }
     // Abstimmung: Ansage + 5-s-Countdown laufen gleichzeitig
-    if (!s.noVote) push({kind: 'vote', duration: Math.max(len('countdown'), Math.round(5.6 * FPS)), voice: [at('countdown')]});
+    if (!s.noVote) push({kind: 'vote', duration: Math.max(len('countdown'), Math.round((s.voteLen ?? 5.6) * FPS)), voice: [at('countdown')]});
     push({kind: 'outro', duration: Math.max(len('outro'), Math.round((s.outroMin ?? 4) * FPS)), voice: [at('outro')]});
     return {sections, totalFrames: cursor, totalSeconds: cursor / FPS, usesAudio};
   }
