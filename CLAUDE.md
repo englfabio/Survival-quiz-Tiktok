@@ -1090,10 +1090,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   kurz nach „Ohne dich“ an der Tür; `check_c`: Agenten frei auf dem Rasen, Wolke rechtzeitig). Bühnenwechsel in C zur Außenansicht. Standbilder in
   review/spezial-cookies/phase1/. Finales Video: review/final/spezial-cookies.mp4 (62,8 s).
 - Spezial Nase erwischt (Durchlauf-Modus): 654 neue Zeichen (261 Credits laut ElevenLabs; Abstimmung + Outro aus Cache), Texte Buchstabe für Buchstabe vom Inhaber
-  (auch „Todernsster“ – gesprochen wie „Todernster“); Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5). Video 65,4 s MIT Abstimmung
+  (auch „Todernsster“ – gesprochen wie „Todernster“); Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5). Video 66,0 s MIT Abstimmung
   (`padAfter` 0,3 s). Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-nase-erwischt-choreo.py` (prüft `check_a`: PLOPP vor
   „und schon“, Bagger gelandet vor „Völlig logisch“, Abstand ≥ 2 m; `check_b`: Laufweg frei). Kartentext A wiederholt sich teils im Szenentext (so geliefert) – im
-  Bild keine Dopplung (Karte = erklären, Szene = ziehen). Standbilder in review/spezial-nase-erwischt/phase1/. Finales Video: review/final/spezial-nase-erwischt.mp4 (65,4 s).
+  Bild keine Dopplung (Karte = erklären, Szene = ziehen). Standbilder in review/spezial-nase-erwischt/phase1/. Finales Video: review/final/spezial-nase-erwischt.mp4 (66,0 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
