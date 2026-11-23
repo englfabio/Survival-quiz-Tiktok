@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-nase-erwischt: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -576,6 +576,20 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   strecken (`reachafter`), Schüssel mit beiden Händen abstellen (`setbowl`, 0,15–0,95 s, Weg im Skript gleich), Kinn in den Händen warten (`waitchin`);
   stehend (auch Agenten): Tauziehen (`tugpull`, ganzer Körper zurückgelehnt, ruckt alle 0,55 s), gebeugt mit Lupe suchen (`magnify`), hüpfen + nach oben
   greifen (`snatch`).
+- **Objekte (Spezial Nase erwischt, `src/actors/NoseProps.tsx`, comichaft, ohne Marken/Logos):** großer gelber Spielzeug-Bagger im Low-Poly-Look
+  (`spielbagger`: dicke schwarze Ketten mit orangen Radkappen, gelber Oberwagen, Kabine mit hellblauen Fenstern, rotes Dach, Rundumleuchte, Warnstreifen,
+  Ausleger + Schaufel mit stumpfen Zähnen; ca. 1,75 m hoch, Ursprung = Boden-Mitte, Schaufel vorn +z; Werte `fill` 0 … 1 = wächst von winzig auf volle Größe
+  mit Überschwingen – IMMER setzen (1 = normal groß), `tilt` = Arm heben, `squish` = federt beim Aufsetzen, `glow` = Rundumleuchte, `size`; Bewegung `drive` = Ketten
+  laufen). „Aus der Nase ziehen“: Weg im Skript von der Nase im Bogen auf den Boden, `fill` = u^2,5. Schild „AUSGANG“ (`ausgangschild`: grün mit Tür-/Lauf-Symbol +
+  Pfeil, beidseitig, 0,8 × 0,3 m, Ursprung = Mitte, Schrift ±z; `mark` 1 = hängt an Seilen, `glow` = pulsiert, `size`). Comic-Stern „PLOPP!“ (`ploppstern`, `fill` 0 → 1
+  ≈ 1 s, schaut zur Kamera). **Neue Werte an jeder Figur mit Dummy-Körper:** `eyes` 0 … 1 = große Comic-Kulleraugen ploppen auf (dummy + kollege1–3), `alarm` = gelbes
+  „!“ über dem Kopf, `nose` 1 = kleine runde Comic-Nase (Dummy).
+  Bewegungen (Details in `nosePose` in Dummy.tsx; Nase per `noseAt` aus Kopf + Oberkörper berechnet, Fingerspitze `FINGER_ALONG`): sitzend in Gedanken versunken
+  poppeln, Blick verträumt nach rechts oben (`nosepick`), ertappt – Kopf ruckt zum Kollegen links, Finger bleibt stecken, erstarrt (`nosecaught`), Finger stecken
+  lassen + entspannt zurücklehnen, linke Hand hinter dem Kopf (`fingerstay`), erstarrt mitten im Tippen mit offenem Mund (`seatstare`, für Kollegen; Drehung zum
+  Dummy über `face`); stehend todernst erklären + an die Nase tippen (`nosetalk`), Bagger aus der Nase ziehen (`noseyank`, PLOPP bei `NOSE_YANK_POP` 1,15 s),
+  todernst suchen mit der Hand über den Augen, mit Weg = langsame Schritte (`exitsearch`). Wiederverwendet: `butlerstand`, `thumbsup`, `physikshrug`, `typedesk`,
+  `stand`, `wave`; Bühne `bueroetage` (Dummy am Platz `BUERO.mySeat`, Kollege am Nachbartisch (−5.9, 3.05), Schild hängt bei (−3.0, 2.3, 1.6)), Kollegen-Dummys.
 - **Goldfisch** (`goldfisch`, `src/actors/FishProps.tsx`, comichaft, dem Fisch geht es immer gut): orangefarbener Low-Poly-Goldfisch mit großen Augen +
   schrägen Augenbrauen (sehr konzentrierter Blick) in einem runden Glas voll Wasser mit buntem Kies (Ursprung = Glasboden). Im Auto: `"attach": "car",
   x 0.3, y 0.7, z −0.05, face 0` + Wert `side` 1 = Sitzerhöhung + Sicherheitsgurt quer übers Glas (so sieht man ihn durch Seiten- und Frontscheibe).
@@ -892,7 +906,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-nase-erwischt),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -1075,6 +1089,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `sceneExtra`). Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-cookies-choreo.py` (prüft `check_a`: Handy spätestens
   kurz nach „Ohne dich“ an der Tür; `check_c`: Agenten frei auf dem Rasen, Wolke rechtzeitig). Bühnenwechsel in C zur Außenansicht. Standbilder in
   review/spezial-cookies/phase1/. Finales Video: review/final/spezial-cookies.mp4 (62,8 s).
+- Spezial Nase erwischt (Durchlauf-Modus): 654 neue Zeichen (261 Credits laut ElevenLabs; Abstimmung + Outro aus Cache), Texte Buchstabe für Buchstabe vom Inhaber
+  (auch „Todernsster“ – gesprochen wie „Todernster“); Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5). Video 65,4 s MIT Abstimmung
+  (`padAfter` 0,3 s). Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-nase-erwischt-choreo.py` (prüft `check_a`: PLOPP vor
+  „und schon“, Bagger gelandet vor „Völlig logisch“, Abstand ≥ 2 m; `check_b`: Laufweg frei). Kartentext A wiederholt sich teils im Szenentext (so geliefert) – im
+  Bild keine Dopplung (Karte = erklären, Szene = ziehen). Standbilder in review/spezial-nase-erwischt/phase1/. Finales Video: review/final/spezial-nase-erwischt.mp4 (65,4 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -1137,6 +1156,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `usb-stoss` (Stecker stößt an, passt nicht), `gummi-bonk` (Cartoon-Gummihammer), `laptop-knacken` (Scharnier knackt falschrum) (Spezial USB-Kabel;
   wiederverwendet: `plopp`, `klick`, `rasen-zauber`, `whoosh`, `strom-knistern`, `konfetti-knall`, `gold-fanfare`, `stecker-ziehen`, `gurt-klick`, `himmel-chor`,
   `dampf`, `kissen-plumps`).
+  (Spezial Nase erwischt: keine neuen Effekte; wiederverwendet `plopp`, `whoosh`, `rasen-zauber`, `kissen-plumps`, `bagger-motor`, `seil-ziehen`,
+  `staunen`, `leere-wind`, `piep`, `schleichen`, `tastatur`; Bühne nutzt `buero-atmo`.)
   `handy-trippeln` (Comic-Trippelfüße), `schuessel-abstellen`, `milch-plopp`, `tauziehen`, `rauferei` (Comic-Raufwolke) (Spezial Cookies; wiederverwendet:
   `klick`, `plopp`, `rasen-zauber`, `whoosh`, `leere-wind`, `handy-klingeln`, `himmel-chor`, `schleichen`, `puff`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
@@ -1368,6 +1389,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       BlackHoleProps.tsx = Schwarzes Loch/Küchenwand/Schanze/Abwasch-Berg/Tassen im Sog/Glitzer/Notizblock/Forscherbrille,
                       KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
                       UsbProps.tsx = USB-Laptop/USB-Stecker mit Gurt+Helm/Gummihammer/weiche Mülltonne/Funken,
+                      NoseProps.tsx = Spielzeug-Bagger/Schild AUSGANG/PLOPP-Stern/Ausrufezeichen,
                       CookieProps.tsx = Handy mit Beinen/Milchschüssel/Kekse/Kekshaufen/Keksregen/Ordnerstapel/Daten-Ordner/Lupe/Tauziehseil/Rauferei-Wolke,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
