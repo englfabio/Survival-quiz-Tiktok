@@ -1,0 +1,2172 @@
+{
+  "id": "spezial-nase-erwischt",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "bueroetage",
+  "padAfter": 0.3,
+  "situation": {
+    "speech": "Du poppelst mal wieder in der Nase und wirst erwischt. Direkt vor allen anderen. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Den Bagger gerade rücken",
+      "speech": "A: Du sagst, du hättest einen Bagger schief sitzen gehabt – und ziehst einen riesigen Bagger aus der Nase, der vor dir steht.",
+      "dummyAction": "Der Dummy erklärt todernst, er habe nur einen Bagger schief sitzen gehabt, greift an die Nase und zieht – PLOPP – fliegt ein winziger gelber Spielzeug-Bagger heraus, wächst im Flug und landet groß und harmlos vor ihm auf dem Boden. Daumen hoch. Rein comichaft, niemand wird verletzt.",
+      "explanation": "Bagger schief gesessen. Einmal kräftig ziehen – und schon steht ein riesiger Bagger vor dir. Völlig logisch.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -1.19,
+              2.38,
+              13.55
+            ],
+            "look": [
+              -4.51,
+              0.59,
+              3.32
+            ]
+          },
+          {
+            "t": 0.5154,
+            "pos": [
+              -1.323,
+              2.308,
+              13.141
+            ],
+            "look": [
+              -4.51,
+              0.59,
+              3.32
+            ]
+          },
+          {
+            "t": 0.519,
+            "pos": [
+              -0.41,
+              1.76,
+              4.95
+            ],
+            "look": [
+              -3.05,
+              1.48,
+              3.55
+            ]
+          },
+          {
+            "t": 0.6701,
+            "pos": [
+              -0.542,
+              1.746,
+              4.88
+            ],
+            "look": [
+              -3.05,
+              1.48,
+              3.55
+            ]
+          },
+          {
+            "t": 0.6735,
+            "pos": [
+              -1.45,
+              1.84,
+              10.84
+            ],
+            "look": [
+              -2.47,
+              0.69,
+              3.59
+            ]
+          },
+          {
+            "t": 0.7754,
+            "pos": [
+              -1.491,
+              1.794,
+              10.55
+            ],
+            "look": [
+              -2.47,
+              0.69,
+              3.59
+            ]
+          },
+          {
+            "t": 0.7785,
+            "pos": [
+              5.22,
+              3.11,
+              14.2
+            ],
+            "look": [
+              -2.99,
+              0.42,
+              3.7
+            ]
+          },
+          {
+            "t": 0.9416,
+            "pos": [
+              4.974,
+              3.029,
+              13.885
+            ],
+            "look": [
+              -2.99,
+              0.42,
+              3.7
+            ]
+          },
+          {
+            "t": 0.9439,
+            "pos": [
+              1.5,
+              2.07,
+              13.74
+            ],
+            "look": [
+              -1.67,
+              0.67,
+              3.44
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              1.341,
+              2.0,
+              13.225
+            ],
+            "look": [
+              -1.67,
+              0.67,
+              3.44
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -3.15,
+              "z": 3.55,
+              "motion": "nosetalk",
+              "face": 255,
+              "angry": 0.55,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.5143,
+              "x": -3.15,
+              "z": 3.55,
+              "motion": "nosetalk",
+              "face": 255,
+              "angry": 0.55,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.5158,
+              "x": -3.15,
+              "z": 3.55,
+              "motion": "stand",
+              "face": 90,
+              "angry": 0.55,
+              "cut": true,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.6635,
+              "x": -3.15,
+              "z": 3.55,
+              "motion": "stand",
+              "face": 90,
+              "angry": 0.55,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.6655,
+              "x": -3.15,
+              "z": 3.55,
+              "motion": "noseyank",
+              "face": 90,
+              "angry": 0.55,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.9203,
+              "x": -3.15,
+              "z": 3.55,
+              "motion": "noseyank",
+              "face": 90,
+              "angry": 0.2,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.9218,
+              "x": -3.15,
+              "z": 3.55,
+              "motion": "thumbsup",
+              "face": 65,
+              "angry": 0.0,
+              "y": 0.0,
+              "cut": true,
+              "nose": 1.0
+            },
+            {
+              "t": 1,
+              "x": -3.15,
+              "z": 3.55,
+              "motion": "thumbsup",
+              "face": 65,
+              "angry": 0.0,
+              "y": 0.0,
+              "nose": 1.0
+            }
+          ],
+          "kollege1": [
+            {
+              "t": 0,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "seatstare",
+              "face": 72,
+              "eyes": 1.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "seatstare",
+              "face": 72,
+              "eyes": 1.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            }
+          ],
+          "kollege2": [
+            {
+              "t": 0,
+              "x": -10.2,
+              "z": 3.05,
+              "motion": "typedesk",
+              "face": 0,
+              "eyes": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -10.2,
+              "z": 3.05,
+              "motion": "typedesk",
+              "face": 0,
+              "eyes": 0.0,
+              "y": 0.0
+            }
+          ],
+          "kollege3": [
+            {
+              "t": 0,
+              "x": -11.9,
+              "z": 3.95,
+              "motion": "typedesk",
+              "face": 180,
+              "eyes": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -11.9,
+              "z": 3.95,
+              "motion": "typedesk",
+              "face": 180,
+              "eyes": 0.0,
+              "y": 0.0
+            }
+          ],
+          "ausgangschild": [
+            {
+              "t": 0,
+              "x": -3.0,
+              "z": 1.6,
+              "motion": "park",
+              "face": 0,
+              "y": 2.3,
+              "mark": 1.0,
+              "glow": 0.0,
+              "size": 0.35
+            },
+            {
+              "t": 1,
+              "x": -3.0,
+              "z": 1.6,
+              "motion": "park",
+              "face": 0,
+              "y": 2.3,
+              "mark": 1.0,
+              "glow": 0.0,
+              "size": 0.35
+            }
+          ],
+          "spielbagger": [
+            {
+              "t": 0.0,
+              "x": -2.95,
+              "z": 3.55,
+              "motion": "park",
+              "face": 90.0,
+              "y": -30.0,
+              "fill": 0.0,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.7317,
+              "x": -2.95,
+              "z": 3.55,
+              "motion": "park",
+              "face": 90.0,
+              "y": -30.0,
+              "fill": 0.0,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.7337,
+              "x": -2.95,
+              "z": 3.55,
+              "motion": "park",
+              "face": 90.0,
+              "y": 1.66,
+              "fill": 0.0,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.736,
+              "x": -2.929,
+              "z": 3.547,
+              "motion": "park",
+              "face": 91.44,
+              "y": 1.685,
+              "fill": 0.001,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7383,
+              "x": -2.866,
+              "z": 3.544,
+              "motion": "park",
+              "face": 95.71,
+              "y": 1.693,
+              "fill": 0.006,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7406,
+              "x": -2.765,
+              "z": 3.541,
+              "motion": "park",
+              "face": 102.64,
+              "y": 1.684,
+              "fill": 0.015,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7429,
+              "x": -2.629,
+              "z": 3.537,
+              "motion": "park",
+              "face": 111.97,
+              "y": 1.657,
+              "fill": 0.031,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7452,
+              "x": -2.464,
+              "z": 3.534,
+              "motion": "park",
+              "face": 123.33,
+              "y": 1.614,
+              "fill": 0.055,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7475,
+              "x": -2.278,
+              "z": 3.531,
+              "motion": "park",
+              "face": 136.3,
+              "y": 1.553,
+              "fill": 0.086,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7498,
+              "x": -2.077,
+              "z": 3.528,
+              "motion": "park",
+              "face": 150.37,
+              "y": 1.475,
+              "fill": 0.127,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7521,
+              "x": -1.872,
+              "z": 3.525,
+              "motion": "park",
+              "face": 165.0,
+              "y": 1.38,
+              "fill": 0.177,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7544,
+              "x": -1.669,
+              "z": 3.522,
+              "motion": "park",
+              "face": 179.63,
+              "y": 1.268,
+              "fill": 0.237,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7567,
+              "x": -1.479,
+              "z": 3.519,
+              "motion": "park",
+              "face": 193.7,
+              "y": 1.138,
+              "fill": 0.309,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.759,
+              "x": -1.308,
+              "z": 3.516,
+              "motion": "park",
+              "face": 206.67,
+              "y": 0.991,
+              "fill": 0.392,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7613,
+              "x": -1.165,
+              "z": 3.513,
+              "motion": "park",
+              "face": 218.03,
+              "y": 0.828,
+              "fill": 0.487,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7636,
+              "x": -1.055,
+              "z": 3.509,
+              "motion": "park",
+              "face": 227.36,
+              "y": 0.646,
+              "fill": 0.595,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7659,
+              "x": -0.982,
+              "z": 3.506,
+              "motion": "park",
+              "face": 234.29,
+              "y": 0.448,
+              "fill": 0.716,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7682,
+              "x": -0.951,
+              "z": 3.503,
+              "motion": "park",
+              "face": 238.56,
+              "y": 0.233,
+              "fill": 0.851,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7705,
+              "x": -0.95,
+              "z": 3.5,
+              "motion": "park",
+              "face": 240.0,
+              "y": 0.0,
+              "fill": 1.0,
+              "squish": 0.0,
+              "tilt": 0.0,
+              "glow": 0.0
+            },
+            {
+              "t": 0.7776,
+              "x": -0.95,
+              "z": 3.5,
+              "motion": "park",
+              "face": 240,
+              "y": 0.0,
+              "fill": 1.0,
+              "squish": 1.0
+            },
+            {
+              "t": 0.7883,
+              "x": -0.95,
+              "z": 3.5,
+              "motion": "park",
+              "face": 240,
+              "y": 0.0,
+              "fill": 1.0,
+              "squish": 0.0
+            },
+            {
+              "t": 0.7972,
+              "x": -0.95,
+              "z": 3.5,
+              "motion": "park",
+              "face": 240,
+              "y": 0.0,
+              "fill": 1.0,
+              "squish": 0.35
+            },
+            {
+              "t": 0.8061,
+              "x": -0.95,
+              "z": 3.5,
+              "motion": "park",
+              "face": 240,
+              "y": 0.0,
+              "fill": 1.0,
+              "squish": 0.0,
+              "glow": 1.0
+            },
+            {
+              "t": 0.9218,
+              "x": -0.95,
+              "z": 3.5,
+              "motion": "park",
+              "face": 240,
+              "y": 0.0,
+              "fill": 1.0,
+              "glow": 1.0,
+              "tilt": 0.0
+            },
+            {
+              "t": 0.9514,
+              "x": -0.95,
+              "z": 3.5,
+              "motion": "park",
+              "face": 240,
+              "y": 0.0,
+              "fill": 1.0,
+              "glow": 1.0,
+              "tilt": 18.0
+            },
+            {
+              "t": 1,
+              "x": -0.95,
+              "z": 3.5,
+              "motion": "park",
+              "face": 240,
+              "y": 0.0,
+              "fill": 1.0,
+              "glow": 1.0,
+              "tilt": 8.0
+            }
+          ],
+          "ploppstern": [
+            {
+              "t": 0.0,
+              "x": -2.8,
+              "z": 3.65,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": -0.25,
+              "hand": 0
+            },
+            {
+              "t": 0.7317,
+              "x": -2.8,
+              "z": 3.65,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": -0.25,
+              "hand": 0
+            },
+            {
+              "t": 0.7337,
+              "x": -2.8,
+              "z": 3.65,
+              "motion": "park",
+              "face": 0,
+              "y": 1.8,
+              "fill": 0.0,
+              "size": -0.25
+            },
+            {
+              "t": 0.793,
+              "x": -2.8,
+              "z": 3.65,
+              "motion": "park",
+              "face": 0,
+              "y": 1.8,
+              "fill": 1.0,
+              "size": -0.25
+            },
+            {
+              "t": 0.795,
+              "x": -2.8,
+              "z": 3.65,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 1.0,
+              "size": -0.25,
+              "hand": 0
+            }
+          ]
+        },
+        "stage": "bueroetage",
+        "sfx": [
+          {
+            "t": 0.6922,
+            "id": "seil-ziehen",
+            "volume": 0.45
+          },
+          {
+            "t": 0.7337,
+            "id": "plopp",
+            "volume": 0.95
+          },
+          {
+            "t": 0.7349,
+            "id": "whoosh",
+            "volume": 0.5
+          },
+          {
+            "t": 0.7367,
+            "id": "rasen-zauber",
+            "volume": 0.45
+          },
+          {
+            "t": 0.7735,
+            "id": "kissen-plumps",
+            "volume": 0.8
+          },
+          {
+            "t": 0.8001,
+            "id": "bagger-motor",
+            "volume": 0.25
+          },
+          {
+            "t": 0.9396,
+            "id": "staunen",
+            "volume": 0.35
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Nach dem Ausgang suchen",
+      "speech": "B: Du sagst todernst: Ich suche nach dem Ausgang, ich hab mich verlaufen.",
+      "dummyAction": "Der Dummy bleibt komplett ernst, steht kerzengerade auf, schaut sich mit der Hand über den Augen suchend im Büro um und läuft suchend herum – während das Schild „AUSGANG“ direkt hinter ihm leuchtet. Der Kollege bekommt ein Fragezeichen.",
+      "explanation": "Todernsster Blick. Du suchst natürlich nur nach dem Ausgang, weil du dich komplett verlaufen hast.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -0.79,
+              2.78,
+              13.23
+            ],
+            "look": [
+              -3.57,
+              0.82,
+              2.77
+            ]
+          },
+          {
+            "t": 0.409,
+            "pos": [
+              -0.901,
+              2.702,
+              12.812
+            ],
+            "look": [
+              -3.57,
+              0.82,
+              2.77
+            ]
+          },
+          {
+            "t": 0.4125,
+            "pos": [
+              -2.92,
+              1.83,
+              5.24
+            ],
+            "look": [
+              -3.1,
+              1.73,
+              3.55
+            ]
+          },
+          {
+            "t": 0.5802,
+            "pos": [
+              -2.933,
+              1.823,
+              5.122
+            ],
+            "look": [
+              -3.1,
+              1.73,
+              3.55
+            ]
+          },
+          {
+            "t": 0.5838,
+            "pos": [
+              -2.66,
+              3.6,
+              13.7
+            ],
+            "look": [
+              -3.04,
+              0.8,
+              2.72
+            ]
+          },
+          {
+            "t": 0.8201,
+            "pos": [
+              -2.679,
+              3.46,
+              13.151
+            ],
+            "look": [
+              -3.04,
+              0.8,
+              2.72
+            ]
+          },
+          {
+            "t": 0.8231,
+            "pos": [
+              2.32,
+              4.37,
+              14.53
+            ],
+            "look": [
+              -3.37,
+              0.7,
+              3.83
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              2.092,
+              4.223,
+              14.102
+            ],
+            "look": [
+              -3.37,
+              0.7,
+              3.83
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -3.1,
+              "z": 3.55,
+              "motion": "butlerstand",
+              "face": 185,
+              "angry": 0.7,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.4253,
+              "x": -3.1,
+              "z": 3.55,
+              "motion": "butlerstand",
+              "face": 185,
+              "angry": 0.7,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.4268,
+              "x": -3.1,
+              "z": 3.55,
+              "motion": "stand",
+              "face": 185,
+              "angry": 1.0,
+              "cut": true,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.5686,
+              "x": -3.1,
+              "z": 3.55,
+              "motion": "stand",
+              "face": 185,
+              "angry": 1.0,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.5701,
+              "x": -3.1,
+              "z": 3.55,
+              "motion": "exitsearch",
+              "face": 185,
+              "angry": 0.8,
+              "y": 0.0,
+              "cut": true,
+              "nose": 1.0
+            },
+            {
+              "t": 0.7848,
+              "x": -3.1,
+              "z": 3.55,
+              "motion": "exitsearch",
+              "face": 185,
+              "angry": 0.8,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.7863,
+              "x": -3.1,
+              "z": 3.55,
+              "motion": "exitsearch",
+              "face": 185,
+              "angry": 0.8,
+              "y": 0.0,
+              "cut": true,
+              "nose": 1.0
+            },
+            {
+              "t": 0.7977,
+              "x": -3.1,
+              "z": 3.55,
+              "motion": "exitsearch",
+              "face": 127.6,
+              "angry": 0.8,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.9107,
+              "x": -2.45,
+              "z": 4.05,
+              "motion": "exitsearch",
+              "face": 163.6,
+              "angry": 0.8,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 1,
+              "x": -2.2,
+              "z": 4.9,
+              "motion": "exitsearch",
+              "face": 240.6,
+              "angry": 0.8,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 1,
+              "x": -3.0,
+              "z": 5.35,
+              "motion": "exitsearch",
+              "face": 240.6,
+              "angry": 0.8,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 1,
+              "x": -3.0,
+              "z": 5.35,
+              "motion": "exitsearch",
+              "face": 270,
+              "angry": 0.8,
+              "y": 0.0,
+              "nose": 1.0
+            }
+          ],
+          "kollege1": [
+            {
+              "t": 0,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "seatstare",
+              "face": 72,
+              "eyes": 1.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.809,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "seatstare",
+              "face": 72,
+              "eyes": 0.7,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8393,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "seatstare",
+              "face": 72,
+              "eyes": 0.7,
+              "alarm": 0.0,
+              "question": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "seatstare",
+              "face": 72,
+              "eyes": 0.7,
+              "alarm": 0.0,
+              "question": 1.0,
+              "y": 0.0
+            }
+          ],
+          "kollege2": [
+            {
+              "t": 0,
+              "x": -10.2,
+              "z": 3.05,
+              "motion": "typedesk",
+              "face": 0,
+              "eyes": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -10.2,
+              "z": 3.05,
+              "motion": "typedesk",
+              "face": 0,
+              "eyes": 0.0,
+              "y": 0.0
+            }
+          ],
+          "kollege3": [
+            {
+              "t": 0,
+              "x": -11.9,
+              "z": 3.95,
+              "motion": "typedesk",
+              "face": 180,
+              "eyes": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -11.9,
+              "z": 3.95,
+              "motion": "typedesk",
+              "face": 180,
+              "eyes": 0.0,
+              "y": 0.0
+            }
+          ],
+          "ausgangschild": [
+            {
+              "t": 0,
+              "x": -3.0,
+              "z": 1.6,
+              "motion": "park",
+              "face": 0,
+              "y": 2.3,
+              "mark": 1.0,
+              "glow": 0.0,
+              "size": 0.35
+            },
+            {
+              "t": 0.5701,
+              "x": -3.0,
+              "z": 1.6,
+              "motion": "park",
+              "face": 0,
+              "y": 2.3,
+              "mark": 1.0,
+              "glow": 0.0,
+              "size": 0.35
+            },
+            {
+              "t": 0.6004,
+              "x": -3.0,
+              "z": 1.6,
+              "motion": "park",
+              "face": 0,
+              "y": 2.3,
+              "mark": 1.0,
+              "glow": 1.0,
+              "size": 0.35
+            },
+            {
+              "t": 1,
+              "x": -3.0,
+              "z": 1.6,
+              "motion": "park",
+              "face": 0,
+              "y": 2.3,
+              "mark": 1.0,
+              "glow": 1.0,
+              "size": 0.35
+            }
+          ]
+        },
+        "stage": "bueroetage",
+        "sfx": [
+          {
+            "t": 0.4382,
+            "id": "whoosh",
+            "volume": 0.4
+          },
+          {
+            "t": 0.6004,
+            "id": "piep",
+            "volume": 0.35
+          },
+          {
+            "t": 0.8015,
+            "id": "schleichen",
+            "volume": 0.45
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Finger stecken lassen",
+      "speech": "C: Du lässt den Finger stecken und tust so, als ob alles normal ist.",
+      "dummyAction": "Der Dummy lässt den Finger einfach in der Nase stecken, lehnt sich entspannt zurück, die andere Hand hinter dem Kopf, und tut so, als wäre das die normalste Haltung der Welt. Der Kollege zuckt mit den Schultern und arbeitet weiter.",
+      "explanation": "Finger bleibt einfach stecken. Und du tust so, als wäre das das Normalste auf der Welt.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              1.13,
+              1.9,
+              0.46
+            ],
+            "look": [
+              -4.72,
+              0.43,
+              3.17
+            ]
+          },
+          {
+            "t": 0.4199,
+            "pos": [
+              0.896,
+              1.841,
+              0.568
+            ],
+            "look": [
+              -4.72,
+              0.43,
+              3.17
+            ]
+          },
+          {
+            "t": 0.4235,
+            "pos": [
+              -2.58,
+              1.5,
+              2.73
+            ],
+            "look": [
+              -4.2,
+              1.28,
+              3.01
+            ]
+          },
+          {
+            "t": 0.6849,
+            "pos": [
+              -2.693,
+              1.485,
+              2.75
+            ],
+            "look": [
+              -4.2,
+              1.28,
+              3.01
+            ]
+          },
+          {
+            "t": 0.6883,
+            "pos": [
+              1.27,
+              1.55,
+              1.33
+            ],
+            "look": [
+              -4.21,
+              0.61,
+              2.79
+            ]
+          },
+          {
+            "t": 0.7834,
+            "pos": [
+              0.996,
+              1.503,
+              1.403
+            ],
+            "look": [
+              -4.21,
+              0.61,
+              2.79
+            ]
+          },
+          {
+            "t": 0.7866,
+            "pos": [
+              3.47,
+              3.59,
+              8.63
+            ],
+            "look": [
+              -6.28,
+              0.18,
+              3.0
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              3.08,
+              3.454,
+              8.405
+            ],
+            "look": [
+              -6.28,
+              0.18,
+              3.0
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -4.2,
+              "z": 3.05,
+              "motion": "nosepick",
+              "face": 0,
+              "sweat": 0.0,
+              "question": 0.0,
+              "angry": 0.0,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.6585,
+              "x": -4.2,
+              "z": 3.05,
+              "motion": "nosepick",
+              "face": 0,
+              "sweat": 0.0,
+              "question": 0.0,
+              "angry": 0.0,
+              "cut": true,
+              "y": 0.0,
+              "nose": 1.0
+            },
+            {
+              "t": 0.66,
+              "x": -4.2,
+              "z": 3.05,
+              "motion": "fingerstay",
+              "face": 0,
+              "sweat": 0.0,
+              "question": 0.0,
+              "angry": 0.0,
+              "y": 0.0,
+              "cut": true,
+              "nose": 1.0
+            },
+            {
+              "t": 1,
+              "x": -4.2,
+              "z": 3.05,
+              "motion": "fingerstay",
+              "face": 0,
+              "sweat": 0.0,
+              "question": 0.0,
+              "angry": 0.0,
+              "y": 0.0,
+              "nose": 1.0
+            }
+          ],
+          "kollege1": [
+            {
+              "t": 0,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "seatstare",
+              "face": 72,
+              "eyes": 1.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7646,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "seatstare",
+              "face": 72,
+              "eyes": 1.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7666,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "physikshrug",
+              "face": 72,
+              "eyes": 0.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8565,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "physikshrug",
+              "face": 10,
+              "eyes": 0.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.8729,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "typedesk",
+              "face": 0,
+              "eyes": 0.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -5.9,
+              "z": 3.05,
+              "motion": "typedesk",
+              "face": 0,
+              "eyes": 0.0,
+              "alarm": 0.0,
+              "question": 0.0,
+              "y": 0.0
+            }
+          ],
+          "kollege2": [
+            {
+              "t": 0,
+              "x": -10.2,
+              "z": 3.05,
+              "motion": "typedesk",
+              "face": 0,
+              "eyes": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -10.2,
+              "z": 3.05,
+              "motion": "typedesk",
+              "face": 0,
+              "eyes": 0.0,
+              "y": 0.0
+            }
+          ],
+          "kollege3": [
+            {
+              "t": 0,
+              "x": -11.9,
+              "z": 3.95,
+              "motion": "typedesk",
+              "face": 180,
+              "eyes": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": -11.9,
+              "z": 3.95,
+              "motion": "typedesk",
+              "face": 180,
+              "eyes": 0.0,
+              "y": 0.0
+            }
+          ],
+          "ausgangschild": [
+            {
+              "t": 0,
+              "x": -3.0,
+              "z": 1.6,
+              "motion": "park",
+              "face": 0,
+              "y": 2.3,
+              "mark": 1.0,
+              "glow": 0.0,
+              "size": 0.35
+            },
+            {
+              "t": 1,
+              "x": -3.0,
+              "z": 1.6,
+              "motion": "park",
+              "face": 0,
+              "y": 2.3,
+              "mark": 1.0,
+              "glow": 0.0,
+              "size": 0.35
+            }
+          ]
+        },
+        "stage": "bueroetage",
+        "sfx": [
+          {
+            "t": 0.6763,
+            "id": "kissen-plumps",
+            "volume": 0.4
+          },
+          {
+            "t": 0.8729,
+            "id": "tastatur",
+            "volume": 0.4
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du?",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
+    "screen": "Kommentieren & folgen!",
+    "extra": "Neue Video-Ideen? Ab in die Kommentare!",
+    "extraCue": "Neue Video-Ideen"
+  },
+  "publishing": {
+    "description": "Du poppelst mal wieder in der Nase und wirst erwischt – was machst du? 😅🚜 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Alles bleibt rein comichaft und harmlos. 😄\n\n#waswürdestdutun #bagger #erwischt #peinlich #comedy #quiz #dummy #spezial\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team _. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -0.15,
+            1.65,
+            0.97
+          ],
+          "look": [
+            -4.74,
+            0.37,
+            3.11
+          ]
+        },
+        {
+          "t": 0.3546,
+          "pos": [
+            -0.425,
+            1.573,
+            1.098
+          ],
+          "look": [
+            -4.74,
+            0.37,
+            3.11
+          ]
+        },
+        {
+          "t": 0.358,
+          "pos": [
+            -1.74,
+            1.53,
+            2.31
+          ],
+          "look": [
+            -5.02,
+            0.92,
+            3.01
+          ]
+        },
+        {
+          "t": 0.5844,
+          "pos": [
+            -1.904,
+            1.5,
+            2.345
+          ],
+          "look": [
+            -5.02,
+            0.92,
+            3.01
+          ]
+        },
+        {
+          "t": 0.5879,
+          "pos": [
+            6.01,
+            7.01,
+            20.01
+          ],
+          "look": [
+            -7.85,
+            -0.36,
+            3.5
+          ]
+        },
+        {
+          "t": 0.8574,
+          "pos": [
+            5.456,
+            6.715,
+            19.35
+          ],
+          "look": [
+            -7.85,
+            -0.36,
+            3.5
+          ]
+        },
+        {
+          "t": 0.8602,
+          "pos": [
+            -2.27,
+            1.42,
+            2.77
+          ],
+          "look": [
+            -4.19,
+            1.19,
+            2.97
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -2.366,
+            1.408,
+            2.78
+          ],
+          "look": [
+            -4.19,
+            1.19,
+            2.97
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -4.2,
+            "z": 3.05,
+            "motion": "nosepick",
+            "face": 0,
+            "sweat": 0.0,
+            "question": 0.0,
+            "angry": 0.0,
+            "y": 0.0,
+            "nose": 1.0
+          },
+          {
+            "t": 0.4355,
+            "x": -4.2,
+            "z": 3.05,
+            "motion": "nosepick",
+            "face": 0,
+            "sweat": 0.0,
+            "question": 0.0,
+            "angry": 0.0,
+            "y": 0.0,
+            "nose": 1.0
+          },
+          {
+            "t": 0.437,
+            "x": -4.2,
+            "z": 3.05,
+            "motion": "nosecaught",
+            "face": 0,
+            "sweat": 0.0,
+            "question": 0.0,
+            "angry": 0.0,
+            "y": 0.0,
+            "cut": true,
+            "nose": 1.0
+          },
+          {
+            "t": 0.8227,
+            "x": -4.2,
+            "z": 3.05,
+            "motion": "nosecaught",
+            "face": 0,
+            "sweat": 0.0,
+            "question": 0.0,
+            "angry": 0.0,
+            "y": 0.0,
+            "nose": 1.0
+          },
+          {
+            "t": 0.8672,
+            "x": -4.2,
+            "z": 3.05,
+            "motion": "nosecaught",
+            "face": 0,
+            "sweat": 1.2,
+            "question": 0.0,
+            "angry": 0.0,
+            "y": 0.0,
+            "nose": 1.0
+          },
+          {
+            "t": 0.9096,
+            "x": -4.2,
+            "z": 3.05,
+            "motion": "nosecaught",
+            "face": 0,
+            "sweat": 1.2,
+            "question": 1.0,
+            "angry": 0.0,
+            "y": 0.0,
+            "nose": 1.0
+          },
+          {
+            "t": 1,
+            "x": -4.2,
+            "z": 3.05,
+            "motion": "nosecaught",
+            "face": 0,
+            "sweat": 1.2,
+            "question": 1.0,
+            "angry": 0.0,
+            "y": 0.0,
+            "nose": 1.0
+          }
+        ],
+        "kollege1": [
+          {
+            "t": 0,
+            "x": -5.9,
+            "z": 3.05,
+            "motion": "typedesk",
+            "face": 0,
+            "eyes": 0.0,
+            "alarm": 0.0,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.4016,
+            "x": -5.9,
+            "z": 3.05,
+            "motion": "typedesk",
+            "face": 0,
+            "eyes": 0.0,
+            "alarm": 0.0,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.437,
+            "x": -5.9,
+            "z": 3.05,
+            "motion": "seatstare",
+            "face": 72,
+            "eyes": 0.0,
+            "alarm": 0.0,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.4582,
+            "x": -5.9,
+            "z": 3.05,
+            "motion": "seatstare",
+            "face": 72,
+            "eyes": 1.0,
+            "alarm": 1.0,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -5.9,
+            "z": 3.05,
+            "motion": "seatstare",
+            "face": 72,
+            "eyes": 1.0,
+            "alarm": 1.0,
+            "question": 0.0,
+            "y": 0.0
+          }
+        ],
+        "kollege2": [
+          {
+            "t": 0,
+            "x": -10.2,
+            "z": 3.05,
+            "motion": "typedesk",
+            "face": 0,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.5948,
+            "x": -10.2,
+            "z": 3.05,
+            "motion": "typedesk",
+            "face": 0,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.6148,
+            "x": -10.2,
+            "z": 3.05,
+            "motion": "seatstare",
+            "face": 90.0,
+            "eyes": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -10.2,
+            "z": 3.05,
+            "motion": "seatstare",
+            "face": 90.0,
+            "eyes": 1.0,
+            "y": 0.0
+          }
+        ],
+        "kollege3": [
+          {
+            "t": 0,
+            "x": -11.9,
+            "z": 3.95,
+            "motion": "typedesk",
+            "face": 180,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.6098,
+            "x": -11.9,
+            "z": 3.95,
+            "motion": "typedesk",
+            "face": 180,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.6298,
+            "x": -11.9,
+            "z": 3.95,
+            "motion": "seatstare",
+            "face": 83.3,
+            "eyes": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -11.9,
+            "z": 3.95,
+            "motion": "seatstare",
+            "face": 83.3,
+            "eyes": 1.0,
+            "y": 0.0
+          }
+        ],
+        "ausgangschild": [
+          {
+            "t": 0,
+            "x": -3.0,
+            "z": 1.6,
+            "motion": "park",
+            "face": 0,
+            "y": 2.3,
+            "mark": 1.0,
+            "glow": 0.0,
+            "size": 0.35
+          },
+          {
+            "t": 1,
+            "x": -3.0,
+            "z": 1.6,
+            "motion": "park",
+            "face": 0,
+            "y": 2.3,
+            "mark": 1.0,
+            "glow": 0.0,
+            "size": 0.35
+          }
+        ]
+      },
+      "stage": "bueroetage",
+      "sfx": [
+        {
+          "t": 0.4016,
+          "id": "whoosh",
+          "volume": 0.5
+        },
+        {
+          "t": 0.4511,
+          "id": "plopp",
+          "volume": 0.6
+        },
+        {
+          "t": 0.6019,
+          "id": "staunen",
+          "volume": 0.45
+        },
+        {
+          "t": 0.8955,
+          "id": "leere-wind",
+          "volume": 0.35
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            3.31,
+            2.29,
+            28.78
+          ],
+          "look": [
+            -2.96,
+            2.88,
+            3.63
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            3.059,
+            2.314,
+            27.774
+          ],
+          "look": [
+            -2.96,
+            2.88,
+            3.63
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -3.05,
+            "z": 3.75,
+            "motion": "stand",
+            "face": 195,
+            "question": 1.0,
+            "y": 0.0,
+            "nose": 1.0
+          },
+          {
+            "t": 1,
+            "x": -3.05,
+            "z": 3.75,
+            "motion": "stand",
+            "face": 195,
+            "question": 1.0,
+            "y": 0.0,
+            "nose": 1.0
+          }
+        ],
+        "kollege1": [
+          {
+            "t": 0,
+            "x": -4.3,
+            "z": 4.0,
+            "motion": "stand",
+            "face": 160,
+            "eyes": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -4.3,
+            "z": 4.0,
+            "motion": "stand",
+            "face": 160,
+            "eyes": 1.0,
+            "y": 0.0
+          }
+        ],
+        "spielbagger": [
+          {
+            "t": 0,
+            "x": -1.45,
+            "z": 3.45,
+            "motion": "park",
+            "face": 215,
+            "fill": 1.0,
+            "glow": 1.0,
+            "tilt": 10.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -1.45,
+            "z": 3.45,
+            "motion": "park",
+            "face": 215,
+            "fill": 1.0,
+            "glow": 1.0,
+            "tilt": 10.0,
+            "y": 0.0
+          }
+        ],
+        "ausgangschild": [
+          {
+            "t": 0,
+            "x": -3.0,
+            "z": 1.6,
+            "motion": "park",
+            "face": 0,
+            "y": 2.3,
+            "mark": 1.0,
+            "glow": 0.0,
+            "size": 0.35
+          },
+          {
+            "t": 1,
+            "x": -3.0,
+            "z": 1.6,
+            "motion": "park",
+            "face": 0,
+            "y": 2.3,
+            "mark": 1.0,
+            "glow": 0.0,
+            "size": 0.35
+          }
+        ],
+        "kollege2": [
+          {
+            "t": 0,
+            "x": -10.2,
+            "z": 3.05,
+            "motion": "typedesk",
+            "face": 0,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -10.2,
+            "z": 3.05,
+            "motion": "typedesk",
+            "face": 0,
+            "eyes": 0.0,
+            "y": 0.0
+          }
+        ],
+        "kollege3": [
+          {
+            "t": 0,
+            "x": -11.9,
+            "z": 3.95,
+            "motion": "typedesk",
+            "face": 180,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -11.9,
+            "z": 3.95,
+            "motion": "typedesk",
+            "face": 180,
+            "eyes": 0.0,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "bueroetage",
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            1.73,
+            2.72,
+            19.99
+          ],
+          "look": [
+            -2.93,
+            0.94,
+            3.73
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            1.497,
+            2.631,
+            19.177
+          ],
+          "look": [
+            -2.93,
+            0.94,
+            3.73
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": -3.05,
+            "z": 3.75,
+            "motion": "stand",
+            "face": 195,
+            "question": 0.0,
+            "y": 0.0,
+            "nose": 1.0
+          },
+          {
+            "t": 0.12,
+            "x": -3.05,
+            "z": 3.75,
+            "motion": "wave",
+            "face": 195,
+            "y": 0.0,
+            "nose": 1.0
+          },
+          {
+            "t": 1,
+            "x": -3.05,
+            "z": 3.75,
+            "motion": "wave",
+            "face": 195,
+            "y": 0.0,
+            "nose": 1.0
+          }
+        ],
+        "kollege1": [
+          {
+            "t": 0,
+            "x": -4.3,
+            "z": 4.0,
+            "motion": "stand",
+            "face": 160,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.2,
+            "x": -4.3,
+            "z": 4.0,
+            "motion": "wave",
+            "face": 160,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -4.3,
+            "z": 4.0,
+            "motion": "wave",
+            "face": 160,
+            "y": 0.0
+          }
+        ],
+        "spielbagger": [
+          {
+            "t": 0,
+            "x": -1.45,
+            "z": 3.45,
+            "motion": "park",
+            "face": 215,
+            "fill": 1.0,
+            "glow": 1.0,
+            "tilt": 10.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -1.45,
+            "z": 3.45,
+            "motion": "park",
+            "face": 215,
+            "fill": 1.0,
+            "glow": 1.0,
+            "tilt": 10.0,
+            "y": 0.0
+          }
+        ],
+        "ausgangschild": [
+          {
+            "t": 0,
+            "x": -3.0,
+            "z": 1.6,
+            "motion": "park",
+            "face": 0,
+            "y": 2.3,
+            "mark": 1.0,
+            "glow": 0.0,
+            "size": 0.35
+          },
+          {
+            "t": 1,
+            "x": -3.0,
+            "z": 1.6,
+            "motion": "park",
+            "face": 0,
+            "y": 2.3,
+            "mark": 1.0,
+            "glow": 0.0,
+            "size": 0.35
+          }
+        ],
+        "kollege2": [
+          {
+            "t": 0,
+            "x": -10.2,
+            "z": 3.05,
+            "motion": "typedesk",
+            "face": 0,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -10.2,
+            "z": 3.05,
+            "motion": "typedesk",
+            "face": 0,
+            "eyes": 0.0,
+            "y": 0.0
+          }
+        ],
+        "kollege3": [
+          {
+            "t": 0,
+            "x": -11.9,
+            "z": 3.95,
+            "motion": "typedesk",
+            "face": 180,
+            "eyes": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": -11.9,
+            "z": 3.95,
+            "motion": "typedesk",
+            "face": 180,
+            "eyes": 0.0,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "bueroetage",
+      "sharpCuts": true
+    }
+  }
+}

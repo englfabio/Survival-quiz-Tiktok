@@ -331,6 +331,13 @@ export type Motion =
   | 'reachafter' // Dummy (sitzend): dreht sich nach links vorn und streckt den Arm hinterher
   | 'setbowl' // Dummy (sitzend): stellt die Schüssel mit beiden Händen neben das Handy (0,15–0,95 s)
   | 'waitchin' // Dummy (sitzend): Kinn in den Händen, wartet gelangweilt
+  | 'nosepick' // Dummy (sitzend): in Gedanken versunken, Zeigefinger in der Nase, bohrt in kleinen Kreisen
+  | 'nosecaught' // Dummy (sitzend): ertappt – Finger bleibt stecken, Kopf ruckt zum Kollegen, erstarrt
+  | 'fingerstay' // Dummy (sitzend): Finger bleibt stecken, lehnt sich entspannt zurück, linke Hand hinter dem Kopf
+  | 'seatstare' // (sitzend) erstarrt mitten im Tippen, Hände schweben über der Tastatur, Mund offen
+  | 'nosetalk' // Dummy: erklärt todernst, rechter Zeigefinger tippt an die Nase, linke Hand erklärt
+  | 'noseyank' // Dummy: zieht etwas aus der Nase – Ruckler, großer Ruck (PLOPP bei 1,15 s)
+  | 'exitsearch' // Dummy: sucht todernst, Hand über den Augen, schwenkt; mit Weg = langsame Schritte
   | 'tugpull' // Tauziehen: weit zurücklehnen, Hände vorn am Seil, ruckt
   | 'magnify' // gebeugt mit Lupe vor dem Gesicht, sucht
   | 'snatch' // hüpft und greift mit beiden Armen nach oben
@@ -643,6 +650,12 @@ export type ActorKey = {
   nod?: number;
   /** Dummy: strenger/wütender Blick (Brauen) 0 … 1 */
   angry?: number;
+  /** Figuren mit Dummy-Körper: große Comic-Kulleraugen 0 … 1 */
+  eyes?: number;
+  /** Figuren mit Dummy-Körper: gelbes Ausrufezeichen über dem Kopf 0 … 1 */
+  alarm?: number;
+  /** Figuren mit Dummy-Körper: kleine Comic-Nase 0/1 */
+  nose?: number;
   /** Cookie-Handy: Low-Poly-Beine wachsen 0 … 1 */
   legs?: number;
   /** Tür „druecktuer“: Laufschiene wird angeschraubt 0 … 1 (ab 0,85 hängt das Blatt in der Schiene) */
@@ -652,7 +665,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs', 'eyes', 'alarm', 'nose'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

@@ -53,6 +53,7 @@ import {BoomCloud, Firecracker, PushDoor, RedCarpet, StepStool, Toolbox} from '.
 import {CartoonMallet, SoftBin, SparkBurst, UsbLaptop, UsbPlug} from './UsbProps';
 import {Cookie, COOKIE_COLORS, CookieBurst, CookieHeap, DataBinder, FightCloud, FolderStack, LegPhone, Magnifier, MilkBowl, TugRope} from './CookieProps';
 import {SteamPuffs} from './GamingProps';
+import {ExitSign, Exclaim, PlopStar, ToyExcavator} from './NoseProps';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
@@ -368,6 +369,10 @@ export const ACTORS = {
   werkzeugkasten: {height: 0.2, climbOffset: 0, speedLineHeight: 0},
   tritt: {height: 0.4, climbOffset: 0, speedLineHeight: 0},
   butler: {height: 1.25, climbOffset: 0.2, speedLineHeight: 1.0},
+  // ---- Spezial: Nase erwischt ----
+  spielbagger: {height: 1.0, climbOffset: 0, speedLineHeight: 0},
+  ausgangschild: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  ploppstern: {height: 0, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Butler (Spezial Tür drücken): Dummy-Körper hellgrau, schwarzer Frack mit Schößen, weißes Hemd, schwarze Fliege, weiße Handschuhe, ohne Mütze */
@@ -664,7 +669,7 @@ export const Actor = ({
   // Herz-Symbol: links neben dem Kopf (aus Sicht der Kamera), Höhe passt zu Stehen/Sitzen
   const sitting = ['bedsitdown', 'sitbreathe', 'chairsit', 'couchsit'].includes(state.motion);
   // Schweiß: an der Stirn (sitzend tiefer)
-  const seated = ['chairsit', 'couchsit', 'typedesk', 'desktap', 'pushstack', 'deskslump', 'drinkcoffee', 'seatwave', 'seatthrow', 'seatdrive', 'seattriumph'].includes(state.motion);
+  const seated = ['chairsit', 'couchsit', 'nosepick', 'nosecaught', 'fingerstay', 'seatstare', 'typedesk', 'desktap', 'pushstack', 'deskslump', 'drinkcoffee', 'seatwave', 'seatthrow', 'seatdrive', 'seattriumph'].includes(state.motion);
   const sweatPos = pos.clone().add(new THREE.Vector3(0, seated ? 1.32 : 1.72, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().multiplyScalar(0.14));
   const heartPos = pos.clone().add(new THREE.Vector3(0, sitting ? 1.6 : 2.05, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().cross(new THREE.Vector3(0, 1, 0)).multiplyScalar(-0.32));
   // Zeit für Blitze/Zittern = Gesamtzeit im Abschnitt (läuft über Bewegungswechsel weiter, friert beim Einfrieren ein)
@@ -733,6 +738,16 @@ export const Actor = ({
         <ColdBadge amount={v.cold} time={state.motionTime} />
       </group>
     )}
+    {DUMMY_LIKE.includes(name) && v.alarm > 0.01 && (
+      <group position={qPos} quaternion={billboard(qPos, camPos)}>
+        <Exclaim amount={v.alarm} time={zt} />
+      </group>
+    )}
+    {name === 'ploppstern' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <PlopStar fill={v.fill} size={v.size} />
+      </group>
+    )}
     {name === 'knallwolke' && (
       <group position={pos} quaternion={billboard(pos, camPos)}>
         <BoomCloud fill={v.fill} size={v.size} />
@@ -789,6 +804,8 @@ export const Actor = ({
           jogger={v.jogger}
           hazmat={v.hazmat}
           goggles={v.goggles}
+          eyes={v.eyes}
+          nose={v.nose}
         />
       )}
       {name === 'gartennachbar' && (
@@ -878,6 +895,10 @@ export const Actor = ({
       {name === 'laptop' && <Laptop fill={v.fill} lid={state.values.lid > 0 || v.mark > 0 ? v.lid : 1} call={v.mark} hi={v.glow} />}
       {name === 'zug' && <Train speed={state.speed} time={zt} display={actor.text} pantograph={v.side < 0.5} />}
       {name === 'lok' && <Loco dist={pos.x + pos.z} ring={v.ring} time={zt} lights={v.blink} />}
+      {name === 'spielbagger' && (
+        <ToyExcavator fill={v.fill} arm={v.tilt} squish={v.squish} glow={v.glow} dist={state.motion === 'drive' ? pos.x + pos.z : 0} time={zt} size={v.size} />
+      )}
+      {name === 'ausgangschild' && <ExitSign glow={v.glow} hang={v.mark > 0.5} time={clock} size={v.size} />}
       {(name === 'bagger' || name === 'bagger2') && (
         <group rotation={[deg(v.pitch), 0, 0]}>
           <Excavator dist={pos.x + pos.z} arm={v.tilt} smoke={v.smoke} time={zt} yellow={name === 'bagger2'} />
@@ -921,7 +942,7 @@ export const Actor = ({
       {name === 'lieblingssocke' && <group rotation={[deg(v.tilt), 0, 0]}><FavSock glow={v.glow} time={zt} size={v.size} /></group>}
       {name === 'socke' && <group scale={1 + v.size}><Sock color={SOCK_COLORS[Math.round(v.mark) % SOCK_COLORS.length]} /></group>}
       {COLLEAGUES[name] && (
-        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={COLLEAGUES[name].color} uniform={COLLEAGUES[name].uniform} brow={v.brow} />
+        <Dummy pose={dummyPoseBlended(state.motion, state.motionTime, state.speed, state.prev)} color={COLLEAGUES[name].color} uniform={COLLEAGUES[name].uniform} brow={v.brow} eyes={v.eyes} />
       )}
       {name === 'fussmatte' && <DoormatMesh />}
       {/^haus\d?$/.test(name) && <FamilyHouse look={v.mark} squish={v.squish} open={v.door} seed={name.length + (name.charCodeAt(name.length - 1) % 7)} />}

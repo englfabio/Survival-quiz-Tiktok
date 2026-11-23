@@ -5720,8 +5720,170 @@ const cookiePose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+/**
+ * Spezial „Nase erwischt“ (comichaft + harmlos). Zeigefinger der rechten Hand (item 'finger') sitzt mit der Spitze genau am rechten
+ * Nasenloch – die Nase wird aus Kopf-Drehung + Oberkörper berechnet (`noseAt`), der Finger folgt also jeder Kopfbewegung.
+ * Sitzend (chairSit, Tastatur 0,43 m vor ihm auf 0,8 m):
+ *  - nosepick:   in Gedanken versunken, Blick verträumt nach rechts oben, Finger wandert (0–0,5 s) in die Nase und „bohrt“ in kleinen Kreisen,
+ *                linke Hand liegt auf der Tischkante
+ *  - nosecaught: ertappt: Finger bleibt stecken, Kopf ruckt (0–0,22 s) nach links zum Kollegen, dann völlig erstarrt (leichtes Zittern)
+ *  - fingerstay: Finger bleibt einfach stecken, lehnt sich entspannt zurück (0–0,7 s), linke Hand hinter dem Kopf, Beine locker,
+ *                wippt gemütlich mit dem Kopf („alles normal“)
+ *  - seatstare:  (Kollege) erstarrt mitten im Tippen: Hände schweben über der Tastatur, leicht nach vorn gebeugt, Mund offen
+ * Stehend:
+ *  - nosetalk:   todernst erklären: rechter Zeigefinger tippt alle 0,8 s seitlich an die Nase, linke Hand erklärt mit offener Handfläche, nickt
+ *  - noseyank:   Bagger aus der Nase ziehen: rechte Hand zur Nase (0–0,35 s), drei kleine Ruckler mit Hilfe der linken Hand (0,35–1,0 s),
+ *                großer Ruck nach vorn (1,0–1,2 s, PLOPP bei NOSE_YANK_POP), lehnt sich mit Schwung zurück, ab 1,5 s Arm sinkt, steht zufrieden
+ *  - exitsearch: todernst suchend umschauen, rechte Hand flach über den Augen, linke in der Hüfte, Oberkörper + Kopf schwenken langsam;
+ *                mit Weg über Zeitpunkte = langsame Schritte
+ */
+export const NOSE_YANK_POP = 1.15;
+const NOSTRIL: P3 = [-0.012, -0.05, 0.136];
+/** Punkt am Kopf (Kopf-System, Mitte des Kopfes) → Dummy-System */
+const headPoint = (p: DummyPose, v: P3): P3 => {
+  const w = new THREE.Vector3(...v).applyEuler(new THREE.Euler(p.headX, p.headY, 0)).add(new THREE.Vector3(0, 0.74, 0));
+  return fromTorso(p, [w.x, w.y, w.z]);
+};
+const noseAt = (p: DummyPose, wob: P3 = [0, 0, 0]): P3 => {
+  const n = headPoint(p, [NOSTRIL[0] + wob[0], NOSTRIL[1] + wob[1], NOSTRIL[2] + wob[2]]);
+  return n;
+};
+/** Fingerspitze (along ≈ 0,43 ab Ellbogen) an einen Punkt */
+const FINGER_ALONG = 0.47;
+const nosePose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const lap: P3 = [-0.16, 0.66, 0.32];
+  const deskL: P3 = [0.2, 0.79, 0.4];
+  const fingerPole: P3 = [0.75, -1, -0.15];
+  switch (motion) {
+    case 'nosepick': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.5));
+      p.torsoX = -0.04 + breathe;
+      p.torsoZ = 0.025 * Math.sin(time * 0.6) * k;
+      p.headX = -0.16 * k + 0.03 * Math.sin(time * 0.9);
+      p.headY = -0.3 * k + 0.07 * Math.sin(time * 0.75);
+      const drill: P3 = [0.006 * Math.sin(time * 8.5), 0.006 * Math.cos(time * 8.5), 0.004 * Math.sin(time * 4.2)];
+      reachR(p, lerp3t(lap, noseAt(p, drill), k), FINGER_ALONG, fingerPole);
+      reachL(p, deskL, 0.33, [0.6, -1, -0.3]);
+      p.item = k > 0.25 ? 'finger' : '';
+      return p;
+    }
+    case 'nosecaught': {
+      const p = chairSit(time);
+      const snap = easeInOut(clamp(time / 0.22));
+      const tr = Math.sin(time * 31) * 0.006 * snap;
+      p.torsoX = -0.04 - 0.05 * snap;
+      p.torsoY = 0.12 * snap;
+      p.headX = -0.16 + 0.12 * snap;
+      p.headY = -0.3 + 0.95 * snap + tr;
+      p.chest = 0.5 * snap;
+      reachR(p, noseAt(p), FINGER_ALONG, fingerPole);
+      reachL(p, deskL, 0.33, [0.6, -1, -0.3]);
+      p.item = 'finger';
+      return p;
+    }
+    case 'fingerstay': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.7));
+      const bob = Math.sin(time * 4.2) * 0.05 * k;
+      p.torsoX = -0.04 - 0.24 * k + breathe;
+      p.torsoY = 0.05 * Math.sin(time * 0.8) * k;
+      p.headX = -0.04 - 0.08 * k + bob;
+      p.headY = 0.12 * Math.sin(time * 1.05) * k;
+      p.chest = 0.25 * k;
+      p.legL = L3(-1.45, 0.14, 1.15);
+      p.legR = L3(-1.72, -0.06, 1.75);
+      reachR(p, noseAt(p), FINGER_ALONG, fingerPole);
+      reachL(p, lerp3t(deskL, [0.13, 1.42, -0.14], k), 0.33, [0.9, 0.3, -0.6]);
+      p.item = 'finger';
+      return p;
+    }
+    case 'seatstare': {
+      const p = chairSit(time);
+      const k = easeInOut(clamp(time / 0.25));
+      const tr = Math.sin(time * 27) * 0.004;
+      p.torsoX = 0.12 + 0.08 * k;
+      p.headX = 0.2 - 0.18 * k;
+      p.headY = 0.04 * Math.sin(time * 0.9);
+      reachR(p, lerp3t([-0.11, 0.8, 0.43], [-0.15, 0.95 + tr, 0.4], k), 0.33, [0.6, -1, -0.3]);
+      reachL(p, lerp3t([0.11, 0.8, 0.43], [0.15, 0.95 - tr, 0.4], k), 0.33, [0.6, -1, -0.3]);
+      p.mouthO = 0.75 * k;
+      p.chest = 0.6 * k;
+      return p;
+    }
+    case 'nosetalk': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      const c = (time % 0.8) / 0.8;
+      const tap = Math.max(0, Math.sin(clamp(c / 0.35) * Math.PI));
+      const nod = Math.sin(time * 3.2) * 0.06 * k;
+      p.torsoX = 0.03 + breathe;
+      p.headX = -0.06 + nod;
+      p.headY = 0.12 * k;
+      const side = headPoint(p, [-0.075, -0.02, 0.095 + 0.03 * (1 - tap)]);
+      reachR(p, lerp3t([-0.22, 0.92, 0.08], side, k), FINGER_ALONG, fingerPole);
+      const ex = Math.sin(time * 2.6);
+      reachL(p, lerp3t([0.22, 0.92, 0.08], [0.26 + 0.04 * ex, 1.12 + 0.05 * ex, 0.34], k), 0.33, [0.6, -1, -0.3]);
+      p.foreZL = (p.foreZL ?? 0) - 0.5 * k;
+      p.item = k > 0.3 ? 'finger' : '';
+      return p;
+    }
+    case 'noseyank': {
+      const p = base();
+      const go = easeInOut(clamp(time / 0.35));
+      const tug = time > 0.35 && time < 1.0 ? Math.max(0, Math.sin(((time - 0.35) / 0.65) * 3 * Math.PI)) : 0;
+      const yank = easeInOut(clamp((time - 1.0) / 0.2));
+      const back = easeInOut(clamp((time - 1.2) / 0.5));
+      const down = easeInOut(clamp((time - 1.5) / 0.6));
+      // Haltung: Ruckler lehnen leicht zurück, großer Ruck mit Schwung nach hinten, dann aufrecht
+      p.pitch = -0.04 * tug * go - 0.13 * yank * (1 - 0.8 * back);
+      p.torsoX = 0.04 * go - 0.08 * tug - 0.12 * yank * (1 - back) + breathe;
+      p.legL = L3(-0.22 * go, 0.08, 0.2 * go);
+      p.legR = L3(0.14 * go, -0.08, 0.12 * go);
+      p.headX = -0.1 * go - 0.12 * tug + 0.2 * yank * (1 - back) + 0.12 * down;
+      p.chest = 0.4 * go + 0.4 * tug;
+      const nose = noseAt(p, [0, 0, -0.005 * tug]);
+      const pull: P3 = [nose[0] - 0.02, nose[1] - 0.03 - 0.015 * tug, nose[2] + 0.04 * tug];
+      const far: P3 = [-0.12, 1.32, 0.62];
+      const low: P3 = [-0.24, 0.98, 0.22];
+      const R = lerp3t(lerp3t(lerp3t([-0.22, 0.92, 0.08], pull, go), far, yank), low, down);
+      reachR(p, R, FINGER_ALONG, fingerPole);
+      // linke Hand hilft am rechten Handgelenk (bis zum großen Ruck), dann in die Hüfte
+      const help: P3 = [R[0] + 0.1, R[1] - 0.12, R[2] - 0.08];
+      reachL(p, lerp3t(lerp3t([0.22, 0.92, 0.08], help, go * (1 - yank)), [0.24, 0.98, -0.02], yank), 0.33, [0.6, -1, -0.3]);
+      p.fists = yank > 0.5;
+      p.item = yank < 0.5 ? 'finger' : '';
+      p.mouthO = 0.5 * tug;
+      return p;
+    }
+    case 'exitsearch': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      const walking = speed > 0.08;
+      if (walking) {
+        const ph = time * TAU * 0.75;
+        const s = Math.sin(ph);
+        p.legL = L3(-0.3 * s, 0.03, 0.4 * Math.max(0, Math.sin(ph + 1.2)));
+        p.legR = L3(0.3 * s, -0.03, 0.4 * Math.max(0, Math.sin(ph + 1.2 + Math.PI)));
+        p.hipY = 0.98 - 0.02 * Math.abs(Math.cos(ph));
+      }
+      const scan = Math.sin(time * 1.15);
+      p.torsoX = 0.04 + breathe;
+      p.torsoY = 0.22 * scan * k;
+      p.headY = 0.5 * scan * k;
+      p.headX = -0.06 * k;
+      const brim = headPoint(p, [-0.01, 0.075, 0.12]);
+      reachR(p, lerp3t([-0.22, 0.92, 0.08], [brim[0], brim[1] + 0.02, brim[2] + 0.04], k), 0.33, [0.9, -0.2, -0.4]);
+      reachL(p, lerp3t([0.22, 0.92, 0.08], [0.25, 0.98, -0.02], k), 0.33, [0.6, -1, -0.3]);
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = nosePose(motion, time, speed) ?? cookiePose(motion, time) ??usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -7534,6 +7696,38 @@ const AngryBrows = ({m, k}: {m: Mats; k: number}) => (
   </group>
 );
 
+/** große Comic-Kulleraugen (weiß mit schwarzer Pupille + Glanzpunkt) vorn am Kopf – für „mit großen Augen herüberschauen“ */
+const BigEyes = ({amount, time}: {amount: number; time: number}) => {
+  const m = useMemo(
+    () => ({
+      white: new THREE.MeshStandardMaterial({color: '#ffffff', roughness: 0.3, emissive: '#ffffff', emissiveIntensity: 0.12}),
+      pupil: new THREE.MeshStandardMaterial({color: '#111214', roughness: 0.3}),
+      shine: new THREE.MeshBasicMaterial({color: '#ffffff'}),
+    }),
+    [],
+  );
+  if (amount < 0.02) return null;
+  const a = clamp(amount);
+  const pop = a < 1 ? a * (1 + 0.25 * Math.sin(a * Math.PI)) : 1 + 0.03 * Math.sin(time * 6);
+  return (
+    <group>
+      {[-1, 1].map((sd) => (
+        <group key={sd} position={[sd * 0.05, 0.022, 0.1]} scale={pop} rotation={[0, sd * 0.28, 0]}>
+          <mesh material={m.white} scale={[1, 1.18, 0.62]}>
+            <sphereGeometry args={[0.046, 14, 10]} />
+          </mesh>
+          <mesh material={m.pupil} position={[-sd * 0.004, -0.004, 0.026]} scale={[1, 1.1, 0.5]}>
+            <sphereGeometry args={[0.022, 12, 8]} />
+          </mesh>
+          <mesh material={m.shine} position={[0.008, 0.01, 0.038]}>
+            <sphereGeometry args={[0.0065, 6, 4]} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+};
+
 const Brows = ({m, raise}: {m: Mats; raise: number}) => (
   <group>
     <mesh material={m.joint} position={[0.058, 0.035, 0.113]} rotation={[-0.2, 0.45, -0.08 * raise]}>
@@ -7643,7 +7837,13 @@ export const Dummy = ({
   jogger = 0,
   hazmat = 0,
   goggles = 0,
+  eyes = 0,
+  nose = 0,
 }: {
+  /** kleine runde Comic-Nase vorn am Kopf 0/1 (z. B. Spezial „Nase erwischt“) */
+  nose?: number;
+  /** große Comic-Kulleraugen (ertappt/überrascht) 0 … 1, ploppen auf */
+  eyes?: number;
   /** Forscher-Schutzbrille 0 … 1 (rutscht von der Stirn auf die Augen) */
   goggles?: number;
   /** weißer Ganzkörper-Schutzanzug mit Kapuze, Atemschutzmaske, Schutzbrille, Gummihandschuhen + Überschuhen (0/1) */
@@ -7919,6 +8119,12 @@ export const Dummy = ({
             <Foam amount={foam} time={fxTime} />
             <ReadingGlasses amount={glasses} />
             <ResearchGoggles amount={goggles} />
+            <BigEyes amount={eyes} time={time} />
+            {nose > 0.5 && (
+              <mesh material={m.body} position={[0, -0.022, 0.128]} scale={[0.85, 0.8, 1.05]} castShadow>
+                <icosahedronGeometry args={[0.036, 1]} />
+              </mesh>
+            )}
             {uniform?.shades && <SunGlasses />}
             <HeadSplat amount={splat} />
           </group>
