@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-drucker: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -267,6 +267,11 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   0,9 m breit, 2,05 m hoch, Türblatt (blaugrau) außen an der Hauswand aufgeklappt, Trittsteine führen in den Garten. Variante `homeoffice-cookies-aussen`
   (Atmo `wald-atmo`) = Hauswand von außen mit Fenster + Tür (Laibung, Rahmen, Stufe), Blumenbeet nach hinten (z ≥ 2.4) verschoben – Platz vor der Tür frei
   (Schlange der Agenten bei x −3.15 … −4.55, Tauziehen bei (−4.6, 2.1)). Room-Fenster kann jetzt `door` = zusätzliche Türöffnung in der Fensterwand.
+  Schlafzimmer bei Nacht (`schlafzimmer-nacht`, `src/stage/Bedroom.tsx`, `NIGHT`, Atmo `uhr-ticken`, Spezial Drucker): wie `schlafzimmer`, aber Licht AUS
+  (nur blaues Mondlicht, Lampen aus, keine Deckenleuchte), Schreibtisch leer geräumt + tiefer (x −1.8 … −1.05, z −1.0 … 0.2, Platte 0,75), Tür rechts
+  OFFEN (Öffnung z 0.56 … 1.44, 2,0 m hoch, schmaler dunkler Flur dahinter). Licht an über das Objekt `zimmerlicht` (`glow` 0 … 1, bei (0, 0)). Dummy im
+  Bett (0.8, −1.425) face 270, Digitaluhr auf dem Nachttisch (−0.44, y 0.52, −1.62). Room kann jetzt `sideDoor` = offene Türöffnung in einer Seitenwand
+  OHNE Fenster. Kamera-Tipp: für weite Einstellungen fov 50–62, sonst steht die Kamera vor dem offenen Raum und man sieht den Raum als Kasten.
   Kamera-Trick: Wände sind von außen unsichtbar → Kamera darf hinter die linke Schlafzimmerwand (x < −1.8, aber z außerhalb des Fensters).
   Aus dem Park jetzt exportiert und wiederverwendbar: `TrashBin`, `FarHouses` (mit `day` = Tagesansicht).
   Zwei Gärten nebeneinander (`nachbargarten`, `src/stage/NeighborGarden.tsx`, Atmo = `wald-atmo`; Nacht-Variante `nachbargarten-nacht` mit Mond,
@@ -576,6 +581,22 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   strecken (`reachafter`), Schüssel mit beiden Händen abstellen (`setbowl`, 0,15–0,95 s, Weg im Skript gleich), Kinn in den Händen warten (`waitchin`);
   stehend (auch Agenten): Tauziehen (`tugpull`, ganzer Körper zurückgelehnt, ruckt alle 0,55 s), gebeugt mit Lupe suchen (`magnify`), hüpfen + nach oben
   greifen (`snatch`).
+- **Objekte (Spezial Drucker, `src/actors/DruckerProps.tsx`, comichaft, KEINE Marken/Logos):** markenloser Tintenstrahldrucker (`drucker`, 0,46 × 0,22 ×
+  0,34 m, Ursprung = Boden-Mitte, Schlitz vorn +z auf 0,075 m; Papierfach hinten, Ausgabefach, Display mit Cartoon-Augen, gelber Zierstreifen statt Logo;
+  Werte `rumble` = rattert, `glow`, `mark` = Druckkopf saust, `good` 1 = fröhliche Augen, `glasses` = Sonnenbrille, `lei` = Blumenkette (neuer Wert),
+  `gardenhat` = Strohhut, `tilt`, `squish`; Bewegung `hop` = hüpft alle 0,42 s 0,1 m hoch – steckt in der Figuren-Matrix, angehängte Objekte hüpfen mit),
+  3D-Drucker (`drucker3d`, 0,36 × 0,46 × 0,36 m, `fill` 0 … 0,75 = entsteht Schicht für Schicht aus weißem Papier, 0,75 … 1 = Farben kommen; `mark`
+  Druckkopf fährt, `glow`; Druckplatte lokal (0, 0.085, 0.02)), Blatt Papier (`blatt`, `blatt2` … `blatt6`, 0,21 × 0,297, flach, Oberkante −z; Feld text
+  `kuendigung` = „KÜNDIGUNG“ + Unterschriftszeile, `fill` = Unterschrift wird gekritzelt; `text` = Zeilen; `hawaii` = Prospekt mit Palme), Papierregen
+  (`blattregen`, Bewegung `burst`, Blatt alle 0,13 s, `drop` = Höhe über Boden), Papierstapel (`papierstapel`, `fill`), Kuli (`kuli`), Fake-Reisepass
+  (`reisepass`, weinrot, „REISEPASS“ + Drucker-Symbol statt Wappen), Bordkarte (`flugticket`, „✈ HAWAII · ONE-WAY“, keine Airline), Mini-Koffer
+  (`minikoffer`, orange mit Aufklebern; am Drucker: `"attach": "drucker", x −0.33`), gedruckte Sachen (`druckobjekt1` … `8`, Feld text `pizza`/`gold`/
+  `ente`, `fill` = wächst von unten), Zimmerlicht (`zimmerlicht`), Dummy-Wert `zzz` = Comic-„Zzz“ über dem Kopf (im Bett am Kissen). Bewegungen (Details
+  in `druckerPose` in Dummy.tsx): schlaftrunken tapsen (`sleepwalk`, Weg), im Halbschlaf am Schreibtisch unterschreiben (`signsleepy`, Blatt 0,43 m vor ihm
+  auf 0,765 m, Kritzeln 0,6–1,8 s, ab 2,1 s eingenickt), schlafend stehen (`sleepstand`). Wiederverwendet: `bedsleep`, `bedwake`, `bedsit`, `gape`,
+  `stand`, `wave`, Digitaluhr, Strohhut (`GardenHat`), Fragezeichen.
+- **Szenario-Felder `explainLead` / `voteLen`** (nur Spezial, neu seit Drucker): Vorlauf vor dem Szenentext (Standard 0,6 s) bzw. Länge der Abstimmung
+  (Standard 5,6 s, mind. 5 s) – zum Kürzen auf ≤ 66 s, Texte bleiben gleich.
 - **Goldfisch** (`goldfisch`, `src/actors/FishProps.tsx`, comichaft, dem Fisch geht es immer gut): orangefarbener Low-Poly-Goldfisch mit großen Augen +
   schrägen Augenbrauen (sehr konzentrierter Blick) in einem runden Glas voll Wasser mit buntem Kies (Ursprung = Glasboden). Im Auto: `"attach": "car",
   x 0.3, y 0.7, z −0.05, face 0` + Wert `side` 1 = Sitzerhöhung + Sicherheitsgurt quer übers Glas (so sieht man ihn durch Seiten- und Frontscheibe).
@@ -892,7 +913,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-drucker),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -1075,6 +1096,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `sceneExtra`). Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-cookies-choreo.py` (prüft `check_a`: Handy spätestens
   kurz nach „Ohne dich“ an der Tür; `check_c`: Agenten frei auf dem Rasen, Wolke rechtzeitig). Bühnenwechsel in C zur Außenansicht. Standbilder in
   review/spezial-cookies/phase1/. Finales Video: review/final/spezial-cookies.mp4 (62,8 s).
+- Spezial Drucker (Durchlauf-Modus): 715 neue Zeichen (285 Credits laut ElevenLabs; Abstimmung + Outro aus Cache), Texte Buchstabe für Buchstabe vom Inhaber;
+  Outro = gelieferter Outro-Satz + „Neue Video-Ideen? Ab in die Kommentare!“ (stand nicht im gelieferten Outro, Spezial-Regel 5). Mit Standardpausen 68,8 s →
+  `padAfter` 0,05 s, `explainLead` 0,35 s, `voteLen` 5,0 s, `sceneExtra` C 0,4 s (Drucker ganz zur Tür hinaus) → Video 65,9 s MIT Abstimmung „Also, was
+  machst du?“. Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-drucker-choreo.py` (prüft `check_a`: Unterschrift
+  fertig vor Szenenende; `check_b`: 3D-Drucker fertig bei „Ab jetzt“, ≥ 5 gedruckte Sachen; `check_c`: Drucker an der Tür, Weg nicht durch den Dummy).
+  Bühne `schlafzimmer-nacht`. Keine Logos (Drucker, 3D-Drucker, Pass, Ticket, Koffer selbst gestaltet). Standbilder in review/spezial-drucker/phase1/.
+  Finales Video: review/final/spezial-drucker.mp4 (65,9 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -1139,6 +1167,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `dampf`, `kissen-plumps`).
   `handy-trippeln` (Comic-Trippelfüße), `schuessel-abstellen`, `milch-plopp`, `tauziehen`, `rauferei` (Comic-Raufwolke) (Spezial Cookies; wiederverwendet:
   `klick`, `plopp`, `rasen-zauber`, `whoosh`, `leere-wind`, `handy-klingeln`, `himmel-chor`, `schleichen`, `puff`).
+  `drucker-rattern`, `drucker-surren` (3D-Drucker), `quietsch-ente`, `ukulele`, `hupf-boing` (Spezial Drucker; wiederverwendet: `klick`, `kissen-plumps`,
+  `uhr-ticken`, `papier-schieben`, `schleichen`, `stift-kritzeln`, `bau-klack`, `himmel-chor`, `plopp`, `whoosh`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1369,6 +1399,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
                       UsbProps.tsx = USB-Laptop/USB-Stecker mit Gurt+Helm/Gummihammer/weiche Mülltonne/Funken,
                       CookieProps.tsx = Handy mit Beinen/Milchschüssel/Kekse/Kekshaufen/Keksregen/Ordnerstapel/Daten-Ordner/Lupe/Tauziehseil/Rauferei-Wolke,
+                      DruckerProps.tsx = Tintenstrahldrucker/3D-Drucker/Blatt (Kündigung, Prospekt)/Papierregen/Papierstapel/Kuli/Reisepass/Flugticket/Mini-Koffer/Pizza-Gold-Ente/Zimmerlicht/Zzz,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
                       Strom-Blitze + Zittern (Zap), Schaum (Foam), Röntgen-Hinweise Lunge/Blut (BodyHint)
