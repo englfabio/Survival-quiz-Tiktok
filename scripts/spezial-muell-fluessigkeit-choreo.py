@@ -293,15 +293,15 @@ def check_a():
 APEX = max(p[1] for _, p in arc2)
 camA = [
   # Karte: Dummy mit dem Sack auf dem Gehweg, dreht sich, Blick rüber
-  *shot(0, sA - 0.003, ([3.4, 1.85, -0.9], [0.0, 1.05, -4.2], None, None), push=0.04),
+  *shot(0, sA - 0.003, F([*body(*DA), [DA[0], 0, DA[1] + 0.7]], 215, 8, ANS), push=0.04),
   # Kick: seitlich auf Augenhöhe (Kick nach rechts im Bild Richtung Nachbarhaus)
   *shot(sA, c_der - 0.003, F([*body(*DA, 2.0, 0.5), [DA[0], 0.6, DA[1] + 1.25], [DA[0], 2.9, DA[1] + 0.4]], 95, 6, ANS), push=0.05),
   # Flug über die Straße: weit von der Seite, ganzer Bogen + Fassade
-  *shot(c_der, c_und - 0.003, F([*body(*DA), [DA[0], APEX, (DA[1] + FACADE_Z) / 2], [TGT[0] - 1.2, 0, FACADE_Z], [TGT[0] + 1.2, 4.6, FACADE_Z]], 82, 10, ANS, fov=44), push=0.03),
+  *shot(c_der, c_und - 0.003, ([-0.6, 6.5, -8.6], [0.6, 1.0, 1.0], 62, None), push=0.03),
   # Saft läuft über die Fassade (nah an der Fassade, Klecks + Nasen)
   *shot(c_und, c_kom - 0.003, ([SPLAT[0] - 0.3, 2.0, 0.2], [SPLAT[0], 2.35, FACADE_Z], 56, None), push=0.08),
   # einmal komplett: über die Schulter des stolzen Dummys auf die ganze Fassade
-  *shot(c_kom, 1, ([-1.5, 3.1, -8.2], [1.0, 2.0, FACADE_Z], 50, None), push=0.04),
+  *shot(c_kom, 1, ([-1.2, 2.2, -7.6], [0.6, 2.6, FACADE_Z], 55, None), push=0.04),
 ]
 expA = {
  'camera': camA, 'actors': cA.build(), 'stage': STAGE,
@@ -428,7 +428,7 @@ camC = [
   # innen: ganze Rückwand mit Haustür, Wagen bricht durch
   *shot(c_daf, c_dir - 0.003, F([[-3.0, 0, -4.5], [4.6, 3.5, -4.5], [BAG_IN[0], 0, BAG_IN[1]]], 8, 8, ANS, fov=50), push=0.04),
   # direkt ins Wohnzimmer: Greifarm packt den Sack (von vorn-links)
-  *shot(c_dir, c_gef - 0.003, ([-4.3, 2.4, 4.4], [-0.3, 1.45, -0.2], 56, None), push=0.04),
+  *shot(c_dir, c_gef - 0.003, ([-5.2, 2.6, 6.6], [-0.2, 1.2, -0.4], 60, None), push=0.04),
   # gefahren: Totale, Wagen rattert rückwärts hinaus, Möbel schief
   *shot(c_gef, 1, ([0.9, 2.3, 9.8], [0.9, 1.55, -1.5], 56, None), push=0.03),
 ]
