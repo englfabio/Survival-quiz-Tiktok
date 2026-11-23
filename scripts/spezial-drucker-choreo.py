@@ -210,11 +210,11 @@ cs_.add('dummy', 0, 1, [bedd(0, zzz=1.0), bedd(r3(t_on + ss(0.3)), zzz=1.0), bed
 situation = {
  'camera': [
    # Totale: dunkles Zimmer, Dummy schläft – Licht geht an, Drucker auf dem Schreibtisch
-   *shot(0, c_mit - 0.003, F([*BED_PTS, *DESK_PTS, [-1.8, 1.6, -0.4]], 28, 16, SIT), push=0.05),
+   *shot(0, c_mit - 0.003, F([*BED_PTS, *DESK_PTS, [-1.8, 1.6, -0.4]], 10, 16, SIT, fov=62), push=0.05),
    # Drucker rattert und spuckt Blatt um Blatt
    *shot(c_mit, c_was - 0.003, F([*PR_PTS, [PR[0] + 1.3, 0.0, PR[1] - 0.4], [PR[0] + 1.3, 0.0, PR[1] + 0.4]], 62, 16, SIT), push=0.07),
    # Dummy schreckt hoch
-   *shot(c_was, 1, F([[0.0, 0.3, -1.9], [1.6, 1.4, -0.95], [-0.2, 0, -0.2]], 8, 10, SIT), push=0.05),
+   *shot(c_was, 1, F([[0.0, 0.3, -1.9], [1.6, 1.4, -0.95], [-0.2, 0, -0.2]], 8, 10, SIT, fov=50), push=0.05),
  ],
  'actors': cs_.build(), 'stage': STAGE,
  'sfx': [{'t': r3(t_on), 'id': 'klick', 'volume': 1.0}, {'t': r3(t_on + ss(0.1)), 'id': 'drucker-rattern', 'volume': 0.9},
@@ -262,7 +262,7 @@ def check_a():
     return round((1 - t_s1) * TA, 2)
 camA = [
   # Karte: Dummy schläft im Bett, Drucker druckt im Hintergrund
-  *shot(0, sA - 0.003, F([*BED_PTS, *PR_PTS, [-0.2, 1.3, -1.0]], 10, 12, ANS), push=0.03),
+  *shot(0, sA - 0.003, F([*BED_PTS, *PR_PTS, [-0.2, 1.3, -1.0]], 10, 12, ANS, fov=56), push=0.03),
   # Drei Uhr nachts: Digitaluhr groß, Dummy schläft dahinter
   *shot(sA, c_eine - 0.003, F([*CLOCK_PTS, [0.3, 0.6, -1.6], [1.0, 0.75, -1.2]], 12, 14, ANS), push=0.06),
   # Kündigung kommt raus
@@ -350,13 +350,13 @@ def check_b():
     return len(obj_t)
 camB = [
   # Karte: Drucker rattert, Papierstapel wächst; Dummy sitzt im Bett
-  *shot(0, sB - 0.003, F([*PR_PTS, *P3_PTS, [0.3, 1.25, -1.4]], 38, 12, ANS), push=0.03),
+  *shot(0, sB - 0.003, F([*PR_PTS, *P3_PTS, [0.3, 1.25, -1.4]], 25, 12, ANS, fov=52), push=0.03),
   # Blatt für Blatt entsteht der 3D-Drucker
   *shot(sB, c_ab - 0.003, F([*P3_PTS, *PR_PTS], 50, 18, ANS), push=0.06),
   # die beiden drucken Pizza, Gold, Enten
   *shot(c_ab, c_lust - 0.003, F([*P3_PTS, *PR_PTS, [-0.4, 0, -1.0], [-0.4, 0, 0.5]], 38, 22, ANS), push=0.05),
   # worauf sie Lust haben: Totale mit staunendem Dummy + Haufen
-  *shot(c_lust, 1, F([*P3_PTS, *PR_PTS, *body(*DB), [-0.4, 0, -1.0]], 35, 10, ANS), push=0.04),
+  *shot(c_lust, 1, F([*P3_PTS, *PR_PTS, *body(*DB), [-0.4, 0, -1.0]], 20, 10, ANS, fov=52), push=0.04),
 ]
 sfxB = [{'t': r3(sb(0.3)), 'id': 'drucker-rattern', 'volume': 0.6}, {'t': r3(sb(2.9)), 'id': 'drucker-rattern', 'volume': 0.5},
         {'t': r3(sB + sb(0.1)), 'id': 'papier-schieben', 'volume': 0.7}, {'t': r3(sB + sb(0.9)), 'id': 'bau-klack', 'volume': 0.5},
@@ -456,7 +456,8 @@ camC = [
   # Koffer gepackt + Strohhut
   *shot(c_kof, c_und - 0.003, F([*PR_PTS, *SUIT_PTS, [PR[0], DESK_Y + 0.6, PR[1]], [PR[0] + 0.5, DESK_Y, PR[1] + 0.3]], 40, 22, ANS), push=0.04),
   # und weg: hüpft durchs Zimmer zur Tür hinaus, Dummy winkt
-  *shot(c_und, 1, F([[H1[0], DESK_Y, H1[1]], [H2[0], 0, H2[1]], [H4[0], 0.6, H4[1] - 0.45], [H4[0], 2.0, H4[1] + 0.45], *body(*DC)], -35, 16, ANS), push=0.04),
+  *shot(c_und, t_h2 + sc(0.15) - 0.003, F([[PR[0], DESK_Y, PR[1]], [H1[0], DESK_Y + 0.5, H1[1]], [H2[0] + 0.3, 0, H2[1] + 0.2]], 30, 16, ANS), push=0.05),
+  *shot(t_h2 + sc(0.15), 1, F([[H2[0], 0, H2[1]], [H4[0], 0.4, H4[1] - 0.45], [H4[0], 1.2, H4[1] + 0.45], [DC[0], 1.9, DC[1]], [DC[0], 0.8, DC[1]]], -20, 14, ANS, fov=50), push=0.05),
 ]
 expC = {
  'camera': camC, 'actors': cC.build(), 'stage': STAGE,
@@ -485,8 +486,8 @@ def endcast(wave=False):
     c.add('dummy', 0, 1, [K(0, *DV, 'stand', 235, question=0.0 if wave else 1.0)] + ([K(0.12, *DV, 'wave', 215), K(1, *DV, 'wave', 215)] if wave else []))
     return c.build()
 V_PTS = [*body(*DV), *PR_PTS, *P3_PTS, [-1.4, DESK_Y, 0.32]]
-vote = {'camera': shot(0, 1, F(V_PTS, -6, 6, (120, 960, 1060, 1320)), push=0.04), 'actors': endcast(), 'stage': STAGE}
-outro = {'camera': shot(0, 1, F(V_PTS, -4, 8, (100, 980, 780, 1110)), push=0.05), 'actors': endcast(True), 'stage': STAGE}
+vote = {'camera': shot(0, 1, F(V_PTS, -6, 8, (110, 970, 1000, 1420), fov=60), push=0.04), 'actors': endcast(), 'stage': STAGE}
+outro = {'camera': shot(0, 1, F(V_PTS, -4, 9, (100, 980, 900, 1420), fov=60), push=0.05), 'actors': endcast(True), 'stage': STAGE}
 if OUTRO_MIN > 0:
     outro['fade'] = [round(1 - 1.6 / OUTRO_MIN, 3), 0.99, 0.85]
 
