@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-muell-fluessigkeit: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-muell-fluessigkeit, spezial-handy-gesicht: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -267,6 +267,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   0,9 m breit, 2,05 m hoch, Türblatt (blaugrau) außen an der Hauswand aufgeklappt, Trittsteine führen in den Garten. Variante `homeoffice-cookies-aussen`
   (Atmo `wald-atmo`) = Hauswand von außen mit Fenster + Tür (Laibung, Rahmen, Stufe), Blumenbeet nach hinten (z ≥ 2.4) verschoben – Platz vor der Tür frei
   (Schlange der Agenten bei x −3.15 … −4.55, Tauziehen bei (−4.6, 2.1)). Room-Fenster kann jetzt `door` = zusätzliche Türöffnung in der Fensterwand.
+  Schlafzimmer am Abend mit offenem Fenster (`schlafzimmer-nacht`, `src/stage/Bedroom.tsx`, Atmo `nacht-atmo`, Spezial Handy im Gesicht): wie `schlafzimmer`,
+  aber großes OFFENES Fenster links (Mitte z −0.4, 1,2 m breit, Unterkante 0,9, Oberkante 2,2 m, ohne Flügel) mit echter 3D-Nachtkulisse draußen (`NightView`:
+  Rasen ab x −1.9, Zaun x −6.5, Hecke x −10, Bäume, niedrige Häuserzeile x ≈ −24 mit hellen Fenstern, Hügel, Mond, Sterne) → Dinge können sichtbar durchs Fenster
+  hinaus in den Nachthimmel fliegen; ohne Deckenleuchte (Kameras von oben sehen keine Lampenscheibe). Bett OHNE eingebaute Decke/Kissen/Kuscheltier → Objekte
+  `bettdecke` + `kissen` in jeder Einstellung setzen (Kissen (1.47, y 0.45, −1.425), Matratze oben y 0,45). Dummy im Bett wie Wecker: Hüfte (0.8, −1.425), face 270.
+  Kameras: Bett steht an der rechten Wand → Kamera NICHT rechts außerhalb (x > 1,8) stellen, sonst verdeckt das Türblatt das Bild (az ≤ ca. 10 bei Bett-Einstellungen).
+  Room-Fenster kann jetzt `sash` (Flügel auch bei `outside`).
   Kamera-Trick: Wände sind von außen unsichtbar → Kamera darf hinter die linke Schlafzimmerwand (x < −1.8, aber z außerhalb des Fensters).
   Müll-Straße (`muellstrasse`, `src/stage/Settlement.tsx`, `MUELL`, Atmo `wald-atmo`, Spezial Müll-Flüssigkeit): wie `siedlung`, das Haus des Dummys ist das
   Objekt `haus` bei (0, −12.5), face 180 (Tür (0, −9), Gartenweg x 0 bis zum Gehweg, Zaun z −5.45), GEGENÜBER fest das moderne Nachbarhaus mit heller Fassade
@@ -540,6 +547,15 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   mitschlurfen (`slidepush`, Weg über Zeitpunkte). Butler: vornehme Verbeugung (`bow`, unten 0,9–1,5 s – im Profil filmen, frontal wirkt sie schwach),
   kerzengerade stehen (`butlerstand`), Teppichrolle anschubsen + einladend zeigen (`carpetpush`). Helfer `fromTorso` (Punkt im Oberkörper-System → Boden-System).
   Wiederverwendet: `doorhold` (Tür mit links aufdrücken), `run`, `walk`, `carrycase` (Werkzeugkasten tragen), `armscross`, `thumbsup`, `gape`, `wave`, `stand`.
+  Handy im Gesicht (Spezial, Details in `handyPose` in Dummy.tsx): liegt im Bett + hält das Handy mit beiden Händen über dem Gesicht (`bedphone`, Handy-Mitte
+  `phoneFacePoint(0.36)` im Dummy-System, Bildschirm zum Gesicht = Handy `tilt` −153 bei `attach` dummy), Handy rutscht ab (0–0,3 s) + fällt auf die Nase
+  (Aufprall 0,52 s, Ruhelage `phoneFacePoint(0.14)`), Arme sinken benommen aufs Bett (`bedphoneslip`), steht + funkelt das Handy rechts vor dem Gesicht böse an
+  (`phoneglare`, mit `angry`), wirbelt das Handy über dem Kopf wie einen Hammer (2 Runden bis 1,9 s) + wirft es (Abwurf 2,15 s am Punkt `THOR.relP`
+  [−0.16, 1.72, 0.56], Handy bis dahin mit `hand` 1) (`thorthrow`), wartet mit offener Hand nach vorn oben (`catchwait`), schwebt waagerecht bäuchlings mit
+  gespreizten Armen (`flopfall`, Ursprung = Füße, Körper liegt nach +z, Höhe über y) + liegt platt auf dem Bauch, strampelt (`flopflat`; auf einer Fläche y = Oberkante
+  + 0,125), sitzt im Bett + hält das schwere Handy tief mit zitternden Armen (`bedheavy`, Handy lokal [0, 0.8, 0.4]), wischt hektisch über das Handy in der linken
+  Hand (`bedswipe`, Handy `PHONE_SIT` [0.05, 0.92, 0.36], face 180, tilt 37), lehnt sich halb liegend zurück, Hände hinter dem Kopf (`bedrelax`). Wiederverwendet:
+  `holdcard` + `reversekarte`, `physikshrug`, `bedsit`, `stand`, `wave`.
 - **Butler** (`butler`): Dummy-Körper hellgrau, schwarzer Frack mit Schößen, weiße Hemdbrust, schwarze Fliege, weiße Handschuhe, ohne Mütze (Uniform-Felder
   `bowtie` = Fliegenfarbe, `gloveColor` = Handschuhe mit Stulpe, `tails` = Frack-Schöße – für jede Dummy-Figur nutzbar). Kann alle Dummy-Bewegungen.
 - **Objekte (Tür drücken, `src/actors/DoorProps.tsx`, alles comichaft, niemand wird verletzt):** Tür mit Zarge + großem gelbem Schild „DRÜCKEN“ (`druecktuer`,
@@ -570,6 +586,16 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   Hand `hand` 1), kleiner Cartoon-Gummihammer (`gummihammer`, Griff am Ursprung, Kopf 0,29 m darunter, `tilt` = Neigung, `hand` 1), weiche grüne Mülltonne mit
   Kissen (`muelltonne`, `lid`, `squish`), Comic-Funken (`funken`, Bewegung `burst`, `mark` 1 = weiß, `size`), Kopf-Dampf (`kopfdampf`, `fill`). Neue Werte
   `fold`, `belt`, `helm`, `nod`, `angry`. Neues Shot-Feld `counter`: [{t, text}] = runde Zähler-Plakette oben („1x“ … „5x“, leerer Text blendet aus).
+- **Objekte (Spezial Handy im Gesicht, `src/actors/BedPhoneProps.tsx`, comichaft, ohne Marken/Logos):** markenloses Smartphone mit roter Hülle (`betthandy`,
+  0,1 × 0,2 × 0,013 m, Ursprung = MITTE, liegt flach mit Bildschirm nach oben, Oberkante nach −z; `tilt` = Grad um x (180 = Bildschirm nach unten), `turn` = Grad um z;
+  Bildschirm über Feld `text`: `feed` (erfundene bunte Beiträge), `appsN` (Startbildschirm mit N = 0 … 20 App-Symbolen), `photos`, `clean` (grüner Haken „LEER“),
+  `sleep` (schlafendes Gesicht + „Zzz“, oben), `oops` (zusammengekniffenes Gesicht), `off`; Werte `glow` (+ blaues Licht), `thin` 0 … 1 = wird dünner + heller
+  (neuer Wert), `rumble`, `squish`, `size`), Riesenhandy (`riesenhandy`, gleiches Bauteil, Standard-Bildschirm `sleep`; `size` 7 = 0,8 × 1,6 m wie eine Matratze,
+  im Bett face 270 = Oberkante zum Kopfende), Rollentausch-Effekt (`reverseeffekt`: Strahlenkranz in vier Farben + Lichtring + sich drehende rote Pfeil-Karte
+  `ReverseCard`, schaut zur Kamera, `fill` 0 → 1 ploppt auf), Comic-Sternchen um den Kopf (`sternchen`, `fill`), Klatsch-Stern beim Aufprall (`klatschstern`, ohne
+  Text, `fill` 0 → 1), Funkeln am Nachthimmel (`funkelstern`, `fill` 0 → 1, `size`), fliegende App-Symbole/Foto-Kacheln (`appregen`, Bewegung `burst`, `mark` 1 =
+  Fotos), Bettdecke mit Mond-/Sternmuster (`bettdecke`, Ursprung = Mitte des Fußendes, reicht nach +x bis `fill` 0 … 1 = 0,35 … 1,45 m, `squish`), Kopfkissen
+  (`kissen`, Ursprung = Unterseite, `squish`).
 - **Objekte (Spezial Müll-Flüssigkeit, `src/actors/MuellProps.tsx`, comichaft, ohne Logos/Aufdruck):** voller Müllsack (`muellsack`, Ursprung = Boden,
   Knoten oben 0,62 m; `fill` = Ecke reißt + Schleim quillt, `mark` = grün-gelbe Tropfen fallen, `squish` = platt an die Wand geklatscht, `tilt`/`turn` = Drehung,
   in der Hand `hand` 1 + `drop` 0.6), Fassaden-Klecks (`fassadenklecks`, x-y-Ebene, zeigt nach +z → an einer Fassade Richtung −z: face 0; `fill` 0–0,12 klatscht auf,
@@ -1107,6 +1133,13 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   zeigt zum Nachbarhaus, Klecks ≥ 1,3 m neben der Nachbartür; `check_c`: Greifer trifft den Sack, Wand bricht erst nach dem Schnitt ins leere Wohnzimmer;
   `check_cams`: keine Kamera in Hecke/Haus/unter dem Boden). Standbilder in review/spezial-muell-fluessigkeit/phase1/.
   Finales Video: review/final/spezial-muell-fluessigkeit.mp4 (66,0 s).
+- Spezial Handy im Gesicht (Durchlauf-Modus): 663 neue Zeichen (ca. 265 Credits laut ElevenLabs; Abstimmung + Outro aus Cache), Texte Buchstabe für Buchstabe
+  vom Inhaber; Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5, stand nicht im gelieferten Outro). Mit normalen Pausen 69,5 s →
+  `padAfter` 0,05 s, `sceneLead` 0,3 s + neuer Szenario-Wert `voteLen` 5,0 s (Abstimmungs-Teil statt 5,6 s, Countdown bleibt 5 s; `src/data/timeline.ts`) →
+  65,9 s MIT Abstimmung. Kontrolle scribe_v2: alles korrekt, nur das Kunstwort „dummyt“ (Option B) erkennt scribe als „dumm liegt“. Choreografie:
+  `python3 scripts/spezial-handy-gesicht-choreo.py` (prüft `check_a`: Flug geht durch die Fensteröffnung + endet ≥ 14 m draußen im Himmel auf der Blicklinie der
+  Warte-Kamera; `check_b`: Rumpf liegt auf dem Riesenhandy, Aufprall bei „voll drauf“; `check_c`: Feder-Flug bleibt über dem Bett, landet auf dem Kissen).
+  Standbilder in review/spezial-handy-gesicht/phase1/. Finales Video: review/final/spezial-handy-gesicht.mp4 (65,9 s).
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -1174,6 +1207,8 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `muellsack-reissen`, `schleim-tropfen`, `sack-klatsch`, `schnuppern`, `schluck`, `muskel-pump`, `muellwagen-motor`, `hydraulik`, `moebel-rutschen`
   (Spezial Müll-Flüssigkeit; wiederverwendet: `glitsch`, `kick-whoosh`, `reste-platsch`, `whoosh`, `plopp`, `rasen-zauber`, `gold-fanfare`, `himmel-chor`,
   `kissen-plumps`, `auto-hupen`, `wand-krachen`).
+  `handy-klatsch` (Handy klatscht comichaft aufs Gesicht), `hammer-wirbel`, `funkeln` (Stern-Ping am Himmel), `reverse-zauber`, `wischen`, `app-weg`, `feder`,
+  `handy-schnarchen` (Spezial Handy im Gesicht; wiederverwendet: `whoosh`, `kick-whoosh`, `leere-wind`, `plopp`, `kissen-plumps`, `himmel-chor`; Bühne nutzt `nacht-atmo`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1200,6 +1235,7 @@ Beschreibung und angepinnter Kommentar.
 | `correctOption` | 1, 2 oder 3 (nicht bei Spezial) |
 | `options[].sceneExtra` | nur Spezial: Szene um so viele Sekunden rein visuell verlängern |
 | `sceneLead` | nur Spezial: Vorlauf (s) vor den Szenen-Sätzen explain1–3 (Standard 0,6) – kürzer, wenn das Video sonst über 66 s käme |
+| `voteLen` | nur Spezial: Länge des Abstimmungs-Teils in s (Standard 5,6, mindestens 5) – kürzer, wenn das Video sonst über 66 s käme |
 | `countdown` / `reveal` / `outro` | `speech` (gesprochen) + `screen` (eingeblendet) |
 | `sourceLine` | Quellenzeile im Video |
 | `sources[]` | Name + Link für die Beschreibung |
@@ -1406,6 +1442,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
                       UsbProps.tsx = USB-Laptop/USB-Stecker mit Gurt+Helm/Gummihammer/weiche Mülltonne/Funken,
                       MuellProps.tsx = Müllsack/Fassaden-Klecks/Shot-Becher/Müllwagen mit Greifarm/Haustür-Wand/Nachbarhaus/Wohnzimmermöbel,
+                      BedPhoneProps.tsx = Betthandy/Riesenhandy/Rollentausch-Effekt/Sternchen/Klatsch-Stern/Funkeln/fliegende Apps/Bettdecke/Kissen,
                       CookieProps.tsx = Handy mit Beinen/Milchschüssel/Kekse/Kekshaufen/Keksregen/Ordnerstapel/Daten-Ordner/Lupe/Tauziehseil/Rauferei-Wolke,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
 src/effects/          Aufleuchten (Flash), Bewegungslinien (SpeedLines), Platschen (Splash), Kälte-Symbol (Cold), Spritzwasser (Spray),
