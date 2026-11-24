@@ -1424,6 +1424,55 @@
       "duration": 2.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "stein-pieks",
+      "prompt": "Cartoon sharp plastic toy brick click under a bare foot followed by a high comic pain 'zing' sting, funny slapstick, no voice",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "katapult-sprung",
+      "prompt": "Cartoon spring boing launching straight up with a rising slide whistle, slapstick jump, no voice",
+      "duration": 1.2,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "seil-wickeln",
+      "prompt": "Thick rope being wrapped tightly around something, rough rope rubbing and creaking, quick",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "schere-schnapp",
+      "prompt": "Huge cartoon plastic toy scissors snapping shut twice, chunky funny snip snap",
+      "duration": 0.8,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "steine-schuetten",
+      "prompt": "Hundreds of small plastic toy building bricks pouring out of a box onto a wooden floor, loud clattering rattling cascade",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "seilrutsche",
+      "prompt": "Zipline pulley trolley rolling fast along a steel cable, whirring metallic zip sound passing by",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "zen-gong",
+      "prompt": "Soft calm meditation singing bowl gong, peaceful and relaxing, gentle shimmer",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

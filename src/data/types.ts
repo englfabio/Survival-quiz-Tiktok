@@ -378,6 +378,16 @@ export type Motion =
   | 'bedheavy' // Dummy: sitzt im Bett, hält das schwere Handy tief vor dem Bauch, Arme zittern
   | 'bedswipe' // Dummy: sitzt im Bett, wischt hektisch mit rechts über das Handy in der linken Hand
   | 'bedrelax' // Dummy: halb liegend, beide Hände hinter dem Kopf, zufrieden
+  // ---- Spezial Legostein (Details: legoPose in Dummy.tsx) ----
+  | 'brickjump' // Dummy: katapultiert sich vor Schmerz in die Luft (Höhe über y), rechtes Bein angezogen, Arme wild nach oben, Mund offen
+  | 'ropewrap' // Dummy: beugt sich vor, wickelt ein dickes rotes Seil um den rechten Oberschenkel (Wert redrope)
+  | 'scissorshow' // Dummy: hält die Riesen-Schere mit beiden Händen senkrecht vor sich (LEGO.sciShow)
+  | 'scissorsaim' // Dummy: leicht in der Hocke, Schere schräg nach vorn unten, weit vor dem Körper (LEGO.sciAim)
+  | 'scissorsproud' // Dummy: Schere auf der rechten Schulter, linker Daumen hoch
+  | 'tubcarry' // Dummy: geht + trägt die Spielzeug-Kiste an den Seitengriffen (LEGO.tub)
+  | 'tubpour' // Dummy: hebt die Kiste (0–0,7 s) und kippt sie nach vorn aus (0,7–1,4 s), tubPour(t)
+  | 'fakir' // Dummy: steht entspannt, Handflächen vor der Brust aneinander, wiegt sich leicht
+  | 'zipride' // Dummy: hängt an der Seilrutsche, Hände an der Griffstange (LEGO.zipHands), zieht ab 0,15 s die Beine an
   | 'perch' // Taube: sitzen, Kopf nicken/picken, gurren
   | 'flap' // Taube: auf der Stelle flattern
   | 'talk' // Tauben-Anführer: mit den Flügeln gestikulieren
@@ -674,6 +684,8 @@ export type ActorKey = {
   slime?: number;
   /** Spezial Müll: Cartoon-Muskeln am Dummy 0 … 1 */
   muscle?: number;
+  /** Spezial Legostein: dickes rotes Seil um den rechten Oberschenkel (wird gewickelt) 0 … 1 */
+  redrope?: number;
   /** Tür „druecktuer“: Laufschiene wird angeschraubt 0 … 1 (ab 0,85 hängt das Blatt in der Schiene) */
   rail?: number;
   /** Tür „druecktuer“: Schiebetür rollt zur Seite 0 … 1 */
@@ -681,7 +693,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs', 'slime', 'muscle', 'thin'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs', 'slime', 'muscle', 'thin', 'redrope'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

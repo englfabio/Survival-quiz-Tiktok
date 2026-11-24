@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Thick rope being wrapped tightly around something, rough rope rubbing and creaking, quick",
+  "duration": 1.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-24T01:31:15.842Z"
+}

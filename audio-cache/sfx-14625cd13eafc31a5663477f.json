@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon sharp plastic toy brick click under a bare foot followed by a high comic pain 'zing' sting, funny slapstick, no voice",
+  "duration": 0.8,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-24T01:31:12.417Z"
+}

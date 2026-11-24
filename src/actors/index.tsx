@@ -55,6 +55,7 @@ import {Cookie, COOKIE_COLORS, CookieBurst, CookieHeap, DataBinder, FightCloud, 
 import {SteamPuffs} from './GamingProps';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
 import {AppStream, BedPhone, DizzyStars, Duvet, ImpactStar, Pillow, ReverseBurst, TwinkleStar} from './BedPhoneProps';
+import {BrickMountain, BrickTub, GiantScissors, KeepOutSign, LegoBrick, Zipline} from './LegoProps';
 import {FacadeSplat, GarbageTruck, HouseDoorWall, LivingFurniture, NeighborHouse, ShotCup, TrashBag} from './MuellProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
@@ -381,6 +382,13 @@ export const ACTORS = {
   // ---- Spezial: Handy im Gesicht ----
   betthandy: {height: 0.05, climbOffset: 0, speedLineHeight: 0.05},
   riesenhandy: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial Legostein (LegoProps.tsx) ----
+  klemmstein: {height: 0.06, climbOffset: 0, speedLineHeight: 0},
+  steinberg: {height: 0.33, climbOffset: 0, speedLineHeight: 0},
+  steinkiste: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  riesenschere: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  sperrschild: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  seilrutsche: {height: 2.8, climbOffset: 0, speedLineHeight: 0},
   reverseeffekt: {height: 0, climbOffset: 0, speedLineHeight: 0},
   sternchen: {height: 0, climbOffset: 0, speedLineHeight: 0},
   klatschstern: {height: 0, climbOffset: 0, speedLineHeight: 0},
@@ -826,6 +834,7 @@ export const Actor = ({
           goggles={v.goggles}
           slime={v.slime}
           muscle={v.muscle}
+          redrope={v.redrope}
         />
       )}
       {name === 'gartennachbar' && (
@@ -1206,6 +1215,16 @@ export const Actor = ({
       {name === 'appregen' && state.motion === 'burst' && <AppStream time={state.motionTime} photos={v.mark > 0.5} size={v.size} />}
       {name === 'bettdecke' && <Duvet fill={v.fill} squish={v.squish} />}
       {name === 'kissen' && <Pillow squish={v.squish} />}
+      {name === 'klemmstein' && <LegoBrick glow={v.glow} mark={v.mark} size={v.size} time={clock} />}
+      {name === 'steinberg' && <BrickMountain fill={v.fill} size={v.size} />}
+      {name === 'steinkiste' && <BrickTub tilt={v.tilt} fill={v.fill} pour={v.mark} drop={v.drop} time={clock} />}
+      {name === 'riesenschere' && (
+        <group scale={1 + v.size} rotation={[(v.tilt * Math.PI) / 180, 0, (v.turn * Math.PI) / 180]}>
+          <GiantScissors fill={v.fill} glow={v.glow} time={clock} />
+        </group>
+      )}
+      {name === 'sperrschild' && <KeepOutSign fill={v.fill} rumble={v.rumble} time={clock} />}
+      {name === 'seilrutsche' && <Zipline fill={v.fill} rumble={v.rumble} time={clock} />}
       {name === 'milchschuessel' && (
         <group scale={1 + v.size}>
           <MilkBowl fill={v.fill} ripple={v.mark} time={clock} />

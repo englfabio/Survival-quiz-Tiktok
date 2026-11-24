@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Hundreds of small plastic toy building bricks pouring out of a box onto a wooden floor, loud clattering rattling cascade",
+  "duration": 2.5,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-24T01:31:19.193Z"
+}

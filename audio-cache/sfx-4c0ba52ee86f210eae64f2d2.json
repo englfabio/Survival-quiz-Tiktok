@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon spring boing launching straight up with a rising slide whistle, slapstick jump, no voice",
+  "duration": 1.2,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-24T01:31:14.069Z"
+}

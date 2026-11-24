@@ -6114,8 +6114,161 @@ const handyPose = (motion: Motion, time: number): DummyPose | null => {
   return null;
 };
 
+/**
+ * Spezial „Legostein“ (comichaft, harmlos; Details in legoPose):
+ *  - brickjump:     katapultiert sich vor Schmerz in die Luft (Höhe über y der Zeitpunkte): rechtes Bein angezogen, Arme wild nach oben, Mund offen
+ *  - ropewrap:      steht, beugt sich vor, wickelt mit beiden Händen ein dickes rotes Seil um den rechten Oberschenkel (Seil über Wert `redrope`)
+ *  - scissorshow:   hält die Riesen-Schere mit beiden Händen senkrecht vor sich (Griffe bei LEGO.sciShow), Schere am Drehpunkt LEGO.sciShowPivot
+ *  - scissorsaim:   leicht in der Hocke, Schere mit beiden Händen schräg nach vorn unten (weit vor dem Körper), Griffe bei LEGO.sciAim
+ *  - scissorsproud: Schere locker auf der rechten Schulter (Griff LEGO.sciProud), linker Daumen hoch, nickt zufrieden
+ *  - tubcarry:      geht und trägt die Spielzeug-Kiste an den Seitengriffen vor dem Bauch (Griffe bei LEGO.tub, ± LEGO.tubHX)
+ *  - tubpour:       hebt die Kiste (0–0,7 s) und kippt sie nach vorn aus (0,7–1,4 s) – Kiste: tubPour(t) liefert Höhe/Abstand/Neigung
+ *  - fakir:         steht ganz entspannt, Handflächen vor der Brust aneinander, wiegt sich leicht, Kopf leicht erhoben
+ *  - zipride:       hängt an der Seilrutsche: Hände oben an der Griffstange (LEGO.zipHands), zieht ab 0,15 s die Beine an (Knie hoch)
+ */
+export const LEGO = {
+  sciShow: [0.075, 1.2, 0.42] as P3,
+  sciShowPivot: [0, 1.36, 0.478] as P3,
+  sciAim: [0.075, 0.95, 0.42] as P3,
+  sciProud: [-0.3, 1.28, 0.16] as P3,
+  tub: [0, 0.95, 0.45] as P3,
+  tubHX: 0.4,
+  zipHands: [0.17, 1.95, 0.03] as P3,
+};
+/** Kiste beim Auskippen: Mitte der Griff-Achse (y, z im Dummy-System) + Neigung in Grad */
+export const tubPour = (t: number) => {
+  const k1 = easeInOut(clamp(t / 0.7));
+  const k2 = easeInOut(clamp((t - 0.7) / 0.7));
+  return {y: LEGO.tub[1] + 0.32 * k1, z: LEGO.tub[2] + 0.1 * k1, tilt: 110 * k2};
+};
+const legoPose = (motion: Motion, time: number, speed: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const restR: P3 = [-0.22, 0.92, 0.08];
+  const restLL: P3 = [0.22, 0.92, 0.08];
+  switch (motion) {
+    case 'brickjump': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.18));
+      const fl = Math.sin(time * 19);
+      p.legR = L3(-1.25 * k, -0.12, 2.0 * k);
+      p.legL = L3(0.12 * k + 0.08 * Math.sin(time * 13), 0.1 * k, 0.25 * k);
+      p.armL = L3(-0.6 * k + 0.35 * fl * k, 2.3 * k, -0.35);
+      p.armR = L3(-0.6 * k - 0.35 * fl * k, -2.3 * k, -0.35);
+      p.torsoX = -0.18 * k + 0.04 * Math.sin(time * 23);
+      p.torsoZ = 0.06 * Math.sin(time * 17) * k;
+      p.headX = -0.45 * k;
+      p.mouthO = k;
+      return p;
+    }
+    case 'ropewrap': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.4));
+      p.legR = L3(-0.22 * k, -0.06, 0.18 * k);
+      p.legL = L3(0.08 * k, 0.05, 0.08 * k);
+      p.hipY = 0.98 - 0.03 * k;
+      p.torsoX = 0.55 * k;
+      p.headX = 0.45 * k;
+      const ph = time * 6.5;
+      const b = (Math.PI / 2) * (0.5 + 0.5 * Math.sin(ph));
+      const g = (Math.PI / 2) * (0.5 + 0.5 * Math.sin(ph + Math.PI));
+      const R: P3 = [-0.105 - 0.19 * Math.cos(b), 0.68, 0.06 + 0.19 * Math.sin(b)];
+      const Lh: P3 = [-0.105 + 0.19 * Math.cos(g), 0.64, 0.06 + 0.19 * Math.sin(g)];
+      reachR(p, lerp3t(restR, R, k), 0.33, [0.6, 0.2, 1]);
+      reachL(p, lerp3t(restLL, Lh, k), 0.33, [0.6, 0.2, 1]);
+      p.fists = true;
+      return p;
+    }
+    case 'scissorshow': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.35));
+      const [x, y, z] = LEGO.sciShow;
+      reachR(p, lerp3t(restR, [-x, y, z], k), 0.33, [0.6, -1, -0.4]);
+      reachL(p, lerp3t(restLL, [x, y, z], k), 0.33, [0.6, -1, -0.4]);
+      p.fists = true;
+      p.torsoX = -0.05 * k + breathe;
+      p.headX = -0.12 * k;
+      p.legL = L3(-0.05, 0.1, 0.05);
+      p.legR = L3(0.08, -0.1, 0.05);
+      return p;
+    }
+    case 'scissorsaim': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      p.hipY = 0.98 - 0.08 * k;
+      p.legR = L3(-0.42 * k, -0.08, 0.5 * k);
+      p.legL = L3(0.2 * k, 0.08, 0.35 * k);
+      p.torsoX = 0.3 * k + Math.sin(time * 3) * 0.015;
+      p.headX = 0.35 * k;
+      const [x, y, z] = LEGO.sciAim;
+      reachR(p, lerp3t(restR, [-x, y, z], k), 0.33, [0.6, -1, -0.4]);
+      reachL(p, lerp3t(restLL, [x, y, z], k), 0.33, [0.6, -1, -0.4]);
+      p.fists = true;
+      return p;
+    }
+    case 'scissorsproud': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.45));
+      reachR(p, lerp3t(restR, LEGO.sciProud, k), 0.33, [-0.4, -1, -0.4]);
+      reachL(p, lerp3t(restLL, [0.2, 1.3, 0.3], k), 0.33, [0.8, -0.2, -0.8]);
+      p.fists = true;
+      p.torsoX = -0.06 * k + breathe;
+      p.headX = -0.06 + 0.07 * Math.sin(Math.max(0, time - 0.5) * 5) * k;
+      p.headY = 0.15 * k;
+      p.legL = L3(-0.06, 0.1, 0.05);
+      p.legR = L3(0.06, -0.1, 0.05);
+      return p;
+    }
+    case 'tubcarry':
+    case 'tubpour': {
+      const w = dummyPose(motion === 'tubcarry' ? 'walk' : 'stand', time, speed * 0.8);
+      const p = base();
+      p.legL = w.legL;
+      p.legR = w.legR;
+      p.hipY = w.hipY - 0.02;
+      const c = motion === 'tubpour' ? tubPour(time) : {y: LEGO.tub[1], z: LEGO.tub[2], tilt: 0};
+      reachR(p, [-LEGO.tubHX, c.y, c.z], 0.33, [-1, -0.6, -0.2]);
+      reachL(p, [LEGO.tubHX, c.y, c.z], 0.33, [1, -0.6, -0.2]);
+      p.torsoX = -0.08 + (motion === 'tubpour' ? -0.06 * easeInOut(clamp(time / 0.7)) : 0);
+      p.headX = 0.15;
+      p.fists = true;
+      return p;
+    }
+    case 'fakir': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.6));
+      const sw = Math.sin(time * 1.4);
+      reachR(p, lerp3t(restR, [-0.035, 1.25, 0.24], k), 0.33, [-1, -0.4, -0.3]);
+      reachL(p, lerp3t(restLL, [0.035, 1.25, 0.24], k), 0.33, [1, -0.4, -0.3]);
+      p.fists = false;
+      p.torsoZ = 0.03 * sw * k;
+      p.torsoX = -0.03 + breathe;
+      p.headX = -0.18 * k;
+      p.headY = 0.08 * sw * k;
+      p.legL = L3(-0.03, 0.12, 0.04);
+      p.legR = L3(0.03, -0.12, 0.04);
+      return p;
+    }
+    case 'zipride': {
+      const p = base();
+      const k = easeInOut(clamp((time - 0.15) / 0.45));
+      const [x, y, z] = LEGO.zipHands;
+      reachR(p, [-x, y, z], 0.33, [-1, 0.2, -0.3]);
+      reachL(p, [x, y, z], 0.33, [1, 0.2, -0.3]);
+      p.fists = true;
+      const kick = Math.sin(time * 5) * 0.08 * k;
+      p.legL = L3(-1.65 * k + kick, 0.12, 1.75 * k);
+      p.legR = L3(-1.65 * k - kick, -0.12, 1.75 * k);
+      p.torsoX = -0.05 * k;
+      p.headX = -0.1 + 0.1 * k;
+      p.mouthO = 0.0;
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = handyPose(motion, time) ?? muellPose(motion, time, speed) ?? cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = legoPose(motion, time, speed) ?? handyPose(motion, time) ?? muellPose(motion, time, speed) ?? cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;
@@ -6881,6 +7034,42 @@ const Band = ({m, amount}: {m: Mats; amount: number}) => {
   );
 };
 
+/** Dickes rotes Seil um den Oberschenkel (Spezial Legostein): 3 Windungen wachsen nacheinander, ab 1 große Schleife vorn – comichaft */
+const RedRope = ({amount}: {amount: number}) => {
+  const mat = useMemo(() => new THREE.MeshStandardMaterial({color: '#e0261f', roughness: 0.75, flatShading: true}), []);
+  const turns = [0, 1, 2].filter((i) => amount > i / 3.4);
+  const bow = clamp((amount - 0.88) / 0.12);
+  return (
+    <group position={[0, -0.12, 0]}>
+      {turns.map((i) => {
+        const part = clamp(amount * 3.4 - i);
+        return (
+          <mesh key={i} material={mat} position={[0, -i * 0.05, 0]} rotation={[Math.PI / 2, 0, i * 1.1]}>
+            <torusGeometry args={[0.13 - i * 0.004, 0.03, 6, 16, Math.PI * 2 * Math.max(0.05, part)]} />
+          </mesh>
+        );
+      })}
+      {bow > 0.01 && (
+        <group position={[0, -0.05, 0.15]} scale={bow}>
+          {[-1, 1].map((k) => (
+            <mesh key={k} material={mat} position={[k * 0.075, 0.0, 0.01]} rotation={[0, 0, k * 0.35]} scale={[1, 0.65, 1]}>
+              <torusGeometry args={[0.06, 0.022, 6, 12]} />
+            </mesh>
+          ))}
+          <mesh material={mat}>
+            <icosahedronGeometry args={[0.035, 0]} />
+          </mesh>
+          {[-1, 1].map((k) => (
+            <mesh key={`e${k}`} material={mat} position={[k * 0.04, -0.09, 0.0]} rotation={[0, 0, k * 0.3]}>
+              <cylinderGeometry args={[0.02, 0.02, 0.15, 6]} />
+            </mesh>
+          ))}
+        </group>
+      )}
+    </group>
+  );
+};
+
 /** Sicherheitsgurt: Schultergurt (linke Schulter → rechte Hüfte), rollt sich zur Schulter hin auf */
 const ShoulderBelt = ({m, amount}: {m: Mats; amount: number}) => {
   if (amount <= 0.01) return null;
@@ -6907,7 +7096,10 @@ const Leg = ({
   pants = 0,
   paint = 0,
   slipper,
+  redrope = 0,
 }: {
+  /** dickes rotes Seil um den Oberschenkel 0 … 1 */
+  redrope?: number;
   /** Hausschuhe (Farbe, flauschig) statt Schuhen */
   slipper?: string;
   /** Schuhe mit grüner Farbe 0 … 1 */
@@ -6935,6 +7127,7 @@ const Leg = ({
     <PainGlow m={m} amount={clamp((pain - 1.45) * 2)} len={0.43} r={0.11} time={time} phase={1.2} />
     <Marker m={m} r={0.055} position={[0.108 * side, -0.2, 0]} rotation={[0, (Math.PI / 2) * side, 0]} />
     {band > 0 && <Band m={m} amount={band} />}
+    {redrope > 0.01 && <RedRope amount={redrope} />}
     <group position={[0, -0.44, 0]} rotation={[limb.bend, 0, 0]}>
       <Joint m={m} r={0.08} />
       <Seg m={m} len={0.42} r={0.085} r2={0.065} />
@@ -8107,7 +8300,10 @@ export const Dummy = ({
   goggles = 0,
   slime = 0,
   muscle = 0,
+  redrope = 0,
 }: {
+  /** dickes rotes Seil um den rechten Oberschenkel 0 … 1 (wird gewickelt; Spezial Legostein, comichaft) */
+  redrope?: number;
   /** grüner Cartoon-Schleim an der rechten Hand + Tropfen 0 … 1 (Spezial Müll) */
   slime?: number;
   /** Cartoon-Muskeln 0 … 1: Bizeps, Schultern, Unterarme, Brust wachsen (Spezial Müll, Protein-Shot) */
@@ -8231,7 +8427,7 @@ export const Dummy = ({
           </mesh>
         )}
         <Leg m={m} limb={pose.legL} side={1} barefoot={barefoot} pants={pants} paint={paint} slipper={uniform?.slippers} />
-        <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} sting={sting} pain={pain} barefoot={barefoot} time={time} pants={pants} paint={paint} slipper={uniform?.slippers} />
+        <Leg m={m} limb={pose.legR} side={-1} bite={bite} band={pose.band} sting={sting} pain={pain} barefoot={barefoot} time={time} pants={pants} paint={paint} slipper={uniform?.slippers} redrope={redrope} />
         {uniform?.robe && (
           <group>
             {/* Bademantel: Rock vom Becken bis übers Knie (sitzt locker), überlappende Vorderkante */}

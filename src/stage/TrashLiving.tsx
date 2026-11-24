@@ -1,6 +1,7 @@
 import {useMemo} from 'react';
 import * as THREE from 'three';
 import {FamilyHouse} from '../actors/HausProps';
+import {HouseDoorWall, LivingFurniture} from '../actors/MuellProps';
 import {FarHouses} from './Park';
 import {Room, std, tileTexture} from './Rooms';
 import type {StageDef} from './types';
@@ -16,7 +17,7 @@ import type {StageDef} from './types';
  */
 export const WZG = {W: 11, D: 9, H: 3.8, wall: [1.65, -4.5] as [number, number], bag: [-0.95, 0.8] as [number, number], truckStop: [1.65, 0.5] as [number, number]};
 
-const BigLivingScene = () => {
+const BigLivingScene = ({lego = false}: {lego?: boolean}) => {
   const {W, D, H} = WZG;
   const zb = -D / 2;
   const mats = useMemo(
@@ -94,6 +95,15 @@ const BigLivingScene = () => {
         </group>
       ))}
       <FarHouses z={zb - 52} face={1} seed={9} day />
+      {/* Variante "wohnzimmer-lego": Haustür-Wand (zu) + Möbel fest eingebaut */}
+      {lego && (
+        <>
+          <group position={[WZG.wall[0], 0, WZG.wall[1]]}>
+            <HouseDoorWall fill={0} />
+          </group>
+          <LivingFurniture />
+        </>
+      )}
       {/* Deckenleuchten */}
       {[-2.5, 2.5].map((x) => (
         <mesh key={x} position={[x, H - 0.05, 0.5]}>
@@ -106,3 +116,11 @@ const BigLivingScene = () => {
 };
 
 export const bigLivingStage: StageDef = {id: 'wohnzimmer-gross', Component: () => <BigLivingScene />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
+
+/**
+ * Wohnzimmer für Spezial „Legostein“ ("wohnzimmer-lego", Atmo `uhr-ticken`): das große Wohnzimmer `WZG` (W 11, D 9, H 3,8) mit fest eingebauter
+ * Haustür-Wand (Tür zu, innen Garderobe = Flur-Ecke) und den Möbeln (`LIVING_BIG`: Sofa an der linken Wand bei (−4.55, 0.4) Blick +x, Sitz 0,46 m,
+ * Couchtisch (−2.75, 0.45), Teppich, Stuhl, Stehlampe, Pflanze, Fernseher rechts bei (4.85, 0.2)). Dummy barfuß. Platz für Seilrutsche (ZIP in
+ * LegoProps.tsx, Seil bei z 1.4 von Wand zu Wand, Start über der Sofa-Armlehne (−4.6, 1.4), Oberkante 0,66 m) + Absperrband um die Raummitte.
+ */
+export const legoLivingStage: StageDef = {id: 'wohnzimmer-lego', Component: () => <BigLivingScene lego />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken', barefoot: true};
