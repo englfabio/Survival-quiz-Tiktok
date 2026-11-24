@@ -1,0 +1,2484 @@
+{
+  "id": "spezial-legostein",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "wohnzimmer-lego",
+  "padAfter": 0.05,
+  "situation": {
+    "speech": "Du bist mal wieder auf ein Legosteinchen getreten. Der Schmerz fährt dir bis ins nächste Jahrhundert. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Bein abbinden und abschneiden",
+      "speech": "A: Du bindest dein Bein ab und schneidest es ab, damit die Schmerzen aufhören.",
+      "dummyAction": "Karte: Der Dummy sitzt auf dem Teppich und hält seinen Fuß. Szene: Er wickelt todernst ein dickes rotes Seil um den Oberschenkel (große Schleife), holt eine riesige bunte Spielzeug-Schere hervor, lässt sie in der Luft schnappen und hält sie dann weit vor sich schräg nach unten – keine Berührung, kein Schnitt, das Bein bleibt heil. Zum Schluss Schere auf der Schulter, Daumen hoch. Rein comichaft, ohne jede Verletzung.",
+      "explanation": "Rotes Seil drum, riesige Schere raus. Wenn das Bein weg ist, tut auch nichts mehr weh. Logik pur.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -3.34,
+              1.81,
+              5.4
+            ],
+            "look": [
+              -1.66,
+              0.45,
+              0.78
+            ]
+          },
+          {
+            "t": 0.4348,
+            "pos": [
+              -3.273,
+              1.756,
+              5.215
+            ],
+            "look": [
+              -1.66,
+              0.45,
+              0.78
+            ]
+          },
+          {
+            "t": 0.4383,
+            "pos": [
+              -2.12,
+              2.21,
+              6.4
+            ],
+            "look": [
+              0.05,
+              0.83,
+              1.03
+            ]
+          },
+          {
+            "t": 0.5729,
+            "pos": [
+              -2.012,
+              2.141,
+              6.131
+            ],
+            "look": [
+              0.05,
+              0.83,
+              1.03
+            ]
+          },
+          {
+            "t": 0.5764,
+            "pos": [
+              2.3,
+              2.01,
+              8.01
+            ],
+            "look": [
+              1.17,
+              0.74,
+              1.06
+            ]
+          },
+          {
+            "t": 0.7041,
+            "pos": [
+              2.244,
+              1.946,
+              7.662
+            ],
+            "look": [
+              1.17,
+              0.74,
+              1.06
+            ]
+          },
+          {
+            "t": 0.7074,
+            "pos": [
+              7.63,
+              1.87,
+              2.57
+            ],
+            "look": [
+              0.58,
+              0.86,
+              0.95
+            ]
+          },
+          {
+            "t": 0.9564,
+            "pos": [
+              7.348,
+              1.83,
+              2.505
+            ],
+            "look": [
+              0.58,
+              0.86,
+              0.95
+            ]
+          },
+          {
+            "t": 0.9587,
+            "pos": [
+              -0.93,
+              2.06,
+              8.04
+            ],
+            "look": [
+              0.3,
+              0.78,
+              1.09
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.869,
+              1.996,
+              7.692
+            ],
+            "look": [
+              0.3,
+              0.78,
+              1.09
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -1.7,
+              "z": 0.75,
+              "motion": "holdfoot",
+              "face": 150.0,
+              "pain": 1.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.447,
+              "x": -1.7,
+              "z": 0.75,
+              "motion": "holdfoot",
+              "face": 150.0,
+              "pain": 1.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.4485,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "ropewrap",
+              "face": 160.0,
+              "angry": 0.8,
+              "redrope": 0.0,
+              "pain": 0.0,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 0.4683,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "ropewrap",
+              "face": 160.0,
+              "redrope": 0.05,
+              "y": 0.0
+            },
+            {
+              "t": 0.556,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "ropewrap",
+              "face": 160.0,
+              "redrope": 1.0,
+              "angry": 0.8,
+              "y": 0.0
+            },
+            {
+              "t": 0.5624,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "ropewrap",
+              "face": 160.0,
+              "redrope": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5639,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "scissorshow",
+              "face": 160.0,
+              "redrope": 1.0,
+              "angry": 0.8,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6755,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "scissorshow",
+              "face": 160.0,
+              "redrope": 1.0,
+              "angry": 0.8,
+              "y": 0.0
+            },
+            {
+              "t": 0.677,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "scissorsaim",
+              "face": 160.0,
+              "redrope": 1.0,
+              "angry": 0.9,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.9395,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "scissorsaim",
+              "face": 160.0,
+              "redrope": 1.0,
+              "angry": 0.9,
+              "y": 0.0
+            },
+            {
+              "t": 0.941,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "scissorsproud",
+              "face": 160.0,
+              "redrope": 1.0,
+              "angry": 0.0,
+              "pain": 0.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 0.4,
+              "z": 1.0,
+              "motion": "scissorsproud",
+              "face": 160.0,
+              "redrope": 1.0,
+              "angry": 0.0,
+              "pain": 0.0,
+              "y": 0.0
+            }
+          ],
+          "riesenschere": [
+            {
+              "t": 0.0,
+              "x": 0,
+              "z": 0.478,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "tilt": -70.0,
+              "fill": 0.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.5714,
+              "x": 0,
+              "z": 0.478,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "tilt": -70.0,
+              "fill": 0.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.5734,
+              "x": 0,
+              "z": 0.478,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "attach": "dummy",
+              "tilt": -70.0,
+              "fill": 0.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.6011,
+              "x": 0,
+              "z": 0.478,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "attach": "dummy",
+              "tilt": -70.0,
+              "fill": 1.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.6185,
+              "x": 0,
+              "z": 0.478,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "attach": "dummy",
+              "tilt": -70.0,
+              "fill": 0.1,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.6359,
+              "x": 0,
+              "z": 0.478,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "attach": "dummy",
+              "tilt": -70.0,
+              "fill": 1.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.6533,
+              "x": 0,
+              "z": 0.478,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "attach": "dummy",
+              "tilt": -70.0,
+              "fill": 0.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.6755,
+              "x": 0,
+              "z": 0.478,
+              "motion": "park",
+              "face": 0,
+              "y": 1.36,
+              "attach": "dummy",
+              "tilt": -70.0,
+              "fill": 0.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.677,
+              "x": 0,
+              "z": 0.567,
+              "motion": "park",
+              "face": 0,
+              "y": 0.865,
+              "attach": "dummy",
+              "tilt": 30.0,
+              "fill": 0.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.7166,
+              "x": 0,
+              "z": 0.567,
+              "motion": "park",
+              "face": 0,
+              "y": 0.865,
+              "attach": "dummy",
+              "tilt": 30.0,
+              "fill": 0.85,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.9395,
+              "x": 0,
+              "z": 0.567,
+              "motion": "park",
+              "face": 0,
+              "y": 0.865,
+              "attach": "dummy",
+              "tilt": 30.0,
+              "fill": 0.85,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.941,
+              "x": -0.225,
+              "z": 0.075,
+              "motion": "park",
+              "face": 0,
+              "y": 1.427,
+              "attach": "dummy",
+              "tilt": -120.0,
+              "fill": 0.0,
+              "glow": 0.0,
+              "turn": 0.0,
+              "size": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.9727,
+              "x": -0.225,
+              "z": 0.075,
+              "motion": "park",
+              "face": 0,
+              "y": 1.427,
+              "attach": "dummy",
+              "tilt": -120.0,
+              "fill": 0.0,
+              "glow": 1.0,
+              "turn": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 1,
+              "x": -0.225,
+              "z": 0.075,
+              "motion": "park",
+              "face": 0,
+              "y": 1.427,
+              "attach": "dummy",
+              "tilt": -120.0,
+              "fill": 0.0,
+              "glow": 1.0,
+              "turn": 0.0,
+              "size": 0.0
+            }
+          ]
+        },
+        "stage": "wohnzimmer-lego",
+        "sfx": [
+          {
+            "t": 0.4643,
+            "id": "seil-wickeln",
+            "volume": 0.9
+          },
+          {
+            "t": 0.5734,
+            "id": "plopp",
+            "volume": 0.6
+          },
+          {
+            "t": 0.5995,
+            "id": "schere-schnapp",
+            "volume": 0.9
+          },
+          {
+            "t": 0.9647,
+            "id": "himmel-chor",
+            "volume": 0.3
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Berg aus Steinen unter die Füße",
+      "speech": "B: Du legst ganz viele Steine unter den Fuß, weil sie in Summe nicht wehtun.",
+      "dummyAction": "Karte: Der Dummy trägt eine große Spielzeug-Kiste herein. Szene: Er kippt sie aus, ein ganzer Berg bunter Klemmbausteine prasselt auf den Boden. Er steigt hinauf und steht völlig entspannt wie ein Fakir darauf (Handflächen aneinander, Gong).",
+      "explanation": "Ein ganzer Berg voller Steine unter beide Füße. Verteilt tut es plötzlich gar nicht mehr weh. Genialer Trick.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -0.8,
+              2.5,
+              7.58
+            ],
+            "look": [
+              0.98,
+              0.54,
+              -0.83
+            ]
+          },
+          {
+            "t": 0.4018,
+            "pos": [
+              -0.729,
+              2.422,
+              7.244
+            ],
+            "look": [
+              0.98,
+              0.54,
+              -0.83
+            ]
+          },
+          {
+            "t": 0.4053,
+            "pos": [
+              -4.74,
+              3.1,
+              7.42
+            ],
+            "look": [
+              1.21,
+              0.69,
+              1.03
+            ]
+          },
+          {
+            "t": 0.7149,
+            "pos": [
+              -4.442,
+              2.98,
+              7.101
+            ],
+            "look": [
+              1.21,
+              0.69,
+              1.03
+            ]
+          },
+          {
+            "t": 0.7182,
+            "pos": [
+              7.66,
+              1.62,
+              6.1
+            ],
+            "look": [
+              0.88,
+              0.96,
+              1.36
+            ]
+          },
+          {
+            "t": 0.9401,
+            "pos": [
+              7.321,
+              1.587,
+              5.863
+            ],
+            "look": [
+              0.88,
+              0.96,
+              1.36
+            ]
+          },
+          {
+            "t": 0.9425,
+            "pos": [
+              -1.44,
+              1.07,
+              10.11
+            ],
+            "look": [
+              0.9,
+              0.75,
+              1.37
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -1.323,
+              1.054,
+              9.673
+            ],
+            "look": [
+              0.9,
+              0.75,
+              1.37
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": 1.1,
+              "z": -2.05,
+              "motion": "tubcarry",
+              "face": 180.0,
+              "pain": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.3786,
+              "x": 0.9,
+              "z": 0.25,
+              "motion": "tubcarry",
+              "face": 180.0,
+              "pain": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4192,
+              "x": 0.9,
+              "z": 0.25,
+              "motion": "tubcarry",
+              "face": 180.0,
+              "pain": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4207,
+              "x": 0.9,
+              "z": 0.25,
+              "motion": "tubpour",
+              "face": 180.0,
+              "pain": 1.0,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 0.6739,
+              "x": 0.9,
+              "z": 0.25,
+              "motion": "tubpour",
+              "face": 180.0,
+              "pain": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6754,
+              "x": 0.9,
+              "z": 0.25,
+              "motion": "stand",
+              "face": 180.0,
+              "pain": 1.0,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.6943,
+              "x": 0.9,
+              "z": 0.25,
+              "motion": "walk",
+              "face": 180.0,
+              "pain": 0.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.751,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "walk",
+              "face": 180.0,
+              "y": 0.33,
+              "pain": 0.0
+            },
+            {
+              "t": 0.7548,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "stand",
+              "face": 180.0,
+              "y": 0.33
+            },
+            {
+              "t": 0.9185,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "stand",
+              "face": 180.0,
+              "y": 0.33
+            },
+            {
+              "t": 0.92,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "fakir",
+              "face": 180.0,
+              "y": 0.33,
+              "breath": 0.35,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "fakir",
+              "face": 180.0,
+              "y": 0.33,
+              "breath": 0.35
+            }
+          ],
+          "steinkiste": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0.45,
+              "motion": "park",
+              "face": 0,
+              "y": 0.95,
+              "attach": "dummy",
+              "tilt": 0.0,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 0.95
+            },
+            {
+              "t": 0.4192,
+              "x": 0,
+              "z": 0.45,
+              "motion": "park",
+              "face": 0,
+              "y": 0.95,
+              "attach": "dummy",
+              "tilt": 0.0,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 0.95
+            },
+            {
+              "t": 0.4245,
+              "x": 0,
+              "z": 0.45,
+              "motion": "park",
+              "face": 0,
+              "y": 0.95,
+              "attach": "dummy",
+              "tilt": 0.0,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 0.95,
+              "cut": true
+            },
+            {
+              "t": 0.4358,
+              "x": 0,
+              "z": 0.461,
+              "motion": "park",
+              "face": 0,
+              "y": 0.985,
+              "attach": "dummy",
+              "tilt": 0.0,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 0.985
+            },
+            {
+              "t": 0.4472,
+              "x": 0,
+              "z": 0.489,
+              "motion": "park",
+              "face": 0,
+              "y": 1.074,
+              "attach": "dummy",
+              "tilt": 0.0,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 1.074
+            },
+            {
+              "t": 0.4585,
+              "x": 0,
+              "z": 0.522,
+              "motion": "park",
+              "face": 0,
+              "y": 1.179,
+              "attach": "dummy",
+              "tilt": 0.0,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 1.179
+            },
+            {
+              "t": 0.4698,
+              "x": 0,
+              "z": 0.545,
+              "motion": "park",
+              "face": 0,
+              "y": 1.254,
+              "attach": "dummy",
+              "tilt": 0.0,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 1.254
+            },
+            {
+              "t": 0.4812,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "y": 1.27,
+              "attach": "dummy",
+              "tilt": 1.4,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 1.27
+            },
+            {
+              "t": 0.4925,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "y": 1.27,
+              "attach": "dummy",
+              "tilt": 20.7,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 1.27
+            },
+            {
+              "t": 0.5038,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "y": 1.27,
+              "attach": "dummy",
+              "tilt": 55.0,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 1.27
+            },
+            {
+              "t": 0.5152,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "y": 1.27,
+              "attach": "dummy",
+              "tilt": 89.3,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 1.27
+            },
+            {
+              "t": 0.5265,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "y": 1.27,
+              "attach": "dummy",
+              "tilt": 108.6,
+              "fill": 1.0,
+              "mark": 0.0,
+              "drop": 1.27
+            },
+            {
+              "t": 0.5379,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "y": 1.27,
+              "attach": "dummy",
+              "tilt": 110.0,
+              "fill": 1.0,
+              "mark": 1.0,
+              "drop": 1.27
+            },
+            {
+              "t": 0.6565,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "y": 1.27,
+              "attach": "dummy",
+              "tilt": 110.0,
+              "fill": 0.0,
+              "mark": 1.0,
+              "drop": 1.27
+            },
+            {
+              "t": 0.6739,
+              "x": 0,
+              "z": 0.55,
+              "motion": "park",
+              "face": 0,
+              "y": 1.27,
+              "attach": "dummy",
+              "tilt": 110.0,
+              "fill": 0.0,
+              "mark": 0.0,
+              "drop": 1.27
+            },
+            {
+              "t": 0.6754,
+              "x": 1.65,
+              "z": 0.35,
+              "motion": "park",
+              "face": 180.0,
+              "y": 0.25,
+              "tilt": 0.0,
+              "fill": 0.0,
+              "mark": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": 1.65,
+              "z": 0.35,
+              "motion": "park",
+              "face": 180.0,
+              "y": 0.25,
+              "tilt": 0.0,
+              "fill": 0.0,
+              "mark": 0.0
+            }
+          ],
+          "steinberg": [
+            {
+              "t": 0.0,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.4187,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.4207,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5076,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "park",
+              "face": 0,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6678,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "park",
+              "face": 0,
+              "fill": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.9,
+              "z": 1.37,
+              "motion": "park",
+              "face": 0,
+              "fill": 1.0,
+              "y": 0.0
+            }
+          ]
+        },
+        "stage": "wohnzimmer-lego",
+        "sfx": [
+          {
+            "t": 0.5,
+            "id": "steine-schuetten",
+            "volume": 1.0
+          },
+          {
+            "t": 0.683,
+            "id": "paket-abstellen",
+            "volume": 0.4
+          },
+          {
+            "t": 0.7283,
+            "id": "klemmstein-klick",
+            "volume": 0.5
+          },
+          {
+            "t": 0.9276,
+            "id": "zen-gong",
+            "volume": 0.8
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Sperrgebiet per Seilrutsche",
+      "speech": "C: Du erklärst das Wohnzimmer zum Sperrgebiet und bewegst dich nur noch per Seilrutsche.",
+      "dummyAction": "Karte: Der Dummy zeigt erschrocken auf den funkelnden Stein am Boden. Szene: Absperrband zieht sich um das Wohnzimmer, das Schild „SPERRGEBIET“ ploppt auf. Dann saust der Dummy von der Sofa-Armlehne an einer Seilrutsche quer über das abgesperrte Zimmer, ohne den Boden zu berühren.",
+      "explanation": "Absperrband drum, Schild dran. Das Wohnzimmer ist jetzt Sperrgebiet. Ab sofort geht es nur noch per Seilrutsche durch den Raum.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -7.67,
+              2.19,
+              7.13
+            ],
+            "look": [
+              -0.82,
+              0.43,
+              1.79
+            ]
+          },
+          {
+            "t": 0.3983,
+            "pos": [
+              -7.396,
+              2.12,
+              6.916
+            ],
+            "look": [
+              -0.82,
+              0.43,
+              1.79
+            ]
+          },
+          {
+            "t": 0.4019,
+            "pos": [
+              -5.16,
+              11.56,
+              25.45
+            ],
+            "look": [
+              -0.94,
+              -2.35,
+              4.52
+            ]
+          },
+          {
+            "t": 0.5851,
+            "pos": [
+              -4.991,
+              11.004,
+              24.613
+            ],
+            "look": [
+              -0.94,
+              -2.35,
+              4.52
+            ]
+          },
+          {
+            "t": 0.5887,
+            "pos": [
+              0.0,
+              17.45,
+              28.66
+            ],
+            "look": [
+              0.0,
+              0.76,
+              1.35
+            ]
+          },
+          {
+            "t": 0.7741,
+            "pos": [
+              0.0,
+              16.949,
+              27.841
+            ],
+            "look": [
+              0.0,
+              0.76,
+              1.35
+            ]
+          },
+          {
+            "t": 0.7773,
+            "pos": [
+              4.07,
+              3.02,
+              11.53
+            ],
+            "look": [
+              -4.3,
+              1.19,
+              1.55
+            ]
+          },
+          {
+            "t": 0.8379,
+            "pos": [
+              3.735,
+              2.947,
+              11.131
+            ],
+            "look": [
+              -4.3,
+              1.19,
+              1.55
+            ]
+          },
+          {
+            "t": 0.8408,
+            "pos": [
+              -4.433,
+              0.95,
+              8.6
+            ],
+            "look": [
+              -3.133,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.8564,
+            "pos": [
+              -3.528,
+              0.95,
+              8.6
+            ],
+            "look": [
+              -2.228,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.8716,
+            "pos": [
+              -2.466,
+              0.95,
+              8.6
+            ],
+            "look": [
+              -1.166,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.8864,
+            "pos": [
+              -1.342,
+              0.95,
+              8.6
+            ],
+            "look": [
+              -0.042,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.9008,
+            "pos": [
+              -0.221,
+              0.95,
+              8.6
+            ],
+            "look": [
+              1.079,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.9147,
+            "pos": [
+              0.81,
+              0.95,
+              8.6
+            ],
+            "look": [
+              2.11,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.9282,
+            "pos": [
+              1.674,
+              0.95,
+              8.6
+            ],
+            "look": [
+              2.974,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.9413,
+            "pos": [
+              2.325,
+              0.95,
+              8.6
+            ],
+            "look": [
+              3.625,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.954,
+            "pos": [
+              2.713,
+              0.95,
+              8.6
+            ],
+            "look": [
+              4.013,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.9662,
+            "pos": [
+              2.77,
+              0.95,
+              8.6
+            ],
+            "look": [
+              4.07,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.9779,
+            "pos": [
+              2.77,
+              0.95,
+              8.6
+            ],
+            "look": [
+              4.07,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 0.9892,
+            "pos": [
+              2.77,
+              0.95,
+              8.6
+            ],
+            "look": [
+              4.07,
+              1.55,
+              1.4
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              2.77,
+              0.95,
+              8.6
+            ],
+            "look": [
+              4.07,
+              1.55,
+              1.4
+            ]
+          }
+        ],
+        "actors": {
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.95,
+              "z": 2.75,
+              "motion": "spotpoint",
+              "face": 34.0,
+              "pain": 0.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.4163,
+              "x": -0.95,
+              "z": 2.75,
+              "motion": "spotpoint",
+              "face": 34.0,
+              "pain": 0.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.4178,
+              "x": -4.0,
+              "z": 4.3,
+              "motion": "armscross",
+              "face": 160,
+              "cut": true,
+              "pain": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7399,
+              "x": -4.0,
+              "z": 4.3,
+              "motion": "armscross",
+              "face": 160,
+              "y": 0.0
+            },
+            {
+              "t": 0.7414,
+              "x": -4.62,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.674,
+              "cut": true,
+              "pain": 0.0
+            },
+            {
+              "t": 0.7647,
+              "x": -4.62,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.674
+            },
+            {
+              "t": 0.7755,
+              "x": -4.426,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.671
+            },
+            {
+              "t": 0.7864,
+              "x": -4.112,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.665
+            },
+            {
+              "t": 0.7972,
+              "x": -3.685,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.657
+            },
+            {
+              "t": 0.808,
+              "x": -3.157,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.647
+            },
+            {
+              "t": 0.8189,
+              "x": -2.542,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.636
+            },
+            {
+              "t": 0.8297,
+              "x": -1.859,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.623
+            },
+            {
+              "t": 0.8405,
+              "x": -1.129,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.61
+            },
+            {
+              "t": 0.8514,
+              "x": -0.375,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.596
+            },
+            {
+              "t": 0.8622,
+              "x": 0.379,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.583
+            },
+            {
+              "t": 0.873,
+              "x": 1.109,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.569
+            },
+            {
+              "t": 0.8838,
+              "x": 1.792,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.557
+            },
+            {
+              "t": 0.8947,
+              "x": 2.407,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.545
+            },
+            {
+              "t": 0.9055,
+              "x": 2.935,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.536
+            },
+            {
+              "t": 0.9163,
+              "x": 3.362,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.528
+            },
+            {
+              "t": 0.9272,
+              "x": 3.676,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.522
+            },
+            {
+              "t": 0.938,
+              "x": 3.87,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.519
+            },
+            {
+              "t": 1,
+              "x": 3.87,
+              "z": 1.4,
+              "motion": "zipride",
+              "face": 90,
+              "y": 0.519
+            }
+          ],
+          "klemmstein": [
+            {
+              "t": 0,
+              "x": 0.3,
+              "z": 0.9,
+              "motion": "park",
+              "face": 30,
+              "size": 0.3,
+              "glow": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.3,
+              "z": 0.9,
+              "motion": "park",
+              "face": 30,
+              "size": 0.3,
+              "glow": 1.0,
+              "y": 0.0
+            }
+          ],
+          "absperrband": [
+            {
+              "t": 0.0,
+              "x": 0.0,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": 1.9,
+              "fill": 0.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.4158,
+              "x": 0.0,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": 1.9,
+              "fill": 0.0,
+              "y": -30.0,
+              "hand": 0
+            },
+            {
+              "t": 0.4178,
+              "x": 0.0,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": 1.9,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4245,
+              "x": 0.0,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": 1.9,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.5045,
+              "x": 0.0,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": 1.9,
+              "fill": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 0.5,
+              "motion": "park",
+              "face": 0,
+              "size": 1.9,
+              "fill": 1.0,
+              "y": 0.0
+            }
+          ],
+          "sperrschild": [
+            {
+              "t": 0.0,
+              "x": 0.0,
+              "z": 3.8,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "fill": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.5183,
+              "x": 0.0,
+              "z": 3.8,
+              "motion": "park",
+              "face": 180,
+              "y": -30.0,
+              "fill": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.5203,
+              "x": 0.0,
+              "z": 3.8,
+              "motion": "park",
+              "face": 180,
+              "y": 0.95,
+              "fill": 0.0
+            },
+            {
+              "t": 0.5503,
+              "x": 0.0,
+              "z": 3.8,
+              "motion": "park",
+              "face": 180,
+              "y": 0.95,
+              "fill": 1.0,
+              "rumble": 0.5
+            },
+            {
+              "t": 1,
+              "x": 0.0,
+              "z": 3.8,
+              "motion": "park",
+              "face": 180,
+              "y": 0.95,
+              "fill": 1.0,
+              "rumble": 0.2
+            }
+          ],
+          "seilrutsche": [
+            {
+              "t": 0,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7647,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.7755,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.023,
+              "rumble": 0.117,
+              "y": 0.0
+            },
+            {
+              "t": 0.7864,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.06,
+              "rumble": 0.23,
+              "y": 0.0
+            },
+            {
+              "t": 0.7972,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.11,
+              "rumble": 0.333,
+              "y": 0.0
+            },
+            {
+              "t": 0.808,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.172,
+              "rumble": 0.424,
+              "y": 0.0
+            },
+            {
+              "t": 0.8189,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.245,
+              "rumble": 0.499,
+              "y": 0.0
+            },
+            {
+              "t": 0.8297,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.325,
+              "rumble": 0.554,
+              "y": 0.0
+            },
+            {
+              "t": 0.8405,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.411,
+              "rumble": 0.588,
+              "y": 0.0
+            },
+            {
+              "t": 0.8514,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.5,
+              "rumble": 0.6,
+              "y": 0.0
+            },
+            {
+              "t": 0.8622,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.589,
+              "rumble": 0.588,
+              "y": 0.0
+            },
+            {
+              "t": 0.873,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.675,
+              "rumble": 0.554,
+              "y": 0.0
+            },
+            {
+              "t": 0.8838,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.755,
+              "rumble": 0.499,
+              "y": 0.0
+            },
+            {
+              "t": 0.8947,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.828,
+              "rumble": 0.424,
+              "y": 0.0
+            },
+            {
+              "t": 0.9055,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.89,
+              "rumble": 0.333,
+              "y": 0.0
+            },
+            {
+              "t": 0.9163,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.94,
+              "rumble": 0.23,
+              "y": 0.0
+            },
+            {
+              "t": 0.9272,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 0.977,
+              "rumble": 0.117,
+              "y": 0.0
+            },
+            {
+              "t": 0.938,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "rumble": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0,
+              "z": 0,
+              "motion": "park",
+              "face": 180,
+              "fill": 1.0,
+              "rumble": 0.4,
+              "y": 0.0
+            }
+          ]
+        },
+        "stage": "wohnzimmer-lego",
+        "sfx": [
+          {
+            "t": 0.4245,
+            "id": "absperrband",
+            "volume": 0.9
+          },
+          {
+            "t": 0.4278,
+            "id": "whoosh",
+            "volume": 0.4
+          },
+          {
+            "t": 0.5203,
+            "id": "plopp",
+            "volume": 0.7
+          },
+          {
+            "t": 0.7647,
+            "id": "seilrutsche",
+            "volume": 0.9
+          },
+          {
+            "t": 0.9313,
+            "id": "klick",
+            "volume": 0.5
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du?",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
+    "screen": "Kommentieren & folgen!",
+    "extra": "Neue Video-Ideen? Ab in die Kommentare!",
+    "extraCue": "Neue Video-Ideen"
+  },
+  "publishing": {
+    "description": "Du bist mal wieder auf ein Legosteinchen getreten – was machst du? 🧱😅 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Alles bleibt rein comichaft und harmlos. 😄\n\n#waswürdestdutun #lego #klemmbausteine #schmerz #comedy #quiz #dummy #spezial\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team _. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -1.82,
+            2.07,
+            6.32
+          ],
+          "look": [
+            1.29,
+            0.31,
+            0.46
+          ]
+        },
+        {
+          "t": 0.3494,
+          "pos": [
+            -1.633,
+            1.964,
+            5.968
+          ],
+          "look": [
+            1.29,
+            0.31,
+            0.46
+          ]
+        },
+        {
+          "t": 0.3528,
+          "pos": [
+            -0.72,
+            1.06,
+            3.85
+          ],
+          "look": [
+            1.08,
+            0.2,
+            1.28
+          ]
+        },
+        {
+          "t": 0.4393,
+          "pos": [
+            -0.63,
+            1.017,
+            3.722
+          ],
+          "look": [
+            1.08,
+            0.2,
+            1.28
+          ]
+        },
+        {
+          "t": 0.4429,
+          "pos": [
+            -2.97,
+            1.09,
+            11.4
+          ],
+          "look": [
+            1.27,
+            1.03,
+            0.9
+          ]
+        },
+        {
+          "t": 0.8971,
+          "pos": [
+            -2.843,
+            1.088,
+            11.085
+          ],
+          "look": [
+            1.27,
+            1.03,
+            0.9
+          ]
+        },
+        {
+          "t": 0.8997,
+          "pos": [
+            -1.1,
+            2.18,
+            8.51
+          ],
+          "look": [
+            1.22,
+            0.73,
+            1.35
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -0.984,
+            2.107,
+            8.152
+          ],
+          "look": [
+            1.22,
+            0.73,
+            1.35
+          ]
+        }
+      ],
+      "actors": {
+        "dummy": [
+          {
+            "t": 0,
+            "x": 1.632,
+            "z": -1.217,
+            "motion": "walk",
+            "face": 190.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.3268,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "walk",
+            "face": 190.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.3288,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "stepflinch",
+            "face": 190.0,
+            "pain": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.3759,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "stepflinch",
+            "face": 190.0,
+            "pain": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.4069,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "stepflinch",
+            "face": 190.0,
+            "pain": 1.4,
+            "y": 0.0
+          },
+          {
+            "t": 0.4503,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "stepflinch",
+            "face": 190.0,
+            "pain": 1.6,
+            "y": 0.0
+          },
+          {
+            "t": 0.4523,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 0.0,
+            "pain": 1.8,
+            "cut": true
+          },
+          {
+            "t": 0.4637,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 0.458,
+            "pain": 1.8
+          },
+          {
+            "t": 0.475,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 0.833,
+            "pain": 1.8
+          },
+          {
+            "t": 0.4864,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 1.125,
+            "pain": 1.8
+          },
+          {
+            "t": 0.4978,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 1.333,
+            "pain": 1.8
+          },
+          {
+            "t": 0.5091,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 1.458,
+            "pain": 1.8
+          },
+          {
+            "t": 0.5205,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 1.5,
+            "pain": 1.8
+          },
+          {
+            "t": 0.7972,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 1.42,
+            "pain": 2.0
+          },
+          {
+            "t": 0.8084,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 1.363,
+            "pain": 2.0
+          },
+          {
+            "t": 0.8195,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 1.193,
+            "pain": 2.0
+          },
+          {
+            "t": 0.8307,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 0.909,
+            "pain": 2.0
+          },
+          {
+            "t": 0.8418,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 0.511,
+            "pain": 2.0
+          },
+          {
+            "t": 0.853,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "brickjump",
+            "face": 190.0,
+            "y": 0.0,
+            "pain": 2.0
+          },
+          {
+            "t": 0.855,
+            "x": 1.25,
+            "z": 0.95,
+            "motion": "hop",
+            "face": 190.0,
+            "pain": 2.0,
+            "cut": true,
+            "y": 0.0
+          },
+          {
+            "t": 0.8798,
+            "x": 1.288,
+            "z": 1.312,
+            "motion": "hop",
+            "face": 190.0,
+            "pain": 1.8,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.9232,
+            "x": 1.288,
+            "z": 1.312,
+            "motion": "hop",
+            "face": 190.0,
+            "pain": 1.8,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 1.288,
+            "z": 1.312,
+            "motion": "hop",
+            "face": 190.0,
+            "pain": 1.8,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ],
+        "klemmstein": [
+          {
+            "t": 0,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 30,
+            "size": 0.3,
+            "glow": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.2544,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 30,
+            "size": 0.3,
+            "glow": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.4131,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 30,
+            "size": 0.3,
+            "glow": 0.6,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 30,
+            "size": 0.3,
+            "glow": 0.6,
+            "y": 0.0
+          }
+        ],
+        "klatschstern": [
+          {
+            "t": 0.0,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 0,
+            "y": -30.0,
+            "fill": 0.0,
+            "size": -0.3,
+            "hand": 0
+          },
+          {
+            "t": 0.3739,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 0,
+            "y": -30.0,
+            "fill": 0.0,
+            "size": -0.3,
+            "hand": 0
+          },
+          {
+            "t": 0.3759,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 0,
+            "y": 0.18,
+            "fill": 0.0,
+            "size": -0.3
+          },
+          {
+            "t": 0.4317,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 0,
+            "y": 0.18,
+            "fill": 1.0,
+            "size": -0.3
+          },
+          {
+            "t": 0.4337,
+            "x": 1.088,
+            "z": 1.267,
+            "motion": "park",
+            "face": 0,
+            "y": -30.0,
+            "fill": 1.0,
+            "size": -0.3,
+            "hand": 0
+          }
+        ]
+      },
+      "stage": "wohnzimmer-lego",
+      "sfx": [
+        {
+          "t": 0.3759,
+          "id": "stein-pieks",
+          "volume": 1.0
+        },
+        {
+          "t": 0.4523,
+          "id": "katapult-sprung",
+          "volume": 0.9
+        },
+        {
+          "t": 0.853,
+          "id": "kissen-plumps",
+          "volume": 0.5
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            5.51,
+            2.87,
+            23.57
+          ],
+          "look": [
+            0.56,
+            2.75,
+            0.27
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            5.312,
+            2.865,
+            22.638
+          ],
+          "look": [
+            0.56,
+            2.75,
+            0.27
+          ]
+        }
+      ],
+      "actors": {
+        "klemmstein": [
+          {
+            "t": 0,
+            "x": 0.25,
+            "z": 2.05,
+            "motion": "park",
+            "face": 30,
+            "size": 0.3,
+            "glow": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.25,
+            "z": 2.05,
+            "motion": "park",
+            "face": 30,
+            "size": 0.3,
+            "glow": 1.0,
+            "y": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.75,
+            "z": 1.35,
+            "motion": "stand",
+            "face": 200,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.75,
+            "z": 1.35,
+            "motion": "stand",
+            "face": 200,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "wohnzimmer-lego",
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            6.46,
+            3.38,
+            20.93
+          ],
+          "look": [
+            0.59,
+            0.92,
+            0.44
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            6.167,
+            3.257,
+            19.905
+          ],
+          "look": [
+            0.59,
+            0.92,
+            0.44
+          ]
+        }
+      ],
+      "actors": {
+        "klemmstein": [
+          {
+            "t": 0,
+            "x": 0.25,
+            "z": 2.05,
+            "motion": "park",
+            "face": 30,
+            "size": 0.3,
+            "glow": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.25,
+            "z": 2.05,
+            "motion": "park",
+            "face": 30,
+            "size": 0.3,
+            "glow": 1.0,
+            "y": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.75,
+            "z": 1.35,
+            "motion": "stand",
+            "face": 200,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.12,
+            "x": 0.75,
+            "z": 1.35,
+            "motion": "wave",
+            "face": 200,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.75,
+            "z": 1.35,
+            "motion": "wave",
+            "face": 200,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "wohnzimmer-lego",
+      "sharpCuts": true
+    }
+  },
+  "sceneLead": 0.3,
+  "voteLen": 5.0
+}
