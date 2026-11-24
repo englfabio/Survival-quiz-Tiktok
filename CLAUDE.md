@@ -67,7 +67,7 @@ Die richtige Antwort soll nicht immer an derselben Stelle stehen (vom Inhaber ge
 - geldkoffer-million → 2. Push
 - bahnsteigkante-sog → 1. Push
 - spritze-spielplatz → 3. Push
-- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-muell-fluessigkeit, spezial-handy-gesicht: Spezial, keine richtige Antwort – nicht gezählt)
+- (spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-muell-fluessigkeit, spezial-handy-gesicht, spezial-legostein: Spezial, keine richtige Antwort – nicht gezählt)
 
 ## Das Format (Ablauf eines Videos)
 
@@ -274,6 +274,10 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `bettdecke` + `kissen` in jeder Einstellung setzen (Kissen (1.47, y 0.45, −1.425), Matratze oben y 0,45). Dummy im Bett wie Wecker: Hüfte (0.8, −1.425), face 270.
   Kameras: Bett steht an der rechten Wand → Kamera NICHT rechts außerhalb (x > 1,8) stellen, sonst verdeckt das Türblatt das Bild (az ≤ ca. 10 bei Bett-Einstellungen).
   Room-Fenster kann jetzt `sash` (Flügel auch bei `outside`).
+  Wohnzimmer für Spezial Legostein (`wohnzimmer-lego`, `src/stage/TrashLiving.tsx`, Atmo `uhr-ticken`, Dummy BARFUSS): `wohnzimmer-gross` (WZG, W 11, D 9, H 3,8)
+  mit fest eingebauter Haustür-Wand (Tür zu, innen Garderobe = Flur-Ecke) + Möbeln (`LIVING_BIG`: Sofa an der linken Wand (−4.55, 0.4) Blick +x, Sitz 0,46 m,
+  Armlehnen bei z −0.6 / 1.4 (Oberkante 0,66 m, x −5.05 … −4.15), Couchtisch (−2.75, 0.45), Teppich, Stuhl, Lampe, Pflanze, Fernseher rechts (4.85, 0.2), Board x ≥ 4.62).
+  Kein Objekt `haustuerwand`/`wohnmoebel` nötig. Absperrband im Video bei (0, 0.5) mit `size` 1.9 (x −3.3 … 3.3, z −2.8 … 3.8).
   Kamera-Trick: Wände sind von außen unsichtbar → Kamera darf hinter die linke Schlafzimmerwand (x < −1.8, aber z außerhalb des Fensters).
   Müll-Straße (`muellstrasse`, `src/stage/Settlement.tsx`, `MUELL`, Atmo `wald-atmo`, Spezial Müll-Flüssigkeit): wie `siedlung`, das Haus des Dummys ist das
   Objekt `haus` bei (0, −12.5), face 180 (Tür (0, −9), Gartenweg x 0 bis zum Gehweg, Zaun z −5.45), GEGENÜBER fest das moderne Nachbarhaus mit heller Fassade
@@ -556,6 +560,23 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   + 0,125), sitzt im Bett + hält das schwere Handy tief mit zitternden Armen (`bedheavy`, Handy lokal [0, 0.8, 0.4]), wischt hektisch über das Handy in der linken
   Hand (`bedswipe`, Handy `PHONE_SIT` [0.05, 0.92, 0.36], face 180, tilt 37), lehnt sich halb liegend zurück, Hände hinter dem Kopf (`bedrelax`). Wiederverwendet:
   `holdcard` + `reversekarte`, `physikshrug`, `bedsit`, `stand`, `wave`.
+  Legostein (Spezial, Details in `legoPose` in Dummy.tsx, Konstanten `LEGO`, `tubPour`): vor Schmerz in die Luft katapultieren (`brickjump`, Höhe über y,
+  rechtes Bein angezogen, Arme wild hoch, Mund offen), vorgebeugt dickes rotes Seil um den rechten Oberschenkel wickeln (`ropewrap`, dazu Wert `redrope` 0 → 1),
+  Riesen-Schere senkrecht vor sich halten (`scissorshow`, Schere `"attach": "dummy", x 0, y 1.36, z 0.478, tilt −70`), leicht in der Hocke Schere weit vor sich
+  schräg nach unten (`scissorsaim`, Schere `x 0, y 0.865, z 0.567, tilt 30` – Spitze ca. 1 m vor dem Körper), Schere auf der rechten Schulter + linker Daumen hoch
+  (`scissorsproud`, Schere `x −0.225, y 1.427, z 0.075, tilt −120`), Kiste an den Seitengriffen tragen + gehen (`tubcarry`, Kiste `"attach": "dummy", x 0, y 0.95,
+  z 0.45`), Kiste heben (0–0,7 s) + nach vorn auskippen (0,7–1,4 s) (`tubpour`, Kiste nach `tub_pour(t)` im Skript), Fakir-Pose mit Handflächen aneinander (`fakir`),
+  an der Seilrutsche hängen, Beine ab 0,15 s angezogen (`zipride`, Hände an der Griffstange; Figur-y = Seilhöhe(x + 0.03) − 0,42 − 1,95, face 90).
+  Wiederverwendet: `walk`, `stepflinch` (auf den Stein treten), `hop`, `holdfoot`, `spotpoint`, `armscross`, `stand`, `wave`; Schmerz-Symbol `pain`.
+- **Objekte (Spezial Legostein, `src/actors/LegoProps.tsx`, comichaft, KEINE Logos – Noppen ohne Schrift):** einzelner 2×2-Klemmstein (`klemmstein`, 0,1 × 0,06 × 0,1 m,
+  `glow` = gemeines Funkeln, `mark` = Farbe, `size`), Steinberg aus ca. 900 bunten Steinen (`steinberg`, Radius 0,82, oben flach auf 0,33 m = `STEINBERG.top` → Figur
+  darauf y 0.33; `fill` = wächst von unten), blaue Spielzeug-Kiste voller Steine (`steinkiste`, Ursprung = Griff-Achse; `tilt` kippt nach vorn, `fill` = Inhalt, IMMER
+  setzen; `mark` = Steinstrom fällt bis `drop` m nach unten), Riesen-Spielzeugschere (`riesenschere`, 0,95 m, Griffe pink/türkis, abgerundete Kunststoff-Klingen,
+  Ursprung = Drehpunkt, Klingen +z; `fill` = geöffnet, `tilt`, `turn`, `glow`), Warnschild „SPERRGEBIET / BETRETEN VERBOTEN!“ (`sperrschild`, Ursprung = Oberkante,
+  hängt z. B. am Absperrband y 0.95; `fill` ploppt auf, `rumble` schaukelt), Seilrutsche (`seilrutsche`, WELT-Koordinaten bei (0, 0) face 180: Stahlseil `ZIP` von
+  (−5.46, 3.06, 1.4) nach (5.46, 2.86, 1.4), Wandplatten, roter Stopper, gelbe Laufkatze + rote Griffstange 0,42 m unter dem Seil + orangefarbener Gurt mit Hüftschlaufe;
+  `fill` = Laufkatze von x −4.59 (über der Sofa-Armlehne) bis 3.9 (vor dem Fernseher), `rumble` = schwingt). Dummy-Wert `redrope` = dickes rotes Seil mit Schleife
+  um den rechten Oberschenkel.
 - **Butler** (`butler`): Dummy-Körper hellgrau, schwarzer Frack mit Schößen, weiße Hemdbrust, schwarze Fliege, weiße Handschuhe, ohne Mütze (Uniform-Felder
   `bowtie` = Fliegenfarbe, `gloveColor` = Handschuhe mit Stulpe, `tails` = Frack-Schöße – für jede Dummy-Figur nutzbar). Kann alle Dummy-Bewegungen.
 - **Objekte (Tür drücken, `src/actors/DoorProps.tsx`, alles comichaft, niemand wird verletzt):** Tür mit Zarge + großem gelbem Schild „DRÜCKEN“ (`druecktuer`,
@@ -943,7 +964,7 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   im Abschnitt (`"stage": [{"t": 0, "stage": "badezimmer"}, {"t": 0.49, "stage": "arztpraxis"}]`, kurzes Abblenden beim Schnitt).
   Das Hintergrundgeräusch wechselt automatisch mit der Bühne. Figuren, die in einer Bühne nicht zu sehen sein sollen: `y: -30`.
 - **Kategorien:** wildtiere, verkehr, alltag, wasser, erste-hilfe (Symbol Verbandskasten), feuer (Symbol Flamme), psyche (Symbol Kopf mit Herz),
-  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies),
+  spezial (Symbol Warndreieck mit Grinsegesicht, nur Spezial-Format: spezial-wecker, spezial-nachbars-rasen, spezial-mitbewohner-joghurt, spezial-paket-nachbar, spezial-bahn-verspaetung, spezial-monstertruck, spezial-spuele, spezial-haus-weg, spezial-chef, spezial-trex-stau, spezial-waschmaschine, spezial-pirat-token, spezial-tauben, spezial-goldfisch-auto, spezial-taube-angekackt, spezial-schwarzes-loch, spezial-tuer-druecken, spezial-usb-kabel, spezial-cookies, spezial-legostein),
   (alltag u. a.: bahnsteigkante-sog) fundstuecke (Symbol Lupe, Videoreihe „Fundstücke“: fliegerbombe-garten, magnetfischen-granate, herrenloser-koffer, pistole-wald, geldkoffer-million, spritze-spielplatz)
 
 ## Stimme (ElevenLabs)
@@ -1140,6 +1161,14 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `python3 scripts/spezial-handy-gesicht-choreo.py` (prüft `check_a`: Flug geht durch die Fensteröffnung + endet ≥ 14 m draußen im Himmel auf der Blicklinie der
   Warte-Kamera; `check_b`: Rumpf liegt auf dem Riesenhandy, Aufprall bei „voll drauf“; `check_c`: Feder-Flug bleibt über dem Bett, landet auf dem Kissen).
   Standbilder in review/spezial-handy-gesicht/phase1/. Finales Video: review/final/spezial-handy-gesicht.mp4 (65,9 s).
+- Spezial Legostein (Durchlauf-Modus): 691 neue Zeichen (ca. 276 Credits laut ElevenLabs; Abstimmung + Outro aus Cache), Texte Buchstabe für Buchstabe vom Inhaber;
+  Outro + angehängt „Neue Video-Ideen? Ab in die Kommentare!“ (Spezial-Regel 5, stand nicht im gelieferten Outro). `padAfter` 0,05 s, `sceneLead` 0,3 s, `voteLen` 5,0 s
+  → 65,3 s MIT Abstimmung. Kontrolle scribe_v2 (alle neuen Clips): korrekt. Choreografie: `python3 scripts/spezial-legostein-choreo.py` (prüft `check_a`: Scheren-
+  spitze ≥ 0,5 m vor dem Bein, schnappt nur in der Luft; `check_b`: Auskippen fertig vor „Verteilt“; `check_c`: Start auf der Sofa-Armlehne, Füße während der Fahrt
+  über dem Absperrband, Ende vor dem Fernseher). Neu: mitfahrende Kamera (`track_c`) bei der Seilrutsche. **Wunsch Inhaber (ab diesem Video): Karten verraten die
+  Szene nicht** – Kartenbild zeigt nur die Ausgangslage (A: hält den Fuß, B: trägt Kiste herein, C: zeigt auf den Stein), erst die Szene zeigt die Lösung; Texte
+  sollen die Antwort nicht 1 : 1 wiederholen (kurze Antworten oder Synonyme). Standbilder in review/spezial-legostein/phase1/.
+  Finales Video: review/final/spezial-legostein.mp4.
 - Cloud-Hinweis: Node braucht `--use-env-proxy` (steht schon in den npm-Befehlen).
 
 ## Soundeffekte (ElevenLabs)
@@ -1209,6 +1238,9 @@ Es gibt eine Hilfsansicht, die diese Bereiche einblendet (Prop `showSafeZones`).
   `kissen-plumps`, `auto-hupen`, `wand-krachen`).
   `handy-klatsch` (Handy klatscht comichaft aufs Gesicht), `hammer-wirbel`, `funkeln` (Stern-Ping am Himmel), `reverse-zauber`, `wischen`, `app-weg`, `feder`,
   `handy-schnarchen` (Spezial Handy im Gesicht; wiederverwendet: `whoosh`, `kick-whoosh`, `leere-wind`, `plopp`, `kissen-plumps`, `himmel-chor`; Bühne nutzt `nacht-atmo`).
+  `stein-pieks` (Plastik-Klick + Comic-Schmerz-Zing), `katapult-sprung` (Feder-Boing + Lotusflöte), `seil-wickeln`, `schere-schnapp` (Spielzeug-Schere), `steine-schuetten`,
+  `seilrutsche` (Laufkatze am Stahlseil), `zen-gong` (Klangschale) (Spezial Legostein; wiederverwendet: `kissen-plumps`, `plopp`, `himmel-chor`, `paket-abstellen`,
+  `klemmstein-klick`, `absperrband`, `whoosh`, `klick`; Bühne nutzt `uhr-ticken`).
   `gainDb` in `sfx.config.json` macht einen Effekt beim Kopieren lauter (kostenlos, braucht ffmpeg).
 - Tonspur zum Anhören: `npx remotion render <id> review/<id>/stimme/<id>-tonspur.mp3 --codec=mp3`
 - Szenario-spezifisch: `"sfx": [{ "t": 0.6, "id": "baer-brummen", "volume": 0.5 }]` in einem
@@ -1413,7 +1445,7 @@ src/stage/            Bühnen (Forest.tsx = Wald-Baukasten + Wald, Clearing.tsx 
                       Highway.tsx = Autobahn + Weltraum; Laundry.tsx = Waschkeller + riesiges Trommel-Inneres;
                       Settlement.tsx auch Tauben-Straße mit Strommasten + Baum; Attic.tsx = Dachboden;
                       Goldfish.tsx = Supermarkt-Parkplatz (+ Boxring), kurvige Landstraße mit Parkplatz, Aquarium von innen;
-                      Settlement.tsx auch Müll-Straße mit Nachbarhaus gegenüber; TrashLiving.tsx = großes Wohnzimmer mit Haustür-Wand)
+                      Settlement.tsx auch Müll-Straße mit Nachbarhaus gegenüber; TrashLiving.tsx = großes Wohnzimmer mit Haustür-Wand + Variante wohnzimmer-lego)
 src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.tsx = Petermännchen, Zombie.tsx) + Objekte
                       (Basin.tsx = Schüssel, Thermometer.tsx = Schild, GardenProps.tsx, CastleProps.tsx,
                       FirstAidProps.tsx = Erste Hilfe, ChristmasProps.tsx = Baum/Feuer/Rauch/Türen/Eimer/Geschenke/
@@ -1442,6 +1474,7 @@ src/actors/           Figuren (Dummy.tsx, Bear.tsx, Snake.tsx, Car.tsx, Weever.t
                       KleckerProps.tsx = Schulter-Klecks/Engelsflügel/fallender Klecks/Rechnungsblock/Kuli/Umschlag mit Briefmarke/Tauben-Ladestation mit Riesen-Stecker,
                       UsbProps.tsx = USB-Laptop/USB-Stecker mit Gurt+Helm/Gummihammer/weiche Mülltonne/Funken,
                       MuellProps.tsx = Müllsack/Fassaden-Klecks/Shot-Becher/Müllwagen mit Greifarm/Haustür-Wand/Nachbarhaus/Wohnzimmermöbel,
+                      LegoProps.tsx = Klemmstein/Steinberg/Steinkiste/Riesen-Schere/Sperrgebiet-Schild/Seilrutsche,
                       BedPhoneProps.tsx = Betthandy/Riesenhandy/Rollentausch-Effekt/Sternchen/Klatsch-Stern/Funkeln/fliegende Apps/Bettdecke/Kissen,
                       CookieProps.tsx = Handy mit Beinen/Milchschüssel/Kekse/Kekshaufen/Keksregen/Ordnerstapel/Daten-Ordner/Lupe/Tauziehseil/Rauferei-Wolke,
                       WaschProps.tsx = XXL-Waschmaschine/Wäschekorb/Weichspüler/Handtuch-Decke/Pulli-Kissen/Socken/Lieblingssocke) + Bewegungen; index.tsx = Anhängen ("attach") + "hand"
