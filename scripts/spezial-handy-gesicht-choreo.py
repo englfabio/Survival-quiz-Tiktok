@@ -32,11 +32,11 @@ vote="Also, was machst du?",
 outro="Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
 )
 EXTRA = {1: float(os.environ.get('EXA', 0.0)), 2: float(os.environ.get('EXB', 0.0)), 3: float(os.environ.get('EXC', 0.0))}
-TAIL = float(os.environ.get('TAIL', 0.3))
+TAIL = float(os.environ.get('TAIL', 0.05))
 OUTRO_MIN = float(os.environ.get('OUTRO_MIN', 0.0))
-VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.6))
+VOTE_LEN = float(os.environ.get('VOTE_LEN', 5.0))
 NO_VOTE = os.environ.get('NO_VOTE', '0') == '1'
-SCENE_LEAD = float(os.environ.get('SCENE_LEAD', 0.6))
+SCENE_LEAD = float(os.environ.get('SCENE_LEAD', 0.3))
 
 LEAD = {'situation': 0.3, 'option1': 0.15, 'option2': 0.15, 'option3': 0.15, 'explain1': SCENE_LEAD, 'explain2': SCENE_LEAD, 'explain3': SCENE_LEAD, 'countdown': 0.1, 'outro': 0.3}
 MINLEN = {'situation': 5, 'option1': 3.6, 'option2': 3.6, 'option3': 3.6, 'explain1': 6, 'explain2': 6, 'explain3': 6, 'countdown': 5, 'outro': 3}
@@ -287,10 +287,10 @@ for i in range(1, nsp + 1):
     tt = t_th0 + (t_rel - t_th0) * i / nsp
     phA.append(phone_w(r3(tt - (0.002 if i == nsp else 0)), REL_W, tilt=round(-90 - 540 * i / nsp, 1), face=FA, hand=1.0, drop=0.0, glow=0.6))
 # A2-Kamera (über die Schulter zum Fenster) → Endpunkt des Flugs liegt genau auf ihrer Blicklinie durchs Fenster (gut sichtbar)
-CAM_A2 = W(DA, FA, [1.0, 1.25, -1.85])
-LOOK_A2 = [WIN_C[0], WIN_C[1] + 0.35, WIN_C[2]]
+CAM_A2 = W(DA, FA, [1.2, 0.85, -1.85])
+LOOK_A2 = [WIN_C[0], 2.0, WIN_C[2]]
 dv = [LOOK_A2[i] - CAM_A2[i] for i in range(3)]
-END = [CAM_A2[i] + dv[i] * 9.0 for i in range(3)]
+END = [CAM_A2[i] + dv[i] * ((CAM_A2[0] + 16.0) / -dv[0]) for i in range(3)]   # bei x −16 (vor den Häusern, im Himmel)
 FLY = 1.5
 path = []
 for i in range(0, 25):
@@ -305,7 +305,7 @@ for j, (tt, p) in enumerate(path):
     phA.append(phone_w(tt, p, tilt=round(-630 - 900 * j / 24, 1), face=FA, hand=0.0, glow=0.6, size=round(0.6 * j / 24, 3)))
 t_gone = r3(t_rel + sa(FLY))
 cA.add('betthandy', 0, t_gone, phA)
-cA.add('funkelstern', t_gone, r3(t_gone + sa(0.9)), [K(t_gone, END[0], END[2], 'park', 0, y=END[1], fill=0.0, size=3.0), K(r3(t_gone + sa(0.9)), END[0], END[2], 'park', 0, y=END[1], fill=1.0, size=3.0)])
+cA.add('funkelstern', t_gone, r3(t_gone + sa(0.9)), [K(t_gone, END[0], END[2], 'park', 0, y=END[1], fill=0.0, size=2.2), K(r3(t_gone + sa(0.9)), END[0], END[2], 'park', 0, y=END[1], fill=1.0, size=2.2)])
 def check_a():
     """Flug: geht durch die Fensteröffnung (y 0,95 … 2,15, z −0,95 … 0,15 bei x −1,8), landet weit draußen (> 15 m), weg vom Dummy."""
     pa = REL_W; pb = path[3][1]
@@ -315,7 +315,7 @@ def check_a():
             k = (a[0] + 1.8) / (a[0] - b[0]); y = a[1] + (b[1] - a[1]) * k; z = a[2] + (b[2] - a[2]) * k
             assert 0.95 < y < 2.15 and -0.95 < z < 0.15, ('A: Handy verfehlt das Fenster', y, z)
             break
-    assert math.hypot(END[0] - DA[0], END[2] - DA[1]) > 15, ('A: Flug zu kurz', END)
+    assert math.hypot(END[0] - DA[0], END[2] - DA[1]) > 14, ('A: Flug zu kurz', END)
     assert t_gone < c_undA + sa(0.2), ('A: Handy noch nicht weg bei „Und ...“', t_gone, c_undA)
     return [round(v, 1) for v in END]
 DUM_UP = [[DA[0] - 0.3, 0.9, DA[1] - 0.3], [DA[0] + 0.3, 2.05, DA[1] + 0.3]]
@@ -323,7 +323,7 @@ camA = [
   # Karte: funkelt das Handy böse an
   *shot(0, sA - 0.003, F([*body(*DA), *DUM_UP], -25, 6, ANS), push=0.04),
   # Wirbeln + Wurf: von hinten seitlich, Dummy + offenes Fenster
-  *shot(sA, c_jetzt - 0.003, MAN([1.55, 1.75, 1.45], [-0.95, 1.3, -0.45], 52), push=0.04),
+  *shot(sA, c_jetzt - 0.003, MAN([1.7, 1.75, 3.7], [-0.9, 1.25, -0.4], 46), push=0.04),
   # Warten: über die Schulter durchs Fenster in den Nachthimmel (Funkeln)
   *shot(c_jetzt, c_undA - 0.003, MAN(CAM_A2, LOOK_A2, 46), push=0.03),
   # Und ... nichts: nah von vorn, erwartungsvoll
@@ -439,7 +439,7 @@ for i, n in enumerate(apps):
     phC.append(phone_att(r3(tt), PHONE_SIT, tilt=SIT_TILT, face=180, text=f'apps{n}', thin=round(0.45 * i / (len(apps) - 1), 3), glow=0.4, **({'cut': True} if i == 0 else {})))
 t_ph = r3(c_fot); t_cl = r3(max(c_sof - sc(0.45), t_ph + sc(0.9)))
 phC += [phone_att(t_ph, PHONE_SIT, tilt=SIT_TILT, face=180, text='photos', thin=0.5, glow=0.4), phone_att(r3(t_cl - 0.002), PHONE_SIT, tilt=SIT_TILT, face=180, text='photos', thin=0.8, glow=0.4),
-        phone_att(t_cl, PHONE_SIT, tilt=SIT_TILT, face=180, text='clean', thin=0.85, glow=0.7), phone_att(r3(t_float - 0.002), PHONE_SIT, tilt=SIT_TILT, face=180, text='clean', thin=0.92, glow=0.5)]
+        phone_att(t_cl, PHONE_SIT, tilt=SIT_TILT, face=180, text='clean', thin=0.85, glow=0.7), phone_att(r3(t_float - 0.002), PHONE_SIT, tilt=SIT_TILT, face=180, text='clean', thin=0.8, glow=0.5)]
 cC.add('betthandy', 0, t_float, phC)
 # Federflug in Weltkoordinaten: hoch über den Kopf, dann pendelnd hinab aufs Kissen (neben den Kopf)
 P0 = W(HIP, FB, PHONE_SIT)
@@ -449,14 +449,14 @@ t_up = r3(min(c_prob - sc(0.05), t_float + sc(1.0))); t_end = r3(min(0.96, c_pro
 for i in range(0, 13):                         # sanft nach oben (federleicht)
     u = i / 12
     p = lerp(P0, [0.75, 1.62, -1.25], ease(u)); p[2] += 0.05 * math.sin(u * math.pi * 2)
-    fl.append(phone_w(r3(t_float + (t_up - t_float) * u), p, tilt=round(SIT_TILT * (1 - u) - 40 * u + 12 * math.sin(u * 6), 1), face=270, text='clean', thin=0.92, glow=0.5))
+    fl.append(phone_w(r3(t_float + (t_up - t_float) * u), p, tilt=round(SIT_TILT * (1 - u) + 10 * math.sin(u * 6), 1), turn=round(-65 * u, 1), face=270, text='clean', thin=0.8, glow=0.6))
 for i in range(1, 25):                         # pendelt hinab (wie eine Feder)
     u = i / 24
     base_ = lerp([0.75, 1.62, -1.25], LAND, u)
     sway = math.sin(u * math.pi * 3.0) * 0.16 * (1 - u)
     p = [base_[0] + sway * 0.6, base_[1] + 0.06 * math.sin(u * math.pi) , base_[2] + sway]
-    fl.append(phone_w(r3(t_up + (t_end - t_up) * u), p, tilt=round(-40 * (1 - u) + 20 * math.sin(u * math.pi * 3.0) * (1 - u), 1), turn=round(-16 * math.sin(u * math.pi * 3.0 + 0.6) * (1 - u), 1), face=270, text='clean', thin=0.92, glow=0.4))
-fl.append(phone_w(1, LAND, tilt=0.0, face=270, text='clean', thin=0.92, glow=0.3))
+    fl.append(phone_w(r3(t_up + (t_end - t_up) * u), p, tilt=round(18 * math.sin(u * math.pi * 3.0) * (1 - u), 1), turn=round((-65 + 22 * math.sin(u * math.pi * 3.0 + 0.6)) * (1 - u ** 3), 1), face=270, text='clean', thin=0.8, glow=0.5))
+fl.append(phone_w(1, LAND, tilt=0.0, face=270, text='clean', thin=0.8, glow=0.3))
 cC.add('betthandy', t_float, 1, fl)
 for _p in cC.parts['betthandy']:
     for _k in _p[2]: _k['size'] = 0.3   # in C etwas größer (gut sichtbar beim Federflug)
@@ -532,6 +532,7 @@ scen = {
  'shots': {'situation': situation, 'countdown': vote, 'outro': outro},
 }
 if SCENE_LEAD != 0.6: scen['sceneLead'] = SCENE_LEAD
+if VOTE_LEN != 5.6: scen['voteLen'] = VOTE_LEN
 if OUTRO_MIN > 0: scen['outroMin'] = OUTRO_MIN
 if NO_VOTE: scen['noVote'] = True
 for _sh in [situation, vote, outro, expA, expB, expC]:

@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Cartoon smack: a smartphone falling flat onto a face, comic slap with a tiny springy boing, playful, no pain",
+  "duration": 1,
+  "loop": false,
+  "promptInfluence": 0.6,
+  "createdAt": "2026-11-24T00:23:43.654Z"
+}

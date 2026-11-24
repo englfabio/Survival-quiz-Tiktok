@@ -304,7 +304,7 @@ const NightView = () => {
         </group>
       ))}
       {/* Häuserzeile mit hellen Fenstern (schaut zum Zimmer) */}
-      <group rotation={[0, Math.PI / 2, 0]}>
+      <group rotation={[0, Math.PI / 2, 0]} scale={[1, 0.5, 1]}>
         <FarHouses z={-24} face={1} seed={11} />
       </group>
       {/* Hügel-Silhouetten, Mond, Sterne */}
@@ -742,7 +742,7 @@ export const bedroomStage: StageDef = {id: 'schlafzimmer', Component: () => <Bed
 export const gamingRoomStage: StageDef = {id: 'gamingzimmer', Component: () => <BedroomScene gaming />, climbTrees: [], groundHeight: () => 0, ambience: 'gaming-atmo'};
 /** "schlafzimmer-nacht" (Spezial Handy im Gesicht): Schlafzimmer am Abend mit großem OFFENEM Fenster (links, Mitte z −0.4, 1,2 m breit,
  *  Unterkante 0,9 m, Oberkante 2,2 m, Flügel nach innen offen) – draußen echte 3D-Nachtkulisse (NightView, weit nach −x: Rasen, Zaun x −6.5,
- *  Hecke x −10, Bäume, Häuser x ≈ −24 mit hellen Fenstern, Mond, Sterne). Bett ohne eingebaute Decke/Kissen → Objekte `bettdecke` + `kissen`. */
+ *  Hecke x −10, Bäume, niedrige Häuser x ≈ −24 mit hellen Fenstern, Mond, Sterne). Bett ohne eingebaute Decke/Kissen → Objekte `bettdecke` + `kissen`. */
 export const bedroomNightStage: StageDef = {id: 'schlafzimmer-nacht', Component: () => <BedroomScene night />, climbTrees: [], groundHeight: () => 0, ambience: 'nacht-atmo'};
 export const bedroomMorningStage: StageDef = {id: 'schlafzimmer-morgen', Component: () => <BedroomScene morning />, climbTrees: [], groundHeight: () => 0, ambience: 'uhr-ticken'};
 export const elevatorStage: StageDef = {id: 'aufzug', Component: ElevatorScene, climbTrees: [], groundHeight: () => 0, ambience: 'aufzug-summen'};

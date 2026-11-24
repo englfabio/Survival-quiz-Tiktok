@@ -143,7 +143,7 @@ export const buildTimeline = (
       push({kind: 'answer', option: n, duration: card + scene, sceneStart: card, voice: [at(`option${n}` as ClipId), at(ex, card)]});
     }
     // Abstimmung: Ansage + 5-s-Countdown laufen gleichzeitig
-    if (!s.noVote) push({kind: 'vote', duration: Math.max(len('countdown'), Math.round(5.6 * FPS)), voice: [at('countdown')]});
+    if (!s.noVote) push({kind: 'vote', duration: Math.max(len('countdown'), Math.round(Math.max(5, s.voteLen ?? 5.6) * FPS)), voice: [at('countdown')]});
     push({kind: 'outro', duration: Math.max(len('outro'), Math.round((s.outroMin ?? 4) * FPS)), voice: [at('outro')]});
     return {sections, totalFrames: cursor, totalSeconds: cursor / FPS, usesAudio};
   }

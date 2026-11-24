@@ -1,0 +1,9 @@
+{
+  "endpoint": "sound-generation",
+  "modelId": "eleven_text_to_sound_v3",
+  "prompt": "Short playful digital pop-swoosh as an app icon disappears, cute UI delete sound",
+  "duration": 0.5,
+  "loop": false,
+  "promptInfluence": 0.7,
+  "createdAt": "2026-11-24T00:23:55.524Z"
+}
