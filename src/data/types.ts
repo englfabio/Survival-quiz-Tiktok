@@ -367,6 +367,17 @@ export type Motion =
   | 'flexpose' // Dummy: Doppelbizeps-Pose, Fäuste hoch, pumpt im Takt 0,8 s, Brust raus
   | 'bagtoss' // Dummy: holt mit dem Sack rechts nach hinten aus und wirft ihn von unten nach vorn (Abwurf BAGTOSS_REL)
   | 'swear' // Dummy: Schwurhand – rechte Hand flach erhoben neben dem Kopf, linke Hand auf dem Herzen, Kopf erhoben
+  // ---- Spezial Handy im Gesicht (Details: handyPose in Dummy.tsx) ----
+  | 'bedphone' // Dummy: liegt im Bett, hält das Handy mit beiden Händen über dem Gesicht
+  | 'bedphoneslip' // Dummy: Handy rutscht ab (0,3 s), fällt auf die Nase (0,52 s), Arme sinken benommen aufs Bett
+  | 'phoneglare' // Dummy: steht, hält das Handy rechts vor dem Gesicht und funkelt es böse an
+  | 'thorthrow' // Dummy: wirbelt das Handy über dem Kopf wie einen Hammer und wirft es (Abwurf THOR.rel)
+  | 'catchwait' // Dummy: rechter Arm nach vorn oben, Hand offen – wartet, ob etwas zurückkommt
+  | 'flopfall' // Dummy: waagerecht in der Luft, Bauch nach unten, Arme + Beine gespreizt (Bauchplatscher)
+  | 'flopflat' // Dummy: liegt platt auf dem Bauch, Arme ausgebreitet, strampelt leicht
+  | 'bedheavy' // Dummy: sitzt im Bett, hält das schwere Handy tief vor dem Bauch, Arme zittern
+  | 'bedswipe' // Dummy: sitzt im Bett, wischt hektisch mit rechts über das Handy in der linken Hand
+  | 'bedrelax' // Dummy: halb liegend, beide Hände hinter dem Kopf, zufrieden
   | 'perch' // Taube: sitzen, Kopf nicken/picken, gurren
   | 'flap' // Taube: auf der Stelle flattern
   | 'talk' // Tauben-Anführer: mit den Flügeln gestikulieren
@@ -657,6 +668,8 @@ export type ActorKey = {
   angry?: number;
   /** Cookie-Handy: Low-Poly-Beine wachsen 0 … 1 */
   legs?: number;
+  /** Betthandy: wird dünner + heller (federleicht) 0 … 1 */
+  thin?: number;
   /** Spezial Müll: grüner Cartoon-Schleim an der rechten Dummy-Hand 0 … 1 */
   slime?: number;
   /** Spezial Müll: Cartoon-Muskeln am Dummy 0 … 1 */
@@ -668,7 +681,7 @@ export type ActorKey = {
 };
 
 /** Zahlenwerte einer Figur, die von Zeitpunkt zu Zeitpunkt weich übergehen */
-export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs', 'slime', 'muscle'] as const;
+export const ACTOR_VALUES = ['tilt', 'window', 'door', 'water', 'pressure', 'pain', 'jacket', 'pants', 'breath', 'cold', 'spray', 'armbite', 'redness', 'plaster', 'dressing', 'fire', 'smoke', 'zap', 'lever', 'lean', 'gloves', 'teeth', 'gap', 'gray', 'mark', 'wrap', 'lid', 'size', 'below', 'good', 'foam', 'lunge', 'blut', 'fill', 'lock', 'heart', 'heave', 'squish', 'pack', 'sip', 'hand', 'drop', 'rope', 'rumble', 'window2', 'handle', 'side', 'leaves', 'pin', 'question', 'blue', 'leash', 'brow', 'stash', 'money', 'pen', 'wind', 'drift', 'blink', 'capon', 'partyhat', 'gardenhat', 'ring', 'broken', 'circle', 'write', 'lush', 'paint', 'suit', 'glasses', 'splat', 'press', 'glow', 'lokcap', 'jogger', 'hazmat', 'sweat', 'turn', 'pitch', 'jaw', 'klecks', 'wings', 'shrink', 'goggles', 'rail', 'slide', 'fold', 'belt', 'helm', 'nod', 'angry', 'legs', 'slime', 'muscle', 'thin'] as const;
 export type ActorValue = (typeof ACTOR_VALUES)[number];
 
 export type CameraKey = {

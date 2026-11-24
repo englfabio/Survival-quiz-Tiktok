@@ -1368,6 +1368,62 @@
       "duration": 1.5,
       "loop": false,
       "promptInfluence": 0.6
+    },
+    {
+      "id": "handy-klatsch",
+      "prompt": "Cartoon smack: a smartphone falling flat onto a face, comic slap with a tiny springy boing, playful, no pain",
+      "duration": 1.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "hammer-wirbel",
+      "prompt": "Fast cartoon spinning whoosh, an object whirled around overhead like a lasso, rhythmic swoosh swoosh",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "funkeln",
+      "prompt": "Cartoon twinkle ping, a tiny star sparkling far away in the night sky, bright magical ding",
+      "duration": 1.0,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "reverse-zauber",
+      "prompt": "Magical cartoon card reversal: a bright swoosh with a shimmering rising chime and a sparkly sweep",
+      "duration": 1.5,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "wischen",
+      "prompt": "Rapid finger swipes on a smartphone touchscreen, soft quick swish taps, close",
+      "duration": 2.0,
+      "loop": false,
+      "promptInfluence": 0.6
+    },
+    {
+      "id": "app-weg",
+      "prompt": "Short playful digital pop-swoosh as an app icon disappears, cute UI delete sound",
+      "duration": 0.5,
+      "loop": false,
+      "promptInfluence": 0.7
+    },
+    {
+      "id": "feder",
+      "prompt": "Light airy magical floating sound, a soft feather drifting gently, delicate sparkle chime",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.5
+    },
+    {
+      "id": "handy-schnarchen",
+      "prompt": "Cute tiny cartoon snoring of a small sleeping gadget, soft and funny",
+      "duration": 2.5,
+      "loop": false,
+      "promptInfluence": 0.6
     }
   ]
 }

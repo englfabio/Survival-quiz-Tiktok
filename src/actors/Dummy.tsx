@@ -5910,8 +5910,212 @@ const muellPose = (motion: Motion, time: number, speed: number): DummyPose | nul
   return null;
 };
 
+
+// ---------- Spezial Handy im Gesicht ----------
+/**
+ * Bewegungen für das Spezial „Handy im Gesicht“ (wiederverwendbar). Bett-Haltungen wie beim Wecker (Hüfte 0,56 m über dem Ursprung,
+ * Beine nach vorn +z, Kopf zum Kissen −z). Liegend: Oberkörper-Neigung PHONE_LIE.lean, Kopf PHONE_LIE.hx → Gesicht schaut nach oben.
+ *  - bedphone:     liegt im Bett, hält das Handy mit beiden Händen über dem Gesicht (Handy-Mitte = phoneFacePoint(PHONE_LIE.hold))
+ *  - bedphoneslip: 0–0,3 s Finger rutschen ab (Hände zittern), ab 0,3 s Hände schnellen auseinander (das Handy fällt – Weg im Skript,
+ *                  Aufprall auf der Nase bei PHONE_LIE.hit s), Kopf zuckt, Arme fliegen hoch und sinken ab 0,9 s benommen seitlich aufs Bett
+ *  - phoneglare:   steht, hält das Handy rechts vor dem Gesicht (PHONE_GLARE) und funkelt es böse an, linke Faust zittert (mit Wert `angry`)
+ *  - thorthrow:    steht, Hand hoch (0–0,3 s), wirbelt das Handy über dem Kopf wie einen Hammer (2 Runden bis 1,9 s, Kreis THOR.c / THOR.r),
+ *                  holt hinten aus und wirft nach vorn: Abwurf bei THOR.rel s an Punkt THOR.relP, dann schwingt der Arm durch
+ *  - catchwait:    steht leicht vorgebeugt, rechter Arm nach vorn oben, Hand offen (als würde gleich etwas zurückfliegen), linke Hand in der Hüfte,
+ *                  Kopf neigt sich erwartungsvoll hin und her
+ *  - flopfall:     liegt waagerecht in der Luft, Bauch nach unten (Ganzkörper-Kippung 90°), Arme + Beine gespreizt wie beim Bauchplatscher
+ *                  (Höhe über y der Zeitpunkte; Ursprung = Füße → Körper liegt nach +z)
+ *  - flopflat:     liegt platt auf dem Bauch, Arme seitlich ausgebreitet, strampelt leicht mit den Beinen, kleiner Nachfeder-Hüpfer am Anfang
+ *  - bedheavy:     sitzt im Bett und hält das (schwere) Handy mit beiden Händen tief vor dem Bauch, Arme zittern, Oberkörper gebeugt
+ *  - bedswipe:     sitzt im Bett, linke Hand hält das Handy (PHONE_SIT), rechter Zeigefinger wischt hektisch über den Bildschirm
+ *  - bedrelax:     halb liegend zurückgelehnt, beide Hände hinter dem Kopf, zufrieden
+ */
+export const PHONE_LIE = {lean: -1.3, hx: 0.2, hold: 0.36, rest: 0.135, slip: 0.3, hit: 0.52};
+/** Punkt über dem Gesicht des liegenden Dummys (Abstand d von der Kopfmitte entlang der Blickrichtung) – im Dummy-System */
+export const phoneFacePoint = (d: number, lean = PHONE_LIE.lean, hx = PHONE_LIE.hx): P3 => {
+  const cy = BED_HIP + 0.06 + 0.74 * Math.cos(lean);
+  const cz = 0.74 * Math.sin(lean);
+  const a = lean + hx;
+  return [0, cy - Math.sin(a) * d, cz + Math.cos(a) * d];
+};
+export const PHONE_GLARE: P3 = [-0.1, 1.32, 0.36];
+export const THOR = {c: [-0.12, 1.9, 0.02] as P3, r: 0.24, t0: 0.3, t1: 1.9, rel: 2.15, relP: [-0.16, 1.72, 0.56] as P3};
+export const PHONE_SIT: P3 = [0.05, 0.92, 0.36];
+const thorHand = (time: number): P3 => {
+  const {c, r, t0, t1, rel, relP} = THOR;
+  const circ = (a: number): P3 => [c[0] + Math.cos(a) * r, c[1], c[2] + Math.sin(a) * r];
+  const start = circ(-Math.PI / 2);
+  if (time < t0) return lerp3t([-0.24, 1.0, 0.15], start, easeInOut(time / t0));
+  if (time < t1) {
+    const u = (time - t0) / (t1 - t0);
+    return circ(-Math.PI / 2 + u * Math.PI * 4 * (0.85 + 0.15 * u));
+  }
+  // Ausholen nach hinten oben, dann nach vorn zum Abwurfpunkt
+  const top: P3 = [c[0] - 0.02, c[1] + 0.12, c[2] - 0.12];
+  const end = circ(-Math.PI / 2 + Math.PI * 4);
+  if (time < rel) {
+    const u = (time - t1) / (rel - t1);
+    return u < 0.4 ? lerp3t(end, top, easeInOut(u / 0.4)) : lerp3t(top, relP, (u - 0.4) / 0.6);
+  }
+  return lerp3t(relP, [-0.24, 1.02, 0.42], easeInOut(clamp((time - rel) / 0.45)));
+};
+export const thorHandPoint = thorHand;
+const handyPose = (motion: Motion, time: number): DummyPose | null => {
+  const breathe = Math.sin(time * 2.2) * 0.012;
+  const restR: P3 = [-0.22, 0.92, 0.08];
+  const restLL: P3 = [0.22, 0.92, 0.08];
+  switch (motion) {
+    case 'bedphone': {
+      const p = bedBody(PHONE_LIE.lean, time);
+      p.headX = PHONE_LIE.hx;
+      const c = phoneFacePoint(PHONE_LIE.hold - 0.01);
+      reachR(p, [c[0] - 0.06, c[1], c[2]], 0.33, [0.9, -0.2, -0.6]);
+      reachL(p, [c[0] + 0.06, c[1], c[2]], 0.33, [0.9, -0.2, -0.6]);
+      p.chest = 0.15 + 0.15 * Math.sin(time * 1.7);
+      return p;
+    }
+    case 'bedphoneslip': {
+      const {slip, hit} = PHONE_LIE;
+      const jolt = time > hit ? Math.sin(clamp((time - hit) / 0.35) * Math.PI) : 0;
+      const p = bedBody(PHONE_LIE.lean - 0.05 * jolt, time);
+      p.headX = PHONE_LIE.hx - 0.12 * jolt;
+      const c = phoneFacePoint(PHONE_LIE.hold - 0.01);
+      if (time < slip) {
+        const j = Math.sin(time * 47) * 0.012 * (time / slip);
+        reachR(p, [c[0] - 0.06 - j, c[1] + j, c[2]], 0.33, [0.9, -0.2, -0.6]);
+        reachL(p, [c[0] + 0.06 + j, c[1] - j, c[2]], 0.33, [0.9, -0.2, -0.6]);
+      } else {
+        // Hände schnellen auseinander + hoch, sinken dann benommen seitlich aufs Bett
+        const q = {...p};
+        const k = easeInOut(clamp((time - slip) / 0.2));
+        reachR(q, lerp3t([c[0] - 0.06, c[1], c[2]], [c[0] - 0.42, c[1] + 0.12, c[2] - 0.05], k), 0.33, [0.9, -0.2, -0.6]);
+        reachL(q, lerp3t([c[0] + 0.06, c[1], c[2]], [c[0] + 0.42, c[1] + 0.12, c[2] - 0.05], k), 0.33, [0.9, -0.2, -0.6]);
+        const flop = easeInOut(clamp((time - 0.9) / 0.6));
+        const down = bedBody(PHONE_LIE.lean, time);
+        down.armL = L3(-0.3, 1.25, -0.25 + 0.05 * Math.sin(time * 3));
+        down.armR = L3(-0.3, -1.25, -0.25);
+        p.armR = mixLimb(q.armR, down.armR, flop);
+        p.armL = mixLimb(q.armL, down.armL, flop);
+        p.foreZ = q.foreZ * (1 - flop);
+        p.foreZL = q.foreZL * (1 - flop);
+        p.fists = false;
+        // Beine zucken kurz beim Aufprall
+        p.legL = L3(-1.57 + 0.25 * jolt, 0.06, 0.02 + 0.3 * jolt);
+      }
+      return p;
+    }
+    case 'phoneglare': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.4));
+      const sh = Math.sin(time * 38) * 0.006;
+      reachR(p, lerp3t(restR, [PHONE_GLARE[0] + sh, PHONE_GLARE[1], PHONE_GLARE[2]], k), 0.36, [0.6, -1, -0.4]);
+      reachL(p, lerp3t(restLL, [0.26, 0.98 + sh * 2, 0.18], k), 0.33);
+      p.fists = true;
+      p.torsoX = -0.04 * k + breathe;
+      p.headX = 0.12 * k;
+      p.legL = L3(-0.08, 0.08, 0.05);
+      p.legR = L3(0.08, -0.08, 0.05);
+      return p;
+    }
+    case 'thorthrow': {
+      const p = base();
+      const {t1, rel} = THOR;
+      const thr = easeInOut(clamp((time - t1 - 0.08) / (rel - t1 - 0.08)));
+      const fol = easeInOut(clamp((time - rel) / 0.45));
+      const wind = time < t1 ? easeInOut(clamp(time / 0.3)) : 1 - thr;
+      p.torsoX = -0.12 * wind + 0.38 * thr - 0.12 * fol;
+      p.torsoY = -0.12 * wind * Math.sin(time * 7.8) * (time < t1 ? 1 : 0) + 0.25 * thr - 0.08 * fol;
+      p.legL = L3(-0.3 * Math.max(wind, thr), 0.1, 0.12);
+      p.legR = L3(0.25 * Math.max(wind, thr), -0.1, 0.18);
+      p.hipY = 0.98 - 0.04 * thr;
+      reachR(p, thorHand(time), 0.33, [0.3, 0.4, -1]);
+      reachL(p, lerp3t(restLL, [0.36, 1.18, 0.12], Math.max(wind, thr) * (1 - fol)), 0.33);
+      p.headX = -0.28 * wind + 0.05 * thr - 0.12 * fol;
+      p.fists = true;
+      return p;
+    }
+    case 'catchwait': {
+      const p = base();
+      const k = easeInOut(clamp(time / 0.5));
+      const tilt = Math.sin(time * 1.6);
+      reachR(p, lerp3t(restR, [-0.14, 1.52 + 0.01 * Math.sin(time * 4), 0.56], k), 0.33, [0.4, -1, -0.3]);
+      reachL(p, lerp3t(restLL, [0.24, 1.0, -0.02], k), 0.33, [0.8, -0.2, -0.8]);
+      p.fists = false;
+      p.torsoX = 0.1 * k + breathe;
+      p.headX = -0.2 * k;
+      p.headY = 0.22 * tilt * k;
+      p.torsoZ = 0.04 * tilt * k;
+      p.foreZ += 0.08 * Math.sin(time * 9) * k;
+      return p;
+    }
+    case 'flopfall':
+    case 'flopflat': {
+      const p = base();
+      const flat = motion === 'flopflat';
+      p.pitch = 1.5 + (flat ? 0.07 : 0);
+      p.hipY = 0.98;
+      const kick = flat ? Math.sin(time * 6) * 0.18 * (1 - 0.6 * clamp(time / 2)) : Math.sin(time * 9) * 0.08;
+      p.legL = L3(0.15 + kick, 0.22, 0.35 + kick);
+      p.legR = L3(0.15 - kick, -0.22, 0.35 - kick);
+      if (flat) {
+        p.armL = L3(-1.6, 1.35, -0.2 + 0.08 * Math.sin(time * 5));
+        p.armR = L3(-1.6, -1.35, -0.2 - 0.08 * Math.sin(time * 5));
+        p.headX = -0.3 + 0.05 * Math.sin(time * 2);
+      } else {
+        const fl = Math.sin(time * 11) * 0.15;
+        p.armL = L3(-2.3 + fl, 0.9, -0.3);
+        p.armR = L3(-2.3 - fl, -0.9, -0.3);
+        p.headX = -0.55;
+      }
+      p.fists = false;
+      return p;
+    }
+    case 'bedheavy': {
+      const p = bedBody(0.18, time);
+      const tr = Math.sin(time * 33) * 0.008 + Math.sin(time * 21) * 0.005;
+      reachR(p, [-0.07, 0.8 + tr, 0.4], 0.33, [0.6, -1, -0.4]);
+      reachL(p, [0.07, 0.8 - tr, 0.4], 0.33, [0.6, -1, -0.4]);
+      p.headX = 0.45;
+      p.torsoX += tr * 0.5;
+      p.chest = 0.3 + 0.2 * Math.sin(time * 4);
+      return p;
+    }
+    case 'bedswipe': {
+      const p = bedBody(0.04, time);
+      reachL(p, [PHONE_SIT[0] + 0.03, PHONE_SIT[1] - 0.02, PHONE_SIT[2]], 0.33, [0.6, -1, -0.4]);
+      const ph = time * 13;
+      const sw = Math.sin(ph);
+      reachR(p, [PHONE_SIT[0] - 0.045 * sw, PHONE_SIT[1] + 0.035 + 0.012 * Math.abs(Math.cos(ph)), PHONE_SIT[2] - 0.03 + 0.02 * Math.cos(ph * 0.5)], 0.36, [0.6, -1, -0.4]);
+      p.headX = 0.42 + 0.03 * Math.sin(time * 5);
+      p.headY = 0.06 * sw;
+      p.torsoY = 0.03 * sw;
+      p.fists = false;
+      return p;
+    }
+    case 'bedrelax': {
+      const lean = -0.72;
+      const k = easeInOut(clamp(time / 0.7));
+      const p = bedBody(0.04 + (lean - 0.04) * k, time);
+      const q = {...p};
+      behindHead(q, lean, -1);
+      behindHead(q, lean, 1);
+      const b0 = bedBody(0.04, time);
+      handsLap(b0, 0.04);
+      p.armR = mixLimb(b0.armR, q.armR, k);
+      p.armL = mixLimb(b0.armL, q.armL, k);
+      p.foreZ = q.foreZ * k;
+      p.foreZL = q.foreZL * k;
+      p.headX = 0.1 + 0.05 * Math.sin(time * 1.2);
+      p.headY = 0.12 * Math.sin(time * 0.7) * k;
+      p.legR = L3(-1.45, -0.04, 0.35 * k);
+      return p;
+    }
+  }
+  return null;
+};
+
 export const dummyPose = (motion: Motion, time: number, speed: number): DummyPose => {
-  const g = muellPose(motion, time, speed) ?? cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
+  const g = handyPose(motion, time) ?? muellPose(motion, time, speed) ?? cookiePose(motion, time) ?? usbPose(motion, time) ?? doorPose(motion, time) ?? blackHolePose(motion, time) ?? kleckerPose(motion, time) ?? fishPose(motion, time, speed) ?? pigeonPose(motion, time) ?? gamePose(motion, time) ?? waschPose(motion, time, speed) ?? chefPose(motion, time) ?? hausPose(motion, time) ?? spuelePose(motion, time) ?? gardenPose(motion, time, speed) ?? moatPose(motion, time, speed) ?? firstAidPose(motion, time, speed) ?? firePose(motion, time, speed) ?? stromPose(motion, time) ?? zahnPose(motion, time) ?? tabPose(motion, time) ?? panicPose(motion, time) ?? magnetPose(motion, time) ?? stationPose(motion, time, speed) ?? pistolPose(motion, time) ?? geldPose(motion, time, speed) ?? platformPose(motion, time, speed) ?? spritzePose(motion, time, speed) ?? weckerPose(motion, time) ?? nachbarPose(motion, time, speed) ?? wgPose(motion, time, speed) ?? paketPose(motion, time, speed) ?? bahnPose(motion, time, speed) ?? truckPose(motion, time, speed);
   if (g) return g;
   const p = base();
   const breathe = Math.sin(time * 2.2) * 0.012;

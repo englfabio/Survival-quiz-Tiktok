@@ -1,0 +1,4178 @@
+{
+  "id": "spezial-handy-gesicht",
+  "format": "spezial",
+  "category": "spezial",
+  "stage": "schlafzimmer-nacht",
+  "padAfter": 0.3,
+  "situation": {
+    "speech": "Dir ist mal wieder das Handy direkt ins Gesicht gefallen, während du im Bett liegst. Direkt auf die Nase. Was machst du?"
+  },
+  "options": [
+    {
+      "card": "Wie Thors Hammer wegwerfen",
+      "speech": "A: Du schmeißt es wie Thor seinen Hammer weg. Aber es kommt einfach nicht wieder.",
+      "dummyAction": "Der Dummy wirbelt das Handy wie einen Hammer über dem Kopf und schleudert es in weitem Bogen durch das offene Fenster hinaus in den Nachthimmel (Funkeln). Dann wartet er mit offener Hand, ob es zurückfliegt – es kommt nicht. Achselzucken. Niemand wird getroffen.",
+      "explanation": "Mit Schwung wie ein Hammer weggeworfen. Jetzt kurz warten, bis es zurückkommt. Und ... nichts. Weg ist es.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -3.79,
+              2.12,
+              7.36
+            ],
+            "look": [
+              0.55,
+              0.59,
+              0.07
+            ]
+          },
+          {
+            "t": 0.4147,
+            "pos": [
+              -3.616,
+              2.059,
+              7.068
+            ],
+            "look": [
+              0.55,
+              0.59,
+              0.07
+            ]
+          },
+          {
+            "t": 0.4182,
+            "pos": [
+              1.55,
+              1.75,
+              1.45
+            ],
+            "look": [
+              -0.95,
+              1.3,
+              -0.45
+            ],
+            "fov": 52
+          },
+          {
+            "t": 0.6901,
+            "pos": [
+              1.45,
+              1.732,
+              1.374
+            ],
+            "look": [
+              -0.95,
+              1.3,
+              -0.45
+            ],
+            "fov": 52
+          },
+          {
+            "t": 0.6935,
+            "pos": [
+              1.65,
+              1.25,
+              0.65
+            ],
+            "look": [
+              -1.8,
+              1.9,
+              -0.4
+            ],
+            "fov": 46
+          },
+          {
+            "t": 0.8811,
+            "pos": [
+              1.547,
+              1.27,
+              0.618
+            ],
+            "look": [
+              -1.8,
+              1.9,
+              -0.4
+            ],
+            "fov": 46
+          },
+          {
+            "t": 0.8838,
+            "pos": [
+              -4.38,
+              1.81,
+              1.87
+            ],
+            "look": [
+              -0.21,
+              1.24,
+              -0.34
+            ]
+          },
+          {
+            "t": 0.9453,
+            "pos": [
+              -4.171,
+              1.782,
+              1.76
+            ],
+            "look": [
+              -0.21,
+              1.24,
+              -0.34
+            ]
+          },
+          {
+            "t": 0.9477,
+            "pos": [
+              2.03,
+              2.51,
+              7.95
+            ],
+            "look": [
+              -0.98,
+              0.82,
+              -0.32
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              1.91,
+              2.442,
+              7.619
+            ],
+            "look": [
+              -0.98,
+              0.82,
+              -0.32
+            ]
+          }
+        ],
+        "actors": {
+          "kissen": [
+            {
+              "t": 0,
+              "x": 1.47,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.45,
+              "squish": 0.0
+            },
+            {
+              "t": 1,
+              "x": 1.47,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.45,
+              "squish": 0.0
+            }
+          ],
+          "bettdecke": [
+            {
+              "t": 0,
+              "x": -0.02,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.455,
+              "fill": 0.5,
+              "squish": 0.0
+            },
+            {
+              "t": 1,
+              "x": -0.02,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.455,
+              "fill": 0.5,
+              "squish": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "phoneglare",
+              "face": 215,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4301,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "phoneglare",
+              "face": 215,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.4316,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "stand",
+              "face": 270,
+              "angry": 1.0,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 0.4351,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "thorthrow",
+              "face": 270,
+              "angry": 1.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6084,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "thorthrow",
+              "face": 270,
+              "angry": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6631,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "thorthrow",
+              "face": 270,
+              "angry": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.6646,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "catchwait",
+              "face": 270,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.9251,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "catchwait",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.9266,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "physikshrug",
+              "face": 270,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 1,
+              "x": -0.2,
+              "z": -0.35,
+              "motion": "physikshrug",
+              "face": 270,
+              "y": 0.0
+            }
+          ],
+          "betthandy": [
+            {
+              "t": 0,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 215,
+              "y": 1.72,
+              "tilt": -90.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0,
+              "text": "feed"
+            },
+            {
+              "t": 0.4296,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 215,
+              "y": 1.72,
+              "tilt": -90.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4316,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -90.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.4351,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -90.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4414,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -112.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4478,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -135.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4541,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -157.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4605,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -180.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4668,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -202.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4731,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -225.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4795,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -247.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4858,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -270.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4921,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -292.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.4985,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -315.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5048,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -337.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5111,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -360.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5175,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -382.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5238,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -405.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5302,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -427.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5365,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -450.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5428,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -472.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5492,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -495.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5555,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -517.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5619,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -540.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5682,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -562.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5745,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -585.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5809,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -607.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5852,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -630.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 1.0,
+              "size": 0.0,
+              "drop": 0.0
+            },
+            {
+              "t": 0.5872,
+              "x": -0.76,
+              "z": -0.51,
+              "motion": "park",
+              "face": 270,
+              "y": 1.72,
+              "tilt": -630.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.5916,
+              "x": -1.121,
+              "z": -0.472,
+              "motion": "park",
+              "face": 270,
+              "y": 1.678,
+              "tilt": -667.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.025
+            },
+            {
+              "t": 0.596,
+              "x": -1.482,
+              "z": -0.434,
+              "motion": "park",
+              "face": 270,
+              "y": 1.637,
+              "tilt": -705.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.05
+            },
+            {
+              "t": 0.6005,
+              "x": -2.05,
+              "z": -0.476,
+              "motion": "park",
+              "face": 270,
+              "y": 1.67,
+              "tilt": -742.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.075
+            },
+            {
+              "t": 0.6049,
+              "x": -4.104,
+              "z": -1.101,
+              "motion": "park",
+              "face": 270,
+              "y": 2.242,
+              "tilt": -780.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.1
+            },
+            {
+              "t": 0.6093,
+              "x": -6.097,
+              "z": -1.708,
+              "motion": "park",
+              "face": 270,
+              "y": 2.798,
+              "tilt": -817.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.125
+            },
+            {
+              "t": 0.6137,
+              "x": -8.029,
+              "z": -2.296,
+              "motion": "park",
+              "face": 270,
+              "y": 3.334,
+              "tilt": -855.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.15
+            },
+            {
+              "t": 0.6182,
+              "x": -9.896,
+              "z": -2.864,
+              "motion": "park",
+              "face": 270,
+              "y": 3.846,
+              "tilt": -892.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.175
+            },
+            {
+              "t": 0.6226,
+              "x": -11.699,
+              "z": -3.413,
+              "motion": "park",
+              "face": 270,
+              "y": 4.332,
+              "tilt": -930.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.2
+            },
+            {
+              "t": 0.627,
+              "x": -13.436,
+              "z": -3.941,
+              "motion": "park",
+              "face": 270,
+              "y": 4.787,
+              "tilt": -967.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.225
+            },
+            {
+              "t": 0.6314,
+              "x": -15.104,
+              "z": -4.449,
+              "motion": "park",
+              "face": 270,
+              "y": 5.21,
+              "tilt": -1005.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.25
+            },
+            {
+              "t": 0.6358,
+              "x": -16.703,
+              "z": -4.936,
+              "motion": "park",
+              "face": 270,
+              "y": 5.598,
+              "tilt": -1042.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.275
+            },
+            {
+              "t": 0.6403,
+              "x": -18.229,
+              "z": -5.4,
+              "motion": "park",
+              "face": 270,
+              "y": 5.949,
+              "tilt": -1080.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3
+            },
+            {
+              "t": 0.6447,
+              "x": -19.681,
+              "z": -5.842,
+              "motion": "park",
+              "face": 270,
+              "y": 6.261,
+              "tilt": -1117.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.325
+            },
+            {
+              "t": 0.6491,
+              "x": -21.056,
+              "z": -6.26,
+              "motion": "park",
+              "face": 270,
+              "y": 6.533,
+              "tilt": -1155.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.35
+            },
+            {
+              "t": 0.6535,
+              "x": -22.35,
+              "z": -6.654,
+              "motion": "park",
+              "face": 270,
+              "y": 6.766,
+              "tilt": -1192.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.375
+            },
+            {
+              "t": 0.658,
+              "x": -23.561,
+              "z": -7.023,
+              "motion": "park",
+              "face": 270,
+              "y": 6.958,
+              "tilt": -1230.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.4
+            },
+            {
+              "t": 0.6624,
+              "x": -24.684,
+              "z": -7.365,
+              "motion": "park",
+              "face": 270,
+              "y": 7.11,
+              "tilt": -1267.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.425
+            },
+            {
+              "t": 0.6668,
+              "x": -25.715,
+              "z": -7.678,
+              "motion": "park",
+              "face": 270,
+              "y": 7.222,
+              "tilt": -1305.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.45
+            },
+            {
+              "t": 0.6712,
+              "x": -26.647,
+              "z": -7.962,
+              "motion": "park",
+              "face": 270,
+              "y": 7.296,
+              "tilt": -1342.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.475
+            },
+            {
+              "t": 0.6756,
+              "x": -27.474,
+              "z": -8.214,
+              "motion": "park",
+              "face": 270,
+              "y": 7.333,
+              "tilt": -1380.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.5
+            },
+            {
+              "t": 0.6801,
+              "x": -28.184,
+              "z": -8.43,
+              "motion": "park",
+              "face": 270,
+              "y": 7.333,
+              "tilt": -1417.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.525
+            },
+            {
+              "t": 0.6845,
+              "x": -28.765,
+              "z": -8.607,
+              "motion": "park",
+              "face": 270,
+              "y": 7.296,
+              "tilt": -1455.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.55
+            },
+            {
+              "t": 0.6889,
+              "x": -29.19,
+              "z": -8.736,
+              "motion": "park",
+              "face": 270,
+              "y": 7.221,
+              "tilt": -1492.5,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.575
+            },
+            {
+              "t": 0.6933,
+              "x": -29.4,
+              "z": -8.8,
+              "motion": "park",
+              "face": 270,
+              "y": 7.1,
+              "tilt": -1530.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.6
+            },
+            {
+              "t": 0.6953,
+              "x": -29.4,
+              "z": -8.8,
+              "motion": "park",
+              "face": 270,
+              "y": -30.0,
+              "tilt": -1530.0,
+              "glow": 0.6,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0,
+              "size": 0.6
+            }
+          ],
+          "funkelstern": [
+            {
+              "t": 0.0,
+              "x": -29.4,
+              "z": -8.8,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": 3.0,
+              "hand": 0
+            },
+            {
+              "t": 0.6913,
+              "x": -29.4,
+              "z": -8.8,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": 3.0,
+              "hand": 0
+            },
+            {
+              "t": 0.6933,
+              "x": -29.4,
+              "z": -8.8,
+              "motion": "park",
+              "face": 0,
+              "y": 7.1,
+              "fill": 0.0,
+              "size": 3.0
+            },
+            {
+              "t": 0.757,
+              "x": -29.4,
+              "z": -8.8,
+              "motion": "park",
+              "face": 0,
+              "y": 7.1,
+              "fill": 1.0,
+              "size": 3.0
+            },
+            {
+              "t": 0.759,
+              "x": -29.4,
+              "z": -8.8,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 1.0,
+              "size": 3.0,
+              "hand": 0
+            }
+          ]
+        },
+        "stage": "schlafzimmer-nacht",
+        "sfx": [
+          {
+            "t": 0.4563,
+            "id": "hammer-wirbel",
+            "volume": 0.8
+          },
+          {
+            "t": 0.5837,
+            "id": "kick-whoosh",
+            "volume": 0.9
+          },
+          {
+            "t": 0.6297,
+            "id": "whoosh",
+            "volume": 0.35
+          },
+          {
+            "t": 0.6933,
+            "id": "funkeln",
+            "volume": 0.75
+          },
+          {
+            "t": 0.8885,
+            "id": "leere-wind",
+            "volume": 0.45
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "UNO Reverse im Bett",
+      "speech": "B: UNO Reverse Karte. Du fällst auf das Handy, während es mal wieder im Bett dummyt.",
+      "dummyAction": "Leuchtender Rollentausch-Effekt mit roter Karte (ohne Logo). Plötzlich liegt ein riesiges Handy wie eine Matratze im Bett, zugedeckt und schlafend (Zzz) – der Dummy schwebt waagerecht darüber und plumpst platt darauf. Comichaft, niemand wird verletzt.",
+      "explanation": "UNO Reverse Karte gezückt. Plötzlich liegt das Handy im Bett und du fällst voll drauf. Rollen komplett getauscht.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              2.94,
+              2.17,
+              7.1
+            ],
+            "look": [
+              0.59,
+              0.71,
+              -0.15
+            ]
+          },
+          {
+            "t": 0.4072,
+            "pos": [
+              2.846,
+              2.112,
+              6.81
+            ],
+            "look": [
+              0.59,
+              0.71,
+              -0.15
+            ]
+          },
+          {
+            "t": 0.4108,
+            "pos": [
+              1.35,
+              1.87,
+              4.92
+            ],
+            "look": [
+              0.1,
+              1.41,
+              0.25
+            ]
+          },
+          {
+            "t": 0.602,
+            "pos": [
+              1.288,
+              1.847,
+              4.686
+            ],
+            "look": [
+              0.1,
+              1.41,
+              0.25
+            ]
+          },
+          {
+            "t": 0.6056,
+            "pos": [
+              -0.96,
+              5.32,
+              4.54
+            ],
+            "look": [
+              0.64,
+              1.15,
+              -1.42
+            ]
+          },
+          {
+            "t": 0.7756,
+            "pos": [
+              -0.896,
+              5.153,
+              4.302
+            ],
+            "look": [
+              0.64,
+              1.15,
+              -1.42
+            ]
+          },
+          {
+            "t": 0.7787,
+            "pos": [
+              -2.91,
+              2.32,
+              3.66
+            ],
+            "look": [
+              0.65,
+              0.78,
+              -1.42
+            ]
+          },
+          {
+            "t": 0.8903,
+            "pos": [
+              -2.732,
+              2.243,
+              3.406
+            ],
+            "look": [
+              0.65,
+              0.78,
+              -1.42
+            ]
+          },
+          {
+            "t": 0.893,
+            "pos": [
+              -0.84,
+              5.95,
+              2.65
+            ],
+            "look": [
+              0.6,
+              0.67,
+              -1.3
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.768,
+              5.686,
+              2.452
+            ],
+            "look": [
+              0.6,
+              0.67,
+              -1.3
+            ]
+          }
+        ],
+        "actors": {
+          "kissen": [
+            {
+              "t": 0,
+              "x": 1.47,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.45,
+              "squish": 0.0
+            },
+            {
+              "t": 0.5885,
+              "x": 1.47,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.45,
+              "squish": 0.0
+            },
+            {
+              "t": 0.5905,
+              "x": 1.47,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "squish": 0.0,
+              "hand": 0
+            }
+          ],
+          "bettdecke": [
+            {
+              "t": 0,
+              "x": -0.02,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.455,
+              "fill": 0.5,
+              "squish": 0.0
+            },
+            {
+              "t": 0.587,
+              "x": -0.02,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.455,
+              "fill": 0.5,
+              "squish": 0.0
+            },
+            {
+              "t": 0.5885,
+              "x": 0.04,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.559,
+              "fill": 0.33,
+              "squish": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.8056,
+              "x": 0.04,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.559,
+              "fill": 0.33,
+              "squish": 0.0
+            },
+            {
+              "t": 0.8076,
+              "x": 0.04,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.559,
+              "fill": 0.33,
+              "squish": 1.0
+            },
+            {
+              "t": 0.828,
+              "x": 0.04,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.559,
+              "fill": 0.33,
+              "squish": 0.2
+            },
+            {
+              "t": 1,
+              "x": 0.04,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.559,
+              "fill": 0.33,
+              "squish": 0.2
+            }
+          ],
+          "betthandy": [
+            {
+              "t": 0,
+              "x": 1.42,
+              "z": -1.2,
+              "motion": "park",
+              "face": 250,
+              "y": 0.585,
+              "tilt": 0.0,
+              "glow": 0.4,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.0,
+              "text": "feed"
+            },
+            {
+              "t": 0.5885,
+              "x": 1.42,
+              "z": -1.2,
+              "motion": "park",
+              "face": 250,
+              "y": 0.585,
+              "tilt": 0.0,
+              "glow": 0.4,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.0,
+              "text": "feed"
+            },
+            {
+              "t": 0.5905,
+              "x": 1.42,
+              "z": -1.2,
+              "motion": "park",
+              "face": 250,
+              "y": -30.0,
+              "tilt": 0.0,
+              "glow": 0.4,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0,
+              "size": 0.0,
+              "text": "feed"
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.35,
+              "z": 0.15,
+              "motion": "holdcard",
+              "face": 200,
+              "y": 0.0
+            },
+            {
+              "t": 0.587,
+              "x": 0.35,
+              "z": 0.15,
+              "motion": "holdcard",
+              "face": 200,
+              "y": 0.0
+            },
+            {
+              "t": 0.5885,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopfall",
+              "face": 90,
+              "y": 1.75,
+              "cut": true
+            },
+            {
+              "t": 0.7859,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopfall",
+              "face": 90,
+              "y": 1.7
+            },
+            {
+              "t": 0.7895,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopfall",
+              "face": 90,
+              "y": 1.672
+            },
+            {
+              "t": 0.7931,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopfall",
+              "face": 90,
+              "y": 1.587
+            },
+            {
+              "t": 0.7968,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopfall",
+              "face": 90,
+              "y": 1.445
+            },
+            {
+              "t": 0.8004,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopfall",
+              "face": 90,
+              "y": 1.247
+            },
+            {
+              "t": 0.804,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopfall",
+              "face": 90,
+              "y": 0.992
+            },
+            {
+              "t": 0.8076,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopfall",
+              "face": 90,
+              "y": 0.681
+            },
+            {
+              "t": 0.809,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopflat",
+              "face": 90,
+              "y": 0.651
+            },
+            {
+              "t": 0.8198,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopflat",
+              "face": 90,
+              "y": 0.731
+            },
+            {
+              "t": 0.832,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopflat",
+              "face": 90,
+              "y": 0.681
+            },
+            {
+              "t": 1,
+              "x": -0.42,
+              "z": -1.425,
+              "motion": "flopflat",
+              "face": 90,
+              "y": 0.681
+            }
+          ],
+          "reversekarte": [
+            {
+              "t": 0,
+              "x": 0.35,
+              "z": 0.15,
+              "motion": "park",
+              "face": 200,
+              "y": 1.2,
+              "hand": 1,
+              "drop": -0.1,
+              "size": 0.3,
+              "glow": 0.0
+            },
+            {
+              "t": 0.0305,
+              "x": 0.35,
+              "z": 0.15,
+              "motion": "park",
+              "face": 200,
+              "y": 1.2,
+              "hand": 1,
+              "drop": -0.1,
+              "size": 0.3,
+              "glow": 1.0
+            },
+            {
+              "t": 0.5885,
+              "x": 0.35,
+              "z": 0.15,
+              "motion": "park",
+              "face": 200,
+              "y": 1.2,
+              "hand": 1,
+              "drop": -0.1,
+              "size": 0.3,
+              "glow": 1.0
+            },
+            {
+              "t": 0.5905,
+              "x": 0.35,
+              "z": 0.15,
+              "motion": "park",
+              "face": 200,
+              "y": -30.0,
+              "hand": 0,
+              "drop": -0.1,
+              "size": 0.3,
+              "glow": 1.0
+            }
+          ],
+          "reverseeffekt": [
+            {
+              "t": 0.0,
+              "x": -0.021,
+              "z": -0.058,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.4335,
+              "x": -0.021,
+              "z": -0.058,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.4355,
+              "x": -0.021,
+              "z": -0.058,
+              "motion": "park",
+              "face": 0,
+              "y": 1.62,
+              "fill": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.4694,
+              "x": -0.021,
+              "z": -0.058,
+              "motion": "park",
+              "face": 0,
+              "y": 1.62,
+              "fill": 1.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.5885,
+              "x": -0.021,
+              "z": -0.058,
+              "motion": "park",
+              "face": 0,
+              "y": 1.62,
+              "fill": 1.0,
+              "size": 0.2
+            },
+            {
+              "t": 0.5905,
+              "x": -0.021,
+              "z": -0.058,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 1.0,
+              "size": 0.2,
+              "hand": 0
+            }
+          ],
+          "riesenhandy": [
+            {
+              "t": 0.0,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": -30.0,
+              "size": 7.0,
+              "text": "sleep",
+              "squish": 0.0,
+              "glow": 0.3,
+              "hand": 0
+            },
+            {
+              "t": 0.5865,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": -30.0,
+              "size": 7.0,
+              "text": "sleep",
+              "squish": 0.0,
+              "glow": 0.3,
+              "hand": 0
+            },
+            {
+              "t": 0.5885,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": 0.504,
+              "size": 7.0,
+              "text": "sleep",
+              "squish": 0.0,
+              "glow": 0.3
+            },
+            {
+              "t": 0.8056,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": 0.504,
+              "size": 7.0,
+              "text": "sleep",
+              "squish": 0.0
+            },
+            {
+              "t": 0.8076,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": 0.504,
+              "size": 7.0,
+              "text": "oops",
+              "squish": 1.0,
+              "glow": 0.6
+            },
+            {
+              "t": 0.8246,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": 0.504,
+              "size": 7.0,
+              "squish": 0.0
+            },
+            {
+              "t": 0.8381,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": 0.504,
+              "size": 7.0,
+              "squish": 0.25
+            },
+            {
+              "t": 0.8551,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": 0.504,
+              "size": 7.0,
+              "squish": 0.0,
+              "glow": 0.3
+            },
+            {
+              "t": 1,
+              "x": 0.85,
+              "z": -1.425,
+              "motion": "park",
+              "face": 270,
+              "y": 0.504,
+              "size": 7.0,
+              "squish": 0.0
+            }
+          ],
+          "sternchen": [
+            {
+              "t": 0.0,
+              "x": 1.2,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": 0.2,
+              "hand": 0
+            },
+            {
+              "t": 0.8395,
+              "x": 1.2,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": 0.2,
+              "hand": 0
+            },
+            {
+              "t": 0.8415,
+              "x": 1.2,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.981,
+              "fill": 0.0,
+              "size": 0.2
+            },
+            {
+              "t": 0.8686,
+              "x": 1.2,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.981,
+              "fill": 1.0,
+              "size": 0.2
+            },
+            {
+              "t": 1,
+              "x": 1.2,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.981,
+              "fill": 1.0,
+              "size": 0.2
+            }
+          ],
+          "klatschstern": [
+            {
+              "t": 0.0,
+              "x": 1.0,
+              "z": -1.125,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": 0.6,
+              "hand": 0
+            },
+            {
+              "t": 0.8056,
+              "x": 1.0,
+              "z": -1.125,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 0.0,
+              "size": 0.6,
+              "hand": 0
+            },
+            {
+              "t": 0.8076,
+              "x": 1.0,
+              "z": -1.125,
+              "motion": "park",
+              "face": 0,
+              "y": 0.806,
+              "fill": 0.0,
+              "size": 0.6
+            },
+            {
+              "t": 0.8381,
+              "x": 1.0,
+              "z": -1.125,
+              "motion": "park",
+              "face": 0,
+              "y": 0.806,
+              "fill": 1.0,
+              "size": 0.6
+            },
+            {
+              "t": 0.8401,
+              "x": 1.0,
+              "z": -1.125,
+              "motion": "park",
+              "face": 0,
+              "y": -30.0,
+              "fill": 1.0,
+              "size": 0.6,
+              "hand": 0
+            }
+          ]
+        },
+        "stage": "schlafzimmer-nacht",
+        "sfx": [
+          {
+            "t": 0.0305,
+            "id": "plopp",
+            "volume": 0.4
+          },
+          {
+            "t": 0.4355,
+            "id": "reverse-zauber",
+            "volume": 0.9
+          },
+          {
+            "t": 0.5953,
+            "id": "handy-schnarchen",
+            "volume": 0.6
+          },
+          {
+            "t": 0.7859,
+            "id": "whoosh",
+            "volume": 0.45
+          },
+          {
+            "t": 0.8076,
+            "id": "kissen-plumps",
+            "volume": 1.0
+          },
+          {
+            "t": 0.8103,
+            "id": "handy-klatsch",
+            "volume": 0.5
+          },
+          {
+            "t": 0.8415,
+            "id": "funkeln",
+            "volume": 0.3
+          }
+        ],
+        "sharpCuts": true
+      }
+    },
+    {
+      "card": "Apps und Fotos löschen",
+      "speech": "C: Du löschst alle Apps und Fotos, damit es nicht mehr so schwer ist.",
+      "dummyAction": "Der Dummy sitzt im Bett und wischt hektisch über das Handy, App-Symbole und Fotos fliegen davon, das Handy wird immer dünner und heller, schwebt wie eine Feder hoch und sinkt sanft aufs Kissen. Der Dummy lehnt sich zufrieden zurück.",
+      "explanation": "Alle Apps weg, alle Fotos gelöscht. Sofort viel leichter. Problem auf digitale Art gelöst.",
+      "sceneExtra": 0.0,
+      "choreography": {
+        "camera": [
+          {
+            "t": 0.0,
+            "pos": [
+              -2.2,
+              2.05,
+              1.88
+            ],
+            "look": [
+              0.54,
+              0.76,
+              -1.38
+            ]
+          },
+          {
+            "t": 0.4151,
+            "pos": [
+              -2.09,
+              1.998,
+              1.75
+            ],
+            "look": [
+              0.54,
+              0.76,
+              -1.38
+            ]
+          },
+          {
+            "t": 0.4187,
+            "pos": [
+              1.02,
+              2.19,
+              -1.27
+            ],
+            "look": [
+              0.46,
+              1.07,
+              -1.31
+            ]
+          },
+          {
+            "t": 0.5712,
+            "pos": [
+              0.992,
+              2.134,
+              -1.272
+            ],
+            "look": [
+              0.46,
+              1.07,
+              -1.31
+            ]
+          },
+          {
+            "t": 0.5748,
+            "pos": [
+              -1.57,
+              2.49,
+              2.54
+            ],
+            "look": [
+              0.5,
+              0.98,
+              -1.35
+            ]
+          },
+          {
+            "t": 0.7052,
+            "pos": [
+              -1.467,
+              2.415,
+              2.345
+            ],
+            "look": [
+              0.5,
+              0.98,
+              -1.35
+            ]
+          },
+          {
+            "t": 0.7085,
+            "pos": [
+              -0.84,
+              2.08,
+              3.18
+            ],
+            "look": [
+              0.62,
+              0.99,
+              -1.33
+            ]
+          },
+          {
+            "t": 0.8326,
+            "pos": [
+              -0.782,
+              2.036,
+              3.0
+            ],
+            "look": [
+              0.62,
+              0.99,
+              -1.33
+            ]
+          },
+          {
+            "t": 0.8355,
+            "pos": [
+              -1.05,
+              3.46,
+              3.04
+            ],
+            "look": [
+              1.0,
+              0.95,
+              -1.35
+            ]
+          },
+          {
+            "t": 1.0,
+            "pos": [
+              -0.968,
+              3.36,
+              2.864
+            ],
+            "look": [
+              1.0,
+              0.95,
+              -1.35
+            ]
+          }
+        ],
+        "actors": {
+          "kissen": [
+            {
+              "t": 0,
+              "x": 1.47,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.45,
+              "squish": 0.0
+            },
+            {
+              "t": 1,
+              "x": 1.47,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.45,
+              "squish": 0.0
+            }
+          ],
+          "bettdecke": [
+            {
+              "t": 0,
+              "x": -0.02,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.58,
+              "fill": 0.43,
+              "squish": 0.0
+            },
+            {
+              "t": 1,
+              "x": -0.02,
+              "z": -1.425,
+              "motion": "park",
+              "face": 0,
+              "y": 0.58,
+              "fill": 0.43,
+              "squish": 0.0
+            }
+          ],
+          "dummy": [
+            {
+              "t": 0,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedheavy",
+              "face": 270,
+              "sweat": 0.8,
+              "y": 0.0
+            },
+            {
+              "t": 0.4305,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedheavy",
+              "face": 270,
+              "sweat": 0.8,
+              "y": 0.0
+            },
+            {
+              "t": 0.432,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedswipe",
+              "face": 270,
+              "sweat": 0.4,
+              "cut": true,
+              "y": 0.0
+            },
+            {
+              "t": 0.5625,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedswipe",
+              "face": 270,
+              "sweat": 0.2,
+              "y": 0.0
+            },
+            {
+              "t": 0.6805,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedswipe",
+              "face": 270,
+              "sweat": 0.0,
+              "y": 0.0
+            },
+            {
+              "t": 0.682,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedsit",
+              "face": 270,
+              "y": 0.0,
+              "cut": true
+            },
+            {
+              "t": 0.7909,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedsit",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 0.7989,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedrelax",
+              "face": 270,
+              "y": 0.0
+            },
+            {
+              "t": 1,
+              "x": 0.8,
+              "z": -1.425,
+              "motion": "bedrelax",
+              "face": 270,
+              "y": 0.0
+            }
+          ],
+          "betthandy": [
+            {
+              "t": 0,
+              "x": 0.0,
+              "z": 0.4,
+              "motion": "park",
+              "face": 180,
+              "y": 0.8,
+              "attach": "dummy",
+              "tilt": 26.0,
+              "glow": 0.3,
+              "thin": 0.0,
+              "rumble": 1.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "apps20",
+              "size": 0.3
+            },
+            {
+              "t": 0.43,
+              "x": 0.0,
+              "z": 0.4,
+              "motion": "park",
+              "face": 180,
+              "y": 0.8,
+              "attach": "dummy",
+              "tilt": 26.0,
+              "glow": 0.3,
+              "thin": 0.0,
+              "rumble": 1.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3
+            },
+            {
+              "t": 0.444,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.0,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "apps20",
+              "cut": true,
+              "size": 0.3
+            },
+            {
+              "t": 0.4624,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.075,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "apps16",
+              "size": 0.3
+            },
+            {
+              "t": 0.4808,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.15,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "apps12",
+              "size": 0.3
+            },
+            {
+              "t": 0.4992,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.225,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "apps8",
+              "size": 0.3
+            },
+            {
+              "t": 0.5177,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.3,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "apps5",
+              "size": 0.3
+            },
+            {
+              "t": 0.5361,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.375,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "apps2",
+              "size": 0.3
+            },
+            {
+              "t": 0.5545,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.45,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "apps0",
+              "size": 0.3
+            },
+            {
+              "t": 0.5625,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.5,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "photos",
+              "size": 0.3
+            },
+            {
+              "t": 0.64,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.4,
+              "thin": 0.8,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "photos",
+              "size": 0.3
+            },
+            {
+              "t": 0.642,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.7,
+              "thin": 0.85,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "clean",
+              "size": 0.3
+            },
+            {
+              "t": 0.6805,
+              "x": 0.05,
+              "z": 0.36,
+              "motion": "park",
+              "face": 180,
+              "y": 0.92,
+              "attach": "dummy",
+              "tilt": 37.0,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "text": "clean",
+              "size": 0.3
+            },
+            {
+              "t": 0.682,
+              "x": 0.44,
+              "z": -1.375,
+              "motion": "park",
+              "face": 270,
+              "y": 0.92,
+              "tilt": 37.0,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean",
+              "cut": true
+            },
+            {
+              "t": 0.6887,
+              "x": 0.445,
+              "z": -1.348,
+              "motion": "park",
+              "face": 270,
+              "y": 0.932,
+              "tilt": 36.3,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.6953,
+              "x": 0.461,
+              "z": -1.323,
+              "motion": "park",
+              "face": 270,
+              "y": 0.967,
+              "tilt": 34.3,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.702,
+              "x": 0.485,
+              "z": -1.307,
+              "motion": "park",
+              "face": 270,
+              "y": 1.023,
+              "tilt": 29.7,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7087,
+              "x": 0.518,
+              "z": -1.3,
+              "motion": "park",
+              "face": 270,
+              "y": 1.095,
+              "tilt": 22.2,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7153,
+              "x": 0.555,
+              "z": -1.304,
+              "motion": "park",
+              "face": 270,
+              "y": 1.179,
+              "tilt": 12.1,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.722,
+              "x": 0.595,
+              "z": -1.312,
+              "motion": "park",
+              "face": 270,
+              "y": 1.27,
+              "tilt": 0.2,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7287,
+              "x": 0.635,
+              "z": -1.321,
+              "motion": "park",
+              "face": 270,
+              "y": 1.361,
+              "tilt": -12.1,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7353,
+              "x": 0.672,
+              "z": -1.325,
+              "motion": "park",
+              "face": 270,
+              "y": 1.445,
+              "tilt": -23.4,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.742,
+              "x": 0.705,
+              "z": -1.318,
+              "motion": "park",
+              "face": 270,
+              "y": 1.517,
+              "tilt": -32.5,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7487,
+              "x": 0.729,
+              "z": -1.302,
+              "motion": "park",
+              "face": 270,
+              "y": 1.573,
+              "tilt": -38.7,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7553,
+              "x": 0.745,
+              "z": -1.277,
+              "motion": "park",
+              "face": 270,
+              "y": 1.608,
+              "tilt": -42.0,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.762,
+              "x": 0.75,
+              "z": -1.25,
+              "motion": "park",
+              "face": 270,
+              "y": 1.62,
+              "tilt": -43.4,
+              "glow": 0.5,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7692,
+              "x": 0.816,
+              "z": -1.188,
+              "motion": "park",
+              "face": 270,
+              "y": 1.585,
+              "tilt": -31.0,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -12.8,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7764,
+              "x": 0.875,
+              "z": -1.139,
+              "motion": "park",
+              "face": 270,
+              "y": 1.549,
+              "tilt": -23.7,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -14.4,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7836,
+              "x": 0.921,
+              "z": -1.109,
+              "motion": "park",
+              "face": 270,
+              "y": 1.513,
+              "tilt": -18.8,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -13.7,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.7908,
+              "x": 0.955,
+              "z": -1.102,
+              "motion": "park",
+              "face": 270,
+              "y": 1.477,
+              "tilt": -16.7,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -11.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.798,
+              "x": 0.976,
+              "z": -1.114,
+              "motion": "park",
+              "face": 270,
+              "y": 1.441,
+              "tilt": -17.0,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -6.9,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8052,
+              "x": 0.988,
+              "z": -1.143,
+              "motion": "park",
+              "face": 270,
+              "y": 1.403,
+              "tilt": -19.4,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -2.2,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8124,
+              "x": 0.995,
+              "z": -1.18,
+              "motion": "park",
+              "face": 270,
+              "y": 1.365,
+              "tilt": -22.9,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 2.3,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8196,
+              "x": 1.0,
+              "z": -1.22,
+              "motion": "park",
+              "face": 270,
+              "y": 1.327,
+              "tilt": -26.7,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 6.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8268,
+              "x": 1.008,
+              "z": -1.255,
+              "motion": "park",
+              "face": 270,
+              "y": 1.287,
+              "tilt": -29.8,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 8.4,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.834,
+              "x": 1.023,
+              "z": -1.278,
+              "motion": "park",
+              "face": 270,
+              "y": 1.246,
+              "tilt": -31.6,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 9.2,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8412,
+              "x": 1.046,
+              "z": -1.289,
+              "motion": "park",
+              "face": 270,
+              "y": 1.205,
+              "tilt": -31.7,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 8.5,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8484,
+              "x": 1.077,
+              "z": -1.285,
+              "motion": "park",
+              "face": 270,
+              "y": 1.162,
+              "tilt": -30.0,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 6.6,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8557,
+              "x": 1.116,
+              "z": -1.269,
+              "motion": "park",
+              "face": 270,
+              "y": 1.118,
+              "tilt": -26.8,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 4.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8629,
+              "x": 1.159,
+              "z": -1.245,
+              "motion": "park",
+              "face": 270,
+              "y": 1.074,
+              "tilt": -22.6,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 1.2,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8701,
+              "x": 1.205,
+              "z": -1.217,
+              "motion": "park",
+              "face": 270,
+              "y": 1.028,
+              "tilt": -17.9,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -1.2,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8773,
+              "x": 1.25,
+              "z": -1.19,
+              "motion": "park",
+              "face": 270,
+              "y": 0.981,
+              "tilt": -13.3,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -3.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8845,
+              "x": 1.292,
+              "z": -1.168,
+              "motion": "park",
+              "face": 270,
+              "y": 0.934,
+              "tilt": -9.4,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -3.9,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8917,
+              "x": 1.329,
+              "z": -1.154,
+              "motion": "park",
+              "face": 270,
+              "y": 0.885,
+              "tilt": -6.5,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -3.9,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.8989,
+              "x": 1.362,
+              "z": -1.148,
+              "motion": "park",
+              "face": 270,
+              "y": 0.836,
+              "tilt": -4.5,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -3.3,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.9061,
+              "x": 1.391,
+              "z": -1.148,
+              "motion": "park",
+              "face": 270,
+              "y": 0.787,
+              "tilt": -3.3,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -2.2,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.9133,
+              "x": 1.417,
+              "z": -1.153,
+              "motion": "park",
+              "face": 270,
+              "y": 0.736,
+              "tilt": -2.7,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -1.1,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.9205,
+              "x": 1.443,
+              "z": -1.158,
+              "motion": "park",
+              "face": 270,
+              "y": 0.686,
+              "tilt": -2.2,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": -0.2,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.9277,
+              "x": 1.47,
+              "z": -1.161,
+              "motion": "park",
+              "face": 270,
+              "y": 0.635,
+              "tilt": -1.3,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.1,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 0.9349,
+              "x": 1.5,
+              "z": -1.16,
+              "motion": "park",
+              "face": 270,
+              "y": 0.584,
+              "tilt": 0.0,
+              "glow": 0.4,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            },
+            {
+              "t": 1,
+              "x": 1.5,
+              "z": -1.16,
+              "motion": "park",
+              "face": 270,
+              "y": 0.584,
+              "tilt": 0.0,
+              "glow": 0.3,
+              "thin": 0.92,
+              "rumble": 0.0,
+              "turn": 0.0,
+              "hand": 0.0,
+              "size": 0.3,
+              "text": "clean"
+            }
+          ],
+          "appregen": [
+            {
+              "t": 0.0,
+              "x": 0.44,
+              "z": -1.375,
+              "motion": "burst",
+              "face": 0,
+              "y": -30.0,
+              "mark": 0.0,
+              "size": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.442,
+              "x": 0.44,
+              "z": -1.375,
+              "motion": "burst",
+              "face": 0,
+              "y": -30.0,
+              "mark": 0.0,
+              "size": 0.0,
+              "hand": 0
+            },
+            {
+              "t": 0.444,
+              "x": 0.44,
+              "z": -1.375,
+              "motion": "burst",
+              "face": 0,
+              "y": 0.97,
+              "mark": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.561,
+              "x": 0.44,
+              "z": -1.375,
+              "motion": "burst",
+              "face": 0,
+              "y": 0.97,
+              "mark": 0.0,
+              "size": 0.0
+            },
+            {
+              "t": 0.5625,
+              "x": 0.44,
+              "z": -1.375,
+              "motion": "burst",
+              "face": 0,
+              "y": 0.97,
+              "mark": 1.0,
+              "size": 0.2,
+              "cut": true
+            },
+            {
+              "t": 0.642,
+              "x": 0.44,
+              "z": -1.375,
+              "motion": "burst",
+              "face": 0,
+              "y": 0.97,
+              "mark": 1.0,
+              "size": 0.2
+            },
+            {
+              "t": 0.644,
+              "x": 0.44,
+              "z": -1.375,
+              "motion": "burst",
+              "face": 0,
+              "y": -30.0,
+              "mark": 1.0,
+              "size": 0.2,
+              "hand": 0
+            }
+          ]
+        },
+        "stage": "schlafzimmer-nacht",
+        "sfx": [
+          {
+            "t": 0.44,
+            "id": "wischen",
+            "volume": 0.8
+          },
+          {
+            "t": 0.56,
+            "id": "wischen",
+            "volume": 0.7
+          },
+          {
+            "t": 0.4624,
+            "id": "app-weg",
+            "volume": 0.55
+          },
+          {
+            "t": 0.4808,
+            "id": "app-weg",
+            "volume": 0.55
+          },
+          {
+            "t": 0.4992,
+            "id": "app-weg",
+            "volume": 0.55
+          },
+          {
+            "t": 0.5177,
+            "id": "app-weg",
+            "volume": 0.55
+          },
+          {
+            "t": 0.5361,
+            "id": "app-weg",
+            "volume": 0.55
+          },
+          {
+            "t": 0.5545,
+            "id": "app-weg",
+            "volume": 0.55
+          },
+          {
+            "t": 0.5785,
+            "id": "app-weg",
+            "volume": 0.55
+          },
+          {
+            "t": 0.6105,
+            "id": "app-weg",
+            "volume": 0.55
+          },
+          {
+            "t": 0.642,
+            "id": "plopp",
+            "volume": 0.5
+          },
+          {
+            "t": 0.682,
+            "id": "feder",
+            "volume": 0.8
+          },
+          {
+            "t": 0.9269,
+            "id": "kissen-plumps",
+            "volume": 0.25
+          },
+          {
+            "t": 0.8149,
+            "id": "himmel-chor",
+            "volume": 0.25
+          }
+        ],
+        "sharpCuts": true
+      }
+    }
+  ],
+  "countdown": {
+    "speech": "Also, was machst du?",
+    "screen": "Stimm ab!"
+  },
+  "outro": {
+    "speech": "Schreib A, B oder C in die Kommentare, markier jemanden, dem das auch immer passiert, und folg gerne für mehr. Neue Video-Ideen? Ab in die Kommentare!",
+    "screen": "Kommentieren & folgen!",
+    "extra": "Neue Video-Ideen? Ab in die Kommentare!",
+    "extraCue": "Neue Video-Ideen"
+  },
+  "publishing": {
+    "description": "Dir ist mal wieder das Handy direkt ins Gesicht gefallen, während du im Bett liegst – was machst du? 📱💥 Schreib A, B oder C in die Kommentare!\n\nNur zum Spaß. Niemand wurde verletzt. 😄\n\n#waswürdestdutun #handy #bett #unoreverse #comedy #quiz #dummy #spezial\n\nHinweis: Das gesamte Video ist KI-generiert.",
+    "pinnedComment": "Ich bin Team _. Und du? 👇"
+  },
+  "shots": {
+    "situation": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            -1.89,
+            3.21,
+            1.14
+          ],
+          "look": [
+            0.99,
+            0.51,
+            -1.28
+          ]
+        },
+        {
+          "t": 0.3884,
+          "pos": [
+            -1.717,
+            3.048,
+            0.995
+          ],
+          "look": [
+            0.99,
+            0.51,
+            -1.28
+          ]
+        },
+        {
+          "t": 0.392,
+          "pos": [
+            -0.07,
+            3.04,
+            -0.33
+          ],
+          "look": [
+            1.44,
+            0.87,
+            -1.39
+          ]
+        },
+        {
+          "t": 0.4779,
+          "pos": [
+            0.006,
+            2.932,
+            -0.383
+          ],
+          "look": [
+            1.44,
+            0.87,
+            -1.39
+          ]
+        },
+        {
+          "t": 0.4815,
+          "pos": [
+            -1.34,
+            3.05,
+            6.66
+          ],
+          "look": [
+            0.83,
+            0.65,
+            -1.43
+          ]
+        },
+        {
+          "t": 0.7229,
+          "pos": [
+            -1.253,
+            2.954,
+            6.336
+          ],
+          "look": [
+            0.83,
+            0.65,
+            -1.43
+          ]
+        },
+        {
+          "t": 0.7262,
+          "pos": [
+            -2.24,
+            4.17,
+            2.52
+          ],
+          "look": [
+            1.2,
+            0.94,
+            -1.12
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            -2.068,
+            4.008,
+            2.338
+          ],
+          "look": [
+            1.2,
+            0.94,
+            -1.12
+          ]
+        }
+      ],
+      "actors": {
+        "kissen": [
+          {
+            "t": 0,
+            "x": 1.47,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.45,
+            "squish": 0.0
+          },
+          {
+            "t": 1,
+            "x": 1.47,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.45,
+            "squish": 0.0
+          }
+        ],
+        "bettdecke": [
+          {
+            "t": 0,
+            "x": -0.02,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.58,
+            "fill": 0.62,
+            "squish": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.02,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.58,
+            "fill": 0.62,
+            "squish": 0.0
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.8,
+            "z": -1.425,
+            "motion": "bedphone",
+            "face": 270,
+            "y": 0.0
+          },
+          {
+            "t": 0.3467,
+            "x": 0.8,
+            "z": -1.425,
+            "motion": "bedphone",
+            "face": 270,
+            "y": 0.0
+          },
+          {
+            "t": 0.3487,
+            "x": 0.8,
+            "z": -1.425,
+            "motion": "bedphoneslip",
+            "face": 270,
+            "y": 0.0
+          },
+          {
+            "t": 0.8566,
+            "x": 0.8,
+            "z": -1.425,
+            "motion": "bedphoneslip",
+            "face": 270,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.8975,
+            "x": 0.8,
+            "z": -1.425,
+            "motion": "bedphoneslip",
+            "face": 270,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.8,
+            "z": -1.425,
+            "motion": "bedphoneslip",
+            "face": 270,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ],
+        "betthandy": [
+          {
+            "t": 0,
+            "x": 0.0,
+            "z": -0.55,
+            "motion": "park",
+            "face": 0,
+            "y": 1.139,
+            "attach": "dummy",
+            "tilt": -153.0,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "text": "feed",
+            "size": 0.0
+          },
+          {
+            "t": 0.3467,
+            "x": 0.0,
+            "z": -0.55,
+            "motion": "park",
+            "face": 0,
+            "y": 1.139,
+            "attach": "dummy",
+            "tilt": -153.0,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3545,
+            "x": 0.0,
+            "z": -0.55,
+            "motion": "park",
+            "face": 0,
+            "y": 1.139,
+            "attach": "dummy",
+            "tilt": -152.0,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 1.1,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3604,
+            "x": 0.0,
+            "z": -0.55,
+            "motion": "park",
+            "face": 0,
+            "y": 1.139,
+            "attach": "dummy",
+            "tilt": -153.5,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": -3.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3662,
+            "x": 0.0,
+            "z": -0.55,
+            "motion": "park",
+            "face": 0,
+            "y": 1.139,
+            "attach": "dummy",
+            "tilt": -155.8,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 2.6,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.372,
+            "x": 0.0,
+            "z": -0.55,
+            "motion": "park",
+            "face": 0,
+            "y": 1.139,
+            "attach": "dummy",
+            "tilt": -151.0,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 1.3,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3779,
+            "x": 0.0,
+            "z": -0.55,
+            "motion": "park",
+            "face": 0,
+            "y": 1.139,
+            "attach": "dummy",
+            "tilt": -149.0,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": -6.6,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3837,
+            "x": 0.0,
+            "z": -0.55,
+            "motion": "park",
+            "face": 0,
+            "y": 1.139,
+            "attach": "dummy",
+            "tilt": -157.2,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 8.5,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3869,
+            "x": 0.0,
+            "z": -0.551,
+            "motion": "park",
+            "face": 0,
+            "y": 1.136,
+            "attach": "dummy",
+            "tilt": -154.25,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 7.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3901,
+            "x": 0.0,
+            "z": -0.556,
+            "motion": "park",
+            "face": 0,
+            "y": 1.127,
+            "attach": "dummy",
+            "tilt": -155.5,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 6.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3933,
+            "x": 0.0,
+            "z": -0.564,
+            "motion": "park",
+            "face": 0,
+            "y": 1.111,
+            "attach": "dummy",
+            "tilt": -156.75,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 5.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3965,
+            "x": 0.0,
+            "z": -0.575,
+            "motion": "park",
+            "face": 0,
+            "y": 1.09,
+            "attach": "dummy",
+            "tilt": -158.0,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 4.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.3998,
+            "x": 0.0,
+            "z": -0.589,
+            "motion": "park",
+            "face": 0,
+            "y": 1.062,
+            "attach": "dummy",
+            "tilt": -159.25,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 3.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.403,
+            "x": 0.0,
+            "z": -0.606,
+            "motion": "park",
+            "face": 0,
+            "y": 1.028,
+            "attach": "dummy",
+            "tilt": -160.5,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 2.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.4062,
+            "x": 0.0,
+            "z": -0.626,
+            "motion": "park",
+            "face": 0,
+            "y": 0.989,
+            "attach": "dummy",
+            "tilt": -161.75,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 1.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.4094,
+            "x": 0.0,
+            "z": -0.65,
+            "motion": "park",
+            "face": 0,
+            "y": 0.943,
+            "attach": "dummy",
+            "tilt": -163.0,
+            "glow": 1.0,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.4176,
+            "x": 0.0,
+            "z": -0.636,
+            "motion": "park",
+            "face": 0,
+            "y": 0.969,
+            "attach": "dummy",
+            "tilt": -159.0,
+            "glow": 0.8,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.4281,
+            "x": 0.0,
+            "z": -0.65,
+            "motion": "park",
+            "face": 0,
+            "y": 0.943,
+            "attach": "dummy",
+            "tilt": -153.0,
+            "glow": 0.6,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 0.4444,
+            "x": 0.0,
+            "z": -0.646,
+            "motion": "park",
+            "face": 0,
+            "y": 0.95,
+            "attach": "dummy",
+            "tilt": -150.0,
+            "glow": 0.5,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.0,
+            "z": -0.65,
+            "motion": "park",
+            "face": 0,
+            "y": 0.943,
+            "attach": "dummy",
+            "tilt": -153.0,
+            "glow": 0.5,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0
+          }
+        ],
+        "klatschstern": [
+          {
+            "t": 0.0,
+            "x": 1.427,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": -30.0,
+            "fill": 0.0,
+            "size": -0.5,
+            "hand": 0
+          },
+          {
+            "t": 0.4074,
+            "x": 1.427,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": -30.0,
+            "fill": 0.0,
+            "size": -0.5,
+            "hand": 0
+          },
+          {
+            "t": 0.4094,
+            "x": 1.427,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 1.037,
+            "fill": 0.0,
+            "size": -0.5
+          },
+          {
+            "t": 0.4619,
+            "x": 1.427,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 1.037,
+            "fill": 1.0,
+            "size": -0.5
+          },
+          {
+            "t": 0.4639,
+            "x": 1.427,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": -30.0,
+            "fill": 1.0,
+            "size": -0.5,
+            "hand": 0
+          }
+        ],
+        "sternchen": [
+          {
+            "t": 0.0,
+            "x": 1.563,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": -30.0,
+            "fill": 0.0,
+            "hand": 0
+          },
+          {
+            "t": 0.4483,
+            "x": 1.563,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": -30.0,
+            "fill": 0.0,
+            "hand": 0
+          },
+          {
+            "t": 0.4503,
+            "x": 1.563,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 1.118,
+            "fill": 0.0
+          },
+          {
+            "t": 0.497,
+            "x": 1.563,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 1.118,
+            "fill": 1.0
+          },
+          {
+            "t": 1,
+            "x": 1.563,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 1.118,
+            "fill": 1.0
+          }
+        ]
+      },
+      "stage": "schlafzimmer-nacht",
+      "sfx": [
+        {
+          "t": 0.3545,
+          "id": "whoosh",
+          "volume": 0.25
+        },
+        {
+          "t": 0.4094,
+          "id": "handy-klatsch",
+          "volume": 1.0
+        },
+        {
+          "t": 0.4503,
+          "id": "funkeln",
+          "volume": 0.3
+        }
+      ],
+      "sharpCuts": true
+    },
+    "countdown": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            9.82,
+            2.65,
+            25.08
+          ],
+          "look": [
+            -0.88,
+            3.47,
+            -0.31
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            9.392,
+            2.683,
+            24.064
+          ],
+          "look": [
+            -0.88,
+            3.47,
+            -0.31
+          ]
+        }
+      ],
+      "actors": {
+        "kissen": [
+          {
+            "t": 0,
+            "x": 1.47,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.45,
+            "squish": 0.0
+          },
+          {
+            "t": 1,
+            "x": 1.47,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.45,
+            "squish": 0.0
+          }
+        ],
+        "bettdecke": [
+          {
+            "t": 0,
+            "x": -0.02,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.455,
+            "fill": 0.5,
+            "squish": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.02,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.455,
+            "fill": 0.5,
+            "squish": 0.0
+          }
+        ],
+        "betthandy": [
+          {
+            "t": 0,
+            "x": 1.42,
+            "z": -1.2,
+            "motion": "park",
+            "face": 250,
+            "y": 0.585,
+            "tilt": 0.0,
+            "glow": 0.8,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0,
+            "text": "feed"
+          },
+          {
+            "t": 1,
+            "x": 1.42,
+            "z": -1.2,
+            "motion": "park",
+            "face": 250,
+            "y": 0.585,
+            "tilt": 0.0,
+            "glow": 0.8,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0,
+            "text": "feed"
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.2,
+            "z": 0.25,
+            "motion": "stand",
+            "face": 200,
+            "question": 1.0,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.2,
+            "z": 0.25,
+            "motion": "stand",
+            "face": 200,
+            "question": 1.0,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "schlafzimmer-nacht",
+      "sharpCuts": true
+    },
+    "outro": {
+      "camera": [
+        {
+          "t": 0.0,
+          "pos": [
+            7.22,
+            2.63,
+            16.09
+          ],
+          "look": [
+            2.15,
+            0.74,
+            -1.28
+          ]
+        },
+        {
+          "t": 1.0,
+          "pos": [
+            6.966,
+            2.535,
+            15.221
+          ],
+          "look": [
+            2.15,
+            0.74,
+            -1.28
+          ]
+        }
+      ],
+      "actors": {
+        "kissen": [
+          {
+            "t": 0,
+            "x": 1.47,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.45,
+            "squish": 0.0
+          },
+          {
+            "t": 1,
+            "x": 1.47,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.45,
+            "squish": 0.0
+          }
+        ],
+        "bettdecke": [
+          {
+            "t": 0,
+            "x": -0.02,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.455,
+            "fill": 0.5,
+            "squish": 0.0
+          },
+          {
+            "t": 1,
+            "x": -0.02,
+            "z": -1.425,
+            "motion": "park",
+            "face": 0,
+            "y": 0.455,
+            "fill": 0.5,
+            "squish": 0.0
+          }
+        ],
+        "betthandy": [
+          {
+            "t": 0,
+            "x": 1.42,
+            "z": -1.2,
+            "motion": "park",
+            "face": 250,
+            "y": 0.585,
+            "tilt": 0.0,
+            "glow": 0.8,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0,
+            "text": "feed"
+          },
+          {
+            "t": 1,
+            "x": 1.42,
+            "z": -1.2,
+            "motion": "park",
+            "face": 250,
+            "y": 0.585,
+            "tilt": 0.0,
+            "glow": 0.8,
+            "thin": 0.0,
+            "rumble": 0.0,
+            "turn": 0.0,
+            "hand": 0.0,
+            "size": 0.0,
+            "text": "feed"
+          }
+        ],
+        "dummy": [
+          {
+            "t": 0,
+            "x": 0.2,
+            "z": 0.25,
+            "motion": "stand",
+            "face": 200,
+            "question": 0.0,
+            "y": 0.0
+          },
+          {
+            "t": 0.12,
+            "x": 0.2,
+            "z": 0.25,
+            "motion": "wave",
+            "face": 200,
+            "y": 0.0
+          },
+          {
+            "t": 1,
+            "x": 0.2,
+            "z": 0.25,
+            "motion": "wave",
+            "face": 200,
+            "y": 0.0
+          }
+        ]
+      },
+      "stage": "schlafzimmer-nacht",
+      "sharpCuts": true
+    }
+  }
+}

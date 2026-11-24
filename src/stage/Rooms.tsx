@@ -67,7 +67,7 @@ type RoomCfg = {
   backWall?: THREE.Material;
   ceiling: string;
   /** Fenster in der linken (−x) oder rechten (+x) Wand: Mitte z, Breite, Unterkante, Höhe */
-  window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string; /** offen: kein Mittelsteg, ein Flügel steht nach innen offen */ open?: boolean; /** echte Außenwelt (eigene Kulisse): kein Himmel-Bild hinter dem Fenster */ outside?: boolean; /** offener Flügel am hinteren (−z) Ende angeschlagen */ hingeBack?: boolean;
+  window?: {side: 1 | -1; z: number; w: number; y: number; h: number; sky: string; /** offen: kein Mittelsteg, ein Flügel steht nach innen offen */ open?: boolean; /** echte Außenwelt (eigene Kulisse): kein Himmel-Bild hinter dem Fenster */ outside?: boolean; /** offener Flügel am hinteren (−z) Ende angeschlagen */ hingeBack?: boolean; /** offenen Flügel auch bei `outside` zeigen */ sash?: boolean;
     /** zusätzlich eine offene Tür in DERSELBEN Wand (vor dem Fenster, also größeres z): Mitte z, Breite, Höhe */ door?: {z: number; w: number; h: number}};
   light: {ambient: number; hemi: number; sun: number; sunColor: string; lamp: number; lampColor: string};
   children?: ReactNode;
@@ -179,7 +179,7 @@ export const Room = ({W, D, H, floor, wall, backWall, ceiling, window, light, ch
                   <meshStandardMaterial color="#f7f7f5" />
                 </mesh>
               ))}
-              {window.open && !window.outside && (
+              {window.open && (!window.outside || window.sash) && (
                 <group position={[0, 0, window.hingeBack ? 2 * window.z : 0]} scale={[1, 1, window.hingeBack ? -1 : 1]}>
                 <group position={[(s * W) / 2 - s * 0.03, window.y + window.h / 2, window.z + window.w / 2]} rotation={[0, -s * 1.9, 0]}>
                   {/* offener Fensterflügel (Rahmen + Glas), steht nach innen */}

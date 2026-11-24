@@ -54,6 +54,7 @@ import {CartoonMallet, SoftBin, SparkBurst, UsbLaptop, UsbPlug} from './UsbProps
 import {Cookie, COOKIE_COLORS, CookieBurst, CookieHeap, DataBinder, FightCloud, FolderStack, LegPhone, Magnifier, MilkBowl, TugRope} from './CookieProps';
 import {SteamPuffs} from './GamingProps';
 import {Aquarium, CarKey, FlakeTrail, GoldfishBowl, goldfishPose, Podium} from './FishProps';
+import {AppStream, BedPhone, DizzyStars, Duvet, ImpactStar, Pillow, ReverseBurst, TwinkleStar} from './BedPhoneProps';
 import {FacadeSplat, GarbageTruck, HouseDoorWall, LivingFurniture, NeighborHouse, ShotCup, TrashBag} from './MuellProps';
 import {FavSock, LaundryBasket, SoftenerBottle, Sock, SOCK_COLORS, SweaterPillow, TowelBlanket, WashingMachine} from './WaschProps';
 import {BoxingBell, BreakWall, Copier, GlassDoor, ReverseCard, SweatDrops, Swirl, TaskStack} from './ChefProps';
@@ -377,6 +378,16 @@ export const ACTORS = {
   haustuerwand: {height: 2.0, climbOffset: 0, speedLineHeight: 0},
   nachbarhaus: {height: 3.0, climbOffset: 0, speedLineHeight: 0},
   wohnmoebel: {height: 0.5, climbOffset: 0, speedLineHeight: 0},
+  // ---- Spezial: Handy im Gesicht ----
+  betthandy: {height: 0.05, climbOffset: 0, speedLineHeight: 0.05},
+  riesenhandy: {height: 0.3, climbOffset: 0, speedLineHeight: 0},
+  reverseeffekt: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  sternchen: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  klatschstern: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  funkelstern: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  appregen: {height: 0, climbOffset: 0, speedLineHeight: 0},
+  bettdecke: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
+  kissen: {height: 0.1, climbOffset: 0, speedLineHeight: 0},
 } as const;
 
 /** Butler (Spezial Tür drücken): Dummy-Körper hellgrau, schwarzer Frack mit Schößen, weißes Hemd, schwarze Fliege, weiße Handschuhe, ohne Mütze */
@@ -673,7 +684,7 @@ export const Actor = ({
   // Herz-Symbol: links neben dem Kopf (aus Sicht der Kamera), Höhe passt zu Stehen/Sitzen
   const sitting = ['bedsitdown', 'sitbreathe', 'chairsit', 'couchsit'].includes(state.motion);
   // Schweiß: an der Stirn (sitzend tiefer)
-  const seated = ['chairsit', 'couchsit', 'typedesk', 'desktap', 'pushstack', 'deskslump', 'drinkcoffee', 'seatwave', 'seatthrow', 'seatdrive', 'seattriumph'].includes(state.motion);
+  const seated = ['chairsit', 'couchsit', 'typedesk', 'desktap', 'pushstack', 'deskslump', 'drinkcoffee', 'seatwave', 'seatthrow', 'seatdrive', 'seattriumph', 'bedheavy', 'bedswipe'].includes(state.motion);
   const sweatPos = pos.clone().add(new THREE.Vector3(0, seated ? 1.32 : 1.72, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().multiplyScalar(0.14));
   const heartPos = pos.clone().add(new THREE.Vector3(0, sitting ? 1.6 : 2.05, 0)).add(new THREE.Vector3(camPos[0] - pos.x, 0, camPos[2] - pos.z).normalize().cross(new THREE.Vector3(0, 1, 0)).multiplyScalar(-0.32));
   // Zeit für Blitze/Zittern = Gesamtzeit im Abschnitt (läuft über Bewegungswechsel weiter, friert beim Einfrieren ein)
@@ -740,6 +751,21 @@ export const Actor = ({
     {name === 'dummy' && v.cold > 0.01 && (
       <group position={coldPos} quaternion={billboard(coldPos, camPos)}>
         <ColdBadge amount={v.cold} time={state.motionTime} />
+      </group>
+    )}
+    {name === 'reverseeffekt' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <ReverseBurst fill={v.fill} size={v.size} time={zt} />
+      </group>
+    )}
+    {name === 'klatschstern' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <ImpactStar fill={v.fill} size={v.size} />
+      </group>
+    )}
+    {name === 'funkelstern' && (
+      <group position={pos} quaternion={billboard(pos, camPos)}>
+        <TwinkleStar fill={v.fill} size={v.size} time={clock} />
       </group>
     )}
     {name === 'knallwolke' && (
@@ -1171,6 +1197,15 @@ export const Actor = ({
           <LegPhone mode={actor.text ?? 'banner'} tilt={v.tilt} legs={v.legs} run={state.motion === 'run'} runTime={state.motionTime} glow={v.glow} rumble={v.rumble} time={clock} />
         </group>
       )}
+      {(name === 'betthandy' || name === 'riesenhandy') && (
+        <group scale={1 + v.size} rotation={[(v.tilt * Math.PI) / 180, 0, (v.turn * Math.PI) / 180]}>
+          <BedPhone mode={actor.text ?? (name === 'riesenhandy' ? 'sleep' : 'feed')} glow={v.glow} thin={v.thin} rumble={v.rumble} squish={v.squish} time={clock} />
+        </group>
+      )}
+      {name === 'sternchen' && <DizzyStars fill={v.fill} size={v.size} time={clock} />}
+      {name === 'appregen' && state.motion === 'burst' && <AppStream time={state.motionTime} photos={v.mark > 0.5} size={v.size} />}
+      {name === 'bettdecke' && <Duvet fill={v.fill} squish={v.squish} />}
+      {name === 'kissen' && <Pillow squish={v.squish} />}
       {name === 'milchschuessel' && (
         <group scale={1 + v.size}>
           <MilkBowl fill={v.fill} ripple={v.mark} time={clock} />
